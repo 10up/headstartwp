@@ -1,0 +1,10 @@
+{
+  "name": "@10up/headless_framework",
+  "description": "Monorepo for headless framework",
+  "scripts": {},
+  "author": "Nícholas André <nicholas.andre@10up.com>",
+  "workspaces": [
+    "packages/*",
+    "scaffold"
+  ]
+}
