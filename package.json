@@ -5,6 +5,7 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
+    "dev": "npm run dev -w=scaffold",
     "prepare": "husky install"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
