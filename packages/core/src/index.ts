@@ -1,3 +1,3 @@
-export function core(){
-    console.log('hey');
+export function core() {
+	console.log('hey');
 }
