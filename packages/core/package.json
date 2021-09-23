@@ -12,7 +12,7 @@
     "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -p tsconfig-cjs.json",
     "ts": "tsc -p .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
