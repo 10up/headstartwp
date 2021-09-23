@@ -2,6 +2,8 @@
   "name": "@10up/headless_framework",
   "description": "Monorepo for headless framework",
   "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
     "prepare": "husky install"
   },
@@ -12,6 +14,8 @@
   ],
   "devDependencies": {
     "@10up/eslint-config": "^2.3.7",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "eslint-plugin-jest": "^24.4.2",
