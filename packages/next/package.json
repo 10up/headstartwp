@@ -6,7 +6,7 @@
     "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -p tsconfig-cjs.json",
     "ts": "tsc -p .",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "author": "",
   "license": "ISC",

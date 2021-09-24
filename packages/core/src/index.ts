@@ -1,3 +1,1 @@
-export function core() {
-	console.log('hey');
-}
+export * from './data';
