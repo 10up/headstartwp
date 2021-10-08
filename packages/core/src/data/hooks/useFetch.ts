@@ -6,6 +6,7 @@ import { parsePath } from '../utils/parsePath';
 import { postMatchers } from '../utils/matchers';
 
 import { BuildEndpointURL, EndpointParams, FetcherFunction, GetParamsFromURL } from './types';
+import { useSettings } from '../../provider/useSettings';
 
 /**
  * The default fetcher function
@@ -74,9 +75,11 @@ export function useFetch<Params extends EndpointParams>(
 	buildEndpointURL: BuildEndpointURL = buildGetEndpointURL,
 	fetcherFunction: FetcherFunction = defaultFetcher,
 ) {
+	const settings = useSettings();
+	const fullEndpoint = `${settings.url}${endpoint}`;
 	const { query } = useRouter();
 	const urlParams = getParamsFromURL(query);
 	const finalParams = { ...urlParams, params };
 
-	return useSWR(buildEndpointURL(endpoint, finalParams), fetcherFunction);
+	return useSWR(buildEndpointURL(fullEndpoint, finalParams), fetcherFunction);
 }

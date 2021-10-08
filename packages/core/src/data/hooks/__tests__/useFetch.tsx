@@ -1,5 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
+import { FC } from 'react';
 import { useFetch, buildGetEndpointURL, defaultGetParamsFromURL } from '../useFetch';
+import { SettingsProvider } from '../../../provider/Provider';
 
 jest.mock('next/router', () => ({
 	useRouter() {
@@ -44,9 +46,14 @@ describe('defaultGetParamsFromURL', () => {
 });
 
 describe('useFetch', () => {
+	const wrapper: FC = ({ children }) => (
+		<SettingsProvider settings={{ url: 'https://js1.10up.com' }}>{children}</SettingsProvider>
+	);
+
 	it('fetches data properly', async () => {
-		const { result, waitForNextUpdate } = renderHook(() =>
-			useFetch('/wp-json/wp/v2/posts', {}),
+		const { result, waitForNextUpdate } = renderHook(
+			() => useFetch('/wp-json/wp/v2/posts', {}),
+			{ wrapper },
 		);
 		expect(result.current.data).toBeUndefined();
 		await waitForNextUpdate();
