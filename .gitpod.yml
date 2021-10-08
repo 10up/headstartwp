@@ -1,2 +1,6 @@
 image:
   file: .gitpod.Dockerfile
+tasks:
+  - name: Start dev server
+    init: npm install
+    command: npm run dev
