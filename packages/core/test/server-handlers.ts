@@ -6,11 +6,11 @@ interface TestEndpointResponse {
 }
 
 const handlers = [
-	rest.get<DefaultRequestBody, TestEndpointResponse>('/test-endpoint', (req, res, ctx) => {
+	rest.get<DefaultRequestBody, TestEndpointResponse>(/\/test-endpoint/, (req, res, ctx) => {
 		return res(ctx.json({ ok: true }));
 	}),
 
-	rest.get('/wp-json/wp/v2/posts', (req, res, ctx) => {
+	rest.get(/\/wp-json\/wp\/v2\/posts/, (req, res, ctx) => {
 		return res(ctx.json(postBySlug));
 	}),
 ];

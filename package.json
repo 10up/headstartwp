@@ -5,7 +5,7 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
-    "dev": "npm run dev -w=scaffold",
+    "dev": "concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=scaffold\"",
     "prepare": "husky install"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
@@ -19,6 +19,7 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
+    "concurrently": "^6.3.0",
     "eslint-plugin-jest": "^24.4.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2"

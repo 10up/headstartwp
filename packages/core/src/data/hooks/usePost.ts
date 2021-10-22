@@ -1,14 +1,12 @@
-import { EndpointParams } from './types';
+import { PostParams, SinglePostFetchStrategy } from './strategies/SinglePostFetchStrategy';
 import { useFetch } from './useFetch';
 
 const endpoint = '/wp-json/wp/v2/posts';
 
-interface PostParams extends EndpointParams {
-	slug?: string;
-}
+const fetchStrategy = new SinglePostFetchStrategy();
 
 export function usePost(params: PostParams) {
-	const { data, error } = useFetch(endpoint, params);
+	const { data, error } = useFetch(endpoint, params, fetchStrategy);
 
 	if (!data || error) {
 		return { data, error };

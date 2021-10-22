@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
+    "dev": "npm run ts -- --watch",
     "ts:cjs": "tsc -p tsconfig-cjs.json",
     "ts": "tsc -p .",
     "test": "jest --passWithNoTests"

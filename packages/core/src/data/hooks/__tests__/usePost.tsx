@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
+import { SettingsProvider } from '../../../provider/Provider';
 
 import { usePost } from '../usePost';
 
@@ -13,9 +14,15 @@ jest.mock('next/router', () => ({
 	},
 }));
 
+const wrapper: FC = ({ children }) => (
+	<SettingsProvider settings={{ url: 'https://js1.10up.com' }}>{children}</SettingsProvider>
+);
+
 describe('usePost', () => {
 	it('fetches a post', async () => {
-		const { result, waitForNextUpdate } = renderHook(() => usePost({ slug: 'test' }));
+		const { result, waitForNextUpdate } = renderHook(() => usePost({ slug: 'test' }), {
+			wrapper,
+		});
 		expect(result.current.data).toBeUndefined();
 		await waitForNextUpdate();
 		expect(result.current.data).toMatchSnapshot();
