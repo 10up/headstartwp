@@ -16,7 +16,7 @@
       "skipLibCheck": true,
       "strict": true,
       "traceResolution": false,
-      "types": ["node"],
+      "types": ["node", "jest"],
       "typeRoots": ["node_modules/@types"],
       "outDir": "dist",
     },
