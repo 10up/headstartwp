@@ -16,8 +16,17 @@
       "skipLibCheck": true,
       "strict": true,
       "traceResolution": false,
-      "types": ["node", "jest"],
-      "typeRoots": ["node_modules/@types"]
+      "types": ["node"],
+      "typeRoots": ["node_modules/@types"],
+      "outDir": "dist",
     },
-    "compileOnSave": false
+    "compileOnSave": false,
+    "references": [
+      {
+        "path": "./packages/core/tsconfig.ref.json"
+      },
+      {
+        "path": "./packages/next/tsconfig.ref.json"
+      }
+    ]
   }

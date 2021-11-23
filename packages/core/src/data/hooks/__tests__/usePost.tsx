@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
+import { FC } from 'react';
 import { SettingsProvider } from '../../../provider/Provider';
 
 import { usePost } from '../usePost';

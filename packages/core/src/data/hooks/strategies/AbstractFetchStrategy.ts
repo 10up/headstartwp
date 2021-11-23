@@ -35,7 +35,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 *
 	 * @returns params extracted from the URL
 	 */
-	abstract getParamsFromURL(params: { args?: string[] }): Params;
+	abstract getParamsFromURL(params: { args?: string[] } | undefined): Params;
 
 	/**
 	 * Builds the final endpoint URL based on the passed parameters
@@ -62,7 +62,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 *
 	 * @returns JSON response
 	 */
-	async fetcher(url: string): Promise<E> {
+	async fetcher(url: string): Promise<E[]> {
 		const result = await apiGet(url);
 		return result.json;
 	}

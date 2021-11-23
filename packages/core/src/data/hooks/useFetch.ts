@@ -19,8 +19,8 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	params: Params,
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
 ) {
-	const settings = useSettings();
-	const fullEndpoint = `${settings.url}${endpoint}`;
+	const { url } = useSettings();
+	const fullEndpoint = `${url}${endpoint}`;
 	fetchStrategy.setEndpoint(fullEndpoint);
 
 	const { query } = useRouter();
