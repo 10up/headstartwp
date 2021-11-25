@@ -1,0 +1,13 @@
+import { renderHook } from '@testing-library/react-hooks/dom';
+import { {{ camelCase name }} } from '../..';
+
+describe('{{ camelCase name }}', () => {
+	it('should be defined', () => {
+		expect({{ camelCase name }}).toBeDefined();
+	});
+
+	it('should render', () => {
+		const { result } = renderHook(() => {{ camelCase name }}());
+		expect(result.error).toBeUndefined();
+	});
+});
