@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --selectProjects dom ssr",
+    "test:watch": "jest --selectProjects dom ssr --watch",
     "create-hook": "plop"
   },
   "author": "",
