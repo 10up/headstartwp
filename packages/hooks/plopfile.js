@@ -5,7 +5,13 @@ module.exports = (plop) => {
 			{
 				type: 'input',
 				name: 'name',
-				message: 'Hook Name',
+				message: 'Hook Name?',
+			},
+			{
+				type: 'confirm',
+				name: 'withTimers',
+				message: 'Mock timers?',
+				default: false,
 			},
 		],
 		actions: () => {

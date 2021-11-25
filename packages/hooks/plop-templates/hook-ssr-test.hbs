@@ -2,6 +2,20 @@ import { renderHook } from '@testing-library/react-hooks/server';
 import { {{ camelCase name }} } from '../..';
 
 describe('{{ camelCase name }}', () => {
+	{{#if withTimers}}
+	beforeAll(() => {
+		jest.useFakeTimers();
+	});
+
+	afterEach(() => {
+		jest.clearAllTimers();
+	});
+
+	afterAll(() => {
+		jest.useRealTimers();
+	});
+
+	{{/if}}
 	it('should be defined', () => {
 		expect({{ camelCase name }}).toBeDefined();
 	});
