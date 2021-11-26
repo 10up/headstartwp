@@ -4,7 +4,7 @@ Battle tested hooks that can be reused and are safe to use within SSR environmen
 
 ## List
 
-* [`useCurrentBreakpoint`](packages/hooks/src/useCurrentBreakpoint/README.md) - Context + Hook to track current CSS breakpoint by leveraging `matchMedia`.
+* [`useCurrentBreakpoint`](src/useCurrentBreakpoint/README.md) - Context + Hook to track current CSS breakpoint by leveraging `matchMedia`.
 
 ## Development
 
