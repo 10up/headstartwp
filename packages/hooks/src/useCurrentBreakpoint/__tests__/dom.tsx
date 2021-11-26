@@ -33,15 +33,9 @@ describe('useCurrentBreakpoint', () => {
 	});
 
 	beforeEach(() => {
-		matchMediaMock.mockImplementation((query) => ({
+		// Don't match anything
+		matchMediaMock.mockImplementation(() => ({
 			matches: false,
-			media: query,
-			onchange: null,
-			addListener: jest.fn(), // Deprecated
-			removeListener: jest.fn(), // Deprecated
-			addEventListener: jest.fn(),
-			removeEventListener: jest.fn(),
-			dispatchEvent: jest.fn(),
 		}));
 	});
 
