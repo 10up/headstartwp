@@ -15,9 +15,10 @@ function getSize(): { width?: number; height?: number } {
  * A custom hooks that runs a handler when the window resizes. This happens
  * out of a render cycle.
  *
- * @param handler - Handler to be run
+ * @param {Function} handler - Handler to be run
+ * @param {number} debounce - How much to debounce the call, 300ms by default.
  */
-export function useOnWindowResize<Fn extends (...args: any[]) => any>(handler: Fn) {
+export function useOnWindowResize<Fn extends (...args: any[]) => any>(handler: Fn, debounce = 300) {
 	const windowSize = useRef<{ width?: number; height?: number }>(getSize());
 
 	const callback = useDebouncedCallback(
@@ -33,7 +34,7 @@ export function useOnWindowResize<Fn extends (...args: any[]) => any>(handler: F
 			}
 		},
 		[],
-		300,
+		debounce,
 	);
 
 	useEffect(() => {

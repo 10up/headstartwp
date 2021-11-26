@@ -8,5 +8,8 @@
     "jsx": "react-jsx"
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src"]
+  "include": [
+    "src",
+    "global.d.ts"
+  ]
 }
