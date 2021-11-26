@@ -14,16 +14,16 @@ do completely different layouts based on React logic rather than CSS logic.
 import { BreakpointsProvider, useCurrentBreakpoint } from '@headless/hooks';
 
 const MyComponent = () => {
-	const { breakpoints, currentBreakpoint } = useCurrentBreakpoint();
+    const { breakpoints, currentBreakpoint } = useCurrentBreakpoint();
 	
-  return currentBreakpoint === breakpoints.sm ? <h1>Mobile Size</h1> : <h1>Other size</h1>;   
+    return currentBreakpoint === breakpoints.sm ? <h1>Mobile Size</h1> : <h1>Other size</h1>;   
 };
 
 ReactDOM.render(
-	<BreakpointsProvider>
-		<MyComponent />
-	</BreakpointsProvider>,
-	document.getElementById('root'),
+    <BreakpointsProvider>
+        <MyComponent />
+    </BreakpointsProvider>,
+    document.getElementById('root'),
 );
 ```
 
