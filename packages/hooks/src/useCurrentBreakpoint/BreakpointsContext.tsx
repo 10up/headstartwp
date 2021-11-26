@@ -6,7 +6,7 @@ const DEFAULT_BREAKPOINTS = {
 	sm: 39.6875, // 635px
 	md: 53.125, // 850px
 	lg: 64, // 1024px
-	xl: 80.9375, // 1295
+	xl: 80.9375, // 1295px
 };
 const DEFAULT_BP_UNIT = 'em';
 const DEFAULT_DEBOUNCE = 300;
