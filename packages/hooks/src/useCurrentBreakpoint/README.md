@@ -56,7 +56,7 @@ These are the options that come by default which can be tweaked:
     debounceDelay={300}
     defaultBreakpoint={39.6875}
 >
-		<MyComponent />
+    <MyComponent />
 </BreakpointsProvider>
 ```
 
