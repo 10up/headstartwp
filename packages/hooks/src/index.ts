@@ -5,3 +5,4 @@ export { useDebouncedCallback } from './useDebouncedCallback/useDebouncedCallbac
 export { useOnWindowResize } from './useOnWindowResize/useOnWindowResize';
 export { BreakpointsProvider, BreakpointsContext } from './useCurrentBreakpoint/BreakpointsContext';
 export { useCurrentBreakpoint } from './useCurrentBreakpoint/useCurrentBreakpoint';
+export { useDebounce } from './useDebounce/useDebounce';

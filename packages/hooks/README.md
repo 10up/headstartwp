@@ -5,6 +5,7 @@ Battle tested hooks that can be reused and are safe to use within SSR environmen
 ## List
 
 * [`useCurrentBreakpoint`](src/useCurrentBreakpoint/README.md) - Context + Hook to track current CSS breakpoint by leveraging `matchMedia`.
+* [`useDebounce`](src/useDebounce/README.md) - Hook to debounce a quickly changing value, so it doesn't re-render as much.
 
 ## Development
 
