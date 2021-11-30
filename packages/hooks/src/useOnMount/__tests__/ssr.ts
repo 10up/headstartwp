@@ -1,13 +1,13 @@
 import { renderHook } from '@testing-library/react-hooks/server';
-import { useEffectOnce } from '../..';
+import { useOnMount } from '../..';
 
 describe('useAsync', () => {
 	it('should be defined', () => {
-		expect(useEffectOnce).toBeDefined();
+		expect(useOnMount).toBeDefined();
 	});
 
 	it('should render', () => {
-		const { result } = renderHook(() => useEffectOnce(() => {}));
+		const { result } = renderHook(() => useOnMount(() => {}));
 		expect(result.error).toBeUndefined();
 	});
 });

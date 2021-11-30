@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-export { useEffectOnce } from './useEffectOnce/useEffectOnce';
+export { useOnMount } from './useOnMount/useOnMount';
 export { useIsMounted } from './useIsMounted/useIsMounted';
 export { useDebouncedCallback } from './useDebouncedCallback/useDebouncedCallback';
 export { useOnWindowResize } from './useOnWindowResize/useOnWindowResize';

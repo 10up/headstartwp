@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useEffectOnce } from '..';
+import { useOnMount } from '..';
 
 /**
  * A hook that gets a mounted property to true once it's mounted. This will **only** happen on
@@ -12,9 +12,7 @@ import { useEffectOnce } from '..';
 export function useIsMounted() {
 	const [isMounted, setIsMounted] = useState(false);
 
-	useEffectOnce(() => {
-		setIsMounted(true);
-	});
+	useOnMount(() => setIsMounted(true));
 
 	return isMounted;
 }
