@@ -23,7 +23,7 @@ ReactDOM.render(
     <BreakpointsProvider>
         <MyComponent />
     </BreakpointsProvider>,
-    document.getElementById('root'),
+    document.getElementById( 'root' ),
 );
 ```
 

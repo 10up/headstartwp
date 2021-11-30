@@ -11,8 +11,8 @@ import { useState, useEffect } from 'react';
 import { useDebounce } from '@headless/hooks';
 
 function MyComponent() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const debouncedSearchTerm = useDebounce(searchTerm, 500);
+    const [ searchTerm, setSearchTerm ] = useState( '' );
+    const debouncedSearchTerm = useDebounce( searchTerm, 500 );
 
     useEffect(
         () => {
@@ -20,7 +20,7 @@ function MyComponent() {
                 // Do API Call
             }
         },
-        [debouncedSearchTerm] // Only call effect if debounced search term changes
+        [ debouncedSearchTerm ] // Only call effect if debounced search term changes
     );
 
     return (
@@ -28,7 +28,7 @@ function MyComponent() {
           <label htmlFor="field">Search</label>
           <input
               id="field"
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={ ( e ) => setSearchTerm( e.target.value ) }
           />
       </div>
     );

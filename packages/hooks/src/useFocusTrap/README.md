@@ -10,7 +10,7 @@ will be automatically disabled on unmount.
 import { useFocusTrap } from '@headless/hooks';
 
 function MyModal({ isVisible }) {
-	  const ref = useFocusTrap( isVisible );
+    const ref = useFocusTrap( isVisible );
 
     return (
         <div role="dialog" aria-hidden={ ! isVisible }>
@@ -28,6 +28,6 @@ focus out of it.
 * **isActive** _`boolean`_ - Enables or disables the focus trap.
 * **focusOnActive** _`RefObject<HTMLElement>`_ - An optional reference to another element to focus as the first element.
 
-## Returns 
+## Return
 
 * **setRef** - Returns a `setRef` function that can be passed as a `ref` for any element. This will be where the focus trap will attach.

@@ -11,7 +11,7 @@ import { useRef } from 'react';
 import { useEvent } from '@headless/hooks';
 
 function MyComponent() {
-	  const ref = useRef();
+    const ref = useRef();
     const handleClick = useEvent( ref, 'click', event => {
         // This will be called when the button is clicked
     } );
