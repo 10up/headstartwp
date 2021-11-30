@@ -7,11 +7,9 @@ const MyApp = ({ Component, pageProps }) => {
 	const { fallback, ...props } = pageProps;
 	return (
 		<SettingsProvider settings={{ url: getWPUrl() }}>
-			<>
-				<SWRConfig value={{ fallback }}>
-					<Component {...props} />
-				</SWRConfig>
-			</>
+			<SWRConfig value={{ fallback }}>
+				<Component {...props} />
+			</SWRConfig>
 		</SettingsProvider>
 	);
 };

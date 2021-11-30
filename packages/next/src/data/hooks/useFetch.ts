@@ -18,13 +18,15 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
 ) {
 	const { url } = useSettings();
-	const fullEndpoint = `${url}${endpoint}`;
 
-	fetchStrategy.setEndpoint(fullEndpoint);
+	fetchStrategy.setBaseURL(url);
+	fetchStrategy.setEndpoint(endpoint);
 
 	const { query } = useRouter();
 	const urlParams = fetchStrategy.getParamsFromURL(query);
 	const finalParams = { ...urlParams, ...params };
 
-	return useSWR(fetchStrategy.buildEndpointURL(finalParams), fetchStrategy.fetcher);
+	return useSWR(fetchStrategy.buildEndpointURL(finalParams), (url: string) =>
+		fetchStrategy.fetcher(url),
+	);
 }

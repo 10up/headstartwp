@@ -13,8 +13,14 @@ export interface EndpointParams {
 export abstract class AbstractFetchStrategy<E extends Entity, Params extends EndpointParams> {
 	endpoint: string = '';
 
+	baseURL: string = '';
+
 	setEndpoint(endpoint: string) {
 		this.endpoint = endpoint;
+	}
+
+	setBaseURL(url: string | undefined = '') {
+		this.baseURL = url;
 	}
 
 	/**
@@ -63,7 +69,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 * @returns JSON response
 	 */
 	async fetcher(url: string): Promise<E> {
-		const result = await apiGet(url);
+		const result = await apiGet(`${this.baseURL}${url}`);
 		return result.json;
 	}
 }

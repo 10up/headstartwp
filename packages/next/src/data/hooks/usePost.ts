@@ -46,8 +46,9 @@ export async function fetchSinglePostServerSide(
 	params: PostParams = {},
 ) {
 	const wpURL = getWPUrl();
-	const fullEndpoint = `${wpURL}/${endpoint}`;
-	fetchStrategy.setEndpoint(fullEndpoint);
+
+	fetchStrategy.setBaseURL(wpURL);
+	fetchStrategy.setEndpoint(endpoint);
 	const urlParams = fetchStrategy.getParamsFromURL(context.query);
 	const finalParams = { ...urlParams, ...params };
 	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
