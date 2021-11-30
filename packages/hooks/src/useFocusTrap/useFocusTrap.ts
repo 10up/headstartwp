@@ -61,12 +61,14 @@ export function useFocusTrap(isActive: boolean, focusOnActive?: RefObject<HTMLEl
 
 				const processFocus = (node: HTMLElement) => {
 					const hasProvidedFocusable = focusOnActive && focusOnActive.current;
-					const firstFocusable = (hasProvidedFocusable ||
-						node.querySelectorAll(FOCUS_SELECTOR)[0]) as HTMLElement;
+					const firstFocusable = node.querySelectorAll(FOCUS_SELECTOR)[0];
+					const focusTo = (
+						hasProvidedFocusable ? focusOnActive.current : firstFocusable
+					) as HTMLElement;
 
 					if (firstFocusable) {
-						firstFocusableElement.current = firstFocusable;
-						firstFocusable.focus();
+						firstFocusableElement.current = firstFocusable as HTMLElement;
+						focusTo.focus();
 					}
 				};
 

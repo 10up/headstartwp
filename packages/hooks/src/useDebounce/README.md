@@ -37,11 +37,9 @@ function MyComponent() {
 
 ## Arguments
 
-#### Arguments
-
 * **value** _`any`_ - Value to be debounced.
 * **delay** _`number`_ - Debounce delay.
 
-#### Return
+### Return
 
 * **debouncedValue** - Current value being debounced.

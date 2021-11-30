@@ -11,34 +11,31 @@ It clears the calls when the component is unmounted.
 ## Example usage
 
 ```jsx
-import { useState, useEffect } from 'react';
 import { useDebouncedCallback } from '@headless/hooks';
 
 function MyComponent() {
-	const handleChange = useDebouncedCallback( event => {
-		// This will be called 300ms after the last change
-  }, [], 300 );
+    const handleChange = useDebouncedCallback( event => {
+        // This will be called 300ms after the last change
+    }, [], 300 );
 
-	return (
-		<div>
-			<label htmlFor="field">Search</label>
-			<input
-				id="field"
-				onChange={ handleChange }
-			/>
-		</div>
-	);
+    return (
+        <div>
+            <label htmlFor="field">Search</label>
+            <input
+                id="field"
+                onChange={ handleChange }
+            />
+        </div>
+    );
 }
 ```
 
 ## Arguments
 
-#### Arguments
-
 * **callback** _`function`_ - Function to be called once the time has passed.
 * **deps** _`Array<any>`_ - Dependency array to be passed so function can be re-wrapped.
 * **delay** _`number`_ - Debounce delay.
 
-#### Return
+### Return
 
 * **function** - Function to be called which will result in invoking the `callback` after `delay` ms.

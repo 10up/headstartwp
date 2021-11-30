@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useCallback, useMemo, useState } from 'react';
-import { useOnWindowResize, useEffectOnce } from '..';
+import { useOnWindowResize, useOnMount } from '..';
 import { isBrowser } from '../util';
 
 const DEFAULT_BREAKPOINTS = {
@@ -77,7 +77,7 @@ const BreakpointsProvider = ({
 		setCurrentBreakpoint(size);
 	}, [sortedBreakpoints, defaultBreakpoint]);
 	// Guessing the size on mount
-	useEffectOnce(() => guessSize());
+	useOnMount(() => guessSize());
 	// And re-guessing on window resize
 	useOnWindowResize(guessSize, debounceDelay);
 
