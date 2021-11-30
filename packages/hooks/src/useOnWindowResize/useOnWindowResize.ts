@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import { useDebouncedCallback } from '..';
+import { useRef } from 'react';
+import { useDebouncedCallback, useEvent } from '..';
 import { isBrowser } from '../util';
 
 function getSize(): { width?: number; height?: number } {
@@ -10,6 +10,8 @@ function getSize(): { width?: number; height?: number } {
 			: undefined,
 	};
 }
+
+const ref = isBrowser ? { current: window } : { current: null };
 
 /**
  * A custom hooks that runs a handler when the window resizes. This happens
@@ -37,12 +39,5 @@ export function useOnWindowResize<Fn extends (...args: any[]) => any>(handler: F
 		debounce,
 	);
 
-	useEffect(() => {
-		if (!isBrowser) {
-			return () => {};
-		}
-
-		window.addEventListener('resize', callback);
-		return () => window.removeEventListener('resize', callback);
-	}, [callback]);
+	useEvent(ref, 'resize', callback);
 }
