@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { FC } from 'react';
-import { SettingsProvider } from '../../../provider/Provider';
+import { SettingsProvider } from '@10up/headless-core';
 
 import { usePost } from '../usePost';
 

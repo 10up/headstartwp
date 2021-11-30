@@ -1,6 +1,6 @@
-import { PostEntity } from '../../types';
-import { postMatchers } from '../../utils/matchers';
-import { parsePath } from '../../utils/parsePath';
+import { PostEntity } from '../types';
+import { postMatchers } from '../utils/matchers';
+import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 export interface PostParams extends EndpointParams {

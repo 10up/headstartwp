@@ -3,9 +3,10 @@
   "description": "Monorepo for headless framework",
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-core",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
-    "dev": "concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=@10up/wp-nextjs\"",
+    "dev": "npm run build:packages && concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=@10up/wp-nextjs\"",
     "prepare": "husky install"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",

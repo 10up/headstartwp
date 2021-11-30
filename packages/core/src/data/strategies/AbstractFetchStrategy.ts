@@ -1,6 +1,6 @@
 import { addQueryArgs } from '@wordpress/url';
-import { Entity } from '../../types';
-import { apiGet } from '../../api';
+import { Entity } from '../types';
+import { apiGet } from '../api';
 
 export interface EndpointParams {
 	_embed?: boolean;
@@ -62,7 +62,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 *
 	 * @returns JSON response
 	 */
-	async fetcher(url: string): Promise<E[]> {
+	async fetcher(url: string): Promise<E> {
 		const result = await apiGet(url);
 		return result.json;
 	}

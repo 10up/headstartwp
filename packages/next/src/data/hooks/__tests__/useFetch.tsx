@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { FC } from 'react';
+import { SettingsProvider } from '@10up/headless-core';
 import { useFetch } from '../useFetch';
-import { SettingsProvider } from '../../../provider/Provider';
 
 jest.mock('next/router', () => ({
 	useRouter() {
