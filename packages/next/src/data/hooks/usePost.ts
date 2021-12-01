@@ -2,13 +2,12 @@ import { GetServerSidePropsContext } from 'next';
 
 import { getWPUrl, PostEntity, PostParams, SinglePostFetchStrategy } from '@10up/headless-core';
 import { useFetch } from './useFetch';
+import { HookResponse } from './types';
 
 const endpoint = '/wp-json/wp/v2/posts';
 
-interface usePostResponse {
+interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };
-	error?: string;
-	loading: boolean;
 }
 
 const fetchStrategy = new SinglePostFetchStrategy();
@@ -35,10 +34,11 @@ export function usePost(params: PostParams): usePostResponse {
 }
 
 /**
- * Utility method to fetch data for usePost in getServerSideProps
+ * Utility method to fetch data for usePost on the server
  *
  * @param context
  * @param params
+ *
  * @returns
  */
 export async function fetchSinglePostServerSide(

@@ -20,14 +20,18 @@ const wrapper: FC = ({ children }) => (
 );
 
 describe('usePost', () => {
+	beforeEach(() => {
+		jest.resetAllMocks();
+	});
+
 	it('fetches a post', async () => {
 		const { result, waitForNextUpdate } = renderHook(() => usePost({ slug: 'test' }), {
 			wrapper,
 		});
 		expect(result.current.data).toBeUndefined();
+		expect(result.current.loading).toBe(true);
 		await waitForNextUpdate();
+		expect(result.current.loading).toBe(false);
 		expect(result.current.data).toMatchSnapshot();
 	});
-
-	it('fails on a 404 post', async () => {});
 });
