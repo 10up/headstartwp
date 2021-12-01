@@ -2,17 +2,28 @@
   "name": "@10up/headless-core",
   "version": "1.0.0",
   "description": "",
+  "module": "dist/mjs/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/mjs/index.js",
       "require": "./dist/cjs/index.js"
+    },
+    "./utils": {
+      "import": "./dist/mjs/utils/index.js",
+      "require": "./dist/cjs/utils/index.js"
+    },
+    "./data": {
+      "import": "./dist/mjs/data/index.js",
+      "require": "./dist/cjs/data/index.js"
     }
   },
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
     "dev": "npm run ts -- --watch",
-    "ts:cjs": "tsc -p tsconfig-cjs.json",
-    "ts": "tsc -p .",
+    "ts:cjs": "tsc -b tsconfig-cjs.json",
+    "ts": "tsc -b",
     "test": "jest --passWithNoTests"
   },
   "author": "",
@@ -31,11 +42,9 @@
   },
   "dependencies": {
     "@wordpress/url": "^3.2.2",
-    "path-to-regexp": "^6.2.0",
-    "swr": "^1.0.1"
+    "path-to-regexp": "^6.2.0"
   },
   "peerDependencies": {
-    "next": "^11.1.2",
     "react": "^17.0.2"
   }
 }

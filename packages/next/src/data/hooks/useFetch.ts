@@ -1,9 +1,7 @@
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 
-import { useSettings } from '../../provider/useSettings';
-import { AbstractFetchStrategy, EndpointParams } from './strategies/AbstractFetchStrategy';
-import { Entity } from '../types';
+import { useSettings, Entity, AbstractFetchStrategy, EndpointParams } from '@10up/headless-core';
 
 /**
  * The useFetch hook
@@ -19,13 +17,16 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	params: Params,
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
 ) {
-	const settings = useSettings();
-	const fullEndpoint = `${settings.url}${endpoint}`;
-	fetchStrategy.setEndpoint(fullEndpoint);
+	const { url } = useSettings();
+
+	fetchStrategy.setBaseURL(url);
+	fetchStrategy.setEndpoint(endpoint);
 
 	const { query } = useRouter();
 	const urlParams = fetchStrategy.getParamsFromURL(query);
-	const finalParams = { ...urlParams, params };
+	const finalParams = { ...urlParams, ...params };
 
-	return useSWR(fetchStrategy.buildEndpointURL(finalParams), fetchStrategy.fetcher);
+	return useSWR(fetchStrategy.buildEndpointURL(finalParams), (url: string) =>
+		fetchStrategy.fetcher(url),
+	);
 }

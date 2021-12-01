@@ -1,6 +1,6 @@
 import { addQueryArgs } from '@wordpress/url';
-import { Entity } from '../../types';
-import { apiGet } from '../../api';
+import { Entity } from '../types';
+import { apiGet } from '../api';
 
 export interface EndpointParams {
 	_embed?: boolean;
@@ -13,8 +13,14 @@ export interface EndpointParams {
 export abstract class AbstractFetchStrategy<E extends Entity, Params extends EndpointParams> {
 	endpoint: string = '';
 
+	baseURL: string = '';
+
 	setEndpoint(endpoint: string) {
 		this.endpoint = endpoint;
+	}
+
+	setBaseURL(url: string | undefined = '') {
+		this.baseURL = url;
 	}
 
 	/**
@@ -35,7 +41,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 *
 	 * @returns params extracted from the URL
 	 */
-	abstract getParamsFromURL(params: { args?: string[] }): Params;
+	abstract getParamsFromURL(params: { args?: string[] } | undefined): Params;
 
 	/**
 	 * Builds the final endpoint URL based on the passed parameters
@@ -63,7 +69,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 * @returns JSON response
 	 */
 	async fetcher(url: string): Promise<E> {
-		const result = await apiGet(url);
+		const result = await apiGet(`${this.baseURL}${url}`);
 		return result.json;
 	}
 }

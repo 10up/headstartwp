@@ -1,4 +1,4 @@
-import { postsMatchers } from '../utils/matchers';
+/* import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { EndpointParams, GetParamsFromURL } from './types';
 import { useFetch } from './useFetch';
@@ -56,4 +56,4 @@ export function usePosts(params: PostsParams) {
 	}
 
 	return { data: data[0] };
-}
+} */
