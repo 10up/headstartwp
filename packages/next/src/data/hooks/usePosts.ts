@@ -1,59 +1,68 @@
-/* import { postsMatchers } from '../utils/matchers';
-import { parsePath } from '../utils/parsePath';
-import { EndpointParams, GetParamsFromURL } from './types';
+import { GetServerSidePropsContext } from 'next';
+
+import {
+	getWPUrl,
+	PostEntity,
+	PostsArchiveParams,
+	PostsArchiveFetchStrategy,
+} from '@10up/headless-core';
 import { useFetch } from './useFetch';
+import { HookResponse } from './types';
 
 const endpoint = '/wp-json/wp/v2/posts';
 
-interface PostsParams extends EndpointParams {
-	page: number;
-	per_page: number;
-	search: string;
-	author: number | number[];
-	author_exclude: number | number[];
-	exclude: number[];
-	include: number[];
-	offset: number;
-	order: 'asc' | 'desc';
-	slug: string | string[];
-	orderby:
-		| 'author'
-		| 'date'
-		| 'id'
-		| 'include'
-		| 'modified'
-		| 'parent'
-		| 'relevance'
-		| 'slug'
-		| 'include_slugs'
-		| 'title';
-	status: string | string[];
-	tax_relation: 'AND' | 'OR';
-	categories: number | number[];
-	categories_exclude: number | number[];
-	tags: number | number[];
-	tags_exclude: number | number[];
-	sticky: boolean;
+interface usePostsResponse extends HookResponse {
+	data?: { posts: PostEntity[] };
 }
 
-const getParamsFromURL: GetParamsFromURL = (params) => {
-	const { args } = params;
+const fetchStrategy = new PostsArchiveFetchStrategy();
 
-	if (!args) {
-		return {};
+/**
+ * The usePost hook. Returns a collection of post entities
+ *
+ * @param params - Supported params
+ *
+ * @returns
+ */
+export function usePosts(params: PostsArchiveParams): usePostsResponse {
+	const { data: posts, error } = useFetch<PostEntity, PostsArchiveParams>(
+		endpoint,
+		params,
+		fetchStrategy,
+	);
+
+	if (error) {
+		return { error, loading: false };
 	}
 
-	const path = `/${args.join('/')}`;
-
-	return parsePath(postsMatchers, path);
-};
-
-export function usePosts(params: PostsParams) {
-	const { data, error } = useFetch(endpoint, params, getParamsFromURL);
-
-	if (!data || error) {
-		return { data, error };
+	if (!posts) {
+		return { loading: true };
 	}
 
-	return { data: data[0] };
-} */
+	// TODO: fix types
+	return { data: { posts: posts as unknown as PostEntity[] }, loading: false };
+}
+
+/**
+ * Utility method to fetch data for usePosts on the server
+ *
+ * @param context
+ * @param params
+ *
+ * @returns
+ */
+export async function fetchPostsArchiveServerSide(
+	context: GetServerSidePropsContext,
+	params: PostsArchiveParams,
+) {
+	const wpURL = getWPUrl();
+
+	fetchStrategy.setBaseURL(wpURL);
+	fetchStrategy.setEndpoint(endpoint);
+	const urlParams = fetchStrategy.getParamsFromURL(context.query);
+	const finalParams = { ...urlParams, ...params };
+	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
+	const data = await fetchStrategy.fetcher(endpointUrl);
+
+	return { key: endpointUrl, data };
+}

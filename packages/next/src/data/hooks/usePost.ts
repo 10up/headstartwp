@@ -30,6 +30,7 @@ export function usePost(params: PostParams): usePostResponse {
 		return { loading: true };
 	}
 
+	// TODO: fix types
 	return { data: { post: data[0] as PostEntity }, loading: false };
 }
 
@@ -43,7 +44,7 @@ export function usePost(params: PostParams): usePostResponse {
  */
 export async function fetchSinglePostServerSide(
 	context: GetServerSidePropsContext,
-	params: PostParams = {},
+	params: PostParams,
 ) {
 	const wpURL = getWPUrl();
 

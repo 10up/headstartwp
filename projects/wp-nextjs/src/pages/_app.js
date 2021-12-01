@@ -4,7 +4,7 @@ import { SWRConfig } from 'swr';
 // eslint-disable-next-line react/prop-types
 const MyApp = ({ Component, pageProps }) => {
 	// eslint-disable-next-line react/prop-types
-	const { fallback, ...props } = pageProps;
+	const { fallback = {}, ...props } = pageProps;
 	return (
 		<SettingsProvider settings={{ url: getWPUrl() }}>
 			<SWRConfig value={{ fallback }}>

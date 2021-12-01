@@ -4,11 +4,11 @@ import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 export interface PostParams extends EndpointParams {
-	slug?: string;
+	slug: string;
 }
 
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
-	getParamsFromURL(params: { args?: string[] } | undefined): PostParams {
+	getParamsFromURL(params: { args?: string[] } | undefined): Partial<PostParams> {
 		if (!params?.args) {
 			return {};
 		}

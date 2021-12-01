@@ -41,7 +41,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 *
 	 * @returns params extracted from the URL
 	 */
-	abstract getParamsFromURL(params: { args?: string[] } | undefined): Params;
+	abstract getParamsFromURL(params: { args?: string[] } | undefined): Partial<Params>;
 
 	/**
 	 * Builds the final endpoint URL based on the passed parameters
