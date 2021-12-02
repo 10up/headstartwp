@@ -1,4 +1,4 @@
-import { usePosts, fetchPostsArchiveServerSide } from '@10up/headless-next';
+import { usePosts, fetchHookData, addHookData } from '@10up/headless-next';
 
 const Home = () => {
 	const { loading, data } = usePosts();
@@ -17,13 +17,7 @@ const Home = () => {
 export default Home;
 
 export async function getServerSideProps(context) {
-	const { key, data } = await fetchPostsArchiveServerSide(context);
+	const hookData = await fetchHookData('usePosts', context);
 
-	return {
-		props: {
-			fallback: {
-				[key]: data,
-			},
-		},
-	};
+	return addHookData(hookData, {});
 }

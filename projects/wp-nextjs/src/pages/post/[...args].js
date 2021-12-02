@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { usePost, fetchSinglePostServerSide } from '@10up/headless-next/data';
+import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
 
 const Template = () => {
 	const { data } = usePost();
@@ -21,13 +21,7 @@ const Template = () => {
 export default Template;
 
 export async function getServerSideProps(context) {
-	const { key, data } = await fetchSinglePostServerSide(context);
+	const hookData = await fetchHookData('usePost', context);
 
-	return {
-		props: {
-			fallback: {
-				[key]: data,
-			},
-		},
-	};
+	return addHookData(hookData, {});
 }

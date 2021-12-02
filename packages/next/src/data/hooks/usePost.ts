@@ -1,6 +1,4 @@
-import { GetServerSidePropsContext } from 'next';
-
-import { getWPUrl, PostEntity, PostParams, SinglePostFetchStrategy } from '@10up/headless-core';
+import { PostEntity, PostParams, SinglePostFetchStrategy } from '@10up/headless-core';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -32,28 +30,4 @@ export function usePost(params: PostParams): usePostResponse {
 
 	// TODO: fix types
 	return { data: { post: data[0] as PostEntity }, loading: false };
-}
-
-/**
- * Utility method to fetch data for usePost on the server
- *
- * @param context
- * @param params
- *
- * @returns
- */
-export async function fetchSinglePostServerSide(
-	context: GetServerSidePropsContext,
-	params: PostParams,
-) {
-	const wpURL = getWPUrl();
-
-	fetchStrategy.setBaseURL(wpURL);
-	fetchStrategy.setEndpoint(endpoint);
-	const urlParams = fetchStrategy.getParamsFromURL(context.query);
-	const finalParams = { ...urlParams, ...params };
-	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
-	const data = await fetchStrategy.fetcher(endpointUrl);
-
-	return { key: endpointUrl, data };
 }
