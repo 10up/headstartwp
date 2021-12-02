@@ -1,11 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 // eslint-disable-next-line
-import { parsePath, postMatchers } from '@10up/headless-core/data';
+import { parsePath, postsMatchers, postMatchers } from '@10up/headless-core/data';
 
-function isSinglePostRequest(pathname: string) {
-	const parsedPath = parsePath(postMatchers, pathname);
+const matchers = [
+	{ rewrite: '/[[...path]]', matcher: postsMatchers },
+	{ rewrite: '/post/[...path]', matcher: postMatchers },
+];
 
-	return typeof parsedPath.slug !== 'undefined';
+function getRewriteRequest(pathname: string) {
+	for (const { matcher, rewrite } of matchers) {
+		const parsedPath = parsePath(matcher, pathname);
+
+		if (Object.keys(parsedPath).length > 0) {
+			return rewrite;
+		}
+	}
+
+	return false;
 }
 
 function isStaticAssetRequest(req: NextRequest) {
@@ -21,8 +32,10 @@ export function AppMiddleware(req: NextRequest) {
 
 	const { pathname } = req.nextUrl;
 
-	if (isSinglePostRequest(pathname)) {
-		return NextResponse.rewrite('/post/[...args]');
+	const rewrite = getRewriteRequest(pathname);
+
+	if (rewrite) {
+		return NextResponse.rewrite(rewrite);
 	}
 
 	return res;

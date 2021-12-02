@@ -43,13 +43,13 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	PostEntity,
 	PostsArchiveParams
 > {
-	getParamsFromURL(params: { args?: string[] } | undefined): Partial<PostsArchiveParams> {
-		if (!params?.args) {
+	getParamsFromURL(params: { path?: string[] } | undefined): Partial<PostsArchiveParams> {
+		if (!params?.path) {
 			return {};
 		}
 
-		const { args } = params;
+		const { path } = params;
 
-		return parsePath(postsMatchers, this.createPathFromArgs(args));
+		return parsePath(postsMatchers, this.createPathFromArgs(path));
 	}
 }
