@@ -11,3 +11,4 @@ export { useEffectAfterRender } from './useEffectAfterRender/useEffectAfterRende
 export { useEvent } from './useEvent/useEvent';
 export { useFocusTrap } from './useFocusTrap/useFocusTrap';
 export { useIsTransitioning } from './useIsTransitioning/useIsTransitioning';
+export { useKey } from './useKey/useKey';
