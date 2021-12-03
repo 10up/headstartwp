@@ -10,6 +10,7 @@ Battle tested hooks that can be reused and are safe to use within SSR environmen
 * [`useEffectAfterRender`](src/useEffectAfterRender/README.md) - Hook that only dispatches the effect if the component is mounted.
 * [`useEvent`](src/useEvent/README.md) - Hook for `addEventListener` to any element.
 * [`useFocusTrap`](src/useFocusTrap/README.md) - Hook to trap focus inside a DOM element. This is great for trapping the focus within a Modal for example.
+* [`useIsTransitioning`](src/useIsTransitioning/README.md) - Context + Hook that tracks `routeChange` events from [Next's Router](https://nextjs.org/docs/api-reference/next/router).
 
 ## Development
 
