@@ -1,10 +1,4 @@
-import {
-	PostEntity,
-	PostsArchiveParams,
-	PostsArchiveFetchStrategy,
-	useSettings,
-} from '@10up/headless-core';
-import { useRouter } from 'next/router';
+import { PostEntity, PostsArchiveParams, PostsArchiveFetchStrategy } from '@10up/headless-core';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -24,29 +18,9 @@ const fetchStrategy = new PostsArchiveFetchStrategy();
  * @returns
  */
 export function usePosts(params: PostsArchiveParams): usePostsResponse {
-	const { url } = useSettings();
-
-	fetchStrategy.setBaseURL(url);
-	fetchStrategy.setEndpoint(endpoint);
-
-	const { query } = useRouter();
-	const urlParams = fetchStrategy.getParamsFromURL(query);
-	const finalParams = { ...urlParams, ...params };
-
-	/* const { data: categoryObject } = useSWR(
-		() => `${categoryEndpoint}?slug=${finalParams.category}`,
-	); */
-
-	/* const shouldFetch = () =>
-		typeof finalParams.category !== 'undefined' && typeof categoryObject !== 'undefined';
-
-	if (shouldFetch()) {
-		finalParams.category = categoryObject[0]?.id;
-	} */
-
 	const { data: posts, error } = useFetch<PostEntity, PostsArchiveParams>(
 		endpoint,
-		finalParams,
+		params,
 		fetchStrategy,
 	);
 
