@@ -17,6 +17,7 @@ Battle tested hooks that can be reused and are safe to use within SSR environmen
 * [`useOnMount`](src/useOnMount/README.md) - Hook to add a handler to be executed when the component mounts.
 * [`useOnWindowResize`](src/useOnWindowResize/README.md) - Hook to attach a handler to window resize.
 * [`useSafeLayoutEffect`](src/useSafeLayoutEffect/README.md) - Alias hook to safely use `useLayoutEffect` within SSR environments.
+* [`useScript`](src/useScript/README.md) - Hook to append a script into the page, preventing the same script to be included more than once.
 
 ## Development
 
