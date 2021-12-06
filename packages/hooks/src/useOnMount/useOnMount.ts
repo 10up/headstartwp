@@ -6,7 +6,7 @@ import { useEffect } from 'react';
  * @param effect Effect to be run
  * @returns void
  */
-export function useOnMount( effect: () => any) {
+export function useOnMount(effect: () => any) {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	return useEffect(effect, []);
 }

@@ -1,0 +1,17 @@
+# useOnMount
+
+Runs an effect once the component is mounted. This is useful at times, specially when you are accessing props / state that would get flagged by react-hooks eslint rules.
+
+```jsx
+import { useOnMount } from '@headless/hooks';
+
+function MyComponent() {
+    useOnMount(() => {
+		    // Do something here, only once per component mount
+    });
+
+    return (
+        <div/>
+    );
+}
+```

@@ -13,21 +13,26 @@ describe('useIsMounted', () => {
 
 	it('should return true after it renders', () => {
 		let firstRender: boolean | undefined;
-		let secondRender: boolean | undefined;
 
-		renderHook(() => {
+		const { result } = renderHook(() => {
 			const isMounted = useIsMounted();
 
 			if (typeof firstRender === 'undefined') {
-				firstRender = isMounted;
-			} else {
-				secondRender = isMounted;
+				firstRender = isMounted();
 			}
 
 			return isMounted;
 		});
 
 		expect(firstRender).toBe(false);
-		expect(secondRender).toBe(true);
+		expect(result.current()).toBe(true);
+	});
+
+	it('should return false after unmount', () => {
+		const { result, unmount } = renderHook(() => useIsMounted());
+
+		expect(result.current()).toBe(true);
+		unmount();
+		expect(result.current()).toBe(false);
 	});
 });

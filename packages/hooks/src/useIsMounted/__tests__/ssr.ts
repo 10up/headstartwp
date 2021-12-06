@@ -13,6 +13,6 @@ describe('useIsMounted', () => {
 
 	it('should return false within first render', () => {
 		const { result } = renderHook(() => useIsMounted());
-		expect(result.current).toBe(false);
+		expect(result.current()).toBe(false);
 	});
 });

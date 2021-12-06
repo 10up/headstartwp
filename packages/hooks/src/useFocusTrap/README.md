@@ -13,7 +13,7 @@ function MyModal({ isVisible }) {
     const ref = useFocusTrap( isVisible );
 
     return (
-        <div role="dialog" aria-hidden={ ! isVisible }>
+        <div role="dialog" aria-hidden={ ! isVisible } ref={ ref }>
             <button role="button">Close modal</button>
         </div>
     );

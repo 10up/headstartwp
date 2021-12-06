@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useOnMount } from '..';
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  * A hook that gets a mounted property to true once it's mounted. This will **only** happen on
@@ -7,12 +6,19 @@ import { useOnMount } from '..';
  * to be used with problematic effects that might happen due to differences between browser
  * and server.
  *
- * @returns {boolean}
+ * @returns {Function} Function that returns the mounted state of the current component.
  */
 export function useIsMounted() {
-	const [isMounted, setIsMounted] = useState(false);
+	const isMounted = useRef(false);
+	const getState = useCallback(() => isMounted.current, []);
 
-	useOnMount(() => setIsMounted(true));
+	useEffect(() => {
+		isMounted.current = true;
 
-	return isMounted;
+		return () => {
+			isMounted.current = false;
+		};
+	});
+
+	return getState;
 }
