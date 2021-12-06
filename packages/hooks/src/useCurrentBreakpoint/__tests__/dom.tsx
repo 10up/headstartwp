@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { renderHook, act } from '@testing-library/react-hooks/dom';
-import { useCurrentBreakpoint, BreakpointsProvider } from '../..';
+import { useCurrentBreakpoint } from '../..';
+import { BreakpointsProvider } from '../../context';
 
 describe('useCurrentBreakpoint', () => {
 	const matchMediaMock = jest.fn();

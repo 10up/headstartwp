@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { BreakpointsContext } from '..';
+import { BreakpointsContext } from '../context';
 
 /**
  * @typedef {Object} useCurrentBreakpointReturn

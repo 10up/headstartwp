@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { renderHook } from '@testing-library/react-hooks/server';
-import { useCurrentBreakpoint, BreakpointsProvider } from '../..';
+import { useCurrentBreakpoint } from '../..';
+import { BreakpointsProvider } from '../../context';
 
 describe('useCurrentBreakpoint', () => {
 	const wrapper = ({ children }: { children: ReactNode }) => (

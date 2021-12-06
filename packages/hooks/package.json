@@ -8,6 +8,11 @@
     "test:watch": "jest --selectProjects dom ssr --watch",
     "create-hook": "plop"
   },
+  "exports": {
+    ".": "./src/index.ts",
+    "./util": "./src/util/index.ts",
+    "./context": "./src/context.ts"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {

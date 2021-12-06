@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react-hooks/dom';
 import { ReactNode } from 'react';
-import { useIsTransitioning, TransitionProvider } from '../..';
+import { useIsTransitioning } from '../..';
+import { TransitionProvider } from '../../context';
 
 // Mocking bare minimals
 const MockedRouter = {

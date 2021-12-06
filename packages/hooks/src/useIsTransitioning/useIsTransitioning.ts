@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TransitionContext } from '..';
+import { TransitionContext } from '../context';
 
 /**
  * A wrapper around Transition's context to get whether the page is transitioning or not.
