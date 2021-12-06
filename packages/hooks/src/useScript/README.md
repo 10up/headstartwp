@@ -26,7 +26,7 @@ function YoutubeEmbed( { videoId } ) {
                 },
             } );
         }
-    }, [ hasLoaded, hasErrored ] );;
+    }, [ hasLoaded, hasErrored ] );
 	  
 	  return <div ref={ ref } />
 }

@@ -15,3 +15,4 @@ export { useKey } from './useKey/useKey';
 export { useOnClickOutside } from './useOnClickOutside/useOnClickOutside';
 export { useSafeLayoutEffect } from './useSafeLayoutEffect/useSafeLayoutEffect';
 export { useScript } from './useScript/useScript';
+export { useScroll } from './useScroll/useScroll';
