@@ -12,6 +12,7 @@ Battle tested hooks that can be reused and are safe to use within SSR environmen
 * [`useFocusTrap`](src/useFocusTrap/README.md) - Hook to trap focus inside a DOM element. This is great for trapping the focus within a Modal for example.
 * [`useIsTransitioning`](src/useIsTransitioning/README.md) - Context + Hook that tracks `routeChange` events from [Next's Router](https://nextjs.org/docs/api-reference/next/router).
 * [`useKey`](src/useKey/README.md) - A convenient wrapper around [`useEvent`](src/useEvent/README.md) to handle key presses allowing to send either the key being watched, a function to evaluate or any truthy/falsy value.
+* [`useOnClickOutside`](src/useOnClickOutside/README.md) - Hook to add a handler to be executed when the user clicks outside of a given ref.
 
 ## Development
 

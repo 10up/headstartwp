@@ -12,3 +12,4 @@ export { useEvent } from './useEvent/useEvent';
 export { useFocusTrap } from './useFocusTrap/useFocusTrap';
 export { useIsTransitioning } from './useIsTransitioning/useIsTransitioning';
 export { useKey } from './useKey/useKey';
+export { useOnClickOutside } from './useOnClickOutside/useOnClickOutside';
