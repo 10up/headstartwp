@@ -16,6 +16,7 @@ Battle tested hooks that can be reused and are safe to use within SSR environmen
 * [`useOnClickOutside`](src/useOnClickOutside/README.md) - Hook to add a handler to be executed when the user clicks outside a given ref.
 * [`useOnMount`](src/useOnMount/README.md) - Hook to add a handler to be executed when the component mounts.
 * [`useOnWindowResize`](src/useOnWindowResize/README.md) - Hook to attach a handler to window resize.
+* [`useSafeLayoutEffect`](src/useSafeLayoutEffect/README.md) - Alias hook to safely use `useLayoutEffect` within SSR environments.
 
 ## Development
 

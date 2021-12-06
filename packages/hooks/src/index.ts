@@ -13,3 +13,4 @@ export { useFocusTrap } from './useFocusTrap/useFocusTrap';
 export { useIsTransitioning } from './useIsTransitioning/useIsTransitioning';
 export { useKey } from './useKey/useKey';
 export { useOnClickOutside } from './useOnClickOutside/useOnClickOutside';
+export { useSafeLayoutEffect } from './useSafeLayoutEffect/useSafeLayoutEffect';
