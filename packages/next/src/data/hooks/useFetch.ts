@@ -3,6 +3,10 @@ import useSWR from 'swr';
 
 import { useSettings, Entity, AbstractFetchStrategy, EndpointParams } from '@10up/headless-core';
 
+interface useFetchOptions {
+	shouldFetch?: () => boolean;
+}
+
 /**
  * The useFetch hook
  *
@@ -16,6 +20,7 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	endpoint: string,
 	params: Params,
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
+	options: useFetchOptions = {},
 ) {
 	const { url } = useSettings();
 
@@ -26,7 +31,10 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	const urlParams = fetchStrategy.getParamsFromURL(query);
 	const finalParams = { ...urlParams, ...params };
 
-	return useSWR(fetchStrategy.buildEndpointURL(finalParams), (url: string) =>
-		fetchStrategy.fetcher(url),
+	const shouldFetch = options?.shouldFetch ? options.shouldFetch : () => true;
+
+	return useSWR(
+		shouldFetch() ? fetchStrategy.buildEndpointURL(finalParams) : null,
+		(url: string) => fetchStrategy.fetcher(url, finalParams),
 	);
 }

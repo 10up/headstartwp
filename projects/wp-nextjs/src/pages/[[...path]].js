@@ -1,4 +1,4 @@
-import { usePosts, fetchHookData, addHookData } from '@10up/headless-next';
+import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headless-next';
 
 const Home = () => {
 	const { loading, data } = usePosts();
@@ -17,7 +17,11 @@ const Home = () => {
 export default Home;
 
 export async function getServerSideProps(context) {
-	const hookData = await fetchHookData('usePosts', context);
+	try {
+		const hookData = await fetchHookData('usePosts', context);
 
-	return addHookData(hookData, {});
+		return addHookData(hookData, {});
+	} catch (e) {
+		return handleError(e);
+	}
 }

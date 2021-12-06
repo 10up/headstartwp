@@ -25,7 +25,7 @@ export async function fetchHookData(type: HookType, ctx: GetServerSidePropsConte
 	const urlParams = fetchStrategy.getParamsFromURL(ctx.query);
 	const finalParams = { ...urlParams, ...params };
 	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
-	const data = await fetchStrategy.fetcher(endpointUrl);
+	const data = await fetchStrategy.fetcher(endpointUrl, finalParams);
 
 	return { key: endpointUrl, data };
 }
@@ -48,4 +48,13 @@ export function addHookData(hookState: HookState, nextProps) {
 			},
 		},
 	};
+}
+
+// TODO: finish this
+export function handleError(error: Error) {
+	if (error instanceof Error) {
+		return { notFound: true };
+	}
+
+	return { notFound: true };
 }
