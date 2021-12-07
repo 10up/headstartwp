@@ -80,7 +80,6 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			}
 		}
 
-		const result = await apiGet(`${this.baseURL}${finalUrl}`);
-		return result.json;
+		return super.fetcher(finalUrl, params);
 	}
 }

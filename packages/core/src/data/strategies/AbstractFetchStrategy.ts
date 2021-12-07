@@ -72,6 +72,12 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async fetcher(url: string, params: Params): Promise<E> {
 		const result = await apiGet(`${this.baseURL}${url}`);
+		const { data } = result.json;
+
+		if (data?.status === 400) {
+			throw new Error('Not found');
+		}
+
 		return result.json;
 	}
 }
