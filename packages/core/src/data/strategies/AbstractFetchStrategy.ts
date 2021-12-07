@@ -50,7 +50,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 *
 	 * @returns - The endpoint URL.
 	 */
-	buildEndpointURL(params: Params): string {
+	buildEndpointURL(params: Partial<Params>): string {
 		const { _embed, ...endpointParams } = params;
 		const url = addQueryArgs(this.endpoint, { ...endpointParams });
 
@@ -65,11 +65,19 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 * The default fetcher function
 	 *
 	 * @param url The URL to fetch
+	 * @param params The request params
 	 *
 	 * @returns JSON response
 	 */
-	async fetcher(url: string): Promise<E> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async fetcher(url: string, params: Params): Promise<E> {
 		const result = await apiGet(`${this.baseURL}${url}`);
+		const { data } = result.json;
+
+		if (data?.status === 400) {
+			throw new Error('Not found');
+		}
+
 		return result.json;
 	}
 }
