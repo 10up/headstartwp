@@ -39,10 +39,18 @@ export function addHookData(hookState: HookState, nextProps) {
 	const { key, data } = hookState;
 	const { props = {}, ...rest } = nextProps;
 
+	// take yoast_seo data
+	const seo_json = data?.yoast_head_json || data?.[0]?.yoast_head_json || {};
+	const yoast_head = data?.yoast_head || data?.[0]?.yoast_head || '';
+
 	return {
 		...rest,
 		props: {
 			...props,
+			seo: {
+				yoast_head_json: seo_json,
+				yoast_head,
+			},
 			fallback: {
 				[key]: data,
 			},
