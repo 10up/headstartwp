@@ -17,6 +17,10 @@
     "./data": {
       "import": "./dist/mjs/data/index.js",
       "require": "./dist/cjs/data/index.js"
+    },
+    "./components": {
+      "import": "./dist/mjs/components/index.js",
+      "require": "./dist/cjs/components/index.js"
     }
   },
   "scripts": {
