@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 // eslint-disable-next-line
 import { parsePath, postsMatchers, postMatchers } from '@10up/headless-core/data';
+// eslint-disable-next-line import/no-unresolved
+import { fetchRedirect } from '@10up/headless-core/utils';
 
 const matchers = [
 	{ rewrite: '/[[...path]]', matcher: postsMatchers },
@@ -23,14 +25,18 @@ function isStaticAssetRequest(req: NextRequest) {
 	return req.nextUrl.pathname === '/favicon.ico';
 }
 
-export function AppMiddleware(req: NextRequest) {
-	const res = NextResponse.next();
-
+export async function AppMiddleware(req: NextRequest) {
 	if (isStaticAssetRequest(req)) {
-		return res;
+		return NextResponse.next();
 	}
 
 	const { pathname } = req.nextUrl;
+
+	const redirect = await fetchRedirect(pathname);
+
+	if (redirect.location) {
+		return NextResponse.redirect(redirect.location, redirect.status);
+	}
 
 	const rewrite = getRewriteRequest(pathname);
 
@@ -38,5 +44,5 @@ export function AppMiddleware(req: NextRequest) {
 		return NextResponse.rewrite(rewrite);
 	}
 
-	return res;
+	return NextResponse.next();
 }

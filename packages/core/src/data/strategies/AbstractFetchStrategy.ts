@@ -74,7 +74,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		const result = await apiGet(`${this.baseURL}${url}`);
 		const { data } = result.json;
 
-		if (data?.status === 400) {
+		if (result.json.length === 0 || data?.status === 400) {
 			throw new Error('Not found');
 		}
 

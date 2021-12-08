@@ -27,6 +27,7 @@ export async function getServerSideProps(context) {
 
 		return addHookData(hookData, {});
 	} catch (e) {
+		console.log(e);
 		return handleError(e);
 	}
 }
