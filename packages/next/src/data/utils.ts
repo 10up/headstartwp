@@ -6,7 +6,7 @@ import {
 } from '@10up/headless-core';
 // eslint-disable-next-line import/no-unresolved
 import { getRedirectStrategy } from '@10up/headless-core/utils';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
 type HookType = 'usePosts' | 'usePost';
 
@@ -65,7 +65,10 @@ export function addHookData(hookState: HookState, nextProps) {
 	};
 }
 
-export async function handleError(error: Error, ctx: GetServerSidePropsContext) {
+export async function handleError(
+	error: Error,
+	ctx: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<{}>> {
 	const redirectStrategy = getRedirectStrategy();
 
 	if (redirectStrategy === '404' && ctx.req.url) {
