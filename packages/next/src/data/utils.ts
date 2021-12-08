@@ -1,5 +1,12 @@
-import { SinglePostFetchStrategy, PostsArchiveFetchStrategy, getWPUrl } from '@10up/headless-core';
-import { GetServerSidePropsContext } from 'next';
+import {
+	SinglePostFetchStrategy,
+	PostsArchiveFetchStrategy,
+	getWPUrl,
+	fetchRedirect,
+} from '@10up/headless-core';
+// eslint-disable-next-line import/no-unresolved
+import { getRedirectStrategy } from '@10up/headless-core/utils';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
 type HookType = 'usePosts' | 'usePost';
 
@@ -58,8 +65,25 @@ export function addHookData(hookState: HookState, nextProps) {
 	};
 }
 
-// TODO: finish this
-export function handleError(error: Error) {
+export async function handleError(
+	error: Error,
+	ctx: GetServerSidePropsContext,
+): Promise<GetServerSidePropsResult<{}>> {
+	const redirectStrategy = getRedirectStrategy();
+
+	if (redirectStrategy === '404' && ctx.req.url) {
+		const redirect = await fetchRedirect(ctx.req.url);
+
+		if (redirect.location) {
+			return {
+				redirect: {
+					destination: redirect.location,
+					permanent: false,
+				},
+			};
+		}
+	}
+
 	if (error instanceof Error) {
 		return { notFound: true };
 	}

@@ -22,6 +22,6 @@ export async function getServerSideProps(context) {
 
 		return addHookData(hookData, {});
 	} catch (e) {
-		return handleError(e);
+		return handleError(e, context);
 	}
 }
