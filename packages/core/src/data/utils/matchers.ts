@@ -44,3 +44,16 @@ export const postsMatchers: Matcher[] = [
 		pattern: '/tag/:tag',
 	},
 ];
+
+export const searchMatchers: Matcher[] = [
+	{
+		name: 'search type',
+		priority: 30,
+		pattern: '/search/:search',
+	},
+	{
+		name: 'pagination',
+		priority: 30,
+		pattern: '/search/:search/page/:page',
+	},
+];

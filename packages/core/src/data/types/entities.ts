@@ -627,3 +627,28 @@ export interface CommentEntity extends Entity {
 	 */
 	meta?: Record<string, unknown>;
 }
+/**
+ * Interface for entities from the /wp/v2/search endpoint.
+ */
+export interface SearchEntity extends Entity {
+	/**
+	 * Unique identifier for the object.
+	 */
+	id: number | string;
+	/**
+	 * The title for the object.
+	 */
+	title: string;
+	/**
+	 * URL to the object.
+	 */
+	url: string;
+	/**
+	 * Type of Search for the object.
+	 */
+	type: 'post' | 'term' | 'post-format';
+	/**
+	 * Subtype of Search for the object.
+	 */
+	subtype: 'post' | 'page' | 'category' | 'post_tag';
+}
