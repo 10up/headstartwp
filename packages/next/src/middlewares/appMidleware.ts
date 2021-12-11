@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 // eslint-disable-next-line
-import { parsePath, postsMatchers, postMatchers } from '@10up/headless-core/data';
+import { parsePath, postsMatchers, postMatchers, searchMatchers } from '@10up/headless-core/data';
 // eslint-disable-next-line import/no-unresolved
 import { fetchRedirect, getRedirectStrategy } from '@10up/headless-core/utils';
 
 const matchers = [
 	{ rewrite: '/[[...path]]', matcher: postsMatchers },
+	{ rewrite: '/search/[...path]', matcher: searchMatchers },
 	{ rewrite: '/post/[...path]', matcher: postMatchers },
 ];
 

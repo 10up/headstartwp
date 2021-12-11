@@ -3,21 +3,24 @@ import {
 	PostsArchiveFetchStrategy,
 	getWPUrl,
 	fetchRedirect,
+	SearchFetchStrategy,
 } from '@10up/headless-core';
 // eslint-disable-next-line import/no-unresolved
 import { getRedirectStrategy } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-type HookType = 'usePosts' | 'usePost';
+type HookType = 'usePosts' | 'usePost' | 'useSearch';
 
 const strategies = {
 	usePosts: PostsArchiveFetchStrategy,
 	usePost: SinglePostFetchStrategy,
+	useSearch: SearchFetchStrategy,
 };
 
 const endpoints = {
 	usePosts: '/wp-json/wp/v2/posts',
 	usePost: '/wp-json/wp/v2/posts',
+	useSearch: '/wp-json/wp/v2/search',
 };
 
 export async function fetchHookData(type: HookType, ctx: GetServerSidePropsContext, params) {
