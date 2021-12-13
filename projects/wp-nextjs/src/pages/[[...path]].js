@@ -2,6 +2,8 @@ import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headles
 
 const Home = () => {
 	const { loading, data } = usePosts();
+	// const { loading, data } = usePosts({ postType: 'book' });
+	// const { loading, data } = usePosts({ postType: { slug: 'books', endpoint: '/book' } });
 
 	return loading ? (
 		'Loading...'
