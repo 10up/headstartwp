@@ -13,8 +13,10 @@ class Plugin {
 	 * Set up any hooks
 	 */
 	public function register() {
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_action( 'admin_notices', array( $this, 'maybe_output_setting_notification' ) );
+		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		add_action( 'admin_notices', [ $this, 'maybe_output_setting_notification' ] );
+		add_action( 'admin_menu', [ $this, 'clean_up_menus' ] );
+		add_action( 'admin_bar_menu', [ $this, 'clean_up_toolbar' ], 999 );
 
 		add_action( 'init', [ $this, 'i18n' ] );
 
@@ -23,6 +25,28 @@ class Plugin {
 
 		$rest_api = new API();
 		$rest_api->register();
+	}
+
+	/**
+	 * Clean up admin toolbar
+	 *
+	 * @param object $wp_admin_bar Admin bar object
+	 */
+	public function clean_up_toolbar( $wp_admin_bar ) {
+		$wp_admin_bar->remove_node( 'comments' );
+	}
+
+	/**
+	 * Clean up admin menus
+	 */
+	public function clean_up_menus() {
+		/*global $submenu;
+		var_dump($submenu);
+		exit;*/
+		remove_submenu_page( 'options-general.php', 'options-permalink.php' );
+		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
+		remove_submenu_page( 'themes.php', 'customize.php?return=%2Fwp-admin%2Foptions-reading.php' );
+		remove_menu_page( 'edit-comments.php' );
 	}
 
 	/**

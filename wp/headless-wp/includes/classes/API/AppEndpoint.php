@@ -65,18 +65,28 @@ class AppEndpoint {
 
 		if ( empty( $response ) ) {
 
-			$response = array(
-				'menus'    => array(),
-				'home'     => array(),
-				'settings' => array(),
-			);
+			$response = [
+				'menus'     => [],
+				'home'      => [],
+				'settings'  => [],
+				'redirects' => [],
+			];
+
+			// Support safe redirect manager redirects
+			if ( function_exists( '\srm_get_redirects' ) ) {
+				$response['redirects'] = srm_get_redirects(
+					[
+						'posts_per_page' => 300,
+					]
+				);
+			}
 
 			/**
 			 * Homepage data retrieval. By default the scaffold will set the homepage depending on the settings in the WordPress admin 'Reading' settings.
 			 * If a homepage 'page' has not been set, then the most recent posts will be used as homepage data
 			 */
 			$homepage_id      = (int) get_option( 'page_on_front' );
-			$homepage_content = array();
+			$homepage_content = [];
 
 			if ( $homepage_id > 0 ) {
 				$homepage_post = get_post( $homepage_id );
