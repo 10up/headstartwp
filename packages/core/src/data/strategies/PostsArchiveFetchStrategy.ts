@@ -81,14 +81,16 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			}
 		}
 
-		if (params?.postType) {
-			const { postType } = params;
-			if (typeof postType === 'string') {
+		const { postType } = params;
+		switch (typeof postType) {
+			case 'string':
 				finalUrl = finalUrl.replace('posts', postType);
-			}
-			if (typeof postType === 'object') {
+				break;
+			case 'object':
 				finalUrl = finalUrl.replace('/posts', postType.endpoint);
-			}
+				break;
+			default:
+				break;
 		}
 
 		return super.fetcher(finalUrl, params);

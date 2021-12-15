@@ -30,15 +30,16 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		let finalUrl = url;
 		const { postType } = params;
 
-		if (postType) {
-			if (typeof postType === 'string') {
+		switch (typeof postType) {
+			case 'string':
 				finalUrl = finalUrl.replace('posts', postType);
-			}
-			if (typeof postType === 'object') {
+				break;
+			case 'object':
 				finalUrl = finalUrl.replace('/posts', postType.endpoint);
-			}
+				break;
+			default:
+				break;
 		}
-
 		return super.fetcher(finalUrl, params);
 	}
 }
