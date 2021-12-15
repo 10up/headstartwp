@@ -46,7 +46,7 @@ export async function AppMiddleware(req: NextRequest) {
 	const rewrite = getRewriteRequest(pathname);
 
 	if (rewrite) {
-		return NextResponse.rewrite(rewrite);
+		// return NextResponse.rewrite(rewrite);
 	}
 
 	return NextResponse.next();
