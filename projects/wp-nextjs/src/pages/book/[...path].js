@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
+// eslint-disable-next-line
 import { handleError } from '@10up/headless-next';
 
 const Template = () => {

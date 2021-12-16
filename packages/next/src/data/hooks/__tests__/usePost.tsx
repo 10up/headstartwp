@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { FC } from 'react';
+// eslint-disable-next-line
 import { SettingsProvider } from '@10up/headless-core';
 
 import { usePost } from '../usePost';
