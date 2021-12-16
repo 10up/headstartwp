@@ -17,6 +17,10 @@
     "./data": {
       "import": "./dist/mjs/data/index.js",
       "require": "./dist/cjs/data/index.js"
+    },
+    "./compnoents": {
+      "import": "./dist/mjs/components/index.js",
+      "require": "./dist/cjs/components/index.js"
     }
   },
   "scripts": {
@@ -33,6 +37,7 @@
     "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.0.2",
     "@types/node-fetch": "^2.5.3",
+    "@types/sanitize-html": "^2.6.0",
     "jest": "^27.2.1",
     "msw": "^0.35.0",
     "node-fetch": "^2.6.5",
@@ -42,7 +47,9 @@
   },
   "dependencies": {
     "@wordpress/url": "^3.2.2",
-    "path-to-regexp": "^6.2.0"
+    "html-react-parser": "^1.4.3",
+    "path-to-regexp": "^6.2.0",
+    "sanitize-html": "^2.6.1"
   },
   "peerDependencies": {
     "react": "^17.0.2"
