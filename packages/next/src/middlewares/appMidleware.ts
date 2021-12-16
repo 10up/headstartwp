@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // eslint-disable-next-line
 import { parsePath, postsMatchers, postMatchers, searchMatchers } from '@10up/headless-core/data';
 // eslint-disable-next-line import/no-unresolved
-import { fetchRedirect, getRedirectStrategy } from '@10up/headless-core/utils';
+import { fetchRedirect, getRedirectStrategy, getCustomPostTypes } from '@10up/headless-core/utils';
 
 const matchers = [
 	{ rewrite: '/[[...path]]', matcher: postsMatchers },
@@ -10,7 +10,16 @@ const matchers = [
 	{ rewrite: '/post/[...path]', matcher: postMatchers },
 ];
 
+function isCustomPostType(pathname: string) {
+	const slug = pathname.split('/')[1];
+	return getCustomPostTypes().includes(slug);
+}
+
 function getRewriteRequest(pathname: string) {
+	if (isCustomPostType(pathname)) {
+		return false;
+	}
+
 	for (const { matcher, rewrite } of matchers) {
 		const parsedPath = parsePath(matcher, pathname);
 
@@ -46,7 +55,7 @@ export async function AppMiddleware(req: NextRequest) {
 	const rewrite = getRewriteRequest(pathname);
 
 	if (rewrite) {
-		// return NextResponse.rewrite(rewrite);
+		return NextResponse.rewrite(rewrite);
 	}
 
 	return NextResponse.next();

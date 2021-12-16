@@ -1,4 +1,5 @@
 import { FC, createContext } from 'react';
+import headlessConfig from '../headless.config';
 import { SettingsContextProps } from './types';
 
 export const SettingsContext = createContext<Partial<SettingsContextProps>>({});
@@ -8,5 +9,9 @@ interface ProviderProps {
 }
 
 export const SettingsProvider: FC<ProviderProps> = ({ settings, children }) => {
-	return <SettingsContext.Provider value={settings}>{children}</SettingsContext.Provider>;
+	return (
+		<SettingsContext.Provider value={{ ...headlessConfig, ...settings }}>
+			{children}
+		</SettingsContext.Provider>
+	);
 };

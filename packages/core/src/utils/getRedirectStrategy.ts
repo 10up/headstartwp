@@ -1,3 +1,5 @@
+import headlessConfig from '../headless.config';
+
 export function getRedirectStrategy() {
-	return process.env.REDIRECT_STRATEGY || 'none';
+	return headlessConfig?.redirectStrategy || 'none';
 }
