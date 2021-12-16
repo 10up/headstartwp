@@ -11,8 +11,8 @@ const matchers = [
 ];
 
 function isCustomPostType(pathname: string) {
-	const slug = pathname.split('/')[1];
-	return getCustomPostTypes().includes(slug);
+	const postType = pathname.split('/')[1];
+	return getCustomPostTypes().includes(postType);
 }
 
 function getRewriteRequest(pathname: string) {
