@@ -1,5 +1,6 @@
 import { FC, createContext } from 'react';
-import headlessConfig from '../headless.config';
+// @ts-ignore
+import headlessConfig from '@10up/wp-nextjs/headless.config';
 import { SettingsContextProps } from './types';
 
 export const SettingsContext = createContext<Partial<SettingsContextProps>>({});
