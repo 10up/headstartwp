@@ -1,13 +1,16 @@
 import Link from 'next/link';
 import { Element } from 'html-react-parser';
 import { PropsWithChildren } from 'react';
+// eslint-disable-next-line
+import { removeSourceUrl } from '@10up/headless-core/utils';
+import { getWPUrl } from '@10up/headless-core';
 
 export type LinkBlockProps = PropsWithChildren<{
 	domNode: Element;
 }>;
 
 /**
- * The Image Block converts a image node into a next/image component
+ * The Link Block converts a image node into a next/link component
  *
  * @param props Link Block Props
  * @param props.domNode The domNode element
@@ -17,8 +20,6 @@ export type LinkBlockProps = PropsWithChildren<{
  */
 export const LinkBlock = ({ domNode, children }) => {
 	const { href } = domNode.attribs;
-
-	// transform href link
-
-	return <Link href={href}>{children}</Link>;
+	const link = removeSourceUrl({ link: href, backendUrl: getWPUrl() });
+	return <Link href={link}>{children}</Link>;
 };

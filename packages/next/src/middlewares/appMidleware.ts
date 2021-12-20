@@ -5,9 +5,9 @@ import { parsePath, postsMatchers, postMatchers, searchMatchers } from '@10up/he
 import { fetchRedirect, getRedirectStrategy } from '@10up/headless-core/utils';
 
 const matchers = [
-	{ rewrite: '/[[...path]]', matcher: postsMatchers },
-	{ rewrite: '/search/[...path]', matcher: searchMatchers },
-	{ rewrite: '/post/[...path]', matcher: postMatchers },
+	{ rewrite: '', matcher: postsMatchers },
+	{ rewrite: '/search', matcher: searchMatchers },
+	{ rewrite: '/post', matcher: postMatchers },
 ];
 
 function getRewriteRequest(pathname: string) {
@@ -46,7 +46,7 @@ export async function AppMiddleware(req: NextRequest) {
 	const rewrite = getRewriteRequest(pathname);
 
 	if (rewrite) {
-		return NextResponse.rewrite(rewrite);
+		return NextResponse.rewrite(`${rewrite}${pathname}`);
 	}
 
 	return NextResponse.next();
