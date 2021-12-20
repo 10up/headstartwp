@@ -21,6 +21,10 @@
     "./compnoents": {
       "import": "./dist/mjs/components/index.js",
       "require": "./dist/cjs/components/index.js"
+    },
+    "./dom": {
+      "import": "./dist/mjs/dom/index.js",
+      "require": "./dist/cjs/dom/index.js"
     }
   },
   "scripts": {

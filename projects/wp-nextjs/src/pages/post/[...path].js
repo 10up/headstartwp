@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
 import { handleError } from '@10up/headless-next';
-import { BlocksRenderer } from '@10up/headless-core';
+import { Blocks } from '../../components/Block';
 
 const Template = () => {
 	const { data } = usePost();
@@ -11,7 +11,7 @@ const Template = () => {
 			{data ? (
 				<>
 					<h1>{data.post.title.rendered}</h1>
-					<BlocksRenderer html={data.post.content.rendered} />
+					<Blocks html={data.post.content.rendered} />
 				</>
 			) : (
 				'loading...'
