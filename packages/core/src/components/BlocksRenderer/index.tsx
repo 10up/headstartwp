@@ -29,14 +29,14 @@ export const BlocksRenderer = ({ html, children }: BlocksRendererProps) => {
 
 			blocks.forEach((block) => {
 				if (isValidElement<BlockDef>(block) && block.props.test(domNode)) {
-					component = React.cloneElement(block, {
-						...block.props,
-						domNode,
-						children:
-							domNode instanceof Element
-								? domToReact(domNode.children, options)
-								: null,
-					});
+					component = React.createElement(
+						block.type,
+						{
+							...block.props,
+							domNode,
+						},
+						domNode instanceof Element ? domToReact(domNode.children, options) : null,
+					);
 				}
 			});
 
