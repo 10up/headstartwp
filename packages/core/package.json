@@ -32,7 +32,9 @@
     "@testing-library/dom": "^8.6.0",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.0.2",
+    "@types/lodash.isequal": "^4.5.5",
     "@types/node-fetch": "^2.5.3",
+    "@types/uuid": "^8.3.3",
     "jest": "^27.2.1",
     "msw": "^0.35.0",
     "node-fetch": "^2.6.5",
@@ -42,7 +44,9 @@
   },
   "dependencies": {
     "@wordpress/url": "^3.2.2",
-    "path-to-regexp": "^6.2.0"
+    "lodash.isequal": "^4.5.0",
+    "path-to-regexp": "^6.2.0",
+    "uuid": "^8.3.2"
   },
   "peerDependencies": {
     "react": "^17.0.2"

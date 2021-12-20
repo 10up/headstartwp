@@ -1,19 +1,21 @@
-import { getWPUrl, SettingsProvider } from '@10up/headless-core';
+import { getWPUrl, SettingsProvider, UserProvider } from '@10up/headless-core';
 import { SWRConfig } from 'swr';
 import { Yoast } from './Yoast';
 
-export const HeadlessApp = ({ settings, children, pageProps }) => {
+export const HeadlessApp = ({ settings = { url: getWPUrl() }, children, pageProps }) => {
 	const { fallback = {}, seo = {} } = pageProps;
 	return (
-		<SettingsProvider settings={settings || { url: getWPUrl() }}>
-			<SWRConfig
-				value={{
-					fallback,
-				}}
-			>
-				<Yoast seo={seo} />
-				{children}
-			</SWRConfig>
+		<SettingsProvider settings={settings}>
+			<UserProvider>
+				<SWRConfig
+					value={{
+						fallback,
+					}}
+				>
+					<Yoast seo={seo} />
+					{children}
+				</SWRConfig>
+			</UserProvider>
 		</SettingsProvider>
 	);
 };
