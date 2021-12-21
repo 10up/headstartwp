@@ -30,7 +30,12 @@ export function isReplaceableAnchorTag(node: DOMNode) {
 		return false;
 	}
 
-	const { href } = node.attribs;
+	const { href, target } = node.attribs;
+
+	// there's no client side rendering on links that opens in a new tab
+	if (target === '_blank') {
+		return false;
+	}
 
 	const link = removeSourceUrl({ link: href, backendUrl: getWPUrl() });
 

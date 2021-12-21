@@ -3,7 +3,7 @@ import { Element } from 'html-react-parser';
 import { PropsWithChildren } from 'react';
 // eslint-disable-next-line
 import { removeSourceUrl } from '@10up/headless-core/utils';
-import { getWPUrl } from '@10up/headless-core';
+import { useSettings } from '@10up/headless-core';
 
 export type LinkBlockProps = PropsWithChildren<{
 	domNode: Element;
@@ -19,7 +19,15 @@ export type LinkBlockProps = PropsWithChildren<{
  * @returns The next/link component
  */
 export const LinkBlock = ({ domNode, children }) => {
-	const { href } = domNode.attribs;
-	const link = removeSourceUrl({ link: href, backendUrl: getWPUrl() });
-	return <Link href={link}>{children}</Link>;
+	const { href, rel } = domNode.attribs;
+	const settings = useSettings();
+	const link = removeSourceUrl({ link: href, backendUrl: settings.url || '' });
+	const Component = typeof settings.linkComponent === 'function' ? settings.linkComponent : Link;
+
+	return (
+		<Component href={link}>
+			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+			<a rel={rel}>{children}</a>
+		</Component>
+	);
 };
