@@ -3,7 +3,7 @@ const fs = require('fs');
 
 // create an empty object if the file doesn't exist
 if (!fs.existsSync('./headless.config.js')) {
-	fs.createWriteStream('./headless.config.js', JSON.stringify({}));
+	fs.writeFileSync('./headless.config.js', `module.exports = {};\n`);
 }
 
 // eslint-disable-next-line
