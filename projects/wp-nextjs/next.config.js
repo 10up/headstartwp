@@ -1,4 +1,12 @@
 const webpack = require('webpack'); //eslint-disable-line
+const fs = require('fs');
+
+// create an empty object if the file doesn't exist
+if (!fs.existsSync('./headless.config.js')) {
+	fs.createWriteStream('./headless.config.js', JSON.stringify({}));
+}
+
+// eslint-disable-next-line
 const headlessConfig = require('./headless.config');
 
 /**
