@@ -1,6 +1,4 @@
 import { FC, createContext } from 'react';
-// @ts-ignore
-import headlessConfig from '@10up/wp-nextjs/headless.config';
 import { SettingsContextProps } from './types';
 
 export const SettingsContext = createContext<Partial<SettingsContextProps>>({});
@@ -11,7 +9,13 @@ interface ProviderProps {
 
 export const SettingsProvider: FC<ProviderProps> = ({ settings, children }) => {
 	return (
-		<SettingsContext.Provider value={{ ...headlessConfig, ...settings }}>
+		<SettingsContext.Provider
+			value={{
+				// @ts-ignore
+				...HEADLESS_CONFIG,
+				...settings,
+			}}
+		>
 			{children}
 		</SettingsContext.Provider>
 	);

@@ -1,6 +1,4 @@
-// @ts-ignore
-import headlessConfig from '@10up/wp-nextjs/headless.config';
-
-export function getCustomPostTypes() {
-	return headlessConfig?.customPostTypes || [];
+export function getCustomPostTypes(): string[] {
+	// @ts-ignore
+	return HEADLESS_CONFIG?.customPostTypes || [];
 }

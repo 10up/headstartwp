@@ -41,7 +41,6 @@
     "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
-    "@10up/wp-nextjs": "^0.1.0",
     "@wordpress/url": "^3.2.2",
     "path-to-regexp": "^6.2.0"
   },

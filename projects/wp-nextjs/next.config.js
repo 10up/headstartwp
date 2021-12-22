@@ -3,6 +3,7 @@ const headlessConfig = require('./headless.config');
 
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
+ *u
  *
  * @param {object} nextConfig The nextjs config object
  * @returns
@@ -13,7 +14,9 @@ const withHeadlessConfig = (nextConfig) => {
 		webpack: (config) => {
 			config.plugins.push(
 				new webpack.DefinePlugin({
-					HEADLESS_CONFIG: JSON.stringify(headlessConfig),
+					HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {
+						return JSON.stringify(headlessConfig);
+					}),
 				}),
 			);
 			return config;
