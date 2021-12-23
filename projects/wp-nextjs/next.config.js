@@ -1,14 +1,15 @@
 const webpack = require('webpack'); //eslint-disable-line
 const fs = require('fs');
 
-// create an empty object if the file doesn't exist
-if (!fs.existsSync('./headless.config.js')) {
-	fs.writeFileSync('./headless.config.js', `module.exports = {};\n`);
+const headlessConfigPath = './headless.config.js';
+
+// the headless config is an empty object by default
+let headlessConfig = {};
+if (fs.existsSync(headlessConfigPath)) {
+	// eslint-disable-next-line
+	headlessConfig = require(headlessConfigPath);
 }
-
-// eslint-disable-next-line
-const headlessConfig = require('./headless.config');
-
+console.log({ headlessConfig });
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
  *u
