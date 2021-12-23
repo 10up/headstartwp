@@ -9,7 +9,7 @@ if (fs.existsSync(headlessConfigPath)) {
 	// eslint-disable-next-line
 	headlessConfig = require(headlessConfigPath);
 }
-console.log({ headlessConfig });
+
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
  *u
