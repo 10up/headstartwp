@@ -17,7 +17,7 @@ if (fs.existsSync(headlessConfigPath)) {
  * @param {object} nextConfig The nextjs config object
  * @returns
  */
-const withHeadlessConfig = (nextConfig) => {
+const withHeadlessConfig = (nextConfig = {}) => {
 	return {
 		...nextConfig,
 		webpack: (config) => {
@@ -38,6 +38,10 @@ const withHeadlessConfig = (nextConfig) => {
  *
  * @type {import('next').NextConfig}
  */
-const nextConfig = {};
+const nextConfig = {
+	images: {
+		domains: ['elasticpress.test', 'js1.10up.com'],
+	},
+};
 
 module.exports = withHeadlessConfig(nextConfig);
