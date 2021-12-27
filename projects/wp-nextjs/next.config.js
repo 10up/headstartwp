@@ -40,7 +40,7 @@ const withHeadlessConfig = (nextConfig = {}) => {
  */
 const nextConfig = {
 	images: {
-		domains: ['elasticpress.test'],
+		domains: ['elasticpress.test', 'js1.10up.com'],
 	},
 };
 
