@@ -22,6 +22,7 @@ export interface PostsArchiveParams extends EndpointParams {
 	include: number[];
 	offset: number;
 	order: 'asc' | 'desc';
+	postType: string | { slug: string; endpoint: string };
 	slug: string | string[];
 	orderby:
 		| 'author'
@@ -60,7 +61,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	buildEndpointURL(params: PostsArchiveParams) {
 		// don't use the category slug to build out the URL endpoint
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { category, ...endpointParams } = params;
+		const { category, postType, ...endpointParams } = params;
 
 		return super.buildEndpointURL(endpointParams);
 	}
@@ -78,6 +79,18 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			} else {
 				throw new Error('Category not found');
 			}
+		}
+
+		const { postType } = params;
+		switch (typeof postType) {
+			case 'string':
+				finalUrl = finalUrl.replace('posts', postType);
+				break;
+			case 'object':
+				finalUrl = finalUrl.replace('/posts', postType.endpoint);
+				break;
+			default:
+				break;
 		}
 
 		return super.fetcher(finalUrl, params);

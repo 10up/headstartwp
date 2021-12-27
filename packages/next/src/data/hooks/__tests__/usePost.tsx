@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { FC } from 'react';
+// eslint-disable-next-line
 import { SettingsProvider } from '@10up/headless-core';
 
 import { usePost } from '../usePost';
@@ -16,7 +17,11 @@ jest.mock('next/router', () => ({
 }));
 
 const wrapper: FC = ({ children }) => (
-	<SettingsProvider settings={{ url: 'https://js1.10up.com' }}>{children}</SettingsProvider>
+	<SettingsProvider
+		settings={{ url: 'https://js1.10up.com', customPostTypes: [], redirectStrategy: 'none' }}
+	>
+		{children}
+	</SettingsProvider>
 );
 
 describe('usePost', () => {

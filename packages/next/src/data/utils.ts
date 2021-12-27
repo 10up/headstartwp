@@ -6,7 +6,7 @@ import {
 	SearchFetchStrategy,
 } from '@10up/headless-core';
 // eslint-disable-next-line import/no-unresolved
-import { getRedirectStrategy } from '@10up/headless-core/utils';
+import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
 type HookType = 'usePosts' | 'usePost' | 'useSearch';
@@ -72,7 +72,7 @@ export async function handleError(
 	error: Error,
 	ctx: GetServerSidePropsContext,
 ): Promise<GetServerSidePropsResult<{}>> {
-	const redirectStrategy = getRedirectStrategy();
+	const { redirectStrategy } = getHeadlessConfig();
 
 	if (redirectStrategy === '404' && ctx.req.url) {
 		const redirect = await fetchRedirect(ctx.req.url);
