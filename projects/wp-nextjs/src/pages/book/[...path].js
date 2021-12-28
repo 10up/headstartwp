@@ -1,17 +1,17 @@
 // eslint-disable-next-line
 import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
+// eslint-disable-next-line
 import { handleError } from '@10up/headless-next';
-import { Blocks } from '../../components/Blocks';
 
 const Template = () => {
-	const { data } = usePost();
+	const { data } = usePost({ postType: 'book' });
 
 	return (
 		<div>
 			{data ? (
 				<>
 					<h1>{data.post.title.rendered}</h1>
-					<Blocks html={data.post.content.rendered} />
+					{data.post.content.rendered}
 				</>
 			) : (
 				'loading...'
@@ -24,7 +24,7 @@ export default Template;
 
 export async function getServerSideProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context);
+		const hookData = await fetchHookData('usePost', context, { postType: 'book' });
 
 		return addHookData(hookData, {});
 	} catch (e) {

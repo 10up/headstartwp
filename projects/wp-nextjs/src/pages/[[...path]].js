@@ -12,6 +12,8 @@ const Memoized = memo(FakeComponent);
 
 const Home = () => {
 	const { loading, data } = usePosts();
+	// const { loading, data } = usePosts({ postType: 'book' });
+	// const { loading, data } = usePosts({ postType: { slug: 'books', endpoint: '/book' } });
 	const { setUser } = useUser();
 	const name = useUserSelector((user) => user?.name);
 
@@ -41,6 +43,10 @@ export default Home;
 export async function getServerSideProps(context) {
 	try {
 		const hookData = await fetchHookData('usePosts', context);
+		// const hookData = await fetchHookData('usePosts', context, { postType: 'book' });
+		// const hookData = await fetchHookData('usePosts', context, {
+		// 	postType: { slug: 'books', endpoint: '/book' },
+		// });
 
 		return addHookData(hookData, {});
 	} catch (e) {

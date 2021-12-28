@@ -21,6 +21,10 @@
     "./components": {
       "import": "./dist/mjs/components/index.js",
       "require": "./dist/cjs/components/index.js"
+    },
+    "./blocks": {
+      "import": "./dist/mjs/blocks/index.js",
+      "require": "./dist/cjs/blocks/index.js"
     }
   },
   "scripts": {
@@ -34,6 +38,7 @@
   "license": "ISC",
   "dependencies": {
     "@10up/headless-core": "^1.0.0",
+    "html-react-parser": "^1.4.3",
     "swr": "^1.0.1"
   },
   "devDependencies": {

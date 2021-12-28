@@ -2,15 +2,25 @@ import { NextRequest, NextResponse } from 'next/server';
 // eslint-disable-next-line
 import { parsePath, postsMatchers, postMatchers, searchMatchers } from '@10up/headless-core/data';
 // eslint-disable-next-line import/no-unresolved
-import { fetchRedirect, getRedirectStrategy } from '@10up/headless-core/utils';
+import { fetchRedirect, getHeadlessConfig } from '@10up/headless-core/utils';
 
 const matchers = [
-	{ rewrite: '/[[...path]]', matcher: postsMatchers },
-	{ rewrite: '/search/[...path]', matcher: searchMatchers },
-	{ rewrite: '/post/[...path]', matcher: postMatchers },
+	{ rewrite: '', matcher: postsMatchers },
+	{ rewrite: '/search', matcher: searchMatchers },
+	{ rewrite: '/post', matcher: postMatchers },
 ];
 
+function isCustomPostType(pathname: string) {
+	const postType = pathname.split('/')[1];
+	const { customPostTypes } = getHeadlessConfig();
+	return customPostTypes.includes(postType);
+}
+
 function getRewriteRequest(pathname: string) {
+	if (isCustomPostType(pathname)) {
+		return false;
+	}
+
 	for (const { matcher, rewrite } of matchers) {
 		const parsedPath = parsePath(matcher, pathname);
 
@@ -27,7 +37,7 @@ function isStaticAssetRequest(req: NextRequest) {
 }
 
 export async function AppMiddleware(req: NextRequest) {
-	const redirectStrategy = getRedirectStrategy();
+	const { redirectStrategy } = getHeadlessConfig();
 
 	if (isStaticAssetRequest(req)) {
 		return NextResponse.next();
@@ -46,7 +56,7 @@ export async function AppMiddleware(req: NextRequest) {
 	const rewrite = getRewriteRequest(pathname);
 
 	if (rewrite) {
-		return NextResponse.rewrite(rewrite);
+		return NextResponse.rewrite(`${rewrite}${pathname}`);
 	}
 
 	return NextResponse.next();
