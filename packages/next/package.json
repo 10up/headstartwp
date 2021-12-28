@@ -25,6 +25,10 @@
     "./blocks": {
       "import": "./dist/mjs/blocks/index.js",
       "require": "./dist/cjs/blocks/index.js"
+    },
+    "./utils": {
+      "import": "./dist/mjs/utils/index.js",
+      "require": "./dist/cjs/utils/index.js"
     }
   },
   "scripts": {
