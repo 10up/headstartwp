@@ -25,7 +25,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}, headlessConfig =
 		webpack: (config, { webpack }) => {
 			config.plugins.push(
 				new webpack.DefinePlugin({
-					HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {
+					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {
 						return JSON.stringify(headlessConfig);
 					}),
 				}),
