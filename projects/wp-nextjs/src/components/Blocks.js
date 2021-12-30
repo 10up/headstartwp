@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 // eslint-disable-next-line
-import { isAnchorTag, isImageTag, isReplaceableAnchorTag } from '@10up/headless-core/dom';
+import { isAnchorTag, isImageTag } from '@10up/headless-core/dom';
 // eslint-disable-next-line
 import { ImageBlock, LinkBlock } from '@10up/headless-next/blocks';
-
-// css for blocks
-import '@wordpress/block-library/build-style/style.css';
-import '@wordpress/block-library/build-style/theme.css';
 
 /**
  * This is an exmaple of a test function. This one checks if the node is a blockquote
