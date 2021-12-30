@@ -1,62 +1,69 @@
 import { DOMNode, Element } from 'html-react-parser';
-import { getWPUrl } from '..';
-import { isExternalUrl } from '../utils/isExternalUrl';
-import { removeSourceUrl } from '../utils/removeSourceUrl';
+import { isInternalLink } from '../utils/isInternalLink';
+
+type isAnchorTagOptions = {
+	isInternalLink?: boolean;
+};
 
 /**
  * Checks if the provided node is an valid anchor tag
  *
  * @param node The node to test
- *
+ * @param options Supported options
  * @returns
  */
-export function isAnchorTag(node: DOMNode): node is Element {
+export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): node is Element {
 	if (!(node instanceof Element)) {
 		return false;
 	}
 
-	return node.type === 'tag' && node.name === 'a' && typeof node?.attribs?.href === 'string';
-}
+	const isAnchor =
+		node.type === 'tag' && node.name === 'a' && typeof node?.attribs?.href === 'string';
 
-/**
- * Checks if a anchor tag should be replaced with a Link component
- *
- * @param node The node to test
- *
- * @returns true if anchor tag should be replaced
- */
-export function isReplaceableAnchorTag(node: DOMNode) {
-	if (!isAnchorTag(node)) {
+	if (!isAnchor) {
 		return false;
 	}
 
-	const { href, target } = node.attribs;
+	if (options?.isInternalLink) {
+		const { href, target } = node.attribs;
 
-	// there's no client side rendering on links that opens in a new tab
-	if (target === '_blank') {
-		return false;
-	}
+		// there's no client side rendering on links that opens in a new tab
+		if (target === '_blank') {
+			return false;
+		}
 
-	const link = removeSourceUrl({ link: href, backendUrl: getWPUrl() });
-
-	if (isExternalUrl(link)) {
-		return false;
+		return isInternalLink(href);
 	}
 
 	return true;
 }
 
+type isImageTagOptions = {
+	hasDimensions?: boolean;
+};
+
 /**
  * Checks if the provided node is an valid image tag
  *
  * @param node The node to test
- *
+ * @param options Supported options.
  * @returns
  */
-export function isImageTag(node: DOMNode) {
+export function isImageTag(node: DOMNode, options: isImageTagOptions = {}) {
 	if (!(node instanceof Element)) {
 		return false;
 	}
 
-	return node.type === 'tag' && node.name === 'img' && typeof node?.attribs?.src === 'string';
+	const isImage =
+		node.type === 'tag' && node.name === 'img' && typeof node?.attribs?.src === 'string';
+
+	if (!isImage) {
+		return false;
+	}
+
+	if (options?.hasDimensions) {
+		return node?.attribs?.width && node?.attribs?.height;
+	}
+
+	return true;
 }
