@@ -14,8 +14,8 @@ export type ImageBlockProps = {
  * @returns The next/image component
  */
 export const ImageBlock = ({ domNode }: ImageBlockProps) => {
-	const { src, alt, className, width, height } = domNode.attribs;
-
+	const { src, alt, width, height } = domNode.attribs;
+	const className = domNode.attribs.class;
 	const layout = width && height ? 'intrinsic' : 'fill';
 
 	return (

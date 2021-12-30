@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 // eslint-disable-next-line
-import { isImageTag, isReplaceableAnchorTag } from '@10up/headless-core/dom';
+import { isAnchorTag, isImageTag } from '@10up/headless-core/dom';
 // eslint-disable-next-line
 import { ImageBlock, LinkBlock } from '@10up/headless-next/blocks';
 
@@ -32,7 +32,7 @@ const ExampleBlockQuote = ({ domNode, children }) => {
 	const { id } = domNode.attribs;
 
 	/**
-	 * if the block is complex you probably want to split the Block component with the actual Ract component
+	 * if the block is complex you probably want to split the Block component with the actual React component
 	 * return <MyBlokquote>{children}</MyBlockquote>
 	 */
 	return (
@@ -53,11 +53,13 @@ ExampleBlockQuote.propTypes = {
 
 export const Blocks = ({ html }) => {
 	return (
-		<BlocksRenderer html={html}>
-			<LinkBlock test={isReplaceableAnchorTag} />
-			<ImageBlock test={isImageTag} />
-			<ExampleBlockQuote test={isBlockQuote} />
-		</BlocksRenderer>
+		<div style={{ position: 'relative' }}>
+			<BlocksRenderer html={html}>
+				<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true })} />
+				<ImageBlock test={(node) => isImageTag(node, { hasDimensions: true })} />
+				<ExampleBlockQuote test={isBlockQuote} />
+			</BlocksRenderer>
+		</div>
 	);
 };
 
