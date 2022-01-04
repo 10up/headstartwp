@@ -2,9 +2,7 @@ import { BlocksRenderer } from '@10up/headless-core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-// eslint-disable-next-line
 import { isAnchorTag, isImageTag } from '@10up/headless-core/dom';
-// eslint-disable-next-line
 import { ImageBlock, LinkBlock } from '@10up/headless-next/blocks';
 
 /**

@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headless-next';
 
 const Home = () => {

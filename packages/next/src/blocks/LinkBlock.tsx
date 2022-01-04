@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Element } from 'html-react-parser';
 import { PropsWithChildren } from 'react';
-// eslint-disable-next-line
 import { removeSourceUrl } from '@10up/headless-core/utils';
 import { useSettings } from '@10up/headless-core';
 

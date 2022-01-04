@@ -5,7 +5,6 @@ import {
 	fetchRedirect,
 	SearchFetchStrategy,
 } from '@10up/headless-core';
-// eslint-disable-next-line import/no-unresolved
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 

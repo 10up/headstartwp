@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-// eslint-disable-next-line
 import { parsePath, postsMatchers, postMatchers, searchMatchers } from '@10up/headless-core/data';
-// eslint-disable-next-line import/no-unresolved
 import { fetchRedirect, getHeadlessConfig } from '@10up/headless-core/utils';
 
 const matchers = [
