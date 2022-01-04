@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-// eslint-disable-next-line
 import { parsePath, postsMatchers, postMatchers, searchMatchers } from '@10up/headless-core/data';
-// eslint-disable-next-line import/no-unresolved
 import { fetchRedirect, getHeadlessConfig } from '@10up/headless-core/utils';
 
+const ALLOWED_STATIC_PATHS = /^\/.*\.(ico|png|jpg|jpeg)$/g;
+
 const matchers = [
-	{ rewrite: '', matcher: postsMatchers },
-	{ rewrite: '/search', matcher: searchMatchers },
-	{ rewrite: '/post', matcher: postMatchers },
+	{ rewrite: '', matcher: postsMatchers, shouldRewrite: false },
+	{ rewrite: '/search', matcher: searchMatchers, shouldRewrite: false },
+	{ rewrite: '/post', matcher: postMatchers, shouldRewrite: true },
 ];
 
 function isCustomPostType(pathname: string) {
@@ -21,11 +21,11 @@ function getRewriteRequest(pathname: string) {
 		return false;
 	}
 
-	for (const { matcher, rewrite } of matchers) {
+	for (const { matcher, rewrite, shouldRewrite } of matchers) {
 		const parsedPath = parsePath(matcher, pathname);
 
 		if (Object.keys(parsedPath).length > 0) {
-			return rewrite;
+			return shouldRewrite ? rewrite : false;
 		}
 	}
 
@@ -33,7 +33,7 @@ function getRewriteRequest(pathname: string) {
 }
 
 function isStaticAssetRequest(req: NextRequest) {
-	return req.nextUrl.pathname === '/favicon.ico';
+	return req.nextUrl.pathname.match(ALLOWED_STATIC_PATHS);
 }
 
 export async function AppMiddleware(req: NextRequest) {
@@ -56,7 +56,8 @@ export async function AppMiddleware(req: NextRequest) {
 	const rewrite = getRewriteRequest(pathname);
 
 	if (rewrite) {
-		return NextResponse.rewrite(`${rewrite}${pathname}`);
+		// TODO: disabling rewrites as the way this is setup completely bypass next.config.js rewrites
+		// return NextResponse.rewrite(`${rewrite}${pathname}`);
 	}
 
 	return NextResponse.next();

@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import { HeadlessApp } from '@10up/headless-next/components';
 
 // css for blocks

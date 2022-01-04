@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
 import { handleError } from '@10up/headless-next';
 import { Blocks } from '../../components/Blocks';

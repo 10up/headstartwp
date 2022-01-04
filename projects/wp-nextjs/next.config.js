@@ -1,7 +1,6 @@
-const fs = require('fs'); // eslint-disable-line
-const path = require('path'); // eslint-disable-line
+const fs = require('fs');
+const path = require('path');
 
-// eslint-disable-next-line
 const { withHeadlessConfig } = require('@10up/headless-next/utils');
 
 const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
