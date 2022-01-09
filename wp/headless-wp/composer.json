@@ -13,7 +13,7 @@
   },
   "autoload": {
     "psr-4": {
-      "TenupHeadless\\": "includes/classes/"
+      "HeadlessWP\\": "includes/classes/"
     }
   },
   "scripts": {

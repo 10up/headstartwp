@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
 	try {
 		const hookData = await fetchHookData('useSearch', context);
 
-		return addHookData(hookData, {});
+		return addHookData([hookData], {});
 	} catch (e) {
 		return handleError(e, context);
 	}
