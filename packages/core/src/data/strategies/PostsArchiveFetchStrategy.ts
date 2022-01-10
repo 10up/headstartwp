@@ -7,6 +7,7 @@ import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 const categoryEndpoint = '/wp-json/wp/v2/categories';
+const tagsEndpoint = '/wp-json/wp/v2/tags';
 
 export interface PostsArchiveParams extends EndpointParams {
 	page: number;
@@ -62,7 +63,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	buildEndpointURL(params: PostsArchiveParams) {
 		// don't use the category slug to build out the URL endpoint
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { category, postType, ...endpointParams } = params;
+		const { category, tag, postType, ...endpointParams } = params;
 
 		return super.buildEndpointURL(endpointParams);
 	}
@@ -71,7 +72,6 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		let finalUrl = url;
 		const settings = getHeadlessConfig();
 
-		// TODO: check if it's using the REST API WP Plugin to avoid an additional REST call
 		if (params?.category) {
 			const { category } = params;
 
@@ -84,9 +84,26 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 				);
 
 				if (categories.json.length > 0) {
-					finalUrl = addQueryArgs(finalUrl, { category: categories.json[0].id });
+					finalUrl = addQueryArgs(finalUrl, { categories: categories.json[0].id });
 				} else {
 					throw new Error('Category not found');
+				}
+			}
+		}
+
+		if (params?.tag) {
+			const { tag } = params;
+
+			if (settings.useWordPressPlugin) {
+				// WordPress plugin extends the REST API to accept a category slug instead of just an id
+				finalUrl = addQueryArgs(finalUrl, { post_tag: tag });
+			} else {
+				const tags = await apiGet(`${this.baseURL}${tagsEndpoint}?slug=${tag}`);
+
+				if (tags.json.length > 0) {
+					finalUrl = addQueryArgs(finalUrl, { tags: tags.json[0].id });
+				} else {
+					throw new Error('Tag not found');
 				}
 			}
 		}
