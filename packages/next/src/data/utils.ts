@@ -4,22 +4,25 @@ import {
 	getWPUrl,
 	fetchRedirect,
 	SearchFetchStrategy,
+	AppSettingsStrategy,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-type HookType = 'usePosts' | 'usePost' | 'useSearch';
+type HookType = 'usePosts' | 'usePost' | 'useSearch' | 'useAppSettings';
 
 const strategies = {
 	usePosts: PostsArchiveFetchStrategy,
 	usePost: SinglePostFetchStrategy,
 	useSearch: SearchFetchStrategy,
+	useAppSettings: AppSettingsStrategy,
 };
 
 const endpoints = {
 	usePosts: '/wp-json/wp/v2/posts',
 	usePost: '/wp-json/wp/v2/posts',
 	useSearch: '/wp-json/wp/v2/search',
+	useAppSettings: '/wp-json/headless-wp/v1/app',
 };
 
 export async function fetchHookData(type: HookType, ctx: GetServerSidePropsContext, params) {
@@ -44,13 +47,21 @@ type HookState = {
 	data: any;
 };
 
-export function addHookData(hookState: HookState, nextProps) {
-	const { key, data } = hookState;
+export function addHookData(hookStates: HookState[], nextProps) {
 	const { props = {}, ...rest } = nextProps;
+	const fallback = {};
+	let seo_json = {};
+	let yoast_head = '';
 
-	// take yoast_seo data
-	const seo_json = data?.yoast_head_json || data?.[0]?.yoast_head_json || {};
-	const yoast_head = data?.yoast_head || data?.[0]?.yoast_head || '';
+	hookStates.forEach((hookState) => {
+		const { key, data } = hookState;
+
+		// take yoast_seo data
+		seo_json = data?.yoast_head_json || data?.[0]?.yoast_head_json || seo_json;
+		yoast_head = data?.yoast_head || data?.[0]?.yoast_head || yoast_head;
+
+		fallback[key] = data;
+	});
 
 	return {
 		...rest,
@@ -60,9 +71,7 @@ export function addHookData(hookState: HookState, nextProps) {
 				yoast_head_json: seo_json,
 				yoast_head,
 			},
-			fallback: {
-				[key]: data,
-			},
+			fallback,
 		},
 	};
 }

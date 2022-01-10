@@ -1,7 +1,18 @@
-import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headless-next';
+import {
+	usePosts,
+	fetchHookData,
+	addHookData,
+	handleError,
+	useAppSettings,
+	useMenu,
+} from '@10up/headless-next';
 
 const Home = () => {
 	const { loading, data } = usePosts();
+	const appSettings = useAppSettings();
+	console.log(appSettings);
+	const primaryMenu = useMenu('primary');
+	console.log(primaryMenu);
 	// const { loading, data } = usePosts({ postType: 'book' });
 	// const { loading, data } = usePosts({ postType: { slug: 'books', endpoint: '/book' } });
 
@@ -20,13 +31,14 @@ export default Home;
 
 export async function getServerSideProps(context) {
 	try {
-		const hookData = await fetchHookData('usePosts', context);
+		const postsData = await fetchHookData('usePosts', context);
+		const appData = await fetchHookData('useAppSettings', context);
 		// const hookData = await fetchHookData('usePosts', context, { postType: 'book' });
 		// const hookData = await fetchHookData('usePosts', context, {
 		// 	postType: { slug: 'books', endpoint: '/book' },
 		// });
 
-		return addHookData(hookData, {});
+		return addHookData([postsData, appData], {});
 	} catch (e) {
 		return handleError(e, context);
 	}
