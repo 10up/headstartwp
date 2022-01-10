@@ -20,8 +20,8 @@ class Plugin {
 
 		add_action( 'init', [ $this, 'i18n' ] );
 
-		// $links = new Links();
-		// $links->register();
+		$links = new Links();
+		$links->register();
 
 		$rest_api = new API();
 		$rest_api->register();

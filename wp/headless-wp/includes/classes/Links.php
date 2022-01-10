@@ -21,10 +21,16 @@ class Links {
 	 * Set up any hooks
 	 */
 	public function register() {
-		add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
-		add_action( 'init', array( $this, 'hook_home_url_filter' ) );
-		add_action( 'rest_api_init', array( $this, 'hook_home_url_filter' ) );
-		add_action( 'admin_init', array( $this, 'hook_home_url_filter' ) );
+		// if request method is HEAD then the headless site is making a HEAD request to figure out redirects, so don't mess with redirects or home_url
+		$request_method = $_SERVER['REQUEST_METHOD'];
+
+		if ( 'HEAD' !== $request_method ) {
+			add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
+			add_action( 'init', array( $this, 'hook_home_url_filter' ) );
+			add_action( 'rest_api_init', array( $this, 'hook_home_url_filter' ) );
+			add_action( 'admin_init', array( $this, 'hook_home_url_filter' ) );
+		}
+
 		add_filter( 'post_link', array( $this, 'maybe_prepend_posts' ), 10, 3 );
 		add_filter( 'term_link', array( $this, 'maybe_prepend_posts' ), 10, 3 );
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
@@ -33,7 +39,9 @@ class Links {
 
 		// We need to hook in early so that the home filter will work when validating an auth token
 		if ( isset( $_SERVER['HTTP_AUTHORIZATION'] ) && $_SERVER['HTTP_AUTHORIZATION'] && false !== strpos( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ), 'Bearer' ) ) {
-			add_action( 'plugin_loaded', array( $this, 'hook_home_url_filter' ) );
+			if ( 'HEAD' !== $request_method ) {
+				add_action( 'plugin_loaded', array( $this, 'hook_home_url_filter' ) );
+			}
 		}
 	}
 
