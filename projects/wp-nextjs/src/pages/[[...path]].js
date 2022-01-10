@@ -4,12 +4,15 @@ import {
 	addHookData,
 	handleError,
 	useAppSettings,
+	useMenu,
 } from '@10up/headless-next';
 
 const Home = () => {
 	const { loading, data } = usePosts();
 	const appSettings = useAppSettings();
 	console.log(appSettings);
+	const primaryMenu = useMenu('primary');
+	console.log(primaryMenu);
 	// const { loading, data } = usePosts({ postType: 'book' });
 	// const { loading, data } = usePosts({ postType: { slug: 'books', endpoint: '/book' } });
 

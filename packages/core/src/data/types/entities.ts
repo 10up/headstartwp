@@ -652,3 +652,26 @@ export interface SearchEntity extends Entity {
 	 */
 	subtype: 'post' | 'page' | 'category' | 'post_tag';
 }
+
+export type Redirect = {
+	ID: number;
+	post_status: string;
+	redirect_from: string;
+	redirect_to: string;
+	status_code: number;
+	enable_regex: boolean;
+};
+
+export interface AppEntity extends Entity {
+	menus: {
+		[k: string]: PostEntity[];
+	};
+	settings: {
+		site_name: string;
+		site_desc: string;
+		site_wp_url: string;
+		site_rss_url: string;
+		posts_per_page: string;
+	};
+	redirects: Redirect[];
+}
