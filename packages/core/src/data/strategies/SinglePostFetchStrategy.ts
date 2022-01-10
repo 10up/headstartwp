@@ -4,7 +4,8 @@ import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 export interface PostParams extends EndpointParams {
-	slug: string;
+	id?: number;
+	slug?: string;
 	postType?: string | { slug: string; endpoint: string };
 }
 
@@ -21,7 +22,11 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 
 	buildEndpointURL(params: PostParams) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { postType, ...endpointParams } = params;
+		const { postType, id, ...endpointParams } = params;
+
+		if (id) {
+			return `${this.endpoint}/${id}`;
+		}
 
 		return super.buildEndpointURL(endpointParams);
 	}
@@ -40,6 +45,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 			default:
 				break;
 		}
+
 		return super.fetcher(finalUrl, params);
 	}
 }

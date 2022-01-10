@@ -9,7 +9,7 @@ export type CustomPostTypes = string[];
 export type RedirectStrategy = '404' | 'none' | 'always';
 
 export type HeadlessConfig = {
-	customPostTypes: CustomPostTypes;
-	redirectStrategy: RedirectStrategy;
-	useWordPressPlugin: boolean;
+	customPostTypes?: CustomPostTypes;
+	redirectStrategy?: RedirectStrategy;
+	useWordPressPlugin?: boolean;
 };

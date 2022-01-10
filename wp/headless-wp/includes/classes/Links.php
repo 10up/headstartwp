@@ -237,11 +237,10 @@ class Links {
 			);
 
 		return sprintf(
-			'%s_preview/%s/%d/%s%s',
+			'%sapi/preview?post_type=%s&id=%d&token=%s',
 			trailingslashit( Plugin::get_react_url() ),
 			$this->get_post_type_object_rest_slug( $post_type_object ),
 			intval( is_null( $revision_post_type_object ) ? $preview_post->ID : $preview_post->post_parent ),
-			$revision_subpath,
 			wp_create_nonce( 'wp_rest' )
 		);
 	}
