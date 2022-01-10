@@ -11,4 +11,5 @@ export type RedirectStrategy = '404' | 'none' | 'always';
 export type HeadlessConfig = {
 	customPostTypes: CustomPostTypes;
 	redirectStrategy: RedirectStrategy;
+	useWordPressPlugin: boolean;
 };

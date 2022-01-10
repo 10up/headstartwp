@@ -84,7 +84,7 @@ export async function handleError(
 
 	if (redirectStrategy === '404' && ctx.req.url) {
 		const redirect = await fetchRedirect(ctx.req.url);
-
+		console.log(redirect);
 		if (redirect.location) {
 			return {
 				redirect: {

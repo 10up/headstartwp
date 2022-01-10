@@ -1,4 +1,5 @@
 import { addQueryArgs } from '@wordpress/url';
+import { getHeadlessConfig } from '../../utils';
 import { apiGet } from '../api';
 import { PostEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
@@ -68,16 +69,25 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 	async fetcher(url: string, params: PostsArchiveParams) {
 		let finalUrl = url;
+		const settings = getHeadlessConfig();
 
+		// TODO: check if it's using the REST API WP Plugin to avoid an additional REST call
 		if (params?.category) {
 			const { category } = params;
 
-			const categories = await apiGet(`${this.baseURL}${categoryEndpoint}?slug=${category}`);
-
-			if (categories.json.length > 0) {
-				finalUrl = addQueryArgs(finalUrl, { category: categories.json[0].id });
+			if (settings.useWordPressPlugin) {
+				// WordPress plugin extends the REST API to accept a category slug instead of just an id
+				finalUrl = addQueryArgs(finalUrl, { category });
 			} else {
-				throw new Error('Category not found');
+				const categories = await apiGet(
+					`${this.baseURL}${categoryEndpoint}?slug=${category}`,
+				);
+
+				if (categories.json.length > 0) {
+					finalUrl = addQueryArgs(finalUrl, { category: categories.json[0].id });
+				} else {
+					throw new Error('Category not found');
+				}
 			}
 		}
 

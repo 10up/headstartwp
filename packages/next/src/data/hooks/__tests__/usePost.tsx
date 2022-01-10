@@ -18,7 +18,11 @@ jest.mock('next/router', () => ({
 
 const wrapper: FC = ({ children }) => (
 	<SettingsProvider
-		settings={{ url: 'https://js1.10up.com', customPostTypes: [], redirectStrategy: 'none' }}
+		settings={{
+			url: 'https://js1.10up.com',
+			customPostTypes: [],
+			redirectStrategy: 'none',
+		}}
 	>
 		{children}
 	</SettingsProvider>

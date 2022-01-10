@@ -20,8 +20,8 @@ class Plugin {
 
 		add_action( 'init', [ $this, 'i18n' ] );
 
-		$links = new Links();
-		$links->register();
+		// $links = new Links();
+		// $links->register();
 
 		$rest_api = new API();
 		$rest_api->register();
@@ -40,9 +40,6 @@ class Plugin {
 	 * Clean up admin menus
 	 */
 	public function clean_up_menus() {
-		/*global $submenu;
-		var_dump($submenu);
-		exit;*/
 		remove_submenu_page( 'options-general.php', 'options-permalink.php' );
 		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 		remove_submenu_page( 'themes.php', 'customize.php?return=%2Fwp-admin%2Foptions-reading.php' );
