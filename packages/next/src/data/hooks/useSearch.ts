@@ -18,20 +18,18 @@ const fetchStrategy = new SearchFetchStrategy();
  * @returns
  */
 export function useSearch(params: SearchParams): useSearchResponse {
-	const { data: items, error } = useFetch<SearchEntity, SearchParams>(
-		endpoint,
-		params,
-		fetchStrategy,
-	);
+	const { data, error } = useFetch<SearchEntity, SearchParams>(endpoint, params, fetchStrategy);
 
 	if (error) {
 		return { error, loading: false };
 	}
 
-	if (!items) {
+	if (!data) {
 		return { loading: true };
 	}
 
+	const items = data as unknown as SearchEntity[];
+
 	// TODO: fix types
-	return { data: { items: items as unknown as SearchEntity[] }, loading: false };
+	return { data: { items }, loading: false };
 }

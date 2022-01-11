@@ -33,8 +33,10 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 
 	const shouldFetch = options?.shouldFetch ? options.shouldFetch : () => true;
 
-	return useSWR(
+	const result = useSWR(
 		shouldFetch() ? fetchStrategy.buildEndpointURL(finalParams) : null,
 		(url: string) => fetchStrategy.fetcher(url, finalParams),
 	);
+
+	return { ...result, params: finalParams };
 }

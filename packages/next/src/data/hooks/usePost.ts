@@ -1,4 +1,5 @@
 import { PostEntity, PostParams, SinglePostFetchStrategy } from '@10up/headless-core';
+import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -34,20 +35,9 @@ export function usePost(params: PostParams): usePostResponse {
 
 	// TODO: fix types
 	const post = data[0] as PostEntity;
-	post.author = post._embedded.author;
-	post.terms = {};
-	post._embedded['wp:term'].forEach((taxonomy) => {
-		taxonomy.forEach((term) => {
-			const taxonomySlug = term.taxonomy;
-			if (post.terms) {
-				if (typeof post.terms[taxonomySlug] === 'undefined') {
-					post.terms[taxonomySlug] = [];
-				}
 
-				post.terms[taxonomySlug].push(term);
-			}
-		});
-	});
+	post.author = getPostAuthor(post);
+	post.terms = getPostTerms(post);
 
 	return { data: { post }, loading: false };
 }
