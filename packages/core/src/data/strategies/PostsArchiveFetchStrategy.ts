@@ -1,5 +1,10 @@
 import { addQueryArgs } from '@wordpress/url';
-import { getHeadlessConfig } from '../../utils';
+import {
+	getHeadlessConfig,
+	getCustomTaxonomySlugs,
+	getCustomTaxonomies,
+	asyncForEach,
+} from '../../utils';
 import { apiGet } from '../api';
 import { PostEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
@@ -65,6 +70,15 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, tag, postType, ...endpointParams } = params;
 
+		const defaultTaxonomies = ['category', 'tag'];
+		const taxonomies = [...defaultTaxonomies, ...getCustomTaxonomySlugs()];
+
+		taxonomies.forEach((taxonomy) => {
+			if (endpointParams[taxonomy]) {
+				delete endpointParams[taxonomy];
+			}
+		});
+
 		return super.buildEndpointURL(endpointParams);
 	}
 
@@ -95,7 +109,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			const { tag } = params;
 
 			if (settings.useWordPressPlugin) {
-				// WordPress plugin extends the REST API to accept a category slug instead of just an id
+				// WordPress plugin extends the REST API to accept a tag slug instead of just an id
 				finalUrl = addQueryArgs(finalUrl, { post_tag: tag });
 			} else {
 				const tags = await apiGet(`${this.baseURL}${tagsEndpoint}?slug=${tag}`);
@@ -106,6 +120,33 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 					throw new Error('Tag not found');
 				}
 			}
+		}
+
+		const customTaxonomies = getCustomTaxonomies();
+		if (customTaxonomies) {
+			// todo: do async foeach
+			await asyncForEach(customTaxonomies, async (taxonomy) => {
+				if (!params[taxonomy.slug]) {
+					return;
+				}
+
+				if (false /* settings.useWordPressPlugin */) {
+					// WordPress plugin extends the REST API to accept a category slug instead of just an id
+					finalUrl = addQueryArgs(finalUrl, { [taxonomy.slug]: params[taxonomy.slug] });
+				} else {
+					const terms = await apiGet(
+						`${this.baseURL}${taxonomy.endpoint}?slug=${params[taxonomy.slug]}`,
+					);
+
+					if (terms.json.length > 0) {
+						finalUrl = addQueryArgs(finalUrl, {
+							[taxonomy.slug]: terms.json[0].id,
+						});
+					} else {
+						throw new Error(`${taxonomy.slug} not found`);
+					}
+				}
+			});
 		}
 
 		const { postType } = params;

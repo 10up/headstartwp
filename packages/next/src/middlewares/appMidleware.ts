@@ -13,7 +13,12 @@ const matchers = [
 function isCustomPostType(pathname: string) {
 	const postType = pathname.split('/')[1];
 	const { customPostTypes } = getHeadlessConfig();
-	return customPostTypes.includes(postType);
+
+	if (customPostTypes) {
+		return customPostTypes.includes(postType);
+	}
+
+	return false;
 }
 
 function getRewriteRequest(pathname: string) {

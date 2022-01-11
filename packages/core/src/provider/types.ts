@@ -7,9 +7,11 @@ export type SettingsContextProps = {
 
 export type CustomPostTypes = string[];
 export type RedirectStrategy = '404' | 'none' | 'always';
+export type CustomTaxonomies = Array<{ slug: string; endpoint: string }>;
 
 export type HeadlessConfig = {
-	customPostTypes: CustomPostTypes;
-	redirectStrategy: RedirectStrategy;
-	useWordPressPlugin: boolean;
+	customPostTypes?: CustomPostTypes;
+	customTaxonomies?: CustomTaxonomies;
+	redirectStrategy?: RedirectStrategy;
+	useWordPressPlugin?: boolean;
 };

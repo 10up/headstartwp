@@ -73,7 +73,7 @@ class API {
 
 		foreach ( $taxonomies as $taxonomy ) {
 
-			if ( ! empty( $_GET[ $taxonomy->name ] ) ) {
+			if ( ! empty( $_GET[ $taxonomy->name ] ) && ! is_numeric( $_GET[ $taxonomy->name ] ) ) {
 
 				// Taxonomy slug was passed, add to the tax filter.
 				$args['tax_query'][] = array(
