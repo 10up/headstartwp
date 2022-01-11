@@ -20,7 +20,7 @@ const fetchStrategy = new PostsArchiveFetchStrategy();
 export function usePosts(params: PostsArchiveParams): usePostsResponse {
 	const { data: posts, error } = useFetch<PostEntity, PostsArchiveParams>(
 		endpoint,
-		params,
+		{ _embed: true, ...params },
 		fetchStrategy,
 	);
 

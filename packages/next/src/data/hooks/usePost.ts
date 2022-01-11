@@ -18,7 +18,11 @@ const fetchStrategy = new SinglePostFetchStrategy();
  * @returns
  */
 export function usePost(params: PostParams): usePostResponse {
-	const { data, error } = useFetch<PostEntity, PostParams>(endpoint, params, fetchStrategy);
+	const { data, error } = useFetch<PostEntity, PostParams>(
+		endpoint,
+		{ _embed: true, ...params },
+		fetchStrategy,
+	);
 
 	if (error) {
 		return { error, loading: false };
@@ -29,5 +33,21 @@ export function usePost(params: PostParams): usePostResponse {
 	}
 
 	// TODO: fix types
-	return { data: { post: data[0] as PostEntity }, loading: false };
+	const post = data[0] as PostEntity;
+	post.author = post._embedded.author;
+	post.terms = {};
+	post._embedded['wp:term'].forEach((taxonomy) => {
+		taxonomy.forEach((term) => {
+			const taxonomySlug = term.taxonomy;
+			if (post.terms) {
+				if (typeof post.terms[taxonomySlug] === 'undefined') {
+					post.terms[taxonomySlug] = [];
+				}
+
+				post.terms[taxonomySlug].push(term);
+			}
+		});
+	});
+
+	return { data: { post }, loading: false };
 }

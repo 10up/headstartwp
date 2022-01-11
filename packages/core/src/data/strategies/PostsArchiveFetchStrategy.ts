@@ -62,7 +62,24 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 		const { path } = params;
 
-		return parsePath(postsMatchers, this.createPathFromArgs(path));
+		const matchers = [...postsMatchers];
+
+		const customTaxonomies = getCustomTaxonomies();
+		customTaxonomies?.forEach((taxonomy) => {
+			matchers.push({
+				name: taxonomy.slug,
+				priority: 30,
+				pattern: `/${taxonomy.slug}/:${taxonomy.slug}`,
+			});
+
+			matchers.push({
+				name: `${taxonomy.slug}-with-pagination`,
+				priority: 30,
+				pattern: `/${taxonomy.slug}/:${taxonomy.slug}/page/:page`,
+			});
+		});
+
+		return parsePath(matchers, this.createPathFromArgs(path));
 	}
 
 	buildEndpointURL(params: PostsArchiveParams) {

@@ -35,7 +35,7 @@ export async function fetchHookData(type: HookType, ctx: GetServerSidePropsConte
 	fetchStrategy.setEndpoint(endpoint);
 
 	const urlParams = fetchStrategy.getParamsFromURL(ctx.query);
-	const finalParams = { ...urlParams, ...params };
+	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
 	const data = await fetchStrategy.fetcher(endpointUrl, finalParams);

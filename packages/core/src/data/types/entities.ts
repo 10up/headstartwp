@@ -89,10 +89,14 @@ export interface PostTypeEntity extends Entity {
 	 */
 	title?: Rendered;
 
-	/**
-	 * The ID for the author of the object.
-	 */
-	author?: number;
+	author?: AuthorEntity[];
+
+	terms?: Record<string, TermEntity[]>;
+
+	_embedded: {
+		author: AuthorEntity[];
+		'wp:term': Array<TermEntity[]>;
+	};
 
 	/**
 	 * Whether or not comments are open on the object.
@@ -174,11 +178,6 @@ export interface PostEntity extends PostTypeEntity {
  * Interface for entities from the /wp/v2/posts/1/revisions endpoint.
  */
 export interface RevisionEntity extends PostTypeEntity {
-	/**
-	 * The ID for the author of the object.
-	 */
-	author?: number;
-
 	/**
 	 * The ID for the parent of the object.
 	 */
