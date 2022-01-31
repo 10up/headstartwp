@@ -146,7 +146,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 					return;
 				}
 
-				if (false /* settings.useWordPressPlugin */) {
+				if (settings.useWordPressPlugin) {
 					// WordPress plugin extends the REST API to accept a category slug instead of just an id
 					finalUrl = addQueryArgs(finalUrl, { [taxonomy.slug]: params[taxonomy.slug] });
 				} else {
