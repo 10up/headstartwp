@@ -1,5 +1,5 @@
 module.exports = {
-	customPostTypes: ['book'],
+	customPostTypes: [{ slug: 'book', endpoint: '/wp-json/wp/v2/book' }],
 	customTaxonomies: [
 		{
 			slug: 'genre',

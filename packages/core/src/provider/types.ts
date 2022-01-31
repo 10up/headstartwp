@@ -5,7 +5,7 @@ export type SettingsContextProps = {
 	linkComponent?: ReactNode;
 } & HeadlessConfig;
 
-export type CustomPostTypes = string[];
+export type CustomPostTypes = Array<{ slug: string; endpoint: string }>;
 export type RedirectStrategy = '404' | 'none' | 'always';
 export type CustomTaxonomies = Array<{ slug: string; endpoint: string }>;
 

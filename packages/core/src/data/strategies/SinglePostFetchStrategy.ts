@@ -1,3 +1,4 @@
+import { getCustomPostType } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
@@ -5,7 +6,7 @@ import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 export interface PostParams extends EndpointParams {
 	slug: string;
-	postType?: string | { slug: string; endpoint: string };
+	postType?: string;
 }
 
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
@@ -23,23 +24,34 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { postType, ...endpointParams } = params;
 
+		if (params.postType) {
+			const postType = getCustomPostType(params.postType);
+
+			if (!postType) {
+				throw new Error(
+					'Unkown post type, did you forget to add it to headless.config.js?',
+				);
+			}
+
+			this.setEndpoint(postType.endpoint);
+		}
+
 		return super.buildEndpointURL(endpointParams);
 	}
 
-	async fetcher(url: string, params: PostParams) {
-		let finalUrl = url;
-		const { postType } = params;
+	/* async fetcher(url: string, params: PostParams) {
+		const finalUrl = url;
 
-		switch (typeof postType) {
-			case 'string':
-				finalUrl = finalUrl.replace('posts', postType);
-				break;
-			case 'object':
-				finalUrl = finalUrl.replace('/posts', postType.endpoint);
-				break;
-			default:
-				break;
+		if (params.postType) {
+			const postType = getCustomPostType(params.postType);
+
+			if (!postType) {
+				throw new Error(
+					'Unkown post type, did you forget to add it to headless.config.js?',
+				);
+			}
 		}
+
 		return super.fetcher(finalUrl, params);
-	}
+	} */
 }
