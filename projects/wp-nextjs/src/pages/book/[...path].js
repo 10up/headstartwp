@@ -10,6 +10,7 @@ const Template = () => {
 				<>
 					<h1>{data.post.title.rendered}</h1>
 					{data.post.content.rendered}
+					<p>Author: {data.post.author[0].name}</p>
 				</>
 			) : (
 				'loading...'

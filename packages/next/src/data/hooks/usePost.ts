@@ -1,4 +1,5 @@
 import { PostEntity, PostParams, SinglePostFetchStrategy } from '@10up/headless-core';
+import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -18,7 +19,11 @@ const fetchStrategy = new SinglePostFetchStrategy();
  * @returns
  */
 export function usePost(params: PostParams): usePostResponse {
-	const { data, error } = useFetch<PostEntity, PostParams>(endpoint, params, fetchStrategy);
+	const { data, error } = useFetch<PostEntity, PostParams>(
+		endpoint,
+		{ _embed: true, ...params },
+		fetchStrategy,
+	);
 
 	if (error) {
 		return { error, loading: false };
@@ -29,5 +34,10 @@ export function usePost(params: PostParams): usePostResponse {
 	}
 
 	// TODO: fix types
-	return { data: { post: data[0] as PostEntity }, loading: false };
+	const post = data[0] as PostEntity;
+
+	post.author = getPostAuthor(post);
+	post.terms = getPostTerms(post);
+
+	return { data: { post }, loading: false };
 }

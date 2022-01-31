@@ -1,4 +1,5 @@
 import { PostEntity, PostsArchiveParams, PostsArchiveFetchStrategy } from '@10up/headless-core';
+import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -18,9 +19,9 @@ const fetchStrategy = new PostsArchiveFetchStrategy();
  * @returns
  */
 export function usePosts(params: PostsArchiveParams): usePostsResponse {
-	const { data: posts, error } = useFetch<PostEntity, PostsArchiveParams>(
+	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
 		endpoint,
-		params,
+		{ _embed: true, ...params },
 		fetchStrategy,
 	);
 
@@ -28,10 +29,18 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 		return { error, loading: false };
 	}
 
-	if (!posts) {
+	if (!data) {
 		return { loading: true };
 	}
 
+	const posts = (data as unknown as PostEntity[]).map((post) => {
+		post.author = getPostAuthor(post);
+		post.terms = getPostTerms(post);
+
+		return post;
+	});
+
 	// TODO: fix types
-	return { data: { posts: posts as unknown as PostEntity[] }, loading: false };
+	// TODO: add flags indicating route
+	return { data: { posts }, loading: false };
 }
