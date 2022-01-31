@@ -141,7 +141,6 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 		const customTaxonomies = getCustomTaxonomies();
 		if (customTaxonomies) {
-			// todo: do async foeach
 			await asyncForEach(customTaxonomies, async (taxonomy) => {
 				if (!params[taxonomy.slug]) {
 					return;

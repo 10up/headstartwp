@@ -51,8 +51,34 @@ class API {
 
 		foreach ( $post_types as $post_type ) {
 			add_filter( "rest_{$post_type}_query", array( $this, 'modify_taxonomy_params' ), 10, 2 );
+			add_filter( "rest_{$post_type}_collection_params", [ $this, 'modify_taxonomy_params_schema' ], 10, 2 );
 		}
 
+	}
+
+	/**
+	 * Filters the default collection params for custom post types to allow querying by taxonomy slug
+	 *
+	 * @param array        $query_params JSON Schema-formatted collection parameters.
+	 * @param WP_Post_Type $post_type    Post type object.
+	 * @return array
+	 */
+ 	public function modify_taxonomy_params_schema( $query_params, $post_type ) {
+		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), [ 'show_in_rest' => true ] );
+
+		if ( ! $taxonomies ) {
+			return $query_params;
+		}
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$base         = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+			$base_exclude = $base . '_exclude';
+
+			$query_params[ $base ]['oneOf'][0]['items']['type'] = [ 'integer', 'string' ];
+			$query_params[ $base_exclude ]['oneOf'][0]['items']['type'] = [ 'integer', 'string' ];
+		}
+
+		return $query_params;
 	}
 
 	/**
@@ -64,24 +90,33 @@ class API {
 	 * @return array - array of args
 	 */
 	public function modify_taxonomy_params( $args, $request ) {
-
 		if ( empty( $args['post_type'] ) ) {
 			return $args;
 		}
 
-		$taxonomies = get_object_taxonomies( $args['post_type'], 'object' );
+		$taxonomies = wp_list_filter( get_object_taxonomies( $args['post_type'], 'objects' ), [ 'show_in_rest' => true ] );
 
 		foreach ( $taxonomies as $taxonomy ) {
+			$term = filter_input( INPUT_GET, $taxonomy->name, FILTER_SANITIZE_STRING );
 
-			if ( ! empty( $_GET[ $taxonomy->name ] ) && ! is_numeric( $_GET[ $taxonomy->name ] ) ) {
-
-				// Taxonomy slug was passed, add to the tax filter.
-				$args['tax_query'][] = array(
-					'taxonomy'         => $taxonomy->name,
-					'field'            => 'slug',
-					'terms'            => sanitize_text_field( $_GET[ $taxonomy->name ] ),
-					'include_children' => false,
-				);
+			if ( ! empty( $term ) && ! is_numeric( $term ) ) {
+				if ( isset( $args['tax_query'] ) ) {
+					$args['tax_query'][0]['field'] = 'slug';
+					$args['tax_query'] = array_map( function( $tax_query ) use ( $taxonomy ) {
+						if ( $tax_query['taxonomy'] === $taxonomy->name ) {
+							$tax_query['field'] = 'slug';
+							return $tax_query;
+						}
+						return $tax_query;
+					}, $args['tax_query'] );
+				} else {
+					$args['tax_query'][] = array(
+						'taxonomy'         => $taxonomy->name,
+						'field'            => 'slug',
+						'terms'            => sanitize_text_field( $term ),
+						'include_children' => false,
+					);
+				}
 			}
 		}
 
