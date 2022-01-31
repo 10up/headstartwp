@@ -50,7 +50,7 @@ type PageType = {
 };
 interface usePostsResponse extends HookResponse {
 	data?: { posts: PostEntity[] };
-	page: PageType;
+	pageType: PageType;
 }
 
 const fetchStrategy = new PostsArchiveFetchStrategy();
@@ -73,7 +73,7 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 		fetchStrategy,
 	);
 
-	const page: PageType = {
+	const pageType: PageType = {
 		isPostArchive: false,
 		isSearch: false,
 		isAuthorArchive: false,
@@ -86,40 +86,40 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 	};
 
 	if (queryParams.author) {
-		page.isPostArchive = true;
-		page.isAuthorArchive = true;
+		pageType.isPostArchive = true;
+		pageType.isAuthorArchive = true;
 	}
 
 	if (queryParams.category) {
-		page.isPostArchive = true;
-		page.isCategoryArchive = true;
+		pageType.isPostArchive = true;
+		pageType.isCategoryArchive = true;
 	}
 
 	if (queryParams.tag) {
-		page.isPostArchive = true;
-		page.isTagArchive = true;
+		pageType.isPostArchive = true;
+		pageType.isTagArchive = true;
 	}
 
 	if (queryParams.postType) {
-		page.isPostArchive = false;
-		page.isPostArchive = true;
-		page.postType = queryParams.postType;
+		pageType.isPostArchive = false;
+		pageType.isPostArchive = true;
+		pageType.postType = queryParams.postType;
 	}
 
 	const taxonomies = getCustomTaxonomySlugs();
 	taxonomies.forEach((taxonmy) => {
 		if (queryParams[taxonmy]) {
-			page.isTaxonomyArchive = true;
-			page.taxonomy = taxonmy;
+			pageType.isTaxonomyArchive = true;
+			pageType.taxonomy = taxonmy;
 		}
 	});
 
 	if (error) {
-		return { error, loading: false, page };
+		return { error, loading: false, pageType };
 	}
 
 	if (!data) {
-		return { loading: true, page };
+		return { loading: true, pageType };
 	}
 
 	const posts = (data as unknown as PostEntity[]).map((post) => {
@@ -131,5 +131,5 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 
 	// TODO: fix types
 	// TODO: add flags indicating route
-	return { data: { posts }, loading: false, page };
+	return { data: { posts }, loading: false, pageType };
 }
