@@ -14,7 +14,6 @@ const Home = () => {
 	// const primaryMenu = useMenu('primary');
 	// console.log(primaryMenu);
 	// const { loading, data } = usePosts({ postType: 'book' });
-	// const { loading, data } = usePosts({ postType: { slug: 'books', endpoint: '/book' } });
 
 	if (error) {
 		return 'error';

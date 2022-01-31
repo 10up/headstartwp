@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parsePath, postsMatchers, postMatchers, searchMatchers } from '@10up/headless-core/data';
-import { fetchRedirect, getHeadlessConfig } from '@10up/headless-core/utils';
+import {
+	fetchRedirect,
+	getHeadlessConfig,
+	getCustomPostTypesSlugs,
+} from '@10up/headless-core/utils';
 
 const ALLOWED_STATIC_PATHS = /^\/.*\.(ico|png|jpg|jpeg)$/g;
 
@@ -12,7 +16,7 @@ const matchers = [
 
 function isCustomPostType(pathname: string) {
 	const postType = pathname.split('/')[1];
-	const { customPostTypes } = getHeadlessConfig();
+	const customPostTypes = getCustomPostTypesSlugs();
 
 	if (customPostTypes) {
 		return customPostTypes.includes(postType);

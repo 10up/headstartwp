@@ -97,6 +97,7 @@ export async function handleError(
 	}
 
 	if (error instanceof Error) {
+		console.log(error);
 		return { notFound: true };
 	}
 

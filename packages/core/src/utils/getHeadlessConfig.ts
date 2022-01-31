@@ -7,7 +7,7 @@ export function getHeadlessConfig() {
 		__10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
-		customPostTypes: customPostTypes || [],
+		customPostTypes,
 		customTaxonomies,
 		redirectStrategy: redirectStrategy || 'none',
 		useWordPressPlugin: useWordPressPlugin || false,
@@ -30,4 +30,26 @@ export function getCustomTaxonomies() {
 	const { customTaxonomies } = getHeadlessConfig();
 
 	return customTaxonomies;
+}
+
+export function getCustomPostTypesSlugs() {
+	const { customPostTypes } = getHeadlessConfig();
+
+	if (!customPostTypes) {
+		return [];
+	}
+
+	return customPostTypes.map(({ slug }) => slug);
+}
+
+export function getCustomPostTypes() {
+	const { customPostTypes } = getHeadlessConfig();
+
+	return customPostTypes;
+}
+
+export function getCustomPostType(slug: string) {
+	const postTypes = getCustomPostTypes();
+
+	return postTypes?.find((postType) => postType.slug === slug);
 }

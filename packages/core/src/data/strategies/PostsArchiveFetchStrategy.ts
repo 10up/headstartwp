@@ -4,6 +4,7 @@ import {
 	getCustomTaxonomySlugs,
 	getCustomTaxonomies,
 	asyncForEach,
+	getCustomPostType,
 } from '../../utils';
 import { apiGet } from '../api';
 import { PostEntity } from '../types';
@@ -29,7 +30,7 @@ export interface PostsArchiveParams extends EndpointParams {
 	include: number[];
 	offset: number;
 	order: 'asc' | 'desc';
-	postType: string | { slug: string; endpoint: string };
+	postType: string;
 	slug: string | string[];
 	orderby:
 		| 'author'
@@ -95,6 +96,18 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 				delete endpointParams[taxonomy];
 			}
 		});
+
+		if (params.postType) {
+			const postType = getCustomPostType(params.postType);
+
+			if (!postType) {
+				throw new Error(
+					'Unkown post type, did you forget to add it to headless.config.js?',
+				);
+			}
+
+			this.setEndpoint(postType.endpoint);
+		}
 
 		return super.buildEndpointURL(endpointParams);
 	}
@@ -163,18 +176,6 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 					}
 				}
 			});
-		}
-
-		const { postType } = params;
-		switch (typeof postType) {
-			case 'string':
-				finalUrl = finalUrl.replace('posts', postType);
-				break;
-			case 'object':
-				finalUrl = finalUrl.replace('/posts', postType.endpoint);
-				break;
-			default:
-				break;
 		}
 
 		return super.fetcher(finalUrl, params);
