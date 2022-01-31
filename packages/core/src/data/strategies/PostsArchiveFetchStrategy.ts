@@ -14,6 +14,7 @@ import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 const categoryEndpoint = '/wp-json/wp/v2/categories';
 const tagsEndpoint = '/wp-json/wp/v2/tags';
+const authorsEndpoint = '/wp-json/wp/v2/users';
 
 export interface PostsArchiveParams extends EndpointParams {
 	page: number;
@@ -24,7 +25,7 @@ export interface PostsArchiveParams extends EndpointParams {
 	day: string;
 	per_page: number;
 	search: string;
-	author: number | number[];
+	author: number | number[] | string;
 	author_exclude: number | number[];
 	exclude: number[];
 	include: number[];
@@ -83,7 +84,8 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		return parsePath(matchers, this.createPathFromArgs(path));
 	}
 
-	buildEndpointURL(params: PostsArchiveParams) {
+	buildEndpointURL(params: Partial<PostsArchiveParams>) {
+		const settings = getHeadlessConfig();
 		// don't use the category slug to build out the URL endpoint
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, tag, postType, ...endpointParams } = params;
@@ -107,6 +109,13 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			}
 
 			this.setEndpoint(postType.endpoint);
+		}
+
+		// if an author slug was passed
+		// and we're not using the WordPress plugin
+		// we don't want to include it in the endpoint as is as we need to fetch the author id first.
+		if (params.author && typeof params.author === 'string' && !settings.useWordPressPlugin) {
+			delete endpointParams.author;
 		}
 
 		return super.buildEndpointURL(endpointParams);
@@ -176,6 +185,22 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 					}
 				}
 			});
+		}
+
+		// check if we need to fetch author id
+		// we need to fetch author id if
+		// 1 - params.author is a string
+		// 2 - We're not using the WP Plugin
+		if (params.author && typeof params.author === 'string' && !settings.useWordPressPlugin) {
+			const authors = await apiGet(`${this.baseURL}${authorsEndpoint}?slug=${params.author}`);
+
+			if (authors.json.length > 0) {
+				finalUrl = addQueryArgs(finalUrl, {
+					author: authors.json[0].id,
+				});
+			} else {
+				throw new Error(`Author not found`);
+			}
 		}
 
 		return super.fetcher(finalUrl, params);

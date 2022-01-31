@@ -50,8 +50,8 @@ class API {
 		);
 
 		foreach ( $post_types as $post_type ) {
-			add_filter( "rest_{$post_type}_query", array( $this, 'modify_taxonomy_params' ), 10, 2 );
-			add_filter( "rest_{$post_type}_collection_params", [ $this, 'modify_taxonomy_params_schema' ], 10, 2 );
+			add_filter( "rest_{$post_type}_query", array( $this, 'modify_rest_params' ), 10, 2 );
+			add_filter( "rest_{$post_type}_collection_params", [ $this, 'modify_rest_params_schema' ], 10, 2 );
 		}
 
 	}
@@ -63,7 +63,7 @@ class API {
 	 * @param WP_Post_Type $post_type    Post type object.
 	 * @return array
 	 */
- 	public function modify_taxonomy_params_schema( $query_params, $post_type ) {
+ 	public function modify_rest_params_schema( $query_params, $post_type ) {
 		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), [ 'show_in_rest' => true ] );
 
 		if ( ! $taxonomies ) {
@@ -78,6 +78,8 @@ class API {
 			$query_params[ $base_exclude ]['oneOf'][0]['items']['type'] = [ 'integer', 'string' ];
 		}
 
+		$query_params['author']['items']['type'] = ['integer', 'string'];
+
 		return $query_params;
 	}
 
@@ -89,9 +91,16 @@ class API {
 	 * @param object - $request
 	 * @return array - array of args
 	 */
-	public function modify_taxonomy_params( $args, $request ) {
+	public function modify_rest_params( $args, $request ) {
 		if ( empty( $args['post_type'] ) ) {
 			return $args;
+		}
+
+		$author = filter_input( INPUT_GET, 'author', FILTER_SANITIZE_STRING );
+
+		if ( !empty( $author ) && !is_numeric( $author ) ) {
+			unset($args['author__in']);
+			$args['author_name'] = $author;
 		}
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $args['post_type'], 'objects' ), [ 'show_in_rest' => true ] );
