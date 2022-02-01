@@ -5,6 +5,8 @@ import {
 	getCustomTaxonomies,
 	asyncForEach,
 	getCustomPostType,
+	ConfigError,
+	NotFoundError,
 } from '../../utils';
 import { apiGet } from '../api';
 import { PostEntity } from '../types';
@@ -86,6 +88,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 	buildEndpointURL(params: Partial<PostsArchiveParams>) {
 		const settings = getHeadlessConfig();
+
 		// don't use the category slug to build out the URL endpoint
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, tag, postType, ...endpointParams } = params;
@@ -103,7 +106,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			const postType = getCustomPostType(params.postType);
 
 			if (!postType) {
-				throw new Error(
+				throw new ConfigError(
 					'Unkown post type, did you forget to add it to headless.config.js?',
 				);
 			}
@@ -139,7 +142,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 				if (categories.json.length > 0) {
 					finalUrl = addQueryArgs(finalUrl, { categories: categories.json[0].id });
 				} else {
-					throw new Error('Category not found');
+					throw new NotFoundError(`Category "${category}" has not been found`);
 				}
 			}
 		}
@@ -156,7 +159,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 				if (tags.json.length > 0) {
 					finalUrl = addQueryArgs(finalUrl, { tags: tags.json[0].id });
 				} else {
-					throw new Error('Tag not found');
+					throw new NotFoundError(`Tag "${tag}" has not been found`);
 				}
 			}
 		}
@@ -181,7 +184,11 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 							[taxonomy.slug]: terms.json[0].id,
 						});
 					} else {
-						throw new Error(`${taxonomy.slug} not found`);
+						throw new NotFoundError(
+							`Term "${params[taxonomy.slug]}" from "${
+								taxonomy.slug
+							}" has not been found`,
+						);
 					}
 				}
 			});
@@ -199,7 +206,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 					author: authors.json[0].id,
 				});
 			} else {
-				throw new Error(`Author not found`);
+				throw new NotFoundError(`Author "${params.author}" not found`);
 			}
 		}
 

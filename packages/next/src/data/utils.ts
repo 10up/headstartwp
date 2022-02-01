@@ -5,6 +5,7 @@ import {
 	fetchRedirect,
 	SearchFetchStrategy,
 	AppSettingsStrategy,
+	NotFoundError,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
@@ -83,23 +84,22 @@ export async function handleError(
 ): Promise<GetServerSidePropsResult<{}>> {
 	const { redirectStrategy } = getHeadlessConfig();
 
-	if (redirectStrategy === '404' && ctx.req.url) {
-		const redirect = await fetchRedirect(ctx.req.url);
+	if (error instanceof NotFoundError) {
+		if (redirectStrategy === '404' && ctx.req.url) {
+			const redirect = await fetchRedirect(ctx.req.url);
 
-		if (redirect.location) {
-			return {
-				redirect: {
-					destination: redirect.location,
-					permanent: false,
-				},
-			};
+			if (redirect.location) {
+				return {
+					redirect: {
+						destination: redirect.location,
+						permanent: false,
+					},
+				};
+			}
 		}
-	}
 
-	if (error instanceof Error) {
-		console.log(error);
 		return { notFound: true };
 	}
 
-	return { notFound: true };
+	throw error;
 }

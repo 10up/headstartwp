@@ -4,3 +4,4 @@ export * from './isExternalUrl';
 export * from './removeSourceUrl';
 export * from './getHeadlessConfig';
 export * from './asyncForEach';
+export * from './errors';
