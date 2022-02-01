@@ -1,6 +1,7 @@
 import { addQueryArgs } from '@wordpress/url';
 import { Entity, PageInfo } from '../types';
 import { apiGet } from '../api';
+import { NotFoundError } from '../../utils';
 
 export interface EndpointParams {
 	_embed?: boolean;
@@ -80,7 +81,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		const { data } = result.json;
 
 		if (result.json.length === 0 || data?.status === 400) {
-			throw new Error('Not found');
+			throw new NotFoundError(`The request to ${url} returned no data`);
 		}
 
 		const page = Number(params.page) || 1;

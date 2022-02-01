@@ -1,4 +1,4 @@
-import { getCustomPostType } from '../../utils';
+import { getCustomPostType, ConfigError } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
@@ -28,7 +28,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 			const postType = getCustomPostType(params.postType);
 
 			if (!postType) {
-				throw new Error(
+				throw new ConfigError(
 					'Unkown post type, did you forget to add it to headless.config.js?',
 				);
 			}
@@ -38,20 +38,4 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 
 		return super.buildEndpointURL(endpointParams);
 	}
-
-	/* async fetcher(url: string, params: PostParams) {
-		const finalUrl = url;
-
-		if (params.postType) {
-			const postType = getCustomPostType(params.postType);
-
-			if (!postType) {
-				throw new Error(
-					'Unkown post type, did you forget to add it to headless.config.js?',
-				);
-			}
-		}
-
-		return super.fetcher(finalUrl, params);
-	} */
 }
