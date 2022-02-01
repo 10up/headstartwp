@@ -1,10 +1,15 @@
 import { addQueryArgs } from '@wordpress/url';
-import { Entity } from '../types';
+import { Entity, PageInfo } from '../types';
 import { apiGet } from '../api';
 
 export interface EndpointParams {
 	_embed?: boolean;
 	[k: string]: unknown;
+}
+
+export interface FetchResponse<T> {
+	result: T;
+	pageInfo: PageInfo;
 }
 
 /**
@@ -70,7 +75,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 * @returns JSON response
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async fetcher(url: string, params: Params): Promise<E> {
+	async fetcher(url: string, params: Params): Promise<FetchResponse<E>> {
 		const result = await apiGet(`${this.baseURL}${url}`);
 		const { data } = result.json;
 
@@ -78,6 +83,16 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 			throw new Error('Not found');
 		}
 
-		return result.json;
+		const page = Number(params.page) || 1;
+		const response = {
+			result: result.json,
+			pageInfo: {
+				totalPages: Number(result.headers['x-wp-totalpages']) || 0,
+				totalItems: Number(result.headers['x-wp-total']) || 0,
+				page,
+			},
+		};
+
+		return response;
 	}
 }

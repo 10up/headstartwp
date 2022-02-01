@@ -21,5 +21,7 @@ export function useAppSettings(params = {}): useAppSettingsResponse {
 		return { loading: true };
 	}
 
-	return { data: data as AppEntity, loading: false };
+	const { result } = data;
+
+	return { data: result, loading: false };
 }

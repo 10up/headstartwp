@@ -1,7 +1,13 @@
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 
-import { useSettings, Entity, AbstractFetchStrategy, EndpointParams } from '@10up/headless-core';
+import {
+	useSettings,
+	Entity,
+	AbstractFetchStrategy,
+	EndpointParams,
+	FetchResponse,
+} from '@10up/headless-core';
 
 interface useFetchOptions {
 	shouldFetch?: () => boolean;
@@ -33,7 +39,7 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 
 	const shouldFetch = options?.shouldFetch ? options.shouldFetch : () => true;
 
-	const result = useSWR(
+	const result = useSWR<FetchResponse<E>>(
 		shouldFetch() ? fetchStrategy.buildEndpointURL(finalParams) : null,
 		(url: string) => fetchStrategy.fetcher(url, finalParams),
 	);

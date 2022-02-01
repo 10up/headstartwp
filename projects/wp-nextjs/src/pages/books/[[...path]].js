@@ -3,6 +3,7 @@ import { handleError } from '@10up/headless-next';
 
 const Template = () => {
 	const { data, error, loading } = usePosts({ postType: 'book' });
+	console.log(data.pageInfo);
 
 	if (error) {
 		return 'error';

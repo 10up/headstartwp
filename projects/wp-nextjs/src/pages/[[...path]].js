@@ -9,7 +9,7 @@ import {
 
 const Home = () => {
 	const { loading, error, data, pageType } = usePosts();
-	console.log(pageType);
+	console.log(pageType, data.pageInfo);
 	// const appSettings = useAppSettings();
 	// console.log(appSettings);
 	// const primaryMenu = useMenu('primary');
