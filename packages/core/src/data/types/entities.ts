@@ -674,3 +674,9 @@ export interface AppEntity extends Entity {
 	};
 	redirects: Redirect[];
 }
+
+export interface PageInfo {
+	totalPages: number;
+	totalItems: number;
+	page: Number;
+}

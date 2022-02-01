@@ -18,7 +18,11 @@ const fetchStrategy = new SearchFetchStrategy();
  * @returns
  */
 export function useSearch(params: SearchParams): useSearchResponse {
-	const { data, error } = useFetch<SearchEntity, SearchParams>(endpoint, params, fetchStrategy);
+	const { data, error } = useFetch<SearchEntity, SearchParams>(
+		endpoint,
+		{ _embed: true, ...params },
+		fetchStrategy,
+	);
 
 	if (error) {
 		return { error, loading: false };
@@ -28,8 +32,9 @@ export function useSearch(params: SearchParams): useSearchResponse {
 		return { loading: true };
 	}
 
-	const items = data as unknown as SearchEntity[];
-
+	const { result } = data;
 	// TODO: fix types
+	const items = result as unknown as SearchEntity[];
+
 	return { data: { items }, loading: false };
 }

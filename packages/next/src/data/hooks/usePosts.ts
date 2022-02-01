@@ -4,7 +4,7 @@ import {
 	PostsArchiveFetchStrategy,
 	getCustomTaxonomySlugs,
 } from '@10up/headless-core';
-import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
+import { getPostAuthor, getPostTerms, PageInfo } from '@10up/headless-core/data';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -48,8 +48,9 @@ type PageType = {
 	 */
 	taxonomy: string;
 };
+
 interface usePostsResponse extends HookResponse {
-	data?: { posts: PostEntity[] };
+	data?: { posts: PostEntity[]; pageInfo: PageInfo };
 	pageType: PageType;
 }
 
@@ -124,14 +125,15 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 		return { loading: true, pageType };
 	}
 
-	const posts = (data as unknown as PostEntity[]).map((post) => {
+	const { result, pageInfo } = data;
+
+	// TODO: fix types
+	const posts = (result as unknown as PostEntity[]).map((post) => {
 		post.author = getPostAuthor(post);
 		post.terms = getPostTerms(post);
 
 		return post;
 	});
 
-	// TODO: fix types
-	// TODO: add flags indicating route
-	return { data: { posts }, loading: false, pageType };
+	return { data: { posts, pageInfo }, loading: false, pageType };
 }
