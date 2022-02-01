@@ -102,8 +102,10 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 
 	if (queryParams.postType) {
 		pageType.isPostArchive = false;
-		pageType.isPostArchive = true;
+		pageType.isPostTypeArchive = true;
 		pageType.postType = queryParams.postType;
+	} else {
+		pageType.isPostArchive = true;
 	}
 
 	const taxonomies = getCustomTaxonomySlugs();
