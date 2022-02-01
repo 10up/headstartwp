@@ -1,12 +1,56 @@
-import { PostEntity, PostsArchiveParams, PostsArchiveFetchStrategy } from '@10up/headless-core';
+import {
+	PostEntity,
+	PostsArchiveParams,
+	PostsArchiveFetchStrategy,
+	getCustomTaxonomySlugs,
+} from '@10up/headless-core';
 import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
 const endpoint = '/wp-json/wp/v2/posts';
 
+type PageType = {
+	/**
+	 * Regular post archive
+	 */
+	isPostArchive: boolean;
+	/**
+	 * Search route
+	 */
+	isSearch: boolean;
+	/**
+	 * Author Archive
+	 */
+	isAuthorArchive: boolean;
+	/**
+	 * Custom Post Type Archive
+	 */
+	isPostTypeArchive: boolean;
+	/**
+	 * Which post type this archive is for
+	 */
+	postType: string;
+	/**
+	 * Category Archive
+	 */
+	isCategoryArchive: boolean;
+	/**
+	 * Tag Archive
+	 */
+	isTagArchive: boolean;
+	/**
+	 * Custom Taxonomy Archive
+	 */
+	isTaxonomyArchive: boolean;
+	/**
+	 * Which taxonomy this archive is for
+	 */
+	taxonomy: string;
+};
 interface usePostsResponse extends HookResponse {
 	data?: { posts: PostEntity[] };
+	pageType: PageType;
 }
 
 const fetchStrategy = new PostsArchiveFetchStrategy();
@@ -19,18 +63,65 @@ const fetchStrategy = new PostsArchiveFetchStrategy();
  * @returns
  */
 export function usePosts(params: PostsArchiveParams): usePostsResponse {
-	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
+	const {
+		data,
+		error,
+		params: queryParams,
+	} = useFetch<PostEntity, PostsArchiveParams>(
 		endpoint,
 		{ _embed: true, ...params },
 		fetchStrategy,
 	);
 
+	const pageType: PageType = {
+		isPostArchive: false,
+		isSearch: false,
+		isAuthorArchive: false,
+		isPostTypeArchive: false,
+		postType: '',
+		isCategoryArchive: false,
+		isTagArchive: false,
+		isTaxonomyArchive: false,
+		taxonomy: '',
+	};
+
+	if (queryParams.author) {
+		pageType.isPostArchive = true;
+		pageType.isAuthorArchive = true;
+	}
+
+	if (queryParams.category) {
+		pageType.isPostArchive = true;
+		pageType.isCategoryArchive = true;
+	}
+
+	if (queryParams.tag) {
+		pageType.isPostArchive = true;
+		pageType.isTagArchive = true;
+	}
+
+	if (queryParams.postType) {
+		pageType.isPostArchive = false;
+		pageType.isPostTypeArchive = true;
+		pageType.postType = queryParams.postType;
+	} else {
+		pageType.isPostArchive = true;
+	}
+
+	const taxonomies = getCustomTaxonomySlugs();
+	taxonomies.forEach((taxonmy) => {
+		if (queryParams[taxonmy]) {
+			pageType.isTaxonomyArchive = true;
+			pageType.taxonomy = taxonmy;
+		}
+	});
+
 	if (error) {
-		return { error, loading: false };
+		return { error, loading: false, pageType };
 	}
 
 	if (!data) {
-		return { loading: true };
+		return { loading: true, pageType };
 	}
 
 	const posts = (data as unknown as PostEntity[]).map((post) => {
@@ -42,5 +133,5 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 
 	// TODO: fix types
 	// TODO: add flags indicating route
-	return { data: { posts }, loading: false };
+	return { data: { posts }, loading: false, pageType };
 }

@@ -8,7 +8,8 @@ import {
 } from '@10up/headless-next';
 
 const Home = () => {
-	const { loading, error, data } = usePosts();
+	const { loading, error, data, pageType } = usePosts();
+	console.log(pageType);
 	// const appSettings = useAppSettings();
 	// console.log(appSettings);
 	// const primaryMenu = useMenu('primary');
