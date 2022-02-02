@@ -8,7 +8,7 @@ import {
 	NotFoundError,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
 
 type HookType = 'usePosts' | 'usePost' | 'useSearch' | 'useAppSettings';
 
@@ -26,7 +26,11 @@ const endpoints = {
 	useAppSettings: '/wp-json/headless-wp/v1/app',
 };
 
-export async function fetchHookData(type: HookType, ctx: GetServerSidePropsContext, params) {
+export async function fetchHookData(
+	type: HookType,
+	ctx: GetServerSidePropsContext | GetStaticPropsContext,
+	params,
+) {
 	const wpURL = getWPUrl();
 	const Strategy = strategies[type];
 	const fetchStrategy = new Strategy();
@@ -35,7 +39,7 @@ export async function fetchHookData(type: HookType, ctx: GetServerSidePropsConte
 	fetchStrategy.setBaseURL(wpURL);
 	fetchStrategy.setEndpoint(endpoint);
 
-	const urlParams = fetchStrategy.getParamsFromURL(ctx.query);
+	const urlParams = fetchStrategy.getParamsFromURL(ctx.params);
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
@@ -78,15 +82,31 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	};
 }
 
+function isStringArray(el): el is string[] {
+	return Array.isArray(el);
+}
+
 export async function handleError(
 	error: Error,
 	ctx: GetServerSidePropsContext,
+	rootRoute: string = '',
 ): Promise<GetServerSidePropsResult<{}>> {
 	const { redirectStrategy } = getHeadlessConfig();
 
 	if (error instanceof NotFoundError) {
-		if (redirectStrategy === '404' && ctx.req.url) {
-			const redirect = await fetchRedirect(ctx.req.url);
+		let pathname = '';
+		if (typeof ctx?.req?.url !== 'undefined') {
+			pathname = ctx.req.url;
+		} else {
+			// build out the url from params.path
+			pathname =
+				typeof ctx?.params !== 'undefined' && isStringArray(ctx.params?.path)
+					? `${rootRoute}/${ctx.params.path.join('/')}`
+					: `${rootRoute}/${ctx.params?.path as string}`;
+		}
+
+		if (redirectStrategy === '404' && pathname) {
+			const redirect = await fetchRedirect(pathname);
 
 			if (redirect.location) {
 				return {
