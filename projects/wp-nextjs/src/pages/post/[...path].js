@@ -21,12 +21,20 @@ const Template = () => {
 
 export default Template;
 
-export async function getServerSideProps(context) {
+export function getStaticPaths() {
+	return {
+		paths: [],
+		fallback: 'blocking',
+	};
+}
+
+export async function getStaticProps(context) {
 	try {
 		const hookData = await fetchHookData('usePost', context);
 
 		return addHookData([hookData], {});
 	} catch (e) {
-		return handleError(e, context);
+		// Static Pages needs to manually specify the base route in order for redirects to work
+		return handleError(e, context, '/post');
 	}
 }
