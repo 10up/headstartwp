@@ -12,7 +12,7 @@ import { apiGet } from '../api';
 import { PostEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
+import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 const categoryEndpoint = '/wp-json/wp/v2/categories';
 const tagsEndpoint = '/wp-json/wp/v2/tags';
@@ -124,7 +124,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		return super.buildEndpointURL(endpointParams);
 	}
 
-	async fetcher(url: string, params: PostsArchiveParams) {
+	async fetcher(url: string, params: PostsArchiveParams, options: Partial<FetchOptions> = {}) {
 		let finalUrl = url;
 		const settings = getHeadlessConfig();
 
@@ -210,6 +210,6 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			}
 		}
 
-		return super.fetcher(finalUrl, params);
+		return super.fetcher(finalUrl, params, options);
 	}
 }

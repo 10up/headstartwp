@@ -12,4 +12,8 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 
 		return parsePath(searchMatchers, this.createPathFromArgs(path));
 	}
+
+	async fetcher(url: string, params: PostsArchiveParams) {
+		return super.fetcher(url, params, { throwIfNotFound: false });
+	}
 }
