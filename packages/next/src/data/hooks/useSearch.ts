@@ -1,11 +1,18 @@
-import { SearchEntity, SearchParams, SearchFetchStrategy } from '@10up/headless-core';
+import {
+	SearchFetchStrategy,
+	PostEntity,
+	PostsArchiveParams,
+	PageInfo,
+	getPostAuthor,
+	getPostTerms,
+} from '@10up/headless-core';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
-const endpoint = '/wp-json/wp/v2/search';
+const endpoint = '/wp-json/wp/v2/posts';
 
 interface useSearchResponse extends HookResponse {
-	data?: { items: SearchEntity[] };
+	data?: { posts: PostEntity[]; pageInfo: PageInfo };
 }
 
 const fetchStrategy = new SearchFetchStrategy();
@@ -17,8 +24,8 @@ const fetchStrategy = new SearchFetchStrategy();
  *
  * @returns
  */
-export function useSearch(params: SearchParams): useSearchResponse {
-	const { data, error } = useFetch<SearchEntity, SearchParams>(
+export function useSearch(params: PostsArchiveParams): useSearchResponse {
+	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
 		endpoint,
 		{ _embed: true, ...params },
 		fetchStrategy,
@@ -32,9 +39,15 @@ export function useSearch(params: SearchParams): useSearchResponse {
 		return { loading: true };
 	}
 
-	const { result } = data;
-	// TODO: fix types
-	const items = result as unknown as SearchEntity[];
+	const { result, pageInfo } = data;
 
-	return { data: { items }, loading: false };
+	// TODO: fix types
+	const posts = (result as unknown as PostEntity[]).map((post) => {
+		post.author = getPostAuthor(post);
+		post.terms = getPostTerms(post);
+
+		return post;
+	});
+
+	return { data: { posts, pageInfo }, loading: false };
 }

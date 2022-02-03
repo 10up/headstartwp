@@ -49,7 +49,7 @@ type PageType = {
 	taxonomy: string;
 };
 
-interface usePostsResponse extends HookResponse {
+export interface usePostsResponse extends HookResponse {
 	data?: { posts: PostEntity[]; pageInfo: PageInfo };
 	pageType: PageType;
 }

@@ -13,6 +13,10 @@ export interface FetchResponse<T> {
 	pageInfo: PageInfo;
 }
 
+export interface FetchOptions {
+	throwIfNotFound: boolean;
+}
+
 /**
  * Abstract class that lays out a strategy for fetching data
  */
@@ -76,11 +80,18 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 * @returns JSON response
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async fetcher(url: string, params: Params): Promise<FetchResponse<E>> {
+	async fetcher(
+		url: string,
+		params: Params,
+		options: Partial<FetchOptions> = {},
+	): Promise<FetchResponse<E>> {
 		const result = await apiGet(`${this.baseURL}${url}`);
 		const { data } = result.json;
 
-		if (result.json.length === 0 || data?.status === 400) {
+		const throwIfNotFound =
+			typeof options?.throwIfNotFound !== 'undefined' ? options?.throwIfNotFound : true;
+
+		if (throwIfNotFound && (result.json.length === 0 || data?.status === 400)) {
 			throw new NotFoundError(`The request to ${url} returned no data`);
 		}
 
