@@ -9,9 +9,9 @@ const SearchTemplate = () => {
 
 	return (
 		<ul>
-			{data.items.map((item) => (
+			{data.posts.map((item) => (
 				<li key={item.id}>
-					{item.id} - {item.title}
+					{item.id} - {item.title.rendered}
 				</li>
 			))}
 		</ul>

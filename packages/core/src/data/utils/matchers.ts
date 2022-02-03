@@ -54,11 +54,11 @@ export const searchMatchers: Matcher[] = [
 	{
 		name: 'search type',
 		priority: 30,
-		pattern: '/search/:search?',
+		pattern: '/:search?',
 	},
 	{
 		name: 'search-pagination',
 		priority: 30,
-		pattern: '/search/:search/page/:page',
+		pattern: '/:search/page/:page',
 	},
 ];

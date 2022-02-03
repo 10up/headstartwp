@@ -33,7 +33,12 @@ class API {
 		$preview_endpoint->register();
 
 		add_action( 'init', array( $this, 'register_post_type_taxonomy_params' ), 999 );
+		add_action( 'wp_rest_search_handlers', [ $this, 'search_handlers' ] );
 
+	}
+
+	public function search_handlers( $handlers ) {
+		return $handlers;
 	}
 
 	/**

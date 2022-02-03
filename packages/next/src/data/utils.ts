@@ -22,7 +22,7 @@ const strategies = {
 const endpoints = {
 	usePosts: '/wp-json/wp/v2/posts',
 	usePost: '/wp-json/wp/v2/posts',
-	useSearch: '/wp-json/wp/v2/search',
+	useSearch: '/wp-json/wp/v2/posts',
 	useAppSettings: '/wp-json/headless-wp/v1/app',
 };
 
