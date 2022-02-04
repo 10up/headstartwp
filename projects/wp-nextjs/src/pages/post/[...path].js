@@ -25,6 +25,7 @@ export function getStaticPaths() {
 	return {
 		paths: [],
 		fallback: 'blocking',
+		revalidate: 60,
 	};
 }
 
