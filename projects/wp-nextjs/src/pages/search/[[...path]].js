@@ -30,7 +30,7 @@ export default SearchTemplate;
 
 export async function getServerSideProps(context) {
 	try {
-		const hookData = await fetchHookData('useSearch', context, params);
+		const hookData = await fetchHookData('useSearch', context, { params });
 
 		return addHookData([hookData], {});
 	} catch (e) {
