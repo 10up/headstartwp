@@ -6,6 +6,7 @@ import {
 	SearchFetchStrategy,
 	AppSettingsStrategy,
 	NotFoundError,
+	FilterDataOptions,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
@@ -26,15 +27,23 @@ const endpoints = {
 	useAppSettings: '/wp-json/headless-wp/v1/app',
 };
 
+export interface FetchHookDataOptions {
+	params?: any;
+	filterData?: FilterDataOptions;
+}
+
 export async function fetchHookData(
 	type: HookType,
 	ctx: GetServerSidePropsContext | GetStaticPropsContext,
-	params,
+	options: FetchHookDataOptions = {},
 ) {
 	const wpURL = getWPUrl();
 	const Strategy = strategies[type];
 	const fetchStrategy = new Strategy();
 	const endpoint = endpoints[type];
+
+	const params = options?.params || {};
+	const filterDataOptions = options?.filterData || { method: 'ALLOW', fields: ['*'] };
 
 	fetchStrategy.setBaseURL(wpURL);
 	fetchStrategy.setEndpoint(endpoint);
@@ -45,7 +54,8 @@ export async function fetchHookData(
 	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
 	const data = await fetchStrategy.fetcher(endpointUrl, finalParams);
 
-	return { key: endpointUrl, data };
+	// @ts-expect-error (TODO: fix this)
+	return { key: endpointUrl, data: fetchStrategy.filterData(data, filterDataOptions) };
 }
 
 type HookState = {

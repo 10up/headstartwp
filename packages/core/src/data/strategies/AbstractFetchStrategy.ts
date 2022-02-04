@@ -17,6 +17,11 @@ export interface FetchOptions {
 	throwIfNotFound: boolean;
 }
 
+export interface FilterDataOptions {
+	method: 'ALLOW' | 'REMOVE';
+	fields: string[];
+}
+
 /**
  * Abstract class that lays out a strategy for fetching data
  */
@@ -106,5 +111,48 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		};
 
 		return response;
+	}
+
+	filterData(data: FetchResponse<E>, options: FilterDataOptions) {
+		if (options.method === 'ALLOW') {
+			if (options.fields[0] === '*') {
+				return data;
+			}
+
+			const allowedData = Array.isArray(data.result) ? [] : {};
+
+			if (Array.isArray(data.result)) {
+				data.result.forEach((record, i) => {
+					// @ts-expect-error
+					allowedData.push({});
+					options.fields.forEach((field) => {
+						// @ts-expect-error
+						allowedData[i][field] = data.result[i][field];
+					});
+				});
+			} else {
+				options.fields.forEach((field) => {
+					// @ts-expect-error
+					allowedData[field] = data.result[field];
+				});
+			}
+
+			return { ...data, result: allowedData };
+		}
+
+		if (options.method === 'REMOVE') {
+			options.fields.forEach((field) => {
+				if (Array.isArray(data.result)) {
+					data.result.forEach((record, i) => {
+						// @ts-expect-error
+						delete data.result[i][field];
+					});
+				} else {
+					delete data.result[field];
+				}
+			});
+		}
+
+		return data;
 	}
 }
