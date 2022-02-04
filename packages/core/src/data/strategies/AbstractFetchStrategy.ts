@@ -114,8 +114,9 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	}
 
 	filterData(data: FetchResponse<E>, options: FilterDataOptions) {
+		const fields = [...options.fields, 'yoast_head_json'];
 		if (options.method === 'ALLOW') {
-			if (options.fields[0] === '*') {
+			if (fields[0] === '*') {
 				return data;
 			}
 
@@ -125,13 +126,13 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 				data.result.forEach((record, i) => {
 					// @ts-expect-error
 					allowedData.push({});
-					options.fields.forEach((field) => {
+					fields.forEach((field) => {
 						// @ts-expect-error
 						allowedData[i][field] = data.result[i][field];
 					});
 				});
 			} else {
-				options.fields.forEach((field) => {
+				fields.forEach((field) => {
 					// @ts-expect-error
 					allowedData[field] = data.result[field];
 				});
@@ -141,7 +142,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		}
 
 		if (options.method === 'REMOVE') {
-			options.fields.forEach((field) => {
+			fields.forEach((field) => {
 				if (Array.isArray(data.result)) {
 					data.result.forEach((record, i) => {
 						// @ts-expect-error
