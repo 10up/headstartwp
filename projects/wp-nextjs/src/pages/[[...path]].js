@@ -35,7 +35,9 @@ export default Home;
 
 export async function getServerSideProps(context) {
 	try {
-		const postsData = await fetchHookData('usePosts', context);
+		const postsData = await fetchHookData('usePosts', context, {
+			filterData: { method: 'ALLOW', fields: ['id', 'title'] },
+		});
 		const appData = await fetchHookData('useAppSettings', context);
 		// const hookData = await fetchHookData('usePosts', context, { postType: 'book' });
 		// const hookData = await fetchHookData('usePosts', context, {
