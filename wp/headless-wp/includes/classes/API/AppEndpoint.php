@@ -105,6 +105,7 @@ class AppEndpoint {
 				'headless_wp_api_app_home',
 				array(
 					'id'      => $homepage_id,
+					'slug'    => $homepage_post->post_name,
 					'content' => $homepage_content,
 				)
 			);

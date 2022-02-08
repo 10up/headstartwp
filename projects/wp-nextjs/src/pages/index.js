@@ -1,36 +1,37 @@
 import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
 import { handleError } from '@10up/headless-next';
-import { Blocks } from '../components/Blocks';
+import PropTypes from 'prop-types';
+import { PageContent } from '../components/PageContent';
 
 const params = {
-	slug: 'front-page',
 	postType: 'page',
 };
 
-const Homepage = () => {
+const Homepage = ({ homePageSlug }) => {
+	params.slug = homePageSlug;
 	const { data } = usePost(params);
 
-	return (
-		<div>
-			{data ? (
-				<>
-					<h1>{data.post.title.rendered}</h1>
-					<Blocks html={data.post.content.rendered} />
-				</>
-			) : (
-				'loading...'
-			)}
-		</div>
-	);
+	return <div>{data ? <PageContent params={params} /> : 'loading...'}</div>;
+};
+
+Homepage.propTypes = {
+	homePageSlug: PropTypes.string.isRequired,
 };
 
 export default Homepage;
 
 export async function getStaticProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context, { params });
+		const appSettings = await fetchHookData('useAppSettings', context);
+		const slug = appSettings.data.result?.home?.slug || 'front-page';
+		const hookData = await fetchHookData('usePost', context, {
+			params: {
+				slug,
+				...params,
+			},
+		});
 
-		return addHookData([hookData], {});
+		return addHookData([hookData], { props: { homePageSlug: slug } });
 	} catch (e) {
 		return handleError(e, context);
 	}
