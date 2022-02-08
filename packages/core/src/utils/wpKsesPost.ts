@@ -140,6 +140,7 @@ export const ksesAllowedTags: allowedTagsType = [
 	'video',
 	'amp-instagram',
 	'amp-youtube',
+	'iframe',
 ];
 
 /**
@@ -1427,6 +1428,21 @@ export const ksesAllowedAttributes: allowedAttributesType = {
 		'title',
 		'role',
 		'data-*',
+	],
+	iframe: [
+		'allow',
+		'allowfullscreen',
+		'allowpaymentrequest',
+		'csp',
+		'height',
+		'loading',
+		'name',
+		'referrerpolicy',
+		'sandbox',
+		'src',
+		'srcdoc',
+		'width',
+		'title',
 	],
 	'amp-instagram': ['layout', 'data-shortcode', 'data-captioned'],
 	'amp-youtube': ['layout', 'data-videoid', 'data-live-channelid', 'width', 'height'],

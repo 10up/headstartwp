@@ -67,3 +67,46 @@ export function isImageTag(node: DOMNode, options: isImageTagOptions = {}) {
 
 	return true;
 }
+
+export const youtubeEmbedRegex =
+	/(https?:\/\/)?((www\.)?(youtube(-nocookie)?|youtube.googleapis)\.com.*(v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)|youtu\.be\/)([_0-9a-z-]+)/i;
+
+/**
+ * Checks if the node is an youtube embed
+ *
+ * @param node The node to test
+ *
+ * @returns true if the node is a youtube embed
+ */
+export function isYoutubeEmbed(node: DOMNode) {
+	if (!(node instanceof Element)) {
+		return false;
+	}
+
+	const isIframe = node.type === 'tag' && node.name === 'iframe';
+
+	if (!isIframe) {
+		return false;
+	}
+
+	const { src } = node.attribs || '';
+
+	return src.match(youtubeEmbedRegex);
+}
+
+/**
+ * Checks if the node is an twitter embed
+ *
+ * @param node The node to test
+ *
+ * @returns true if the node is a youtube embed
+ */
+export function isTwitterEmbed(node: DOMNode) {
+	if (!(node instanceof Element)) {
+		return false;
+	}
+	const isFigure = node.type === 'tag' && node.name === 'figure';
+	const className = node.attribs?.class || '';
+
+	return isFigure && className.includes('wp-block-embed-twitter');
+}
