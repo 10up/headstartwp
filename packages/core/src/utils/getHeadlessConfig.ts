@@ -44,8 +44,18 @@ export function getCustomPostTypesSlugs() {
 
 export function getCustomPostTypes() {
 	const { customPostTypes } = getHeadlessConfig();
+	const corePostTypes = [
+		{
+			slug: 'post',
+			endpoint: '/wp-json/wp/v2/posts',
+		},
+		{
+			slug: 'page',
+			endpoint: '/wp-json/wp/v2/pages',
+		},
+	];
 
-	return customPostTypes;
+	return [...(customPostTypes || []), ...corePostTypes];
 }
 
 export function getCustomPostType(slug: string) {

@@ -11,7 +11,14 @@ const MyApp = ({ Component, pageProps }) => {
 	const { fallback = {}, ...props } = pageProps;
 
 	return (
-		<HeadlessApp pageProps={pageProps}>
+		<HeadlessApp
+			pageProps={pageProps}
+			swrConfig={{
+				revalidateOnFocus: false,
+				revalidateOnReconnect: false,
+				revalidateOnMount: true,
+			}}
+		>
 			<Component {...props} />
 		</HeadlessApp>
 	);
