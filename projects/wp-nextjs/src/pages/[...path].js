@@ -2,8 +2,12 @@ import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
 import { handleError } from '@10up/headless-next';
 import { Blocks } from '../components/Blocks';
 
+const params = {
+	postType: ['post', 'page'],
+};
+
 const Template = () => {
-	const { data } = usePost();
+	const { data } = usePost(params);
 
 	return (
 		<div>
@@ -30,7 +34,7 @@ export function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context);
+		const hookData = await fetchHookData('usePost', context, { params });
 
 		return addHookData([hookData], {});
 	} catch (e) {

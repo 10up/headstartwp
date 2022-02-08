@@ -23,7 +23,7 @@ export default Template;
 
 export async function getServerSideProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context, { postType: 'book' });
+		const hookData = await fetchHookData('usePost', context, { params: { postType: 'book' } });
 
 		return addHookData([hookData], {});
 	} catch (e) {
