@@ -77,11 +77,6 @@ class Links {
 
 			$post_slug = $post_type;
 
-			// Posts resolve to /posts in the front-end
-			if ( 'post' === $post_type ) {
-				$post_slug = 'posts';
-			}
-
 			$taxonomies = get_object_taxonomies( $post_type, 'object' );
 
 			foreach ( $taxonomies as $taxonomy ) {
@@ -118,11 +113,6 @@ class Links {
 
 		if ( empty( $link ) || ( \is_a( $post, 'WP_Post' ) && 'publish' !== $post->post_status ) ) {
 			return $link;
-		}
-
-		if ( 'post' === $post->post_type || \is_a( $post, 'WP_Term' ) ) {
-			$home_url = get_home_url();
-			$link     = str_ireplace( $home_url, $home_url . '/posts', $link );
 		}
 
 		return $link;
