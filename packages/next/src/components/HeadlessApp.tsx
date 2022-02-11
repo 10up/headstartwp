@@ -5,6 +5,7 @@ import { SWRConfig } from 'swr';
 import type { SettingsContextProps } from '@10up/headless-core';
 import type { SWRConfiguration } from 'swr';
 
+import { useRouter } from 'next/router';
 import { Yoast } from './Yoast';
 
 export type HeadlessAppProps = PropsWithChildren<{
@@ -20,6 +21,14 @@ export const HeadlessApp = ({
 	swrConfig = {},
 }: HeadlessAppProps) => {
 	const { fallback = {}, seo = {} } = pageProps;
+	const router = useRouter();
+
+	// if preview mode disable revalidating
+	if (router.isPreview && router.asPath.includes('-preview=true')) {
+		swrConfig.revalidateOnFocus = false;
+		swrConfig.revalidateOnReconnect = false;
+		swrConfig.revalidateOnMount = false;
+	}
 
 	return (
 		<SettingsProvider settings={settings || { url: getWPUrl() }}>

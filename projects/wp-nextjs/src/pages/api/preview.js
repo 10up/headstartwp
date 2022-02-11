@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 		const prefixRoute = singleRoute === '/' ? '' : singleRoute;
 		const slugOrId = revision ? post_id : slug || post_id;
 
-		return res.redirect(`${prefixRoute}/${slugOrId}`);
+		return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
 	}
 
 	return res.end('preview mode not enabled');

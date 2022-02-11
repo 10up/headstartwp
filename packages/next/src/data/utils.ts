@@ -54,7 +54,11 @@ export async function fetchHookData(
 	// we don't want to include the preview params in the key
 	const endpointUrlForKey = fetchStrategy.buildEndpointURL(finalParams);
 
-	if (ctx.preview && ctx.previewData) {
+	const isPreviewRequest =
+		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
+
+	// only usePost support previews
+	if (type === 'usePost' && ctx.preview && ctx.previewData && isPreviewRequest) {
 		// @ts-expect-error (TODO: fix this)
 		finalParams.id = ctx.previewData.id;
 		// @ts-expect-error (TODO: fix this)

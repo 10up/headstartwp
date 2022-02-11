@@ -5,9 +5,9 @@ import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
 
 export interface PostParams extends EndpointParams {
-	slug: string;
+	slug?: string;
 	postType?: string | string[];
-	id: Number;
+	id?: Number;
 	revision?: Boolean;
 	authToken?: string;
 }
