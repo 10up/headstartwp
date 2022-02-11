@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 		const singleRoute = postTypeDef.single || '/';
 		const prefixRoute = singleRoute === '/' ? '' : singleRoute;
 		const slugOrId = revision ? post_id : slug || post_id;
-		console.log(`${prefixRoute}/${slugOrId}`);
+
 		return res.redirect(`${prefixRoute}/${slugOrId}`);
 	}
 
