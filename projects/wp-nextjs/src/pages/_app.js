@@ -17,7 +17,7 @@ const MyApp = ({ Component, pageProps }) => {
 				swrConfig={{
 					revalidateOnFocus: false,
 					revalidateOnReconnect: false,
-					revalidateOnMount: true,
+					revalidateOnMount: false,
 				}}
 			>
 				<Component {...props} />

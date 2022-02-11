@@ -34,7 +34,7 @@ export function usePost(params: PostParams): usePostResponse {
 	}
 
 	// TODO: fix types
-	const post = data.result[0] as PostEntity;
+	const post = Array.isArray(data.result) ? (data.result[0] as PostEntity) : data.result;
 
 	post.author = getPostAuthor(post);
 	post.terms = getPostTerms(post);

@@ -15,6 +15,7 @@ export interface FetchResponse<T> {
 
 export interface FetchOptions {
 	throwIfNotFound: boolean;
+	bearerToken?: string;
 }
 
 export interface FilterDataOptions {
@@ -90,7 +91,12 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		params: Params,
 		options: Partial<FetchOptions> = {},
 	): Promise<FetchResponse<E>> {
-		const result = await apiGet(`${this.baseURL}${url}`);
+		const args = {};
+		if (options.bearerToken) {
+			// @ts-expect-error
+			args.headers = { Authorization: `Bearer ${options.bearerToken}` };
+		}
+		const result = await apiGet(`${this.baseURL}${url}`, args);
 		const { data } = result.json;
 
 		const throwIfNotFound =
