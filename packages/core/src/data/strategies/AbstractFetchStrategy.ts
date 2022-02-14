@@ -88,7 +88,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async fetcher(
 		url: string,
-		params: Params,
+		params: Partial<Params>,
 		options: Partial<FetchOptions> = {},
 	): Promise<FetchResponse<E>> {
 		const args = {};

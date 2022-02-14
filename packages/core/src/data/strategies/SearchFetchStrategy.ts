@@ -13,7 +13,7 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 		return parsePath(searchMatchers, this.createPathFromArgs(path));
 	}
 
-	async fetcher(url: string, params: PostsArchiveParams) {
+	async fetcher(url: string, params: Partial<PostsArchiveParams>) {
 		return super.fetcher(url, params, { throwIfNotFound: false });
 	}
 }

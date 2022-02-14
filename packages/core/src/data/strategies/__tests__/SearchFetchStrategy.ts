@@ -3,22 +3,49 @@ import { SearchFetchStrategy } from '../SearchFetchStrategy';
 describe('SearchFetchStrategy', () => {
 	const fetchStrategy = new SearchFetchStrategy();
 
-	fetchStrategy.setBaseURL('http:://example.com');
-	fetchStrategy.setEndpoint('/wp-json/wp/v2/search');
+	fetchStrategy.setBaseURL('');
+	fetchStrategy.setEndpoint('/wp-json/wp/v2/posts');
 
 	it('parses the url properly', async () => {
 		// search type
-		expect(fetchStrategy.getParamsFromURL({ path: ['search', 'modi'] })).toEqual({
+		expect(fetchStrategy.getParamsFromURL({ path: ['modi'] })).toEqual({
 			search: 'modi',
 		});
 
 		// search pagination
-		expect(fetchStrategy.getParamsFromURL({ path: ['search', 'modi', 'page', '3'] })).toEqual({
+		expect(fetchStrategy.getParamsFromURL({ path: ['modi', 'page', '3'] })).toEqual({
 			search: 'modi',
 			page: '3',
 		});
 
 		// doesn't match anything
 		expect(fetchStrategy.getParamsFromURL({ path: ['page', '3'] })).toEqual({});
+	});
+
+	it('return data properly', async () => {
+		const params = fetchStrategy.getParamsFromURL({ path: ['random'] });
+		const url = fetchStrategy.buildEndpointURL(params);
+		const results = await fetchStrategy.fetcher(url, params);
+
+		// should contain result and pageInfo
+		expect(results).toMatchObject({
+			result: {},
+			pageInfo: {},
+		});
+
+		// should contain actual results
+		expect(results.result.length).toBeGreaterThan(0);
+	});
+
+	it('does not throw 404 error if can not find results', async () => {
+		const params = fetchStrategy.getParamsFromURL({ path: ['not-found'] });
+		const url = fetchStrategy.buildEndpointURL(params);
+		const results = fetchStrategy.fetcher(url, params);
+
+		// asset it does not throw and resolve even if not found
+		await expect(results).resolves.toMatchObject({
+			result: { data: [], status: 400 },
+			pageInfo: {},
+		});
 	});
 });

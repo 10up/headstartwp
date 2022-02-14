@@ -124,7 +124,11 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		return super.buildEndpointURL(endpointParams);
 	}
 
-	async fetcher(url: string, params: PostsArchiveParams, options: Partial<FetchOptions> = {}) {
+	async fetcher(
+		url: string,
+		params: Partial<PostsArchiveParams>,
+		options: Partial<FetchOptions> = {},
+	) {
 		let finalUrl = url;
 		const settings = getHeadlessConfig();
 
