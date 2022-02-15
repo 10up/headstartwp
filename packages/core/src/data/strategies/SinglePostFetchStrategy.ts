@@ -14,7 +14,10 @@ export interface PostParams extends EndpointParams {
 
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
 	getParamsFromURL(path: string): Partial<PostParams> {
-		return parsePath(postMatchers, path);
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { year, day, month, ...params } = parsePath(postMatchers, path);
+
+		return params;
 	}
 
 	buildEndpointURL(params: PostParams) {
@@ -40,6 +43,9 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 
 		if (id) {
 			this.setEndpoint(`${this.endpoint}/${id}`);
+			if (endpointParams.slug) {
+				delete endpointParams.slug;
+			}
 		}
 
 		if (revision) {
