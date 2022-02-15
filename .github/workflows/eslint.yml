@@ -3,7 +3,7 @@ name: eslint
 on: [pull_request]
 
 jobs:
-  unit-tests:
+  eslint:
     runs-on: ubuntu-latest
 
     strategy:
