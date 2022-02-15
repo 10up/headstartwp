@@ -59,13 +59,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	PostEntity,
 	PostsArchiveParams
 > {
-	getParamsFromURL(params: { path?: string[] } | undefined): Partial<PostsArchiveParams> {
-		if (!params?.path) {
-			return {};
-		}
-
-		const { path } = params;
-
+	getParamsFromURL(path: string): Partial<PostsArchiveParams> {
 		const matchers = [...postsMatchers];
 
 		const customTaxonomies = getCustomTaxonomies();
@@ -83,7 +77,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			});
 		});
 
-		return parsePath(matchers, this.createPathFromArgs(path));
+		return parsePath(matchers, path);
 	}
 
 	buildEndpointURL(params: Partial<PostsArchiveParams>) {
@@ -143,7 +137,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 					`${this.baseURL}${categoryEndpoint}?slug=${category}`,
 				);
 
-				if (categories.json.length > 0) {
+				if (categories?.json.length > 0) {
 					finalUrl = addQueryArgs(finalUrl, { categories: categories.json[0].id });
 				} else {
 					throw new NotFoundError(`Category "${category}" has not been found`);
@@ -160,7 +154,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			} else {
 				const tags = await apiGet(`${this.baseURL}${tagsEndpoint}?slug=${tag}`);
 
-				if (tags.json.length > 0) {
+				if (tags?.json.length > 0) {
 					finalUrl = addQueryArgs(finalUrl, { tags: tags.json[0].id });
 				} else {
 					throw new NotFoundError(`Tag "${tag}" has not been found`);

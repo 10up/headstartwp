@@ -75,3 +75,8 @@ export function getCustomPostType(slug: string) {
 
 	return postTypes?.find((postType) => postType.slug === slug);
 }
+
+export function setHeadlessConfig(config: HeadlessConfig) {
+	// @ts-expect-error
+	global.__10up__HEADLESS_CONFIG = config;
+}

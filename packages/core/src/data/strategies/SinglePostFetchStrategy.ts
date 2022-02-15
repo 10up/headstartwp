@@ -13,14 +13,8 @@ export interface PostParams extends EndpointParams {
 }
 
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
-	getParamsFromURL(params: { path?: string[] } | undefined): Partial<PostParams> {
-		if (!params?.path) {
-			return {};
-		}
-
-		const { path } = params;
-
-		return parsePath(postMatchers, this.createPathFromArgs(path));
+	getParamsFromURL(path: string): Partial<PostParams> {
+		return parsePath(postMatchers, path);
 	}
 
 	buildEndpointURL(params: PostParams) {

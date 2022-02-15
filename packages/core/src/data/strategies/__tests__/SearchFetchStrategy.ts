@@ -8,22 +8,22 @@ describe('SearchFetchStrategy', () => {
 
 	it('parses the url properly', async () => {
 		// search type
-		expect(fetchStrategy.getParamsFromURL({ path: ['modi'] })).toEqual({
+		expect(fetchStrategy.getParamsFromURL('/modi')).toEqual({
 			search: 'modi',
 		});
 
 		// search pagination
-		expect(fetchStrategy.getParamsFromURL({ path: ['modi', 'page', '3'] })).toEqual({
+		expect(fetchStrategy.getParamsFromURL('/modi/page/3')).toEqual({
 			search: 'modi',
 			page: '3',
 		});
 
 		// doesn't match anything
-		expect(fetchStrategy.getParamsFromURL({ path: ['page', '3'] })).toEqual({});
+		expect(fetchStrategy.getParamsFromURL('/page/3')).toEqual({});
 	});
 
 	it('return data properly', async () => {
-		const params = fetchStrategy.getParamsFromURL({ path: ['random'] });
+		const params = fetchStrategy.getParamsFromURL('/random');
 		const url = fetchStrategy.buildEndpointURL(params);
 		const results = await fetchStrategy.fetcher(url, params);
 
@@ -38,7 +38,7 @@ describe('SearchFetchStrategy', () => {
 	});
 
 	it('does not throw 404 error if can not find results', async () => {
-		const params = fetchStrategy.getParamsFromURL({ path: ['not-found'] });
+		const params = fetchStrategy.getParamsFromURL('/not-found');
 		const url = fetchStrategy.buildEndpointURL(params);
 		const results = fetchStrategy.fetcher(url, params);
 
