@@ -2,16 +2,12 @@ import { EndpointParams, AppEntity, AppSettingsStrategy } from '@10up/headless-c
 import { HookResponse } from './types';
 import { useFetch } from './useFetch';
 
-const endpoint = '/wp-json/headless-wp/v1/app';
-
-const fetchStrategy = new AppSettingsStrategy();
-
 interface useAppSettingsResponse extends HookResponse {
 	data?: AppEntity;
 }
 
 export function useAppSettings(params = {}): useAppSettingsResponse {
-	const { data, error } = useFetch<AppEntity, EndpointParams>(endpoint, params, fetchStrategy);
+	const { data, error } = useFetch<AppEntity, EndpointParams>(params, useAppSettings.fetcher());
 
 	if (error) {
 		return { error, loading: false };
@@ -25,3 +21,5 @@ export function useAppSettings(params = {}): useAppSettingsResponse {
 
 	return { data: result, loading: false };
 }
+
+useAppSettings.fetcher = () => new AppSettingsStrategy();

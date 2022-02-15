@@ -9,13 +9,9 @@ import {
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
-const endpoint = '/wp-json/wp/v2/posts';
-
 interface useSearchResponse extends HookResponse {
 	data?: { posts: PostEntity[]; pageInfo: PageInfo };
 }
-
-const fetchStrategy = new SearchFetchStrategy();
 
 /**
  * The useSearch hook. Returns a collection of search entities
@@ -26,9 +22,8 @@ const fetchStrategy = new SearchFetchStrategy();
  */
 export function useSearch(params: PostsArchiveParams): useSearchResponse {
 	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
-		endpoint,
 		{ _embed: true, ...params },
-		fetchStrategy,
+		useSearch.fetcher(),
 	);
 
 	if (error) {
@@ -51,3 +46,5 @@ export function useSearch(params: PostsArchiveParams): useSearchResponse {
 
 	return { data: { posts, pageInfo }, loading: false };
 }
+
+useSearch.fetcher = () => new SearchFetchStrategy();

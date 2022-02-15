@@ -34,7 +34,7 @@ export function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context, { params });
+		const hookData = await fetchHookData(usePost.fetcher(), context, { params });
 
 		return addHookData([hookData], {});
 	} catch (e) {

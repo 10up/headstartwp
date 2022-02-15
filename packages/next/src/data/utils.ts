@@ -1,31 +1,14 @@
 import {
-	SinglePostFetchStrategy,
-	PostsArchiveFetchStrategy,
 	getWPUrl,
 	fetchRedirect,
-	SearchFetchStrategy,
-	AppSettingsStrategy,
 	NotFoundError,
 	FilterDataOptions,
+	AbstractFetchStrategy,
+	Entity,
+	EndpointParams,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
-
-type HookType = 'usePosts' | 'usePost' | 'useSearch' | 'useAppSettings';
-
-const strategies = {
-	usePosts: PostsArchiveFetchStrategy,
-	usePost: SinglePostFetchStrategy,
-	useSearch: SearchFetchStrategy,
-	useAppSettings: AppSettingsStrategy,
-};
-
-const endpoints = {
-	usePosts: '/wp-json/wp/v2/posts',
-	usePost: '/wp-json/wp/v2/posts',
-	useSearch: '/wp-json/wp/v2/posts',
-	useAppSettings: '/wp-json/headless-wp/v1/app',
-};
 
 export interface FetchHookDataOptions {
 	params?: any;
@@ -48,20 +31,15 @@ export function convertToPath(args: string[] | undefined) {
 }
 
 export async function fetchHookData(
-	type: HookType,
+	fetchStrategy: AbstractFetchStrategy<Entity, EndpointParams>,
 	ctx: GetServerSidePropsContext | GetStaticPropsContext,
 	options: FetchHookDataOptions = {},
 ) {
 	const wpURL = getWPUrl();
-	const Strategy = strategies[type];
-	const fetchStrategy = new Strategy();
-	const endpoint = endpoints[type];
-
 	const params = options?.params || {};
 	const filterDataOptions = options?.filterData || { method: 'ALLOW', fields: ['*'] };
 
 	fetchStrategy.setBaseURL(wpURL);
-	fetchStrategy.setEndpoint(endpoint);
 
 	let path: string[] = [];
 
@@ -78,8 +56,7 @@ export async function fetchHookData(
 	const isPreviewRequest =
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
 
-	// only usePost support previews
-	if (type === 'usePost' && ctx.preview && ctx.previewData && isPreviewRequest) {
+	if (ctx.preview && ctx.previewData && isPreviewRequest) {
 		// @ts-expect-error (TODO: fix this)
 		finalParams.id = ctx.previewData.id;
 		// @ts-expect-error (TODO: fix this)
@@ -95,7 +72,6 @@ export async function fetchHookData(
 		finalParams,
 	);
 
-	// @ts-expect-error (TODO: fix this)
 	return { key: endpointUrlForKey, data: fetchStrategy.filterData(data, filterDataOptions) };
 }
 

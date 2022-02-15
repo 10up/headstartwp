@@ -3,6 +3,7 @@ import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
+import { endpoints } from '../utils';
 
 export interface PostParams extends EndpointParams {
 	slug?: string;
@@ -13,6 +14,10 @@ export interface PostParams extends EndpointParams {
 }
 
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
+	getDefaultEndpoint(): string {
+		return endpoints.posts;
+	}
+
 	getParamsFromURL(path: string): Partial<PostParams> {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
@@ -42,14 +47,14 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		}
 
 		if (id) {
-			this.setEndpoint(`${this.endpoint}/${id}`);
+			this.setEndpoint(`${this.getEndpoint()}/${id}`);
 			if (endpointParams.slug) {
 				delete endpointParams.slug;
 			}
 		}
 
 		if (revision) {
-			this.setEndpoint(`${this.endpoint}/revisions`);
+			this.setEndpoint(`${this.getEndpoint()}/revisions`);
 		}
 
 		return super.buildEndpointURL(endpointParams);

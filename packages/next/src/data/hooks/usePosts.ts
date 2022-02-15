@@ -8,8 +8,6 @@ import { getPostAuthor, getPostTerms, PageInfo } from '@10up/headless-core/data'
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
-const endpoint = '/wp-json/wp/v2/posts';
-
 type PageType = {
 	/**
 	 * Regular post archive
@@ -54,8 +52,6 @@ export interface usePostsResponse extends HookResponse {
 	pageType: PageType;
 }
 
-const fetchStrategy = new PostsArchiveFetchStrategy();
-
 /**
  * The usePost hook. Returns a collection of post entities
  *
@@ -68,11 +64,7 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 		data,
 		error,
 		params: queryParams,
-	} = useFetch<PostEntity, PostsArchiveParams>(
-		endpoint,
-		{ _embed: true, ...params },
-		fetchStrategy,
-	);
+	} = useFetch<PostEntity, PostsArchiveParams>({ _embed: true, ...params }, usePosts.fetcher());
 
 	const pageType: PageType = {
 		isPostArchive: false,
@@ -137,3 +129,5 @@ export function usePosts(params: PostsArchiveParams): usePostsResponse {
 
 	return { data: { posts, pageInfo }, loading: false, pageType };
 }
+
+usePosts.fetcher = () => new PostsArchiveFetchStrategy();

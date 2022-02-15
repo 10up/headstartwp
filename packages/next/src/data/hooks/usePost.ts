@@ -3,13 +3,9 @@ import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
-const endpoint = '/wp-json/wp/v2/posts';
-
 interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };
 }
-
-const fetchStrategy = new SinglePostFetchStrategy();
 
 /**
  * The usePost hook. Returns a single post entity
@@ -20,9 +16,8 @@ const fetchStrategy = new SinglePostFetchStrategy();
  */
 export function usePost(params: PostParams): usePostResponse {
 	const { data, error } = useFetch<PostEntity, PostParams>(
-		endpoint,
 		{ _embed: true, ...params },
-		fetchStrategy,
+		usePost.fetcher(),
 	);
 
 	if (error) {
@@ -41,3 +36,5 @@ export function usePost(params: PostParams): usePostResponse {
 
 	return { data: { post }, loading: false };
 }
+
+usePost.fetcher = () => new SinglePostFetchStrategy();

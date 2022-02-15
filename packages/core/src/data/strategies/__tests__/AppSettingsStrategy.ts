@@ -1,10 +1,11 @@
 import { AppSettingsStrategy } from '../AppSettingsStrategy';
 
 describe('AppSettingsStrategy', () => {
-	const fetchStrategy = new AppSettingsStrategy();
+	let fetchStrategy: AppSettingsStrategy;
 
-	fetchStrategy.setBaseURL('');
-	fetchStrategy.setEndpoint('/wp-json/wp/v2/posts');
+	beforeEach(() => {
+		fetchStrategy = new AppSettingsStrategy();
+	});
 
 	it('ever returns any params from the url', async () => {
 		expect(fetchStrategy.getParamsFromURL('/modi')).toEqual({});
