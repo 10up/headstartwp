@@ -1,0 +1,30 @@
+<?php
+
+use HeadlessWP\Plugin;
+use HeadlessWP\Preview\PreviewToken;
+
+$preview_post = get_post( get_the_ID() );
+
+$is_revision = $preview_post->post_status === 'publish';
+$post_id     = $preview_post->ID;
+$post_type   = get_post_type( $preview_post->ID );
+
+$token = PreviewToken::generate(
+	array(
+		'type'      => 'preview',
+		'post_type' => $post_type,
+		'post_id'   => $post_id,
+	)
+);
+
+$preview_url =  sprintf(
+	'%sapi/preview?post_id=%d&post_type=%s&is_revision=%s&token=%s',
+	trailingslashit( Plugin::get_react_url() ),
+	$post_id,
+	$post_type,
+	$is_revision ? '1' : '0',
+	$token
+);
+
+wp_redirect( $preview_url );
+die();

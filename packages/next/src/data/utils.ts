@@ -51,11 +51,31 @@ export async function fetchHookData(
 	const urlParams = fetchStrategy.getParamsFromURL(ctx.params);
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
-	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
-	const data = await fetchStrategy.fetcher(endpointUrl, finalParams);
+	// we don't want to include the preview params in the key
+	const endpointUrlForKey = fetchStrategy.buildEndpointURL(finalParams);
+
+	const isPreviewRequest =
+		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
+
+	// only usePost support previews
+	if (type === 'usePost' && ctx.preview && ctx.previewData && isPreviewRequest) {
+		// @ts-expect-error (TODO: fix this)
+		finalParams.id = ctx.previewData.id;
+		// @ts-expect-error (TODO: fix this)
+		finalParams.revision = ctx.previewData.revision;
+		// @ts-expect-error (TODO: fix this)
+		finalParams.postType = ctx.previewData.postType;
+		// @ts-expect-error (TODO: fix this)
+		finalParams.authToken = ctx.previewData.authToken;
+	}
+
+	const data = await fetchStrategy.fetcher(
+		fetchStrategy.buildEndpointURL(finalParams),
+		finalParams,
+	);
 
 	// @ts-expect-error (TODO: fix this)
-	return { key: endpointUrl, data: fetchStrategy.filterData(data, filterDataOptions) };
+	return { key: endpointUrlForKey, data: fetchStrategy.filterData(data, filterDataOptions) };
 }
 
 type HookState = {

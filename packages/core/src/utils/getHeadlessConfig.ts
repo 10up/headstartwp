@@ -44,18 +44,30 @@ export function getCustomPostTypesSlugs() {
 
 export function getCustomPostTypes() {
 	const { customPostTypes } = getHeadlessConfig();
-	const corePostTypes = [
-		{
-			slug: 'post',
-			endpoint: '/wp-json/wp/v2/posts',
-		},
-		{
+
+	const postTypes = customPostTypes || [];
+
+	const hasPost = postTypes.find(({ slug }) => slug === 'post');
+	const hasPage = postTypes.find(({ slug }) => slug === 'page');
+
+	if (!hasPage) {
+		postTypes.push({
 			slug: 'page',
 			endpoint: '/wp-json/wp/v2/pages',
-		},
-	];
+			single: '/',
+		});
+	}
 
-	return [...(customPostTypes || []), ...corePostTypes];
+	if (!hasPost) {
+		postTypes.push({
+			slug: 'post',
+			endpoint: '/wp-json/wp/v2/posts',
+			single: '/',
+			archive: '/blog',
+		});
+	}
+
+	return postTypes;
 }
 
 export function getCustomPostType(slug: string) {

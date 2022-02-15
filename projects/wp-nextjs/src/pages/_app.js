@@ -15,8 +15,8 @@ const MyApp = ({ Component, pageProps }) => {
 			<HeadlessApp
 				pageProps={pageProps}
 				swrConfig={{
-					revalidateOnFocus: false,
-					revalidateOnReconnect: false,
+					revalidateOnFocus: true,
+					revalidateOnReconnect: true,
 					revalidateOnMount: true,
 				}}
 			>
