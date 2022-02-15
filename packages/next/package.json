@@ -36,7 +36,7 @@
     "dev": "npm run ts -- --watch",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
-    "test": "jest --passWithNoTests"
+    "test": ""
   },
   "author": "",
   "license": "ISC",
