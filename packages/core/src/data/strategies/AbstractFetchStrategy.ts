@@ -31,12 +31,22 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 
 	baseURL: string = '';
 
+	abstract getDefaultEndpoint(): string;
+
 	setEndpoint(endpoint: string) {
 		this.endpoint = endpoint;
 	}
 
 	setBaseURL(url: string | undefined = '') {
 		this.baseURL = url;
+	}
+
+	getEndpoint(): string {
+		if (!this.endpoint) {
+			return this.getDefaultEndpoint();
+		}
+
+		return this.endpoint;
 	}
 
 	/**
@@ -58,7 +68,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	buildEndpointURL(params: Partial<Params>): string {
 		const { _embed, ...endpointParams } = params;
 
-		const url = addQueryArgs(this.endpoint, { ...endpointParams });
+		const url = addQueryArgs(this.getEndpoint(), { ...endpointParams });
 
 		if (_embed) {
 			return addQueryArgs(url, { _embed });

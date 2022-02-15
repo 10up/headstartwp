@@ -1,4 +1,4 @@
-import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
+import { usePost, fetchHookData, useAppSettings, addHookData } from '@10up/headless-next/data';
 import { handleError } from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { PageContent } from '../components/PageContent';
@@ -22,9 +22,9 @@ export default Homepage;
 
 export async function getStaticProps(context) {
 	try {
-		const appSettings = await fetchHookData('useAppSettings', context);
+		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 		const slug = appSettings.data.result?.home?.slug || 'front-page';
-		const hookData = await fetchHookData('usePost', context, {
+		const hookData = await fetchHookData(usePost.fetcher(), context, {
 			params: {
 				slug,
 				...params,

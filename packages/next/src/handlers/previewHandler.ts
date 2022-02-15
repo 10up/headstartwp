@@ -1,4 +1,4 @@
-import { PostEntity } from '@10up/headless-core/data';
+import { PostEntity, SinglePostFetchStrategy } from '@10up/headless-core/data';
 import { getCustomPostType } from '@10up/headless-core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData } from '../data';
@@ -35,7 +35,7 @@ export async function previewHandler(
 	const { post_id, post_type, is_revision, token } = req.query;
 	const revision = is_revision === '1';
 	const { data } = await fetchHookData(
-		'usePost',
+		new SinglePostFetchStrategy(),
 		{
 			params: { path: [] },
 		},

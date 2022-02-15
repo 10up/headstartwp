@@ -1,10 +1,11 @@
 import { SearchFetchStrategy } from '../SearchFetchStrategy';
 
 describe('SearchFetchStrategy', () => {
-	const fetchStrategy = new SearchFetchStrategy();
+	let fetchStrategy: SearchFetchStrategy;
 
-	fetchStrategy.setBaseURL('');
-	fetchStrategy.setEndpoint('/wp-json/wp/v2/posts');
+	beforeEach(() => {
+		fetchStrategy = new SearchFetchStrategy();
+	});
 
 	it('parses the url properly', async () => {
 		// search type

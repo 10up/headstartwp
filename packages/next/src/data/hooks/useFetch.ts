@@ -17,14 +17,12 @@ interface useFetchOptions {
 /**
  * The useFetch hook
  *
- * @param endpoint - The endpoint to fetch data from
  * @param params - List of params
  * @param fetchStrategy - The Fetching strategy
  *
  * @returns
  */
 export function useFetch<E extends Entity, Params extends EndpointParams>(
-	endpoint: string,
 	params: Params,
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
 	options: useFetchOptions = {},
@@ -32,7 +30,6 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	const { url } = useSettings();
 
 	fetchStrategy.setBaseURL(url);
-	fetchStrategy.setEndpoint(endpoint);
 
 	const { query } = useRouter();
 

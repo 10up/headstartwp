@@ -1,8 +1,15 @@
 import { searchMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import { endpoints } from '../utils';
 
 export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
+	constructor() {
+		super();
+
+		this.setEndpoint(endpoints.posts);
+	}
+
 	getParamsFromURL(path: string): Partial<PostsArchiveParams> {
 		return parsePath(searchMatchers, path);
 	}

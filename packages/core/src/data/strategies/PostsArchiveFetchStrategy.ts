@@ -8,6 +8,7 @@ import {
 	ConfigError,
 	NotFoundError,
 } from '../../utils';
+import { endpoints } from '../utils';
 import { apiGet } from '../api';
 import { PostEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
@@ -59,6 +60,10 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	PostEntity,
 	PostsArchiveParams
 > {
+	getDefaultEndpoint(): string {
+		return endpoints.posts;
+	}
+
 	getParamsFromURL(path: string): Partial<PostsArchiveParams> {
 		const matchers = [...postsMatchers];
 

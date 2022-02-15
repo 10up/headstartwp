@@ -7,11 +7,10 @@ jest.mock('../../api');
 const apiGetMock = jest.mocked(apiGet);
 
 describe('SinglePostFetchStrategy', () => {
-	const fetchStrategy = new SinglePostFetchStrategy();
+	let fetchStrategy: SinglePostFetchStrategy;
 
 	beforeEach(() => {
-		fetchStrategy.setBaseURL('');
-		fetchStrategy.setEndpoint('/wp-json/wp/v2/posts');
+		fetchStrategy = new SinglePostFetchStrategy();
 
 		setHeadlessConfig({});
 		apiGetMock.mockReset();
