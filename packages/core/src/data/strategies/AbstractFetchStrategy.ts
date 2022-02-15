@@ -40,24 +40,13 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	}
 
 	/**
-	 * Creates a path from array of arguments
-	 *
-	 * @param args - Array of catch-all arguments
-	 *
-	 * @returns path
-	 */
-	createPathFromArgs(args: string[]) {
-		return `/${args.join('/')}`;
-	}
-
-	/**
 	 * Returns the supported params from the URL if present
 	 *
 	 * @param params The URL params
 	 *
 	 * @returns params extracted from the URL
 	 */
-	abstract getParamsFromURL(params: { path?: string[] } | undefined): Partial<Params>;
+	abstract getParamsFromURL(path: string): Partial<Params>;
 
 	/**
 	 * Builds the final endpoint URL based on the passed parameters
@@ -68,6 +57,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 */
 	buildEndpointURL(params: Partial<Params>): string {
 		const { _embed, ...endpointParams } = params;
+
 		const url = addQueryArgs(this.endpoint, { ...endpointParams });
 
 		if (_embed) {
@@ -88,7 +78,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async fetcher(
 		url: string,
-		params: Params,
+		params: Partial<Params>,
 		options: Partial<FetchOptions> = {},
 	): Promise<FetchResponse<E>> {
 		const args = {};

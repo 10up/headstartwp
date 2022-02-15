@@ -32,6 +32,21 @@ export interface FetchHookDataOptions {
 	filterData?: FilterDataOptions;
 }
 
+/**
+ * Creates a path from array of arguments
+ *
+ * @param args - Array of catch-all arguments
+ *
+ * @returns path
+ */
+export function convertToPath(args: string[] | undefined) {
+	if (!args) {
+		return '/';
+	}
+
+	return `/${args.join('/')}`;
+}
+
 export async function fetchHookData(
 	type: HookType,
 	ctx: GetServerSidePropsContext | GetStaticPropsContext,
@@ -48,7 +63,13 @@ export async function fetchHookData(
 	fetchStrategy.setBaseURL(wpURL);
 	fetchStrategy.setEndpoint(endpoint);
 
-	const urlParams = fetchStrategy.getParamsFromURL(ctx.params);
+	let path: string[] = [];
+
+	if (ctx.params) {
+		path = Array.isArray(ctx.params.path) ? ctx.params.path : [ctx.params.path || ''];
+	}
+
+	const urlParams = fetchStrategy.getParamsFromURL(convertToPath(path));
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key

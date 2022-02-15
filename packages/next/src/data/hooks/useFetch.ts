@@ -8,6 +8,7 @@ import {
 	EndpointParams,
 	FetchResponse,
 } from '@10up/headless-core';
+import { convertToPath } from '../utils';
 
 interface useFetchOptions {
 	shouldFetch?: () => boolean;
@@ -34,7 +35,10 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	fetchStrategy.setEndpoint(endpoint);
 
 	const { query } = useRouter();
-	const urlParams = fetchStrategy.getParamsFromURL(query);
+
+	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
+	const urlParams = fetchStrategy.getParamsFromURL(convertToPath(path));
+
 	const finalParams = { ...urlParams, ...params };
 
 	const shouldFetch = options?.shouldFetch ? options.shouldFetch : () => true;
