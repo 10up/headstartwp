@@ -4,10 +4,8 @@ import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFet
 import { endpoints } from '../utils';
 
 export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
-	constructor() {
-		super();
-
-		this.setEndpoint(endpoints.posts);
+	getDefaultEndpoint(): string {
+		return endpoints.posts;
 	}
 
 	getParamsFromURL(path: string): Partial<PostsArchiveParams> {
