@@ -21,4 +21,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run Eslint
-        uses: bradennapier/eslint-plus-action@v3.4.2
+        uses: npm run lint
