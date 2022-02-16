@@ -1,5 +1,10 @@
-import { PostEntity, PostParams, SinglePostFetchStrategy } from '@10up/headless-core';
-import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
+import {
+	getPostAuthor,
+	getPostTerms,
+	PostEntity,
+	PostParams,
+	SinglePostFetchStrategy,
+} from '@10up/headless-core';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 

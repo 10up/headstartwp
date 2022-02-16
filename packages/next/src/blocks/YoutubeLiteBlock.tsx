@@ -1,4 +1,4 @@
-import { youtubeEmbedRegex } from '@10up/headless-core/dom';
+import { youtubeEmbedRegex } from '@10up/headless-core';
 import { useEffect } from 'react';
 
 interface LiteYoutube {

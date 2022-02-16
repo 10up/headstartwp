@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { usePost } from '@10up/headless-next/data';
+import { usePost } from '@10up/headless-next';
 import { Blocks } from './Blocks';
 
 export const PageContent = ({ params }) => {

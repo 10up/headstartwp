@@ -1,5 +1,4 @@
-import { usePosts, fetchHookData, addHookData } from '@10up/headless-next/data';
-import { handleError } from '@10up/headless-next';
+import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headless-next';
 
 const Template = () => {
 	const { data, error, loading } = usePosts({ postType: 'book' });

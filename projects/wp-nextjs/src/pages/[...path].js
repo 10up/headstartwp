@@ -1,5 +1,4 @@
-import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
-import { handleError } from '@10up/headless-next';
+import { usePost, fetchHookData, addHookData, handleError } from '@10up/headless-next';
 import { Blocks } from '../components/Blocks';
 
 const params = {

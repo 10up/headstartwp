@@ -13,18 +13,6 @@
     "./utils": {
       "import": "./dist/mjs/utils/index.js",
       "require": "./dist/cjs/utils/index.js"
-    },
-    "./data": {
-      "import": "./dist/mjs/data/index.js",
-      "require": "./dist/cjs/data/index.js"
-    },
-    "./compnoents": {
-      "import": "./dist/mjs/components/index.js",
-      "require": "./dist/cjs/components/index.js"
-    },
-    "./dom": {
-      "import": "./dist/mjs/dom/index.js",
-      "require": "./dist/cjs/dom/index.js"
     }
   },
   "scripts": {
