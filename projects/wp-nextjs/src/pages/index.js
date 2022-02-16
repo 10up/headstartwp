@@ -1,5 +1,10 @@
-import { usePost, fetchHookData, useAppSettings, addHookData } from '@10up/headless-next/data';
-import { handleError } from '@10up/headless-next';
+import {
+	usePost,
+	fetchHookData,
+	useAppSettings,
+	addHookData,
+	handleError,
+} from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { PageContent } from '../components/PageContent';
 

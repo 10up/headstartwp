@@ -13,22 +13,6 @@
     "./middlewares": {
       "import": "./dist/mjs/middlewares/index.js",
       "require": "./dist/cjs/middlewares/index.js"
-    },
-    "./data": {
-      "import": "./dist/mjs/data/index.js",
-      "require": "./dist/cjs/data/index.js"
-    },
-    "./components": {
-      "import": "./dist/mjs/components/index.js",
-      "require": "./dist/cjs/components/index.js"
-    },
-    "./blocks": {
-      "import": "./dist/mjs/blocks/index.js",
-      "require": "./dist/cjs/blocks/index.js"
-    },
-    "./utils": {
-      "import": "./dist/mjs/utils/index.js",
-      "require": "./dist/cjs/utils/index.js"
     }
   },
   "scripts": {

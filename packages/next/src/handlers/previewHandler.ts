@@ -1,4 +1,4 @@
-import { PostEntity, SinglePostFetchStrategy } from '@10up/headless-core/data';
+import { PostEntity, SinglePostFetchStrategy } from '@10up/headless-core';
 import { getCustomPostType } from '@10up/headless-core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData } from '../data';

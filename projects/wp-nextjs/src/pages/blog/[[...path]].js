@@ -1,5 +1,10 @@
-import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headless-next';
-import { useAppSettings } from '@10up/headless-next/data';
+import {
+	usePosts,
+	fetchHookData,
+	addHookData,
+	handleError,
+	useAppSettings,
+} from '@10up/headless-next';
 
 const Home = () => {
 	const { loading, error, data, pageType } = usePosts();

@@ -1,4 +1,4 @@
-import { FC, createContext } from 'react';
+import { FC, createContext, useMemo } from 'react';
 import { getHeadlessConfig } from '../utils';
 import { SettingsContextProps } from './types';
 
@@ -9,14 +9,13 @@ interface ProviderProps {
 }
 
 export const SettingsProvider: FC<ProviderProps> = ({ settings, children }) => {
-	return (
-		<SettingsContext.Provider
-			value={{
-				...getHeadlessConfig(),
-				...settings,
-			}}
-		>
-			{children}
-		</SettingsContext.Provider>
+	const settingsValue = useMemo(
+		() => ({
+			...getHeadlessConfig(),
+			...settings,
+		}),
+		[settings],
 	);
+
+	return <SettingsContext.Provider value={settingsValue}>{children}</SettingsContext.Provider>;
 };

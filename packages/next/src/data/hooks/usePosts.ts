@@ -3,8 +3,10 @@ import {
 	PostsArchiveParams,
 	PostsArchiveFetchStrategy,
 	getCustomTaxonomySlugs,
+	getPostAuthor,
+	getPostTerms,
+	PageInfo,
 } from '@10up/headless-core';
-import { getPostAuthor, getPostTerms, PageInfo } from '@10up/headless-core/data';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
