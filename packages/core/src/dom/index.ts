@@ -91,7 +91,7 @@ export function isYoutubeEmbed(node: DOMNode) {
 
 	const { src } = node.attribs || '';
 
-	return src.match(youtubeEmbedRegex);
+	return !!src.match(youtubeEmbedRegex);
 }
 
 /**
@@ -108,5 +108,7 @@ export function isTwitterEmbed(node: DOMNode) {
 	const isFigure = node.type === 'tag' && node.name === 'figure';
 	const className = node.attribs?.class || '';
 
-	return isFigure && className.includes('wp-block-embed-twitter');
+	return isFigure && className.split(' ').includes('wp-block-embed-twitter');
 }
+
+export * from './wpKsesPost';
