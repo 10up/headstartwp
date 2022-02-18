@@ -1,10 +1,10 @@
 import parse, { HTMLReactParserOptions, DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { isValidElement, PropsWithChildren, ReactNode } from 'react';
-import { wpKsesPost, ksesAllowedAttributes, ksesAllowedTags } from '../../dom';
+import { wpKsesPost, ksesAllowedAttributes, ksesAllowedTags } from '../dom';
 
-export interface BlockDef {
+export interface BlockProps {
 	test: (domNome: DOMNode) => boolean;
-	domNode: DOMNode;
+	domNode?: DOMNode;
 	children?: ReactNode | undefined;
 }
 
@@ -28,7 +28,7 @@ export const BlocksRenderer = ({ html, children }: BlocksRendererProps) => {
 			let component = null;
 
 			blocks.forEach((block) => {
-				if (isValidElement<BlockDef>(block) && block.props.test(domNode)) {
+				if (isValidElement<BlockProps>(block) && block.props.test(domNode)) {
 					component = React.createElement(
 						block.type,
 						{
@@ -44,5 +44,5 @@ export const BlocksRenderer = ({ html, children }: BlocksRendererProps) => {
 		},
 	};
 
-	return parse(cleanedHTML, options);
+	return <>{parse(cleanedHTML, options)}</>;
 };
