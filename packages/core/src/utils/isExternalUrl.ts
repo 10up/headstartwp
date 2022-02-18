@@ -3,6 +3,8 @@
  *
  * @param link - The link Url.
  *
+ * Inspired on the Frontity implementation @see https://github.com/frontity/frontity/blob/dev/packages/components/link/utils.ts
+ *
  * @returns True if the link is an external Url.
  */
 export function isExternalUrl(link: string) {
