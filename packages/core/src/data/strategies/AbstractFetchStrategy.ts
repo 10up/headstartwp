@@ -1,7 +1,6 @@
-import { addQueryArgs } from '@wordpress/url';
 import { Entity, PageInfo } from '../types';
 import { apiGet } from '../api';
-import { NotFoundError } from '../../utils';
+import { NotFoundError, addQueryArgs } from '../../utils';
 
 export interface EndpointParams {
 	_embed?: boolean;
