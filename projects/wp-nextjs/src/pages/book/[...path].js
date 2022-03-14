@@ -1,5 +1,4 @@
-import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
-import { handleError } from '@10up/headless-next';
+import { usePost, fetchHookData, addHookData, handleError } from '@10up/headless-next';
 
 const Template = () => {
 	const { data } = usePost({ postType: 'book' });
@@ -23,7 +22,9 @@ export default Template;
 
 export async function getServerSideProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context, { params: { postType: 'book' } });
+		const hookData = await fetchHookData(usePost.fetcher(), context, {
+			params: { postType: 'book' },
+		});
 
 		return addHookData([hookData], {});
 	} catch (e) {

@@ -14,6 +14,8 @@
 
 namespace HeadlessWP;
 
+use HeadlessWP\Preview\PreviewToken;
+
 // Useful global constants.
 define( 'HEADLESS_WP_PLUGIN_VERSION', '1.0.0' );
 define( 'HEADLESS_WP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -30,6 +32,19 @@ function activate() {
 
 // Activation/Deactivation.
 register_activation_hook( __FILE__, 'activate' );
+
+// Load php-jwt classes.
+$jwt_files = [
+	'BeforeValidException.php',
+	'ExpiredException.php',
+	'JWK.php',
+	'JWT.php',
+	'SignatureInvalidException.php',
+];
+
+foreach ( $jwt_files as $filename ) {
+	require_once HEADLESS_WP_PLUGIN_PATH . '/includes/classes/php-jwt/' . $filename;
+}
 
 // Require Composer autoloader if it exists.
 if ( file_exists( HEADLESS_WP_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
@@ -59,4 +74,8 @@ if ( file_exists( HEADLESS_WP_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
 // Setup plugin
 $plugin = new Plugin();
 $plugin->register();
+
+add_action( 'rest_api_init', function() {
+	PreviewToken::setup();
+});
 

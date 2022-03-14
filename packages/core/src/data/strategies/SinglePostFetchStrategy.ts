@@ -3,26 +3,31 @@ import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
+import { endpoints } from '../utils';
 
 export interface PostParams extends EndpointParams {
-	slug: string;
+	slug?: string;
 	postType?: string | string[];
+	id?: Number;
+	revision?: Boolean;
+	authToken?: string;
 }
 
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
-	getParamsFromURL(params: { path?: string[] } | undefined): Partial<PostParams> {
-		if (!params?.path) {
-			return {};
-		}
+	getDefaultEndpoint(): string {
+		return endpoints.posts;
+	}
 
-		const { path } = params;
+	getParamsFromURL(path: string): Partial<PostParams> {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { year, day, month, ...params } = parsePath(postMatchers, path);
 
-		return parsePath(postMatchers, this.createPathFromArgs(path));
+		return params;
 	}
 
 	buildEndpointURL(params: PostParams) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { postType, ...endpointParams } = params;
+		const { id, authToken, revision, postType, ...endpointParams } = params;
 
 		if (params.postType) {
 			// if postType is a array of slugs, start off with the first post type
@@ -41,10 +46,25 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 			this.setEndpoint(postType.endpoint);
 		}
 
+		if (id) {
+			this.setEndpoint(`${this.getEndpoint()}/${id}`);
+			if (endpointParams.slug) {
+				delete endpointParams.slug;
+			}
+		}
+
+		if (revision) {
+			this.setEndpoint(`${this.getEndpoint()}/revisions`);
+		}
+
 		return super.buildEndpointURL(endpointParams);
 	}
 
 	async fetcher(url: string, params: PostParams, options: Partial<FetchOptions> = {}) {
+		if (params.authToken) {
+			options.bearerToken = params.authToken;
+		}
+
 		let error;
 		try {
 			const result = await super.fetcher(url, params, options);

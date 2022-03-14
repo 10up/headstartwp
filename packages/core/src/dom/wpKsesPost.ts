@@ -12,14 +12,13 @@ export type allowedAttributesType = {
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
  * @returns Sanitized string of HTML.
  */
-const wp_kses_post = (
+export const wpKsesPost = (
 	content: string,
-	allowedTags: allowedTagsType | false,
-	allowedAtts: allowedAttributesType | false,
+	allowedTags?: allowedTagsType | false | undefined,
+	allowedAtts?: allowedAttributesType | false | undefined,
 ): string => {
 	if (typeof allowedTags === 'object' && allowedTags.length) {
-		// merge allowed tags and default tags
-		allowedTags = [...ksesAllowedTags, ...allowedTags];
+		allowedTags = [...allowedTags];
 	} else if (typeof allowedTags === 'undefined') {
 		allowedTags = ksesAllowedTags;
 	} else if (allowedTags === false) {
@@ -44,8 +43,6 @@ const wp_kses_post = (
 		},
 	}).replace('&amp;', '&');
 };
-
-export default wp_kses_post;
 
 /**
  * Default Allowed HTML Tags (From wp_kses_post)

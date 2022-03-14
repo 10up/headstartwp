@@ -3,8 +3,7 @@ import {
 	fetchHookData,
 	addHookData,
 	handleError,
-	// useAppSettings,
-	// useMenu,
+	useAppSettings,
 } from '@10up/headless-next';
 
 const Home = () => {
@@ -35,14 +34,10 @@ export default Home;
 
 export async function getServerSideProps(context) {
 	try {
-		const postsData = await fetchHookData('usePosts', context, {
+		const postsData = await fetchHookData(usePosts.fetcher(), context, {
 			filterData: { method: 'ALLOW', fields: ['id', 'title'] },
 		});
-		const appData = await fetchHookData('useAppSettings', context);
-		// const hookData = await fetchHookData('usePosts', context, { postType: 'book' });
-		// const hookData = await fetchHookData('usePosts', context, {
-		// 	postType: { slug: 'books', endpoint: '/book' },
-		// });
+		const appData = await fetchHookData(useAppSettings.fetcher(), context);
 		return addHookData([postsData, appData], {});
 	} catch (e) {
 		return handleError(e, context);

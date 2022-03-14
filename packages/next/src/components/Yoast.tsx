@@ -3,20 +3,12 @@ import Head from 'next/head';
 export const Yoast = ({ seo }) => {
 	return (
 		<Head>
-			{seo?.yoast_head_json?.title && (
-				<>
-					<title>{seo.yoast_head_json.title}</title>
-				</>
-			)}
+			{seo?.yoast_head_json?.title && <title>{seo.yoast_head_json.title}</title>}
 			{seo?.yoast_head_json?.description && (
-				<>
-					<meta name="description" content={seo.yoast_head_json.description} />
-				</>
+				<meta name="description" content={seo.yoast_head_json.description} />
 			)}
 			{seo?.yoast_head_json?.canonical && (
-				<>
-					<link rel="canonical" href={seo.yoast_head_json.canonical} />
-				</>
+				<link rel="canonical" href={seo.yoast_head_json.canonical} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.robots && (
 				<>
@@ -32,34 +24,22 @@ export const Yoast = ({ seo }) => {
 
 			{/* OG Meta Tags */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_locale && (
-				<>
-					<meta property="og:locale" content={seo.yoast_head_json.og_locale} />
-				</>
+				<meta property="og:locale" content={seo.yoast_head_json.og_locale} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_type && (
-				<>
-					<meta property="og:type" content={seo.yoast_head_json.og_type} />
-				</>
+				<meta property="og:type" content={seo.yoast_head_json.og_type} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_title && (
-				<>
-					<meta property="og:title" content={seo.yoast_head_json.og_title} />
-				</>
+				<meta property="og:title" content={seo.yoast_head_json.og_title} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_description && (
-				<>
-					<meta property="og:description" content={seo.yoast_head_json.og_description} />
-				</>
+				<meta property="og:description" content={seo.yoast_head_json.og_description} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_url && (
-				<>
-					<meta property="og:url" content={seo.yoast_head_json.og_url} />
-				</>
+				<meta property="og:url" content={seo.yoast_head_json.og_url} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_site_name && (
-				<>
-					<meta property="og:site_name" content={seo.yoast_head_json.og_site_name} />
-				</>
+				<meta property="og:site_name" content={seo.yoast_head_json.og_site_name} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_image && (
 				<>
@@ -81,27 +61,19 @@ export const Yoast = ({ seo }) => {
 
 			{/* Twitter Meta Tags */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_card && (
-				<>
-					<meta name="twitter:card" content={seo.yoast_head_json.twitter_card} />
-				</>
+				<meta name="twitter:card" content={seo.yoast_head_json.twitter_card} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_title && (
-				<>
-					<meta name="twitter:title" content={seo.yoast_head_json.twitter_title} />
-				</>
+				<meta name="twitter:title" content={seo.yoast_head_json.twitter_title} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_description && (
-				<>
-					<meta
-						name="twitter:description"
-						content={seo.yoast_head_json.twitter_description}
-					/>
-				</>
+				<meta
+					name="twitter:description"
+					content={seo.yoast_head_json.twitter_description}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_image && (
-				<>
-					<meta name="twitter:image" content={seo.yoast_head_json.twitter_image} />
-				</>
+				<meta name="twitter:image" content={seo.yoast_head_json.twitter_image} />
 			)}
 			{/* JSON-LD Schema */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.schema && (

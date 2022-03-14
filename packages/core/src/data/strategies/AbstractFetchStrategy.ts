@@ -15,6 +15,7 @@ export interface FetchResponse<T> {
 
 export interface FetchOptions {
 	throwIfNotFound: boolean;
+	bearerToken?: string;
 }
 
 export interface FilterDataOptions {
@@ -30,6 +31,8 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 
 	baseURL: string = '';
 
+	abstract getDefaultEndpoint(): string;
+
 	setEndpoint(endpoint: string) {
 		this.endpoint = endpoint;
 	}
@@ -38,15 +41,12 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		this.baseURL = url;
 	}
 
-	/**
-	 * Creates a path from array of arguments
-	 *
-	 * @param args - Array of catch-all arguments
-	 *
-	 * @returns path
-	 */
-	createPathFromArgs(args: string[]) {
-		return `/${args.join('/')}`;
+	getEndpoint(): string {
+		if (!this.endpoint) {
+			return this.getDefaultEndpoint();
+		}
+
+		return this.endpoint;
 	}
 
 	/**
@@ -56,7 +56,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 *
 	 * @returns params extracted from the URL
 	 */
-	abstract getParamsFromURL(params: { path?: string[] } | undefined): Partial<Params>;
+	abstract getParamsFromURL(path: string): Partial<Params>;
 
 	/**
 	 * Builds the final endpoint URL based on the passed parameters
@@ -67,7 +67,8 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 */
 	buildEndpointURL(params: Partial<Params>): string {
 		const { _embed, ...endpointParams } = params;
-		const url = addQueryArgs(this.endpoint, { ...endpointParams });
+
+		const url = addQueryArgs(this.getEndpoint(), { ...endpointParams });
 
 		if (_embed) {
 			return addQueryArgs(url, { _embed });
@@ -87,10 +88,15 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async fetcher(
 		url: string,
-		params: Params,
+		params: Partial<Params>,
 		options: Partial<FetchOptions> = {},
 	): Promise<FetchResponse<E>> {
-		const result = await apiGet(`${this.baseURL}${url}`);
+		const args = {};
+		if (options.bearerToken) {
+			// @ts-expect-error
+			args.headers = { Authorization: `Bearer ${options.bearerToken}` };
+		}
+		const result = await apiGet(`${this.baseURL}${url}`, args);
 		const { data } = result.json;
 
 		const throwIfNotFound =

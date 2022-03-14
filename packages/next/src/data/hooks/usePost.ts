@@ -1,15 +1,16 @@
-import { PostEntity, PostParams, SinglePostFetchStrategy } from '@10up/headless-core';
-import { getPostAuthor, getPostTerms } from '@10up/headless-core/data';
+import {
+	getPostAuthor,
+	getPostTerms,
+	PostEntity,
+	PostParams,
+	SinglePostFetchStrategy,
+} from '@10up/headless-core';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
-
-const endpoint = '/wp-json/wp/v2/posts';
 
 interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };
 }
-
-const fetchStrategy = new SinglePostFetchStrategy();
 
 /**
  * The usePost hook. Returns a single post entity
@@ -20,9 +21,8 @@ const fetchStrategy = new SinglePostFetchStrategy();
  */
 export function usePost(params: PostParams): usePostResponse {
 	const { data, error } = useFetch<PostEntity, PostParams>(
-		endpoint,
 		{ _embed: true, ...params },
-		fetchStrategy,
+		usePost.fetcher(),
 	);
 
 	if (error) {
@@ -34,10 +34,12 @@ export function usePost(params: PostParams): usePostResponse {
 	}
 
 	// TODO: fix types
-	const post = data.result[0] as PostEntity;
+	const post = Array.isArray(data.result) ? (data.result[0] as PostEntity) : data.result;
 
 	post.author = getPostAuthor(post);
 	post.terms = getPostTerms(post);
 
 	return { data: { post }, loading: false };
 }
+
+usePost.fetcher = () => new SinglePostFetchStrategy();

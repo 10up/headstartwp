@@ -1,5 +1,4 @@
-import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
-import { handleError } from '@10up/headless-next';
+import { usePost, fetchHookData, addHookData, handleError } from '@10up/headless-next';
 import { Blocks } from '../components/Blocks';
 
 const params = {
@@ -34,7 +33,7 @@ export function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context, { params });
+		const hookData = await fetchHookData(usePost.fetcher(), context, { params });
 
 		return addHookData([hookData], {});
 	} catch (e) {

@@ -1,8 +1,12 @@
-import { BlocksRenderer } from '@10up/headless-core';
+import {
+	BlocksRenderer,
+	isAnchorTag,
+	isImageTag,
+	isTwitterEmbed,
+	isYoutubeEmbed,
+} from '@10up/headless-core';
+import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
 import PropTypes from 'prop-types';
-
-import { isAnchorTag, isImageTag, isTwitterEmbed, isYoutubeEmbed } from '@10up/headless-core/dom';
-import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next/blocks';
 
 export const Blocks = ({ html }) => {
 	return (

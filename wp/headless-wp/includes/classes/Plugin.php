@@ -25,6 +25,9 @@ class Plugin {
 
 		$rest_api = new API();
 		$rest_api->register();
+
+		$preview = new Preview\PreviewLink();
+		$preview->register();
 	}
 
 	/**

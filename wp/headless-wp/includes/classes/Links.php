@@ -26,16 +26,12 @@ class Links {
 
 		if ( 'HEAD' !== $request_method ) {
 			add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
-			add_action( 'init', array( $this, 'hook_home_url_filter' ) );
-			add_action( 'rest_api_init', array( $this, 'hook_home_url_filter' ) );
-			add_action( 'admin_init', array( $this, 'hook_home_url_filter' ) );
+			// add_action( 'init', array( $this, 'hook_home_url_filter' ) );
+			// add_action( 'rest_api_init', array( $this, 'hook_home_url_filter' ) );
+			// add_action( 'admin_init', array( $this, 'hook_home_url_filter' ) );
 		}
 
-		add_filter( 'post_link', array( $this, 'maybe_prepend_posts' ), 10, 3 );
-		add_filter( 'term_link', array( $this, 'maybe_prepend_posts' ), 10, 3 );
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
-		add_filter( 'preview_post_link', array( $this, 'get_preview_link' ) );
-		add_filter( 'rest_api_init', array( $this, 'add_preview_link_to_public_post_type_rest_responses' ) );
 
 		// We need to hook in early so that the home filter will work when validating an auth token
 		if ( isset( $_SERVER['HTTP_AUTHORIZATION'] ) && $_SERVER['HTTP_AUTHORIZATION'] && false !== strpos( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ), 'Bearer' ) ) {
@@ -103,22 +99,6 @@ class Links {
 	}
 
 	/**
-	 * Prepends '/posts' to the default post post type
-	 *
-	 * @param $link - String of link
-	 * @param $post - WP_Post object to prepend to link
-	 * @param $test - true/false
-	 */
-	public function maybe_prepend_posts( $link, $post, $test ) {
-
-		if ( empty( $link ) || ( \is_a( $post, 'WP_Post' ) && 'publish' !== $post->post_status ) ) {
-			return $link;
-		}
-
-		return $link;
-	}
-
-	/**
 	 * To prevent loops, only apply the filter if the home_url filter has not yet already been set
 	 */
 	public function hook_home_url_filter() {
@@ -138,9 +118,6 @@ class Links {
 	 * @return string
 	 */
 	public function filter_home_url( $home_url, $path, $orig_scheme ) {
-
-		global $wp;
-
 		$url = Plugin::get_react_url();
 
 		if ( empty( $url ) ) {
@@ -163,7 +140,7 @@ class Links {
 
 		global $wp;
 
-		if ( is_admin() ) {
+		if ( is_admin() || is_preview() ) {
 			return;
 		}
 
@@ -178,101 +155,4 @@ class Links {
 
 		return;
 	}
-
-	/**
-	 * Provides a post type's slug in REST.
-	 *
-	 * @param object $post_type_object The post type object.
-	 * @return string.
-	 */
-	public function get_post_type_object_rest_slug( $post_type_object ) {
-		return empty( $post_type_object->rest_base ) ? $post_type_object->name : $post_type_object->rest_base;
-	}
-
-	/**
-	 * Overrides the preview link URL to one following the Next.js route pattern.
-	 *
-	 * @param string  $link The unfiltered link.
-	 * @param WP_Post $preview_post The current post.
-	 * @param bool    $draft Whether the post is a draft.
-	 * @return string Preview link.
-	 *
-	 * @filter preview_post_link in wp-includes/link-template.php.
-	 */
-	public function get_preview_link( $link, $preview_post = null, $draft = false ) {
-
-		if ( is_null( $preview_post ) ) {
-			$preview_post = get_post( get_the_ID() );
-		}
-
-		if ( ! is_a( $preview_post, WP_Post::class ) ) {
-			return $link;
-		}
-
-		$revision_post_type_object = null;
-
-		if ( wp_is_post_autosave( $preview_post->ID ) || wp_is_post_revision( $preview_post->ID ) ) {
-			$revision_post_type_object = get_post_type_object( get_post_type( $preview_post->ID ) );
-			$post_type_object          = get_post_type_object( get_post_type( $preview_post->post_parent ) );
-		} else {
-			$post_type_object = get_post_type_object( get_post_type( $preview_post->ID ) );
-		}
-
-		$revision_subpath = is_null( $revision_post_type_object )
-			? ''
-			: sprintf(
-				'%s/%d/',
-				$this->get_post_type_object_rest_slug( $revision_post_type_object ),
-				intval( $preview_post->ID )
-			);
-
-		return sprintf(
-			'%s_preview/%s/%d/%s%s',
-			trailingslashit( Plugin::get_react_url() ),
-			$this->get_post_type_object_rest_slug( $post_type_object ),
-			intval( is_null( $revision_post_type_object ) ? $preview_post->ID : $preview_post->post_parent ),
-			$revision_subpath,
-			wp_create_nonce( 'wp_rest' )
-		);
-	}
-
-	/**
-	 * Adds a filter to each public post type's REST response to include a preview_link in the response.
-	 *
-	 * @return void
-	 */
-	public function add_preview_link_to_public_post_type_rest_responses() {
-		$get_post_type_args = array(
-			'public'       => true,
-			'show_in_rest' => true,
-		);
-
-		foreach ( get_post_types( $get_post_type_args ) as $post_type ) {
-			add_filter( sprintf( 'rest_prepare_%s', $post_type ), array( $this, 'add_preview_link_to_rest_response' ), 10, 2 );
-		}
-	}
-
-	/**
-	 * Adds a Next.js-style preview link to the REST response for an unsaved draft post.
-	 *
-	 * When generating the preview link for an unsaved draft post, the Gutenberg JS first checks for `preview_link` in
-	 * the post's REST data and falls back to the `?p=56&preview=true`-style link, which won't work in the React
-	 * application because it doesn't include a nonce.
-
-	 * @see https://github.com/WordPress/gutenberg/blob/master/packages/editor/src/store/reducer.js#L762-L770
-	 *
-	 * @param WP_REST_Response $response Unfiltered REST response.
-	 * @param WP_Post          $post The post.
-	 * @return WP_REST_Response The filtered REST response.
-	 *
-	 * @filter rest_prepare_post
-	 */
-	public function add_preview_link_to_rest_response( $response, $post ) {
-		if ( ! isset( $response->data['preview_link'] ) ) {
-			$response->data['preview_link'] = $this->get_preview_link( '', $post, true );
-		}
-
-		return $response;
-	}
-
 }

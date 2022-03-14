@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const { withHeadlessConfig } = require('@10up/headless-next/utils');
+const { withHeadlessConfig } = require('@10up/headless-next');
 
 const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
 
