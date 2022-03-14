@@ -1,13 +1,12 @@
 
-## Instructions
-Requires npm >=7
+> A framework for building headless WordPress sites.
 
-- `npm install` from the root
+## Overview
+
+## Installation
+
+- `npx create-next-app`
 - `npm run dev`
-
-Visit the following urls to test:
--  http://localhost:3000/officiis-repudiandae-sunt-perferendis-repudiandae-nulla
-- http://localhost:3000/2020/05/07/ipsum-repudiandae-est-nam/
 
 ## Support Level
 
