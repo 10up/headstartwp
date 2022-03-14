@@ -16,9 +16,10 @@ describe('useOnClickOutside', () => {
 		const div = document.createElement('div');
 		const addSpy = jest.spyOn(document.body, 'addEventListener');
 		const removeSpy = jest.spyOn(document.body, 'removeEventListener');
+		const handler = () => {};
 
 		const { rerender, unmount } = renderHook(() =>
-			useOnClickOutside({ current: div }, () => {}),
+			useOnClickOutside({ current: div }, handler),
 		);
 
 		expect(addSpy).toHaveBeenCalledTimes(1);

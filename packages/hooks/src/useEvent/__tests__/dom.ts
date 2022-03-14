@@ -15,9 +15,10 @@ describe('useEvent', () => {
 		const button = document.createElement('button');
 		const addSpy = jest.spyOn(button, 'addEventListener');
 		const removeSpy = jest.spyOn(button, 'removeEventListener');
+		const handler = () => {};
 
 		const { rerender, unmount } = renderHook(() => {
-			useEvent({ current: button }, 'click', () => {});
+			useEvent({ current: button }, 'click', handler);
 		});
 
 		expect(addSpy).toHaveBeenCalledTimes(1);

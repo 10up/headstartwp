@@ -16,15 +16,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.15.1",
-    "@testing-library/react": "^12.1.2",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.3",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.0.3",
-    "jest": "^27.3.1",
-    "plop": "^2.7.6",
-    "ts-jest": "^27.0.7",
-    "typescript": "^4.5.2"
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1",
+    "plop": "^3.0.5",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17 || ^18",

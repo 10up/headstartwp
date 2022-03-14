@@ -16,9 +16,10 @@ describe('useKey', () => {
 		const button = document.createElement('button');
 		const addSpy = jest.spyOn(button, 'addEventListener');
 		const removeSpy = jest.spyOn(button, 'removeEventListener');
+		const handler = () => {};
 
 		const { rerender, unmount } = renderHook(() => {
-			useKey({ current: button }, 'Escape', () => {});
+			useKey({ current: button }, 'Escape', handler);
 		});
 
 		expect(addSpy).toHaveBeenCalledTimes(1);

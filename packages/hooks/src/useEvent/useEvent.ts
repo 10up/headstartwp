@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect } from 'react';
 
 /**
  * Binds an event handler to given element and unbinds it on unmount
@@ -14,19 +14,13 @@ export function useEvent<T extends EventTarget>(
 	handler: ((event: Event) => any) | null,
 	...params: [...(EventListenerObject | any)]
 ) {
-	const savedHandler = useRef<((event: Event) => void) | null>(null);
-
-	useEffect(() => {
-		savedHandler.current = handler;
-	}, [handler]);
-
 	useEffect(() => {
 		const el = ref.current;
-		if (!savedHandler.current || !el) {
+		if (!handler || !el) {
 			return () => {};
 		}
 
-		const listener = (event: Event) => savedHandler.current?.call(el, event);
+		const listener = (event: Event) => handler?.call(el, event);
 		el.addEventListener(eventName, listener, ...params);
 
 		// Remove event listener on cleanup
@@ -38,5 +32,5 @@ export function useEvent<T extends EventTarget>(
 
 		// Refs can't be watched but ESLint has no way of knowing they're refs
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [eventName]);
+	}, [eventName, handler, JSON.stringify(params)]);
 }

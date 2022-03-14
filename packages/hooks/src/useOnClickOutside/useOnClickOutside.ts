@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { RefObject, useCallback } from 'react';
 import { useEvent } from '..';
 import { isBrowser } from '../util';
 
@@ -14,23 +14,27 @@ export function useOnClickOutside(
 	ref: RefObject<HTMLElement>,
 	handler: ((event?: Event) => void) | null,
 ) {
-	const handleClick = handler
-		? (event: Event) => {
-				const targetElement = event.target as Node;
+	const handleClick = useCallback(
+		(event: Event) => {
+			const targetElement = event.target as Node;
 
-				if (
-					!ref.current ||
-					// If element is gone do nothing
-					!targetElement.isConnected ||
-					// Do nothing if clicking ref's element or descendent elements
-					ref.current.contains(targetElement)
-				) {
-					return;
-				}
+			if (
+				!handler ||
+				!ref.current ||
+				// If element is gone do nothing
+				!targetElement.isConnected ||
+				// Do nothing if clicking ref's element or descendent elements
+				ref.current.contains(targetElement)
+			) {
+				return;
+			}
 
-				handler(event);
-		  }
-		: null;
+			handler(event);
+		},
+		// Refs can't be watched but ESLint has no way of knowing they're refs
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[handler],
+	);
 
-	useEvent({ current: body }, 'click', handleClick);
+	useEvent({ current: body }, 'click', handler ? handleClick : null);
 }
