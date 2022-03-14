@@ -1,4 +1,4 @@
-import { addQueryArgs } from '@wordpress/url';
+import { addQueryArgs } from '../../utils';
 
 export const getAuthHeader = () => {
 	return null;
