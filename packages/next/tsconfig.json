@@ -4,7 +4,10 @@
       "module": "esnext",
       "outDir": "dist/mjs",
       "target": "esnext",
-      "rootDir": "src"
+      "rootDir": "src",
+      "jsx": "react-jsx",      
+      // todo: remove this
+      "noImplicitAny": false
     },
     "exclude": ["node_modules", "dist"],
     "include": ["src"]

@@ -89,10 +89,14 @@ export interface PostTypeEntity extends Entity {
 	 */
 	title?: Rendered;
 
-	/**
-	 * The ID for the author of the object.
-	 */
-	author?: number;
+	author?: AuthorEntity[];
+
+	terms?: Record<string, TermEntity[]>;
+
+	_embedded: {
+		author: AuthorEntity[];
+		'wp:term': Array<TermEntity[]>;
+	};
 
 	/**
 	 * Whether or not comments are open on the object.
@@ -174,11 +178,6 @@ export interface PostEntity extends PostTypeEntity {
  * Interface for entities from the /wp/v2/posts/1/revisions endpoint.
  */
 export interface RevisionEntity extends PostTypeEntity {
-	/**
-	 * The ID for the author of the object.
-	 */
-	author?: number;
-
 	/**
 	 * The ID for the parent of the object.
 	 */
@@ -626,4 +625,58 @@ export interface CommentEntity extends Entity {
 	 * Meta fields.
 	 */
 	meta?: Record<string, unknown>;
+}
+/**
+ * Interface for entities from the /wp/v2/search endpoint.
+ */
+export interface SearchEntity extends Entity {
+	/**
+	 * Unique identifier for the object.
+	 */
+	id: number | string;
+	/**
+	 * The title for the object.
+	 */
+	title: string;
+	/**
+	 * URL to the object.
+	 */
+	url: string;
+	/**
+	 * Type of Search for the object.
+	 */
+	type: 'post' | 'term' | 'post-format';
+	/**
+	 * Subtype of Search for the object.
+	 */
+	subtype: 'post' | 'page' | 'category' | 'post_tag';
+}
+
+export type Redirect = {
+	ID: number;
+	post_status: string;
+	redirect_from: string;
+	redirect_to: string;
+	status_code: number;
+	enable_regex: boolean;
+};
+
+export interface AppEntity extends Entity {
+	menus: {
+		[k: string]: PostEntity[];
+	};
+	settings: {
+		site_name: string;
+		site_desc: string;
+		site_wp_url: string;
+		site_rss_url: string;
+		posts_per_page: string;
+	};
+	redirects: Redirect[];
+}
+
+export interface PageInfo {
+	totalPages: number;
+	totalItems: number;
+	page: Number;
 }

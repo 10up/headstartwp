@@ -34,8 +34,31 @@ export const postsMatchers: Matcher[] = [
 		pattern: '/category/:category',
 	},
 	{
+		name: 'category-with-pagination',
+		priority: 30,
+		pattern: '/category/:category/page/:page',
+	},
+	{
 		name: 'tag',
 		priority: 30,
 		pattern: '/tag/:tag',
+	},
+	{
+		name: 'author',
+		priority: 30,
+		pattern: '/author/:author',
+	},
+];
+
+export const searchMatchers: Matcher[] = [
+	{
+		name: 'search type',
+		priority: 30,
+		pattern: '/:search?',
+	},
+	{
+		name: 'search-pagination',
+		priority: 30,
+		pattern: '/:search/page/:page',
 	},
 ];

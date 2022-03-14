@@ -1,0 +1,23 @@
+{
+  "name": "10up/headless-wp",
+  "description": "10up Headless WordPress API Plugin",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "10up",
+      "email": "info@10up.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "HeadlessWP\\": "includes/classes/"
+    }
+  },
+  "scripts": {
+    "lint": "phpcs .",
+    "lint-fix": "phpcbf ."
+  }
+}

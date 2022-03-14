@@ -3,15 +3,16 @@
   "description": "Monorepo for headless framework",
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-core",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
-    "dev": "concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=scaffold\"",
+    "dev": "npm run build:packages && concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=@10up/wp-nextjs\"",
     "prepare": "husky install"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
   "workspaces": [
     "packages/*",
-    "scaffold"
+    "projects/*"
   ],
   "devDependencies": {
     "@10up/eslint-config": "^2.3.7",
@@ -20,6 +21,7 @@
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "concurrently": "^6.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-jest": "^24.4.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2"
