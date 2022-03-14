@@ -70,7 +70,7 @@ describe('useOnClickOutside', () => {
 		const handler = jest.fn();
 
 		const ref: {
-			current: HTMLDivElement | null
+			current: HTMLDivElement | null;
 		} = { current: div };
 		renderHook(() => useOnClickOutside(ref, handler));
 

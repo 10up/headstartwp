@@ -17,14 +17,14 @@
   "license": "ISC",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.3",
+    "@testing-library/react": "^12.1.4",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
     "jest": "^27.5.1",
     "plop": "^3.0.5",
     "ts-jest": "^27.1.3",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17 || ^18",

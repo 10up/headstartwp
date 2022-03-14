@@ -80,12 +80,12 @@ const BreakpointsProvider = ({
 	useOnMount(() => guessSize());
 	// And re-guessing on window resize
 	useOnWindowResize(guessSize, debounceDelay);
-
-	return (
-		<BreakpointsContext.Provider value={{ breakpoints, currentBreakpoint }}>
-			{children}
-		</BreakpointsContext.Provider>
+	const props = useMemo(
+		() => ({ breakpoints, currentBreakpoint }),
+		[breakpoints, currentBreakpoint],
 	);
+
+	return <BreakpointsContext.Provider value={props}>{children}</BreakpointsContext.Provider>;
 };
 
 BreakpointsProvider.defaultProps = {

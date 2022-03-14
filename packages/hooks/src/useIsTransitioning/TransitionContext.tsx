@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect, useMemo, ReactNode } from 'react';
 import { useRouter } from 'next/router';
 
 type Context = {
@@ -37,12 +37,9 @@ const TransitionProvider = ({ children }: Props) => {
 			router.events.off('routeChangeError', handleStop);
 		};
 	}, [router]);
+	const props = useMemo(() => ({ isTransitioning }), [isTransitioning]);
 
-	return (
-		<TransitionContext.Provider value={{ isTransitioning }}>
-			{children}
-		</TransitionContext.Provider>
-	);
+	return <TransitionContext.Provider value={props}>{children}</TransitionContext.Provider>;
 };
 
 export { TransitionContext, TransitionProvider };
