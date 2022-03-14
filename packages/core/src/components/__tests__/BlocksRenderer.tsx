@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { DOMNode, Element } from 'html-react-parser';
+
 import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
 
 describe('BlocksRenderer', () => {
@@ -55,9 +56,7 @@ describe('BlocksRenderer', () => {
         >
           This Will Become a p tag
         </p>
-        <p
-          class=""
-        >
+        <p>
           This Will Become a p tag
         </p>
       </div>
