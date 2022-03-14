@@ -29,7 +29,8 @@ describe('BlocksRenderer', () => {
 
 	it('replaces markup with react components', () => {
 		const DivToP = ({ domNode, children }: BlockProps) => {
-			const className = domNode instanceof Element ? domNode?.attribs.class || '' : '';
+			const className =
+				domNode instanceof Element ? domNode?.attribs.class || undefined : undefined;
 			return <p className={className}>{children}</p>;
 		};
 

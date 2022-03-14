@@ -1,10 +1,8 @@
 /* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
-import sanitizeHtml from 'sanitize-html';
+import { sanitize } from 'dompurify';
 
 export type allowedTagsType = string[];
-export type allowedAttributesType = {
-	[key: string]: allowedTagsType;
-};
+export type allowedAttributesType = string[];
 
 /**
  * Sanitize HTML content by the wp_kses_post() requirements
@@ -17,31 +15,23 @@ export const wpKsesPost = (
 	allowedTags?: allowedTagsType | false | undefined,
 	allowedAtts?: allowedAttributesType | false | undefined,
 ): string => {
-	if (typeof allowedTags === 'object' && allowedTags.length) {
-		allowedTags = [...allowedTags];
-	} else if (typeof allowedTags === 'undefined') {
+	if (typeof allowedTags === 'undefined') {
 		allowedTags = ksesAllowedTags;
 	} else if (allowedTags === false) {
 		allowedTags = [];
 	}
 
-	if (typeof allowedAtts === 'object') {
-		// merge allowed atts and default atts
-		allowedAtts = { ...ksesAllowedAttributes, ...allowedAtts };
-	} else if (typeof allowedAtts === 'undefined') {
+	if (typeof allowedAtts === 'undefined') {
 		allowedAtts = ksesAllowedAttributes;
 	} else if (allowedAtts === false) {
-		allowedAtts = {};
+		allowedAtts = [];
 	}
 
-	return sanitizeHtml(content, {
-		allowedTags,
-		allowedAttributes: allowedAtts,
-		parser: {
-			lowerCaseTags: false,
-			lowerCaseAttributeNames: false,
-		},
-	}).replace('&amp;', '&');
+	return sanitize(content, {
+		ALLOWED_TAGS: allowedTags,
+		ALLOWED_ATTR: allowedAtts,
+		IN_PLACE: true,
+	});
 };
 
 /**
@@ -146,7 +136,7 @@ export const ksesAllowedTags: allowedTagsType = [
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
  * @returns Array of allowed attributes for tags.
  */
-export const ksesAllowedAttributes: allowedAttributesType = {
+const ksesAllowedAttributesObject: Record<string, Array<string>> = {
 	address: [
 		'aria-describedby',
 		'aria-details',
@@ -1444,3 +1434,11 @@ export const ksesAllowedAttributes: allowedAttributesType = {
 	'amp-instagram': ['layout', 'data-shortcode', 'data-captioned'],
 	'amp-youtube': ['layout', 'data-videoid', 'data-live-channelid', 'width', 'height'],
 };
+
+// DomPurity requires a flat array with properties
+export const ksesAllowedAttributes = Array.from(
+	Object.keys(ksesAllowedAttributesObject).reduce<Set<string>>((acc, key) => {
+		ksesAllowedAttributesObject[key].forEach((val) => acc.add(val));
+		return acc;
+	}, new Set()),
+);

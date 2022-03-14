@@ -1,6 +1,6 @@
 import parse, { HTMLReactParserOptions, DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { isValidElement, PropsWithChildren, ReactNode } from 'react';
-import { wpKsesPost, ksesAllowedAttributes, ksesAllowedTags } from '../dom';
+import { wpKsesPost } from '../dom';
 
 export interface BlockProps {
 	test: (domNome: DOMNode) => boolean;
@@ -21,7 +21,7 @@ export const BlocksRenderer = ({ html, children }: BlocksRendererProps) => {
 		console.warn('Children of <BlocksRenderer /> component should be a type of ReactNode');
 	}
 
-	const cleanedHTML = wpKsesPost(html, ksesAllowedTags, ksesAllowedAttributes);
+	const cleanedHTML = wpKsesPost(html);
 
 	const options: HTMLReactParserOptions = {
 		replace: (domNode) => {

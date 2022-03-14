@@ -2,7 +2,17 @@ import { wpKsesPost } from '../wpKsesPost';
 
 describe('wp_kses_post', () => {
 	it('properly sanitizes html', () => {
+		expect(
+			wpKsesPost(
+				'<div class="class-name">This Will Become a p tag</div><div>This Will Become a p tag</div>',
+			),
+		).toBe(
+			'<div class="class-name">This Will Become a p tag</div><div>This Will Become a p tag</div>',
+		);
 		expect(wpKsesPost('<p>Hello World</p>')).toEqual('<p>Hello World</p>');
+		expect(wpKsesPost('<p class="test">Hello World</p>')).toEqual(
+			'<p class="test">Hello World</p>',
+		);
 		expect(wpKsesPost('<p><script>alert("danger");</script>Hello World</p>')).toEqual(
 			'<p>Hello World</p>',
 		);
