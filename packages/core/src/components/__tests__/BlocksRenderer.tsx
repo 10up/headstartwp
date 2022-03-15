@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { DOMNode, Element } from 'html-react-parser';
+
 import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
 
 describe('BlocksRenderer', () => {
@@ -29,7 +30,8 @@ describe('BlocksRenderer', () => {
 
 	it('replaces markup with react components', () => {
 		const DivToP = ({ domNode, children }: BlockProps) => {
-			const className = domNode instanceof Element ? domNode?.attribs.class || '' : '';
+			const className =
+				domNode instanceof Element ? domNode?.attribs.class || undefined : undefined;
 			return <p className={className}>{children}</p>;
 		};
 
@@ -54,9 +56,7 @@ describe('BlocksRenderer', () => {
         >
           This Will Become a p tag
         </p>
-        <p
-          class=""
-        >
+        <p>
           This Will Become a p tag
         </p>
       </div>
