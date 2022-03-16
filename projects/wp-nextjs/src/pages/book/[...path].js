@@ -1,7 +1,11 @@
-import { usePost, fetchHookData, addHookData, handleError } from '@10up/headless-next';
+/**
+ * This is just an example of a single page route for a CPT called 'book'
+ */
+import { fetchHookData, addHookData, handleError, usePost } from '@10up/headless-next';
+import { bookParams } from '../../params';
 
-const Template = () => {
-	const { data } = usePost({ postType: 'book' });
+const BookPage = () => {
+	const { data } = usePost(bookParams);
 
 	return (
 		<div>
@@ -18,12 +22,12 @@ const Template = () => {
 	);
 };
 
-export default Template;
+export default BookPage;
 
 export async function getServerSideProps(context) {
 	try {
 		const hookData = await fetchHookData(usePost.fetcher(), context, {
-			params: { postType: 'book' },
+			params: bookParams,
 		});
 
 		return addHookData([hookData], {});

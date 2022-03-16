@@ -2,7 +2,7 @@ import { EndpointParams, AppEntity, AppSettingsStrategy } from '@10up/headless-c
 import { HookResponse } from './types';
 import { useFetch } from './useFetch';
 
-interface useAppSettingsResponse extends HookResponse {
+export interface useAppSettingsResponse extends HookResponse {
 	data?: AppEntity;
 }
 
