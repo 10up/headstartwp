@@ -28,6 +28,20 @@ describe('BlocksRenderer', () => {
     `);
 	});
 
+	it('sanitizes html respecting ksesAllowList', () => {
+		const { container } = render(
+			<BlocksRenderer
+				html="<div><p>hello world</p> div content</div>"
+				ksesAllowList={{ div: [] }}
+			/>,
+		);
+		expect(container.firstChild).toMatchInlineSnapshot(`
+      <div>
+         div content
+      </div>
+    `);
+	});
+
 	it('replaces markup with react components', () => {
 		const DivToP = ({ domNode, children }: BlockProps) => {
 			const className =
