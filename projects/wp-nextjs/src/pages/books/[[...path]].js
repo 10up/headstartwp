@@ -1,16 +1,21 @@
+/**
+ * This is just an example of a archive page route for a CPT called 'book'
+ */
 import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headless-next';
+import { booksParams } from '../../params';
 
-const Template = () => {
-	const { data, error, loading } = usePosts({ postType: 'book' });
-	console.log(data.pageInfo);
+const BooksPage = () => {
+	const { data, error, loading } = usePosts(booksParams);
 
 	if (error) {
 		return 'error';
 	}
 
-	return loading ? (
-		'Loading...'
-	) : (
+	if (loading) {
+		return 'Loading...';
+	}
+
+	return (
 		<ul>
 			{data.posts.map((post) => (
 				<li key={post.id}>{post.title.rendered}</li>
@@ -19,12 +24,12 @@ const Template = () => {
 	);
 };
 
-export default Template;
+export default BooksPage;
 
 export async function getServerSideProps(context) {
 	try {
 		const hookData = await fetchHookData(usePosts.fetcher(), context, {
-			params: { postType: 'book' },
+			params: booksParams,
 		});
 
 		return addHookData([hookData], {});

@@ -10,7 +10,7 @@ import {
 } from '@10up/headless-core';
 import { convertToPath } from '../utils';
 
-interface useFetchOptions {
+export interface useFetchOptions {
 	shouldFetch?: () => boolean;
 }
 

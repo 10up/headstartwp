@@ -1,18 +1,19 @@
 import { useSearch, fetchHookData, addHookData, handleError } from '@10up/headless-next';
+import { searchParams } from '../../params';
 
-const params = {
-	postType: 'book',
-};
+const SearchPage = () => {
+	const { error, loading, data } = useSearch(searchParams);
 
-const SearchTemplate = () => {
-	const { loading, data } = useSearch(params);
+	if (error) {
+		return 'Error';
+	}
 
 	if (loading) {
 		return 'Loading...';
 	}
 
 	if (data.pageInfo.totalItems === 0) {
-		return 'nothing found';
+		return 'Nothing found';
 	}
 
 	return (
@@ -26,11 +27,13 @@ const SearchTemplate = () => {
 	);
 };
 
-export default SearchTemplate;
+export default SearchPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const hookData = await fetchHookData(useSearch.fetcher(), context, { params });
+		const hookData = await fetchHookData(useSearch.fetcher(), context, {
+			params: searchParams,
+		});
 
 		return addHookData([hookData], {});
 	} catch (e) {

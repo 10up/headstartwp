@@ -7,16 +7,25 @@ import {
 } from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { PageContent } from '../components/PageContent';
-
-const params = {
-	postType: 'page',
-};
+import { indexParams } from '../params';
 
 const Homepage = ({ homePageSlug }) => {
-	params.slug = homePageSlug;
-	const { data } = usePost(params);
+	const params = { ...indexParams, slug: homePageSlug };
+	const { error, loading } = usePost(params);
 
-	return <div>{data ? <PageContent params={params} /> : 'loading...'}</div>;
+	if (error) {
+		return 'Error...';
+	}
+
+	if (loading) {
+		return 'Loading...';
+	}
+
+	return (
+		<div>
+			<PageContent params={params} />
+		</div>
+	);
 };
 
 Homepage.propTypes = {
@@ -31,8 +40,8 @@ export async function getStaticProps(context) {
 		const slug = appSettings.data.result?.home?.slug || 'front-page';
 		const hookData = await fetchHookData(usePost.fetcher(), context, {
 			params: {
+				...indexParams,
 				slug,
-				...params,
 			},
 		});
 

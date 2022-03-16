@@ -5,6 +5,7 @@ import {
 	PageInfo,
 	getPostAuthor,
 	getPostTerms,
+	getWPUrl,
 } from '@10up/headless-core';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
@@ -47,4 +48,4 @@ export function useSearch(params: PostsArchiveParams): useSearchResponse {
 	return { data: { posts, pageInfo }, loading: false };
 }
 
-useSearch.fetcher = () => new SearchFetchStrategy();
+useSearch.fetcher = () => new SearchFetchStrategy(getWPUrl());

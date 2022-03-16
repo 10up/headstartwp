@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
-import { sanitize } from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 export type allowedTagsType = string[];
 export type allowedAttributesType = string[];
@@ -27,7 +27,7 @@ export const wpKsesPost = (
 		allowedAtts = [];
 	}
 
-	return sanitize(content, {
+	return DOMPurify.sanitize(content, {
 		ALLOWED_TAGS: allowedTags,
 		ALLOWED_ATTR: allowedAtts,
 		IN_PLACE: true,

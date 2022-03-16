@@ -1,6 +1,7 @@
 import {
 	getPostAuthor,
 	getPostTerms,
+	getWPUrl,
 	PostEntity,
 	PostParams,
 	SinglePostFetchStrategy,
@@ -8,7 +9,7 @@ import {
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
-interface usePostResponse extends HookResponse {
+export interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };
 }
 
@@ -42,4 +43,4 @@ export function usePost(params: PostParams): usePostResponse {
 	return { data: { post }, loading: false };
 }
 
-usePost.fetcher = () => new SinglePostFetchStrategy();
+usePost.fetcher = () => new SinglePostFetchStrategy(getWPUrl());

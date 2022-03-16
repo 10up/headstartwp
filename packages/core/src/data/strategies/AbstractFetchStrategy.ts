@@ -32,6 +32,12 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 
 	abstract getDefaultEndpoint(): string;
 
+	constructor(baseURL?: string) {
+		if (baseURL) {
+			this.setBaseURL(baseURL);
+		}
+	}
+
 	setEndpoint(endpoint: string) {
 		this.endpoint = endpoint;
 	}
@@ -160,5 +166,16 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		}
 
 		return data;
+	}
+
+	/**
+	 * This is a simple wrapper to quickly fetch data from the API given a set of params
+	 *
+	 * @param params The endpoint params
+	 *
+	 * @returns
+	 */
+	get(params: Params) {
+		return this.fetcher(this.buildEndpointURL(params), params);
 	}
 }

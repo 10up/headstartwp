@@ -2,7 +2,7 @@ import { AppEntity } from '@10up/headless-core';
 import { HookResponse } from './types';
 import { useAppSettings } from './useAppSettings';
 
-interface useMenuResponse extends HookResponse {
+export interface useMenuResponse extends HookResponse {
 	data?: AppEntity['menus'][0];
 }
 
