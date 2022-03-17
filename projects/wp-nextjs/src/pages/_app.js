@@ -1,4 +1,5 @@
 import { HeadlessApp } from '@10up/headless-next';
+import Link from 'next/link';
 import Layout from '../components/Layout';
 
 // css
@@ -25,6 +26,9 @@ const MyApp = ({ Component, pageProps }) => {
 				 * Setting this to true will refetch content after initial load
 				 */
 				revalidateOnMount: false,
+			}}
+			settings={{
+				linkComponent: Link,
 			}}
 		>
 			<Layout>
