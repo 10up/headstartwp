@@ -13,6 +13,10 @@
     "./middlewares": {
       "import": "./dist/mjs/middlewares/index.js",
       "require": "./dist/cjs/middlewares/index.js"
+    },
+    "./config": {
+      "import": "./dist/mjs/config/index.js",
+      "require": "./dist/cjs/config/index.js"
     }
   },
   "scripts": {
