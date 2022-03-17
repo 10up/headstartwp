@@ -1,13 +1,25 @@
 import { getWPUrl } from '@10up/headless-core';
 import { NextConfig } from 'next';
 
+import fs from 'fs';
+import path from 'path';
+
+const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
+
+// the headless config is an empty object by default
+let headlessConfig = {};
+if (fs.existsSync(headlessConfigPath)) {
+	// eslint-disable-next-line
+	headlessConfig = require(headlessConfigPath);
+}
+
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
  *
  * @param {object} nextConfig The nextjs config object
  * @returns
  */
-export function withHeadlessConfig(nextConfig: NextConfig = {}, headlessConfig = {}): NextConfig {
+export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 	const imageDomains: Array<string> = [];
 
 	try {
