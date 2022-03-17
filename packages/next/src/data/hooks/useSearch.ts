@@ -25,7 +25,7 @@ interface useSearchResponse extends HookResponse {
  */
 export function useSearch(
 	params: PostsArchiveParams,
-	options: SWRConfiguration<FetchResponse<PostEntity>>,
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 ): useSearchResponse {
 	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
 		{ _embed: true, ...params },

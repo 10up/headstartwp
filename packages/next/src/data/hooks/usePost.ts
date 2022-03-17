@@ -24,7 +24,7 @@ export interface usePostResponse extends HookResponse {
  */
 export function usePost(
 	params: PostParams,
-	options: SWRConfiguration<FetchResponse<PostEntity>>,
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 ): usePostResponse {
 	const { data, error } = useFetch<PostEntity, PostParams>(
 		{ _embed: true, ...params },

@@ -66,7 +66,7 @@ export interface usePostsResponse extends HookResponse {
  */
 export function usePosts(
 	params: PostsArchiveParams,
-	options: SWRConfiguration<FetchResponse<PostEntity>>,
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 ): usePostsResponse {
 	const {
 		data,

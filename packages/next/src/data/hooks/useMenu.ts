@@ -7,7 +7,7 @@ export interface useMenuResponse extends HookResponse {
 	data?: AppEntity['menus'][0];
 }
 
-export function useMenu(menuLocation: string, options: SWRConfiguration): useMenuResponse {
+export function useMenu(menuLocation: string, options: SWRConfiguration = {}): useMenuResponse {
 	const { data, error } = useAppSettings({}, options);
 
 	if (error) {
