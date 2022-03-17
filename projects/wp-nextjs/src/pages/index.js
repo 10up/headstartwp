@@ -45,7 +45,7 @@ export async function getStaticProps(context) {
 			},
 		});
 
-		return addHookData([hookData], { props: { homePageSlug: slug } });
+		return addHookData([hookData, appSettings], { props: { homePageSlug: slug } });
 	} catch (e) {
 		return handleError(e, context);
 	}

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import useSWR, { SWRConfiguration } from 'swr';
 
 import {
 	useSettings,
@@ -25,7 +25,7 @@ export interface useFetchOptions {
 export function useFetch<E extends Entity, Params extends EndpointParams>(
 	params: Params,
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
-	options: useFetchOptions = {},
+	options: SWRConfiguration<FetchResponse<E>> = {},
 ) {
 	const { url } = useSettings();
 
@@ -38,11 +38,10 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 
 	const finalParams = { ...urlParams, ...params };
 
-	const shouldFetch = options?.shouldFetch ? options.shouldFetch : () => true;
-
 	const result = useSWR<FetchResponse<E>>(
-		shouldFetch() ? fetchStrategy.buildEndpointURL(finalParams) : null,
+		fetchStrategy.buildEndpointURL(finalParams),
 		(url: string) => fetchStrategy.fetcher(url, finalParams),
+		options,
 	);
 
 	return { ...result, params: finalParams };

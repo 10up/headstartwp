@@ -1,4 +1,6 @@
 import { HeadlessApp } from '@10up/headless-next';
+import Link from 'next/link';
+import Layout from '../components/Layout';
 
 // css
 import '../styles.css';
@@ -25,8 +27,13 @@ const MyApp = ({ Component, pageProps }) => {
 				 */
 				revalidateOnMount: false,
 			}}
+			settings={{
+				linkComponent: Link,
+			}}
 		>
-			<Component {...props} />
+			<Layout>
+				<Component {...props} />
+			</Layout>
 		</HeadlessApp>
 	);
 };

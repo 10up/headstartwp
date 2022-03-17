@@ -1,4 +1,11 @@
-import { usePost, fetchHookData, addHookData, handleError, usePosts } from '@10up/headless-next';
+import {
+	usePost,
+	fetchHookData,
+	addHookData,
+	handleError,
+	usePosts,
+	useAppSettings,
+} from '@10up/headless-next';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';
 
@@ -65,8 +72,9 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
 	try {
 		const hookData = await fetchHookData(usePost.fetcher(), context, { params: singleParams });
+		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 
-		return addHookData([hookData], {});
+		return addHookData([hookData, appSettings], {});
 	} catch (e) {
 		return handleError(e, context);
 	}

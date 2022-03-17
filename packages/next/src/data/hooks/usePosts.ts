@@ -7,7 +7,9 @@ import {
 	getPostTerms,
 	PageInfo,
 	getWPUrl,
+	FetchResponse,
 } from '@10up/headless-core';
+import { SWRConfiguration } from 'swr';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -62,12 +64,19 @@ export interface usePostsResponse extends HookResponse {
  *
  * @returns
  */
-export function usePosts(params: PostsArchiveParams): usePostsResponse {
+export function usePosts(
+	params: PostsArchiveParams,
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+): usePostsResponse {
 	const {
 		data,
 		error,
 		params: queryParams,
-	} = useFetch<PostEntity, PostsArchiveParams>({ _embed: true, ...params }, usePosts.fetcher());
+	} = useFetch<PostEntity, PostsArchiveParams>(
+		{ _embed: true, ...params },
+		usePosts.fetcher(),
+		options,
+	);
 
 	const pageType: PageType = {
 		isPostArchive: false,
