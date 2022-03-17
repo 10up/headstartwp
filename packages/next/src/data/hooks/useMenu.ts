@@ -19,6 +19,7 @@ export function useMenu(menuLocation: string, options: SWRConfiguration = {}): u
 	}
 
 	const { menus } = data;
+	const menu = menus ? menus[menuLocation] : [];
 
-	return { data: menus[menuLocation], loading: false };
+	return { data: menu, loading: false };
 }
