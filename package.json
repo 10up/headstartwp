@@ -27,6 +27,7 @@
     "lint-staged": "^11.1.2"
   },
   "nextBundleAnalysis": {
+    "buildOutputDirectory ": "./projects/wp-nextjs/.next",
     "budget": 148480,
     "budgetPercentIncreaseRed": 20,
     "showDetails": true
