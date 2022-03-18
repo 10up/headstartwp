@@ -1,9 +1,17 @@
 import { HeadlessApp } from '@10up/headless-next';
 import Link from 'next/link';
+import Router from 'next/router';
+import NProgress from 'nprogress';
 import Layout from '../components/Layout';
 
 // css
 import '../styles.css';
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => {
+	NProgress.done();
+});
+Router.events.on('routeChangeError', () => NProgress.done());
 
 // eslint-disable-next-line react/prop-types
 const MyApp = ({ Component, pageProps }) => {
