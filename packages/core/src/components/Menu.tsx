@@ -18,33 +18,46 @@ export type MenuWrapperProps = PropsWithChildren<{
 }>;
 export type MenuWrapper = (props: MenuWrapperProps) => JSX.Element;
 
+export type LinkWrapperProps = PropsWithChildren<{
+	href: string;
+	depth: number;
+}>;
+export type LinkWrapper = (props: LinkWrapperProps) => JSX.Element;
+
 export type MenuItemsProp = {
 	items: MenuItemEntity[];
 	depth: number;
 	topLevelItemsClickable: boolean;
 	itemWrapper: ItemWrapper;
 	menuWrapper: MenuWrapper;
+	linkWrapper: LinkWrapper;
 };
 
-const defaultItemWrapper = ({ className, children }: ItemWrapperProps) => (
+const DefaultItemWrapper = ({ className, children }: ItemWrapperProps) => (
 	<li className={className}>{children}</li>
 );
 
-const defaultMenuWrapper = ({ className, children }: MenuWrapperProps) => (
+const DefaultMenuWrapper = ({ className, children }: MenuWrapperProps) => (
 	<ul className={className}>{children}</ul>
 );
+
+const DefaultLinkWrapper = ({ href, children }: LinkWrapperProps) => {
+	const settings = useSettings();
+	const LinkComponent =
+		typeof settings.linkComponent === 'function' ? settings.linkComponent : RawLink;
+
+	return <LinkComponent href={href}>{children}</LinkComponent>;
+};
 
 export const MenuItems = ({
 	items,
 	depth,
 	topLevelItemsClickable,
-	itemWrapper,
-	menuWrapper,
+	itemWrapper: ItemWrapper,
+	menuWrapper: MenuWrapper,
+	linkWrapper: LinkWrapper,
 }: MenuItemsProp) => {
 	const settings = useSettings();
-
-	const LinkComponent =
-		typeof settings.linkComponent === 'function' ? settings.linkComponent : RawLink;
 
 	return (
 		<>
@@ -52,12 +65,13 @@ export const MenuItems = ({
 				const link = removeSourceUrl({ link: item.url, backendUrl: settings.url || '' });
 				const shouldLink = item.children.length === 0 || topLevelItemsClickable;
 				const className = `menu-item-depth-${depth}`;
-				const ItemWrapper = itemWrapper;
 
 				return (
 					<ItemWrapper key={item.ID} className={className} depth={depth} item={item}>
 						{shouldLink ? (
-							<LinkComponent href={link}>{item.title}</LinkComponent>
+							<LinkWrapper href={link} depth={depth}>
+								{item.title}
+							</LinkWrapper>
 						) : (
 							item.title
 						)}
@@ -65,8 +79,9 @@ export const MenuItems = ({
 							<Menu
 								items={item.children}
 								depth={depth + 1}
-								menuWrapper={menuWrapper}
-								itemWrapper={itemWrapper}
+								menuWrapper={MenuWrapper}
+								itemWrapper={ItemWrapper}
+								linkWrapper={LinkWrapper}
 							/>
 						)}
 					</ItemWrapper>
@@ -83,6 +98,7 @@ type MenuProps = {
 	topLevelItemsClickable?: boolean;
 	itemWrapper?: ItemWrapper;
 	menuWrapper?: MenuWrapper;
+	linkWrapper?: LinkWrapper;
 };
 
 export const Menu = ({
@@ -90,8 +106,9 @@ export const Menu = ({
 	className,
 	depth = 0,
 	topLevelItemsClickable = false,
-	itemWrapper = defaultItemWrapper,
-	menuWrapper = defaultMenuWrapper,
+	itemWrapper = DefaultItemWrapper,
+	menuWrapper = DefaultMenuWrapper,
+	linkWrapper = DefaultLinkWrapper,
 }: MenuProps) => {
 	const classes = [className, `menu-depth-${depth}`];
 	const MenuWrapper = menuWrapper;
@@ -103,6 +120,7 @@ export const Menu = ({
 				topLevelItemsClickable={topLevelItemsClickable}
 				menuWrapper={menuWrapper}
 				itemWrapper={itemWrapper}
+				linkWrapper={linkWrapper}
 			/>
 		</MenuWrapper>
 	);
@@ -112,6 +130,7 @@ Menu.defaultProps = {
 	className: 'menu-container',
 	topLevelItemsClickable: false,
 	depth: 0,
-	itemWrapper: defaultItemWrapper,
-	menuWrapper: defaultMenuWrapper,
+	itemWrapper: DefaultItemWrapper,
+	menuWrapper: DefaultMenuWrapper,
+	linkWrapper: DefaultLinkWrapper,
 };

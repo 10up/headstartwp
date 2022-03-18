@@ -1,5 +1,6 @@
 import { Menu } from '@10up/headless-core';
 import { useMenu } from '@10up/headless-next';
+import Link from 'next/link';
 
 /**
  * You can optionally pass a ItemWrapper component to the Menu component to customize rendering of items
@@ -35,6 +36,27 @@ const ItemWrapper = ({ className, children }) => {
 	);
 };
 
+/**
+ * The Menu component also accepts a LinkWrapper component to customize rendering of links.
+ * Note if you specify your own LinkComponent to the Settings provider
+ * you do not need to pass your own LinkWrapper unless you want to do something custom (like rendering additional stuff around your link)
+ *
+ * @param {*} props - props passed to the component
+ *
+ * @returns
+ */
+// eslint-disable-next-line react/prop-types
+const LinkWrapper = ({ href, depth, children }) => {
+	return (
+		<Link href={href}>
+			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+			<a>
+				{children} <strong>({depth})</strong>
+			</a>
+		</Link>
+	);
+};
+
 const Header = () => {
 	const { loading, data } = useMenu('primary', {
 		// these settings will re-render menu client side to ensure it always have the latest items
@@ -45,7 +67,14 @@ const Header = () => {
 	return (
 		<header>
 			<h1>Header</h1>
-			{!loading && <Menu items={data} menuWrapper={MenuWrapper} itemWrapper={ItemWrapper} />}
+			{!loading && (
+				<Menu
+					items={data}
+					menuWrapper={MenuWrapper}
+					itemWrapper={ItemWrapper}
+					linkWrapper={LinkWrapper}
+				/>
+			)}
 		</header>
 	);
 };
