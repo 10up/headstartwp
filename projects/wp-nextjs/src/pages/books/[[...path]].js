@@ -1,7 +1,13 @@
 /**
  * This is just an example of a archive page route for a CPT called 'book'
  */
-import { usePosts, fetchHookData, addHookData, handleError } from '@10up/headless-next';
+import {
+	usePosts,
+	fetchHookData,
+	addHookData,
+	handleError,
+	useAppSettings,
+} from '@10up/headless-next';
 import { booksParams } from '../../params';
 
 const BooksPage = () => {
@@ -28,11 +34,13 @@ export default BooksPage;
 
 export async function getServerSideProps(context) {
 	try {
+		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+
 		const hookData = await fetchHookData(usePosts.fetcher(), context, {
 			params: booksParams,
 		});
 
-		return addHookData([hookData], {});
+		return addHookData([hookData, appSettings], {});
 	} catch (e) {
 		return handleError(e, context);
 	}

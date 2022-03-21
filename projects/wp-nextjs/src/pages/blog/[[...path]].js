@@ -5,6 +5,7 @@ import {
 	handleError,
 	useAppSettings,
 } from '@10up/headless-next';
+import { Link } from '../../components/Link';
 
 const BlogPage = () => {
 	const { loading, error, data } = usePosts();
@@ -18,11 +19,16 @@ const BlogPage = () => {
 	}
 
 	return (
-		<ul>
-			{data.posts.map((post) => (
-				<li key={post.id}>{post.title.rendered}</li>
-			))}
-		</ul>
+		<>
+			<h1>Blog Page</h1>
+			<ul>
+				{data.posts.map((post) => (
+					<li key={post.id}>
+						<Link href={post.link}>{post.title.rendered}</Link>
+					</li>
+				))}
+			</ul>
+		</>
 	);
 };
 
@@ -33,7 +39,7 @@ export async function getServerSideProps(context) {
 		const postsData = await fetchHookData(usePosts.fetcher(), context, {
 			// filtering is recommended for performance reasons to reduce the ammount of props that Next.js has to send via the HTML payload
 			// You can either ALLOW especific fields or REMOVE especific fields.
-			filterData: { method: 'ALLOW', fields: ['id', 'title'] },
+			filterData: { method: 'ALLOW', fields: ['id', 'title', 'link'] },
 		});
 		const appData = await fetchHookData(useAppSettings.fetcher(), context);
 		return addHookData([postsData, appData], {});

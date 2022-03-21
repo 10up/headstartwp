@@ -37,6 +37,9 @@ export default Homepage;
 export async function getStaticProps(context) {
 	try {
 		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+		/**
+		 * The static front-page can be set in the WP admin. The default one will be 'front-page'
+		 */
 		const slug = appSettings.data.result?.home?.slug || 'front-page';
 		const hookData = await fetchHookData(usePost.fetcher(), context, {
 			params: {

@@ -51,7 +51,7 @@ const LinkWrapper = ({ href, depth, children }) => {
 		<Link href={href}>
 			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
 			<a>
-				{children} <strong>({depth})</strong>
+				{children} <strong>(Level {depth})</strong>
 			</a>
 		</Link>
 	);
@@ -66,7 +66,6 @@ const Header = () => {
 
 	return (
 		<header>
-			<h1>Header</h1>
 			{!loading && (
 				<Menu
 					items={data}
