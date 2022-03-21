@@ -1,6 +1,7 @@
 {
   "name": "10up/headless-wp",
   "description": "10up Headless WordPress API Plugin",
+  "version": "0.1.0",
   "type": "wordpress-plugin",
   "authors": [
     {
