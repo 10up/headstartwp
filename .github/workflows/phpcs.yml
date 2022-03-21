@@ -1,11 +1,6 @@
-name: WPCS check
+name: PHPCS check
 
 on: pull_request
-
-defaults:
-  run:
-    # change this if your nextjs app does not live at the root of the repo
-    working-directory: ./wp/tenup-headless-wp
 
 jobs:
   phpcs:
@@ -20,10 +15,10 @@ jobs:
         php-version: '7.2'
         coverage: none
     - name: composer install
-      run: composer install --ignore-platform-reqs
+      run: cd ./wp/tenup-headless-wp && composer install --ignore-platform-reqs
     - name: Check PHPCS standard
-      run: ./vendor/bin/phpcs -i
+      run: ./wp/tenup-headless-wp/vendor/bin/phpcs -i
     - name: PHPCS check
       uses: chekalsky/phpcs-action@v1
       with:
-        phpcs_bin_path: './vendor/bin/phpcs .'
+        phpcs_bin_path: './wp/tenup-headless-wp/vendor/bin/phpcs .'
