@@ -1,6 +1,6 @@
 import { Entity, PageInfo } from '../types';
 import { apiGet } from '../api';
-import { NotFoundError, addQueryArgs } from '../../utils';
+import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
 
 export interface EndpointParams {
 	_embed?: boolean;
@@ -103,6 +103,14 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		}
 		const result = await apiGet(`${this.baseURL}${url}`, args);
 		const { data } = result.json;
+
+		if (typeof result?.json?.code !== 'undefined' && typeof result?.json?.code === 'string') {
+			let errorMsg = `WordPress returned a '${result?.json?.code}' error for the endpoint '${url}'.`;
+			if (url.includes('/headless-wp')) {
+				errorMsg = `You need to install 10up's Headless WordPress plugin.\n ${errorMsg} `;
+			}
+			throw new EndpointError(errorMsg);
+		}
 
 		const throwIfNotFound =
 			typeof options?.throwIfNotFound !== 'undefined' ? options?.throwIfNotFound : true;
