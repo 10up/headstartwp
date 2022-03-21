@@ -2,17 +2,28 @@ name: WPCS check
 
 on: pull_request
 
+defaults:
+  run:
+    # change this if your nextjs app does not live at the root of the repo
+    working-directory: ./wp/tenup-headless-wp
+
 jobs:
   phpcs:
-      name: WPCS
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: WPCS check
-          uses: 10up/wpcs-action@stable
-          with:
-            standard: '10up-Default' # Standard to use
-            standard_repo: 'https://github.com/10up/phpcs-composer' # Public (git) repository URL of the coding standard
-            repo_branch: 'master' # Branch of Standard repository
-            phpcs_bin_path: 'phpcs' # Custom PHPCS bin path
-            use_local_config: 'false' # Use local config if available
+    name: phpcs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.4.0
+    - name: Set PHP version
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.2'
+        coverage: none
+    - name: composer install
+      run: composer install --ignore-platform-reqs
+    - name: Check PHPCS standard
+      run: ./vendor/bin/phpcs -i
+    - name: PHPCS check
+      uses: chekalsky/phpcs-action@v1
+      with:
+        phpcs_bin_path: './vendor/bin/phpcs .'
