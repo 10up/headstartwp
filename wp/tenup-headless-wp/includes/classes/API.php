@@ -23,6 +23,9 @@ class API {
 	 */
 	public static $namespace = 'headless-wp/v1';
 
+	/**
+	 * Initializes the API class and register actions and filters
+	 */
 	public function register() {
 
 		// Register the 'app' endpoint that serves the default data needed for every request in the headless website
@@ -33,12 +36,6 @@ class API {
 		$preview_endpoint->register();
 
 		add_action( 'init', array( $this, 'register_post_type_taxonomy_params' ), 999 );
-		add_action( 'wp_rest_search_handlers', [ $this, 'search_handlers' ] );
-
-	}
-
-	public function search_handlers( $handlers ) {
-		return $handlers;
 	}
 
 	/**
@@ -92,8 +89,8 @@ class API {
 	 * Modifies the REST API query parameters to check for a taxonomy term slug instead of ID, which is the default
 	 * This is passed via the URL via ?<taxonomy>=term, eg ?category=catgory-slug
 	 *
-	 * @param array  - $args
-	 * @param object - $request
+	 * @param array  - $args The Rest Args
+	 * @param object - $request The Request Object
 	 * @return array - array of args
 	 */
 	public function modify_rest_params( $args, $request ) {
@@ -119,8 +116,8 @@ class API {
 					$args['tax_query']             = array_map(
 						function( $tax_query ) use ( $taxonomy ) {
 							if ( $tax_query['taxonomy'] === $taxonomy->name ) {
-								  $tax_query['field'] = 'slug';
-								  return $tax_query;
+								$tax_query['field'] = 'slug';
+								return $tax_query;
 							}
 							return $tax_query;
 						},

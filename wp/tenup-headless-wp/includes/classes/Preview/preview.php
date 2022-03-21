@@ -1,11 +1,16 @@
 <?php
+/**
+ * preview template file
+ *
+ * @package HeadlessWP
+ */
 
 use HeadlessWP\Plugin;
 use HeadlessWP\Preview\PreviewToken;
 
 $preview_post = get_post( get_the_ID() );
 
-$is_revision = $preview_post->post_status === 'publish';
+$is_revision = 'publish' === $preview_post->post_status;
 $post_id     = $preview_post->ID;
 $post_type   = get_post_type( $preview_post->ID );
 

@@ -7,6 +7,9 @@
 
 namespace HeadlessWP;
 
+/**
+ * Nain plugin class
+ */
 class Plugin {
 
 	/**
@@ -122,8 +125,6 @@ class Plugin {
 			},
 			'general'
 		);
-
-		return;
 	}
 
 	/**
@@ -158,14 +159,10 @@ class Plugin {
 			return;
 		}
 
-		$setting_url     = admin_url( 'options-general.php#site_react_url' );
-		$settings_string = '<strong>Notice:</strong> Headless Site Address Setting Not Entered. | <a href="' . esc_url( $setting_url ) . '">Fix setting</a>';
-		$message         = __( $settings_string, 'headless-wp' );
+		$setting_url = admin_url( 'options-general.php#site_react_url' );
+		$message     = sprintf( __( '<strong>Notice:</strong> Headless Site Address Setting Not Entered. | <a href="%s">Fix setting</a>', 'headless-wp' ), esc_url( $setting_url ) );
 
 		printf( '<div class="notice notice-warning"><p>%1$s</p></div>', wp_kses_post( $message ) );
-
-		return;
-
 	}
 
 }

@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:ignoreFile
 namespace Firebase\JWT;
 
 use DomainException;
