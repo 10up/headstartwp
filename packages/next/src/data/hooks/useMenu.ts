@@ -47,7 +47,7 @@ export function useMenu(menuLocation: string, options: SWRConfiguration = {}): u
 
 	const { menus } = data;
 
-	const menu = menus ? flatToHierarchical(menus[menuLocation]) : [];
+	const menu = menus && menus[menuLocation] ? flatToHierarchical(menus[menuLocation]) : [];
 
 	return { data: menu, loading: false };
 }
