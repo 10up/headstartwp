@@ -1,5 +1,6 @@
 {
   "name": "@10up/headless_framework",
+  "version": "1.0.0",
   "description": "Monorepo for headless framework",
   "scripts": {
     "build": "npm run build --workspaces --if-present",

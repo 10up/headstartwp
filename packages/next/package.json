@@ -19,6 +19,9 @@
       "require": "./dist/cjs/config/index.js"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist"
   ],

@@ -5,6 +5,9 @@
   "module": "dist/mjs/index.js",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "import": "./dist/mjs/index.js",
