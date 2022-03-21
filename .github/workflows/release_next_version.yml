@@ -29,7 +29,7 @@ jobs:
             git config user.email "pr@10up.com"
       - name: npm update version and release
         run: |
-          npx lerna publish prerelease --dist-tag next
+          npx lerna publish prerelease --yes --dist-tag next
         env:
            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       
