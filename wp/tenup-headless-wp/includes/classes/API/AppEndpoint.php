@@ -10,10 +10,15 @@ namespace HeadlessWP\API;
 
 use HeadlessWP;
 
+/**
+ * AppEndpoint class
+ */
 class AppEndpoint {
 
 	/**
 	 * Cache key for storing the endpoint cache
+	 *
+	 * @var string
 	 */
 	public static $cache_key = 'headless_wp_api_app';
 
@@ -35,8 +40,8 @@ class AppEndpoint {
 			HeadlessWP\API::$namespace,
 			'app',
 			array(
-				'methods'  => 'GET',
-				'callback' => array( $this, 'handle_api_endpoint' ),
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'handle_api_endpoint' ),
 				'permission_callback' => '__return_true',
 			)
 		);
@@ -48,7 +53,7 @@ class AppEndpoint {
 	 * This endpoint is checked on every request to include common site information site as menu data, homepage information, etc to kick off the
 	 * front-end website. The data that is returned can be customized through filters to meet the unique needs of your website
 	 */
-	public function handle_api_endpoint( \WP_REST_Request $request ) {
+	public function handle_api_endpoint() {
 
 		$cache_key = self::$cache_key;
 		$react_url = \HeadlessWP\Plugin::get_react_url();
@@ -57,7 +62,7 @@ class AppEndpoint {
 		if ( empty( trim( $react_url ) ) ) {
 			return new \WP_Error(
 				'headless-wp-error',
-				esc_html__( '"Headless frontend site address" theme setting empty. Add setting at ' . admin_url( 'options-general.php#site_react_url' ), 'headless-wp' ),
+				sprintf( esc_html__( '"Headless frontend site address" theme setting empty. Add setting at %s', 'headless-wp' ), admin_url( 'options-general.php#site_react_url' ) ),
 				array( 'status' => 400 )
 			);
 		}
@@ -75,7 +80,7 @@ class AppEndpoint {
 
 			// Support safe redirect manager redirects
 			if ( function_exists( '\srm_get_redirects' ) ) {
-				$response['redirects'] = srm_get_redirects(
+				$response['redirects'] = \srm_get_redirects(
 					[
 						'posts_per_page' => 300,
 					]
@@ -141,6 +146,10 @@ class AppEndpoint {
 
 	/**
 	 * Prepare the menu data that will be returned via the REST API
+	 *
+	 * @param array $menu Menu object
+	 *
+	 * @return array
 	 */
 	public function prepare_menus( $menu ) {
 		if ( ! is_array( $menu ) ) {
@@ -164,10 +173,5 @@ class AppEndpoint {
 		$cache_key = self::$cache_key;
 
 		wp_cache_delete( $cache_key );
-
-		return;
 	}
-
-
-
 }

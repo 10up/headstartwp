@@ -105,16 +105,14 @@ class Links {
 		if ( ! has_filter( 'home_url', array( $this, 'filter_home_url' ) ) ) {
 			add_filter( 'home_url', array( $this, 'filter_home_url' ), 10, 3 );
 		}
-
-		return;
 	}
 
 	/**
 	 * Replace WordPress URLs with React URLs (if React URL set)
 	 *
-	 * @param string $home_url
-	 * @param string $path
-	 * @param string $orig_scheme
+	 * @param string $home_url The home url
+	 * @param string $path The path
+	 * @param string $orig_scheme The orig scheme
 	 * @return string
 	 */
 	public function filter_home_url( $home_url, $path, $orig_scheme ) {
@@ -144,15 +142,14 @@ class Links {
 			return;
 		}
 
-		if ( ! empty( $site_url = \get_option( 'site_react_url' ) ) &&
-			 true === Plugin::should_frontend_redirect() ) {
+		$site_url = \get_option( 'site_react_url' );
+
+		if ( ! empty( $site_url ) && true === Plugin::should_frontend_redirect() ) {
 
 				$url_request = $wp->request;
 
 				// Redirect the frontend WordPress request to the React website URL.
 				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
 		}
-
-		return;
 	}
 }

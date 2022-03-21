@@ -75,7 +75,10 @@ if ( file_exists( HEADLESS_WP_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
 $plugin = new Plugin();
 $plugin->register();
 
-add_action( 'rest_api_init', function() {
-	PreviewToken::setup();
-});
+add_action(
+	'rest_api_init',
+	function() {
+		PreviewToken::setup();
+	}
+);
 
