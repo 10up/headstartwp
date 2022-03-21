@@ -6,6 +6,7 @@ import {
 	AbstractFetchStrategy,
 	Entity,
 	EndpointParams,
+	FetchResponse,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
@@ -77,7 +78,7 @@ export async function fetchHookData(
 
 type HookState = {
 	key: string;
-	data: any;
+	data: FetchResponse<{ yoast_head_json: {}; yoast_head: {} }>;
 };
 
 export function addHookData(hookStates: HookState[], nextProps) {
@@ -90,8 +91,8 @@ export function addHookData(hookStates: HookState[], nextProps) {
 		const { key, data } = hookState;
 
 		// take yoast_seo data
-		seo_json = data?.yoast_head_json || data?.[0]?.yoast_head_json || seo_json;
-		yoast_head = data?.yoast_head || data?.[0]?.yoast_head || yoast_head;
+		seo_json = data.result?.yoast_head_json || data.result?.[0]?.yoast_head_json || seo_json;
+		yoast_head = data.result?.yoast_head || data.result?.[0]?.yoast_head || yoast_head;
 
 		fallback[key] = data;
 	});
