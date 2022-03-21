@@ -29,10 +29,7 @@ jobs:
             git config user.email "pr@10up.com"
       - name: npm update version and release
         run: |
-          npm version prerelease --preid=next -w=@10up/headless-core
-          npm publish --tag next -w=@10up/headless-core
-          npm version prerelease --preid=next -w=@10up/headless-next
-          npm publish --tag next -w=@10up/headless-next
+          npx lerna publish prerelease --dist-tag next
         env:
            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       

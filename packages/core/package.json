@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-core",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "module": "dist/mjs/index.js",
   "main": "dist/cjs/index.js",
@@ -15,6 +15,9 @@
       "require": "./dist/cjs/utils/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
     "dev": "npm run ts -- --watch",
