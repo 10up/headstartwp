@@ -15,6 +15,9 @@
       "require": "./dist/cjs/utils/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
     "dev": "npm run ts -- --watch",
