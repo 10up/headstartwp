@@ -35,8 +35,8 @@ class AppEndpoint {
 			HeadlessWP\API::$namespace,
 			'app',
 			array(
-				'methods'  => 'GET',
-				'callback' => array( $this, 'handle_api_endpoint' ),
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'handle_api_endpoint' ),
 				'permission_callback' => '__return_true',
 			)
 		);

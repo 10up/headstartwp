@@ -68,7 +68,7 @@ class API {
 	 * @param WP_Post_Type $post_type    Post type object.
 	 * @return array
 	 */
- 	public function modify_rest_params_schema( $query_params, $post_type ) {
+	public function modify_rest_params_schema( $query_params, $post_type ) {
 		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), [ 'show_in_rest' => true ] );
 
 		if ( ! $taxonomies ) {
@@ -79,11 +79,11 @@ class API {
 			$base         = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 			$base_exclude = $base . '_exclude';
 
-			$query_params[ $base ]['oneOf'][0]['items']['type'] = [ 'integer', 'string' ];
+			$query_params[ $base ]['oneOf'][0]['items']['type']         = [ 'integer', 'string' ];
 			$query_params[ $base_exclude ]['oneOf'][0]['items']['type'] = [ 'integer', 'string' ];
 		}
 
-		$query_params['author']['items']['type'] = ['integer', 'string'];
+		$query_params['author']['items']['type'] = [ 'integer', 'string' ];
 
 		return $query_params;
 	}
@@ -103,8 +103,8 @@ class API {
 
 		$author = filter_input( INPUT_GET, 'author', FILTER_SANITIZE_STRING );
 
-		if ( !empty( $author ) && !is_numeric( $author ) ) {
-			unset($args['author__in']);
+		if ( ! empty( $author ) && ! is_numeric( $author ) ) {
+			unset( $args['author__in'] );
 			$args['author_name'] = $author;
 		}
 
@@ -116,13 +116,16 @@ class API {
 			if ( ! empty( $term ) && ! is_numeric( $term ) ) {
 				if ( isset( $args['tax_query'] ) ) {
 					$args['tax_query'][0]['field'] = 'slug';
-					$args['tax_query'] = array_map( function( $tax_query ) use ( $taxonomy ) {
-						if ( $tax_query['taxonomy'] === $taxonomy->name ) {
-							$tax_query['field'] = 'slug';
+					$args['tax_query']             = array_map(
+						function( $tax_query ) use ( $taxonomy ) {
+							if ( $tax_query['taxonomy'] === $taxonomy->name ) {
+								  $tax_query['field'] = 'slug';
+								  return $tax_query;
+							}
 							return $tax_query;
-						}
-						return $tax_query;
-					}, $args['tax_query'] );
+						},
+						$args['tax_query']
+					);
 				} else {
 					$args['tax_query'][] = array(
 						'taxonomy'         => $taxonomy->name,

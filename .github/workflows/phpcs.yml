@@ -1,0 +1,18 @@
+name: WPCS check
+
+on: pull_request
+
+jobs:
+  phpcs:
+      name: WPCS
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: WPCS check
+          uses: 10up/wpcs-action@stable
+          with:
+            standard: '10up-Default' # Standard to use
+            standard_repo: 'https://github.com/10up/phpcs-composer' # Public (git) repository URL of the coding standard
+            repo_branch: 'master' # Branch of Standard repository
+            phpcs_bin_path: 'phpcs' # Custom PHPCS bin path
+            use_local_config: 'false' # Use local config if available

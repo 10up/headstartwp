@@ -17,7 +17,7 @@ $token = PreviewToken::generate(
 	)
 );
 
-$preview_url =  sprintf(
+$preview_url = sprintf(
 	'%sapi/preview?post_id=%d&post_type=%s&is_revision=%s&token=%s',
 	trailingslashit( Plugin::get_react_url() ),
 	$post_id,

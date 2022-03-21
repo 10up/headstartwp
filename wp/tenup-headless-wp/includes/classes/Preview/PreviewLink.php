@@ -7,7 +7,7 @@ class PreviewLink {
 	 * Set up any hooks
 	 */
 	public function register() {
-		add_filter( 'template_include', [ $this, 'handle_preview'], 20 );
+		add_filter( 'template_include', [ $this, 'handle_preview' ], 20 );
 
 	}
 
