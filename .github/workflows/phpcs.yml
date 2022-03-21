@@ -11,9 +11,6 @@ jobs:
       uses: actions/checkout@v2.4.0
     - name: Set PHP version
       uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.2'
-        coverage: none
     - name: composer install
       run: cd ./wp/tenup-headless-wp && composer install --ignore-platform-reqs
     - name: Check PHPCS standard
