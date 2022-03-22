@@ -1,14 +1,17 @@
 import {
+	FetchResponse,
 	getPostAuthor,
 	getPostTerms,
+	getWPUrl,
 	PostEntity,
 	PostParams,
 	SinglePostFetchStrategy,
 } from '@10up/headless-core';
+import { SWRConfiguration } from 'swr';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
-interface usePostResponse extends HookResponse {
+export interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };
 }
 
@@ -19,10 +22,14 @@ interface usePostResponse extends HookResponse {
  *
  * @returns
  */
-export function usePost(params: PostParams): usePostResponse {
+export function usePost(
+	params: PostParams,
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+): usePostResponse {
 	const { data, error } = useFetch<PostEntity, PostParams>(
 		{ _embed: true, ...params },
 		usePost.fetcher(),
+		options,
 	);
 
 	if (error) {
@@ -42,4 +49,4 @@ export function usePost(params: PostParams): usePostResponse {
 	return { data: { post }, loading: false };
 }
 
-usePost.fetcher = () => new SinglePostFetchStrategy();
+usePost.fetcher = () => new SinglePostFetchStrategy(getWPUrl());

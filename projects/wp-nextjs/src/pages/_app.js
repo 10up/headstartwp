@@ -1,23 +1,47 @@
 import { HeadlessApp } from '@10up/headless-next';
+import Link from 'next/link';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import Layout from '../components/Layout';
 
 // css
 import '../styles.css';
 
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => {
+	NProgress.done();
+});
+Router.events.on('routeChangeError', () => NProgress.done());
+
 // eslint-disable-next-line react/prop-types
 const MyApp = ({ Component, pageProps }) => {
-	// eslint-disable-next-line
+	// eslint-disable-next-line react/prop-types, no-unused-vars
 	const { fallback = {}, ...props } = pageProps;
 
 	return (
 		<HeadlessApp
 			pageProps={pageProps}
 			swrConfig={{
-				revalidateOnFocus: true,
-				revalidateOnReconnect: true,
-				revalidateOnMount: true,
+				/**
+				 * Setting this to true will refetch content whethenever the tab is refocused
+				 */
+				revalidateOnFocus: false,
+				/**
+				 * Settings this to true will refetch content whenever the connection is restablished
+				 */
+				revalidateOnReconnect: false,
+				/**
+				 * Setting this to true will refetch content after initial load
+				 */
+				revalidateOnMount: false,
+			}}
+			settings={{
+				linkComponent: Link,
 			}}
 		>
-			<Component {...props} />
+			<Layout>
+				<Component {...props} />
+			</Layout>
 		</HeadlessApp>
 	);
 };

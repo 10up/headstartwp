@@ -30,8 +30,13 @@ export const HeadlessApp = ({
 		swrConfig.revalidateOnMount = false;
 	}
 
+	const mergedSettings = { ...settings };
+	if (!mergedSettings.url) {
+		mergedSettings.url = getWPUrl();
+	}
+
 	return (
-		<SettingsProvider settings={settings || { url: getWPUrl() }}>
+		<SettingsProvider settings={mergedSettings}>
 			<SWRConfig
 				value={{
 					fallback,

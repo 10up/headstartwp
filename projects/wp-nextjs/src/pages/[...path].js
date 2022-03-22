@@ -1,41 +1,80 @@
-import { usePost, fetchHookData, addHookData, handleError } from '@10up/headless-next';
-import { Blocks } from '../components/Blocks';
+import {
+	usePost,
+	fetchHookData,
+	addHookData,
+	handleError,
+	usePosts,
+	useAppSettings,
+} from '@10up/headless-next';
+import { PageContent } from '../components/PageContent';
+import { singleParams } from '../params';
 
-const params = {
-	postType: ['post', 'page'],
-};
+const SinglePostsPage = () => {
+	const { loading, error } = usePost(singleParams);
 
-const Template = () => {
-	const { data } = usePost(params);
+	if (loading) {
+		return 'Loading...';
+	}
+
+	if (error) {
+		return 'error...';
+	}
 
 	return (
 		<div>
-			{data ? (
-				<>
-					<h1>{data.post.title.rendered}</h1>
-					<Blocks html={data.post.content.rendered} />
-				</>
-			) : (
-				'loading...'
-			)}
+			<PageContent params={singleParams} />
 		</div>
 	);
 };
 
-export default Template;
+export default SinglePostsPage;
 
-export function getStaticPaths() {
+/**
+ * This is an example of pre-rendering a set of pages at build times.
+ * In this specific example, we are pre-rendering the first 50 posts (withn dates in the URL) and the first 50 pages.
+ *
+ * @returns {Promise<*>}
+ */
+export async function getStaticPaths() {
+	const postsData = await usePosts.fetcher().get({ postType: 'post', per_page: 50 });
+
+	const postsPath = postsData.result.map(({ date, slug }) => {
+		const dateString = new Date(date).toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
+
+		const datePath = dateString.split('/');
+
+		return {
+			// path is the catch all route, so it must be array with url segments
+			// if you don't want to support date urls just remove the date from the path
+			params: { path: [...datePath, slug] },
+		};
+	});
+
+	const pagesData = await usePosts.fetcher().get({ postType: 'page', per_page: 50 });
+
+	const pagePaths = pagesData.result.map(({ slug }) => {
+		return {
+			// path is the catch all route, so it must be array with url segments
+			params: { path: [slug] },
+		};
+	});
+
 	return {
-		paths: [],
+		paths: [...postsPath, ...pagePaths],
 		fallback: 'blocking',
 	};
 }
 
 export async function getStaticProps(context) {
 	try {
-		const hookData = await fetchHookData(usePost.fetcher(), context, { params });
+		const hookData = await fetchHookData(usePost.fetcher(), context, { params: singleParams });
+		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 
-		return addHookData([hookData], {});
+		return addHookData([hookData, appSettings], {});
 	} catch (e) {
 		return handleError(e, context);
 	}

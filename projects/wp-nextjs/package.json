@@ -1,19 +1,20 @@
 {
   "name": "@10up/wp-nextjs",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.5",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@10up/headless-core": "^1.0.0",
-    "@10up/headless-next": "^1.0.0",
+    "@10up/headless-core": "^0.0.1-alpha.5",
+    "@10up/headless-next": "^0.0.1-alpha.5",
     "clsx": "^1.1.1",
     "next": "^12.1.0",
+    "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "swr": "^1.0.1"
+    "react-dom": "^17.0.2"
   }
 }
