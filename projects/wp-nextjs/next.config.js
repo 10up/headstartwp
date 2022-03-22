@@ -7,4 +7,4 @@ const { withHeadlessConfig } = require('@10up/headless-next/config');
  */
 const nextConfig = {};
 
-module.exports = withHeadlessConfig(nextConfig);
+module.exports = withHeadlessConfig(nextConfig, { preact: true });

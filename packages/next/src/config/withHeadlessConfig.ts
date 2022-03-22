@@ -13,13 +13,21 @@ if (fs.existsSync(headlessConfigPath)) {
 	headlessConfig = require(headlessConfigPath);
 }
 
+interface FrameworkConfig {
+	preact?: boolean;
+}
+
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
  *
- * @param {object} nextConfig The nextjs config object
+ * @param {NextConfig} nextConfig The nextjs config object
+ * @param {FrameworkConfig} frameworkConfig The framework config object
  * @returns
  */
-export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
+export function withHeadlessConfig(
+	nextConfig: NextConfig = {},
+	frameworkConfig: FrameworkConfig = {},
+): NextConfig {
 	const imageDomains: Array<string> = [];
 
 	try {
@@ -66,7 +74,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 			];
 		},
 
-		webpack: (config, { webpack }) => {
+		webpack: (config, { webpack, dev, isServer }) => {
 			config.plugins.push(
 				new webpack.DefinePlugin({
 					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {
@@ -74,6 +82,15 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 					}),
 				}),
 			);
+
+			if (frameworkConfig?.preact && !dev && !isServer) {
+				Object.assign(config.resolve.alias, {
+					react: 'preact/compat',
+					'react-dom/test-utils': 'preact/test-utils',
+					'react-dom': 'preact/compat', // Must be below test-utils
+					'react/jsx-runtime': 'preact/jsx-runtime',
+				});
+			}
 			return config;
 		},
 	};
