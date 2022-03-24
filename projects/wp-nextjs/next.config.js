@@ -1,4 +1,7 @@
 const { withHeadlessConfig } = require('@10up/headless-next/config');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+	enabled: process.env.ANALYZE === 'true',
+});
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -7,4 +10,4 @@ const { withHeadlessConfig } = require('@10up/headless-next/config');
  */
 const nextConfig = {};
 
-module.exports = withHeadlessConfig(nextConfig);
+module.exports = withBundleAnalyzer(withHeadlessConfig(nextConfig));
