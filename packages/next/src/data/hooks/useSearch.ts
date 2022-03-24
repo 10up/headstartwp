@@ -5,7 +5,10 @@ import {
 	PageInfo,
 	getPostAuthor,
 	getPostTerms,
+	getWPUrl,
+	FetchResponse,
 } from '@10up/headless-core';
+import { SWRConfiguration } from 'swr';
 import { useFetch } from './useFetch';
 import { HookResponse } from './types';
 
@@ -20,10 +23,14 @@ interface useSearchResponse extends HookResponse {
  *
  * @returns
  */
-export function useSearch(params: PostsArchiveParams): useSearchResponse {
+export function useSearch(
+	params: PostsArchiveParams,
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+): useSearchResponse {
 	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
 		{ _embed: true, ...params },
 		useSearch.fetcher(),
+		options,
 	);
 
 	if (error) {
@@ -47,4 +54,4 @@ export function useSearch(params: PostsArchiveParams): useSearchResponse {
 	return { data: { posts, pageInfo }, loading: false };
 }
 
-useSearch.fetcher = () => new SearchFetchStrategy();
+useSearch.fetcher = () => new SearchFetchStrategy(getWPUrl());

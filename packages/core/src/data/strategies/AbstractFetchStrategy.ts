@@ -1,7 +1,6 @@
-import { addQueryArgs } from '@wordpress/url';
 import { Entity, PageInfo } from '../types';
 import { apiGet } from '../api';
-import { NotFoundError } from '../../utils';
+import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
 
 export interface EndpointParams {
 	_embed?: boolean;
@@ -32,6 +31,12 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	baseURL: string = '';
 
 	abstract getDefaultEndpoint(): string;
+
+	constructor(baseURL?: string) {
+		if (baseURL) {
+			this.setBaseURL(baseURL);
+		}
+	}
 
 	setEndpoint(endpoint: string) {
 		this.endpoint = endpoint;
@@ -99,6 +104,14 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		const result = await apiGet(`${this.baseURL}${url}`, args);
 		const { data } = result.json;
 
+		if (typeof result?.json?.code !== 'undefined' && typeof result?.json?.code === 'string') {
+			let errorMsg = `WordPress returned a '${result?.json?.code}' error for the endpoint '${url}'.`;
+			if (url.includes('/headless-wp')) {
+				errorMsg = `You need to install 10up's Headless WordPress plugin.\n ${errorMsg} `;
+			}
+			throw new EndpointError(errorMsg);
+		}
+
 		const throwIfNotFound =
 			typeof options?.throwIfNotFound !== 'undefined' ? options?.throwIfNotFound : true;
 
@@ -161,5 +174,16 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		}
 
 		return data;
+	}
+
+	/**
+	 * This is a simple wrapper to quickly fetch data from the API given a set of params
+	 *
+	 * @param params The endpoint params
+	 *
+	 * @returns
+	 */
+	get(params: Params) {
+		return this.fetcher(this.buildEndpointURL(params), params);
 	}
 }

@@ -1,16 +1,7 @@
-const fs = require('fs');
-const path = require('path');
-
-const { withHeadlessConfig } = require('@10up/headless-next');
-
-const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
-
-// the headless config is an empty object by default
-let headlessConfig = {};
-if (fs.existsSync(headlessConfigPath)) {
-	// eslint-disable-next-line
-	headlessConfig = require(headlessConfigPath);
-}
+const { withHeadlessConfig } = require('@10up/headless-next/config');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+	enabled: process.env.ANALYZE === 'true',
+});
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -19,4 +10,4 @@ if (fs.existsSync(headlessConfigPath)) {
  */
 const nextConfig = {};
 
-module.exports = withHeadlessConfig(nextConfig, headlessConfig);
+module.exports = withBundleAnalyzer(withHeadlessConfig(nextConfig));

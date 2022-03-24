@@ -1,9 +1,10 @@
 {
   "name": "@10up/headless_framework",
+  "version": "1.0.0",
   "description": "Monorepo for headless framework",
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-core",
+    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-next",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
     "dev": "npm run build:packages && concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=@10up/wp-nextjs\"",
@@ -25,5 +26,16 @@
     "eslint-plugin-jest": "^24.4.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2"
+  },
+  "nextBundleAnalysis": {
+    "buildOutputDirectory": "./projects/wp-nextjs/.next",
+    "budget": 148480,
+    "budgetPercentIncreaseRed": 20,
+    "showDetails": true
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
   }
 }

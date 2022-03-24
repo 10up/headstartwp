@@ -1,4 +1,3 @@
-import { addQueryArgs } from '@wordpress/url';
 import {
 	getHeadlessConfig,
 	getCustomTaxonomySlugs,
@@ -7,6 +6,7 @@ import {
 	getCustomPostType,
 	ConfigError,
 	NotFoundError,
+	addQueryArgs,
 } from '../../utils';
 import { endpoints } from '../utils';
 import { apiGet } from '../api';

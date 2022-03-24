@@ -1,32 +1,33 @@
-import { usePost, fetchHookData, addHookData, handleError } from '@10up/headless-next';
+/**
+ * This is just an example of a single page route for a CPT called 'book'
+ */
+import {
+	fetchHookData,
+	addHookData,
+	handleError,
+	usePost,
+	useAppSettings,
+} from '@10up/headless-next';
+import { PageContent } from '../../components/PageContent';
+import { bookParams } from '../../params';
 
-const Template = () => {
-	const { data } = usePost({ postType: 'book' });
+const BookPage = () => {
+	const { data } = usePost(bookParams);
 
-	return (
-		<div>
-			{data ? (
-				<>
-					<h1>{data.post.title.rendered}</h1>
-					{data.post.content.rendered}
-					<p>Author: {data.post.author[0].name}</p>
-				</>
-			) : (
-				'loading...'
-			)}
-		</div>
-	);
+	return <div>{data ? <PageContent params={bookParams} /> : 'loading...'}</div>;
 };
 
-export default Template;
+export default BookPage;
 
 export async function getServerSideProps(context) {
 	try {
+		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+
 		const hookData = await fetchHookData(usePost.fetcher(), context, {
-			params: { postType: 'book' },
+			params: bookParams,
 		});
 
-		return addHookData([hookData], {});
+		return addHookData([hookData, appSettings], {});
 	} catch (e) {
 		return handleError(e, context);
 	}

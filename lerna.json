@@ -1,0 +1,14 @@
+{
+    "packages": [
+        "packages/*",
+        "projects/*"
+    ],
+    "version": "independent",
+    "command": {
+        "version": ["develop"]
+    },
+    "ignoreChanges": [
+        "**/node_modules/**",
+        "**/package.json"
+    ]
+}

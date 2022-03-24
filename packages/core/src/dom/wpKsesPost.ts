@@ -1,10 +1,8 @@
 /* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
-import sanitizeHtml from 'sanitize-html';
+import sanitize from 'xss';
 
 export type allowedTagsType = string[];
-export type allowedAttributesType = {
-	[key: string]: allowedTagsType;
-};
+export type AllowList = Record<string, Array<string>>;
 
 /**
  * Sanitize HTML content by the wp_kses_post() requirements
@@ -12,36 +10,16 @@ export type allowedAttributesType = {
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
  * @returns Sanitized string of HTML.
  */
-export const wpKsesPost = (
-	content: string,
-	allowedTags?: allowedTagsType | false | undefined,
-	allowedAtts?: allowedAttributesType | false | undefined,
-): string => {
-	if (typeof allowedTags === 'object' && allowedTags.length) {
-		allowedTags = [...allowedTags];
-	} else if (typeof allowedTags === 'undefined') {
-		allowedTags = ksesAllowedTags;
-	} else if (allowedTags === false) {
-		allowedTags = [];
+export const wpKsesPost = (content: string, allowList?: AllowList | undefined): string => {
+	if (typeof allowList === 'undefined') {
+		allowList = ksesAllowedAttributes;
 	}
 
-	if (typeof allowedAtts === 'object') {
-		// merge allowed atts and default atts
-		allowedAtts = { ...ksesAllowedAttributes, ...allowedAtts };
-	} else if (typeof allowedAtts === 'undefined') {
-		allowedAtts = ksesAllowedAttributes;
-	} else if (allowedAtts === false) {
-		allowedAtts = {};
-	}
-
-	return sanitizeHtml(content, {
-		allowedTags,
-		allowedAttributes: allowedAtts,
-		parser: {
-			lowerCaseTags: false,
-			lowerCaseAttributeNames: false,
-		},
-	}).replace('&amp;', '&');
+	return sanitize(content, {
+		whiteList: allowList,
+		stripIgnoreTag: true,
+		stripIgnoreTagBody: true,
+	});
 };
 
 /**
@@ -50,7 +28,7 @@ export const wpKsesPost = (
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
  * @returns Array of allowed tags.
  */
-export const ksesAllowedTags: allowedTagsType = [
+const ksesAllowedTags: allowedTagsType = [
 	'address',
 	'a',
 	'abbr',
@@ -146,7 +124,7 @@ export const ksesAllowedTags: allowedTagsType = [
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
  * @returns Array of allowed attributes for tags.
  */
-export const ksesAllowedAttributes: allowedAttributesType = {
+const ksesAllowedAttributes: AllowList = {
 	address: [
 		'aria-describedby',
 		'aria-details',
@@ -1444,3 +1422,10 @@ export const ksesAllowedAttributes: allowedAttributesType = {
 	'amp-instagram': ['layout', 'data-shortcode', 'data-captioned'],
 	'amp-youtube': ['layout', 'data-videoid', 'data-live-channelid', 'width', 'height'],
 };
+
+export const ksesAllowedList = { ...ksesAllowedAttributes };
+ksesAllowedTags.forEach((tag) => {
+	if (!ksesAllowedList[tag]) {
+		ksesAllowedList[tag] = [];
+	}
+});
