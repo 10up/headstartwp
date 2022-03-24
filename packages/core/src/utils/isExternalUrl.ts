@@ -9,7 +9,7 @@
  */
 export function isExternalUrl(link: string) {
 	try {
-		new URL(link);
+		new URL(link); // eslint-disable-line no-new
 		return true;
 	} catch (e) {
 		return false;
