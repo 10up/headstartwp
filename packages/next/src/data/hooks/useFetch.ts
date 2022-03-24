@@ -27,9 +27,9 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
 	options: SWRConfiguration<FetchResponse<E>> = {},
 ) {
-	const { url } = useSettings();
+	const { sourceUrl } = useSettings();
 
-	fetchStrategy.setBaseURL(url);
+	fetchStrategy.setBaseURL(sourceUrl);
 
 	const { query } = useRouter();
 

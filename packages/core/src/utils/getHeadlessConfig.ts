@@ -8,10 +8,11 @@ declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
  * @returns {HeadlessConfig}
  */
 export function getHeadlessConfig() {
-	const { customPostTypes, redirectStrategy, useWordPressPlugin, customTaxonomies } =
+	const { customPostTypes, redirectStrategy, useWordPressPlugin, customTaxonomies, sourceUrl } =
 		__10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
+		sourceUrl,
 		customPostTypes,
 		customTaxonomies,
 		redirectStrategy: redirectStrategy || 'none',

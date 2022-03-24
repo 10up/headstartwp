@@ -20,7 +20,11 @@ if (redirect.location) {
 
 ## getWPUrl
 
-The `getWPUrl` simply returns the WordPress URL defined in the `NEXT_PUBLIC_HEADLESS_WP_URL` environment URL.
+The `getWPUrl` returns the WordPress URL defined in the `headless.config.js` object.
+
+Loading the `headless.cofig.js` object is framework-dependent. To see how it's loaded in the Next.js integration take a look at [`withHeadlessConfig`](../../../next/src/config/withHeadlessConfig.ts).
+
+There's also a `setHeadlessConfig` that can be used to set/override the headless config object at runtime.
 
 ## removeSourceUrl
 
