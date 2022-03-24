@@ -10,7 +10,9 @@
 npm install --save @10up/headless-core@next
 ```
 
-## APIs
+## Documentation
+
+### APIs
  - [Utilities](./docs//api/utils.md)
     - [fetchRedirect](./docs/api/utils.md)
     - [isExternalUrl](./docs/api/utils.md)
@@ -25,7 +27,7 @@ npm install --save @10up/headless-core@next
     - [wpKsesPost](./docs/api/dom.md)
  - Data Fetching APIs
 
-## Components
+### Components
  - [SettingsProvider](./docs/components/SettingsProvider.md)
  - [BlocksRenderer](./docs/components/BlocksRenderer.md)
  - [Menu](./docs/components/Menu.md)
