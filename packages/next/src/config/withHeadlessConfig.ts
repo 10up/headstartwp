@@ -78,9 +78,13 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(
 						() => {
 							if (fs.existsSync(headlessConfigPath)) {
-								delete require.cache[require.resolve(headlessConfigPath)];
-								// eslint-disable-next-line
-								headlessConfig = require(headlessConfigPath);
+								try {
+									delete require.cache[require.resolve(headlessConfigPath)];
+									// eslint-disable-next-line global-require, import/no-dynamic-require
+									headlessConfig = require(headlessConfigPath);
+								} catch (e) {
+									// do nothing
+								}
 							}
 							return JSON.stringify(headlessConfig);
 						},
