@@ -22,7 +22,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run ts && npm run ts:cjs",
+    "build": "npm run ts && npm run ts:cjs && node ../../scripts/package.js",
     "dev": "npm run ts -- --watch",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
