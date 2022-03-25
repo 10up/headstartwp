@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 
 export const Link = ({ href, rel, children }) => {
 	const settings = useSettings();
-	const link = removeSourceUrl({ link: href, backendUrl: settings.url || '' });
+	const link = removeSourceUrl({ link: href, backendUrl: settings.sourceUrl || '' });
 
 	return (
 		<NextLink href={link}>

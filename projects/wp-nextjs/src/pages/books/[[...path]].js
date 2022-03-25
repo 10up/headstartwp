@@ -34,11 +34,10 @@ export default BooksPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
-
-		const hookData = await fetchHookData(usePosts.fetcher(), context, {
-			params: booksParams,
-		});
+		const [hookData, appSettings] = await Promise.all([
+			fetchHookData(usePosts.fetcher(), context, { params: booksParams }),
+			fetchHookData(useAppSettings.fetcher(), context),
+		]);
 
 		return addHookData([hookData, appSettings], {});
 	} catch (e) {
