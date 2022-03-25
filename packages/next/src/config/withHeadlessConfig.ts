@@ -75,9 +75,19 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 		webpack: (config, { webpack }) => {
 			config.plugins.push(
 				new webpack.DefinePlugin({
-					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {
-						return JSON.stringify(headlessConfig);
-					}),
+					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(
+						() => {
+							if (fs.existsSync(headlessConfigPath)) {
+								delete require.cache[require.resolve(headlessConfigPath)];
+								// eslint-disable-next-line
+								headlessConfig = require(headlessConfigPath);
+							}
+							return JSON.stringify(headlessConfig);
+						},
+						{
+							fileDependencies: [headlessConfigPath],
+						},
+					),
 				}),
 			);
 			return config;
