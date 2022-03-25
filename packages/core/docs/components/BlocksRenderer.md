@@ -14,8 +14,6 @@ import {
 	isAnchorTag,
 	isImageTag
 } from '@10up/headless-core';
-import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
-import PropTypes from 'prop-types';
 
 const MyLinkBlock = ({domNode, children}) => {
     // get the html attributes from the dom node
@@ -49,7 +47,6 @@ import {
 	isYoutubeEmbed,
 } from '@10up/headless-core';
 import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
-import PropTypes from 'prop-types';
 
 export const Blocks = ({ html }) => {
 	return (
@@ -63,11 +60,6 @@ export const Blocks = ({ html }) => {
 		</div>
 	);
 };
-
-Blocks.propTypes = {
-	html: PropTypes.string.isRequired,
-};
-
 ```
 ## Props
 

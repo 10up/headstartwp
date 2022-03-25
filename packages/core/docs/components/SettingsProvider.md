@@ -8,11 +8,11 @@ The `SettingsProvider` component houses the core framework settings. It exposes 
 
 ```javascript
 const App = () => {
-    return (
-        <SettingsProvider settings={mergedSettings}>
+	return (
+		<SettingsProvider settings={mergedSettings}>
 			{children}
 		</SettingsProvider>
-    );
+	);
 }
 ```
 
