@@ -14,24 +14,24 @@ npm install --save @10up/headless-core@next
 
 ### APIs
  - [Utilities](./docs//api/utils.md)
-    - [fetchRedirect](./docs/api/utils.md)
-    - [isExternalUrl](./docs/api/utils.md)
-    - [isInternalLink](./docs/api/utils.md)
-    - [removeSourceUrl]((./docs/api/utils.md))
-    - [getWPUrl](./docs/api/utils.md)
+    - [fetchRedirect](./docs/api/utils.md#fetchRedirect)
+    - [isExternalUrl](./docs/api/utils.md#isexternalurl)
+    - [isInternalLink](./docs/api/utils.md#isinternallink)
+    - [removeSourceUrl](./docs/api/utils.md#removesourceurl)
+    - [getWPUrl](./docs/api/utils.md#getwpurl)
  - [DOM Functions](./docs/api/dom.md)
-    - [isAnchorTag](./docs/api/dom.md)
-    - [isImageTag](./docs/api/dom.md)
-    - [isYoutubeEmbed](./docs/api/dom.md)
-    - [isTwitterEmbed](./docs/api/dom.md)
+    - [isAnchorTag](./docs/api/dom.md#isAnchorTag)
+    - [isImageTag](./docs/api/dom.md#isimagetag)
+    - [isYoutubeEmbed](./docs/api/dom.md#isyoutubeembed)
+    - [isTwitterEmbed](./docs/api/dom.md#istwitterembed)
     - [wpKsesPost](./docs/api/dom.md)
  - [Data Fetching APIs](./docs/api/data.md)
 
 ### Hooks
- - useFetchImpl
- - usePostsImpl
- - usePostImpl
- - useSearchImpl
+ - [useFetch](./docs/api/hooks.md#usefetch)
+ - [usePostImpl](./docs/api/hooks.md#usepostimpl)
+ - [usePostImpl](./docs/api/hooks.md#usepostsimpl)
+ - [useSearchImpl](./docs/api/hooks.md#usesearchimpl)
 
 ### Components
  - [SettingsProvider](./docs/components/SettingsProvider.md)
