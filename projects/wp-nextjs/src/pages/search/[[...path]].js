@@ -43,10 +43,10 @@ export default SearchPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
-		const hookData = await fetchHookData(useSearch.fetcher(), context, {
-			params: searchParams,
-		});
+		const [hookData, appSettings] = await Promise.all([
+			fetchHookData(useSearch.fetcher(), context, { params: searchParams }),
+			fetchHookData(useAppSettings.fetcher(), context),
+		]);
 
 		return addHookData([hookData, appSettings], {});
 	} catch (e) {

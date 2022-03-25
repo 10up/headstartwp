@@ -1,4 +1,4 @@
-import { getWPUrl } from '@10up/headless-core';
+import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 import { NextConfig } from 'next';
 
 import fs from 'fs';
@@ -7,7 +7,7 @@ import path from 'path';
 const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
 
 // the headless config is an empty object by default
-let headlessConfig = {};
+let headlessConfig: Partial<HeadlessConfig> = {};
 if (fs.existsSync(headlessConfigPath)) {
 	// eslint-disable-next-line
 	headlessConfig = require(headlessConfigPath);
@@ -20,10 +20,16 @@ if (fs.existsSync(headlessConfigPath)) {
  * @returns
  */
 export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
+	if (!headlessConfig.sourceUrl) {
+		throw new ConfigError(
+			'Missing sourceUrl in headless.config.js. Please add it to your headless.config.js file.',
+		);
+	}
+
 	const imageDomains: Array<string> = [];
 
 	try {
-		const imageMainDomain = new URL(process.env.NEXT_PUBLIC_HEADLESS_WP_URL || '');
+		const imageMainDomain = new URL(headlessConfig.sourceUrl || '');
 
 		imageDomains.push(imageMainDomain.hostname);
 	} catch (e) {
@@ -36,7 +42,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 			domains: imageDomains,
 		},
 		async rewrites() {
-			const wpUrl = getWPUrl();
+			const wpUrl = headlessConfig.sourceUrl;
 			return [
 				{
 					source: '/cache-healthcheck',

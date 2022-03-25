@@ -71,8 +71,10 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		const hookData = await fetchHookData(usePost.fetcher(), context, { params: singleParams });
-		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+		const [hookData, appSettings] = await Promise.all([
+			fetchHookData(usePost.fetcher(), context, { params: singleParams }),
+			fetchHookData(useAppSettings.fetcher(), context),
+		]);
 
 		return addHookData([hookData, appSettings], {});
 	} catch (e) {

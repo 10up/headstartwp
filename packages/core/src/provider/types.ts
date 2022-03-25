@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 export type SettingsContextProps = {
-	url: string;
 	linkComponent?: ReactNode;
 } & HeadlessConfig;
 
@@ -15,6 +14,7 @@ export type RedirectStrategy = '404' | 'none' | 'always';
 export type CustomTaxonomies = Array<{ slug: string; endpoint: string }>;
 
 export type HeadlessConfig = {
+	sourceUrl?: string;
 	customPostTypes?: CustomPostTypes;
 	customTaxonomies?: CustomTaxonomies;
 	redirectStrategy?: RedirectStrategy;

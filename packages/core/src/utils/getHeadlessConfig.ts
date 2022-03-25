@@ -2,11 +2,17 @@ import { HeadlessConfig } from '../provider/types';
 
 declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
 
+/**
+ * Returns the contents of headless.config.js
+ *
+ * @returns {HeadlessConfig}
+ */
 export function getHeadlessConfig() {
-	const { customPostTypes, redirectStrategy, useWordPressPlugin, customTaxonomies } =
+	const { customPostTypes, redirectStrategy, useWordPressPlugin, customTaxonomies, sourceUrl } =
 		__10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
+		sourceUrl,
 		customPostTypes,
 		customTaxonomies,
 		redirectStrategy: redirectStrategy || 'none',
@@ -16,6 +22,11 @@ export function getHeadlessConfig() {
 	return headlessConfig;
 }
 
+/**
+ * Returns the avaliable taxonomy slugs
+ *
+ * @returns {string[]}
+ */
 export function getCustomTaxonomySlugs() {
 	const { customTaxonomies } = getHeadlessConfig();
 
@@ -26,12 +37,22 @@ export function getCustomTaxonomySlugs() {
 	return customTaxonomies.map(({ slug }) => slug);
 }
 
+/**
+ * Returns the avaliable taxonomies
+ *
+ * @returns {HeadlessConfig["customTaxonomies"]}
+ */
 export function getCustomTaxonomies() {
 	const { customTaxonomies } = getHeadlessConfig();
 
 	return customTaxonomies;
 }
 
+/**
+ * Returns the avaliable post type slugs
+ *
+ * @returns {string[]}
+ */
 export function getCustomPostTypesSlugs() {
 	const { customPostTypes } = getHeadlessConfig();
 
@@ -42,6 +63,11 @@ export function getCustomPostTypesSlugs() {
 	return customPostTypes.map(({ slug }) => slug);
 }
 
+/**
+ * Returns the avaliable post types
+ *
+ * @returns {HeadlessConfig["customPostTypes"]}
+ */
 export function getCustomPostTypes() {
 	const { customPostTypes } = getHeadlessConfig();
 
@@ -70,12 +96,24 @@ export function getCustomPostTypes() {
 	return postTypes;
 }
 
+/**
+ * Returns a single post type by slug if defined
+ *
+ * @param slug post type slug
+ *
+ * @returns
+ */
 export function getCustomPostType(slug: string) {
 	const postTypes = getCustomPostTypes();
 
 	return postTypes?.find((postType) => postType.slug === slug);
 }
 
+/**
+ * Sets the headless config. Mostly useful for unit tests
+ *
+ * @param config The headless config
+ */
 export function setHeadlessConfig(config: HeadlessConfig) {
 	// @ts-expect-error
 	global.__10up__HEADLESS_CONFIG = config;

@@ -62,7 +62,10 @@ export const MenuItems = ({
 	return (
 		<>
 			{items.map((item) => {
-				const link = removeSourceUrl({ link: item.url, backendUrl: settings.url || '' });
+				const link = removeSourceUrl({
+					link: item.url,
+					backendUrl: settings.sourceUrl || '',
+				});
 				const shouldLink = item.children.length === 0 || topLevelItemsClickable;
 				const className = `menu-item-depth-${depth}`;
 
