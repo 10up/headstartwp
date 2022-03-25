@@ -48,6 +48,7 @@
   "dependencies": {
     "html-react-parser": "^1.4.3",
     "path-to-regexp": "^6.2.0",
+    "swr": "^1.2.2",
     "xss": "^1.0.11"
   },
   "peerDependencies": {

@@ -1,52 +1,24 @@
-import {
-	FetchResponse,
-	getPostAuthor,
-	getPostTerms,
-	getWPUrl,
-	PostEntity,
-	PostParams,
-	SinglePostFetchStrategy,
-} from '@10up/headless-core';
+import { FetchResponse, PostEntity, PostParams, usePostImpl } from '@10up/headless-core';
 import { SWRConfiguration } from 'swr';
-import { useFetch } from './useFetch';
-import { HookResponse } from './types';
-
-export interface usePostResponse extends HookResponse {
-	data?: { post: PostEntity };
-}
+import { useRouter } from 'next/router';
+import { convertToPath } from '../utils';
 
 /**
  * The usePost hook. Returns a single post entity
  *
- * @param params - Supported params
+ * @param params  Supported params
+ * @param options Options for the SWR configuration
  *
  * @returns
  */
 export function usePost(
 	params: PostParams,
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
-): usePostResponse {
-	const { data, error } = useFetch<PostEntity, PostParams>(
-		{ _embed: true, ...params },
-		usePost.fetcher(),
-		options,
-	);
+) {
+	const { query } = useRouter();
+	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
-	if (error) {
-		return { error, loading: false };
-	}
-
-	if (!data) {
-		return { loading: true };
-	}
-
-	// TODO: fix types
-	const post = Array.isArray(data.result) ? (data.result[0] as PostEntity) : data.result;
-
-	post.author = getPostAuthor(post);
-	post.terms = getPostTerms(post);
-
-	return { data: { post }, loading: false };
+	return usePostImpl(params, options, convertToPath(path));
 }
 
-usePost.fetcher = () => new SinglePostFetchStrategy(getWPUrl());
+usePost.fetcher = usePostImpl.fetcher;
