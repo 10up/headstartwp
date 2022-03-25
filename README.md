@@ -8,6 +8,13 @@
 - `npx create-next-app`
 - `npm run dev`
 
+## Documentation
+- Getting Started
+- API Reference
+    - [@10up/headless-core](./packages/core)
+    - [@10up/headless-next](./packages/next)
+- Guides
+
 ## Support Level
 
 **Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.

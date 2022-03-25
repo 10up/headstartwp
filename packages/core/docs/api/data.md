@@ -77,16 +77,20 @@ The `SinglePostFetchStrategy` takes a URL of any of these forms and properly cra
 - `/parent-page/post-slug` => `/wp-json/wp/v2/posts?slug=post-slug`
 
 All Fetching Strategies should extend [AbstractFetchStrategy](../../src/data/strategies/AbstractFetchStrategy.ts) class which exposes the following methods:
-- `abstract getDefaultEndpoint(): string;`: Returns the default endpoint used by the strategy. Must be implemented in the concrecete classes.
-- `setEndpoint(endpoint: string)`: Sets the endpoint. If none is set, the default endpoint will be used.
-- `setBaseURL(url: string | undefined = '')`: Sets the base URL. i.e the backend url (WordPress).
-- `getEndpoint()`: Returns the actual endpoint to be called.
-- `abstract getParamsFromURL(path: string): Partial<Params>;`: This is an abstract method that must be implemented in concrete classes. It takes in a URL and returns an object containing the params that should be part of the request.
-- `buildEndpointURL(params: Partial<Params>): string`: This method takes in the params from `getParamsFromURL` and builds the final endpoint url for fetching.
-- `async fetcher(...)`: This method fetches the data.
-- `get(params: Params)`: This is a utility method for quickly fetching data based on the params.
 
-The main goal of the fetching strategy classes it to provide a contract for how data should be fetched that can be executed both on the client-side and server-side, avoiding code duplication. This means that, in a framework like Next.js you can reuse the same strategy both on the client and on the server without having to write the logic on both places if you with to handle both client-side and server-side data fetching.
+
+|  Method | Abstract (Requires implementation)  | Descriptions  |
+|---|---|---|
+| `getDefaultEndpoint(): string;`  |  Yes |  Returns the default endpoint used by the strategy. Must be implemented in the concrecete classes. |
+| `setEndpoint(endpoint: string)`  |  No | Sets the endpoint. If none is set, the default endpoint will be used.  |
+| `setBaseURL(url: string \| undefined = '')`  | No  | Sets the base URL. i.e the backend url (WordPress).  |
+| `getEndpoint()`  |  No | Returns the actual endpoint to be called.  |
+| `getParamsFromURL(path: string): Partial<Params>;`  | Yes  | This is an abstract method that must be implemented in concrete classes. It takes in a URL and returns an object containing the params that should be part of the request.  |
+| `buildEndpointURL(params: Partial<Params>): string`  | No, but overriding is  useful.  | This method takes in the params from `getParamsFromURL` and builds the final endpoint url for fetching.  |
+|  `async fetcher(...)` | No, but overriding is  useful.  |  This method fetches the data. |
+| `get(params: Params)` | No  | This is a utility method for quickly fetching data based on the params.  |
+
+The main goal of the fetching strategy classes it to provide a contract for how data should be fetched that can be executed both on the client-side and server-side, avoiding code duplication. This means that, in a framework like Next.js you can reuse the same strategy both on the client and on the server without having to write the logic on both places if you wish to handle both client-side and server-side data fetching.
 
 ### The useFetch hook
 
