@@ -25,7 +25,13 @@ npm install --save @10up/headless-core@next
     - [isYoutubeEmbed](./docs/api/dom.md)
     - [isTwitterEmbed](./docs/api/dom.md)
     - [wpKsesPost](./docs/api/dom.md)
- - Data Fetching APIs
+ - [Data Fetching APIs](./docs/api/data.md)
+
+### Hooks
+ - useFetchImpl
+ - usePostsImpl
+ - usePostImpl
+ - useSearchImpl
 
 ### Components
  - [SettingsProvider](./docs/components/SettingsProvider.md)
