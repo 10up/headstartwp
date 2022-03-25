@@ -14,7 +14,7 @@ export type RedirectStrategy = '404' | 'none' | 'always';
 export type CustomTaxonomies = Array<{ slug: string; endpoint: string }>;
 
 export type HeadlessConfig = {
-	sourceUrl: string;
+	sourceUrl?: string;
 	customPostTypes?: CustomPostTypes;
 	customTaxonomies?: CustomTaxonomies;
 	redirectStrategy?: RedirectStrategy;
