@@ -1,4 +1,4 @@
-import { ConfigError, HeadlessConfig } from '@10up/headless-core'; // pass the modules you would like to see transpiled
+import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 
 import { NextConfig } from 'next';
 
