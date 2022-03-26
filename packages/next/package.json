@@ -26,7 +26,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run ts && npm run ts:cjs",
+    "build": "npm run ts && npm run ts:cjs && node ../../scripts/package.js",
     "dev": "npm run ts -- --watch",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
@@ -38,6 +38,7 @@
     "@10up/headless-core": "^0.0.1-alpha.10",
     "@justinribeiro/lite-youtube": "^1.3.1",
     "html-react-parser": "^1.4.3",
+    "next-transpile-modules": "^9.0.0",
     "swr": "^1.0.1"
   },
   "devDependencies": {
