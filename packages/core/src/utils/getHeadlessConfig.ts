@@ -108,13 +108,3 @@ export function getCustomPostType(slug: string) {
 
 	return postTypes?.find((postType) => postType.slug === slug);
 }
-
-/**
- * Sets the headless config. Mostly useful for unit tests
- *
- * @param config The headless config
- */
-export function setHeadlessConfig(config: HeadlessConfig) {
-	// @ts-expect-error
-	global.__10up__HEADLESS_CONFIG = config;
-}
