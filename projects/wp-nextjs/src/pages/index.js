@@ -50,6 +50,10 @@ export async function getStaticProps(context) {
 
 		return addHookData([hookData, appSettings], { props: { homePageSlug: slug } });
 	} catch (e) {
+		// this is a temporary measure to avoid breaking builds on CI due to missing wp plugin
+		if (e.name === 'EndpointError') {
+			return { props: {} };
+		}
 		return handleError(e, context);
 	}
 }
