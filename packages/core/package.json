@@ -2,31 +2,26 @@
   "name": "@10up/headless-core",
   "version": "0.0.1-alpha.10",
   "description": "",
-  "module": "dist/mjs/index.js",
-  "main": "dist/cjs/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "exports": {
-    ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js"
-    },
-    "./utils": {
-      "import": "./dist/mjs/utils/index.js",
-      "require": "./dist/cjs/utils/index.js"
-    }
+    ".": "./dist/index.js",
+    "./utils": "./dist/utils.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "npm run ts && npm run ts:cjs && node ../../scripts/package.js",
-    "dev": "npm run ts -- --watch",
+    "build": "10up-toolkit build --wp=false",
+    "dev": "npm run build -- --watch",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
-    "test": "jest --passWithNoTests"
+    "test": "10up-toolkit test-unit-jest --passWithNoTests"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +33,7 @@
     "@types/jest": "^27.4.0",
     "@types/node-fetch": "^2.5.3",
     "@types/sanitize-html": "^2.6.0",
+    "10up-toolkit": "^3.0.4-next.0",
     "jest": "^27.4.0",
     "msw": "^0.35.0",
     "node-fetch": "^2.6.7",

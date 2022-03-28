@@ -5,8 +5,6 @@ import { NextConfig } from 'next';
 import fs from 'fs';
 import path from 'path';
 
-const withTM = require('next-transpile-modules')(['@10up/headless-core', '@10up/headless-next']);
-
 const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
 
 // the headless config is an empty object by default
@@ -39,7 +37,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 		// do nothing
 	}
 
-	return withTM({
+	return {
 		...nextConfig,
 		images: {
 			domains: imageDomains,
@@ -83,5 +81,5 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 			);
 			return config;
 		},
-	});
+	};
 }

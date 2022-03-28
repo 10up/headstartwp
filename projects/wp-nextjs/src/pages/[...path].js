@@ -1,3 +1,4 @@
+import { EndpointError } from '@10up/headless-core';
 import {
 	usePost,
 	fetchHookData,
@@ -78,6 +79,9 @@ export async function getStaticProps(context) {
 
 		return addHookData([hookData, appSettings], {});
 	} catch (e) {
+		if (e instanceof EndpointError) {
+			return { props: {} };
+		}
 		return handleError(e, context);
 	}
 }
