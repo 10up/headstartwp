@@ -31,7 +31,6 @@ config.externals = [
 		path: 'commonjs2 path',
 		'@10up/headless-core/utils': 'commonjs2 @10up/headless-core/utils',
 		'react/jsx-runtime': 'commonjs2 react/jsx-runtime',
-		'@10up/headless-next/headless-config': 'commonjs2 @10up/headless-next/headless-config',
 	},
 	function ({ request }, callback) {
 		if (/^next\//.test(request)) {
