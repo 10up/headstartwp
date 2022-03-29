@@ -79,15 +79,6 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 				}),
 			);
 
-			/* config.module.rules.push({
-				test: /@10up\/headless-next\/config\/loader/,
-				use: [
-					{
-						loader: `val-loader`,
-					},
-				],
-			}); */
-
 			return config;
 		},
 	};

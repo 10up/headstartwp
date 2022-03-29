@@ -37,8 +37,5 @@
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
-  },
-  "dependencies": {
-    "val-loader": "^4.0.0"
   }
 }
