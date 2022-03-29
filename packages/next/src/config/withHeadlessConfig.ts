@@ -81,7 +81,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 
 			config.module.rules.push({
 				test: /\.js$/,
-				include: require.resolve('@10up/headless-next/config/loader'),
+				include: /@10up\/headless-next\/config\/loader/,
 				type: 'javascript/auto',
 			});
 
