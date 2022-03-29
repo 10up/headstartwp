@@ -1,1 +1,1 @@
-export * from './dist/mjs/config';
+export * from './dist/config';

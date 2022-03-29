@@ -1,7 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { SettingsProvider } from '@10up/headless-core';
 import { SWRConfig } from 'swr';
-
 import type { SettingsContextProps } from '@10up/headless-core';
 import type { SWRConfiguration } from 'swr';
 
