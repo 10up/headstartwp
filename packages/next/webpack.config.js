@@ -1,5 +1,4 @@
 const config = require('10up-toolkit/config/webpack.config');
-const CopyWebPack = require('copy-webpack-plugin');
 
 class IgnoreDynamicRequire {
 	apply(compiler) {
@@ -23,7 +22,8 @@ class IgnoreDynamicRequire {
 	}
 }
 
-delete config.entry.loader;
+config.entry.loader.import = './config-loader.js';
+
 config.externals = [
 	{
 		...config.externals,
@@ -43,14 +43,5 @@ config.externals = [
 ];
 
 config.plugins.push(new IgnoreDynamicRequire());
-config.plugins.push(
-	new CopyWebPack({
-		patterns: [
-			{
-				from: './src/config/headless.config.export.js',
-				to: 'config/loader.js',
-			},
-		],
-	}),
-);
+
 module.exports = config;
