@@ -22,6 +22,8 @@ class IgnoreDynamicRequire {
 	}
 }
 
+config.entry.loader.import = './config-loader.js';
+
 config.externals = [
 	{
 		...config.externals,

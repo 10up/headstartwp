@@ -1,5 +1,4 @@
 import { ConfigError, HeadlessConfig } from '@10up/headless-core';
-
 import { NextConfig } from 'next';
 
 import fs from 'fs';
@@ -79,6 +78,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 					__10up__HEADLESS_CONFIG: headlessConfigPath,
 				}),
 			);
+
 			return config;
 		},
 	};
