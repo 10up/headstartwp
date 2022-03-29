@@ -1,5 +1,4 @@
 import { ConfigError, HeadlessConfig } from '@10up/headless-core';
-
 import { NextConfig } from 'next';
 
 import fs from 'fs';
@@ -79,6 +78,16 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 					__10up__HEADLESS_CONFIG: headlessConfigPath,
 				}),
 			);
+
+			/* config.module.rules.push({
+				test: /@10up\/headless-next\/config\/loader/,
+				use: [
+					{
+						loader: `val-loader`,
+					},
+				],
+			}); */
+
 			return config;
 		},
 	};

@@ -1,4 +1,5 @@
 const config = require('10up-toolkit/config/webpack.config');
+const CopyWebPack = require('copy-webpack-plugin');
 
 class IgnoreDynamicRequire {
 	apply(compiler) {
@@ -22,6 +23,7 @@ class IgnoreDynamicRequire {
 	}
 }
 
+delete config.entry.loader;
 config.externals = [
 	{
 		...config.externals,
@@ -29,6 +31,7 @@ config.externals = [
 		path: 'commonjs2 path',
 		'@10up/headless-core/utils': 'commonjs2 @10up/headless-core/utils',
 		'react/jsx-runtime': 'commonjs2 react/jsx-runtime',
+		'@10up/headless-next/headless-config': 'commonjs2 @10up/headless-next/headless-config',
 	},
 	function ({ request }, callback) {
 		if (/^next\//.test(request)) {
@@ -40,5 +43,14 @@ config.externals = [
 ];
 
 config.plugins.push(new IgnoreDynamicRequire());
-
+config.plugins.push(
+	new CopyWebPack({
+		patterns: [
+			{
+				from: './src/config/headless.config.export.js',
+				to: 'config/loader.js',
+			},
+		],
+	}),
+);
 module.exports = config;
