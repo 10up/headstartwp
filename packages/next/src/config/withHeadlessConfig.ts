@@ -4,6 +4,8 @@ import { NextConfig } from 'next';
 import fs from 'fs';
 import path from 'path';
 
+const withTM = require('next-transpile-modules')(['@10up/headless-next']);
+
 const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
 
 // the headless config is an empty object by default
@@ -36,7 +38,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 		// do nothing
 	}
 
-	return {
+	return withTM({
 		...nextConfig,
 		images: {
 			domains: imageDomains,
@@ -72,20 +74,19 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 			];
 		},
 
-		webpack: (config, { webpack }) => {
+		webpack: (config, options) => {
+			const { webpack } = options;
 			config.plugins.push(
 				new webpack.ProvidePlugin({
 					__10up__HEADLESS_CONFIG: headlessConfigPath,
 				}),
 			);
 
-			config.module.rules.push({
-				test: /\.js$/,
-				include: /@10up\/headless-next\/config\/loader/,
-				type: 'javascript/auto',
-			});
+			if (typeof nextConfig.webpack === 'function') {
+				return nextConfig.webpack(config, options);
+			}
 
 			return config;
 		},
-	};
+	});
 }
