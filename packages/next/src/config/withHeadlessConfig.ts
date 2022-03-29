@@ -4,8 +4,6 @@ import { NextConfig } from 'next';
 import fs from 'fs';
 import path from 'path';
 
-const withTM = require('next-transpile-modules')(['@10up/headless-next']);
-
 const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
 
 // the headless config is an empty object by default
@@ -38,7 +36,7 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 		// do nothing
 	}
 
-	return withTM({
+	return {
 		...nextConfig,
 		images: {
 			domains: imageDomains,
@@ -75,12 +73,23 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 		},
 
 		webpack: (config, options) => {
-			const { webpack } = options;
-			config.plugins.push(
-				new webpack.ProvidePlugin({
-					__10up__HEADLESS_CONFIG: headlessConfigPath,
-				}),
-			);
+			config.module.rules.push({
+				test(source) {
+					if (
+						// for the monorepo
+						/packages\/next\/dist\/config\/loader/.test(source) ||
+						/packages\/core\/dist/.test(source) ||
+						// for the pubished packaged version
+						/@10up\/headless-next\/dist\/config\/loader/.test(source) ||
+						/@10up\/headless-core\/dist/.test(source)
+					) {
+						return true;
+					}
+
+					return false;
+				},
+				use: ['@10up/headless-webpack-loader'],
+			});
 
 			if (typeof nextConfig.webpack === 'function') {
 				return nextConfig.webpack(config, options);
@@ -88,5 +97,5 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 
 			return config;
 		},
-	});
+	};
 }
