@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-core",
-  "version": "0.0.1-alpha.15",
+  "version": "0.0.1-alpha.21",
   "description": "",
   "module": "dist/index.js",
   "main": "dist/index.js",
