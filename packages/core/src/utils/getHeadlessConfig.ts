@@ -1,5 +1,7 @@
 import { HeadlessConfig } from '../provider/types';
 
+declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
+
 /**
  * Returns the contents of headless.config.js
  *
@@ -7,7 +9,7 @@ import { HeadlessConfig } from '../provider/types';
  */
 export function getHeadlessConfig() {
 	const { customPostTypes, redirectStrategy, useWordPressPlugin, customTaxonomies, sourceUrl } =
-		global.__10up__HEADLESS_CONFIG || {};
+		__10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
 		sourceUrl,
