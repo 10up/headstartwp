@@ -15,9 +15,10 @@ module.exports = function (source) {
 			return '';
 		}
 
-		const transformed = source.replace(/(__10up__HEADLESS_CONFIG\|\|)({})/, (match, p1) => {
-			return [p1, JSON.stringify(headlessConfig)].join('');
-		});
+		const transformed = source.replace(
+			'__10up__HEADLESS_CONFIG',
+			JSON.stringify(headlessConfig),
+		);
 
 		return transformed;
 	}

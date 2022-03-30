@@ -20,6 +20,8 @@ if (fs.existsSync(headlessConfigPath)) {
  * @returns
  */
 export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
+	global.__10up__HEADLESS_CONFIG = headlessConfig;
+
 	if (!headlessConfig.sourceUrl) {
 		throw new ConfigError(
 			'Missing sourceUrl in headless.config.js. Please add it to your headless.config.js file.',
