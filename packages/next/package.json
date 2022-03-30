@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-next",
-  "version": "0.0.1-alpha.21",
+  "version": "0.0.1-alpha.22",
   "description": "",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -27,11 +27,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "next-transpile-modules": "^9.0.0",
-    "@10up/headless-core": "^0.0.1-alpha.21",
-    "@10up/headless-webpack-loader": "^0.0.1-alpha.18",
+    "@10up/headless-core": "^0.0.1-alpha.22",
+    "@10up/headless-webpack-loader": "^0.0.1-alpha.19",
     "@justinribeiro/lite-youtube": "^1.3.1",
     "html-react-parser": "^1.4.3",
+    "next-transpile-modules": "^9.0.0",
     "swr": "^1.0.1"
   },
   "devDependencies": {
