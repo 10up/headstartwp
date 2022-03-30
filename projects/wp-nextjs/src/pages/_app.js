@@ -1,10 +1,13 @@
-// eslint-disable-next-line import/no-unresolved
-import '@10up/headless-next/config/loader';
+// you can also access the headless config through a import
+// eslint-disable-next-line import/no-unresolved, no-unused-vars
+import config from '@10up/headless-next/config/loader';
+
 import { HeadlessApp } from '@10up/headless-next';
 import Link from 'next/link';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import Layout from '../components/Layout';
+
 // css
 import '../styles.css';
 
