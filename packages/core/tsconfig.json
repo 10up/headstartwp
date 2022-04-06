@@ -8,6 +8,5 @@
     }
   },
   "exclude": ["node_modules", "dist", "*/**/__tests__"],
-  "include": ["src"],
-  "resolver": "./test/resolver.js"
+  "include": ["src"]
 }
