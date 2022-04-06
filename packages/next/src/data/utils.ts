@@ -87,7 +87,7 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	let seo_json = {};
 	let yoast_head = '';
 
-	hookStates.forEach((hookState) => {
+	hookStates.filter(Boolean).forEach((hookState) => {
 		const { key, data } = hookState;
 
 		// take yoast_seo data

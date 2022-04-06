@@ -58,7 +58,7 @@ const LinkWrapper = ({ href, depth, children }) => {
 };
 
 const Header = () => {
-	const { loading, data } = useMenu('primary', {
+	const { data } = useMenu('primary', {
 		// these settings will re-render menu client side to ensure it always have the latest items
 		revalidateOnMount: true,
 		revalidateOnFocus: true,
@@ -66,7 +66,7 @@ const Header = () => {
 
 	return (
 		<header>
-			{!loading && (
+			{data && (
 				<Menu
 					items={data}
 					menuWrapper={MenuWrapper}

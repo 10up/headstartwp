@@ -35,12 +35,21 @@ Homepage.propTypes = {
 export default Homepage;
 
 export async function getStaticProps(context) {
+	let appSettings;
+	let slug;
 	try {
-		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+		appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 		/**
 		 * The static front-page can be set in the WP admin. The default one will be 'front-page'
 		 */
-		const slug = appSettings.data.result?.home?.slug || 'front-page';
+		slug = appSettings.data.result?.home?.slug ?? 'front-page';
+	} catch (e) {
+		if (e.name === 'EndpointError') {
+			slug = 'front-page';
+		}
+	}
+
+	try {
 		const hookData = await fetchHookData(usePost.fetcher(), context, {
 			params: {
 				...indexParams,
@@ -50,10 +59,6 @@ export async function getStaticProps(context) {
 
 		return addHookData([hookData, appSettings], { props: { homePageSlug: slug } });
 	} catch (e) {
-		// this is a temporary measure to avoid breaking builds on CI due to missing wp plugin
-		if (e.name === 'EndpointError') {
-			return { props: {} };
-		}
 		return handleError(e, context);
 	}
 }

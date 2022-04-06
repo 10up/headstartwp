@@ -36,7 +36,8 @@ export default BlogPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const [postsData, appSettings] = await Promise.all([
+		// using allSettled bc we still want to proceed if fetching appSettings fails
+		const promises = await Promise.allSettled([
 			fetchHookData(usePosts.fetcher(), context, {
 				// filtering is recommended for performance reasons to reduce the ammount of props that Next.js has to send via the HTML payload
 				// You can either ALLOW especific fields or REMOVE especific fields.
@@ -45,7 +46,18 @@ export async function getServerSideProps(context) {
 			fetchHookData(useAppSettings.fetcher(), context),
 		]);
 
-		return addHookData([postsData, appSettings], {});
+		const [data] = promises;
+
+		// allSettled will never reject so we must re-throw the error ourselves if the post is not found
+		if (data.status === 'rejected') {
+			throw data.reason;
+		}
+
+		const fulfilledPromises = promises
+			.filter(({ status }) => status === 'fulfilled')
+			.map(({ value }) => value);
+
+		return addHookData(fulfilledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

@@ -71,17 +71,25 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		const [hookData, appSettings] = await Promise.all([
+		// using allSettled bc we still want to proceed if fetching appSettings fails
+		const promises = await Promise.allSettled([
 			fetchHookData(usePost.fetcher(), context, { params: singleParams }),
 			fetchHookData(useAppSettings.fetcher(), context),
 		]);
 
-		return addHookData([hookData, appSettings], {});
-	} catch (e) {
-		// this is a temporary measure to avoid breaking builds on CI due to missing wp plugin
-		if (e.name === 'EndpointError') {
-			return { props: {} };
+		const [data] = promises;
+
+		// allSettled will never reject so we must re-throw the error ourselves if the post is not found
+		if (data.status === 'rejected') {
+			throw data.reason;
 		}
+
+		const fulfilledPromises = promises
+			.filter(({ status }) => status === 'fulfilled')
+			.map(({ value }) => value);
+
+		return addHookData(fulfilledPromises, {});
+	} catch (e) {
 		return handleError(e, context);
 	}
 }
