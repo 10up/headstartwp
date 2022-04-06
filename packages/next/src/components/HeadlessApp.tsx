@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
-import { SettingsProvider } from '@10up/headless-core';
+import { SettingsProvider } from '@10up/headless-core/react';
 import { SWRConfig } from 'swr';
-import type { SettingsContextProps } from '@10up/headless-core';
+import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
 
 import { useRouter } from 'next/router';

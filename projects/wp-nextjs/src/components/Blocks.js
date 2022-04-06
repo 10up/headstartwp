@@ -1,10 +1,6 @@
-import {
-	BlocksRenderer,
-	isAnchorTag,
-	isImageTag,
-	isTwitterEmbed,
-	isYoutubeEmbed,
-} from '@10up/headless-core';
+import { isAnchorTag, isImageTag, isTwitterEmbed, isYoutubeEmbed } from '@10up/headless-core';
+import { BlocksRenderer } from '@10up/headless-core/react';
+
 import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
 import PropTypes from 'prop-types';
 

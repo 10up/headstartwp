@@ -1,9 +1,3 @@
-import { ReactNode } from 'react';
-
-export type SettingsContextProps = {
-	linkComponent?: ReactNode;
-} & HeadlessConfig;
-
 export type CustomPostTypes = Array<{
 	slug: string;
 	endpoint: string;

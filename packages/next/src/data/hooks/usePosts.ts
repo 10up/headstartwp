@@ -1,4 +1,5 @@
-import { PostEntity, PostsArchiveParams, FetchResponse, usePostsImpl } from '@10up/headless-core';
+import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
+import { usePostsImpl } from '@10up/headless-core/react';
 import { SWRConfiguration } from 'swr';
 import { useRouter } from 'next/router';
 import { convertToPath } from '../utils';
