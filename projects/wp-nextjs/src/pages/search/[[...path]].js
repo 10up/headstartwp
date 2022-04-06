@@ -7,6 +7,7 @@ import {
 } from '@10up/headless-next';
 import { Link } from '../../components/Link';
 import { searchParams } from '../../params';
+import { fetchBatch } from '../../utils/promises';
 
 const SearchPage = () => {
 	const { error, loading, data } = useSearch(searchParams);
@@ -43,24 +44,17 @@ export default SearchPage;
 
 export async function getServerSideProps(context) {
 	try {
-		// using allSettled bc we still want to proceed if fetching appSettings fails
-		const promises = await Promise.allSettled([
-			fetchHookData(useSearch.fetcher(), context, { params: searchParams }),
-			fetchHookData(useAppSettings.fetcher(), context),
+		const settledPromises = await fetchBatch([
+			{
+				func: fetchHookData(useSearch.fetcher(), context, { params: searchParams }),
+			},
+			{
+				func: fetchHookData(useAppSettings.fetcher(), context),
+				throw: false,
+			},
 		]);
 
-		const [data] = promises;
-
-		// allSettled will never reject so we must re-throw the error ourselves if the post is not found
-		if (data.status === 'rejected') {
-			throw data.reason;
-		}
-
-		const fulfilledPromises = promises
-			.filter(({ status }) => status === 'fulfilled')
-			.map(({ value }) => value);
-
-		return addHookData(fulfilledPromises, {});
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

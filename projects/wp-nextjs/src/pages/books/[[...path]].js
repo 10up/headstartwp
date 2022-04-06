@@ -9,6 +9,7 @@ import {
 	useAppSettings,
 } from '@10up/headless-next';
 import { booksParams } from '../../params';
+import { fetchBatch } from '../../utils/promises';
 
 const BooksPage = () => {
 	const { data, error, loading } = usePosts(booksParams);
@@ -34,24 +35,15 @@ export default BooksPage;
 
 export async function getServerSideProps(context) {
 	try {
-		// using allSettled bc we still want to proceed if fetching appSettings fails
-		const promises = await Promise.allSettled([
-			fetchHookData(usePosts.fetcher(), context, { params: booksParams }),
-			fetchHookData(useAppSettings.fetcher(), context),
+		// fetch batch of promises and throws errors selectively
+		const settledPromises = await fetchBatch([
+			{
+				func: fetchHookData(usePosts.fetcher(), context, { params: booksParams }),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
 
-		const [data] = promises;
-
-		// allSettled will never reject so we must re-throw the error ourselves if the post is not found
-		if (data.status === 'rejected') {
-			throw data.reason;
-		}
-
-		const fulfilledPromises = promises
-			.filter(({ status }) => status === 'fulfilled')
-			.map(({ value }) => value);
-
-		return addHookData(fulfilledPromises, {});
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

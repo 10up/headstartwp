@@ -8,6 +8,7 @@ import {
 } from '@10up/headless-next';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';
+import { fetchBatch } from '../utils/promises';
 
 const SinglePostsPage = () => {
 	const { loading, error } = usePost(singleParams);
@@ -71,24 +72,16 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		// using allSettled bc we still want to proceed if fetching appSettings fails
-		const promises = await Promise.allSettled([
-			fetchHookData(usePost.fetcher(), context, { params: singleParams }),
-			fetchHookData(useAppSettings.fetcher(), context),
+		// fetch batch of promises and throws errors selectively
+		// passing `throw:false` will prevent errors from being thrown for that promise
+		const settledPromises = await fetchBatch([
+			{
+				func: fetchHookData(usePost.fetcher(), context, { params: singleParams }),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
 
-		const [data] = promises;
-
-		// allSettled will never reject so we must re-throw the error ourselves if the post is not found
-		if (data.status === 'rejected') {
-			throw data.reason;
-		}
-
-		const fulfilledPromises = promises
-			.filter(({ status }) => status === 'fulfilled')
-			.map(({ value }) => value);
-
-		return addHookData(fulfilledPromises, {});
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}
