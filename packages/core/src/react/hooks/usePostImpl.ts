@@ -1,9 +1,15 @@
 import { SWRConfiguration } from 'swr';
-import { getWPUrl } from '../../utils';
-import { FetchResponse, PostParams, SinglePostFetchStrategy } from '../../data/strategies';
-import { HookResponse, PostEntity } from '../../data/types';
-import { getPostAuthor, getPostTerms } from '../../data/utils';
+import {
+	FetchResponse,
+	PostParams,
+	SinglePostFetchStrategy,
+	getPostAuthor,
+	getPostTerms,
+} from '@10up/headless-core';
+import type { PostEntity } from '@10up/headless-core';
+import { getWPUrl } from '@10up/headless-core/utils';
 import { useFetch } from './useFetch';
+import type { HookResponse } from './types';
 
 export interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };

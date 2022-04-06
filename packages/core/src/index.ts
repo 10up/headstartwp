@@ -1,4 +1,4 @@
-export * from './data/index';
-export * from './utils/index';
-export * from './dom/index';
+export * from './data';
+export * from './utils';
+export * from './dom';
 export * from './types';

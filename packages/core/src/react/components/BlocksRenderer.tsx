@@ -1,7 +1,7 @@
 import parse, { HTMLReactParserOptions, DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { isValidElement, FC, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
-import { wpKsesPost } from '../../dom';
+import { wpKsesPost } from '@10up/headless-core';
 
 export interface BlockProps {
 	test: (domNome: DOMNode) => boolean;

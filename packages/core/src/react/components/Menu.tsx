@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { PropsWithChildren } from 'react';
-import { MenuItemEntity } from '../../data';
+import type { MenuItemEntity } from '@10up/headless-core';
+import { removeSourceUrl } from '@10up/headless-core';
 import { useSettings } from '../provider';
-import { removeSourceUrl } from '../../utils';
 import { RawLink } from './Link';
 
 export type ItemWrapperProps = PropsWithChildren<{
