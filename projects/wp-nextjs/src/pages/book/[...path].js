@@ -10,7 +10,7 @@ import {
 } from '@10up/headless-next';
 import { PageContent } from '../../components/PageContent';
 import { bookParams } from '../../params';
-import { fetchBatch } from '../../utils/promises';
+import { resolveBatch } from '../../utils/promises';
 
 const BookPage = () => {
 	const { data } = usePost(bookParams);
@@ -22,7 +22,7 @@ export default BookPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const settledPromises = await fetchBatch([
+		const settledPromises = await resolveBatch([
 			{
 				func: fetchHookData(usePost.fetcher(), context, { params: bookParams }),
 			},

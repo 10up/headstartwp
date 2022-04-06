@@ -8,7 +8,7 @@ import {
 } from '@10up/headless-next';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';
-import { fetchBatch } from '../utils/promises';
+import { resolveBatch } from '../utils/promises';
 
 const SinglePostsPage = () => {
 	const { loading, error } = usePost(singleParams);
@@ -74,7 +74,7 @@ export async function getStaticProps(context) {
 	try {
 		// fetch batch of promises and throws errors selectively
 		// passing `throw:false` will prevent errors from being thrown for that promise
-		const settledPromises = await fetchBatch([
+		const settledPromises = await resolveBatch([
 			{
 				func: fetchHookData(usePost.fetcher(), context, { params: singleParams }),
 			},

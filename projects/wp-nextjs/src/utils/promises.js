@@ -15,7 +15,7 @@
  *
  * @returns {PromiseFunc} The resolved promises.
  */
-export async function fetchBatch(promises) {
+export async function resolveBatch(promises) {
 	const promisesArray = Array.isArray(promises) ? promises : [promises];
 	const promisesArrayFunc = promisesArray.map(({ func }) => func);
 	const shouldThrowPromisesArray = promisesArray.map(

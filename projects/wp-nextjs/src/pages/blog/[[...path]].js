@@ -6,7 +6,7 @@ import {
 	useAppSettings,
 } from '@10up/headless-next';
 import { Link } from '../../components/Link';
-import { fetchBatch } from '../../utils/promises';
+import { resolveBatch } from '../../utils/promises';
 
 const BlogPage = () => {
 	const { loading, error, data } = usePosts();
@@ -37,7 +37,7 @@ export default BlogPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const settledPromises = await fetchBatch([
+		const settledPromises = await resolveBatch([
 			{
 				func: fetchHookData(usePosts.fetcher(), context, {
 					// filtering is recommended for performance reasons to reduce the ammount of props that Next.js has to send via the HTML payload
