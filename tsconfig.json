@@ -6,7 +6,6 @@
       "isolatedModules": true,
       "skipLibCheck": true,
       "allowSyntheticDefaultImports": true,
-      "baseUrl": "src",
       "esModuleInterop": true,
       "inlineSourceMap": false,
       "lib": ["dom", "dom.iterable", "esnext"],

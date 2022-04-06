@@ -7,6 +7,7 @@ import {
 } from '@10up/headless-next';
 import { Link } from '../../components/Link';
 import { searchParams } from '../../params';
+import { resolveBatch } from '../../utils/promises';
 
 const SearchPage = () => {
 	const { error, loading, data } = useSearch(searchParams);
@@ -43,12 +44,17 @@ export default SearchPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const [hookData, appSettings] = await Promise.all([
-			fetchHookData(useSearch.fetcher(), context, { params: searchParams }),
-			fetchHookData(useAppSettings.fetcher(), context),
+		const settledPromises = await resolveBatch([
+			{
+				func: fetchHookData(useSearch.fetcher(), context, { params: searchParams }),
+			},
+			{
+				func: fetchHookData(useAppSettings.fetcher(), context),
+				throw: false,
+			},
 		]);
 
-		return addHookData([hookData, appSettings], {});
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}
