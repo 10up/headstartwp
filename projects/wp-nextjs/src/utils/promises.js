@@ -1,3 +1,20 @@
+/**
+ * @typedef {import('@10up/headless-core').Entity} Entity
+ * @typedef {import('@10up/headless-core').FetchResponse} FetchResponse
+ *
+ * @typedef {Promise<FetchResponse<Entity>>[]} PromiseFunc
+ * @typedef {{ throw?: boolean; func: PromiseFunc }} PromiseObject
+ * @typedef {PromiseObject[]} FetchBashPromises
+ */
+
+/**
+ * The fetchBatch function recieves an array of PromiseObject and
+ * optionally skips throwing exceptions for the ones passed with `throw: false`.
+ *
+ * @param {FetchBashPromises} promises Array of PromiseObject to be resolved.
+ *
+ * @returns {PromiseFunc} The resolved promises.
+ */
 export async function fetchBatch(promises) {
 	const promisesArray = Array.isArray(promises) ? promises : [promises];
 	const promisesArrayFunc = promisesArray.map(({ func }) => func);
@@ -15,5 +32,6 @@ export async function fetchBatch(promises) {
 		}
 	});
 
-	return settledPromises.filter(({ status }) => status === 'fulfilled').map(({ value }) => value);
+	const fulfilledPromises = settledPromises.filter(({ status }) => status === 'fulfilled');
+	return fulfilledPromises.map(({ value }) => value);
 }
