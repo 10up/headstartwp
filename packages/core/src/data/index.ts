@@ -1,4 +1,4 @@
-export * from './types';
-export * from './api';
-export * from './strategies';
+export * from './api/index';
+export * from './strategies/index';
 export * from './utils';
+export * from './types';

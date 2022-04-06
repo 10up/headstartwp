@@ -1,16 +1,46 @@
-import { getWPUrl } from '@10up/headless-core';
+import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 import { NextConfig } from 'next';
 
 import fs from 'fs';
 import path from 'path';
 
-const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
+class IgnoreDynamicRequire {
+	apply(compiler) {
+		compiler.hooks.normalModuleFactory.tap('IgnoreDynamicRequire', (factory) => {
+			factory.hooks.parser.for('javascript/auto').tap('IgnoreDynamicRequire', (parser) => {
+				parser.hooks.call.for('require').tap('IgnoreDynamicRequire', (expression) => {
+					// This is a SyncBailHook, so returning anything stops the parser, and nothing allows to continue
+					if (
+						expression.arguments.length !== 1 ||
+						expression.arguments[0].type === 'Literal'
+					) {
+						return;
+					}
+					const arg = parser.evaluateExpression(expression.arguments[0]);
+					if (!arg.isString() && !arg.isConditional()) {
+							return true; //eslint-disable-line
+					}
+				});
+			});
+		});
+	}
+}
 
-// the headless config is an empty object by default
-let headlessConfig = {};
-if (fs.existsSync(headlessConfigPath)) {
-	// eslint-disable-next-line
-	headlessConfig = require(headlessConfigPath);
+export function loadHeadlessConfig() {
+	const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
+
+	// the headless config is an empty object by default
+	let headlessConfig: Partial<HeadlessConfig> = {};
+	if (fs.existsSync(headlessConfigPath)) {
+		// eslint-disable-next-line
+		headlessConfig = require(headlessConfigPath);
+
+		global.__10up__HEADLESS_CONFIG = headlessConfig;
+
+		return headlessConfig;
+	}
+
+	return {};
 }
 
 interface FrameworkConfig {
@@ -28,10 +58,18 @@ export function withHeadlessConfig(
 	nextConfig: NextConfig = {},
 	frameworkConfig: FrameworkConfig = {},
 ): NextConfig {
+	const headlessConfig = loadHeadlessConfig();
+
+	if (!headlessConfig.sourceUrl) {
+		throw new ConfigError(
+			'Missing sourceUrl in headless.config.js. Please add it to your headless.config.js file.',
+		);
+	}
+
 	const imageDomains: Array<string> = [];
 
 	try {
-		const imageMainDomain = new URL(process.env.NEXT_PUBLIC_HEADLESS_WP_URL || '');
+		const imageMainDomain = new URL(headlessConfig.sourceUrl || '');
 
 		imageDomains.push(imageMainDomain.hostname);
 	} catch (e) {
@@ -44,7 +82,7 @@ export function withHeadlessConfig(
 			domains: imageDomains,
 		},
 		async rewrites() {
-			const wpUrl = getWPUrl();
+			const wpUrl = headlessConfig.sourceUrl;
 			return [
 				{
 					source: '/cache-healthcheck',
@@ -74,14 +112,27 @@ export function withHeadlessConfig(
 			];
 		},
 
-		webpack: (config, { webpack, dev, isServer }) => {
-			config.plugins.push(
-				new webpack.DefinePlugin({
-					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {
-						return JSON.stringify(headlessConfig);
-					}),
-				}),
-			);
+		webpack: (config, options) => {
+			const { dev, isServer } = options;
+			config.module.rules.push({
+				test(source) {
+					if (
+						// for the monorepo
+						/packages\/next\/dist\/config\/loader/.test(source) ||
+						/packages\/core\/dist/.test(source) ||
+						// for the pubished packaged version
+						/@10up\/headless-next\/dist\/config\/loader/.test(source) ||
+						/@10up\/headless-core\/dist/.test(source)
+					) {
+						return true;
+					}
+
+					return false;
+				},
+				use: ['@10up/headless-webpack-loader'],
+			});
+
+			config.plugins.push(new IgnoreDynamicRequire());
 
 			if (frameworkConfig?.preact && !dev && !isServer) {
 				Object.assign(config.resolve.alias, {
@@ -91,6 +142,11 @@ export function withHeadlessConfig(
 					'react/jsx-runtime': 'preact/jsx-runtime',
 				});
 			}
+
+			if (typeof nextConfig.webpack === 'function') {
+				return nextConfig.webpack(config, options);
+			}
+
 			return config;
 		},
 	};

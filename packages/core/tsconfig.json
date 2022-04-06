@@ -1,12 +1,12 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "module": "esnext",
-      "outDir": "dist/mjs",
-      "target": "esnext",
-      "rootDir": "src",
-      "jsx": "react-jsx"
-    },
-    "exclude": ["node_modules", "dist", "*/**/__test__"],
-    "include": ["src"],
-  }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@10up/headless-core": ["./src/index"],
+      "@10up/headless-core/react": ["./src/react/index"],
+      "@10up/headless-core/utils": ["./src/utils/index"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "*/**/__tests__"],
+  "include": ["src"]
+}

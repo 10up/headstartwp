@@ -6,6 +6,7 @@ import {
 	useAppSettings,
 } from '@10up/headless-next';
 import { Link } from '../../components/Link';
+import { resolveBatch } from '../../utils/promises';
 
 const BlogPage = () => {
 	const { loading, error, data } = usePosts();
@@ -36,13 +37,18 @@ export default BlogPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const postsData = await fetchHookData(usePosts.fetcher(), context, {
-			// filtering is recommended for performance reasons to reduce the ammount of props that Next.js has to send via the HTML payload
-			// You can either ALLOW especific fields or REMOVE especific fields.
-			filterData: { method: 'ALLOW', fields: ['id', 'title', 'link'] },
-		});
-		const appData = await fetchHookData(useAppSettings.fetcher(), context);
-		return addHookData([postsData, appData], {});
+		const settledPromises = await resolveBatch([
+			{
+				func: fetchHookData(usePosts.fetcher(), context, {
+					// filtering is recommended for performance reasons to reduce the ammount of props that Next.js has to send via the HTML payload
+					// You can either ALLOW especific fields or REMOVE especific fields.
+					filterData: { method: 'ALLOW', fields: ['id', 'title', 'link'] },
+				}),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
+		]);
+
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

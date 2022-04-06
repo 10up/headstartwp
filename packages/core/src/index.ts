@@ -1,5 +1,4 @@
 export * from './data';
-export * from './provider';
 export * from './utils';
-export * from './components';
 export * from './dom';
+export * from './types';

@@ -1,10 +1,22 @@
-import { PostEntity } from '../types';
+import { PostEntity, TermEntity } from '../types';
 
+/**
+ * Returns the author object from the post object if it exists
+ *
+ * @param post The Post object
+ * @returns
+ */
 export function getPostAuthor(post: PostEntity) {
 	return post?._embedded?.author;
 }
 
-export function getPostTerms(post: PostEntity) {
+/**
+ * Returns the terms assoiacted with the post
+ *
+ * @param post The Post object
+ * @returns
+ */
+export function getPostTerms(post: PostEntity): Record<string, TermEntity[]> {
 	const terms: PostEntity['terms'] = {};
 
 	if (

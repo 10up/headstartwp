@@ -1,13 +1,32 @@
 
-## Instructions
-Requires npm >=7
+> A framework for building headless WordPress sites.
 
-- `npm install` from the root
+## Instructions for using the framework
+> These are temporary instructions
+
+- Do a clean git clone this repo
+- Copy `projects/wp-nextjs` to a different folder
+    - `cp -R ./projects/wp-nextjs /path-to-my-project`
+- Make sure there isn't a `node_modules` folder under `/path-to-my-project`.
+- `cd /path-to-my-project`
+- `npm install`
 - `npm run dev`
 
-Visit the following urls to test:
--  http://localhost:3000/officiis-repudiandae-sunt-perferendis-repudiandae-nulla
-- http://localhost:3000/2020/05/07/ipsum-repudiandae-est-nam/
+## Instructions for development & running this monorepo
+Run the following commands from the root of the repo:
+- `npm install` 
+- `npm run dev` 
+
+The top-level `dev` command will boot up the `projects/wp-nextjs` project and start `tsc` in watch mode for all packages.
+
+
+
+## Documentation
+- Getting Started
+- API Reference
+    - [@10up/headless-core](./packages/core)
+    - [@10up/headless-next](./packages/next)
+- Guides
 
 ## Support Level
 

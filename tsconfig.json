@@ -1,9 +1,11 @@
 {
     "compilerOptions": {
       "allowJs": true,
-      "allowSyntheticDefaultImports": true,
-      "baseUrl": "src",
       "declaration": true,
+      "emitDeclarationOnly": true,
+      "isolatedModules": true,
+      "skipLibCheck": true,
+      "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "inlineSourceMap": false,
       "lib": ["dom", "dom.iterable", "esnext"],
@@ -13,12 +15,13 @@
       "noFallthroughCasesInSwitch": true,
       "pretty": true,
       "resolveJsonModule": true,
-      "skipLibCheck": true,
       "strict": true,
       "traceResolution": false,
       "types": ["node", "jest"],
       "typeRoots": ["node_modules/@types"],
       "outDir": "dist",
+      "jsx": "react-jsx",
+      "noImplicitAny": false,
     },
     "compileOnSave": false,
     "references": [
