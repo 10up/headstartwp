@@ -18,8 +18,8 @@
 export async function resolveBatch(promises) {
 	const promisesArray = Array.isArray(promises) ? promises : [promises];
 	const promisesArrayFunc = promisesArray.map(({ func }) => func);
-	const shouldThrowPromisesArray = promisesArray.map(
-		({ throw: shouldThrow }) => shouldThrow || true,
+	const shouldThrowPromisesArray = promisesArray.map(({ throw: shouldThrow }) =>
+		typeof shouldThrow === 'undefined' ? true : shouldThrow,
 	);
 
 	// using allSettled bc we still want to proceed if fetching certain promises fails
