@@ -31,6 +31,7 @@ config.externals = [
 		fs: 'commonjs2 fs',
 		path: 'commonjs2 path',
 		'@10up/headless-core/utils': 'commonjs2 @10up/headless-core/utils',
+		'@10up/headless-core/react': 'commonjs2 @10up/headless-core/react',
 		'react/jsx-runtime': 'commonjs2 react/jsx-runtime',
 	},
 	function ({ request }, callback) {
