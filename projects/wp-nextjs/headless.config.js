@@ -30,5 +30,5 @@ module.exports = {
 	/**
 	 * Using 10up's headless plugin is recommended
 	 */
-	useWordPressPlugin: false,
+	useWordPressPlugin: true,
 };
