@@ -4,9 +4,9 @@ import {
 	AppSettingsStrategy,
 	getWPUrl,
 	FetchResponse,
-	useFetch,
 	HookResponse,
 } from '@10up/headless-core';
+import { useFetch } from '@10up/headless-core/react';
 import { SWRConfiguration } from 'swr';
 
 export interface useAppSettingsResponse extends HookResponse {

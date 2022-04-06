@@ -1,8 +1,12 @@
 import { SWRConfiguration } from 'swr';
 import { getCustomTaxonomySlugs, getWPUrl } from '../../utils';
-import { FetchResponse, PostsArchiveFetchStrategy, PostsArchiveParams } from '../strategies';
-import { HookResponse, PageInfo, PostEntity } from '../types';
-import { getPostAuthor, getPostTerms } from '../utils';
+import {
+	FetchResponse,
+	PostsArchiveFetchStrategy,
+	PostsArchiveParams,
+} from '../../data/strategies';
+import { HookResponse, PageInfo, PostEntity } from '../../data/types';
+import { getPostAuthor, getPostTerms } from '../../data/utils';
 import { useFetch } from './useFetch';
 
 type PageType = {

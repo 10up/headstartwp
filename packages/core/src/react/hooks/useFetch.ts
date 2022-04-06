@@ -1,7 +1,7 @@
 import useSWR, { SWRConfiguration } from 'swr';
-import { useSettings } from '../../provider';
-import { AbstractFetchStrategy, EndpointParams, FetchResponse } from '../strategies';
-import { Entity } from '../types';
+import { useSettings } from '../provider';
+import { AbstractFetchStrategy, EndpointParams, FetchResponse } from '../../data/strategies';
+import { Entity } from '../../data/types';
 
 export interface useFetchOptions {
 	shouldFetch?: () => boolean;

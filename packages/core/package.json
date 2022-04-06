@@ -11,11 +11,13 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./utils": "./dist/utils.js"
+    "./utils": "./dist/utils.js",
+    "./react": "./dist/react.js"
   },
   "files": [
     "dist"
   ],
+  "sideEffects": "false",
   "scripts": {
     "build": "10up-toolkit build --wp=false",
     "dev": "npm run build -- --watch",

@@ -1,8 +1,8 @@
 import { SWRConfiguration } from 'swr';
 import { getWPUrl } from '../../utils';
-import { FetchResponse, PostParams, SinglePostFetchStrategy } from '../strategies';
-import { HookResponse, PostEntity } from '../types';
-import { getPostAuthor, getPostTerms } from '../utils';
+import { FetchResponse, PostParams, SinglePostFetchStrategy } from '../../data/strategies';
+import { HookResponse, PostEntity } from '../../data/types';
+import { getPostAuthor, getPostTerms } from '../../data/utils';
 import { useFetch } from './useFetch';
 
 export interface usePostResponse extends HookResponse {

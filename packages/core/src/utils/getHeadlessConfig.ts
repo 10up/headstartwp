@@ -1,4 +1,4 @@
-import { HeadlessConfig } from '../provider/types';
+import { HeadlessConfig } from '../types';
 
 declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
 
