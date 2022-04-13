@@ -4,8 +4,6 @@ import {
 	getCustomTaxonomies,
 	asyncForEach,
 	getCustomPostType,
-	ConfigError,
-	NotFoundError,
 	addQueryArgs,
 } from '../../utils';
 import { endpoints } from '../utils';
@@ -14,6 +12,7 @@ import { PostEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
+import { ConfigError, NotFoundError } from '../../errors';
 
 const categoryEndpoint = '/wp-json/wp/v2/categories';
 const tagsEndpoint = '/wp-json/wp/v2/tags';

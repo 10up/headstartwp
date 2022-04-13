@@ -6,6 +6,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "exports": {
+    ".": "./src/index.ts",
+    "./middlewares": "./src/middlewares/index.ts"
+  },
   "sideEffects": false,
   "scripts": {
     "test": ""

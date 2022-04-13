@@ -1,9 +1,10 @@
-import { getCustomPostType, ConfigError } from '../../utils';
+import { getCustomPostType } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
 import { endpoints } from '../utils';
+import { ConfigError } from '../../errors';
 
 export interface PostParams extends EndpointParams {
 	slug?: string;

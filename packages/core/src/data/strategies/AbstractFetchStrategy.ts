@@ -1,6 +1,7 @@
 import { Entity, PageInfo } from '../types';
 import { apiGet } from '../api';
-import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
+import { addQueryArgs } from '../../utils';
+import { EndpointError, NotFoundError } from '../../errors';
 
 export interface EndpointParams {
 	_embed?: boolean;
