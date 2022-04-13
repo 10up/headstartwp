@@ -5,6 +5,7 @@ import { NextConfig } from 'next';
  * HOC used to wrap the nextjs config object with the headless config object.
  *
  * @param {object} nextConfig The nextjs config object
+ * @param {object} headlessConfig
  * @returns
  */
 export function withHeadlessConfig(
@@ -79,7 +80,12 @@ export function withHeadlessConfig(
 
 					return false;
 				},
-				use: ['@10up/headless-webpack-loader'],
+				use: [
+					{
+						loader: '@10up/headless-webpack-loader',
+						options: { config: headlessConfig },
+					},
+				],
 			});
 
 			if (typeof nextConfig.webpack === 'function') {

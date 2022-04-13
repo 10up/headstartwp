@@ -1,27 +1,24 @@
-const path = require('path');
-const fs = require('fs');
+const { validate } = require('schema-utils');
+
+const schema = {
+	type: 'object',
+	properties: {
+		config: {
+			type: 'object',
+		},
+	},
+};
 
 module.exports = function (source) {
-	// const callback = this.async();
-	const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
-	this.addDependency(headlessConfigPath);
-	if (fs.existsSync(headlessConfigPath)) {
-		let headlessConfig;
-		try {
-			delete require.cache[require.resolve(headlessConfigPath)];
-			// eslint-disable-next-line global-require, import/no-dynamic-require
-			headlessConfig = require(headlessConfigPath);
-		} catch (e) {
-			return '';
-		}
+	const options = this.getOptions();
 
-		const transformed = source.replace(
-			'__10up__HEADLESS_CONFIG',
-			JSON.stringify(headlessConfig),
-		);
+	validate(schema, options, {
+		name: '@10up/headless-webpack-loader',
+	});
 
-		return transformed;
-	}
+	const config = options.config || {};
 
-	return '';
+	const transformed = source.replace('__10up__HEADLESS_CONFIG', JSON.stringify(config));
+
+	return transformed;
 };
