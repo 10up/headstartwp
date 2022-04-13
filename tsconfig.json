@@ -14,15 +14,13 @@
       "noFallthroughCasesInSwitch": true,
       "pretty": true,
       "resolveJsonModule": true,
-      "strict": true,
+      "strict": false,
       "traceResolution": false,
       "types": ["node", "jest"],
       "typeRoots": ["node_modules/@types"],
       "outDir": "dist",
       "jsx": "react-jsx",
-      "noImplicitAny": false,
-      "module": "esnext",
-      "target": "esnext",
+      "noImplicitAny": false
     },
     "compileOnSave": false
   }

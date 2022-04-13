@@ -1,6 +1,6 @@
 import TranspileModules from 'next-transpile-modules';
 
-const WithTM = TranspileModules(['@10up/headless-core', '@10up/headless-next'], { debug: true });
+const WithTM = TranspileModules(['@10up/headless-core', '@10up/headless-next'], { debug: false });
 
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
@@ -65,7 +65,7 @@ export async function withHeadlessConfig(nextConfig = {}, headlessConfig = {}) {
 
 		webpack: (config, options) => {
 			const { webpack } = options;
-			config.optimization.minimize = false;
+
 			config.plugins.push(
 				new webpack.DefinePlugin({
 					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {

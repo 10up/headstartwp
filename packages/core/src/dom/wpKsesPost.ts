@@ -39,7 +39,6 @@ const defaultAllowList = getDefaultWhiteList();
 
 for (const tag of Object.keys(defaultAllowList)) {
 	if (typeof defaultAllowList[tag] !== 'undefined' && Array.isArray(defaultAllowList[tag])) {
-		// @ts-expect-error
 		defaultAllowList[tag] = [...defaultAllowList[tag], ...commonAttributes];
 	}
 }

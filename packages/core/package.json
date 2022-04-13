@@ -1,17 +1,13 @@
 {
   "name": "@10up/headless-core",
   "version": "0.0.1-alpha.23",
-  "description": "",  
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "description": "", 
+  "main": "./src/index.ts",
   "publishConfig": {
     "access": "public"
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -b",
-    "dev": "tsc -b --watch",
     "test": "jest --passWithNoTests"
   },
   "author": "",

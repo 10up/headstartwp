@@ -146,9 +146,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 					// @ts-expect-error
 					allowedData.push({});
 					fields.forEach((field) => {
-						// @ts-expect-error
 						if (data.result[i][field]) {
-							// @ts-expect-error
 							allowedData[i][field] = data.result[i][field];
 						}
 					});
@@ -166,7 +164,6 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 			fields.forEach((field) => {
 				if (Array.isArray(data.result)) {
 					data.result.forEach((record, i) => {
-						// @ts-expect-error
 						delete data.result[i][field];
 					});
 				} else {

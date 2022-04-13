@@ -89,7 +89,7 @@ export function isYoutubeEmbed(node: DOMNode) {
 		return false;
 	}
 
-	const { src } = node.attribs || '';
+	const { src = '' } = node.attribs;
 
 	return !!src.match(youtubeEmbedRegex);
 }

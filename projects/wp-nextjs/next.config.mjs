@@ -11,6 +11,10 @@ const withBundleAnalyzer = BundleAnalyzer({
  *
  * @type {import('next').NextConfig}
  */
-const nextConfig = {};
+const nextConfig = {
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
+};
 
 export default withHeadlessConfig(withBundleAnalyzer(nextConfig), headlessConfig);

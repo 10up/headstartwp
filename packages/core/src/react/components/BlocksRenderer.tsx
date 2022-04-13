@@ -34,7 +34,7 @@ export const BlocksRenderer: FC<BlockRendererProps> = ({ html, ksesAllowList, ch
 
 	const options: HTMLReactParserOptions = {
 		replace: (domNode) => {
-			let component: ReactNode = null;
+			let component: JSX.Element = null;
 
 			blocks.forEach((block) => {
 				if (isValidElement<BlockProps>(block) && block.props.test(domNode)) {
