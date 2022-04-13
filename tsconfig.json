@@ -2,7 +2,6 @@
     "compilerOptions": {
       "allowJs": true,
       "declaration": true,
-      "emitDeclarationOnly": true,
       "isolatedModules": true,
       "skipLibCheck": true,
       "allowSyntheticDefaultImports": true,
@@ -22,6 +21,8 @@
       "outDir": "dist",
       "jsx": "react-jsx",
       "noImplicitAny": false,
+      "module": "esnext",
+      "target": "esnext",
     },
     "compileOnSave": false
   }
