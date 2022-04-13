@@ -1,57 +1,16 @@
 import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 import { NextConfig } from 'next';
 
-import fs from 'fs';
-import path from 'path';
-
-class IgnoreDynamicRequire {
-	apply(compiler) {
-		compiler.hooks.normalModuleFactory.tap('IgnoreDynamicRequire', (factory) => {
-			factory.hooks.parser.for('javascript/auto').tap('IgnoreDynamicRequire', (parser) => {
-				parser.hooks.call.for('require').tap('IgnoreDynamicRequire', (expression) => {
-					// This is a SyncBailHook, so returning anything stops the parser, and nothing allows to continue
-					if (
-						expression.arguments.length !== 1 ||
-						expression.arguments[0].type === 'Literal'
-					) {
-						return;
-					}
-					const arg = parser.evaluateExpression(expression.arguments[0]);
-					if (!arg.isString() && !arg.isConditional()) {
-							return true; //eslint-disable-line
-					}
-				});
-			});
-		});
-	}
-}
-
-export function loadHeadlessConfig() {
-	const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
-
-	// the headless config is an empty object by default
-	let headlessConfig: Partial<HeadlessConfig> = {};
-	if (fs.existsSync(headlessConfigPath)) {
-		// eslint-disable-next-line
-		headlessConfig = require(headlessConfigPath);
-
-		global.__10up__HEADLESS_CONFIG = headlessConfig;
-
-		return headlessConfig;
-	}
-
-	return {};
-}
-
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
  *
  * @param {object} nextConfig The nextjs config object
  * @returns
  */
-export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
-	const headlessConfig = loadHeadlessConfig();
-
+export function withHeadlessConfig(
+	nextConfig: NextConfig = {},
+	headlessConfig: HeadlessConfig = {},
+): NextConfig {
 	if (!headlessConfig.sourceUrl) {
 		throw new ConfigError(
 			'Missing sourceUrl in headless.config.js. Please add it to your headless.config.js file.',
@@ -122,8 +81,6 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 				},
 				use: ['@10up/headless-webpack-loader'],
 			});
-
-			config.plugins.push(new IgnoreDynamicRequire());
 
 			if (typeof nextConfig.webpack === 'function') {
 				return nextConfig.webpack(config, options);
