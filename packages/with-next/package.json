@@ -1,0 +1,29 @@
+{
+    "name": "@10up/headless-with-next",
+    "version": "0.0.1-alpha.23",
+    "description": "",
+    "type": "module",
+    "main": "./src/index.js",
+    "publishConfig": {
+      "access": "public"
+    },
+    "scripts": {
+      "test": ""
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "next-transpile-modules": "^9.0.0"
+    },
+    "devDependencies": {
+    },
+    "peerDependencies": {
+      "next": "^12.1.0"
+    },
+    "peerDependenciesMeta": {
+      "next": {
+        "optional": true
+      }
+    }
+  }
+  

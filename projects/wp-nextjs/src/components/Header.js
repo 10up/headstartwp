@@ -1,4 +1,4 @@
-import { Menu } from '@10up/headless-core/react';
+import { Menu } from '@10up/headless-core';
 import { useMenu } from '@10up/headless-next';
 import Link from 'next/link';
 

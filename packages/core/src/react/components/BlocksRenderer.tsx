@@ -1,7 +1,7 @@
 import parse, { HTMLReactParserOptions, DOMNode, domToReact, Element } from 'html-react-parser';
-import React, { isValidElement, FC, ReactNode } from 'react';
+import React, { isValidElement, FC, ReactNode, ReactElement } from 'react';
 import type { IWhiteList } from 'xss';
-import { wpKsesPost } from '@10up/headless-core';
+import { wpKsesPost } from '../../dom';
 
 export interface BlockProps {
 	test: (domNome: DOMNode) => boolean;
@@ -12,6 +12,7 @@ export interface BlockProps {
 interface BlockRendererProps {
 	html: string;
 	ksesAllowList?: IWhiteList;
+	children?: ReactElement<BlockProps> | null;
 }
 
 export const BlocksRenderer: FC<BlockRendererProps> = ({ html, ksesAllowList, children }) => {
@@ -19,10 +20,14 @@ export const BlocksRenderer: FC<BlockRendererProps> = ({ html, ksesAllowList, ch
 
 	// Check if components[] has a non-ReactNode type Element
 	const hasInvalidComponent: boolean =
-		blocks.findIndex((block) => !isValidElement(block) || !('test' in block.props)) !== -1;
+		blocks.findIndex(
+			(block) => !isValidElement<BlockProps>(block) || !('test' in block.props),
+		) !== -1;
 
-	if (hasInvalidComponent) {
-		console.warn('Children of <BlocksRenderer /> component should be a type of ReactNode');
+	if (blocks.length > 1 && hasInvalidComponent) {
+		console.warn(
+			'Children of <BlocksRenderer /> component should be a type of ReactElement<BlockProps>',
+		);
 	}
 
 	const cleanedHTML = wpKsesPost(html, ksesAllowList);
@@ -53,4 +58,5 @@ export const BlocksRenderer: FC<BlockRendererProps> = ({ html, ksesAllowList, ch
 
 BlocksRenderer.defaultProps = {
 	ksesAllowList: undefined,
+	children: null,
 };

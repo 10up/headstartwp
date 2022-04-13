@@ -1,16 +1,19 @@
 import { SWRConfiguration } from 'swr';
-import {
-	FetchResponse,
-	PostsArchiveFetchStrategy,
-	PostsArchiveParams,
-	getPostAuthor,
-	getPostTerms,
-} from '@10up/headless-core';
-import type { PageInfo, PostEntity } from '@10up/headless-core';
-import { getCustomTaxonomySlugs, getWPUrl } from '@10up/headless-core/utils';
+
 import { useFetch } from './useFetch';
 
 import type { HookResponse } from './types';
+import {
+	FetchResponse,
+	getPostAuthor,
+	getPostTerms,
+	PageInfo,
+	PostEntity,
+	PostsArchiveFetchStrategy,
+	PostsArchiveParams,
+} from '../../data';
+import { getWPUrl } from '../../utils/getWPUrl';
+import { getCustomTaxonomySlugs } from '../../utils/getHeadlessConfig';
 
 type PageType = {
 	/**

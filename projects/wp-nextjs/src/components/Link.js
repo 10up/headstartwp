@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import { removeSourceUrl } from '@10up/headless-core';
-import { useSettings } from '@10up/headless-core/react';
+import { removeSourceUrl, useSettings } from '@10up/headless-core';
 import NextLink from 'next/link';
 
 export const Link = ({ href, rel, children }) => {

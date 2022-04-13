@@ -1,25 +1,29 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { PropsWithChildren } from 'react';
-import type { MenuItemEntity } from '@10up/headless-core';
-import { removeSourceUrl } from '@10up/headless-core';
+import { MenuItemEntity } from '../../data';
+import { removeSourceUrl } from '../../utils/removeSourceUrl';
 import { useSettings } from '../provider';
 import { RawLink } from './Link';
 
 export type ItemWrapperProps = PropsWithChildren<{
 	className: string;
+	// eslint-disable-next-line react/no-unused-prop-types
 	depth: number;
+	// eslint-disable-next-line react/no-unused-prop-types
 	item: MenuItemEntity;
 }>;
 export type ItemWrapper = (props: ItemWrapperProps) => JSX.Element;
 
 export type MenuWrapperProps = PropsWithChildren<{
 	className: string;
+	// eslint-disable-next-line react/no-unused-prop-types
 	depth: number;
 }>;
 export type MenuWrapper = (props: MenuWrapperProps) => JSX.Element;
 
 export type LinkWrapperProps = PropsWithChildren<{
 	href: string;
+	// eslint-disable-next-line react/no-unused-prop-types
 	depth: number;
 }>;
 export type LinkWrapper = (props: LinkWrapperProps) => JSX.Element;

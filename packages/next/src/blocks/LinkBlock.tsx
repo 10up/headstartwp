@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Element } from 'html-react-parser';
 import { PropsWithChildren } from 'react';
-import { removeSourceUrl } from '@10up/headless-core/utils';
-import { useSettings } from '@10up/headless-core/react';
+import { removeSourceUrl, useSettings } from '@10up/headless-core';
 
 export type LinkBlockProps = PropsWithChildren<{
 	domNode: Element;

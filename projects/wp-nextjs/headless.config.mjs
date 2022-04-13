@@ -3,7 +3,7 @@
  *
  * @type {import('@10up/headless-core').HeadlessConfig}
  */
-module.exports = {
+export default {
 	/**
 	 * The WordPress Source Url
 	 */

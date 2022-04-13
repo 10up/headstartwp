@@ -1,7 +1,6 @@
 import useSWR, { SWRConfiguration } from 'swr';
-import { AbstractFetchStrategy, EndpointParams, FetchResponse } from '@10up/headless-core';
-import type { Entity } from '@10up/headless-core';
 import { useSettings } from '../provider';
+import { AbstractFetchStrategy, EndpointParams, Entity, FetchResponse } from '../../data';
 
 export interface useFetchOptions {
 	shouldFetch?: () => boolean;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchRedirect, getHeadlessConfig } from '@10up/headless-core/utils';
+import { fetchRedirect, getHeadlessConfig } from '@10up/headless-core';
 
 const ALLOWED_STATIC_PATHS = /^\/.*\.(ico|png|jpg|jpeg)$/g;
 

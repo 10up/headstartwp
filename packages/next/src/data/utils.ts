@@ -7,8 +7,8 @@ import {
 	Entity,
 	EndpointParams,
 	FetchResponse,
+	getHeadlessConfig,
 } from '@10up/headless-core';
-import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
 
 export interface FetchHookDataOptions {
