@@ -28,6 +28,10 @@ config.plugins.push(
 				from: './config-loader.js',
 				to: 'config/loader.js',
 			},
+			{
+				from: './webpack-loader.js',
+				to: './webpack-loader.js',
+			},
 		],
 	}),
 );

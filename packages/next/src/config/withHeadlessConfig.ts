@@ -82,7 +82,7 @@ export function withHeadlessConfig(
 				},
 				use: [
 					{
-						loader: '@10up/headless-webpack-loader',
+						loader: '@10up/headless-next/webpack-loader',
 						options: { config: headlessConfig },
 					},
 				],
