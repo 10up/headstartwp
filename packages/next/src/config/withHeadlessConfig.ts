@@ -18,6 +18,8 @@ export function withHeadlessConfig(
 		);
 	}
 
+	global.__10up__HEADLESS_CONFIG = headlessConfig;
+
 	const imageDomains: Array<string> = [];
 
 	try {
@@ -30,6 +32,10 @@ export function withHeadlessConfig(
 
 	return {
 		...nextConfig,
+		serverRuntimeConfig: {
+			...nextConfig.serverRuntimeConfig,
+			headlessConfig,
+		},
 		images: {
 			domains: imageDomains,
 		},
