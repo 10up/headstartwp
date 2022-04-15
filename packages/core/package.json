@@ -28,10 +28,13 @@
   "sideEffects": "false",
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
-    "dev": "npm run build -- --watch",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
-    "test": "jest --passWithNoTests"
+    "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
+    "watch:ts:cjs": "npm run ts:cjs -- --watch",
+    "watch:ts": "npm run ts -- --watch",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint src/"
   },
   "author": "",
   "license": "ISC",

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Monorepo for headless framework",
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
+    "build": "turbo run build",
     "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-next",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "eslint .",
-    "dev": "npm run build:packages && concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=@10up/wp-nextjs\"",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev --parallel",
     "prepare": "husky install"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
@@ -25,7 +25,8 @@
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-jest": "^24.4.2",
     "husky": "^7.0.2",
-    "lint-staged": "^11.1.2"
+    "lint-staged": "^11.1.2",
+    "turbo": "^1.2.4"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",
