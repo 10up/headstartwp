@@ -1,1 +1,1 @@
-export * from './dist/middlewares';
+export * from './dist/mjs/middlewares';

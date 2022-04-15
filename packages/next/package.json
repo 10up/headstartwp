@@ -2,29 +2,43 @@
   "name": "@10up/headless-next",
   "version": "0.0.1-alpha.28",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./middlewares": "./dist/middlewares.js",
-    "./config": "./dist/config.js",
-    "./config/loader": "./dist/config/loader.js",
-    "./webpack-loader": "./dist/webpack-loader.js"
+    ".": { 
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/mjs/index.js"
+    },
+    "./middlewares": {
+      "require": "./dist/cjs/middlewares/index.js",
+      "import": "./dist/mjs/middlewares/index.js"
+    },
+    "./config": { 
+      "require": "./dist/cjs/config/index.js",
+      "import": "./dist/mjs/config/index.js"
+    },
+    "./config/loader": "./config-loader.js",
+    "./webpack-loader": "./webpack-loader.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "config-loader.js",
+    "webpack-loader.js"
   ],
   "sideEffects": "false",
   "scripts": {
-    "build": "10up-toolkit build --wp=false",
-    "dev": "npm run build -- --watch",
+    "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
-    "test": ""
+    "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
+    "watch:ts:cjs": "npm run ts:cjs -- --watch",
+    "watch:ts": "npm run ts -- --watch",
+    "test": "",
+    "lint": "eslint src"
   },
   "author": "",
   "license": "ISC",
@@ -39,7 +53,6 @@
     "swr": "^1.0.1"
   },
   "devDependencies": {
-    "10up-toolkit": "^3.0.4-next.0",
     "@testing-library/dom": "^8.6.0",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.4.0",

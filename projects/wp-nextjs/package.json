@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@10up/headless-core": "^0.0.1-alpha.28",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@10up/eslint-config": "^2.4.3",
+    "eslint-plugin-import": "^2.26.0",
     "@next/bundle-analyzer": "^12.1.0"
   },
   "engineStrict": true,
