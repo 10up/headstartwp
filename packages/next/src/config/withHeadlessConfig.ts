@@ -75,11 +75,11 @@ export function withHeadlessConfig(
 				test(source) {
 					if (
 						// for the monorepo
-						/packages\/next\/dist\/config\/loader/.test(source) ||
-						/packages\/core\/dist/.test(source) ||
+						/packages\/next\/config\/loader/.test(source) ||
+						/packages\/core/.test(source) ||
 						// for the pubished packaged version
-						/@10up\/headless-next\/dist\/config\/loader/.test(source) ||
-						/@10up\/headless-core\/dist/.test(source)
+						/@10up\/headless-next\/config\/loader/.test(source) ||
+						/@10up\/headless-core/.test(source)
 					) {
 						return true;
 					}

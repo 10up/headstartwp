@@ -6,7 +6,7 @@
     "build": "turbo run build",
     "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-next",
     "test": "turbo run test",
-    "lint": "turbo run lint",
+    "lint": "eslint .",
     "dev": "turbo run dev --parallel",
     "prepare": "husky install"
   },
