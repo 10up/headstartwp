@@ -1,7 +1,9 @@
 const { withHeadlessConfig } = require('@10up/headless-next/config');
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE === 'true',
 });
+
 const headlessConfig = require('./headless.config');
 
 /**
@@ -9,6 +11,10 @@ const headlessConfig = require('./headless.config');
  *
  * @type {import('next').NextConfig}
  */
-const nextConfig = {};
+const nextConfig = {
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
+};
 
 module.exports = withBundleAnalyzer(withHeadlessConfig(nextConfig, headlessConfig));

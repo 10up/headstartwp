@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@10up/eslint-config": "^2.4.3",
+    "eslint-plugin-import": "^2.26.0",
     "@next/bundle-analyzer": "^12.1.0"
   },
   "engineStrict": true,
