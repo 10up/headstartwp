@@ -31,7 +31,7 @@
     "dev": "npm run build -- --watch",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
-    "test": "10up-toolkit test-unit-jest --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "author": "",
   "license": "ISC",
