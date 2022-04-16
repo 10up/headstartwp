@@ -1,0 +1,20 @@
+---
+import { getHeadlessConfig } from '@10up/headless-core';
+import { SettingsProvider } from "@10up/headless-core/react";
+import { SWRConfig } from 'swr';
+
+const { fallback } = Astro.props
+
+
+---
+<div>
+<SettingsProvider settings={getHeadlessConfig()}>
+    <SWRConfig
+        value={{
+            fallback
+        }}
+    >
+       <slot />
+    </SWRConfig>
+</SettingsProvider>
+</div>

@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/SiteLayout.astro';
+import { usePostImpl } from '@10up/headless-core/react';
+import HeadlessApp from '@10up/headless-astro/app';
+import { fetchHookData } from '@10up/headless-astro';
+import Homepage from '../components/Homepage.tsx';
+
+const fallback = await fetchHookData(usePostImpl.fetcher(), {
+	params: { postType: 'page', slug: 'front-page'}
+})
+---
+<Layout>
+	<HeadlessApp fallback={fallback}>
+		<Homepage />
+	</HeadlessApp>
+</Layout>
