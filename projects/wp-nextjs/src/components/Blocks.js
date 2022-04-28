@@ -1,10 +1,4 @@
-import {
-	isAnchorTag,
-	isButtonBlock,
-	isImageTag,
-	isTwitterEmbed,
-	isYoutubeEmbed,
-} from '@10up/headless-core';
+import { isButtonBlock } from '@10up/headless-core';
 import { BlocksRenderer, GenericBlock } from '@10up/headless-core/react';
 
 import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
@@ -33,10 +27,10 @@ export const Blocks = ({ html }) => {
 	return (
 		<div style={{ position: 'relative' }}>
 			<BlocksRenderer html={html}>
-				<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true })} />
-				<ImageBlock test={(node) => isImageTag(node, { hasDimensions: true })} />
-				<YoutubeLiteBlock test={isYoutubeEmbed} />
-				<TwitterBlock test={isTwitterEmbed} />
+				<LinkBlock />
+				<ImageBlock />
+				<YoutubeLiteBlock />
+				<TwitterBlock />
 				<GenericBlock
 					test={(node) =>
 						isButtonBlock(node, { tagName: 'div', className: 'wp-block-button' })

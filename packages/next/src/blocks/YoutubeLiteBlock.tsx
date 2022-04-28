@@ -1,4 +1,4 @@
-import { youtubeEmbedRegex } from '@10up/headless-core';
+import { isYoutubeEmbed, youtubeEmbedRegex } from '@10up/headless-core';
 import { useEffect } from 'react';
 
 interface LiteYoutube {
@@ -39,4 +39,8 @@ export const YoutubeLiteBlock = ({ domNode }) => {
 	const videoId = src.match(youtubeEmbedRegex)[7];
 
 	return <lite-youtube videoid={videoId} videotitle={title} />;
+};
+
+YoutubeLiteBlock.defaultProps = {
+	test: (node) => isYoutubeEmbed(node),
 };

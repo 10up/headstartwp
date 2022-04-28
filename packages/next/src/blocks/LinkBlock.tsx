@@ -3,7 +3,7 @@ import { Element } from 'html-react-parser';
 import { PropsWithChildren } from 'react';
 import { removeSourceUrl } from '@10up/headless-core/utils';
 import { useSettings } from '@10up/headless-core/react';
-import { getAttributes } from '@10up/headless-core';
+import { getAttributes, isAnchorTag } from '@10up/headless-core';
 
 export type LinkBlockProps = PropsWithChildren<{
 	domNode: Element;
@@ -32,4 +32,8 @@ export const LinkBlock = ({ domNode, children }) => {
 			</a>
 		</Component>
 	);
+};
+
+LinkBlock.defaultProps = {
+	test: (node) => isAnchorTag(node, { isInternalLink: true }),
 };
