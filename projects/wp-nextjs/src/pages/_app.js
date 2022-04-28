@@ -4,7 +4,6 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import Layout from '../components/Layout';
 
-// css
 import '../styles.css';
 
 Router.events.on('routeChangeStart', () => NProgress.start());

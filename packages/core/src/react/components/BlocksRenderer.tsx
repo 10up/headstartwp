@@ -1,11 +1,11 @@
-import parse, { HTMLReactParserOptions, DOMNode, domToReact, Element } from 'html-react-parser';
+import parse, { HTMLReactParserOptions, domToReact, Element } from 'html-react-parser';
 import React, { isValidElement, FC, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
 import { wpKsesPost } from '../../dom';
 
 export interface BlockProps {
-	test: (domNome: DOMNode) => boolean;
-	domNode?: DOMNode;
+	test: (domNode: Element) => boolean;
+	domNode?: Element;
 	children?: ReactNode | undefined;
 }
 
@@ -32,7 +32,7 @@ export const BlocksRenderer: FC<BlockRendererProps> = ({ html, ksesAllowList, ch
 			let component: ReactNode = null;
 
 			blocks.forEach((block) => {
-				if (isValidElement<BlockProps>(block) && block.props.test(domNode)) {
+				if (isValidElement<BlockProps>(block) && block.props.test(domNode as Element)) {
 					component = React.createElement(
 						block.type,
 						{

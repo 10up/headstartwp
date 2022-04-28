@@ -101,6 +101,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 			// @ts-expect-error
 			args.headers = { Authorization: `Bearer ${options.bearerToken}` };
 		}
+
 		const result = await apiGet(`${this.baseURL}${url}`, args);
 		const { data } = result.json;
 
