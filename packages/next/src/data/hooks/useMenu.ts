@@ -1,6 +1,6 @@
 import { MenuItemEntity } from '@10up/headless-core';
 import { SWRConfiguration } from 'swr';
-import { HookResponse } from './types';
+import { HookResponse } from '@10up/headless-core/react';
 import { useAppSettings } from './useAppSettings';
 
 export interface useMenuResponse extends HookResponse {

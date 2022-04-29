@@ -1,57 +1,25 @@
-import {
-	SearchFetchStrategy,
-	PostEntity,
-	PostsArchiveParams,
-	PageInfo,
-	getPostAuthor,
-	getPostTerms,
-	getWPUrl,
-	FetchResponse,
-} from '@10up/headless-core';
+import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
+import { useSearchImpl } from '@10up/headless-core/react';
+import { useRouter } from 'next/router';
 import { SWRConfiguration } from 'swr';
-import { useFetch } from './useFetch';
-import { HookResponse } from './types';
-
-interface useSearchResponse extends HookResponse {
-	data?: { posts: PostEntity[]; pageInfo: PageInfo };
-}
+import { convertToPath } from '../utils';
 
 /**
  * The useSearch hook. Returns a collection of search entities
  *
- * @param params - Supported params
+ * @param params  Supported params
+ * @param options Options for the SWR configuration
  *
  * @returns
  */
 export function useSearch(
 	params: PostsArchiveParams,
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
-): useSearchResponse {
-	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
-		{ _embed: true, ...params },
-		useSearch.fetcher(),
-		options,
-	);
+) {
+	const { query } = useRouter();
+	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
-	if (error) {
-		return { error, loading: false };
-	}
-
-	if (!data) {
-		return { loading: true };
-	}
-
-	const { result, pageInfo } = data;
-
-	// TODO: fix types
-	const posts = (result as unknown as PostEntity[]).map((post) => {
-		post.author = getPostAuthor(post);
-		post.terms = getPostTerms(post);
-
-		return post;
-	});
-
-	return { data: { posts, pageInfo }, loading: false };
+	return useSearchImpl(params, options, convertToPath(path));
 }
 
-useSearch.fetcher = () => new SearchFetchStrategy(getWPUrl());
+useSearch.fetcher = useSearchImpl.fetcher;

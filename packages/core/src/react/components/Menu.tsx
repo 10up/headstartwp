@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { PropsWithChildren } from 'react';
-import { MenuItemEntity } from '../data';
+import type { MenuItemEntity } from '../../data';
+import { removeSourceUrl } from '../../utils/removeSourceUrl';
+
 import { useSettings } from '../provider';
-import { removeSourceUrl } from '../utils';
 import { RawLink } from './Link';
 
 export type ItemWrapperProps = PropsWithChildren<{
@@ -62,7 +63,10 @@ export const MenuItems = ({
 	return (
 		<>
 			{items.map((item) => {
-				const link = removeSourceUrl({ link: item.url, backendUrl: settings.url || '' });
+				const link = removeSourceUrl({
+					link: item.url,
+					backendUrl: settings.sourceUrl || '',
+				});
 				const shouldLink = item.children.length === 0 || topLevelItemsClickable;
 				const className = `menu-item-depth-${depth}`;
 

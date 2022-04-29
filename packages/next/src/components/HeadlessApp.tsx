@@ -1,8 +1,7 @@
 import { PropsWithChildren } from 'react';
-import { getWPUrl, SettingsProvider } from '@10up/headless-core';
+import { SettingsProvider } from '@10up/headless-core/react';
 import { SWRConfig } from 'swr';
-
-import type { SettingsContextProps } from '@10up/headless-core';
+import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
 
 import { useRouter } from 'next/router';
@@ -30,13 +29,8 @@ export const HeadlessApp = ({
 		swrConfig.revalidateOnMount = false;
 	}
 
-	const mergedSettings = { ...settings };
-	if (!mergedSettings.url) {
-		mergedSettings.url = getWPUrl();
-	}
-
 	return (
-		<SettingsProvider settings={mergedSettings}>
+		<SettingsProvider settings={settings}>
 			<SWRConfig
 				value={{
 					fallback,

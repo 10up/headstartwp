@@ -5,8 +5,15 @@ type RedirectData = {
 	status: number;
 };
 
-const wpURL = getWPUrl().replace(/\/$/, '');
+/**
+ * Fetches a redirect from the WordPress origin by making a HEAD request and checking the response
+ *
+ * @param pathname The path to the page to fetch the redirect for
+ *
+ * @returns {RedirectData} The redirect data
+ */
 export async function fetchRedirect(pathname: string): Promise<RedirectData> {
+	const wpURL = getWPUrl().replace(/\/$/, '');
 	// Remove the trailing slash before concatenating the link
 	const redirectionURL = `${wpURL + pathname.replace(/\/$/, '')}/`;
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Element } from 'html-react-parser';
 import { PropsWithChildren } from 'react';
 import { removeSourceUrl } from '@10up/headless-core/utils';
-import { useSettings } from '@10up/headless-core';
+import { useSettings } from '@10up/headless-core/react';
 
 export type LinkBlockProps = PropsWithChildren<{
 	domNode: Element;
@@ -20,7 +20,7 @@ export type LinkBlockProps = PropsWithChildren<{
 export const LinkBlock = ({ domNode, children }) => {
 	const { href, rel } = domNode.attribs;
 	const settings = useSettings();
-	const link = removeSourceUrl({ link: href, backendUrl: settings.url || '' });
+	const link = removeSourceUrl({ link: href, backendUrl: settings.sourceUrl || '' });
 	const Component = typeof settings.linkComponent === 'function' ? settings.linkComponent : Link;
 
 	return (

@@ -56,7 +56,6 @@ describe('BlocksRenderer', () => {
 						if (!(node instanceof Element)) {
 							return false;
 						}
-
 						return node.type === 'tag' && node.name === 'div';
 					}}
 				/>

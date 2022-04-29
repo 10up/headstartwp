@@ -87,6 +87,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 			try {
 				const newParams = { ...params, postType };
 				const endpointUrl = this.buildEndpointURL({ ...newParams, postType });
+
 				result = await super.fetcher(endpointUrl, newParams, options);
 			} catch (e) {
 				error = e;

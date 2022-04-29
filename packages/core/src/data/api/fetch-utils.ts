@@ -57,7 +57,9 @@ export const apiGet = async (
 
 	const data = await fetch(addQueryArgs(url, queryArgs), args);
 
-	const receivedHeaders: { [index: string]: any } = [...data.headers.entries()].reduce(
+	const receivedHeaders: { [index: string]: any } = [
+		...Array.from(data.headers.entries()),
+	].reduce(
 		(collection, pair) => ({
 			...collection,
 			[pair[0]]: pair[1],

@@ -1,4 +1,4 @@
-import { setHeadlessConfig } from '../../../utils';
+import { setHeadlessConfig } from '../../../../test/utils';
 import { apiGet } from '../../api';
 import { SinglePostFetchStrategy } from '../SinglePostFetchStrategy';
 

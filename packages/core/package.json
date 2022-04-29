@@ -1,32 +1,40 @@
 {
   "name": "@10up/headless-core",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.29",
   "description": "",
-  "module": "dist/mjs/index.js",
   "main": "dist/cjs/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "source": "src/index.ts",
+  "types": "dist/mjs/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "exports": {
     ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/mjs/index.js"
     },
     "./utils": {
-      "import": "./dist/mjs/utils/index.js",
-      "require": "./dist/cjs/utils/index.js"
+      "require": "./dist/cjs/utils/index.js",
+      "import": "./dist/mjs/utils/index.js"
+    },
+    "./react": {
+      "require": "./dist/cjs/react/index.js",
+      "import": "./dist/mjs/react/index.js"
     }
   },
   "files": [
     "dist"
   ],
+  "sideEffects": "false",
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
-    "dev": "npm run ts -- --watch",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
-    "test": "jest --passWithNoTests"
+    "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
+    "watch:ts:cjs": "npm run ts:cjs -- --watch",
+    "watch:ts": "npm run ts -- --watch",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint src/"
   },
   "author": "",
   "license": "ISC",
@@ -48,6 +56,7 @@
   "dependencies": {
     "html-react-parser": "^1.4.3",
     "path-to-regexp": "^6.2.0",
+    "swr": "^1.2.2",
     "xss": "^1.0.11"
   },
   "peerDependencies": {
