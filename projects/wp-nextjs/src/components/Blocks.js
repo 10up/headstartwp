@@ -25,7 +25,11 @@ MyReactButton.propTypes = {
 
 export const Blocks = ({ html }) => {
 	return (
-		<div style={{ position: 'relative' }}>
+		<div
+			css={css`
+				position: relative;
+			`}
+		>
 			<BlocksRenderer html={html}>
 				<LinkBlock />
 				<ImageBlock />
