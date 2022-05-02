@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
-import { Icons } from './Icons';
+
 import { Logo } from './Logo';
 import { Nav } from './Nav';
+import { Search } from './Search';
 
 const headerStyles = css`
 	display: flex;
@@ -24,7 +25,7 @@ const Header = () => {
 		<header role="banner" css={headerStyles}>
 			<Nav />
 			<Logo />
-			<Icons />
+			<Search />
 		</header>
 	);
 };
