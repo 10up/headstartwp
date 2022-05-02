@@ -1,4 +1,3 @@
-import { cx } from '@emotion/css';
 import { Element } from 'html-react-parser';
 import { PropsWithChildren, ReactElement } from 'react';
 import { getAttributes } from '../../dom';
@@ -26,7 +25,7 @@ export const ButtonBlock = ({ domNode, children, className, component }: ButtonB
 	const Component = typeof component === 'function' ? component : Button;
 
 	return (
-		<Component className={cx(buttonClasses, className)} attribs={attributes}>
+		<Component className={[buttonClasses, className].join(' ')} attribs={attributes}>
 			{children}
 		</Component>
 	);

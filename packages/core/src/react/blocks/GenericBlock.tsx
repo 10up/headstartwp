@@ -1,4 +1,3 @@
-import { cx } from '@emotion/css';
 import { Element } from 'html-react-parser';
 import { FC } from 'react';
 import { getAttributes } from '../../dom';
@@ -27,7 +26,10 @@ export const GenericBlock = ({
 	const attributes = getAttributes(domNode.attribs);
 
 	return (
-		<Component className={cx(attributes.className, className || '')} attribs={attributes}>
+		<Component
+			className={[attributes.className, className || ''].join(' ')}
+			attribs={attributes}
+		>
 			{children}
 		</Component>
 	);

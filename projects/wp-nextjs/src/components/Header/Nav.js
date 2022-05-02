@@ -40,5 +40,9 @@ export const Nav = () => {
 		revalidateOnFocus: true,
 	});
 
-	return data && <Menu items={data} css={navStyles} />;
+	if (!data) {
+		return null;
+	}
+
+	return <Menu items={data} css={navStyles} />;
 };

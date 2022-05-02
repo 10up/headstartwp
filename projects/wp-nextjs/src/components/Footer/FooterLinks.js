@@ -20,14 +20,12 @@ const footerLinksStyles = css`
 `;
 
 export const FooterLinks = () => {
-	const {
-		data: { settings },
-	} = useAppSettings();
+	const { data } = useAppSettings();
 
 	return (
 		<ul css={footerLinksStyles}>
 			<li>
-				<Link href={settings.privacy_policy_url}>Privacy Policy</Link>
+				<Link href={data?.settings?.privacy_policy_url || '/'}>Privacy Policy</Link>
 			</li>
 			<li>
 				<Link href="/">Terms of Use</Link>
