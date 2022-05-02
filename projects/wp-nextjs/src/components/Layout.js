@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Footer from './Footer';
 import Header from './Header';
 import { MainContent } from './MainContent';
 
@@ -11,6 +12,8 @@ const Layout = ({ children }) => {
 			<Header />
 
 			<MainContent>{children}</MainContent>
+
+			<Footer />
 		</div>
 	);
 };
