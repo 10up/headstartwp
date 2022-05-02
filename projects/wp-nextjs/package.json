@@ -13,7 +13,6 @@
     "@10up/headless-core": "^0.0.1-alpha.29",
     "@10up/headless-next": "^0.0.1-alpha.29",
     "@emotion/react": "^11.9.0",
-    "normalize.css": "^8.0.1",
     "clsx": "^1.1.1",
     "next": "^12.1.0",
     "nprogress": "^0.2.0",

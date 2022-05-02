@@ -1,4 +1,4 @@
-import { isButtonBlock } from '@10up/headless-core';
+import { isBlock } from '@10up/headless-core';
 import { BlocksRenderer, GenericBlock } from '@10up/headless-core/react';
 
 import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
@@ -36,9 +36,7 @@ export const Blocks = ({ html }) => {
 				<YoutubeLiteBlock />
 				<TwitterBlock />
 				<GenericBlock
-					test={(node) =>
-						isButtonBlock(node, { tagName: 'div', className: 'wp-block-button' })
-					}
+					test={(node) => isBlock(node, { tagName: 'div', className: 'wp-block-button' })}
 					component={MyReactButton}
 				/>
 			</BlocksRenderer>

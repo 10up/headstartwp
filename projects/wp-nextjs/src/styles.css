@@ -1,4 +1,7 @@
-@import url("normalize.css");
+/*
+Includes Global CSS Styles such as libraries css and WP block library
+*/
+
 @import url("css/nprogress.css");
 
 /* this should match the WordPress version you're supporting

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import Header from './Header';
+import { MainContent } from './MainContent';
 
 const Layout = ({ children }) => {
 	return (
@@ -8,13 +9,8 @@ const Layout = ({ children }) => {
 				Skip to content
 			</a>
 			<Header />
-			<div id="content" className="site-content">
-				<section id="primary" className="content-area">
-					<main id="main" className="site-main" role="main">
-						{children}
-					</main>
-				</section>
-			</div>
+
+			<MainContent>{children}</MainContent>
 		</div>
 	);
 };
