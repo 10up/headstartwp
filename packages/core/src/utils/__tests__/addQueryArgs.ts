@@ -2,7 +2,7 @@ import { addQueryArgs } from '../url';
 
 describe('addQueryArgs', () => {
 	const url = 'https://example.com/';
-	test('it adds query args properly', () => {
+	it('adds query args properly', () => {
 		expect(addQueryArgs(url, { test: 'test' })).toBe('https://example.com/?test=test');
 		expect(addQueryArgs(url, { test: 'test', test2: false })).toBe(
 			'https://example.com/?test=test&test2=false',

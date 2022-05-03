@@ -5,14 +5,9 @@ import { MainContent } from './MainContent';
 
 const Layout = ({ children }) => {
 	return (
-		<div id="page" className="site">
-			<a className="skip-link screen-reader-text" href="#content">
-				Skip to content
-			</a>
+		<div>
 			<Header />
-
 			<MainContent>{children}</MainContent>
-
 			<Footer />
 		</div>
 	);

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 export const MainContent = ({ children }) => {
 	return (
-		<div id="content" className="site-content">
-			<section id="primary" className="content-area">
+		<div>
+			<section>
 				<main role="main">{children}</main>
 			</section>
 		</div>
