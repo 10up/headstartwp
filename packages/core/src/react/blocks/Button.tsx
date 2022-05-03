@@ -1,32 +1,11 @@
-import { ReactElement } from 'react';
 import { Element, Text } from 'html-react-parser';
 import { getAttributes, isBlock } from '../../dom';
 import { BlockProps } from '../components';
-import {
-	AlignBlockProps,
-	ColorBlockProps,
-	GutenbergBlockProps,
-	TypographyBlockProps,
-} from './types';
-import {
-	getAlignStyle,
-	getBlockStyle,
-	getColorStyles,
-	getWidthStyles,
-	getTypographyStyles,
-} from './utils';
+import { BlockAttributes, GutenbergBlockProps } from './types';
 
-export interface ButtonProps extends GutenbergBlockProps {
-	className: string;
+import { useBlockAttributes } from '../hooks/useBlockAttributes';
 
-	// supports
-	align?: AlignBlockProps;
-	styles?: string;
-	color?: ColorBlockProps;
-	typography?: TypographyBlockProps;
-	width?: number;
-
-	// block attrs
+export interface GutenbergButtonProps extends GutenbergBlockProps, BlockAttributes {
 	url?: string;
 	title?: string;
 	text?: string;
@@ -35,42 +14,33 @@ export interface ButtonProps extends GutenbergBlockProps {
 	placeholder?: string;
 }
 
-export const Button = ({ children }: ButtonProps) => {
-	return <div>{children}</div>;
-};
-
 export interface ButtonBlockProps extends Omit<BlockProps, 'test'> {
 	className?: string;
-	component?: ReactElement;
+	component: React.FC<GutenbergButtonProps>;
 }
 
-export const ButtonBlock = ({ domNode, children, component }: ButtonBlockProps) => {
-	if (!domNode) {
-		return null;
-	}
+export const ButtonBlock = ({ domNode, children, component: Component }: ButtonBlockProps) => {
+	// node is not undefined at this point
+	const node = domNode as Element;
 
-	const anchor = domNode.firstChild as Element;
+	const anchor = node.firstChild as Element;
 	const text = (anchor.firstChild as Text).data;
+
+	const { align, width, typography, styles } = useBlockAttributes(node);
+	const { color } = useBlockAttributes(anchor, { color: true });
+
 	const anchorAttributes = getAttributes(anchor.attribs);
-	const attributes = getAttributes(domNode.attribs);
-
-	const alignStyles = getAlignStyle(domNode);
-	const blockStyle = getBlockStyle(domNode);
-	const colorStyles = getColorStyles(anchor);
-	const widthStyles = getWidthStyles(domNode);
-	const typographyStyles = getTypographyStyles(domNode);
-
-	const Component = typeof component === 'function' ? component : Button;
+	const attributes = getAttributes(node.attribs);
 
 	return (
 		<Component
 			className={attributes.className}
 			attribs={attributes}
-			align={alignStyles}
-			typography={typographyStyles}
-			styles={blockStyle}
-			color={colorStyles}
-			width={widthStyles}
+			align={align}
+			typography={typography}
+			styles={styles}
+			color={color}
+			width={width}
 			url={anchorAttributes.href}
 			title={anchorAttributes.title}
 			linkTarget={anchorAttributes.target}

@@ -17,7 +17,17 @@ export type TypographyBlockProps = {
 	fontSize: string;
 	lineHeight: string;
 };
+
 export interface GutenbergBlockProps {
+	className: string;
 	attribs: Element['attribs'];
 	children?: ReactNode | undefined;
 }
+
+export type BlockAttributes = {
+	align?: AlignBlockProps;
+	styles?: string;
+	color?: ColorBlockProps;
+	width?: number;
+	typography?: TypographyBlockProps;
+};
