@@ -27,7 +27,7 @@ export const ButtonBlock = ({ domNode, children, component: Component }: ButtonB
 	const text = (anchor.firstChild as Text).data;
 
 	const { align, width, typography, styles } = useBlockAttributes(node);
-	const { color } = useBlockAttributes(anchor, { color: true });
+	const { color, dimensions } = useBlockAttributes(anchor, { color: true, dimensions: true });
 
 	const anchorAttributes = getAttributes(anchor.attribs);
 	const attributes = getAttributes(node.attribs);
@@ -42,6 +42,7 @@ export const ButtonBlock = ({ domNode, children, component: Component }: ButtonB
 			styles={styles}
 			color={color}
 			width={width}
+			dimensions={dimensions}
 			url={anchorAttributes.href}
 			title={anchorAttributes.title}
 			linkTarget={anchorAttributes.target}
