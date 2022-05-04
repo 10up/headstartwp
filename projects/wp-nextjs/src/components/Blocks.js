@@ -4,6 +4,8 @@ import {
 	AudioBlock,
 	ButtonsBlock,
 	CodeBlock,
+	ColumnBlock,
+	ColumnsBlock,
 } from '@10up/headless-core/react';
 
 import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
@@ -15,7 +17,7 @@ const StringifyBlock = ({ attribs, children, ...props }) => {
 		<div>
 			<h2>{props.name}</h2>
 			<code>{JSON.stringify(props)}</code>
-			{props.name === 'core/buttons' && children}
+			{children}
 		</div>
 	);
 };
@@ -38,6 +40,8 @@ export const Blocks = ({ html }) => {
 				<ImageBlock />
 				<YoutubeLiteBlock />
 				<TwitterBlock />
+				<ColumnsBlock component={StringifyBlock} />
+				<ColumnBlock component={StringifyBlock} />
 
 				<CodeBlock component={StringifyBlock} />
 				<ButtonsBlock component={StringifyBlock} />

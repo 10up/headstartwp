@@ -72,5 +72,5 @@ export function useBlockAttributes(node: Element, blockSupports: BlockSupports =
 		}
 	}
 
-	return attributes;
+	return { className: node?.attribs?.class || '', ...attributes };
 }

@@ -1,5 +1,5 @@
 import { Element } from 'html-react-parser';
-import { getAttributes, isBlock } from '../../dom';
+import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
 import { BlockAttributes, GutenbergBlockProps } from './types';
 
@@ -16,10 +16,8 @@ export const ButtonsBlock = ({ domNode, children, component: Component }: Button
 	// node is not undefined at this point
 	const node = domNode as Element;
 
-	const attributes = getAttributes(node.attribs);
-
 	return (
-		<Component name="core/buttons" className={attributes.className} attribs={attributes}>
+		<Component name="core/buttons" className={node.attribs.class} attribs={node.attribs}>
 			{children}
 		</Component>
 	);

@@ -11,7 +11,10 @@ describe('useBlockAttributes', () => {
 	it('returns block attributes properly', () => {
 		const { result } = renderHook(() => useBlockAttributes(node));
 		expect(result.current).toEqual({
+			className:
+				'wp-block-button has-custom-width wp-block-button__width-75 has-custom-font-size aligncenter is-style-outline has-text-color has-orange-color has-background has-black-background-color',
 			align: 'center',
+			dimensions: { paddingBottom: '', paddingLeft: '', paddingRight: '', paddingTop: '' },
 			color: {
 				background: true,
 				backgroundColor: 'black',
@@ -40,6 +43,9 @@ describe('useBlockAttributes', () => {
 			}),
 		);
 		expect(result.current).toEqual({
+			className:
+				'wp-block-button has-custom-width wp-block-button__width-75 has-custom-font-size aligncenter is-style-outline has-text-color has-orange-color has-background has-black-background-color',
+			dimensions: { paddingBottom: '', paddingLeft: '', paddingRight: '', paddingTop: '' },
 			color: {
 				background: true,
 				backgroundColor: 'black',

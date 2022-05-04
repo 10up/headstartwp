@@ -1,5 +1,5 @@
 import { Element, Text } from 'html-react-parser';
-import { getAttributes, isBlock } from '../../dom';
+import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
 import { BlockAttributes, GutenbergBlockProps } from './types';
 
@@ -23,14 +23,13 @@ export const AudioBlock = ({ domNode, children, component: Component }: AudioBlo
 	const audio = node.firstChild as Element;
 	const figcaption = node.lastChild as Element;
 	const caption = (figcaption.firstChild as Text).data;
-	const audioAttributes = getAttributes(audio.attribs);
-	const attributes = getAttributes(node.attribs);
+	const audioAttributes = audio.attribs;
 
 	return (
 		<Component
 			name="core/audio"
-			className={attributes.className}
-			attribs={attributes}
+			className={node.attribs.class}
+			attribs={node.attribs}
 			src={audioAttributes.src}
 			caption={caption}
 			autoplay={!!audioAttributes.autoplay}

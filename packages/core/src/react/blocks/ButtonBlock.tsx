@@ -1,5 +1,5 @@
 import { Element, Text } from 'html-react-parser';
-import { getAttributes, isBlock } from '../../dom';
+import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
 import { BlockAttributes, GutenbergBlockProps } from './types';
 
@@ -26,17 +26,16 @@ export const ButtonBlock = ({ domNode, children, component: Component }: ButtonB
 	const anchor = node.firstChild as Element;
 	const text = (anchor.firstChild as Text).data;
 
-	const { align, width, typography, styles } = useBlockAttributes(node);
+	const { className, align, width, typography, styles } = useBlockAttributes(node);
 	const { color, dimensions } = useBlockAttributes(anchor, { color: true, dimensions: true });
 
-	const anchorAttributes = getAttributes(anchor.attribs);
-	const attributes = getAttributes(node.attribs);
+	const anchorAttributes = anchor.attribs;
 
 	return (
 		<Component
 			name="core/button"
-			className={attributes.className}
-			attribs={attributes}
+			className={className}
+			attribs={node.attribs}
 			align={align}
 			typography={typography}
 			styles={styles}
