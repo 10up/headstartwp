@@ -19,6 +19,7 @@ export type TypographyBlockProps = {
 };
 
 export interface GutenbergBlockProps {
+	name: string;
 	className: string;
 	attribs: Element['attribs'];
 	children?: ReactNode | undefined;

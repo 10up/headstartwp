@@ -34,6 +34,7 @@ export const ButtonBlock = ({ domNode, children, component: Component }: ButtonB
 
 	return (
 		<Component
+			name="core/button"
 			className={attributes.className}
 			attribs={attributes}
 			align={align}

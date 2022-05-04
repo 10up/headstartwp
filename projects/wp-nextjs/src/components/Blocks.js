@@ -1,16 +1,22 @@
-import { BlocksRenderer, ButtonBlock } from '@10up/headless-core/react';
+import { BlocksRenderer, ButtonBlock, AudioBlock } from '@10up/headless-core/react';
 
 import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
 import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
 
-const MyReactButton = ({ attribs, children, ...props }) => {
-	return <>{JSON.stringify(props)}</>;
+const StringifyBlock = ({ attribs, children, ...props }) => {
+	return (
+		<div>
+			<h2>{props.name}</h2>
+			<code>{JSON.stringify(props)}</code>
+		</div>
+	);
 };
 
-MyReactButton.propTypes = {
+StringifyBlock.propTypes = {
 	attribs: PropTypes.object.isRequired,
 	children: PropTypes.node.isRequired,
+	name: PropTypes.string.isRequired,
 };
 
 export const Blocks = ({ html }) => {
@@ -26,7 +32,8 @@ export const Blocks = ({ html }) => {
 				<YoutubeLiteBlock />
 				<TwitterBlock />
 
-				<ButtonBlock component={MyReactButton} />
+				<ButtonBlock component={StringifyBlock} />
+				<AudioBlock component={StringifyBlock} />
 			</BlocksRenderer>
 		</div>
 	);
