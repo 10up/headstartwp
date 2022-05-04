@@ -1,4 +1,10 @@
-import { BlocksRenderer, ButtonBlock, AudioBlock, ButtonsBlock } from '@10up/headless-core/react';
+import {
+	BlocksRenderer,
+	ButtonBlock,
+	AudioBlock,
+	ButtonsBlock,
+	CodeBlock,
+} from '@10up/headless-core/react';
 
 import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
 import { css } from '@emotion/react';
@@ -33,6 +39,7 @@ export const Blocks = ({ html }) => {
 				<YoutubeLiteBlock />
 				<TwitterBlock />
 
+				<CodeBlock component={StringifyBlock} />
 				<ButtonsBlock component={StringifyBlock} />
 				<ButtonBlock component={StringifyBlock} />
 				<AudioBlock component={StringifyBlock} />

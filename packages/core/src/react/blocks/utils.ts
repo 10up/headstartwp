@@ -173,11 +173,9 @@ export function getTypographyStyles(domNode: Element): TypographyBlockProps {
 
 	for (const cls of classes) {
 		if (!['has-custom-font-size', 'has-custom-line-height'].includes(cls)) {
-			if (hasCustomFontSize) {
-				const match = cls.match(/has-(.*)-font-size/);
-				if (match) {
-					typography.fontSize = match ? match[1] : '';
-				}
+			const match = cls.match(/has-(.*)-font-size/);
+			if (match) {
+				typography.fontSize = match ? match[1] : '';
 			}
 
 			if (hasCustomLineHeight) {

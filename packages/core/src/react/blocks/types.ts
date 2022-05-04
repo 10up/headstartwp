@@ -18,6 +18,12 @@ export type TypographyBlockProps = {
 	lineHeight: string;
 };
 
+export type DimensionBlockProps = {
+	paddingTop: string;
+	paddingBottom: string;
+	paddingLeft: string;
+	paddingRight: string;
+};
 export interface GutenbergBlockProps {
 	name: string;
 	className: string;
@@ -31,4 +37,5 @@ export type BlockAttributes = {
 	color?: ColorBlockProps;
 	width?: number;
 	typography?: TypographyBlockProps;
+	dimensions?: DimensionBlockProps;
 };

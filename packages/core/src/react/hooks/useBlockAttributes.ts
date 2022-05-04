@@ -6,6 +6,7 @@ import {
 	getColorStyles,
 	getWidthStyles,
 	getTypographyStyles,
+	getInlineStyles,
 } from '../blocks/utils';
 
 export type BlockSupports = {
@@ -14,6 +15,7 @@ export type BlockSupports = {
 	color?: boolean;
 	width?: boolean;
 	typography?: boolean;
+	dimensions?: boolean;
 };
 
 /**
@@ -32,6 +34,7 @@ export function useBlockAttributes(node: Element, blockSupports: BlockSupports =
 		color: true,
 		width: true,
 		typography: true,
+		dimensions: true,
 		...blockSupports,
 	};
 
@@ -55,6 +58,18 @@ export function useBlockAttributes(node: Element, blockSupports: BlockSupports =
 
 	if (supports.typography) {
 		attributes.typography = getTypographyStyles(node);
+	}
+
+	if (supports.dimensions) {
+		const inlineStyles = getInlineStyles(node);
+		if (inlineStyles) {
+			attributes.dimensions = {
+				paddingTop: inlineStyles?.paddingTop || '',
+				paddingBottom: inlineStyles?.paddingBottom || '',
+				paddingLeft: inlineStyles?.paddingLeft || '',
+				paddingRight: inlineStyles?.paddingRight || '',
+			};
+		}
 	}
 
 	return attributes;
