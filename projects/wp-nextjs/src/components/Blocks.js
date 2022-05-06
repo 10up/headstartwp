@@ -1,23 +1,13 @@
-import {
-	BlocksRenderer,
-	ButtonBlock,
-	AudioBlock,
-	ButtonsBlock,
-	CodeBlock,
-	ColumnBlock,
-	ColumnsBlock,
-} from '@10up/headless-core/react';
+import { BlocksRenderer, Block } from '@10up/headless-core/react';
 
-import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
 import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
 
 const StringifyBlock = ({ attribs, children, ...props }) => {
 	return (
-		<div>
+		<div className={props.className}>
 			<h2>{props.name}</h2>
 			<code>{JSON.stringify(props)}</code>
-			{children}
 		</div>
 	);
 };
@@ -26,6 +16,7 @@ StringifyBlock.propTypes = {
 	attribs: PropTypes.object.isRequired,
 	children: PropTypes.node.isRequired,
 	name: PropTypes.string.isRequired,
+	className: PropTypes.string.isRequired,
 };
 
 export const Blocks = ({ html }) => {
@@ -36,17 +27,8 @@ export const Blocks = ({ html }) => {
 			`}
 		>
 			<BlocksRenderer html={html}>
-				<LinkBlock />
-				<ImageBlock />
-				<YoutubeLiteBlock />
-				<TwitterBlock />
-				<ColumnsBlock component={StringifyBlock} />
-				<ColumnBlock component={StringifyBlock} />
-
-				<CodeBlock component={StringifyBlock} />
-				<ButtonsBlock component={StringifyBlock} />
-				<ButtonBlock component={StringifyBlock} />
-				<AudioBlock component={StringifyBlock} />
+				<Block tagName="div" classList={['wp-block-button']} blockImpl={StringifyBlock} />
+				<Block tagName="div" classList={['wp-block-buttons']} blockImpl={StringifyBlock} />
 			</BlocksRenderer>
 		</div>
 	);

@@ -22,7 +22,8 @@ export interface ButtonBlockProps extends Omit<BlockProps, 'test'> {
 export const ButtonBlock = ({ domNode, children, component: Component }: ButtonBlockProps) => {
 	// node is not undefined at this point
 	const node = domNode as Element;
-
+	const attrs = node.attribs['data-wp-block'];
+	console.log(JSON.parse(attrs));
 	const anchor = node.firstChild as Element;
 	const text = (anchor.firstChild as Text).data;
 

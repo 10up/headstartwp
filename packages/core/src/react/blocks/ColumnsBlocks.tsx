@@ -16,7 +16,8 @@ export interface ColumnsBlockProps extends Omit<BlockProps, 'test'> {
 export const ColumnsBlock = ({ domNode, children, component: Component }: ColumnsBlockProps) => {
 	// node is not undefined at this point
 	const node = domNode as Element;
-
+	const attrs = node.attribs['data-wp-block'];
+	console.log(JSON.parse(attrs));
 	const { className, dimensions, color, styles } = useBlockAttributes(node);
 
 	return (

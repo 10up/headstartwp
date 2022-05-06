@@ -33,6 +33,8 @@ const commonAttributes = [
 	'style',
 	'role',
 	'data-*',
+	'data-wp-block',
+	'data-wp-block-name',
 ];
 
 const defaultAllowList = getDefaultWhiteList();
