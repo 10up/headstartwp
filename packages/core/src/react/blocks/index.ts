@@ -8,3 +8,4 @@ export * from './CoverBlock';
 export * from './ParagraphBlock';
 export * from './DebugBlock';
 export * from './HeadingBlock';
+export * from './QuoteBlock';

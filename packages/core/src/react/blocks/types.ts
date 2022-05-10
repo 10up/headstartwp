@@ -22,6 +22,7 @@ export interface Typography {
 		lineHeight?: string;
 		fontSize?: string;
 		textTransform?: string;
+		letterSpacing?: string;
 	};
 }
 
@@ -46,6 +47,7 @@ export interface IBlockAttributes {
 	name: string;
 	className?: string;
 	domNode?: Element;
+	htmlAnchor?: string;
 }
 
 export interface BlockAttributes extends Colors {

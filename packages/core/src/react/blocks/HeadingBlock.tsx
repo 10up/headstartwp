@@ -43,7 +43,6 @@ export const HeadingBlock = ({
 
 HeadingBlock.defaultProps = {
 	test: (node) => {
-		console.log('testing heading', isBlockByName(node, 'core/heading'));
 		return isBlockByName(node, 'core/heading');
 	},
 };
