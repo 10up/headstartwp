@@ -6,6 +6,7 @@ import {
 	ParagraphBlock,
 	DebugBlock,
 	CoverBlock,
+	HeadingBlock,
 } from '@10up/headless-core/react';
 
 import { css } from '@emotion/react';
@@ -24,6 +25,7 @@ export const Blocks = ({ html }) => {
 				<ColumnBlock component={DebugBlock} />
 				<ParagraphBlock component={DebugBlock} />
 				<CoverBlock component={DebugBlock} />
+				<HeadingBlock component={DebugBlock} />
 			</BlocksRenderer>
 		</div>
 	);

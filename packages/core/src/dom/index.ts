@@ -181,10 +181,6 @@ export function isBlockByName(node: DOMNode, name: string) {
 		return false;
 	}
 
-	if (!isBlock(node, { tagName: 'p' })) {
-		return false;
-	}
-
 	const blockName = node.attribs['data-wp-block-name'];
 
 	return blockName === name;

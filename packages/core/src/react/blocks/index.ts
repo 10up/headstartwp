@@ -7,3 +7,4 @@ export * from './ColumnBlock';
 export * from './CoverBlock';
 export * from './ParagraphBlock';
 export * from './DebugBlock';
+export * from './HeadingBlock';

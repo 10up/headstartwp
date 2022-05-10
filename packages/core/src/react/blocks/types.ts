@@ -19,8 +19,9 @@ export type Style = {
 export interface Typography {
 	fontSize?: string;
 	style: {
-		lineHeight: string;
-		fontSize: string;
+		lineHeight?: string;
+		fontSize?: string;
+		textTransform?: string;
 	};
 }
 
