@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { Element } from 'html-react-parser';
-import { SettingsProvider } from '../../provider';
+import { SettingsProvider } from '../../../provider';
 import { useBlock } from '../useBlock';
 
 describe('useBlock', () => {

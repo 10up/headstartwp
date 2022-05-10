@@ -1,33 +1,37 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
-import { useBlockAttributes } from '../hooks/useBlockAttributes';
-import { BlockAttributes, GutenbergBlockProps } from './types';
+import { useBlock } from './hooks';
+import { useBlockAttributes } from './hooks/useBlockAttributes';
+import { Colors, IBlockAttributes, Spacing } from './types';
 
-export interface GutenbergColumnsBlockProps
-	extends GutenbergBlockProps,
-		Pick<BlockAttributes, 'dimensions' | 'color' | 'styles'> {}
+export interface GutenbergColumnsBlockProps extends IBlockAttributes {
+	colors: Colors;
+	spacing: Spacing;
+	blockStyle: string;
+}
 
 export interface ColumnsBlockProps extends Omit<BlockProps, 'test'> {
+	domNode: Element;
 	className?: string;
 	component: React.FC<GutenbergColumnsBlockProps>;
 }
 
-export const ColumnsBlock = ({ domNode, children, component: Component }: ColumnsBlockProps) => {
-	// node is not undefined at this point
-	const node = domNode as Element;
-	const attrs = node.attribs['data-wp-block'];
-	console.log(JSON.parse(attrs));
-	const { className, dimensions, color, styles } = useBlockAttributes(node);
+export const ColumnsBlock = ({
+	domNode: node,
+	children,
+	component: Component,
+}: ColumnsBlockProps) => {
+	const { name, className } = useBlock(node);
+	const { spacing, colors, blockStyle } = useBlockAttributes(node);
 
 	return (
 		<Component
-			name="core/columns"
+			name={name}
 			className={className}
-			attribs={node.attribs}
-			dimensions={dimensions}
-			color={color}
-			styles={styles}
+			colors={colors}
+			spacing={spacing}
+			blockStyle={blockStyle}
 		>
 			{children}
 		</Component>

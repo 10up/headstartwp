@@ -1,32 +1,33 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
-import { useBlockAttributes } from '../hooks/useBlockAttributes';
-import { BlockAttributes, GutenbergBlockProps } from './types';
+import { useBlock } from './hooks';
+import { useBlockAttributes } from './hooks/useBlockAttributes';
+import { Colors, IBlockAttributes, Spacing, Typography } from './types';
 
-export interface GutenbergCodeBlockProps
-	extends GutenbergBlockProps,
-		Pick<BlockAttributes, 'color' | 'typography' | 'dimensions'> {}
+export interface GutenbergCodeBlockProps extends IBlockAttributes {
+	colors: Colors;
+	typography: Typography;
+	spacing: Spacing;
+}
 
 export interface CodeBlockProps extends Omit<BlockProps, 'test'> {
+	domNode: Element;
 	className?: string;
 	component: React.FC<GutenbergCodeBlockProps>;
 }
 
-export const CodeBlock = ({ domNode, children, component: Component }: CodeBlockProps) => {
-	// node is not undefined at this point
-	const node = domNode as Element;
-
-	const { className, color, typography, dimensions } = useBlockAttributes(node);
+export const CodeBlock = ({ domNode: node, children, component: Component }: CodeBlockProps) => {
+	const { name, className } = useBlock(node);
+	const { colors, typography, spacing } = useBlockAttributes(node);
 
 	return (
 		<Component
-			name="core/code"
+			name={name}
 			className={className}
-			attribs={node.attribs}
-			color={color}
+			colors={colors}
 			typography={typography}
-			dimensions={dimensions}
+			spacing={spacing}
 		>
 			{children}
 		</Component>

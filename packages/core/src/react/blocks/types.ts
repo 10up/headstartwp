@@ -1,41 +1,53 @@
-import { Element } from 'html-react-parser';
 import { ReactNode } from 'react';
 
-export type ColorBlockProps = {
-	background: boolean;
+export interface Colors {
 	backgroundColor: string;
-	gradients: boolean;
-	gradientColor: string;
-	link: boolean;
-	linkColor: string;
-	text: boolean;
+	gradient: string;
 	textColor: string;
+	linkColor: string;
+}
+
+export type Align = 'none' | 'left' | 'center' | 'right' | 'wide' | 'full';
+
+export type Style = {
+	spacing: Spacing;
+	typography: Typography;
+	border: Border;
 };
 
-export type AlignBlockProps = 'none' | 'left' | 'center' | 'right' | 'wide' | 'full';
-export type TypographyBlockProps = {
-	fontSize: string;
-	lineHeight: string;
-};
+export interface Typography {
+	fontSize?: string;
+	style: {
+		lineHeight: string;
+		fontSize: string;
+	};
+}
 
-export type DimensionBlockProps = {
+export type Spacing = {
 	paddingTop: string;
 	paddingBottom: string;
 	paddingLeft: string;
 	paddingRight: string;
 };
+
 export interface GutenbergBlockProps {
 	name: string;
 	className: string;
-	attribs: Element['attribs'];
 	children?: ReactNode | undefined;
 }
 
-export type BlockAttributes = {
-	align?: AlignBlockProps;
-	styles?: string;
-	color?: ColorBlockProps;
-	width?: number;
-	typography?: TypographyBlockProps;
-	dimensions?: DimensionBlockProps;
+export type Border = {
+	borderRadius: string;
 };
+
+export interface IBlockAttributes {
+	name: string;
+	className?: string;
+}
+
+export interface BlockAttributes extends Colors {
+	align: Align;
+	style: Partial<Style>;
+	width: string;
+	typography: Typography;
+}

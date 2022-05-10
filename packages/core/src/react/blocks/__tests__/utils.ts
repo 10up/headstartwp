@@ -2,10 +2,10 @@ import { Element } from 'html-react-parser';
 import {
 	getAlignStyle,
 	getBlockStyle,
-	getColorStyles,
 	getInlineStyles,
 	getWidthStyles,
 	getTypographyStyles,
+	getColorStyles,
 } from '../utils';
 
 const createNodeWithClass = (className: string) => {
@@ -62,7 +62,6 @@ describe('getColorStyles', () => {
 		expect(
 			getColorStyles(createNodeWithClass('has-text-color has-orange-color')),
 		).toMatchObject({
-			text: true,
 			textColor: 'orange',
 		});
 		expect(
@@ -72,11 +71,8 @@ describe('getColorStyles', () => {
 				),
 			),
 		).toMatchObject({
-			text: true,
 			textColor: 'orange',
-			background: true,
 			backgroundColor: 'black',
-			gradients: false,
 		});
 
 		expect(
@@ -86,12 +82,8 @@ describe('getColorStyles', () => {
 				),
 			),
 		).toMatchObject({
-			text: true,
 			textColor: 'orange',
-			background: true,
 			backgroundColor: 'black',
-			gradients: false,
-			link: true,
 			linkColor: 'red',
 		});
 	});
@@ -123,28 +115,37 @@ describe('getWidthStyles', () => {
 	it('gets the width styles properly', () => {
 		expect(
 			getWidthStyles(createNodeWithClass('has-custom-width wp-block-button__width-75')),
-		).toEqual(75);
+		).toEqual('75');
 	});
 });
 
-describe('getTypograpgyStyles', () => {
+describe('getTypographyStyles', () => {
 	it('gets the typography styles properly', () => {
 		expect(
 			getTypographyStyles(createNodeWithClass('has-custom-font-size has-large-font-size')),
 		).toEqual({
 			fontSize: 'large',
-			lineHeight: '',
+			style: {
+				fontSize: '',
+				lineHeight: '',
+			},
 		});
 		expect(
 			getTypographyStyles(createNodeWithClass('has-custom-font-size has-large-font-size')),
 		).toEqual({
 			fontSize: 'large',
-			lineHeight: '',
+			style: {
+				fontSize: '',
+				lineHeight: '',
+			},
 		});
 		const node = new Element('div', {
 			class: 'has-custom-font-size',
 			style: 'font-size: 24px',
 		});
-		expect(getTypographyStyles(node)).toEqual({ lineHeight: '', fontSize: '24px' });
+		expect(getTypographyStyles(node)).toEqual({
+			fontSize: '',
+			style: { fontSize: '24px', lineHeight: '' },
+		});
 	});
 });

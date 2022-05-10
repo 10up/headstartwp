@@ -1,54 +1,59 @@
 import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
-import { BlockAttributes, GutenbergBlockProps } from './types';
+import { Align, Border, Colors, IBlockAttributes, Typography } from './types';
 
-import { useBlockAttributes } from '../hooks/useBlockAttributes';
+import { useBlock } from './hooks';
+import { useBlockAttributes } from './hooks/useBlockAttributes';
 
-export interface GutenbergButtonProps extends GutenbergBlockProps, BlockAttributes {
+export interface GutenbergButtonProps extends IBlockAttributes {
 	url?: string;
 	title?: string;
 	text?: string;
 	linkTarget?: string;
 	rel?: string;
+	colors?: Colors;
 	placeholder?: string;
+	border?: Border;
+	blockStyle?: string;
+	typography?: Typography;
+	align: Align;
+	width?: string;
 }
 
 export interface ButtonBlockProps extends Omit<BlockProps, 'test'> {
+	domNode: Element;
 	className?: string;
 	component: React.FC<GutenbergButtonProps>;
 }
 
-export const ButtonBlock = ({ domNode, children, component: Component }: ButtonBlockProps) => {
-	// node is not undefined at this point
-	const node = domNode as Element;
-	const attrs = node.attribs['data-wp-block'];
-	console.log(JSON.parse(attrs));
+export const ButtonBlock = ({
+	domNode: node,
+	children,
+	component: Component,
+}: ButtonBlockProps) => {
+	const { className, name } = useBlock(node);
+	const { align, blockStyle, border, colors, typography, width } = useBlockAttributes(node);
+
 	const anchor = node.firstChild as Element;
 	const text = (anchor.firstChild as Text).data;
 
-	const { className, align, width, typography, styles } = useBlockAttributes(node);
-	const { color, dimensions } = useBlockAttributes(anchor, { color: true, dimensions: true });
-
-	const anchorAttributes = anchor.attribs;
-
 	return (
 		<Component
-			name="core/button"
+			name={name}
 			className={className}
-			attribs={node.attribs}
-			align={align}
-			typography={typography}
-			styles={styles}
-			color={color}
-			width={width}
-			dimensions={dimensions}
-			url={anchorAttributes.href}
-			title={anchorAttributes.title}
-			linkTarget={anchorAttributes.target}
-			rel={anchorAttributes.rel}
-			placeholder={anchorAttributes.placeholder}
+			url={anchor.attribs.href}
+			title={anchor.attribs.title}
+			linkTarget={anchor.attribs.target}
+			rel={anchor.attribs.rel}
+			placeholder={anchor.attribs.placeholder}
 			text={text}
+			align={align}
+			colors={colors}
+			border={border}
+			typography={typography}
+			width={width}
+			blockStyle={blockStyle}
 		>
 			{children}
 		</Component>

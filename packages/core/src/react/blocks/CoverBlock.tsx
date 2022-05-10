@@ -1,12 +1,13 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
-import { useBlockAttributes } from '../hooks/useBlockAttributes';
-import { BlockAttributes, GutenbergBlockProps } from './types';
+import { useBlock } from './hooks';
+import { useBlockAttributes } from './hooks/useBlockAttributes';
+import { Colors, IBlockAttributes, Spacing } from './types';
 
-export interface GutenbergCoverBlockProps
-	extends GutenbergBlockProps,
-		Pick<BlockAttributes, 'color' | 'align' | 'dimensions' | 'styles'> {
+export interface GutenbergCoverBlockProps extends IBlockAttributes {
+	colors: Colors;
+	spacing: Spacing;
 	isRepeatedBackground?: boolean;
 }
 
@@ -17,19 +18,11 @@ export interface CoverBlockProps extends Omit<BlockProps, 'test'> {
 }
 
 export const CoverBlock = ({ domNode: node, children, component: Component }: CoverBlockProps) => {
-	const { className, color, dimensions, styles } = useBlockAttributes(node);
-	const attrs = node.attribs['data-wp-block'];
-	console.log(JSON.parse(attrs));
+	const { name, className } = useBlock(node);
+	const { colors, spacing } = useBlockAttributes(node);
 
 	return (
-		<Component
-			name="core/cover"
-			className={className}
-			attribs={node.attribs}
-			color={color}
-			dimensions={dimensions}
-			styles={styles}
-		>
+		<Component name={name} className={className} colors={colors} spacing={spacing}>
 			{children}
 		</Component>
 	);

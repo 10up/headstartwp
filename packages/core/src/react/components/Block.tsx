@@ -1,5 +1,5 @@
 import { Element } from 'html-react-parser';
-import { useBlock } from '../hooks';
+import { useBlock } from '../blocks/hooks';
 import { BlockProps } from './BlocksRenderer';
 
 /**
@@ -20,7 +20,6 @@ export interface BlockComponentProps {
 
 interface BlockRendererProps extends BlockProps {
 	domNode: Element;
-
 	blockImpl: React.FC<BlockComponentProps>;
 }
 

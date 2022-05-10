@@ -1,9 +1,10 @@
 import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
-import { BlockAttributes, GutenbergBlockProps } from './types';
+import { useBlock } from './hooks';
+import { GutenbergBlockProps } from './types';
 
-export interface GutenbergAudioProps extends GutenbergBlockProps, BlockAttributes {
+export interface GutenbergAudioProps extends GutenbergBlockProps {
 	src: string;
 	autoplay?: boolean;
 	caption?: string;
@@ -12,13 +13,13 @@ export interface GutenbergAudioProps extends GutenbergBlockProps, BlockAttribute
 }
 
 export interface AudioBlockProps extends Omit<BlockProps, 'test'> {
+	domNode: Element;
 	className?: string;
 	component: React.FC<GutenbergAudioProps>;
 }
 
-export const AudioBlock = ({ domNode, children, component: Component }: AudioBlockProps) => {
-	// node is not undefined at this point
-	const node = domNode as Element;
+export const AudioBlock = ({ domNode: node, children, component: Component }: AudioBlockProps) => {
+	const { name, className } = useBlock(node);
 
 	const audio = node.firstChild as Element;
 	const figcaption = node.lastChild as Element;
@@ -27,9 +28,8 @@ export const AudioBlock = ({ domNode, children, component: Component }: AudioBlo
 
 	return (
 		<Component
-			name="core/audio"
-			className={node.attribs.class}
-			attribs={node.attribs}
+			name={name}
+			className={className}
 			src={audioAttributes.src}
 			caption={caption}
 			autoplay={!!audioAttributes.autoplay}

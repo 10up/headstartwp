@@ -1,8 +1,12 @@
 import { Element } from 'html-react-parser';
 import camelCase from '../../utils/camelcase';
-import { ColorBlockProps, TypographyBlockProps } from './types';
+import { Colors } from './types';
 
 export function getAlignStyle(domNode: Element) {
+	if (!domNode.attribs.class) {
+		return 'none';
+	}
+
 	const classes = domNode.attribs.class.split(' ');
 
 	for (const cls of classes) {
@@ -33,6 +37,9 @@ export function getAlignStyle(domNode: Element) {
  * @returns string with block style
  */
 export function getBlockStyle(domNode: Element) {
+	if (!domNode.attribs.class) {
+		return 'none';
+	}
 	const classes = domNode.attribs.class.split(' ');
 	const prefix = 'is-style-';
 
@@ -52,23 +59,27 @@ export function getBlockStyle(domNode: Element) {
  *
  * @returns ColorBlockProps object
  */
-export function getColorStyles(domNode: Element): ColorBlockProps {
-	const classes = domNode.attribs.class.split(' ');
-
-	const colorObject: ColorBlockProps = {
-		text: classes.find((cls) => cls === 'has-text-color') !== undefined,
+export function getColorStyles(domNode: Element): Colors {
+	const colorObject: Colors = {
 		textColor: '',
-		link: classes.find((cls) => cls === 'has-link-color') !== undefined,
 		linkColor: '',
-		gradients: false,
-		gradientColor: '',
-		background: classes.find((cls) => cls === 'has-background') !== undefined,
+		gradient: '',
 		backgroundColor: '',
 	};
 
+	if (!domNode.attribs.class) {
+		return colorObject;
+	}
+
+	const classes = domNode.attribs.class.split(' ');
+
+	const hasText = classes.find((cls) => cls === 'has-text-color') !== undefined;
+	const hasLink = classes.find((cls) => cls === 'has-link-color') !== undefined;
+	const hasBackground = classes.find((cls) => cls === 'has-background') !== undefined;
+
 	for (const cls of classes) {
 		if (!['has-text-color', 'has-background', 'has-link-color'].includes(cls)) {
-			if (colorObject.background) {
+			if (hasBackground) {
 				const match = cls.match(/has-(.*)-background-color/);
 
 				if (match) {
@@ -76,18 +87,14 @@ export function getColorStyles(domNode: Element): ColorBlockProps {
 				}
 			}
 
-			if (colorObject.link) {
+			if (hasLink) {
 				const match = cls.match(/has-(.*)-link-color/);
 				if (match) {
 					colorObject.linkColor = match ? match[1] : '';
 				}
 			}
 
-			if (
-				colorObject.text &&
-				!cls.endsWith('-background-color') &&
-				!cls.endsWith('-link-color')
-			) {
+			if (hasText && !cls.endsWith('-background-color') && !cls.endsWith('-link-color')) {
 				const match = cls.match(/has-(.*)-color/);
 				if (match) {
 					colorObject.textColor = match ? match[1] : '';
@@ -136,6 +143,9 @@ export function getInlineStyles(domNode: Element) {
  * @returns
  */
 export function getWidthStyles(domNode: Element) {
+	if (!domNode.attribs.class) {
+		return undefined;
+	}
 	const classes = domNode.attribs.class.split(' ');
 	const hasCustomWidth = classes.find((cls) => cls === 'has-custom-width') !== undefined;
 
@@ -146,7 +156,7 @@ export function getWidthStyles(domNode: Element) {
 	for (const cls of classes) {
 		const match = cls.match(/.+__width-(\d+)$/);
 		if (match) {
-			return Number(match[1]);
+			return match[1];
 		}
 	}
 
@@ -160,29 +170,29 @@ export function getWidthStyles(domNode: Element) {
  *
  * @returns
  */
-export function getTypographyStyles(domNode: Element): TypographyBlockProps {
-	const typography: TypographyBlockProps = {
+export function getTypographyStyles(domNode: Element) {
+	const typography = {
 		fontSize: '',
-		lineHeight: '',
+		style: {
+			fontSize: '',
+			lineHeight: '',
+		},
 	};
+
+	if (!domNode.attribs.class) {
+		return typography;
+	}
 
 	const classes = domNode.attribs.class.split(' ');
 	const hasCustomFontSize = classes.find((cls) => cls === 'has-custom-font-size') !== undefined;
-	const hasCustomLineHeight =
-		classes.find((cls) => cls === 'has-custom-line-height') !== undefined;
+	/* const hasCustomLineHeight =
+		classes.find((cls) => cls === 'has-custom-line-height') !== undefined; */
 
 	for (const cls of classes) {
 		if (!['has-custom-font-size', 'has-custom-line-height'].includes(cls)) {
 			const match = cls.match(/has-(.*)-font-size/);
 			if (match) {
 				typography.fontSize = match ? match[1] : '';
-			}
-
-			if (hasCustomLineHeight) {
-				const match = cls.match(/has-(.*)-line-height/);
-				if (match) {
-					typography.fontSize = match ? match[1] : '';
-				}
 			}
 		}
 	}
@@ -191,8 +201,12 @@ export function getTypographyStyles(domNode: Element): TypographyBlockProps {
 	if (hasCustomFontSize && typography.fontSize === '') {
 		const styles = getInlineStyles(domNode);
 
-		if (styles) {
-			typography.fontSize = styles.fontSize;
+		if (styles && styles.fontSize) {
+			typography.style.fontSize = styles.fontSize;
+		}
+
+		if (styles && styles.lineHeight) {
+			typography.style.lineHeight = styles.lineHeight;
 		}
 	}
 

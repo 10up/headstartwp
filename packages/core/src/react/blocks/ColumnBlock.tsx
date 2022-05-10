@@ -1,31 +1,36 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
-import { useBlockAttributes } from '../hooks/useBlockAttributes';
-import { BlockAttributes, GutenbergBlockProps } from './types';
+import { useBlock } from './hooks';
+import { useBlockAttributes } from './hooks/useBlockAttributes';
+import { Colors, IBlockAttributes, Spacing } from './types';
 
-export interface GutenbergColumnBlockProps
-	extends GutenbergBlockProps,
-		Pick<BlockAttributes, 'dimensions' | 'color' | 'width'> {}
+export interface GutenbergColumnBlockProps extends IBlockAttributes {
+	colors: Colors;
+	spacing: Spacing;
+	width?: string;
+}
 
 export interface ColumnBlockProps extends Omit<BlockProps, 'test'> {
+	domNode: Element;
 	className?: string;
 	component: React.FC<GutenbergColumnBlockProps>;
 }
 
-export const ColumnBlock = ({ domNode, children, component: Component }: ColumnBlockProps) => {
-	// node is not undefined at this point
-	const node = domNode as Element;
-
-	const { className, dimensions, color, width } = useBlockAttributes(node);
+export const ColumnBlock = ({
+	domNode: node,
+	children,
+	component: Component,
+}: ColumnBlockProps) => {
+	const { className, name } = useBlock(node);
+	const { spacing, colors, width } = useBlockAttributes(node);
 
 	return (
 		<Component
-			name="core/column"
+			name={name}
 			className={className}
-			attribs={node.attribs}
-			dimensions={dimensions}
-			color={color}
+			spacing={spacing}
+			colors={colors}
 			width={width}
 		>
 			{children}

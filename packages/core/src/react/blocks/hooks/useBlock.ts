@@ -1,5 +1,6 @@
 import { Element } from 'html-react-parser';
-import { useSettings } from '../provider';
+import { useSettings } from '../../provider';
+import { IBlockAttributes } from '../types';
 
 /**
  * Parses Json without throwing errors
@@ -7,7 +8,7 @@ import { useSettings } from '../provider';
  * @param json Serialized JSON
  * @returns JSON object
  */
-function safeParsing(json) {
+function safeParsing(json): Record<string, any> {
 	let parsed = {};
 
 	try {
@@ -26,15 +27,8 @@ function safeParsing(json) {
  *
  * @returns
  */
-export function useBlock(node: Element) {
+export function useBlock<T extends IBlockAttributes>(node: Element) {
 	const { useWordPressPlugin } = useSettings();
-
-	if (!useWordPressPlugin) {
-		// eslint-disable-next-line no-console
-		console.warn(
-			'[useBlock] In order to use this hook, you must install the WordPress Plugin and set `useWordPressPlugin` to true.',
-		);
-	}
 
 	if (
 		typeof node.attribs['data-wp-block-name'] === 'undefined' &&
@@ -42,10 +36,19 @@ export function useBlock(node: Element) {
 	) {
 		// eslint-disable-next-line no-console
 		console.warn('[useBlock] You are using the useBlock hook in a node that is not a block.');
+
+		if (!useWordPressPlugin) {
+			// eslint-disable-next-line no-console
+			console.warn(
+				'[useBlock] In order to use this hook, you must install the WordPress Plugin.',
+			);
+		}
 	}
 
 	const blockName = node.attribs['data-wp-block-name'] || '';
-	const attrs = node.attribs['data-wp-block'] ? safeParsing(node.attribs['data-wp-block']) : {};
+	const attrs: T = node.attribs['data-wp-block']
+		? (safeParsing(node.attribs['data-wp-block']) as unknown as T)
+		: ({} as T);
 
 	return { attributes: attrs, name: blockName, className: node.attribs.class };
 }

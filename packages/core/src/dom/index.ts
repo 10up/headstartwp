@@ -136,7 +136,7 @@ export function isButtonBlock(node: DOMNode) {
 
 export type isBlockOptions = {
 	tagName?: string;
-	className: string | string[];
+	className?: string | string[];
 };
 
 export function isBlock(node: DOMNode, _options: isBlockOptions) {
@@ -164,7 +164,30 @@ export function isBlock(node: DOMNode, _options: isBlockOptions) {
 		return className.split(' ').includes(options.className);
 	}
 
-	return false;
+	return isTag;
+}
+
+/**
+ * Tests if a block by name
+ *
+ * Requires the headless plugin
+ *
+ * @param node The dom node
+ * @param name The block name
+ * @returns true if it's a matching block
+ */
+export function isBlockByName(node: DOMNode, name: string) {
+	if (!(node instanceof Element)) {
+		return false;
+	}
+
+	if (!isBlock(node, { tagName: 'p' })) {
+		return false;
+	}
+
+	const blockName = node.attribs['data-wp-block-name'];
+
+	return blockName === name;
 }
 
 export * from './wpKsesPost';
