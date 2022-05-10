@@ -3,15 +3,23 @@ import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
-import { Colors, IBlockAttributes, Spacing } from './types';
+import { IBlockAttributes, Align, Spacing } from './types';
 
 export interface GutenbergCoverBlockProps extends IBlockAttributes {
-	colors: Colors;
+	overlayColor: string;
 	spacing: Spacing;
-	isRepeated?: boolean;
+	hasParallax: boolean;
+	isRepeated: boolean;
 	id: number;
 	dimRatio: number;
 	isDark: boolean;
+	align: Align;
+	url: string;
+	minHeight: number;
+	focalPoint?: {
+		x: string | number;
+		y: string | number;
+	};
 }
 
 export interface CoverBlockProps extends Omit<BlockProps, 'test'> {
@@ -22,17 +30,23 @@ export interface CoverBlockProps extends Omit<BlockProps, 'test'> {
 
 export const CoverBlock = ({ domNode: node, children, component: Component }: CoverBlockProps) => {
 	const { name, className, attributes } = useBlock<GutenbergCoverBlockProps>(node);
-	const { colors, spacing } = useBlockAttributes(node);
+	const { spacing, align } = useBlockAttributes(node);
 
 	return (
 		<Component
 			name={name}
 			className={className}
-			colors={colors}
+			overlayColor={attributes.overlayColor}
 			spacing={spacing}
 			id={attributes.id}
 			dimRatio={attributes.dimRatio}
 			isDark={attributes.isDark}
+			align={align}
+			url={attributes.url}
+			minHeight={attributes.minHeight}
+			hasParallax={!!attributes.hasParallax}
+			isRepeated={!!attributes.isRepeated}
+			focalPoint={attributes.focalPoint}
 		>
 			{children}
 		</Component>
