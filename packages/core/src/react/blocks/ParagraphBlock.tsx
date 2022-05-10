@@ -2,12 +2,13 @@ import { Element } from 'html-react-parser';
 import { isBlockByName } from '../../dom';
 import { BlockProps } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
-import { BlockAttributes, GutenbergBlockProps } from './types';
+import { Align, Colors, IBlockAttributes, Typography } from './types';
 
-export interface GutenberParagraphBlockProps
-	extends GutenbergBlockProps,
-		Partial<Pick<BlockAttributes, 'align' | 'typography' | 'backgroundColor' | 'textColor'>> {
+export interface GutenberParagraphBlockProps extends IBlockAttributes {
 	dropCap?: boolean;
+	align?: Align;
+	colors?: Colors;
+	typography?: Typography;
 }
 
 export interface ParagraphBlockProps extends Omit<BlockProps, 'test'> {
@@ -27,10 +28,10 @@ export const ParagraphBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className || ''}
 			align={align}
-			backgroundColor={colors?.backgroundColor || ''}
-			textColor={colors?.textColor}
+			colors={colors}
 			typography={typography}
 		>
 			{children}

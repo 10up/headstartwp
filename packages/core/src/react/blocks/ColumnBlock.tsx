@@ -28,6 +28,7 @@ export const ColumnBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			spacing={spacing}
 			colors={colors}

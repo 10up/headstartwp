@@ -1,3 +1,4 @@
+import { Element } from 'html-react-parser';
 import { ReactNode } from 'react';
 
 export interface Colors {
@@ -43,6 +44,7 @@ export type Border = {
 export interface IBlockAttributes {
 	name: string;
 	className?: string;
+	domNode?: Element;
 }
 
 export interface BlockAttributes extends Colors {

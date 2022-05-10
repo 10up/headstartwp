@@ -23,7 +23,7 @@ export const ButtonsBlock = ({
 	const align = useBlockAlign(node);
 
 	return (
-		<Component name={name} className={className} align={align}>
+		<Component name={name} domNode={node} className={className} align={align}>
 			{children}
 		</Component>
 	);

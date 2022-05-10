@@ -41,6 +41,7 @@ export const ButtonBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			url={anchor.attribs.href}
 			title={anchor.attribs.title}
