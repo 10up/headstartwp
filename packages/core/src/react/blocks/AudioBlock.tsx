@@ -2,9 +2,9 @@ import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { BlockProps } from '../components';
 import { useBlock } from './hooks';
-import { GutenbergBlockProps } from './types';
+import { IBlockAttributes } from './types';
 
-export interface GutenbergAudioProps extends GutenbergBlockProps {
+export interface GutenbergAudioProps extends IBlockAttributes {
 	src: string;
 	autoplay?: boolean;
 	caption?: string;

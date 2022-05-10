@@ -8,7 +8,10 @@ import { Colors, IBlockAttributes, Spacing } from './types';
 export interface GutenbergCoverBlockProps extends IBlockAttributes {
 	colors: Colors;
 	spacing: Spacing;
-	isRepeatedBackground?: boolean;
+	isRepeated?: boolean;
+	id: number;
+	dimRatio: number;
+	isDark: boolean;
 }
 
 export interface CoverBlockProps extends Omit<BlockProps, 'test'> {
@@ -18,11 +21,19 @@ export interface CoverBlockProps extends Omit<BlockProps, 'test'> {
 }
 
 export const CoverBlock = ({ domNode: node, children, component: Component }: CoverBlockProps) => {
-	const { name, className } = useBlock(node);
+	const { name, className, attributes } = useBlock<GutenbergCoverBlockProps>(node);
 	const { colors, spacing } = useBlockAttributes(node);
 
 	return (
-		<Component name={name} className={className} colors={colors} spacing={spacing}>
+		<Component
+			name={name}
+			className={className}
+			colors={colors}
+			spacing={spacing}
+			id={attributes.id}
+			dimRatio={attributes.dimRatio}
+			isDark={attributes.isDark}
+		>
 			{children}
 		</Component>
 	);

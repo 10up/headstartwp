@@ -1,11 +1,11 @@
 import {
 	BlocksRenderer,
-	Block,
 	ButtonBlock,
 	ColumnsBlock,
 	ColumnBlock,
 	ParagraphBlock,
 	DebugBlock,
+	CoverBlock,
 } from '@10up/headless-core/react';
 
 import { css } from '@emotion/react';
@@ -23,7 +23,7 @@ export const Blocks = ({ html }) => {
 				<ColumnsBlock component={DebugBlock} />
 				<ColumnBlock component={DebugBlock} />
 				<ParagraphBlock component={DebugBlock} />
-				<Block tagName="div" classList={['wp-block-buttons']} blockImpl={DebugBlock} />
+				<CoverBlock component={DebugBlock} />
 			</BlocksRenderer>
 		</div>
 	);

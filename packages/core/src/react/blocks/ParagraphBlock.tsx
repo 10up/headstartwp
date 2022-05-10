@@ -22,7 +22,7 @@ export const ParagraphBlock = ({
 	component: Component,
 	children,
 }: ParagraphBlockProps) => {
-	const { className, name } = useBlock(node);
+	const { className, name, attributes } = useBlock<GutenberParagraphBlockProps>(node);
 	const { align, colors, typography } = useBlockAttributes(node);
 
 	return (
@@ -33,6 +33,7 @@ export const ParagraphBlock = ({
 			align={align}
 			colors={colors}
 			typography={typography}
+			dropCap={attributes?.dropCap || false}
 		>
 			{children}
 		</Component>
