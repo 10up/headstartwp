@@ -47,6 +47,10 @@ export function withHeadlessConfig(
 					destination: '/api/cache-healthcheck',
 				},
 				{
+					source: '/block-library.css',
+					destination: `${wpUrl}/wp-includes/css/dist/block-library/style.min.css`,
+				},
+				{
 					source: '/feed',
 					destination: `${wpUrl}/feed`,
 				},

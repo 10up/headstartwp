@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Element } from 'html-react-parser';
+import { isImageTag } from '@10up/headless-core';
 
 export type ImageBlockProps = {
 	domNode: Element;
@@ -28,4 +29,8 @@ export const ImageBlock = ({ domNode }: ImageBlockProps) => {
 			layout={layout}
 		/>
 	);
+};
+
+ImageBlock.defaultProps = {
+	test: (node) => isImageTag(node, { hasDimensions: true }),
 };
