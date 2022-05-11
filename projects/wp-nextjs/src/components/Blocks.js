@@ -9,6 +9,9 @@ import {
 	HeadingBlock,
 	QuoteBlock,
 	PullQuoteBlock,
+	PreformattedBlock,
+	CodeBlock,
+	VerseBlock,
 } from '@10up/headless-core/react';
 
 import { css } from '@emotion/react';
@@ -30,6 +33,9 @@ export const Blocks = ({ html }) => {
 				<HeadingBlock component={DebugBlock} />
 				<QuoteBlock component={DebugBlock} />
 				<PullQuoteBlock component={DebugBlock} />
+				<PreformattedBlock component={DebugBlock} />
+				<CodeBlock component={DebugBlock} />
+				<VerseBlock component={DebugBlock} />
 			</BlocksRenderer>
 		</div>
 	);

@@ -10,3 +10,5 @@ export * from './DebugBlock';
 export * from './HeadingBlock';
 export * from './QuoteBlock';
 export * from './PullQuote';
+export * from './PreformatedBlock';
+export * from './VerseBlock';
