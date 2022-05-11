@@ -18,6 +18,7 @@ import {
 	SpacerBlock,
 	ListBlock,
 	YoutubeLiteBlock,
+	FileBlock,
 } from '@10up/headless-core/react';
 import { TwitterBlock } from '@10up/headless-next';
 
@@ -48,6 +49,7 @@ export const Blocks = ({ html }) => {
 				<SeparatorBlock component={DebugBlock} />
 				<SpacerBlock component={DebugBlock} />
 				<ListBlock component={DebugBlock} />
+				<FileBlock component={DebugBlock} />
 				<TwitterBlock />
 				<YoutubeLiteBlock />
 			</BlocksRenderer>

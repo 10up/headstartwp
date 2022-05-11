@@ -18,3 +18,4 @@ export * from './SeparatorBlock';
 export * from './SpacerBlock';
 export * from './ListBlock';
 export * from './YoutubeLiteBlock';
+export * from './FileBlock';
