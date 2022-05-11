@@ -12,3 +12,8 @@ export * from './QuoteBlock';
 export * from './PullQuote';
 export * from './PreformatedBlock';
 export * from './VerseBlock';
+export * from './TableBlock';
+export * from './GroupBlock';
+export * from './SeparatorBlock';
+export * from './SpacerBlock';
+export * from './ListBlock';

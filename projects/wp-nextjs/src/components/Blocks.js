@@ -12,6 +12,11 @@ import {
 	PreformattedBlock,
 	CodeBlock,
 	VerseBlock,
+	TableBlock,
+	GroupBlock,
+	SeparatorBlock,
+	SpacerBlock,
+	ListBlock,
 } from '@10up/headless-core/react';
 
 import { css } from '@emotion/react';
@@ -36,6 +41,11 @@ export const Blocks = ({ html }) => {
 				<PreformattedBlock component={DebugBlock} />
 				<CodeBlock component={DebugBlock} />
 				<VerseBlock component={DebugBlock} />
+				<TableBlock component={DebugBlock} />
+				<GroupBlock component={DebugBlock} />
+				<SeparatorBlock component={DebugBlock} />
+				<SpacerBlock component={DebugBlock} />
+				<ListBlock component={DebugBlock} />
 			</BlocksRenderer>
 		</div>
 	);
