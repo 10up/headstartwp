@@ -39,6 +39,7 @@ export const PullQuoteBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			align={align}
 			typography={typography}

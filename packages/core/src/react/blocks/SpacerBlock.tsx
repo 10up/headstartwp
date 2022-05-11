@@ -26,6 +26,7 @@ export const SpacerBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			htmlAnchor={node.attribs.id || ''}
 			height={height}

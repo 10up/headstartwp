@@ -23,6 +23,7 @@ export const ListBlock = ({ domNode: node, children, component: Component }: Lis
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			colors={colors}
 			htmlAnchor={node.attribs.id || ''}

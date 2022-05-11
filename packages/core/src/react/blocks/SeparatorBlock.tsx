@@ -27,6 +27,7 @@ export const SeparatorBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			align={align}
 			blockStyle={blockStyle}

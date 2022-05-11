@@ -1,3 +1,3 @@
-export * from './ImageBlock';
+export * from './ImageComponent';
 export * from './LinkBlock';
 export * from './TwitterBlock';

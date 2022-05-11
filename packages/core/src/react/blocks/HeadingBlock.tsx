@@ -30,6 +30,7 @@ export const HeadingBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			level={level}
 			align={align}

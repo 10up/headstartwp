@@ -35,6 +35,7 @@ export const CoverBlock = ({ domNode: node, children, component: Component }: Co
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			overlayColor={attributes.overlayColor}
 			spacing={spacing}

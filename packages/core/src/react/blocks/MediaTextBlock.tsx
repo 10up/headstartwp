@@ -38,6 +38,7 @@ export const MediaTextBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			htmlAnchor={node.attribs.id || ''}
 			align={align}

@@ -29,6 +29,7 @@ export const AudioBlock = ({ domNode: node, children, component: Component }: Au
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			src={audioAttributes.src}
 			caption={caption}

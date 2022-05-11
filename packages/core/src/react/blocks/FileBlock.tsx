@@ -26,6 +26,7 @@ export const FileBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			htmlAnchor={node.attribs.id || ''}
 			id={attributes.id}

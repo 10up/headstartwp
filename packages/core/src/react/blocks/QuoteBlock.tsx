@@ -27,6 +27,7 @@ export const QuoteBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			align={align}
 			typography={typography}

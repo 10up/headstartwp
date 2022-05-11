@@ -24,6 +24,7 @@ export const CodeBlock = ({ domNode: node, children, component: Component }: Cod
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			colors={colors}
 			typography={typography}

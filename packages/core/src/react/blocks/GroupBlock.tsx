@@ -25,6 +25,7 @@ export const GroupBlock = ({ domNode: node, children, component: Component }: Gr
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			align={align}
 			blockStyle={blockStyle}

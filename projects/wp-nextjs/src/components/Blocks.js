@@ -20,8 +20,9 @@ import {
 	YoutubeLiteBlock,
 	FileBlock,
 	MediaTextBlock,
+	ImageBlock,
 } from '@10up/headless-core/react';
-import { TwitterBlock } from '@10up/headless-next';
+import { TwitterBlock, ImageComponent } from '@10up/headless-next';
 
 import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
@@ -52,6 +53,7 @@ export const Blocks = ({ html }) => {
 				<ListBlock component={DebugBlock} />
 				<FileBlock component={DebugBlock} />
 				<MediaTextBlock component={DebugBlock} />
+				<ImageBlock component={ImageComponent} />
 				<TwitterBlock />
 				<YoutubeLiteBlock />
 			</BlocksRenderer>

@@ -50,6 +50,7 @@ export interface IBlockAttributes {
 	className?: string;
 	domNode?: Element;
 	htmlAnchor?: string;
+	children?: ReactNode;
 }
 
 export interface BlockAttributes extends Colors {

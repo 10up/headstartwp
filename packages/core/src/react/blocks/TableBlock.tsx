@@ -29,6 +29,7 @@ export const TableBlock = ({
 	return (
 		<Component
 			name={name}
+			domNode={node}
 			className={className}
 			align={align}
 			typography={typography}

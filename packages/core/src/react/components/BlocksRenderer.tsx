@@ -2,6 +2,7 @@ import parse, { HTMLReactParserOptions, domToReact, Element } from 'html-react-p
 import React, { isValidElement, FC, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
 import { isBlock, wpKsesPost } from '../../dom';
+import { IBlockAttributes } from '../blocks/types';
 
 export interface BlockProps {
 	test?: (domNode: Element) => boolean;
@@ -9,6 +10,15 @@ export interface BlockProps {
 	classList?: string[] | string;
 	domNode?: Element;
 	children?: ReactNode | undefined;
+}
+
+/**
+ * The common interface for a block transform component
+ */
+export interface IBlock<T extends IBlockAttributes> extends Omit<BlockProps, 'test'> {
+	domNode: Element;
+	className?: string;
+	component: React.FC<T>;
 }
 
 interface BlockRendererProps {
