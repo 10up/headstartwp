@@ -17,7 +17,9 @@ import {
 	SeparatorBlock,
 	SpacerBlock,
 	ListBlock,
+	YoutubeLiteBlock,
 } from '@10up/headless-core/react';
+import { TwitterBlock } from '@10up/headless-next';
 
 import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
@@ -46,6 +48,8 @@ export const Blocks = ({ html }) => {
 				<SeparatorBlock component={DebugBlock} />
 				<SpacerBlock component={DebugBlock} />
 				<ListBlock component={DebugBlock} />
+				<TwitterBlock />
+				<YoutubeLiteBlock />
 			</BlocksRenderer>
 		</div>
 	);

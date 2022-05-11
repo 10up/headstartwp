@@ -1,5 +1,5 @@
-import { isYoutubeEmbed, youtubeEmbedRegex } from '@10up/headless-core';
 import { useEffect } from 'react';
+import { isYoutubeEmbed, youtubeEmbedRegex } from '../../dom';
 
 interface LiteYoutube {
 	videoid: string;
