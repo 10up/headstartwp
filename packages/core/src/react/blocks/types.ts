@@ -40,7 +40,9 @@ export interface GutenbergBlockProps {
 }
 
 export type Border = {
-	borderRadius: string;
+	radius?: string;
+	width?: string;
+	style?: string;
 };
 
 export interface IBlockAttributes {

@@ -9,3 +9,4 @@ export * from './ParagraphBlock';
 export * from './DebugBlock';
 export * from './HeadingBlock';
 export * from './QuoteBlock';
+export * from './PullQuote';
