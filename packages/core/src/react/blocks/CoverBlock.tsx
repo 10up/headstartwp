@@ -1,4 +1,4 @@
-import { isBlock, isImageTag } from '../../dom';
+import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
@@ -51,5 +51,21 @@ export const CoverBlock = ({ domNode: node, children, component: Component }: IC
 
 CoverBlock.defaultProps = {
 	test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-cover' }),
-	exclude: (node) => isImageTag(node) || node.name === 'video',
+
+	/**
+	 * Exclude all direct children except the paragraph inner block
+	 *
+	 * @param node The dom node
+	 * @returns
+	 */
+	exclude: (node) => {
+		const isDirectChild =
+			node?.parent?.attribs &&
+			node.parent.attribs.class.split(' ').includes('wp-block-cover');
+
+		return (
+			isDirectChild &&
+			!node.attribs.class.split(' ').includes('wp-block-cover__inner-container')
+		);
+	},
 };
