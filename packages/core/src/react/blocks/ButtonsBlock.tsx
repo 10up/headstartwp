@@ -1,24 +1,15 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAlign } from './hooks';
 import { Align, IBlockAttributes } from './types';
 
-export interface GutenbergButtonsBlockProps extends IBlockAttributes {
+export interface ButtonsBlockProps extends IBlockAttributes {
 	align: Align;
 }
 
-export interface ButtonsBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenbergButtonsBlockProps>;
-}
+export interface IButtonsBlock extends IBlock<ButtonsBlockProps> {}
 
-export const ButtonsBlock = ({
-	domNode: node,
-	children,
-	component: Component,
-}: ButtonsBlockProps) => {
+export const ButtonsBlock = ({ domNode: node, children, component: Component }: IButtonsBlock) => {
 	const { name, className } = useBlock(node);
 	const align = useBlockAlign(node);
 

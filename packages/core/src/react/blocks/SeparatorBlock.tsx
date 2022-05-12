@@ -1,27 +1,22 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { Align, Colors, IBlockAttributes } from './types';
 
-export interface GutenbergSeparatorProps extends IBlockAttributes {
+export interface SeparatorBlockProps extends IBlockAttributes {
 	align?: Align;
 	blockStyle?: string;
 	colors?: Colors;
 }
 
-export interface SeparatorBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenbergSeparatorProps>;
-}
+export interface ISeparatorBlock extends IBlock<SeparatorBlockProps> {}
 
 export const SeparatorBlock = ({
 	domNode: node,
 	children,
 	component: Component,
-}: SeparatorBlockProps) => {
-	const { name, className } = useBlock<GutenbergSeparatorProps>(node);
+}: ISeparatorBlock) => {
+	const { name, className } = useBlock<SeparatorBlockProps>(node);
 	const { align, blockStyle, colors } = useBlockAttributes(node);
 
 	return (

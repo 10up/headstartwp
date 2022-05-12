@@ -1,11 +1,10 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes, Align, Spacing } from './types';
 
-export interface GutenbergCoverBlockProps extends IBlockAttributes {
+export interface CoverBlockProps extends IBlockAttributes {
 	overlayColor: string;
 	spacing: Spacing;
 	hasParallax: boolean;
@@ -22,14 +21,10 @@ export interface GutenbergCoverBlockProps extends IBlockAttributes {
 	};
 }
 
-export interface CoverBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenbergCoverBlockProps>;
-}
+export interface ICoverBlock extends IBlock<CoverBlockProps> {}
 
-export const CoverBlock = ({ domNode: node, children, component: Component }: CoverBlockProps) => {
-	const { name, className, attributes } = useBlock<GutenbergCoverBlockProps>(node);
+export const CoverBlock = ({ domNode: node, children, component: Component }: ICoverBlock) => {
+	const { name, className, attributes } = useBlock<CoverBlockProps>(node);
 	const { spacing, align } = useBlockAttributes(node);
 
 	return (

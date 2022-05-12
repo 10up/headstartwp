@@ -1,10 +1,9 @@
-import { Element } from 'html-react-parser';
 import { isBlockByName } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { Align, Colors, IBlockAttributes, Spacing } from './types';
 
-export interface GutenberGroupProps extends IBlockAttributes {
+export interface GroupBlockProps extends IBlockAttributes {
 	spacing?: Spacing;
 	align?: Align;
 	blockStyle?: string;
@@ -12,14 +11,10 @@ export interface GutenberGroupProps extends IBlockAttributes {
 	tagName?: string;
 }
 
-export interface GroupBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenberGroupProps>;
-}
+export interface IGroupBlock extends IBlock<GroupBlockProps> {}
 
-export const GroupBlock = ({ domNode: node, children, component: Component }: GroupBlockProps) => {
-	const { name, className, attributes } = useBlock<GutenberGroupProps>(node);
+export const GroupBlock = ({ domNode: node, children, component: Component }: IGroupBlock) => {
+	const { name, className, attributes } = useBlock<GroupBlockProps>(node);
 	const { align, spacing, blockStyle, colors } = useBlockAttributes(node);
 
 	return (

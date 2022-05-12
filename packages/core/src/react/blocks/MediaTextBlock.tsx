@@ -1,10 +1,9 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { Align, Colors, IBlockAttributes } from './types';
 
-export interface GutenberMediaTextProps extends IBlockAttributes {
+export interface MediaTextBlockProps extends IBlockAttributes {
 	align: Align;
 	blockStyle?: string;
 	colors?: Colors;
@@ -21,18 +20,13 @@ export interface GutenberMediaTextProps extends IBlockAttributes {
 	verticalAlignment?: 'top' | 'center' | 'bottom';
 }
 
-export interface MediaTextBlockBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenberMediaTextProps>;
-}
-
+export interface IMediaTextBlock extends IBlock<MediaTextBlockProps> {}
 export const MediaTextBlock = ({
 	domNode: node,
 	children,
 	component: Component,
-}: MediaTextBlockBlockProps) => {
-	const { name, className, attributes } = useBlock<GutenberMediaTextProps>(node);
+}: IMediaTextBlock) => {
+	const { name, className, attributes } = useBlock<MediaTextBlockProps>(node);
 	const { colors, blockStyle, align } = useBlockAttributes(node);
 
 	return (

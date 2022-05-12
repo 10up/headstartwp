@@ -1,26 +1,22 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { Colors, IBlockAttributes, Typography } from './types';
 
-export interface GutenberPreformattedBlockProps extends IBlockAttributes {
+export interface PreformattedBlockProps extends IBlockAttributes {
 	colors?: Colors;
 	typography?: Typography;
 }
 
-export interface PreformattedBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenberPreformattedBlockProps>;
-}
+export interface IPreformattedBlock extends IBlock<PreformattedBlockProps> {}
 
 export const PreformattedBlock = ({
 	domNode: node,
 	component: Component,
 	children,
-}: PreformattedBlockProps) => {
-	const { className, name } = useBlock<GutenberPreformattedBlockProps>(node);
+}: IPreformattedBlock) => {
+	const { className, name } = useBlock<PreformattedBlockProps>(node);
 	const { colors, typography } = useBlockAttributes(node);
 
 	return (

@@ -1,10 +1,10 @@
 import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { Align, Border, Colors, IBlockAttributes, Typography } from './types';
 
-export interface GutenberPullQuoteProps extends IBlockAttributes {
+export interface PullQuoteBlockProps extends IBlockAttributes {
 	typography?: Typography;
 	align?: Align;
 	blockStyle?: string;
@@ -15,18 +15,14 @@ export interface GutenberPullQuoteProps extends IBlockAttributes {
 	borderColor?: string;
 }
 
-export interface PullQuotekBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenberPullQuoteProps>;
-}
+export interface IPullQuotekBlock extends IBlock<PullQuoteBlockProps> {}
 
 export const PullQuoteBlock = ({
 	domNode: node,
 	children,
 	component: Component,
-}: PullQuotekBlockProps) => {
-	const { name, className, attributes } = useBlock<GutenberPullQuoteProps>(node);
+}: IPullQuotekBlock) => {
+	const { name, className, attributes } = useBlock<PullQuoteBlockProps>(node);
 	const { align, typography, colors, border } = useBlockAttributes(node);
 
 	const blockquote = node.firstChild as Element;

@@ -1,10 +1,9 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { Align, Colors, IBlockAttributes, Typography } from './types';
 
-export interface GutenberTableProps extends IBlockAttributes {
+export interface TableBlockProps extends IBlockAttributes {
 	typography?: Typography;
 	align?: Align;
 	blockStyle?: string;
@@ -12,18 +11,10 @@ export interface GutenberTableProps extends IBlockAttributes {
 	hasFixedLayout?: boolean;
 }
 
-export interface TableBlockBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenberTableProps>;
-}
+export interface ITableBlock extends IBlock<TableBlockProps> {}
 
-export const TableBlock = ({
-	domNode: node,
-	children,
-	component: Component,
-}: TableBlockBlockProps) => {
-	const { name, className, attributes } = useBlock<GutenberTableProps>(node);
+export const TableBlock = ({ domNode: node, children, component: Component }: ITableBlock) => {
+	const { name, className, attributes } = useBlock<TableBlockProps>(node);
 	const { align, typography, blockStyle, colors } = useBlockAttributes(node);
 
 	return (

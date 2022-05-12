@@ -1,12 +1,12 @@
 import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { Align, Border, Colors, IBlockAttributes, Typography } from './types';
 
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 
-export interface GutenbergButtonProps extends IBlockAttributes {
+export interface ButtonBlockProps extends IBlockAttributes {
 	url?: string;
 	title?: string;
 	text?: string;
@@ -21,17 +21,9 @@ export interface GutenbergButtonProps extends IBlockAttributes {
 	width?: string;
 }
 
-export interface ButtonBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenbergButtonProps>;
-}
+export interface IButtonBlock extends IBlock<ButtonBlockProps> {}
 
-export const ButtonBlock = ({
-	domNode: node,
-	children,
-	component: Component,
-}: ButtonBlockProps) => {
+export const ButtonBlock = ({ domNode: node, children, component: Component }: IButtonBlock) => {
 	const { className, name } = useBlock(node);
 	const { align, blockStyle, border, colors, typography, width } = useBlockAttributes(node);
 

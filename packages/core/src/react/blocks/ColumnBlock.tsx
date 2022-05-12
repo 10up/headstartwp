@@ -1,27 +1,18 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { Colors, IBlockAttributes, Spacing } from './types';
 
-export interface GutenbergColumnBlockProps extends IBlockAttributes {
+export interface ColumnBlockProps extends IBlockAttributes {
 	colors: Colors;
 	spacing: Spacing;
 	width?: string;
 }
 
-export interface ColumnBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenbergColumnBlockProps>;
-}
+export interface IColumnBlock extends IBlock<ColumnBlockProps> {}
 
-export const ColumnBlock = ({
-	domNode: node,
-	children,
-	component: Component,
-}: ColumnBlockProps) => {
+export const ColumnBlock = ({ domNode: node, children, component: Component }: IColumnBlock) => {
 	const { className, name } = useBlock(node);
 	const { spacing, colors, width } = useBlockAttributes(node);
 

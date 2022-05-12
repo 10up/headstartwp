@@ -1,26 +1,17 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { IBlockAttributes } from './types';
 import { getInlineStyles } from './utils';
 
-export interface GutenbergSpacerProps extends IBlockAttributes {
+export interface SpacerBlockProps extends IBlockAttributes {
 	height?: string;
 }
 
-export interface SpacerBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenbergSpacerProps>;
-}
+export interface ISpacerBlock extends IBlock<SpacerBlockProps> {}
 
-export const SpacerBlock = ({
-	domNode: node,
-	children,
-	component: Component,
-}: SpacerBlockProps) => {
-	const { name, className } = useBlock<GutenbergSpacerProps>(node);
+export const SpacerBlock = ({ domNode: node, children, component: Component }: ISpacerBlock) => {
+	const { name, className } = useBlock<SpacerBlockProps>(node);
 	const style = getInlineStyles(node);
 	const height = style ? style.height : '';
 	return (

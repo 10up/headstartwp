@@ -1,23 +1,19 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { Colors, IBlockAttributes, Spacing, Typography } from './types';
 
-export interface GutenberVerseBlockProps extends IBlockAttributes {
+export interface VerseBlockProps extends IBlockAttributes {
 	colors?: Colors;
 	typography?: Typography;
 	spacing?: Spacing;
 }
 
-export interface VerseBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenberVerseBlockProps>;
-}
+export interface IVerseBlock extends IBlock<VerseBlockProps> {}
 
-export const VerseBlock = ({ domNode: node, component: Component, children }: VerseBlockProps) => {
-	const { className, name } = useBlock<GutenberVerseBlockProps>(node);
+export const VerseBlock = ({ domNode: node, component: Component, children }: IVerseBlock) => {
+	const { className, name } = useBlock<VerseBlockProps>(node);
 	const { colors, typography, spacing } = useBlockAttributes(node);
 
 	return (

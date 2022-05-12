@@ -1,27 +1,18 @@
-import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { BlockProps } from '../components';
+import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { IBlockAttributes } from './types';
 
-export interface GutenberFileProps extends IBlockAttributes {
+export interface FileBlockProps extends IBlockAttributes {
 	id?: number;
 	href?: string;
 	showDownloadButton: boolean;
 }
 
-export interface FileBlockBlockProps extends Omit<BlockProps, 'test'> {
-	domNode: Element;
-	className?: string;
-	component: React.FC<GutenberFileProps>;
-}
+export interface IFileBlock extends IBlock<FileBlockProps> {}
 
-export const FileBlock = ({
-	domNode: node,
-	children,
-	component: Component,
-}: FileBlockBlockProps) => {
-	const { name, className, attributes } = useBlock<GutenberFileProps>(node);
+export const FileBlock = ({ domNode: node, children, component: Component }: IFileBlock) => {
+	const { name, className, attributes } = useBlock<FileBlockProps>(node);
 
 	return (
 		<Component
