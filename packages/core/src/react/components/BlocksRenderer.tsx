@@ -6,6 +6,7 @@ import { IBlockAttributes } from '../blocks/types';
 
 export interface BlockProps {
 	test?: (domNode: Element) => boolean;
+	exclude?: (domNode: Element) => boolean;
 	tagName?: string;
 	classList?: string[] | string;
 	domNode?: Element;
@@ -97,7 +98,26 @@ export const BlocksRenderer: FC<BlockRendererProps> = ({ html, ksesAllowList, ch
 							...block.props,
 							domNode,
 						},
-						domNode instanceof Element ? domToReact(domNode.children, options) : null,
+						domNode instanceof Element
+							? domToReact(domNode.children, {
+									// eslint-disable-next-line react/no-unstable-nested-components
+									replace: (childNode) => {
+										if (typeof options.replace !== 'function') {
+											return undefined;
+										}
+
+										if (
+											typeof block.props.exclude === 'function' &&
+											block.props.exclude(childNode as Element)
+										) {
+											// eslint-disable-next-line react/jsx-no-useless-fragment
+											return <></>;
+										}
+
+										return options.replace(childNode);
+									},
+							  })
+							: null,
 					);
 				}
 			});

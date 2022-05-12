@@ -1,4 +1,4 @@
-import { isBlock } from '../../dom';
+import { isBlock, isImageTag } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
@@ -51,4 +51,5 @@ export const CoverBlock = ({ domNode: node, children, component: Component }: IC
 
 CoverBlock.defaultProps = {
 	test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-cover' }),
+	exclude: (node) => isImageTag(node) || node.name === 'video',
 };
