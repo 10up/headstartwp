@@ -9,6 +9,10 @@ export interface GroupBlockProps extends IBlockAttributes {
 	blockStyle?: string;
 	colors?: Colors;
 	tagName?: string;
+	layout?: {
+		type?: string;
+		allowOrientation?: boolean;
+	};
 }
 
 export interface IGroupBlock extends IBlock<GroupBlockProps> {}
@@ -28,6 +32,7 @@ export const GroupBlock = ({ domNode: node, children, component: Component }: IG
 			htmlAnchor={node.attribs.id || ''}
 			spacing={spacing}
 			tagName={attributes.tagName}
+			layout={attributes.layout}
 		>
 			{children}
 		</Component>
