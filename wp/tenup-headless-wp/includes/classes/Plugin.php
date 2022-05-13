@@ -7,6 +7,8 @@
 
 namespace HeadlessWP;
 
+use DOMDocument;
+
 /**
  * Nain plugin class
  */
@@ -22,6 +24,7 @@ class Plugin {
 		add_action( 'admin_bar_menu', [ $this, 'clean_up_toolbar' ], 999 );
 
 		add_action( 'init', [ $this, 'i18n' ] );
+		add_filter( 'render_block', [ $this, 'render_block' ], 10, 2 );
 
 		$links = new Links();
 		$links->register();
@@ -31,6 +34,40 @@ class Plugin {
 
 		$preview = new Preview\PreviewLink();
 		$preview->register();
+	}
+
+	/**
+	 * Filter rendered blocks to include a data-wp-blocks attribute with block's attrs
+	 *
+	 * @param string $html Rendered block content.
+	 * @param array  $block Block data.
+	 *
+	 * @return string
+	 */
+	public function render_block( $html, $block ) {
+		if ( ! trim( $html ) ) {
+			return $html;
+		}
+
+		libxml_use_internal_errors( true );
+		$doc = new DomDocument( '1.0', 'UTF-8' );
+		$doc->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NODEFDTD | LIBXML_HTML_NOIMPLIED );
+
+		$root_node = $doc->documentElement; // phpcs:ignore
+
+		if ( is_null( $root_node ) ) {
+			return $html;
+		}
+
+		$attrs             = $doc->createAttribute( 'data-wp-block' );
+		$attrs->value      = wp_json_encode( $block['attrs'] );
+		$block_name        = $doc->createAttribute( 'data-wp-block-name' );
+		$block_name->value = $block['blockName'];
+
+		$root_node->appendChild( $attrs );
+		$root_node->appendChild( $block_name );
+
+		return $doc->saveHTML();
 	}
 
 	/**

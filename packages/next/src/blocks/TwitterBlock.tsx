@@ -1,3 +1,4 @@
+import { isTwitterEmbed } from '@10up/headless-core';
 import Script from 'next/script';
 
 /**
@@ -17,4 +18,8 @@ export const TwitterBlock = ({ children }) => {
 			{children}
 		</>
 	);
+};
+
+TwitterBlock.defaultProps = {
+	test: (node) => isTwitterEmbed(node),
 };

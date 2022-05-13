@@ -1,6 +1,6 @@
 import { PostsArchiveFetchStrategy } from '../PostsArchiveFetchStrategy';
 import { apiGet } from '../../api';
-import { setHeadlessConfig } from '../../../utils';
+import { setHeadlessConfig } from '../../../../test/utils';
 
 jest.mock('../../api');
 

@@ -8,6 +8,7 @@ import {
 } from '@10up/headless-next';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';
+import { resolveBatch } from '../utils/promises';
 
 const SinglePostsPage = () => {
 	const { loading, error } = usePost(singleParams);
@@ -71,10 +72,16 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
 	try {
-		const hookData = await fetchHookData(usePost.fetcher(), context, { params: singleParams });
-		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+		// fetch batch of promises and throws errors selectively
+		// passing `throw:false` will prevent errors from being thrown for that promise
+		const settledPromises = await resolveBatch([
+			{
+				func: fetchHookData(usePost.fetcher(), context, { params: singleParams }),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
+		]);
 
-		return addHookData([hookData, appSettings], {});
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

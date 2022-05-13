@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { Element } from 'html-react-parser';
 import { PropsWithChildren } from 'react';
 import { removeSourceUrl } from '@10up/headless-core/utils';
-import { useSettings } from '@10up/headless-core';
+import { useSettings } from '@10up/headless-core/react';
+import { getAttributes, isAnchorTag } from '@10up/headless-core';
 
 export type LinkBlockProps = PropsWithChildren<{
 	domNode: Element;
@@ -18,15 +19,21 @@ export type LinkBlockProps = PropsWithChildren<{
  * @returns The next/link component
  */
 export const LinkBlock = ({ domNode, children }) => {
-	const { href, rel } = domNode.attribs;
+	const { href, rel, className } = getAttributes(domNode.attribs);
 	const settings = useSettings();
-	const link = removeSourceUrl({ link: href, backendUrl: settings.url || '' });
+	const link = removeSourceUrl({ link: href, backendUrl: settings.sourceUrl || '' });
 	const Component = typeof settings.linkComponent === 'function' ? settings.linkComponent : Link;
 
 	return (
 		<Component href={link}>
 			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-			<a rel={rel}>{children}</a>
+			<a rel={rel} className={className}>
+				{children}
+			</a>
 		</Component>
 	);
+};
+
+LinkBlock.defaultProps = {
+	test: (node) => isAnchorTag(node, { isInternalLink: true }),
 };

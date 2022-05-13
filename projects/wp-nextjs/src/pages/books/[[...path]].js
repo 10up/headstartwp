@@ -9,6 +9,7 @@ import {
 	useAppSettings,
 } from '@10up/headless-next';
 import { booksParams } from '../../params';
+import { resolveBatch } from '../../utils/promises';
 
 const BooksPage = () => {
 	const { data, error, loading } = usePosts(booksParams);
@@ -34,13 +35,15 @@ export default BooksPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+		// fetch batch of promises and throws errors selectively
+		const settledPromises = await resolveBatch([
+			{
+				func: fetchHookData(usePosts.fetcher(), context, { params: booksParams }),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
+		]);
 
-		const hookData = await fetchHookData(usePosts.fetcher(), context, {
-			params: booksParams,
-		});
-
-		return addHookData([hookData, appSettings], {});
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

@@ -10,6 +10,11 @@ type removeSourceUrlType = {
  *
  * Inspired on the Frontity implementation @see https://github.com/frontity/frontity/blob/dev/packages/components/link/utils.ts
  *
+ * @param options - Required options
+ * @param options.link - The link url, possibly with the source url.
+ * @param options.backendUrl - The backend url.
+ * @param options.publicUrl - The public url. Defaults to '/'.
+ *
  * @returns The URL without the Source URL.
  */
 export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSourceUrlType) {

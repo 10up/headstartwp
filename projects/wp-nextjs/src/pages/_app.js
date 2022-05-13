@@ -4,7 +4,6 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import Layout from '../components/Layout';
 
-// css
 import '../styles.css';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -25,7 +24,7 @@ const MyApp = ({ Component, pageProps }) => {
 				/**
 				 * Setting this to true will refetch content whethenever the tab is refocused
 				 */
-				revalidateOnFocus: false,
+				revalidateOnFocus: true,
 				/**
 				 * Settings this to true will refetch content whenever the connection is restablished
 				 */

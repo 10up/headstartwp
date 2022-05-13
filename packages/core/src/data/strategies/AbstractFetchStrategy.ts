@@ -101,6 +101,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 			// @ts-expect-error
 			args.headers = { Authorization: `Bearer ${options.bearerToken}` };
 		}
+
 		const result = await apiGet(`${this.baseURL}${url}`, args);
 		const { data } = result.json;
 
@@ -147,12 +148,14 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 					allowedData.push({});
 					fields.forEach((field) => {
 						// @ts-expect-error
-						allowedData[i][field] = data.result[i][field];
+						if (data.result[i][field]) {
+							// @ts-expect-error
+							allowedData[i][field] = data.result[i][field];
+						}
 					});
 				});
 			} else {
 				fields.forEach((field) => {
-					// @ts-expect-error
 					allowedData[field] = data.result[field];
 				});
 			}

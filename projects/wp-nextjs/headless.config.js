@@ -1,4 +1,13 @@
+/**
+ * UHeadless Config
+ *
+ * @type {import('@10up/headless-core').HeadlessConfig}
+ */
 module.exports = {
+	/**
+	 * The WordPress Source Url
+	 */
+	sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
 	customPostTypes: [
 		// this is just an example
 		{

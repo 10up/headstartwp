@@ -1,21 +1,61 @@
 import {
 	BlocksRenderer,
-	isAnchorTag,
-	isImageTag,
-	isTwitterEmbed,
-	isYoutubeEmbed,
-} from '@10up/headless-core';
-import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
+	ButtonBlock,
+	ColumnsBlock,
+	ColumnBlock,
+	ParagraphBlock,
+	DebugBlock,
+	CoverBlock,
+	HeadingBlock,
+	QuoteBlock,
+	PullQuoteBlock,
+	PreformattedBlock,
+	CodeBlock,
+	VerseBlock,
+	TableBlock,
+	GroupBlock,
+	SeparatorBlock,
+	SpacerBlock,
+	ListBlock,
+	YoutubeLiteBlock,
+	FileBlock,
+	MediaTextBlock,
+	ImageBlock,
+} from '@10up/headless-core/react';
+import { TwitterBlock, ImageComponent } from '@10up/headless-next';
+
+import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
 
 export const Blocks = ({ html }) => {
 	return (
-		<div style={{ position: 'relative' }}>
+		<div
+			css={css`
+				position: relative;
+			`}
+		>
 			<BlocksRenderer html={html}>
-				<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true })} />
-				<ImageBlock test={(node) => isImageTag(node, { hasDimensions: true })} />
-				<YoutubeLiteBlock test={isYoutubeEmbed} />
-				<TwitterBlock test={isTwitterEmbed} />
+				<ButtonBlock component={DebugBlock} />
+				<ColumnsBlock component={DebugBlock} />
+				<ColumnBlock component={DebugBlock} />
+				<ParagraphBlock component={DebugBlock} />
+				<CoverBlock component={DebugBlock} />
+				<HeadingBlock component={DebugBlock} />
+				<QuoteBlock component={DebugBlock} />
+				<PullQuoteBlock component={DebugBlock} />
+				<PreformattedBlock component={DebugBlock} />
+				<CodeBlock component={DebugBlock} />
+				<VerseBlock component={DebugBlock} />
+				<TableBlock component={DebugBlock} />
+				<GroupBlock component={DebugBlock} />
+				<SeparatorBlock component={DebugBlock} />
+				<SpacerBlock component={DebugBlock} />
+				<ListBlock component={DebugBlock} />
+				<FileBlock component={DebugBlock} />
+				<MediaTextBlock component={DebugBlock} />
+				<ImageBlock component={ImageComponent} />
+				<TwitterBlock />
+				<YoutubeLiteBlock />
 			</BlocksRenderer>
 		</div>
 	);

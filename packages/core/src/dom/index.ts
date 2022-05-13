@@ -5,6 +5,18 @@ type isAnchorTagOptions = {
 	isInternalLink?: boolean;
 };
 
+export function getAttributes(attribs: Element['attribs']): Record<string, string> {
+	const attributes: Record<string, string> = { ...attribs };
+	attributes.className = '';
+
+	if (attribs?.class) {
+		attributes.className = attributes.class;
+		delete attributes.class;
+	}
+
+	return attributes;
+}
+
 /**
  * Checks if the provided node is an valid anchor tag
  *
@@ -109,6 +121,69 @@ export function isTwitterEmbed(node: DOMNode) {
 	const className = node.attribs?.class || '';
 
 	return isFigure && className.split(' ').includes('wp-block-embed-twitter');
+}
+
+export function isButtonBlock(node: DOMNode) {
+	if (!(node instanceof Element)) {
+		return false;
+	}
+
+	const isDiv = node.type === 'tag' && node.name === 'div';
+	const className = node.attribs?.class || '';
+
+	return isDiv && className.split(' ').includes('wp-block-button');
+}
+
+export type isBlockOptions = {
+	tagName?: string;
+	className?: string | string[];
+};
+
+export function isBlock(node: DOMNode, _options: isBlockOptions) {
+	if (!(node instanceof Element)) {
+		return false;
+	}
+
+	const options = { tagName: 'div', ..._options };
+	const isTag = node.type === 'tag' && node.name === options.tagName;
+
+	if (!isTag) {
+		return false;
+	}
+
+	const { className } = getAttributes(node.attribs);
+
+	if (Array.isArray(options.className)) {
+		return (
+			options.className.filter((c) => className.split(' ').includes(c)).length ===
+			options.className.length
+		);
+	}
+
+	if (options.className) {
+		return className.split(' ').includes(options.className);
+	}
+
+	return isTag;
+}
+
+/**
+ * Tests if a block by name
+ *
+ * Requires the headless plugin
+ *
+ * @param node The dom node
+ * @param name The block name
+ * @returns true if it's a matching block
+ */
+export function isBlockByName(node: DOMNode, name: string) {
+	if (!(node instanceof Element)) {
+		return false;
+	}
+
+	const blockName = node.attribs['data-wp-block-name'];
+
+	return blockName === name;
 }
 
 export * from './wpKsesPost';

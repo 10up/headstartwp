@@ -1,29 +1,29 @@
-import { getWPUrl } from '@10up/headless-core';
+import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 import { NextConfig } from 'next';
-
-import fs from 'fs';
-import path from 'path';
-
-const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
-
-// the headless config is an empty object by default
-let headlessConfig = {};
-if (fs.existsSync(headlessConfigPath)) {
-	// eslint-disable-next-line
-	headlessConfig = require(headlessConfigPath);
-}
 
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
  *
  * @param {object} nextConfig The nextjs config object
+ * @param {object} headlessConfig
  * @returns
  */
-export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
+export function withHeadlessConfig(
+	nextConfig: NextConfig = {},
+	headlessConfig: HeadlessConfig = {},
+): NextConfig {
+	if (!headlessConfig.sourceUrl) {
+		throw new ConfigError(
+			'Missing sourceUrl in headless.config.js. Please add it to your headless.config.js file.',
+		);
+	}
+
+	global.__10up__HEADLESS_CONFIG = headlessConfig;
+
 	const imageDomains: Array<string> = [];
 
 	try {
-		const imageMainDomain = new URL(process.env.NEXT_PUBLIC_HEADLESS_WP_URL || '');
+		const imageMainDomain = new URL(headlessConfig.sourceUrl || '');
 
 		imageDomains.push(imageMainDomain.hostname);
 	} catch (e) {
@@ -32,15 +32,23 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 
 	return {
 		...nextConfig,
+		serverRuntimeConfig: {
+			...nextConfig.serverRuntimeConfig,
+			headlessConfig,
+		},
 		images: {
 			domains: imageDomains,
 		},
 		async rewrites() {
-			const wpUrl = getWPUrl();
+			const wpUrl = headlessConfig.sourceUrl;
 			return [
 				{
 					source: '/cache-healthcheck',
 					destination: '/api/cache-healthcheck',
+				},
+				{
+					source: '/block-library.css',
+					destination: `${wpUrl}/wp-includes/css/dist/block-library/style.min.css`,
 				},
 				{
 					source: '/feed',
@@ -66,14 +74,34 @@ export function withHeadlessConfig(nextConfig: NextConfig = {}): NextConfig {
 			];
 		},
 
-		webpack: (config, { webpack }) => {
-			config.plugins.push(
-				new webpack.DefinePlugin({
-					__10up__HEADLESS_CONFIG: webpack.DefinePlugin.runtimeValue(function () {
-						return JSON.stringify(headlessConfig);
-					}),
-				}),
-			);
+		webpack: (config, options) => {
+			config.module.rules.push({
+				test(source) {
+					if (
+						// for the monorepo
+						/packages\/next\/config\/loader/.test(source) ||
+						/packages\/core/.test(source) ||
+						// for the pubished packaged version
+						/@10up\/headless-next\/config\/loader/.test(source) ||
+						/@10up\/headless-core/.test(source)
+					) {
+						return true;
+					}
+
+					return false;
+				},
+				use: [
+					{
+						loader: '@10up/headless-next/webpack-loader',
+						options: { config: headlessConfig },
+					},
+				],
+			});
+
+			if (typeof nextConfig.webpack === 'function') {
+				return nextConfig.webpack(config, options);
+			}
+
 			return config;
 		},
 	};

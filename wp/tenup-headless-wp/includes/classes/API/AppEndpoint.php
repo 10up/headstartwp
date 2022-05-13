@@ -127,11 +127,12 @@ class AppEndpoint {
 			}
 
 			// Set up common metadata. Add any additional metadata below
-			$response['settings']['site_name']      = get_bloginfo( 'name' );
-			$response['settings']['site_desc']      = get_bloginfo( 'description' );
-			$response['settings']['site_wp_url']    = get_bloginfo( 'url' );
-			$response['settings']['site_rss_url']   = get_bloginfo( 'rss2_url' );
-			$response['settings']['posts_per_page'] = get_option( 'posts_per_page' );
+			$response['settings']['site_name']          = get_bloginfo( 'name' );
+			$response['settings']['site_desc']          = get_bloginfo( 'description' );
+			$response['settings']['site_wp_url']        = get_bloginfo( 'url' );
+			$response['settings']['site_rss_url']       = get_bloginfo( 'rss2_url' );
+			$response['settings']['posts_per_page']     = get_option( 'posts_per_page' );
+			$response['settings']['privacy_policy_url'] = get_privacy_policy_url();
 
 			// Add any customizations or overrides for the endpoint data
 			$response = apply_filters( 'headless_wp_api_app_response', $response );
