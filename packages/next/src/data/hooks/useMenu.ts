@@ -11,8 +11,8 @@ function flatToHierarchical(flat: MenuItemEntity[]): MenuItemEntity[] {
 	const roots: MenuItemEntity[] = [];
 
 	const all: Record<number, MenuItemEntity> = {};
-	flat.forEach((item) => {
-		all[item.ID] = { ...item, children: [] };
+	flat.forEach((item, index) => {
+		all[item.ID] = { ...item, children: [], order: index };
 	});
 
 	Object.keys(all).forEach((key) => {
@@ -29,6 +29,11 @@ function flatToHierarchical(flat: MenuItemEntity[]): MenuItemEntity[] {
 			}
 			p.children.push(item);
 		}
+	});
+
+	roots.sort((a, b) => a.order - b.order);
+	roots.forEach((root) => {
+		root?.children?.sort((a, b) => a.order - b.order);
 	});
 
 	return roots;
