@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { SettingsProvider } from '@10up/headless-core/react';
+import { SettingsProvider, ThemeJsonProvider } from '@10up/headless-core/react';
 import { SWRConfig } from 'swr';
 import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
@@ -19,7 +19,7 @@ export const HeadlessApp = ({
 	pageProps,
 	swrConfig = {},
 }: HeadlessAppProps) => {
-	const { fallback = {}, seo = {} } = pageProps;
+	const { fallback = {}, seo = {}, themeJSON = { settings: {}, styles: {} } } = pageProps;
 	const router = useRouter();
 
 	// if preview mode disable revalidating
@@ -38,7 +38,7 @@ export const HeadlessApp = ({
 				}}
 			>
 				<Yoast seo={seo} />
-				{children}
+				<ThemeJsonProvider data={themeJSON}>{children}</ThemeJsonProvider>
 			</SWRConfig>
 		</SettingsProvider>
 	);

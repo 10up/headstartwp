@@ -15,7 +15,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 // eslint-disable-next-line react/prop-types
 const MyApp = ({ Component, pageProps }) => {
 	// eslint-disable-next-line react/prop-types, no-unused-vars
-	const { fallback = {}, ...props } = pageProps;
+	const { fallback = {}, themeJson = {}, ...props } = pageProps;
 
 	return (
 		<HeadlessApp

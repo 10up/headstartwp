@@ -127,7 +127,10 @@ class AppEndpoint {
 			$response['settings']['posts_per_page']     = get_option( 'posts_per_page' );
 			$response['settings']['privacy_policy_url'] = get_privacy_policy_url();
 
-			$response['settings']['theme.json'] = wp_get_global_settings();
+			$response['theme.json'] = [
+				'settings' => wp_get_global_settings(),
+				'styles'   => wp_get_global_styles(),
+			];
 
 			// Add any customizations or overrides for the endpoint data
 			$response = apply_filters( 'headless_wp_api_app_response', $response );

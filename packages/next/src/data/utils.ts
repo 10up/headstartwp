@@ -86,6 +86,7 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	const fallback = {};
 	let seo_json = {};
 	let yoast_head = '';
+	let themeJSON = {};
 
 	hookStates.filter(Boolean).forEach((hookState) => {
 		const { key, data } = hookState;
@@ -93,7 +94,7 @@ export function addHookData(hookStates: HookState[], nextProps) {
 		// take yoast_seo data
 		seo_json = data.result?.yoast_head_json || data.result?.[0]?.yoast_head_json || seo_json;
 		yoast_head = data.result?.yoast_head || data.result?.[0]?.yoast_head || yoast_head;
-
+		themeJSON = data.result?.['theme.json'] || data.result?.[0]?.['theme.json'];
 		fallback[key] = data;
 	});
 
@@ -105,6 +106,7 @@ export function addHookData(hookStates: HookState[], nextProps) {
 				yoast_head_json: seo_json,
 				yoast_head,
 			},
+			themeJSON,
 			fallback,
 		},
 	};
