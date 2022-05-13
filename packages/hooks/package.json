@@ -1,5 +1,5 @@
 {
-  "name": "@10up/headless-hooks",
+  "name": "@10up/react-hooks",
   "version": "1.0.0",
   "description": "",
   "main": "dist/headless-hooks.js",
