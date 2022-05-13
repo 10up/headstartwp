@@ -1,27 +1,31 @@
-import { isBlock } from '@10up/headless-core';
-import { BlocksRenderer, GenericBlock } from '@10up/headless-core/react';
+import {
+	BlocksRenderer,
+	ButtonBlock,
+	ColumnsBlock,
+	ColumnBlock,
+	ParagraphBlock,
+	DebugBlock,
+	CoverBlock,
+	HeadingBlock,
+	QuoteBlock,
+	PullQuoteBlock,
+	PreformattedBlock,
+	CodeBlock,
+	VerseBlock,
+	TableBlock,
+	GroupBlock,
+	SeparatorBlock,
+	SpacerBlock,
+	ListBlock,
+	YoutubeLiteBlock,
+	FileBlock,
+	MediaTextBlock,
+	ImageBlock,
+} from '@10up/headless-core/react';
+import { TwitterBlock, ImageComponent } from '@10up/headless-next';
 
-import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next';
 import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
-
-const MyReactButton = ({ children, className }) => {
-	return (
-		<div
-			className={className}
-			css={css`
-				width: 10px;
-			`}
-		>
-			{children}
-		</div>
-	);
-};
-
-MyReactButton.propTypes = {
-	children: PropTypes.node.isRequired,
-	className: PropTypes.string.isRequired,
-};
 
 export const Blocks = ({ html }) => {
 	return (
@@ -31,14 +35,27 @@ export const Blocks = ({ html }) => {
 			`}
 		>
 			<BlocksRenderer html={html}>
-				<LinkBlock />
-				<ImageBlock />
-				<YoutubeLiteBlock />
+				<ButtonBlock component={DebugBlock} />
+				<ColumnsBlock component={DebugBlock} />
+				<ColumnBlock component={DebugBlock} />
+				<ParagraphBlock component={DebugBlock} />
+				<CoverBlock component={DebugBlock} />
+				<HeadingBlock component={DebugBlock} />
+				<QuoteBlock component={DebugBlock} />
+				<PullQuoteBlock component={DebugBlock} />
+				<PreformattedBlock component={DebugBlock} />
+				<CodeBlock component={DebugBlock} />
+				<VerseBlock component={DebugBlock} />
+				<TableBlock component={DebugBlock} />
+				<GroupBlock component={DebugBlock} />
+				<SeparatorBlock component={DebugBlock} />
+				<SpacerBlock component={DebugBlock} />
+				<ListBlock component={DebugBlock} />
+				<FileBlock component={DebugBlock} />
+				<MediaTextBlock component={DebugBlock} />
+				<ImageBlock component={ImageComponent} />
 				<TwitterBlock />
-				<GenericBlock
-					test={(node) => isBlock(node, { tagName: 'div', className: 'wp-block-button' })}
-					component={MyReactButton}
-				/>
+				<YoutubeLiteBlock />
 			</BlocksRenderer>
 		</div>
 	);

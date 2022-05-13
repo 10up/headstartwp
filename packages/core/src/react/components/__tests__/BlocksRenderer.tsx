@@ -75,4 +75,62 @@ describe('BlocksRenderer', () => {
       </div>
     `);
 	});
+
+	it('replaces markup with react components without test function', () => {
+		const DivToP = ({ domNode, children }: BlockProps) => {
+			const className =
+				domNode instanceof Element ? domNode?.attribs.class || undefined : undefined;
+			return <p className={className}>{children}</p>;
+		};
+
+		const { container } = render(
+			<BlocksRenderer html="<div class='my-class'>This Will Become a p tag</div><div>This Will not Become a p tag</div>">
+				<DivToP tagName="div" classList={['my-class']} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchInlineSnapshot(`
+      <div>
+        <p
+          class="my-class"
+        >
+          This Will Become a p tag
+        </p>
+        <div>
+          This Will not Become a p tag
+        </div>
+      </div>
+    `);
+	});
+
+	it('replaces markup with react components and remove children nodes', () => {
+		const DivToP = ({ domNode, children }: BlockProps) => {
+			const className =
+				domNode instanceof Element ? domNode?.attribs.class || undefined : undefined;
+			return <p className={className}>{children}</p>;
+		};
+
+		const { container } = render(
+			<BlocksRenderer html="<div class='my-class'>This Will Become a p tag<pre>this will be removed</pre></div><div>This Will not Become a p tag</div>">
+				<DivToP
+					tagName="div"
+					classList={['my-class']}
+					exclude={(node) => node.name === 'pre'}
+				/>
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchInlineSnapshot(`
+      <div>
+        <p
+          class="my-class"
+        >
+          This Will Become a p tag
+        </p>
+        <div>
+          This Will not Become a p tag
+        </div>
+      </div>
+    `);
+	});
 });
