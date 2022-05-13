@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-core",
-  "version": "0.0.1-alpha.30",
+  "version": "0.0.1-alpha.31",
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
@@ -54,13 +54,13 @@
     "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@justinribeiro/lite-youtube": "^1.3.1",
     "html-react-parser": "^1.4.3",
     "path-to-regexp": "^6.2.0",
-    "swr": "^1.2.2",
-    "xss": "^1.0.11",
-    "@emotion/react": "^11.9.0",
     "react-inspector": "^5.1.1",
-    "@justinribeiro/lite-youtube": "^1.3.1"
+    "swr": "^1.2.2",
+    "xss": "^1.0.11"
   },
   "peerDependencies": {
     "react": "^17.0.2"
