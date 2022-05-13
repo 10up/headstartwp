@@ -12,6 +12,7 @@ export interface GroupBlockProps extends IBlockAttributes {
 	layout?: {
 		type?: string;
 		allowOrientation?: boolean;
+		justifyContent?: 'left' | 'center' | 'right' | 'space-between';
 	};
 }
 
