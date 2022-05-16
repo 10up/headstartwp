@@ -11,7 +11,7 @@ const get = (obj, path, defaultValue = undefined) => {
 };
 
 /**
- * Returns a isngle theme setting normalized
+ * Returns a single theme setting normalized
  *
  * @param path - The path to the setting
  * @param blockName - The block name
@@ -20,7 +20,7 @@ const get = (obj, path, defaultValue = undefined) => {
 export function useThemeSetting(path: string, blockName: string = '') {
 	const settings = useThemeSettings();
 
-	if (blockName) {
+	if (blockName && get(settings, `${blockName}.${path}`)) {
 		return get(settings, `${blockName}.${path}`);
 	}
 

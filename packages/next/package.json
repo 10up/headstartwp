@@ -48,7 +48,8 @@
     "loader-utils": "^3.2.0",
     "next-transpile-modules": "^9.0.0",
     "schema-utils": "^4.0.0",
-    "swr": "^1.0.1"
+    "swr": "^1.0.1",
+    "@emotion/react": "^11.9.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.6.0",
