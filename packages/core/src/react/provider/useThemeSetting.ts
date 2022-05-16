@@ -20,8 +20,8 @@ const get = (obj, path, defaultValue = undefined) => {
 export function useThemeSetting(path: string, blockName: string = '') {
 	const settings = useThemeSettings();
 
-	if (blockName && get(settings, `${blockName}.${path}`)) {
-		return get(settings, `${blockName}.${path}`);
+	if (blockName && get(settings, `blocks.${blockName}.${path}`)) {
+		return get(settings, `blocks.${blockName}.${path}`);
 	}
 
 	return get(settings, path);

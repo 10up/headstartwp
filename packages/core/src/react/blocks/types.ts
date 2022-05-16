@@ -2,9 +2,13 @@ import { Element } from 'html-react-parser';
 import { ReactNode } from 'react';
 
 export interface Colors {
+	backgroundColorSlug: string;
 	backgroundColor: string;
+	gradientSlug: string;
 	gradient: string;
+	textColorSlug: string;
 	textColor: string;
+	linkColorSlug: string;
 	linkColor: string;
 }
 
@@ -17,7 +21,10 @@ export type Style = {
 };
 
 export interface Typography {
-	fontSize?: string;
+	fontSize: {
+		slug: string;
+		value: string;
+	};
 	style: {
 		lineHeight?: string;
 		fontSize?: string;
