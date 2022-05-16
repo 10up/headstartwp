@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { SettingsProvider, ThemeJsonProvider } from '@10up/headless-core/react';
+import { SettingsProvider, ThemeSettingsProvider } from '@10up/headless-core/react';
 import { SWRConfig } from 'swr';
 import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
@@ -38,7 +38,7 @@ export const HeadlessApp = ({
 				}}
 			>
 				<Yoast seo={seo} />
-				<ThemeJsonProvider data={themeJSON}>{children}</ThemeJsonProvider>
+				<ThemeSettingsProvider data={themeJSON}>{children}</ThemeSettingsProvider>
 			</SWRConfig>
 		</SettingsProvider>
 	);
