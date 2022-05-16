@@ -679,6 +679,7 @@ export interface MenuItemEntity {
 	classes: string[];
 	slug: string;
 	children: MenuItemEntity[];
+	order: number;
 }
 
 export interface AppEntity extends Entity {

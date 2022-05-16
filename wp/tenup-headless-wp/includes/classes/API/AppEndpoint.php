@@ -9,6 +9,7 @@
 namespace HeadlessWP\API;
 
 use HeadlessWP;
+use stdClass;
 
 /**
  * AppEndpoint class
@@ -91,27 +92,19 @@ class AppEndpoint {
 			 * Homepage data retrieval. By default the scaffold will set the homepage depending on the settings in the WordPress admin 'Reading' settings.
 			 * If a homepage 'page' has not been set, then the most recent posts will be used as homepage data
 			 */
-			$homepage_id      = (int) get_option( 'page_on_front' );
-			$homepage_content = [];
+			$homepage_id = (int) get_option( 'page_on_front' );
 
 			if ( $homepage_id > 0 ) {
 				$homepage_post = get_post( $homepage_id );
-
-				if ( \is_a( $homepage_post, 'WP_Post' ) ) {
-					$homepage_content = array(
-						'raw'      => $homepage_post->post_content,
-						'rendered' => apply_filters( 'the_content', $homepage_post->post_content ),
-					);
-				}
 			}
 
 			// Specify any data that will be needed to retrieve the homepage
 			$response['home'] = apply_filters(
 				'headless_wp_api_app_home',
 				array(
-					'id'      => $homepage_id,
-					'slug'    => $homepage_post->post_name,
-					'content' => $homepage_content,
+					'id'   => $homepage_id,
+					'slug' => $homepage_post->post_name,
+
 				)
 			);
 
@@ -133,6 +126,11 @@ class AppEndpoint {
 			$response['settings']['site_rss_url']       = get_bloginfo( 'rss2_url' );
 			$response['settings']['posts_per_page']     = get_option( 'posts_per_page' );
 			$response['settings']['privacy_policy_url'] = get_privacy_policy_url();
+
+			$response['theme.json'] = [
+				'settings' => wp_get_global_settings(),
+				'styles'   => wp_get_global_styles(),
+			];
 
 			// Add any customizations or overrides for the endpoint data
 			$response = apply_filters( 'headless_wp_api_app_response', $response );
@@ -157,13 +155,28 @@ class AppEndpoint {
 			return $menu;
 		}
 
-		foreach ( $menu as &$menu_item ) {
-			$menu_item->post_title = html_entity_decode( $menu_item->post_title );
-			$menu_item->title      = html_entity_decode( $menu_item->title );
-			$menu_item->slug       = basename( get_permalink( $menu_item->object_id ) ) === basename( get_home_url() ) ? '' : basename( get_permalink( $menu_item->object_id ) );
+		$filtered_menu = [];
+
+		foreach ( $menu as $menu_item ) {
+			$fitered_menu_item = new stdClass();
+
+			$fitered_menu_item->ID               = $menu_item->ID;
+			$fitered_menu_item->title            = html_entity_decode( $menu_item->title );
+			$fitered_menu_item->slug             = basename( get_permalink( $menu_item->object_id ) ) === basename( get_home_url() ) ? '' : basename( get_permalink( $menu_item->object_id ) );
+			$fitered_menu_item->post_parent      = $menu_item->menu_item_parent;
+			$fitered_menu_item->guid             = $menu_item->guid;
+			$fitered_menu_item->menu_item_parent = $menu_item->menu_item_parent;
+			$fitered_menu_item->object_id        = $menu_item->object;
+			$fitered_menu_item->url              = $menu_item->url;
+			$fitered_menu_item->target           = $menu_item->target;
+			$fitered_menu_item->attr_title       = $menu_item->attr_title;
+			$fitered_menu_item->description      = $menu_item->description;
+			$fitered_menu_item->classes          = $menu_item->classes;
+
+			$filtered_menu[] = $fitered_menu_item;
 		}
 
-		return $menu;
+		return $filtered_menu;
 
 	}
 
