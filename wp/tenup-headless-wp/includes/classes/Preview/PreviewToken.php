@@ -73,7 +73,7 @@ class PreviewToken {
 			return false;
 		}
 		// Prevent using the token for requests that are not GET.
-		if ( 'GET' !== isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] ) {
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'GET' !== $_SERVER['REQUEST_METHOD'] ) {
 			return false;
 		}
 		// Prevent using the token for requests that are GET, but use the
@@ -182,7 +182,8 @@ class PreviewToken {
 		}
 
 		// No Authorization Header is present.
-		if ( ! $header ) { return null;
+		if ( ! $header ) {
+			return null;
 		}
 
 		// Get and parse the token.
