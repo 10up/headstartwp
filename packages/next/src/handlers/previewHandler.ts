@@ -33,6 +33,7 @@ export async function previewHandler(
 	options: PreviewHandlerOptions = {},
 ) {
 	const { post_id, post_type, is_revision, token } = req.query;
+
 	const revision = is_revision === '1';
 	const { data } = await fetchHookData(
 		new SinglePostFetchStrategy(),
