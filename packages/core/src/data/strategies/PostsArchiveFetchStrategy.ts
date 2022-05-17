@@ -15,8 +15,6 @@ import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
-const categoryEndpoint = '/wp-json/wp/v2/categories';
-const tagsEndpoint = '/wp-json/wp/v2/tags';
 const authorsEndpoint = '/wp-json/wp/v2/users';
 
 export interface PostsArchiveParams extends EndpointParams {
@@ -69,16 +67,17 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 		const customTaxonomies = getCustomTaxonomies();
 		customTaxonomies?.forEach((taxonomy) => {
+			const slug = taxonomy?.rewrite ?? taxonomy.slug;
 			matchers.push({
 				name: taxonomy.slug,
 				priority: 30,
-				pattern: `/${taxonomy.slug}/:${taxonomy.slug}`,
+				pattern: `/${slug}/:${slug}`,
 			});
 
 			matchers.push({
 				name: `${taxonomy.slug}-with-pagination`,
 				priority: 30,
-				pattern: `/${taxonomy.slug}/:${taxonomy.slug}/page/:page`,
+				pattern: `/${slug}/:${slug}/page/:page`,
 			});
 		});
 
@@ -92,8 +91,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, tag, postType, ...endpointParams } = params;
 
-		const defaultTaxonomies = ['category', 'tag'];
-		const taxonomies = [...defaultTaxonomies, ...getCustomTaxonomySlugs()];
+		const taxonomies = getCustomTaxonomySlugs();
 
 		taxonomies.forEach((taxonomy) => {
 			if (endpointParams[taxonomy]) {
@@ -131,66 +129,31 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		let finalUrl = url;
 		const settings = getHeadlessConfig();
 
-		if (params?.category) {
-			const { category } = params;
-
-			if (settings.useWordPressPlugin) {
-				// WordPress plugin extends the REST API to accept a category slug instead of just an id
-				finalUrl = addQueryArgs(finalUrl, { category });
-			} else {
-				const categories = await apiGet(
-					`${this.baseURL}${categoryEndpoint}?slug=${category}`,
-				);
-
-				if (categories?.json.length > 0) {
-					finalUrl = addQueryArgs(finalUrl, { categories: categories.json[0].id });
-				} else {
-					throw new NotFoundError(`Category "${category}" has not been found`);
-				}
-			}
-		}
-
-		if (params?.tag) {
-			const { tag } = params;
-
-			if (settings.useWordPressPlugin) {
-				// WordPress plugin extends the REST API to accept a tag slug instead of just an id
-				finalUrl = addQueryArgs(finalUrl, { post_tag: tag });
-			} else {
-				const tags = await apiGet(`${this.baseURL}${tagsEndpoint}?slug=${tag}`);
-
-				if (tags?.json.length > 0) {
-					finalUrl = addQueryArgs(finalUrl, { tags: tags.json[0].id });
-				} else {
-					throw new NotFoundError(`Tag "${tag}" has not been found`);
-				}
-			}
-		}
-
 		const customTaxonomies = getCustomTaxonomies();
 		if (customTaxonomies) {
 			await asyncForEach(customTaxonomies, async (taxonomy) => {
-				if (!params[taxonomy.slug]) {
+				const paramSlug = taxonomy?.rewrite ?? taxonomy.slug;
+				const restParam = taxonomy?.restParam ?? taxonomy.slug;
+
+				if (!params[paramSlug]) {
 					return;
 				}
 
 				if (settings.useWordPressPlugin) {
 					// WordPress plugin extends the REST API to accept a category slug instead of just an id
-					finalUrl = addQueryArgs(finalUrl, { [taxonomy.slug]: params[taxonomy.slug] });
+					finalUrl = addQueryArgs(finalUrl, { [restParam]: params[paramSlug] });
 				} else {
 					const terms = await apiGet(
-						`${this.baseURL}${taxonomy.endpoint}?slug=${params[taxonomy.slug]}`,
+						`${this.baseURL}${taxonomy.endpoint}?slug=${params[paramSlug]}`,
 					);
 
 					if (terms.json.length > 0) {
 						finalUrl = addQueryArgs(finalUrl, {
-							[taxonomy.slug]: terms.json[0].id,
+							[restParam]: terms.json[0].id,
 						});
 					} else {
 						throw new NotFoundError(
-							`Term "${params[taxonomy.slug]}" from "${
-								taxonomy.slug
-							}" has not been found`,
+							`Term "${params[paramSlug]}" from "${taxonomy.slug}" has not been found`,
 						);
 					}
 				}
