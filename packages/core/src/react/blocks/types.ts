@@ -25,27 +25,34 @@ export interface Typography {
 		slug: string;
 		value: string;
 	};
-	style: {
-		lineHeight?: string;
-		fontSize?: string;
-		textTransform?: string;
-		letterSpacing?: string;
-	};
+	supportsFontStyle: boolean;
+	supportsCustomFontSize: boolean;
+	supportsFontWeight: boolean;
+	supportsLetterSpacing: boolean;
+	supportsLineHight: boolean;
+	supportsTextDecoration: boolean;
+	supportsTextTransform: boolean;
+	lineHeight?: string;
+	textTransform?: string;
+	letterSpacing?: string;
 }
 
 export type Spacing = {
+	supportsPadding: boolean;
 	padding: {
 		top: string;
 		bottom: string;
 		left: string;
 		right: string;
 	};
+	supportsMargin: boolean;
 	margin: {
 		top: string;
 		bottom: string;
 		left: string;
 		right: string;
 	};
+	supportsBlockGap: boolean;
 	blockGap: string;
 };
 

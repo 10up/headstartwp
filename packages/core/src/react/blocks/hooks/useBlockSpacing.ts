@@ -20,17 +20,17 @@ interface BlockSpacingAttributes extends IBlockAttributes {
  */
 export function useBlockSpacing(node: Element): Spacing {
 	const { name, attributes } = useBlock<BlockSpacingAttributes>(node);
-	const hasBlockGap = !!useThemeSetting('spacing.blockGap', name);
+	const supportsBlockGap = !!useThemeSetting('spacing.blockGap', name);
+	const supportsMargin = !!useThemeSetting('spacing.margin', name);
+	const supportsPadding = !!useThemeSetting('spacing.padding', name);
 	const styles = useThemeStyles();
 
 	return {
 		padding: attributes?.style?.spacing?.padding,
-		margin: {
-			top: '',
-			bottom: '',
-			left: '',
-			right: '',
-		},
-		blockGap: hasBlockGap && styles?.spacing?.blockGap ? styles?.spacing?.blockGap : '',
+		margin: attributes?.style?.spacing?.margin,
+		supportsMargin,
+		supportsPadding,
+		supportsBlockGap,
+		blockGap: supportsBlockGap && styles?.spacing?.blockGap ? styles?.spacing?.blockGap : '',
 	};
 }

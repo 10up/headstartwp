@@ -6,7 +6,12 @@ import { useBlock } from './useBlock';
 interface BlockTypographyAttributes extends IBlockAttributes {
 	fontSize?: string;
 	style: {
-		typography: Typography['style'];
+		typography: {
+			lineHeight?: string;
+			textTransform?: string;
+			letterSpacing?: string;
+			fontSize?: string;
+		};
 	};
 }
 
@@ -20,6 +25,13 @@ export function useBlockTypography(node: Element): Typography {
 	const { name, attributes } = useBlock<BlockTypographyAttributes>(node);
 	const defaultfFontSizesSettings = useThemeSetting('typography.fontSizes.default');
 	const fontSizesSettings = useThemeSetting('typography.fontSizes', name);
+	const supportsCustomFontSize = !!useThemeSetting('typography.customFontSize', name);
+	const supportsFontStyle = !!useThemeSetting('typography.fontStyle', name);
+	const supportsFontWeight = !!useThemeSetting('typography.fontWeight', name);
+	const supportsLetterSpacing = !!useThemeSetting('typography.letterSpacing', name);
+	const supportsLineHight = !!useThemeSetting('typography.lineHeight', name);
+	const supportsTextDecoration = !!useThemeSetting('typography.textDecoration', name);
+	const supportsTextTransform = !!useThemeSetting('typography.textTransform', name);
 
 	// either use the block settings or try the theme or default one
 	const fontSizes = Array.isArray(fontSizesSettings)
@@ -34,9 +46,20 @@ export function useBlockTypography(node: Element): Typography {
 		return {
 			fontSize: {
 				slug: fontSizePreset || '',
-				value: allFontSizes.find((f) => f.slug === fontSizePreset)?.size,
+				value:
+					allFontSizes.find((f) => f.slug === fontSizePreset)?.size ||
+					attributes?.style?.typography,
 			},
-			style: attributes?.style?.typography || {},
+			supportsFontStyle,
+			supportsCustomFontSize,
+			supportsFontWeight,
+			supportsLetterSpacing,
+			supportsLineHight,
+			supportsTextDecoration,
+			supportsTextTransform,
+			lineHeight: attributes?.style?.typography?.lineHeight,
+			textTransform: attributes?.style?.typography?.textTransform,
+			letterSpacing: attributes?.style?.typography?.letterSpacing,
 		};
 	}
 
@@ -45,6 +68,15 @@ export function useBlockTypography(node: Element): Typography {
 			slug: '',
 			value: '',
 		},
-		style: {},
+		supportsFontStyle,
+		supportsCustomFontSize,
+		supportsFontWeight,
+		supportsLetterSpacing,
+		supportsLineHight,
+		supportsTextDecoration,
+		supportsTextTransform,
+		lineHeight: '',
+		textTransform: '',
+		letterSpacing: '',
 	};
 }
