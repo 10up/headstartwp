@@ -20,10 +20,10 @@ export function useBlockColors(node: Element) {
 	// if it isn't let try the theme one first then the default one
 	const colors = Array.isArray(colorsSettings)
 		? colorsSettings
-		: colorsSettings.theme || colorsSettings.default;
+		: colorsSettings?.theme || colorsSettings?.default;
 	const gradients = Array.isArray(grandientsSettings)
 		? grandientsSettings
-		: grandientsSettings.theme || grandientsSettings.default;
+		: grandientsSettings?.theme || grandientsSettings?.default;
 
 	const color: Colors = {
 		backgroundColorSlug: '',

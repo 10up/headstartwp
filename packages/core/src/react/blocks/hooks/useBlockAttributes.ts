@@ -21,9 +21,8 @@ export type BlockSupports = {
  *
  * @param node The reference to the dom node of the block
  *
- * @param blockSupports An object with the supported features of the block
  *
- * @returns {BlockAttributes}
+ * @returns
  */
 export function useBlockAttributes(node: Element) {
 	const align = useBlockAlign(node);

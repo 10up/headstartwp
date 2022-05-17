@@ -23,7 +23,7 @@ export function useBlockTypography(node: Element): Typography {
 	// either use the block settings or try the theme or default one
 	const fontSizes = Array.isArray(fontSizesSettings)
 		? fontSizesSettings
-		: fontSizesSettings.theme || fontSizesSettings.default;
+		: fontSizesSettings?.theme || fontSizesSettings?.default;
 
 	const fontSizePreset = attributes?.fontSize;
 
