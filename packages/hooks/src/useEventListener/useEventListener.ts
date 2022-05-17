@@ -8,7 +8,7 @@ import { RefObject, useEffect } from 'react';
  * @param {Function} handler - Handler for the event
  * @param {*} params         - Extra parameters to pass to addEventListener
  */
-export function useEvent<T extends EventTarget>(
+export function useEventListener<T extends EventTarget>(
 	ref: RefObject<T>,
 	eventName: string,
 	handler: ((event: Event) => any) | null,

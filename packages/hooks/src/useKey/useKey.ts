@@ -1,5 +1,5 @@
 import { RefObject, useMemo } from 'react';
-import { useEvent } from '..';
+import { useEventListener } from '..';
 
 /**
  * Normalizes the keys that the useKey hook can handle allowing for different options
@@ -24,14 +24,14 @@ const createMatchesKey = (key: string | ((event: KeyboardEvent) => boolean) | an
 };
 
 /**
- * Convenient wrapper around useEvent to handle key presses allowing to send either the key being watched, a function
- * to evaluate or any truthy/falsy value
+ * Convenient wrapper around useEventListener to handle key presses allowing to send either the
+ * key being watched, a function to evaluate or any truthy/falsy value
  *
  * @param {Object}            ref     - reference from useRef containing a DOM node
  * @param {string|Function|*} key     - the key being evaluated
  * @param {Function}          handler - handler function to be called if the key matches
  * @see createMatchesKey
- * @see useEvent
+ * @see useEventListener
  */
 export function useKey(
 	ref: RefObject<HTMLElement>,
@@ -50,5 +50,5 @@ export function useKey(
 		};
 	}, [key, handler]);
 
-	useEvent(ref, 'keydown', useMemoHandler);
+	useEventListener(ref, 'keydown', useMemoHandler);
 }

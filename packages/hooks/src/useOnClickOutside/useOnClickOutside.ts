@@ -1,5 +1,5 @@
 import { RefObject, useCallback } from 'react';
-import { useEvent } from '..';
+import { useEventListener } from '..';
 import { isBrowser } from '../util';
 
 const body = isBrowser ? document.body : null;
@@ -36,5 +36,5 @@ export function useOnClickOutside(
 		[handler],
 	);
 
-	useEvent({ current: body }, 'click', handler ? handleClick : null);
+	useEventListener({ current: body }, 'click', handler ? handleClick : null);
 }

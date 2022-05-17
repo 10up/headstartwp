@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useDebouncedCallback, useEvent } from '..';
+import { useDebouncedCallback, useEventListener } from '..';
 import { isBrowser } from '../util';
 
 function getSize(): { width?: number; height?: number } {
@@ -39,5 +39,5 @@ export function useOnWindowResize<Fn extends (...args: any[]) => any>(handler: F
 		debounce,
 	);
 
-	useEvent(ref, 'resize', callback);
+	useEventListener(ref, 'resize', callback);
 }

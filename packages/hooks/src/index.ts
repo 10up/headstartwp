@@ -6,7 +6,7 @@ export { useOnWindowResize } from './useOnWindowResize/useOnWindowResize';
 export { useCurrentBreakpoint } from './useCurrentBreakpoint/useCurrentBreakpoint';
 export { useDebounce } from './useDebounce/useDebounce';
 export { useEffectAfterRender } from './useEffectAfterRender/useEffectAfterRender';
-export { useEvent } from './useEvent/useEvent';
+export { useEventListener } from './useEventListener/useEventListener';
 export { useFocusTrap } from './useFocusTrap/useFocusTrap';
 export { useIsTransitioning } from './useIsTransitioning/useIsTransitioning';
 export { useKey } from './useKey/useKey';
