@@ -34,10 +34,19 @@ export interface Typography {
 }
 
 export type Spacing = {
-	paddingTop: string;
-	paddingBottom: string;
-	paddingLeft: string;
-	paddingRight: string;
+	padding: {
+		top: string;
+		bottom: string;
+		left: string;
+		right: string;
+	};
+	margin: {
+		top: string;
+		bottom: string;
+		left: string;
+		right: string;
+	};
+	blockGap: string;
 };
 
 export interface GutenbergBlockProps {

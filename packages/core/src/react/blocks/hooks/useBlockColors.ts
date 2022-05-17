@@ -4,7 +4,18 @@ import { Colors, IBlockAttributes } from '../types';
 import { getColorStyles } from '../utils';
 import { useBlock } from './useBlock';
 
-interface ColorBlockAttributes extends IBlockAttributes, Colors {}
+interface ColorBlockAttributes extends IBlockAttributes, Colors {
+	style?: {
+		elements?: {
+			link?: {
+				color?: {
+					text?: string;
+				};
+			};
+		};
+	};
+}
+
 /**
  * Returns the block style (if avaliable)
  *
@@ -13,17 +24,20 @@ interface ColorBlockAttributes extends IBlockAttributes, Colors {}
  */
 export function useBlockColors(node: Element) {
 	const { name, attributes } = useBlock<ColorBlockAttributes>(node);
+
+	const defaultColorsSettings = useThemeSetting('color.palette.default');
+	const defaultGradientsSettings = useThemeSetting('color.palette.default');
+
 	const colorsSettings = useThemeSetting('color.palette', name);
 	const grandientsSettings = useThemeSetting('color.gradients', name);
 
-	// if colors settings is an array then it's what we need,
-	// if it isn't let try the theme one first then the default one
-	const colors = Array.isArray(colorsSettings)
-		? colorsSettings
-		: colorsSettings?.theme || colorsSettings?.default;
+	const colors = Array.isArray(colorsSettings) ? colorsSettings : colorsSettings?.theme;
 	const gradients = Array.isArray(grandientsSettings)
 		? grandientsSettings
-		: grandientsSettings?.theme || grandientsSettings?.default;
+		: grandientsSettings?.theme;
+
+	const allGradients = [...defaultGradientsSettings, ...gradients];
+	const allColors = [...defaultColorsSettings, ...colors];
 
 	const color: Colors = {
 		backgroundColorSlug: '',
@@ -40,19 +54,26 @@ export function useBlockColors(node: Element) {
 	if (attributes.backgroundColor) {
 		foundInAttributes = true;
 		color.backgroundColorSlug = attributes.backgroundColor;
-		color.backgroundColor = colors.find((c) => c.slug === attributes.backgroundColor)?.color;
+		color.backgroundColor = allColors.find((c) => c.slug === attributes.backgroundColor)?.color;
 	}
 
 	if (attributes.textColor) {
 		foundInAttributes = true;
 		color.textColorSlug = attributes.textColor;
-		color.textColor = colors.find((c) => c.slug === attributes.textColor)?.color;
+		color.textColor = allColors.find((c) => c.slug === attributes.textColor)?.color;
 	}
 
 	if (attributes.gradient) {
 		foundInAttributes = true;
 		color.gradientSlug = attributes.gradient;
-		color.gradient = gradients.find((c) => c.slug === attributes.gradient)?.gradient;
+		color.gradient = allGradients.find((c) => c.slug === attributes.gradient)?.gradient;
+	}
+
+	if (attributes?.style?.elements?.link?.color?.text) {
+		foundInAttributes = true;
+		color.linkColorSlug =
+			attributes?.style?.elements?.link?.color?.text?.split('|').pop() || '';
+		color.linkColor = allColors.find((c) => c.slug === color.linkColorSlug)?.color;
 	}
 
 	if (!foundInAttributes) {

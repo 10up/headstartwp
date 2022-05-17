@@ -18,12 +18,15 @@ interface BlockTypographyAttributes extends IBlockAttributes {
  */
 export function useBlockTypography(node: Element): Typography {
 	const { name, attributes } = useBlock<BlockTypographyAttributes>(node);
+	const defaultfFontSizesSettings = useThemeSetting('typography.fontSizes.default');
 	const fontSizesSettings = useThemeSetting('typography.fontSizes', name);
 
 	// either use the block settings or try the theme or default one
 	const fontSizes = Array.isArray(fontSizesSettings)
 		? fontSizesSettings
-		: fontSizesSettings?.theme || fontSizesSettings?.default;
+		: fontSizesSettings?.theme;
+
+	const allFontSizes = [...defaultfFontSizesSettings, ...fontSizes];
 
 	const fontSizePreset = attributes?.fontSize;
 
@@ -31,7 +34,7 @@ export function useBlockTypography(node: Element): Typography {
 		return {
 			fontSize: {
 				slug: fontSizePreset || '',
-				value: fontSizes.find((f) => f.slug === fontSizePreset).size,
+				value: allFontSizes.find((f) => f.slug === fontSizePreset)?.size,
 			},
 			style: attributes?.style?.typography || {},
 		};
