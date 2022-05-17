@@ -1,3 +1,4 @@
+import { endpoints } from '../data/utils/endpoints';
 import { HeadlessConfig } from '../types';
 
 declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
@@ -45,7 +46,39 @@ export function getCustomTaxonomySlugs() {
 export function getCustomTaxonomies() {
 	const { customTaxonomies } = getHeadlessConfig();
 
-	return customTaxonomies;
+	const taxonomies = customTaxonomies || [];
+
+	const hasCategory = taxonomies.find(({ slug }) => slug === 'category');
+	const hasTag = taxonomies.find(({ slug }) => slug === 'post_tag');
+
+	if (!hasCategory) {
+		taxonomies.push({
+			slug: 'category',
+			endpoint: endpoints.category,
+		});
+	}
+
+	if (!hasTag) {
+		taxonomies.push({
+			slug: 'post_tag',
+			endpoint: endpoints.tags,
+		});
+	}
+
+	return taxonomies;
+}
+
+/**
+ * Returns a single post type by slug if defined
+ *
+ * @param slug post type slug
+ *
+ * @returns
+ */
+export function getCustomTaxonomy(slug: string) {
+	const taxonomies = getCustomTaxonomies();
+
+	return taxonomies?.find((taxonomy) => taxonomy.slug === slug);
 }
 
 /**
