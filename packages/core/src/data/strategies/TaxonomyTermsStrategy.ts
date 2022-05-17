@@ -6,8 +6,26 @@ import { TermEntity } from '../types';
 import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
 export interface TaxonomyArchiveParams extends EndpointParams {
-	taxonomy: string;
+	taxonomy?: string;
 	page?: string;
+	per_page?: string;
+	search?: string;
+	include?: string[];
+	exclude?: string[];
+	order?: 'asc' | 'desc';
+	orderby?:
+		| 'id'
+		| 'include'
+		| 'name'
+		| 'slug'
+		| 'include_slugs'
+		| 'term_group'
+		| 'description'
+		| 'count';
+	hide_empty?: string;
+	parent?: number;
+	post?: number;
+	slug: string | string[];
 }
 
 export class TaxonomyTermsStrategy extends AbstractFetchStrategy<

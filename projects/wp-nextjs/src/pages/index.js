@@ -8,12 +8,12 @@ import {
 } from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { PageContent } from '../components/PageContent';
-import { indexParams } from '../params';
+import { indexParams, indexTermsParams } from '../params';
 
 const Homepage = ({ homePageSlug }) => {
 	const params = { ...indexParams, slug: homePageSlug };
 	const { error, loading } = usePost(params);
-	const { loading: loadingTerms, data } = useTerms();
+	const { loading: loadingTerms, data } = useTerms(indexTermsParams);
 
 	if (error) {
 		return 'Error...';
@@ -62,7 +62,9 @@ export async function getStaticProps(context) {
 			},
 		});
 
-		const termsData = await fetchHookData(useTerms.fetcher(), context);
+		const termsData = await fetchHookData(useTerms.fetcher(), context, {
+			params: indexTermsParams,
+		});
 
 		return addHookData([hookData, appSettings, termsData], { props: { homePageSlug: slug } });
 	} catch (e) {
