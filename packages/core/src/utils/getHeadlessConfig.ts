@@ -55,6 +55,7 @@ export function getCustomTaxonomies() {
 		taxonomies.push({
 			slug: 'category',
 			endpoint: endpoints.category,
+			restParam: 'categories',
 		});
 	}
 
@@ -62,6 +63,8 @@ export function getCustomTaxonomies() {
 		taxonomies.push({
 			slug: 'post_tag',
 			endpoint: endpoints.tags,
+			rewrite: 'tag',
+			restParam: 'tags',
 		});
 	}
 
