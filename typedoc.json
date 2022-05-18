@@ -3,5 +3,6 @@
     "entryPoints": ["packages/core" , "packages/next"],
     "entryPointStrategy": "packages",
     "categorizeByGroup": false,
-    "excludeInternal": true
+    "excludeInternal": true,
+    "noMissingExports": true
 }

@@ -39,6 +39,13 @@ function flatToHierarchical(flat: MenuItemEntity[]): MenuItemEntity[] {
 	return roots;
 }
 
+/**
+ *
+ * @param menuLocation
+ * @param options
+ *
+ * @category Data Fetching Hooks
+ */
 export function useMenu(menuLocation: string, options: SWRConfiguration = {}): useMenuResponse {
 	const { data, error } = useAppSettings({}, options);
 

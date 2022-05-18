@@ -1,7 +1,7 @@
 import { FetchResponse, PostEntity, PostParams } from '@10up/headless-core';
 import { SWRConfiguration } from 'swr';
 import { useRouter } from 'next/router';
-import { usePostImpl } from '@10up/headless-core/react';
+import { useFetchPost } from '@10up/headless-core/react';
 import { convertToPath } from '../utils';
 
 /**
@@ -10,7 +10,7 @@ import { convertToPath } from '../utils';
  * @param params  Supported params
  * @param options Options for the SWR configuration
  *
- * @returns
+ * @category Data Fetching Hooks
  */
 export function usePost(
 	params: PostParams,
@@ -19,7 +19,7 @@ export function usePost(
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
-	return usePostImpl(params, options, convertToPath(path));
+	return useFetchPost(params, options, convertToPath(path));
 }
 
-usePost.fetcher = usePostImpl.fetcher;
+usePost.fetcher = useFetchPost.fetcher;

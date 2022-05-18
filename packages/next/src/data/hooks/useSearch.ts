@@ -1,5 +1,5 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
-import { useSearchImpl } from '@10up/headless-core/react';
+import { useFetchSearch } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
 import { SWRConfiguration } from 'swr';
 import { convertToPath } from '../utils';
@@ -10,7 +10,7 @@ import { convertToPath } from '../utils';
  * @param params  Supported params
  * @param options Options for the SWR configuration
  *
- * @returns
+ * @category Data Fetching Hooks
  */
 export function useSearch(
 	params: PostsArchiveParams,
@@ -19,7 +19,7 @@ export function useSearch(
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
-	return useSearchImpl(params, options, convertToPath(path));
+	return useFetchSearch(params, options, convertToPath(path));
 }
 
-useSearch.fetcher = useSearchImpl.fetcher;
+useSearch.fetcher = useFetchSearch.fetcher;

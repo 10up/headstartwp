@@ -14,7 +14,7 @@ import {
 import { getCustomTaxonomySlugs } from '../../utils/getHeadlessConfig';
 import { getWPUrl } from '../../utils';
 
-type PageType = {
+export type PageType = {
 	/**
 	 * Regular post archive
 	 */
@@ -59,15 +59,15 @@ export interface usePostsResponse extends HookResponse {
 }
 
 /**
- * The usePost hook. Returns a collection of post entities
+ * The useFetchPosts hook. Returns a collection of post entities
  *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
  *
- * @returns
+ * @category Data Fetching Hooks
  */
-export function usePostsImpl(
+export function useFetchPosts(
 	params: PostsArchiveParams,
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 	path = '',
@@ -78,7 +78,7 @@ export function usePostsImpl(
 		params: queryParams,
 	} = useFetch<PostEntity, PostsArchiveParams>(
 		{ _embed: true, ...params },
-		usePostsImpl.fetcher(),
+		useFetchPosts.fetcher(),
 		options,
 		path,
 	);
@@ -147,4 +147,4 @@ export function usePostsImpl(
 	return { data: { posts, pageInfo }, loading: false, pageType };
 }
 
-usePostsImpl.fetcher = () => new PostsArchiveFetchStrategy(getWPUrl());
+useFetchPosts.fetcher = () => new PostsArchiveFetchStrategy(getWPUrl());

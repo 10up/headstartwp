@@ -38,7 +38,7 @@ export interface IAudioBlock extends IBlock<AudioBlockProps> {}
 /**
  * The AudioBlock components implements block parsing for the Audio block.
  *
- * This component must be used within a [[BlocksRendereder]] component.
+ * This component must be used within a [[BlocksRenderer]] component.
  *
  * ```tsx
  * <BlocksRenderer html={html}>
