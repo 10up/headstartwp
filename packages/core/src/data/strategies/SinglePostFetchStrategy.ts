@@ -5,15 +5,50 @@ import { parsePath } from '../utils/parsePath';
 import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
 import { endpoints } from '../utils';
 
+/**
+ * The EndpointParams supported by the [[SinglePostFetchStrategy]]
+ */
 export interface PostParams extends EndpointParams {
+	/**
+	 * The slug of the post to fetch
+	 */
 	slug?: string;
+
+	/**
+	 * Post Types where we should look for
+	 *
+	 * If multiple post types are specified
+	 * multiple requests will be issued to each post type until a matching post is found
+	 */
 	postType?: string | string[];
+
+	/**
+	 * Fetch post by id
+	 */
 	id?: Number;
+
+	/**
+	 * If set will fetch the latest post revision
+	 */
 	revision?: Boolean;
+
+	/**
+	 * The authToken, required to fetch revisions or non-published posts
+	 */
 	authToken?: string;
 }
 
 /**
+ * The SinglePostFetchStrategy is used to fetch a single post entity from any post type.
+ * Note that custom post types should be defined in `headless.config.js`
+ *
+ * This strategy supports extracting endpoint params from url E.g:
+ * - `/post-name` maps to `{ slug: 'post-name'}`
+ * - `/2021/10/20/post-name` maps to `{ year: 2021, month: 10, day: 20, slug: 'post-name }`
+ * - `/2021/` maps to `{ year: 2021, slug: 'post-name' }`
+ *
+ * @see [[getParamsFromURL]] to learn about url param mapping
+ *
  * @category Data Fetching
  */
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
@@ -28,6 +63,11 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		return params;
 	}
 
+	/**
+	 * Handlers post types, revisions and fetching by id
+	 *
+	 * @param params The params to build the endpoint url
+	 */
 	buildEndpointURL(params: PostParams) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { id, authToken, revision, postType, ...endpointParams } = params;
@@ -63,6 +103,13 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		return super.buildEndpointURL(endpointParams);
 	}
 
+	/**
+	 * Handles fetching by multiple post types, authToken and revisions
+	 *
+	 * @param url The url to fetch
+	 * @param params The params to build the endpoint url
+	 * @param options FetchOptions
+	 */
 	async fetcher(url: string, params: PostParams, options: Partial<FetchOptions> = {}) {
 		if (params.authToken) {
 			options.bearerToken = params.authToken;

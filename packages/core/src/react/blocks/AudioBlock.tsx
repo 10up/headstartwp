@@ -75,11 +75,6 @@ export function AudioBlock({ domNode: node, children, component: Component }: IA
 	);
 }
 
-/**
- * AudioBlock's default props
- *
- * @internal
- */
 AudioBlock.defaultProps = {
 	test: (node: Element) => isBlock(node, { tagName: 'figure', className: 'wp-block-audio' }),
 };
