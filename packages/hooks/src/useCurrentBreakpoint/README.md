@@ -11,7 +11,7 @@ do completely different layouts based on React logic rather than CSS logic.
 ## Example usage
 
 ```jsx
-import { BreakpointsProvider, useCurrentBreakpoint } from '@headless/hooks';
+import { BreakpointsProvider, useCurrentBreakpoint } from '@10up/react-hooks';
 
 const MyComponent = () => {
     const { breakpoints, currentBreakpoint } = useCurrentBreakpoint();

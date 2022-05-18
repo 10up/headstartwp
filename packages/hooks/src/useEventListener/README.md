@@ -8,7 +8,7 @@ to body events or window events.
 
 ```jsx
 import { useRef } from 'react';
-import { useEventListener } from '@headless/hooks';
+import { useEventListener } from '@10up/react-hooks';
 
 function MyComponent() {
     const ref = useRef();

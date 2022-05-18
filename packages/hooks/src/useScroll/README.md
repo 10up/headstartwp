@@ -3,7 +3,7 @@
 Hook that lets you handle scroll events within a React component. This is useful for several types of component such as Scroll Up header, tie an animation to scroll or anything else that you could think of.
 
 ```jsx
-import { useScroll } from '@headless/hooks';
+import { useScroll } from '@10up/react-hooks';
 
 function ScrollupHeader() {
     const [ isSticky, setIsSticky ] = useState( false );

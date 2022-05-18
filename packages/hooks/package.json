@@ -2,9 +2,9 @@
   "name": "@10up/react-hooks",
   "version": "1.0.1-alpha.1",
   "description": "",
-  "main": "dist/headless-hooks.js",
-  "module": "dist/headless-hooks.mjs",
-  "typings": "dist/headless-hooks.d.ts",
+  "main": "dist/react-hooks.js",
+  "module": "dist/react-hooks.mjs",
+  "typings": "dist/react-hooks.d.ts",
   "scripts": {
     "build": "rollup -c",
     "test": "jest --selectProjects dom ssr",
@@ -13,9 +13,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/headless-hooks.mjs",
-      "require": "./dist/headless-hooks.js",
-      "default": "./dist/headless-hooks.mjs"
+      "import": "./dist/react-hooks.mjs",
+      "require": "./dist/react-hooks.js",
+      "default": "./dist/react-hooks.mjs"
     }
   },
   "author": "",
