@@ -1,7 +1,7 @@
 import { Element } from 'html-react-parser';
 import { isAnchorTag, isImageTag, isTwitterEmbed, isYoutubeEmbed } from '..';
 
-jest.mock('../../utils/getWPUrl', () => {
+jest.mock('../../utils/getHeadlessConfig', () => {
 	return {
 		getWPUrl: () => 'https://backendurl.com',
 	};
