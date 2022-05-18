@@ -1,4 +1,4 @@
-import { PostsArchiveFetchStrategy } from '../PostsArchiveFetchStrategy';
+import { TaxonomyTermsStrategy } from '../TaxonomyTermsStrategy';
 import { apiGet } from '../../api';
 import { setHeadlessConfig } from '../../../../test/utils';
 
@@ -6,116 +6,44 @@ jest.mock('../../api');
 
 const apiGetMock = jest.mocked(apiGet);
 
-describe('PostsArchiveFetchStrategy', () => {
-	let fetchStrategy: PostsArchiveFetchStrategy;
+describe('TaxonomyTermsStrategy', () => {
+	let fetchStrategy: TaxonomyTermsStrategy;
 
 	beforeEach(() => {
-		fetchStrategy = new PostsArchiveFetchStrategy();
+		fetchStrategy = new TaxonomyTermsStrategy();
 
 		setHeadlessConfig({});
 		apiGetMock.mockReset();
 		apiGetMock.mockClear();
 	});
 
-	it('parses the url properly', async () => {
-		// category archives
-		expect(fetchStrategy.getParamsFromURL('/category/cat-test')).toEqual({
-			category: 'cat-test',
+	it('does not parse anything from url', async () => {
+		expect(fetchStrategy.getParamsFromURL('/')).toEqual({
+			_embed: true,
 		});
 
-		// tag archives
 		expect(fetchStrategy.getParamsFromURL('/tag/tag-test')).toEqual({
-			tag: 'tag-test',
+			_embed: true,
 		});
 
-		// doesn't match anything
-		expect(fetchStrategy.getParamsFromURL('/category/cat-test/tag/tag-test')).toEqual({});
-
-		// date archives
-		expect(fetchStrategy.getParamsFromURL('/2021')).toEqual({
-			year: '2021',
-		});
-
-		expect(fetchStrategy.getParamsFromURL('/2021/10')).toEqual({
-			year: '2021',
-			month: '10',
-		});
-
-		expect(fetchStrategy.getParamsFromURL('/2021/10/30')).toEqual({
-			year: '2021',
-			month: '10',
-			day: '30',
-		});
-
-		// pagination
-		expect(fetchStrategy.getParamsFromURL('/page/1')).toEqual({
-			page: '1',
-		});
-
-		expect(fetchStrategy.getParamsFromURL('/page/10')).toEqual({
-			page: '10',
-		});
-
-		// taxonomy archives
-
-		// should only match taxonomy archives if a custom taxonomy has been defined
-		expect(fetchStrategy.getParamsFromURL('/genre/action/page/10')).not.toEqual({
-			genre: 'action',
-			page: '10',
-		});
-
-		setHeadlessConfig({
-			customTaxonomies: [
-				{
-					slug: 'genre',
-					endpoint: '/wp-json/wp/v2/genre',
-				},
-			],
-		});
-
-		expect(fetchStrategy.getParamsFromURL('/genre/action')).toEqual({
-			genre: 'action',
-		});
-
-		expect(fetchStrategy.getParamsFromURL('/genre/action/page/10')).toEqual({
-			genre: 'action',
-			page: '10',
+		expect(fetchStrategy.getParamsFromURL('/category/cat-test/tag/tag-test')).toEqual({
+			_embed: true,
 		});
 	});
 
 	it('bulds the endpoint url properly', () => {
 		// category should not be included directly in the url
-		expect(fetchStrategy.buildEndpointURL({ category: 'cat-test' })).toEqual(
-			'/wp-json/wp/v2/posts',
+		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'category' })).toEqual(
+			'/wp-json/wp/v2/categories',
 		);
 
-		// tag should not be included directly in the url
-		expect(fetchStrategy.buildEndpointURL({ tag: 'tag-test' })).toEqual('/wp-json/wp/v2/posts');
-
-		expect(fetchStrategy.buildEndpointURL({ page: 2 })).toEqual('/wp-json/wp/v2/posts?page=2');
-
-		// author should not be included in the URL unless config.useWordPressPlugin is true
-		expect(fetchStrategy.buildEndpointURL({ author: 'author' })).toEqual(
-			'/wp-json/wp/v2/posts',
+		// first test that it throws if it's an unkown taxonomy
+		expect(() => fetchStrategy.buildEndpointURL({ taxonomy: 'book' })).toThrow(
+			'Unkown taxonomy, did you forget to add it to headless.config.js?',
 		);
 
 		setHeadlessConfig({
-			useWordPressPlugin: true,
-		});
-
-		expect(fetchStrategy.buildEndpointURL({ author: 'author' })).toEqual(
-			'/wp-json/wp/v2/posts?author=author',
-		);
-
-		// testing that a custom post type changes the endpoint
-
-		// first test that it throws if it's an unkown post type
-		expect(() => fetchStrategy.buildEndpointURL({ postType: 'book' })).toThrow(
-			'Unkown post type, did you forget to add it to headless.config.js?',
-		);
-
-		setHeadlessConfig({
-			customPostTypes: [
+			customTaxonomies: [
 				{
 					slug: 'book',
 					endpoint: '/wp-json/wp/v2/book',
@@ -123,10 +51,10 @@ describe('PostsArchiveFetchStrategy', () => {
 			],
 		});
 
-		expect(fetchStrategy.buildEndpointURL({ postType: 'book' })).toEqual('/wp-json/wp/v2/book');
+		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'book' })).toEqual('/wp-json/wp/v2/book');
 	});
 
-	it('fetches content properly without wordpress plugin', async () => {
+	it.skip('fetches content properly without wordpress plugin', async () => {
 		setHeadlessConfig({
 			useWordPressPlugin: false,
 			customTaxonomies: [
@@ -203,7 +131,7 @@ describe('PostsArchiveFetchStrategy', () => {
 		expect(apiGetMock).toHaveBeenNthCalledWith(14, '/wp-json/wp/v2/book?page=2&genre=1', {});
 	});
 
-	it('throws exceptions when content is not found (without wordpress plugin)', async () => {
+	it.skip('throws exceptions when content is not found (without wordpress plugin)', async () => {
 		apiGetMock.mockResolvedValue({ headers: {}, json: [] });
 		setHeadlessConfig({
 			useWordPressPlugin: false,
@@ -227,15 +155,11 @@ describe('PostsArchiveFetchStrategy', () => {
 
 		let params = fetchStrategy.getParamsFromURL('/category/category-test');
 		let fetchPromise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		await expect(fetchPromise).rejects.toThrow(
-			'Term "category-test" from "category" has not been found',
-		);
+		await expect(fetchPromise).rejects.toThrow('Category "category-test" has not been found');
 
 		params = fetchStrategy.getParamsFromURL('/tag/tag-test');
 		fetchPromise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		await expect(fetchPromise).rejects.toThrow(
-			'Term "tag-test" from "post_tag" has not been found',
-		);
+		await expect(fetchPromise).rejects.toThrow('Tag "tag-test" has not been found');
 
 		params = fetchStrategy.getParamsFromURL('/genre/action');
 		fetchPromise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
@@ -248,7 +172,7 @@ describe('PostsArchiveFetchStrategy', () => {
 		);
 	});
 
-	it('fetches content properly with wordpress plugin', async () => {
+	it.skip('fetches content properly with wordpress plugin', async () => {
 		setHeadlessConfig({
 			useWordPressPlugin: true,
 			customTaxonomies: [
@@ -284,13 +208,13 @@ describe('PostsArchiveFetchStrategy', () => {
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 		expect(apiGetMock).toHaveBeenNthCalledWith(
 			2,
-			'/wp-json/wp/v2/posts?categories=category-test',
+			'/wp-json/wp/v2/posts?category=category-test',
 			{},
 		);
 
 		params = fetchStrategy.getParamsFromURL('/tag/tag-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts?tags=tag-test', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts?post_tag=tag-test', {});
 
 		params = fetchStrategy.getParamsFromURL('/genre/action');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
