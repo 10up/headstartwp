@@ -24,6 +24,8 @@ export interface FilterDataOptions {
 
 /**
  * Abstract class that lays out a strategy for fetching data
+ *
+ * @category Data Fetching
  */
 export abstract class AbstractFetchStrategy<E extends Entity, Params extends EndpointParams> {
 	endpoint: string = '';

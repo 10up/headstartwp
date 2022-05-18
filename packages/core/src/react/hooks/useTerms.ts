@@ -9,7 +9,7 @@ import {
 	TaxonomyTermsStrategy,
 	TermEntity,
 } from '../../data';
-import { getWPUrl } from '../../utils/getWPUrl';
+import { getWPUrl } from '../../utils';
 
 export interface useTermsResponse extends HookResponse {
 	data?: { terms: TermEntity[]; pageInfo: PageInfo };

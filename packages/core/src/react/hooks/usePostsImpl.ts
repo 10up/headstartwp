@@ -12,7 +12,7 @@ import {
 	PostsArchiveParams,
 } from '../../data';
 import { getCustomTaxonomySlugs } from '../../utils/getHeadlessConfig';
-import { getWPUrl } from '../../utils/getWPUrl';
+import { getWPUrl } from '../../utils';
 
 type PageType = {
 	/**

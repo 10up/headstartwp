@@ -1,0 +1,6 @@
+{
+    "out": "docs",
+    "entryPoints": ["packages/core" , "packages/next"],
+    "entryPointStrategy": "packages",
+    "categorizeByGroup": false
+}

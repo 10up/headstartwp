@@ -13,6 +13,9 @@ export interface PostParams extends EndpointParams {
 	authToken?: string;
 }
 
+/**
+ * @category Data Fetching
+ */
 export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
 	getDefaultEndpoint(): string {
 		return endpoints.posts;

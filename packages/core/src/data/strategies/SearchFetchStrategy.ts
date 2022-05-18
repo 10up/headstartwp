@@ -3,6 +3,9 @@ import { parsePath } from '../utils/parsePath';
 import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
 import { endpoints } from '../utils';
 
+/**
+ * @category Data Fetching
+ */
 export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 	getDefaultEndpoint(): string {
 		return endpoints.posts;

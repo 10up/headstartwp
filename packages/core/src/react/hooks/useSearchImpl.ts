@@ -12,7 +12,7 @@ import {
 	PostsArchiveParams,
 	SearchFetchStrategy,
 } from '../../data';
-import { getWPUrl } from '../../utils/getWPUrl';
+import { getWPUrl } from '../../utils';
 
 export interface useSearchResponse extends HookResponse {
 	data?: { posts: PostEntity[]; pageInfo: PageInfo };

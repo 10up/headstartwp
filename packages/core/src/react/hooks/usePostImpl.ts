@@ -9,7 +9,7 @@ import {
 	PostParams,
 	SinglePostFetchStrategy,
 } from '../../data';
-import { getWPUrl } from '../../utils/getWPUrl';
+import { getWPUrl } from '../../utils';
 
 export interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };

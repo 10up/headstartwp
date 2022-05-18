@@ -28,6 +28,9 @@ export interface TaxonomyArchiveParams extends EndpointParams {
 	slug: string | string[];
 }
 
+/**
+ * @category Data Fetching
+ */
 export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 	TermEntity,
 	TaxonomyArchiveParams

@@ -2,6 +2,9 @@ import { AppEntity } from '../types';
 import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 import { endpoints } from '../utils';
 
+/**
+ * @category Data Fetching
+ */
 export class AppSettingsStrategy extends AbstractFetchStrategy<AppEntity, EndpointParams> {
 	getDefaultEndpoint(): string {
 		return endpoints.appSettings;

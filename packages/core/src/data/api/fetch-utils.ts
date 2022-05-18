@@ -10,6 +10,8 @@ export const getAuthHeader = () => {
  * @param url The URL where to make the request to
  * @param args The arguments
  *
+ * @category Data Fetching
+ *
  * @returns {object}
  */
 export const apiPost = async (url: string, args: { [index: string]: any } = {}) => {
@@ -30,6 +32,8 @@ export const apiPost = async (url: string, args: { [index: string]: any } = {}) 
  * @param url The URL where to make the request to
  * @param args The arguments
  * @param withMinute Whether it should burst cahcing on every minute
+ *
+ * @category Data Fetching
  *
  * @returns {object}
  */

@@ -54,6 +54,9 @@ export interface PostsArchiveParams extends EndpointParams {
 	sticky: boolean;
 }
 
+/**
+ * @category Data Fetching
+ */
 export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	PostEntity,
 	PostsArchiveParams
