@@ -7,7 +7,7 @@ declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
  * Returns the contents of headless.config.js
  *
  * This function requires framework integration in order to work. The contents of `headless.config.js`
- * needs to be injected at build time into a global variable called `__10up__HEADLESS_CONFIG`.
+ * needs to be injected at build time into a global variable.
  *
  * Make sure you are using one of the framework's integration (such as next) before using this function.
  *
