@@ -32,7 +32,8 @@
     "turbo": "^1.2.4",
     "typedoc": "^0.22.15",
     "typedoc-monorepo-link-types": "^0.0.2",
-    "typedoc-plugin-external-module-map": "^1.3.2"
+    "typedoc-plugin-external-module-map": "^1.3.2",
+    "typedoc-plugin-inline-sources": "^1.0.1"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",

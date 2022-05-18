@@ -10,6 +10,8 @@ import { convertToPath } from '../utils';
  * @param params  Supported params
  * @param options Options for the SWR configuration
  *
+ * @source The source code of the hook
+ *
  * @category Data Fetching Hooks
  */
 export function usePost(

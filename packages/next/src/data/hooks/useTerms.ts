@@ -7,9 +7,17 @@ import { convertToPath } from '../utils';
 /**
  * The usePost hook. Returns a collection of post entities
  *
+ * ## Usage
+ *
+ * ```tsx
+ * const { loading, data } = useTerms({ taxonomy: 'category', slug: 'cat-name' });
+ * ```
+ *
  * @param params  Supported params
  * @param options Options for the SWR configuration
  *
+ *
+ * @source The source code of the hook
  * @category Data Fetching Hooks
  */
 export function useTerms(
