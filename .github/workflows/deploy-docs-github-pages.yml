@@ -13,7 +13,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '16'
-    - run: npm ci
+    - run: npm ci && npm run build
     - run: npm run typedoc
     - name: Init new repo in docs folder and commit generated files
       run: |
