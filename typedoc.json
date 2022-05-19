@@ -1,0 +1,8 @@
+{
+    "out": "docs",
+    "entryPoints": ["packages/core" , "packages/next"],
+    "entryPointStrategy": "packages",
+    "categorizeByGroup": false,
+    "excludeInternal": true,
+    "noMissingExports": true
+}

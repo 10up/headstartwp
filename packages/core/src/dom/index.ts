@@ -1,10 +1,24 @@
 import { DOMNode, Element } from 'html-react-parser';
 import { isInternalLink } from '../utils/isInternalLink';
 
-type isAnchorTagOptions = {
+export type isAnchorTagOptions = {
+	/**
+	 * If true, will check if the anchor tag contains a valid internal link.
+	 *
+	 * if target="_blank" then this option is not taken into account
+	 */
 	isInternalLink?: boolean;
 };
 
+/**
+ * A small helper function that should probably be removed
+ *
+ * @param attribs The attributes of the element
+ *
+ * @internal
+ *
+ * @returns
+ */
 export function getAttributes(attribs: Element['attribs']): Record<string, string> {
 	const attributes: Record<string, string> = { ...attribs };
 	attributes.className = '';
@@ -20,9 +34,26 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
 /**
  * Checks if the provided node is an valid anchor tag
  *
+ * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
+ * the underlying parser used by [[BlocksRenderer]].
+ *
+ * ## Usage
+ *
+ * ```tsx
+ * import { isAnchorTag } from '@10up/headless-core';
+ * import { LinkBlock } from '@10up/headless-next';
+ *
+ * <BlocksRenderer html={html}>
+ *  	<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true})} />
+ * </BlocksRenderer>
+ * ```
+ *
  * @param node The node to test
  * @param options Supported options
- * @returns
+ *
+ * @category DOM Helpers
+ *
+ * @returns Whether it's a anchor tag accoriding to the options passed
  */
 export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): node is Element {
 	if (!(node instanceof Element)) {
@@ -50,16 +81,39 @@ export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): no
 	return true;
 }
 
-type isImageTagOptions = {
+export type isImageTagOptions = {
+	/**
+	 * If true, will check if the image tag contains wdith and height attributes
+	 */
 	hasDimensions?: boolean;
 };
 
 /**
  * Checks if the provided node is an valid image tag
  *
+ * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
+ * the underlying parser used by [[BlocksRenderer]].
+ *
+ * ## Usage
+ *
+ * ```tsx
+ * import { isImageTag, ImageBlock } from '@10up/headless-core';
+ * import { ImageComponent } from '@10up/headless-next';
+ *
+ * <BlocksRenderer html={html}>
+ *  	<ImageBlock
+ * 			test={(node) => isImageTag(node, { hasDimensions: true})}
+ * 			component={ImageComponent}
+ * 		/>
+ * </BlocksRenderer>
+ * ```
+ *
  * @param node The node to test
  * @param options Supported options.
- * @returns
+ *
+ * @category DOM Helpers
+ *
+ * @returns Whether it's an image tag or not according to the options passed
  */
 export function isImageTag(node: DOMNode, options: isImageTagOptions = {}) {
 	if (!(node instanceof Element)) {
@@ -86,7 +140,24 @@ export const youtubeEmbedRegex =
 /**
  * Checks if the node is an youtube embed
  *
+ * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
+ * the underlying parser used by [[BlocksRenderer]].
+ *
+ * ## Usage
+ *
+ * ```tsx
+ * import { isYoutubeEmbed } from '@10up/headless-core';
+ *
+ * <BlocksRenderer html={html}>
+ *  	<MyYoutubeBlock
+ * 			test={isYoutubeEmbed}
+ * 		/>
+ * </BlocksRenderer>
+ * ```
+ *
  * @param node The node to test
+ *
+ * @category DOM Helpers
  *
  * @returns true if the node is a youtube embed
  */
@@ -109,36 +180,77 @@ export function isYoutubeEmbed(node: DOMNode) {
 /**
  * Checks if the node is an twitter embed
  *
+ * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
+ * the underlying parser used by [[BlocksRenderer]].
+ *
+ * ## Usage
+ *
+ * ```tsx
+ * import { isTwitterEmbed } from '@10up/headless-core';
+ *
+ * <BlocksRenderer html={html}>
+ *  	<MyTwitterBlock
+ * 			test={isTwitterEmbed}
+ * 		/>
+ * </BlocksRenderer>
+ * ```
+ *
  * @param node The node to test
  *
- * @returns true if the node is a youtube embed
+ * @category DOM Helpers
+ *
+ * @returns true if the node is a twitter embed
  */
 export function isTwitterEmbed(node: DOMNode) {
 	if (!(node instanceof Element)) {
 		return false;
 	}
+
 	const isFigure = node.type === 'tag' && node.name === 'figure';
 	const className = node.attribs?.class || '';
 
 	return isFigure && className.split(' ').includes('wp-block-embed-twitter');
 }
 
-export function isButtonBlock(node: DOMNode) {
-	if (!(node instanceof Element)) {
-		return false;
-	}
-
-	const isDiv = node.type === 'tag' && node.name === 'div';
-	const className = node.attribs?.class || '';
-
-	return isDiv && className.split(' ').includes('wp-block-button');
-}
-
 export type isBlockOptions = {
+	/**
+	 * The tagName to check for
+	 */
 	tagName?: string;
+
+	/**
+	 * A single or array of classNames to check for
+	 *
+	 * If an array of class names is passed,
+	 * the block will be considered valid if all of the class names are found
+	 */
 	className?: string | string[];
 };
 
+/**
+ * Tests a node by tagName and/or className
+ *
+ * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
+ * the underlying parser used by [[BlocksRenderer]].
+ *
+ * ## Usage
+ *
+ * ```tsx
+ * import { isBlock } from '@10up/headless-core';
+ *
+ * <BlocksRenderer html={html}>
+ *  	<MyCustomBlock
+ * 			test={(node) => isBlock(node, { tagName: 'div', classList: ['block-class-name'] })}
+ * 		/>
+ * </BlocksRenderer>
+ * ```
+ *
+ * @param node The node to test
+ *
+ * @category DOM Helpers
+ *
+ * @returns true if the node passes the test
+ */
 export function isBlock(node: DOMNode, _options: isBlockOptions) {
 	if (!(node instanceof Element)) {
 		return false;
@@ -168,13 +280,32 @@ export function isBlock(node: DOMNode, _options: isBlockOptions) {
 }
 
 /**
- * Tests if a block by name
+ * Tests a node by block name. This requires the Headless WP Plugin to be installed.
  *
- * Requires the headless plugin
+ * The Headless WP Plugin will append `data-wp-block-name` and `data-wp-block` to every block,
+ * this function relies on those attributes to determine if the node is a block.
  *
- * @param node The dom node
+ * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
+ * the underlying parser used by [[BlocksRenderer]].
+ *
+ * ## Usage
+ *
+ * ```tsx
+ * import { isBlockByName } from '@10up/headless-core';
+ *
+ * <BlocksRenderer html={html}>
+ *  	<MyCustomBlock
+ * 			test={(node) => isBlock(node, 'core/paragraph')}
+ * 		/>
+ * </BlocksRenderer>
+ * ```
+ *
+ * @param node The node to test
  * @param name The block name
- * @returns true if it's a matching block
+ *
+ * @category DOM Helpers
+ *
+ * @returns true if the node passes the test
  */
 export function isBlockByName(node: DOMNode, name: string) {
 	if (!(node instanceof Element)) {

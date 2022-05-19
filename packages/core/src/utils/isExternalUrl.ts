@@ -1,9 +1,11 @@
 /**
  * Checks if the provided link is an external Url.
  *
- * @param link - The link Url.
+ * Inspired on the Frontity implementation
  *
- * Inspired on the Frontity implementation @see https://github.com/frontity/frontity/blob/dev/packages/components/link/utils.ts
+ * @param link The link Url.
+ *
+ * @see https://github.com/frontity/frontity/blob/dev/packages/components/link/utils.ts
  *
  * @returns True if the link is an external Url.
  */

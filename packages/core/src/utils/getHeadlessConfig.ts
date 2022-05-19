@@ -6,7 +6,12 @@ declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
 /**
  * Returns the contents of headless.config.js
  *
- * @returns {HeadlessConfig}
+ * This function requires framework integration in order to work. The contents of `headless.config.js`
+ * needs to be injected at build time into a global variable.
+ *
+ * Make sure you are using one of the framework's integration (such as next) before using this function.
+ *
+ * @returns The contents of headless.config.js
  */
 export function getHeadlessConfig() {
 	const { customPostTypes, redirectStrategy, useWordPressPlugin, customTaxonomies, sourceUrl } =
@@ -25,8 +30,6 @@ export function getHeadlessConfig() {
 
 /**
  * Returns the avaliable taxonomy slugs
- *
- * @returns {string[]}
  */
 export function getCustomTaxonomySlugs() {
 	const { customTaxonomies } = getHeadlessConfig();
@@ -40,8 +43,6 @@ export function getCustomTaxonomySlugs() {
 
 /**
  * Returns the avaliable taxonomies
- *
- * @returns {HeadlessConfig["customTaxonomies"]}
  */
 export function getCustomTaxonomies() {
 	const { customTaxonomies } = getHeadlessConfig();
@@ -75,8 +76,7 @@ export function getCustomTaxonomies() {
  * Returns a single post type by slug if defined
  *
  * @param slug post type slug
- *
- * @returns
+ 
  */
 export function getCustomTaxonomy(slug: string) {
 	const taxonomies = getCustomTaxonomies();
@@ -87,7 +87,6 @@ export function getCustomTaxonomy(slug: string) {
 /**
  * Returns the avaliable post type slugs
  *
- * @returns {string[]}
  */
 export function getCustomPostTypesSlugs() {
 	const { customPostTypes } = getHeadlessConfig();
@@ -101,8 +100,6 @@ export function getCustomPostTypesSlugs() {
 
 /**
  * Returns the avaliable post types
- *
- * @returns {HeadlessConfig["customPostTypes"]}
  */
 export function getCustomPostTypes() {
 	const { customPostTypes } = getHeadlessConfig();
@@ -136,11 +133,17 @@ export function getCustomPostTypes() {
  * Returns a single post type by slug if defined
  *
  * @param slug post type slug
- *
- * @returns
  */
 export function getCustomPostType(slug: string) {
 	const postTypes = getCustomPostTypes();
 
 	return postTypes?.find((postType) => postType.slug === slug);
+}
+
+/**
+ * Returns the WP URL based on the headless config
+ */
+export function getWPUrl() {
+	const { sourceUrl } = getHeadlessConfig();
+	return sourceUrl || '';
 }

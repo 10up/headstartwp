@@ -2,15 +2,26 @@
 import sanitize, { getDefaultWhiteList } from 'xss';
 import type { IWhiteList } from 'xss';
 
-export type allowedTagsType = string[];
-
 /**
  * Sanitize HTML content by the wp_kses_post() requirements
  *
+ * ## Usage
+ *
+ * ```tsx
+ * import { wpKsesPost } from '@10up/headless-core';
+ * wpKsesPost(html);
+ * ```
+ *
+ * @param content The content to sanitize.
+ * @param allowList Optional. The list of allowed HTML tags and attributes. If not set, the default allow list will be used.
+ *
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
+ *
+ * @category DOM Helpers
+ *
  * @returns Sanitized string of HTML.
  */
-export const wpKsesPost = (content: string, allowList?: IWhiteList | undefined): string => {
+export const wpKsesPost = (content: string, allowList?: IWhiteList): string => {
 	if (typeof allowList === 'undefined') {
 		allowList = ksesAllowedList;
 	}
@@ -49,6 +60,7 @@ for (const tag of Object.keys(defaultAllowList)) {
  * Default Allowed HTML Attributes
  *
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
+ *
  * @returns Array of allowed attributes for tags.
  */
 export const ksesAllowedList: IWhiteList = {

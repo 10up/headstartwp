@@ -12,6 +12,13 @@ export interface useAppSettingsResponse extends HookResponse {
 	data?: AppEntity;
 }
 
+/**
+ *
+ * @param params
+ * @param options
+ *
+ * @category Data Fetching Hooks
+ */
 export function useAppSettings(
 	params = {},
 	options: SWRConfiguration<FetchResponse<AppEntity>> = {},

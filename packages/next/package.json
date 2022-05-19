@@ -5,6 +5,7 @@
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
+  "typedocMain": "src/index.ts",
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",

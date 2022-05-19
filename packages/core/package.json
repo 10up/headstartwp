@@ -5,6 +5,7 @@
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
   "types": "dist/mjs/index.d.ts",
+  "typedocMain": "src/docs-entry-point.ts",
   "publishConfig": {
     "access": "public"
   },
