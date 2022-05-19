@@ -33,6 +33,7 @@ jobs:
         branch: gh-pages
         # Use force push to fully overwrite the destination branch
         force: true
+        repository: 10up/headless-docs
         # We have to push from the folder where files were generated.
         # Same were the new repo was initialized in the previous step
         directory: ./docs
