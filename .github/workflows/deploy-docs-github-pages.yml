@@ -13,16 +13,16 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '16'
-    - run: npm ci && npm run build
+    - run: npm ci && npm run build:packages
     - run: npm run typedoc
-    - name: Init new repo in docs folder and commit generated files
-      run: |
-        cd docs/
-        git init
-        git add -A
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git commit -m 'deploy'
+    # - name: Init new repo in docs folder and commit generated files
+    #  run: |
+    #    cd docs/
+    #    git init
+    #    git add -A
+    #    git config --local user.email "action@github.com"
+    #    git config --local user.name "GitHub Action"
+    #    git commit -m 'deploy'
     - name: Force push to destination branch
       id: push_directory
       uses: cpina/github-action-push-to-another-repository@main
