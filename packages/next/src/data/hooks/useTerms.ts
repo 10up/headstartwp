@@ -13,7 +13,7 @@ import { convertToPath } from '../utils';
  * const { loading, data } = useTerms({ taxonomy: 'category', slug: 'cat-name' });
  * ```
  *
- * @param params  Supported params
+ * @param params  The parameters accepted by the hook
  * @param options Options for the SWR configuration
  *
  *
@@ -21,7 +21,7 @@ import { convertToPath } from '../utils';
  * @category Data Fetching Hooks
  */
 export function useTerms(
-	params: TaxonomyArchiveParams,
+	params: TaxonomyArchiveParams = {},
 	options: SWRConfiguration<FetchResponse<TermEntity>> = {},
 ) {
 	const { query } = useRouter();

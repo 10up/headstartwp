@@ -26,99 +26,99 @@ export interface PostsArchiveParams extends EndpointParams {
 	 *
 	 * @default 1
 	 */
-	page: number;
+	page?: number;
 
 	/**
 	 * If set will filter results by the specified category name
 	 *
 	 * It supports both a category id and category slug
 	 */
-	category: string;
+	category?: string;
 
 	/**
 	 * If set will filter results by the specified tag name
 	 *
 	 * It supports both a category id and category slug
 	 */
-	tag: string;
+	tag?: string;
 
 	/**
 	 * If set will filter results by the specified year
 	 */
-	year: string;
+	year?: string;
 
 	/**
 	 * If set will filter results by the specified month
 	 */
-	month: string;
+	month?: string;
 
 	/**
 	 * If set will filter results by the specified day
 	 */
-	day: string;
+	day?: string;
 
 	/**
 	 * Maximum number of items to be returned in result set.
 	 *
 	 * @default 10
 	 */
-	per_page: number;
+	per_page?: number;
 
 	/**
 	 * Limit results to those matching a string.
 	 */
-	search: string;
+	search?: string;
 
 	/**
 	 * Limit result set to posts assigned to specific authors.
 	 */
-	author: number | number[] | string;
+	author?: number | number[] | string;
 
 	/**
 	 * Ensure result set excludes posts assigned to specific authors.
 	 */
-	author_exclude: number | number[];
+	author_exclude?: number | number[];
 
 	/**
 	 * Ensure result set excludes specific IDs.
 	 */
-	exclude: number[];
+	exclude?: number[];
 
 	/**
 	 * Limit result set to specific IDs.
 	 */
-	include: number[];
+	include?: number[];
 
 	/**
 	 * Offset the result set by a specific number of items.
 	 */
-	offset: number;
+	offset?: number;
 
 	/**
 	 * Order sort attribute ascending or descending.
 	 *
 	 * @default 'desc'
 	 */
-	order: 'asc' | 'desc';
+	order?: 'asc' | 'desc';
 
 	/**
 	 * The post type to query for.
 	 *
 	 * @default 'post'
 	 */
-	postType: string;
+	postType?: string;
 
 	/**
 	 * Limit result set to posts with one or more specific slugs.
 	 */
-	slug: string | string[];
+	slug?: string | string[];
 
 	/**
 	 * Sort collection by object attribute.
 	 *
 	 * @default 'date'
 	 */
-	orderby:
+	orderby?:
 		| 'author'
 		| 'date'
 		| 'id'
@@ -135,37 +135,37 @@ export interface PostsArchiveParams extends EndpointParams {
 	 *
 	 * @default 'publish'
 	 */
-	status: string | string[];
+	status?: string | string[];
 
 	/**
 	 * Limit result set based on relationship between multiple taxonomies.
 	 */
-	tax_relation: 'AND' | 'OR';
+	tax_relation?: 'AND' | 'OR';
 
 	/**
 	 * Limit result set to all items that have the specified term assigned in the categories taxonomy.
 	 */
-	categories: number | number[] | string | string[];
+	categories?: number | number[] | string | string[];
 
 	/**
 	 * Limit result set to all items except those that have the specified term assigned in the categories taxonomy.
 	 */
-	categories_exclude: number | number[];
+	categories_exclude?: number | number[];
 
 	/**
 	 * Limit result set to all items that have the specified term assigned in the tags taxonomy.
 	 */
-	tags: number | number[] | string | string[];
+	tags?: number | number[] | string | string[];
 
 	/**
 	 * Limit result set to all items except those that have the specified term assigned in the tags taxonomy.
 	 */
-	tags_exclude: number | number[];
+	tags_exclude?: number | number[];
 
 	/**
 	 * Limit result set to items that are sticky.
 	 */
-	sticky: boolean;
+	sticky?: boolean;
 }
 
 /**

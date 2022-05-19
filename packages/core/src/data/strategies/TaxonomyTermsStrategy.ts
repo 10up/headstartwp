@@ -81,7 +81,7 @@ export interface TaxonomyArchiveParams extends EndpointParams {
 	/**
 	 * Limit result set to terms with one or more specific slugs.
 	 */
-	slug: string | string[];
+	slug?: string | string[];
 }
 
 /**
