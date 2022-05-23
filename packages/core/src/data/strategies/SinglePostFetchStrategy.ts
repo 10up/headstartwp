@@ -56,7 +56,8 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		return endpoints.posts;
 	}
 
-	getParamsFromURL(path: string): Partial<PostParams> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getParamsFromURL(path: string, nonUrlParams: Partial<PostParams> = {}): Partial<PostParams> {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
 

@@ -33,6 +33,11 @@ export const postsMatchers: Matcher[] = [
 		priority: 30,
 		pattern: '/author/:author',
 	},
+	{
+		name: 'author-with-pagination',
+		priority: 30,
+		pattern: '/author/:author/page/:page',
+	},
 ];
 
 export const searchMatchers: Matcher[] = [

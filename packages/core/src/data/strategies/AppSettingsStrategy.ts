@@ -14,7 +14,7 @@ export class AppSettingsStrategy extends AbstractFetchStrategy<AppEntity, Endpoi
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getParamsFromURL(path: string): Partial<EndpointParams> {
+	getParamsFromURL(path: string, params: Partial<EndpointParams> = {}): Partial<EndpointParams> {
 		return { _embed: true };
 	}
 }

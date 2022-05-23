@@ -99,8 +99,12 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 		return endpoints.category;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getParamsFromURL(path: string): Partial<TaxonomyArchiveParams> {
+	getParamsFromURL(
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		path: string,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		params: Partial<TaxonomyArchiveParams> = {},
+	): Partial<TaxonomyArchiveParams> {
 		return { _embed: true };
 	}
 
