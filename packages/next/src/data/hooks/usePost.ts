@@ -25,7 +25,7 @@ import { convertToPath } from '../utils';
  * In order to automatically map URL params create a catch-all route named `[...path].js`.
  * You can create the catch-all at any level e.g: `pages/[...path].js`, `pages/blog/[...path].js`, etc.
  *
- * The `pages/blog/[...path].js` route for instance would yield a URL like this: `/blog/post-slug`, `/blog/2020/01/01/post-slug`, etc.
+ * The `pages/[...path].js` route for instance would yield a URL like this: `/post-slug`, `/2020/01/01/post-slug`, etc.
  *
  * {@codeblock ~~/examples/next/usePost.tsx#url-params}
  *

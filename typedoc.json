@@ -4,5 +4,8 @@
     "entryPointStrategy": "packages",
     "categorizeByGroup": false,
     "excludeInternal": true,
-    "noMissingExports": true
+    "noMissingExports": true,
+    "pluginCodeBlocks": {
+        "defaultBlockMode": "folded"
+    }
 }
