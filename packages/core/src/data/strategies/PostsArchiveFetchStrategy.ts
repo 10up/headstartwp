@@ -1,6 +1,5 @@
 import {
 	getHeadlessConfig,
-	getCustomTaxonomySlugs,
 	getCustomTaxonomies,
 	asyncForEach,
 	getCustomPostType,
@@ -214,7 +213,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			const taxonomyObj = getCustomTaxonomy(params.taxonomy);
 
 			if (!taxonomyObj) {
-				throw new ConfigError(`Taxonomy ${params.taxonomy} not found`);
+				throw new ConfigError(`Taxonomy "${params.taxonomy}" not found`);
 			}
 
 			const taxonomy = taxonomyObj.rewrite ?? taxonomyObj.slug;
@@ -224,6 +223,12 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 				name: `${matcher.name}-taxonomy`,
 				pattern: `/:${taxonomy}${matcher.pattern}`,
 			}));
+
+			taxonomyMatchers.push({
+				name: 'taxonomy-term-slug',
+				priority: 30,
+				pattern: `/:${taxonomy}`,
+			});
 
 			return parsePath(taxonomyMatchers, path);
 		}
@@ -259,11 +264,12 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, tag, postType, taxonomy, ...endpointParams } = params;
 
-		const taxonomies = getCustomTaxonomySlugs();
+		const taxonomies = getCustomTaxonomies();
 
 		taxonomies.forEach((taxonomy) => {
-			if (endpointParams[taxonomy]) {
-				delete endpointParams[taxonomy];
+			const slug = taxonomy.rewrite ?? taxonomy.slug;
+			if (endpointParams[slug]) {
+				delete endpointParams[slug];
 			}
 		});
 
