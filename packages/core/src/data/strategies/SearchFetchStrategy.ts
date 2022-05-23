@@ -18,7 +18,11 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 		return endpoints.posts;
 	}
 
-	getParamsFromURL(path: string): Partial<PostsArchiveParams> {
+	getParamsFromURL(
+		path: string,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		nonUrlParams: Partial<PostsArchiveParams> = {},
+	): Partial<PostsArchiveParams> {
 		return parsePath(searchMatchers, path);
 	}
 

@@ -206,7 +206,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	 */
 	getParamsFromURL(
 		path: string,
-		params: Partial<PostsArchiveParams>,
+		params: Partial<PostsArchiveParams> = {},
 	): Partial<PostsArchiveParams> {
 		const matchers = [...postsMatchers];
 
