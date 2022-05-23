@@ -125,11 +125,12 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 * These params are passed to `buildEndpointURL`. If the strategy does not support
 	 * mapping url params to endpoint params, it should return an empty object.
 	 *
-	 * @param params The URL params
+	 * @param path The Path name
+	 * @param nonUrlParams The non-url params
 	 *
 	 * @returns params extracted from the URL
 	 */
-	abstract getParamsFromURL(path: string): Partial<Params>;
+	abstract getParamsFromURL(path: string, nonUrlParams: Partial<Params>): Partial<Params>;
 
 	/**
 	 * Builds the final endpoint URL based on the passed parameters

@@ -7,6 +7,7 @@ import {
 	ConfigError,
 	NotFoundError,
 	addQueryArgs,
+	getCustomTaxonomy,
 } from '../../utils';
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
@@ -153,6 +154,13 @@ export interface PostsArchiveParams extends EndpointParams {
 	categories_exclude?: number | number[];
 
 	/**
+	 * Limit results to a specific taxonomy and expects the actual term slug to come from the url]
+	 *
+	 * If you only specify the taxonomy, the term slug will be assumed to be the first segment of the path
+	 */
+	taxonomy?: string;
+
+	/**
 	 * Limit result set to all items that have the specified term assigned in the tags taxonomy.
 	 */
 	tags?: number | number[] | string | string[];
@@ -196,8 +204,29 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	 *
 	 * @param path The URL path to extract params from
 	 */
-	getParamsFromURL(path: string): Partial<PostsArchiveParams> {
+	getParamsFromURL(
+		path: string,
+		params: Partial<PostsArchiveParams>,
+	): Partial<PostsArchiveParams> {
 		const matchers = [...postsMatchers];
+
+		if (typeof params.taxonomy === 'string') {
+			const taxonomyObj = getCustomTaxonomy(params.taxonomy);
+
+			if (!taxonomyObj) {
+				throw new ConfigError(`Taxonomy ${params.taxonomy} not found`);
+			}
+
+			const taxonomy = taxonomyObj.rewrite ?? taxonomyObj.slug;
+
+			const taxonomyMatchers = matchers.map((matcher) => ({
+				...matcher,
+				name: `${matcher.name}-taxonomy`,
+				pattern: `/:${taxonomy}${matcher.pattern}`,
+			}));
+
+			return parsePath(taxonomyMatchers, path);
+		}
 
 		const customTaxonomies = getCustomTaxonomies();
 		customTaxonomies?.forEach((taxonomy) => {
@@ -226,9 +255,9 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	buildEndpointURL(params: Partial<PostsArchiveParams>) {
 		const settings = getHeadlessConfig();
 
-		// don't use the category slug to build out the URL endpoint
+		// these params should be disregarded whne building out the endpoint
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { category, tag, postType, ...endpointParams } = params;
+		const { category, tag, postType, taxonomy, ...endpointParams } = params;
 
 		const taxonomies = getCustomTaxonomySlugs();
 
