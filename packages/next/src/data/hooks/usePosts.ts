@@ -38,7 +38,7 @@ import { convertToPath } from '../utils';
  *
  * ### Handling multiple WordPress routes in a single next.js route
  *
- * The `usePosts` hook is very flexible and can handle multiple WordPress routes in a single next.js route.
+ * The `usePosts` hook is very flexible and can handle multiple WordPress routes in a single next.js route when using the optional-catch-all route (`[[...path]].js`).
  * Alongisde with the actual data, `usePosts` also returns information about the current route so you can conditionally load different components.
  *
  * {@codeblock ~~/examples/next/usePosts.tsx#multiple-wordpress-routes}
@@ -82,4 +82,10 @@ export function usePosts(
 	return useFetchPosts(params, options, convertToPath(path));
 }
 
-usePosts.fetcher = useFetchPosts.fetcher;
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace usePosts {
+	export const { fetcher } = useFetchPosts;
+}

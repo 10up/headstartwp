@@ -11,11 +11,11 @@ export interface PreformattedBlockProps extends IBlockAttributes {
 
 export interface IPreformattedBlock extends IBlock<PreformattedBlockProps> {}
 
-export const PreformattedBlock = ({
+export function PreformattedBlock({
 	domNode: node,
 	component: Component,
 	children,
-}: IPreformattedBlock) => {
+}: IPreformattedBlock) {
 	const { className, name } = useBlock<PreformattedBlockProps>(node);
 	const { colors, typography } = useBlockAttributes(node);
 
@@ -31,8 +31,15 @@ export const PreformattedBlock = ({
 			{children}
 		</Component>
 	);
-};
+}
 
-PreformattedBlock.defaultProps = {
-	test: (node: Element) => isBlock(node, { tagName: 'pre', className: 'wp-block-preformatted' }),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace PreformattedBlock {
+	export const defaultProps = {
+		test: (node: Element) =>
+			isBlock(node, { tagName: 'pre', className: 'wp-block-preformatted' }),
+	};
+}

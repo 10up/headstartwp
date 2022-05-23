@@ -11,7 +11,7 @@ export interface ListBlockProps extends IBlockAttributes {
 
 export interface IListBlock extends IBlock<ListBlockProps> {}
 
-export const ListBlock = ({ domNode: node, children, component: Component }: IListBlock) => {
+export function ListBlock({ domNode: node, children, component: Component }: IListBlock) {
 	const { name, className, attributes } = useBlock<ListBlockProps>(node);
 	const { typography, colors } = useBlockAttributes(node);
 
@@ -28,10 +28,16 @@ export const ListBlock = ({ domNode: node, children, component: Component }: ILi
 			{children}
 		</Component>
 	);
-};
+}
 
-ListBlock.defaultProps = {
-	test: (node) => {
-		return isBlockByName(node, 'core/list');
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace ListBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlockByName(node, 'core/list');
+		},
+	};
+}

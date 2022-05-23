@@ -12,7 +12,7 @@ export interface VerseBlockProps extends IBlockAttributes {
 
 export interface IVerseBlock extends IBlock<VerseBlockProps> {}
 
-export const VerseBlock = ({ domNode: node, component: Component, children }: IVerseBlock) => {
+export function VerseBlock({ domNode: node, component: Component, children }: IVerseBlock) {
 	const { className, name } = useBlock<VerseBlockProps>(node);
 	const { colors, typography, spacing } = useBlockAttributes(node);
 
@@ -29,8 +29,14 @@ export const VerseBlock = ({ domNode: node, component: Component, children }: IV
 			{children}
 		</Component>
 	);
-};
+}
 
-VerseBlock.defaultProps = {
-	test: (node: Element) => isBlock(node, { tagName: 'pre', className: 'wp-block-verse' }),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace VerseBlock {
+	export const defaultProps = {
+		test: (node: Element) => isBlock(node, { tagName: 'pre', className: 'wp-block-verse' }),
+	};
+}

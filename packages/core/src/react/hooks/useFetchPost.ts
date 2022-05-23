@@ -18,10 +18,13 @@ export interface usePostResponse extends HookResponse {
 /**
  * The useFetchPost hook. Returns a single post entity
  *
+ * See [[usePost]] for usage instructions.
+ *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
  *
+ * @module useFetchPost
  * @category Data Fetching Hooks
  */
 export function useFetchPost(
@@ -53,4 +56,10 @@ export function useFetchPost(
 	return { data: { post }, loading: false };
 }
 
-useFetchPost.fetcher = () => new SinglePostFetchStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useFetchPost {
+	export const fetcher = () => new SinglePostFetchStrategy(getWPUrl());
+}

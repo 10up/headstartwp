@@ -61,6 +61,8 @@ export interface usePostsResponse extends HookResponse {
 /**
  * The useFetchPosts hook. Returns a collection of post entities
  *
+ * See [[usePosts]] for usage instructions.
+ *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
@@ -147,4 +149,10 @@ export function useFetchPosts(
 	return { data: { posts, pageInfo }, loading: false, pageType };
 }
 
-useFetchPosts.fetcher = () => new PostsArchiveFetchStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useFetchPosts {
+	export const fetcher = () => new PostsArchiveFetchStrategy(getWPUrl());
+}

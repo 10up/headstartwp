@@ -29,7 +29,7 @@ declare global {
  *
  * @returns
  */
-export const YoutubeLiteBlock = ({ domNode }) => {
+export function YoutubeLiteBlock({ domNode }) {
 	useEffect(() => {
 		import('@justinribeiro/lite-youtube');
 	}, []);
@@ -39,8 +39,14 @@ export const YoutubeLiteBlock = ({ domNode }) => {
 	const videoId = src.match(youtubeEmbedRegex)[7];
 
 	return <lite-youtube videoid={videoId} videotitle={title} />;
-};
+}
 
-YoutubeLiteBlock.defaultProps = {
-	test: (node) => isYoutubeEmbed(node),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace YoutubeLiteBlock {
+	export const defaultProps = {
+		test: (node) => isYoutubeEmbed(node),
+	};
+}

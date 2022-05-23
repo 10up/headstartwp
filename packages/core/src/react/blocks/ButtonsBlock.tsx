@@ -9,7 +9,7 @@ export interface ButtonsBlockProps extends IBlockAttributes {
 
 export interface IButtonsBlock extends IBlock<ButtonsBlockProps> {}
 
-export const ButtonsBlock = ({ domNode: node, children, component: Component }: IButtonsBlock) => {
+export function ButtonsBlock({ domNode: node, children, component: Component }: IButtonsBlock) {
 	const { name, className } = useBlock(node);
 	const align = useBlockAlign(node);
 
@@ -18,8 +18,14 @@ export const ButtonsBlock = ({ domNode: node, children, component: Component }: 
 			{children}
 		</Component>
 	);
-};
+}
 
-ButtonsBlock.defaultProps = {
-	test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-buttons' }),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace ButtonsBlock {
+	export const defaultProps = {
+		test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-buttons' }),
+	};
+}

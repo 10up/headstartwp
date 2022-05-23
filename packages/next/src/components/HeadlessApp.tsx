@@ -13,12 +13,7 @@ export type HeadlessAppProps = PropsWithChildren<{
 	pageProps: any;
 }>;
 
-export const HeadlessApp = ({
-	settings,
-	children,
-	pageProps,
-	swrConfig = {},
-}: HeadlessAppProps) => {
+export function HeadlessApp({ settings, children, pageProps, swrConfig = {} }: HeadlessAppProps) {
 	const { fallback = {}, seo = {}, themeJSON = { settings: {}, styles: {} } } = pageProps;
 	const router = useRouter();
 
@@ -42,4 +37,4 @@ export const HeadlessApp = ({
 			</SWRConfig>
 		</SettingsProvider>
 	);
-};
+}

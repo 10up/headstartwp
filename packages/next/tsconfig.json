@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "dist/mjs",
     "module": "esnext",
-    "target": "esnext"
+    "target": "esnext",
+    "composite": true
   },
   "exclude": ["node_modules", "dist", "*/**/__tests__"],
   "include": ["src"]

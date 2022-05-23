@@ -49,4 +49,10 @@ export function usePost(
 	return useFetchPost(params, options, convertToPath(path));
 }
 
-usePost.fetcher = useFetchPost.fetcher;
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace usePost {
+	export const { fetcher } = useFetchPost;
+}

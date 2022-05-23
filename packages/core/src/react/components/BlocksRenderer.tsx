@@ -220,6 +220,12 @@ export function BlocksRenderer({ html, ksesAllowList, children }: BlockRendererP
 	return <>{parse(cleanedHTML, options)}</>;
 }
 
-BlocksRenderer.defaultProps = {
-	ksesAllowList: undefined,
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace BlocksRenderer {
+	export const defaultProps = {
+		ksesAllowList: undefined,
+	};
+}

@@ -13,6 +13,7 @@ export interface useAppSettingsResponse extends HookResponse {
 }
 
 /**
+ * The useAppSettings hook
  *
  * @param params
  * @param options
@@ -42,4 +43,10 @@ export function useAppSettings(
 	return { data: result, loading: false };
 }
 
-useAppSettings.fetcher = () => new AppSettingsStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useAppSettings {
+	export const fetcher = () => new AppSettingsStrategy(getWPUrl());
+}

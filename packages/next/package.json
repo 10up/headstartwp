@@ -4,8 +4,8 @@
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
-  "types": "dist/index.d.ts",
-  "typedocMain": "src/index.ts",
+  "types": "dist/mjs/index.d.ts",
+  "typedocMain": "src/docs-entry-point.ts",
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",
