@@ -1,10 +1,12 @@
 {
+    "name": "10up's Headless Framework",
     "out": "docs",
     "entryPoints": ["packages/core", "packages/next"],
     "entryPointStrategy": "packages",
     "categorizeByGroup": false,
     "excludeInternal": true,
     "noMissingExports": true,
+    "readme": "./README.md",
     "pluginCodeBlocks": {
         "defaultBlockMode": "folded"
     }

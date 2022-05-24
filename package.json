@@ -22,6 +22,7 @@
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@knodes/typedoc-plugin-code-blocks": "^0.22.5",
+    "@knodes/typedoc-plugin-monorepo-readmes": "^0.22.5",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "concurrently": "^6.3.0",
