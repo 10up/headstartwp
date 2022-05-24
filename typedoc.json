@@ -9,5 +9,19 @@
     "readme": "./README.md",
     "pluginCodeBlocks": {
         "defaultBlockMode": "folded"
+    },
+    "pluginPages": {
+        "pages": [
+            {
+                "title": "Getting Started",
+                "source": "getting-started.md",
+                "children": [
+                    { 
+                        "title": "Installation",
+                        "source": "installation.md"
+                    }
+                ]
+            }
+        ]
     }
 }
