@@ -4,11 +4,22 @@ import Script from 'next/script';
 /**
  * Renders a twitter embed
  *
+ * ## Usage
+ *
+ * ```tsx
+ * import { BlocksRenderer } from "@10up/headless-core/react";
+ * import { TwitterBlock } from "@10up/headless-next";
+ *
+ * <BlocksRenderer html={html}>
+ * 	<TwitterBlock />
+ * </BlocksRenderer>
+ * ```
+ *
  * @param props Link Block Props
  * @param props.domNode The domNode element
  * @param props.children Children prop
  *
- * @returns
+ * @category React Components
  */
 export function TwitterBlock({ children }) {
 	return (
