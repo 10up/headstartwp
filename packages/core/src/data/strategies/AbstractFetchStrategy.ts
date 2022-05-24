@@ -8,7 +8,17 @@ import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
  * Strategies should define type with the actuall supported EndPointParams
  */
 export interface EndpointParams {
+	/**
+	 * The _embed param returneds associated entities in the response
+	 *
+	 * It's recommended to avoid additional requests to fetch data
+	 */
 	_embed?: boolean;
+
+	/**
+	 * The _fields parameter is used to return only the specified fields in the response
+	 */
+	_fields?: string[];
 	[k: string]: unknown;
 }
 
