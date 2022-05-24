@@ -1,17 +1,17 @@
-## @10up/headless-core
+## @10up/headless-next
 
-> `@10up/headless-core` is the core package that houses framework-agnostic components and utilities for building headless sites with WordPress.
+> `@10up/headless-next` is the Next.js bindings for the headless framework.
 
 In addition to the default export, this packages also exports:
-- `@10up/headless-core/react`: React Components and Custom Hooks
-- `@!0up/headless-core/utils`: An additional export that only include small utilities functions. Useful if you don't want to use the whole framework.
+- `@10up/headless-next/config`: For using with `next.config.js` or `next.config.mjs`
+- `@!0up/headless-next/middlewares`: Contains next.js middlewares. Exported separately as the next.js middleware runtime is limited and can only run a subset of APIs.
 
 ## Installation
 
 ### @next (unstable)
 
 ```
-npm install --save @10up/headless-core@next
+npm install --save @10up/headless-next@next
 ```
 
 ## Documentation

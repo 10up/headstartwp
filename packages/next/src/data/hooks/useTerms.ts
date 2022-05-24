@@ -16,7 +16,6 @@ import { convertToPath } from '../utils';
  * @param params  The parameters accepted by the hook
  * @param options Options for the SWR configuration
  *
- *
  * @source The source code of the hook
  * @category Data Fetching Hooks
  */
@@ -30,4 +29,10 @@ export function useTerms(
 	return useFetchTerms(params, options, convertToPath(path));
 }
 
-useTerms.fetcher = useFetchTerms.fetcher;
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useTerms {
+	export const { fetcher } = useFetchTerms;
+}

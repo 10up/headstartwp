@@ -18,7 +18,7 @@ export interface GroupBlockProps extends IBlockAttributes {
 
 export interface IGroupBlock extends IBlock<GroupBlockProps> {}
 
-export const GroupBlock = ({ domNode: node, children, component: Component }: IGroupBlock) => {
+export function GroupBlock({ domNode: node, children, component: Component }: IGroupBlock) {
 	const { name, className, attributes } = useBlock<GroupBlockProps>(node);
 	const { align, spacing, blockStyle, colors } = useBlockAttributes(node);
 
@@ -38,10 +38,16 @@ export const GroupBlock = ({ domNode: node, children, component: Component }: IG
 			{children}
 		</Component>
 	);
-};
+}
 
-GroupBlock.defaultProps = {
-	test: (node) => {
-		return isBlockByName(node, 'core/group');
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace GroupBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlockByName(node, 'core/group');
+		},
+	};
+}

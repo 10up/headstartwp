@@ -17,7 +17,7 @@ export interface ImageBlockProps extends IBlockAttributes {
 
 export interface IImageBlock extends IBlock<ImageBlockProps> {}
 
-export const ImageBlock = ({ domNode: node, children, component: Component }: IImageBlock) => {
+export function ImageBlock({ domNode: node, children, component: Component }: IImageBlock) {
 	const { name, className, attributes } = useBlock<ImageBlockProps>(node);
 	const { blockStyle } = useBlockAttributes(node);
 
@@ -52,10 +52,16 @@ export const ImageBlock = ({ domNode: node, children, component: Component }: II
 			{children}
 		</Component>
 	);
-};
+}
 
-ImageBlock.defaultProps = {
-	test: (node) => {
-		return isBlockByName(node, 'core/image');
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace ImageBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlockByName(node, 'core/image');
+		},
+	};
+}

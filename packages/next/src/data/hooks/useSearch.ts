@@ -37,4 +37,10 @@ export function useSearch(
 	return useFetchSearch(params, options, convertToPath(path));
 }
 
-useSearch.fetcher = useFetchSearch.fetcher;
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useSearch {
+	export const { fetcher } = useFetchSearch;
+}

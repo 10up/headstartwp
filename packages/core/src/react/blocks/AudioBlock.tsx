@@ -75,6 +75,12 @@ export function AudioBlock({ domNode: node, children, component: Component }: IA
 	);
 }
 
-AudioBlock.defaultProps = {
-	test: (node: Element) => isBlock(node, { tagName: 'figure', className: 'wp-block-audio' }),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace AudioBlock {
+	export const defaultProps = {
+		test: (node: Element) => isBlock(node, { tagName: 'figure', className: 'wp-block-audio' }),
+	};
+}

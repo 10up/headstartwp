@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { ImageBlockProps } from '@10up/headless-core/react';
 
-export const ImageComponent = ({ src, alt, width, height, children }: ImageBlockProps) => {
+export function ImageComponent({ src, alt, width, height, children }: ImageBlockProps) {
 	if (!width || !height) {
 		return children;
 	}
@@ -11,4 +11,4 @@ export const ImageComponent = ({ src, alt, width, height, children }: ImageBlock
 	}
 
 	return <Image src={src} alt={alt} width={width} height={height} layout="intrinsic" />;
-};
+}

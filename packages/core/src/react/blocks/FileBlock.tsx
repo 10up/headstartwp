@@ -11,7 +11,7 @@ export interface FileBlockProps extends IBlockAttributes {
 
 export interface IFileBlock extends IBlock<FileBlockProps> {}
 
-export const FileBlock = ({ domNode: node, children, component: Component }: IFileBlock) => {
+export function FileBlock({ domNode: node, children, component: Component }: IFileBlock) {
 	const { name, className, attributes } = useBlock<FileBlockProps>(node);
 
 	return (
@@ -27,10 +27,16 @@ export const FileBlock = ({ domNode: node, children, component: Component }: IFi
 			{children}
 		</Component>
 	);
-};
+}
 
-FileBlock.defaultProps = {
-	test: (node) => {
-		return isBlock(node, { tagName: 'div', className: 'wp-block-file' });
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace FileBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlock(node, { tagName: 'div', className: 'wp-block-file' });
+		},
+	};
+}

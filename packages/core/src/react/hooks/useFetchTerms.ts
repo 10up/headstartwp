@@ -18,6 +18,8 @@ export interface useTermsResponse extends HookResponse {
 /**
  * The useFetchTerms hook. Returns a collection of term entities
  *
+ * See [[useTerms]] for usage instructions.
+ *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
@@ -52,4 +54,10 @@ export function useFetchTerms(
 	return { data: { terms, pageInfo }, loading: false };
 }
 
-useFetchTerms.fetcher = () => new TaxonomyTermsStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useFetchTerms {
+	export const fetcher = () => new TaxonomyTermsStrategy(getWPUrl());
+}

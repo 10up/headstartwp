@@ -21,6 +21,8 @@ export interface useSearchResponse extends HookResponse {
 /**
  * The useFetchSearch hook. Returns a collection of post entities
  *
+ * See [[useSearch]] for usage instructions.
+ *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
@@ -60,4 +62,10 @@ export function useFetchSearch(
 	return { data: { posts, pageInfo }, loading: false };
 }
 
-useFetchSearch.fetcher = () => new SearchFetchStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useFetchSearch {
+	export const fetcher = () => new SearchFetchStrategy(getWPUrl());
+}

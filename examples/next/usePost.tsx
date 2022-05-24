@@ -145,15 +145,9 @@ import {
 const params = { postType: ['post', 'page'] };
 
 const SinglePostsPage = () => {
-	const { loading, error, data } = usePost(params);
+	const { data } = usePost(params);
 
-	if (loading) {
-		return 'Loading...';
-	}
-
-	if (error) {
-		return 'error...';
-	}
+	// when doing ssr/ssg data will always be avaliable so handling loading/error state is optional
 
 	return (
 		<div>
@@ -165,7 +159,7 @@ const SinglePostsPage = () => {
 
 export default SinglePostsPage;
 
-// or export async function getServerSideProps(contenxt)
+// or export async function getServerSideProps(context)
 export async function getStaticProps(context) {
 	try {
         const usePostHook = await fetchHookData(usePost.fetcher(),context, { params });

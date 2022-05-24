@@ -18,7 +18,7 @@ export type LinkBlockProps = PropsWithChildren<{
  *
  * @returns The next/link component
  */
-export const LinkBlock = ({ domNode, children }) => {
+export function LinkBlock({ domNode, children }) {
 	const { href, rel, className } = getAttributes(domNode.attribs);
 	const settings = useSettings();
 	const link = removeSourceUrl({ link: href, backendUrl: settings.sourceUrl || '' });
@@ -32,8 +32,14 @@ export const LinkBlock = ({ domNode, children }) => {
 			</a>
 		</Component>
 	);
-};
+}
 
-LinkBlock.defaultProps = {
-	test: (node) => isAnchorTag(node, { isInternalLink: true }),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace LinkBlock {
+	export const defaultProps = {
+		test: (node) => isAnchorTag(node, { isInternalLink: true }),
+	};
+}

@@ -13,7 +13,7 @@ export interface TableBlockProps extends IBlockAttributes {
 
 export interface ITableBlock extends IBlock<TableBlockProps> {}
 
-export const TableBlock = ({ domNode: node, children, component: Component }: ITableBlock) => {
+export function TableBlock({ domNode: node, children, component: Component }: ITableBlock) {
 	const { name, className, attributes } = useBlock<TableBlockProps>(node);
 	const { align, typography, blockStyle, colors } = useBlockAttributes(node);
 
@@ -32,10 +32,16 @@ export const TableBlock = ({ domNode: node, children, component: Component }: IT
 			{children}
 		</Component>
 	);
-};
+}
 
-TableBlock.defaultProps = {
-	test: (node) => {
-		return isBlock(node, { tagName: 'figure', className: 'wp-block-table' });
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace TableBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlock(node, { tagName: 'figure', className: 'wp-block-table' });
+		},
+	};
+}

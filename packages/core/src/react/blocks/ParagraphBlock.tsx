@@ -13,11 +13,7 @@ export interface ParagraphBlockProps extends IBlockAttributes {
 
 export interface IParagraphBlock extends IBlock<ParagraphBlockProps> {}
 
-export const ParagraphBlock = ({
-	domNode: node,
-	component: Component,
-	children,
-}: IParagraphBlock) => {
+export function ParagraphBlock({ domNode: node, component: Component, children }: IParagraphBlock) {
 	const { className, name, attributes } = useBlock<ParagraphBlockProps>(node);
 	const { align, colors, typography } = useBlockAttributes(node);
 
@@ -34,8 +30,14 @@ export const ParagraphBlock = ({
 			{children}
 		</Component>
 	);
-};
+}
 
-ParagraphBlock.defaultProps = {
-	test: (node: Element) => isBlockByName(node, 'core/paragraph'),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace ParagraphBlock {
+	export const defaultProps = {
+		test: (node: Element) => isBlockByName(node, 'core/paragraph'),
+	};
+}
