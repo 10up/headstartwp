@@ -3,6 +3,7 @@ import { useFetch } from './useFetch';
 
 import type { HookResponse } from './types';
 import {
+	AuthorEntity,
 	FetchResponse,
 	getPostAuthor,
 	getPostTerms,
@@ -10,8 +11,9 @@ import {
 	PostEntity,
 	PostsArchiveFetchStrategy,
 	PostsArchiveParams,
+	TermEntity,
 } from '../../data';
-import { getCustomTaxonomySlugs } from '../../utils/getHeadlessConfig';
+import { getCustomTaxonomies } from '../../utils/getHeadlessConfig';
 import { getWPUrl } from '../../utils';
 
 export type PageType = {
@@ -53,8 +55,17 @@ export type PageType = {
 	taxonomy: string;
 };
 
+export type QueriedObject = {
+	author?: AuthorEntity;
+	term?: TermEntity;
+};
+
 export interface usePostsResponse extends HookResponse {
-	data?: { posts: PostEntity[]; pageInfo: PageInfo };
+	data?: {
+		posts: PostEntity[];
+		pageInfo: PageInfo;
+		queriedObject: QueriedObject;
+	};
 	pageType: PageType;
 }
 
@@ -99,6 +110,8 @@ export function useFetchPosts(
 		taxonomy: '',
 	};
 
+	const queriedObject: QueriedObject = { author: undefined, term: undefined };
+
 	if (queryParams.author) {
 		pageType.isPostArchive = true;
 		pageType.isAuthorArchive = true;
@@ -122,11 +135,12 @@ export function useFetchPosts(
 		pageType.isPostArchive = true;
 	}
 
-	const taxonomies = getCustomTaxonomySlugs();
-	taxonomies.forEach((taxonmy) => {
-		if (queryParams[taxonmy]) {
+	const taxonomies = getCustomTaxonomies();
+	taxonomies.forEach((taxonomy) => {
+		const { slug } = taxonomy;
+		if (queryParams[slug]) {
 			pageType.isTaxonomyArchive = true;
-			pageType.taxonomy = taxonmy;
+			pageType.taxonomy = slug;
 		}
 	});
 
@@ -148,7 +162,26 @@ export function useFetchPosts(
 		return post;
 	});
 
-	return { data: { posts, pageInfo }, loading: false, pageType };
+	if (queryParams.author && posts[0].author) {
+		queriedObject.author = posts[0].author[0];
+	}
+
+	if (queryParams.category && posts[0].terms?.category) {
+		queriedObject.term = posts[0].terms?.category[0];
+	}
+
+	if (queryParams.tag && posts[0].terms?.tag) {
+		queriedObject.term = posts[0].terms?.tag[0];
+	}
+
+	taxonomies.forEach((taxonomy) => {
+		const { slug } = taxonomy;
+		if (queryParams[slug] && posts[0]?.terms?.[slug]) {
+			queriedObject.term = posts[0]?.terms?.[slug][0];
+		}
+	});
+
+	return { data: { posts, pageInfo, queriedObject }, loading: false, pageType };
 }
 
 /**

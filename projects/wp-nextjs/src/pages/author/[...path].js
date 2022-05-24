@@ -21,7 +21,7 @@ const AuthorPage = () => {
 
 	return (
 		<>
-			<h1>Author Page</h1>
+			<h1>Author Page: {data.queriedObject.author.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>
