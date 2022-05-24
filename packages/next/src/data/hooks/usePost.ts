@@ -35,8 +35,6 @@ import { convertToPath } from '../utils';
  * @param params The parameters accepted by the hook
  * @param options Options for the SWR configuration
  *
- * @source The source code of the hook
- *
  * @category Data Fetching Hooks
  */
 export function usePost(

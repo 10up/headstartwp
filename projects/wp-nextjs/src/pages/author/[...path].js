@@ -1,15 +1,15 @@
 import {
-	usePosts,
 	fetchHookData,
 	addHookData,
 	handleError,
 	useAppSettings,
+	useAuthorArchive,
 } from '@10up/headless-next';
 import { Link } from '../../components/Link';
 import { resolveBatch } from '../../utils/promises';
 
-const CategoryPage = () => {
-	const { loading, error, data } = usePosts({ taxonomy: 'category' });
+const AuthorPage = () => {
+	const { loading, error, data } = useAuthorArchive();
 
 	if (error) {
 		return 'error';
@@ -21,7 +21,7 @@ const CategoryPage = () => {
 
 	return (
 		<>
-			<h1>Category Page: {data.queriedObject.term.name}</h1>
+			<h1>Author Page: {data.queriedObject.author.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>
@@ -33,15 +33,13 @@ const CategoryPage = () => {
 	);
 };
 
-export default CategoryPage;
+export default AuthorPage;
 
 export async function getServerSideProps(context) {
 	try {
 		const settledPromises = await resolveBatch([
 			{
-				func: fetchHookData(usePosts.fetcher(), context, {
-					params: { taxonomy: 'category' },
-				}),
+				func: fetchHookData(useAuthorArchive.fetcher(), context),
 			},
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
