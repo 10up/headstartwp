@@ -18,7 +18,7 @@ export interface useTermsResponse extends HookResponse {
 /**
  * The useFetchTerms hook. Returns a collection of term entities
  *
- * See [[useTerms]] for usage instructions.
+ * See {@link useTerms} for usage instructions.
  *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.

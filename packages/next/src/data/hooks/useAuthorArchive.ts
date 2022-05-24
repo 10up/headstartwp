@@ -1,11 +1,11 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
-import { useFetchPosts } from '@10up/headless-core/react';
+import { useFetchAuthorArchive } from '@10up/headless-core/react';
 import { SWRConfiguration } from 'swr';
 import { useRouter } from 'next/router';
 import { convertToPath } from '../utils';
 
 /**
- * The usePost hook. Returns a collection of post entities
+ * The useAuthorArchive hook. Returns a collection of post entities queried by author
  *
  * ## Usage
  *
@@ -58,7 +58,7 @@ import { convertToPath } from '../utils';
  *
  * ### Author Archive Pages
  *
- * IF you want to create specific routes for author archive pages (such as `pages/author/[...path.js]) use the {@link useAuthorArchive} hook.
+ * IF you want to create specific routes for author archive pages (such as `pages/author/[...path.js]) use the [[useAuthorArchive]] hook.
  *
  * If you're you are not using the built-in WordPress authors for your author archives pages check the section "Taxonomy Archive Pages"
  *
@@ -71,20 +71,20 @@ import { convertToPath } from '../utils';
  *
  * @category Data Fetching Hooks
  */
-export function usePosts(
+export function useAuthorArchive(
 	params: PostsArchiveParams = {},
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 ) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
-	return useFetchPosts(params, options, convertToPath(path));
+	return useFetchAuthorArchive(params, options, convertToPath(path));
 }
 
 /**
  * @internal
  */
 // eslint-disable-next-line no-redeclare
-export namespace usePosts {
-	export const { fetcher } = useFetchPosts;
+export namespace useAuthorArchive {
+	export const { fetcher } = useFetchAuthorArchive;
 }

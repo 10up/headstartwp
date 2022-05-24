@@ -4,3 +4,4 @@ export * from './useFetchPosts';
 export * from './useFetchSearch';
 export * from './types';
 export * from './useFetchTerms';
+export * from './useFetchAuthorArchive';

@@ -61,11 +61,12 @@ export interface usePostsResponse extends HookResponse {
 /**
  * The useFetchPosts hook. Returns a collection of post entities
  *
- * See [[usePosts]] for usage instructions.
+ * See {@link usePosts} for usage instructions.
  *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
+ * @param fetcher The fetch strategy to use. If none is passed, the default one is used
  *
  * @category Data Fetching Hooks
  */
@@ -73,6 +74,7 @@ export function useFetchPosts(
 	params: PostsArchiveParams,
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 	path = '',
+	fetcher: PostsArchiveFetchStrategy | undefined = undefined,
 ): usePostsResponse {
 	const {
 		data,
@@ -80,7 +82,7 @@ export function useFetchPosts(
 		params: queryParams,
 	} = useFetch<PostEntity, PostsArchiveParams>(
 		{ _embed: true, ...params },
-		useFetchPosts.fetcher(),
+		fetcher ?? useFetchPosts.fetcher(),
 		options,
 		path,
 	);

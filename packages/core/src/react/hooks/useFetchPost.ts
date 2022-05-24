@@ -18,7 +18,7 @@ export interface usePostResponse extends HookResponse {
 /**
  * The useFetchPost hook. Returns a single post entity
  *
- * See [[usePost]] for usage instructions.
+ * See {@link usePost} for usage instructions.
  *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
