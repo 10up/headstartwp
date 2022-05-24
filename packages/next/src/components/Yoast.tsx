@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-export const Yoast = ({ seo }) => {
+export function Yoast({ seo }) {
 	return (
 		<Head>
 			{seo?.yoast_head_json?.title && <title>{seo.yoast_head_json.title}</title>}
@@ -86,4 +86,4 @@ export const Yoast = ({ seo }) => {
 			)}
 		</Head>
 	);
-};
+}

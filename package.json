@@ -8,7 +8,9 @@
     "test": "turbo run test",
     "lint": "eslint .",
     "dev": "turbo run dev --parallel",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typedoc": "typedoc",
+    "typedoc:watch": "typedoc --watch"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
   "workspaces": [
@@ -19,6 +21,8 @@
     "@10up/eslint-config": "^2.3.7",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
+    "@knodes/typedoc-plugin-code-blocks": "^0.22.5",
+    "@knodes/typedoc-plugin-monorepo-readmes": "^0.22.5",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "concurrently": "^6.3.0",
@@ -26,7 +30,10 @@
     "eslint-plugin-jest": "^24.4.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
-    "turbo": "^1.2.9"
+    "turbo": "^1.2.9",
+    "typedoc": "^0.22.15",
+    "typedoc-monorepo-link-types": "^0.0.2",
+    "typedoc-plugin-inline-sources": "^1.0.1"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",

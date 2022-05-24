@@ -9,29 +9,31 @@ import {
 	TaxonomyTermsStrategy,
 	TermEntity,
 } from '../../data';
-import { getWPUrl } from '../../utils/getWPUrl';
+import { getWPUrl } from '../../utils';
 
 export interface useTermsResponse extends HookResponse {
 	data?: { terms: TermEntity[]; pageInfo: PageInfo };
 }
 
 /**
- * The useTerms hook. Returns a collection of term entities
+ * The useFetchTerms hook. Returns a collection of term entities
+ *
+ * See [[useTerms]] for usage instructions.
  *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
  *
- * @returns
+ * @category Data Fetching Hooks
  */
-export function useTermsImpl(
+export function useFetchTerms(
 	params: TaxonomyArchiveParams,
 	options: SWRConfiguration<FetchResponse<TermEntity>> = {},
 	path = '',
 ): useTermsResponse {
 	const { data, error } = useFetch<TermEntity, TaxonomyArchiveParams>(
 		{ _embed: true, ...params },
-		useTermsImpl.fetcher(),
+		useFetchTerms.fetcher(),
 		options,
 		path,
 	);
@@ -52,4 +54,10 @@ export function useTermsImpl(
 	return { data: { terms, pageInfo }, loading: false };
 }
 
-useTermsImpl.fetcher = () => new TaxonomyTermsStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useFetchTerms {
+	export const fetcher = () => new TaxonomyTermsStrategy(getWPUrl());
+}

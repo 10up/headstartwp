@@ -48,7 +48,7 @@ export async function fetchHookData(
 		path = Array.isArray(ctx.params.path) ? ctx.params.path : [ctx.params.path || ''];
 	}
 
-	const urlParams = fetchStrategy.getParamsFromURL(convertToPath(path));
+	const urlParams = fetchStrategy.getParamsFromURL(convertToPath(path), params);
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key

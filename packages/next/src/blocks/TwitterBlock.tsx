@@ -10,7 +10,7 @@ import Script from 'next/script';
  *
  * @returns
  */
-export const TwitterBlock = ({ children }) => {
+export function TwitterBlock({ children }) {
 	return (
 		<>
 			<Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
@@ -18,8 +18,14 @@ export const TwitterBlock = ({ children }) => {
 			{children}
 		</>
 	);
-};
+}
 
-TwitterBlock.defaultProps = {
-	test: (node) => isTwitterEmbed(node),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace TwitterBlock {
+	export const defaultProps = {
+		test: (node) => isTwitterEmbed(node),
+	};
+}

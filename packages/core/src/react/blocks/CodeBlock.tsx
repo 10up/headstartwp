@@ -12,7 +12,7 @@ export interface CodeBlockProps extends IBlockAttributes {
 
 export interface ICodeBlock extends IBlock<CodeBlockProps> {}
 
-export const CodeBlock = ({ domNode: node, children, component: Component }: ICodeBlock) => {
+export function CodeBlock({ domNode: node, children, component: Component }: ICodeBlock) {
 	const { name, className } = useBlock(node);
 	const { colors, typography, spacing } = useBlockAttributes(node);
 
@@ -28,8 +28,14 @@ export const CodeBlock = ({ domNode: node, children, component: Component }: ICo
 			{children}
 		</Component>
 	);
-};
+}
 
-CodeBlock.defaultProps = {
-	test: (node) => isBlock(node, { tagName: 'pre', className: 'wp-block-code' }),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace CodeBlock {
+	export const defaultProps = {
+		test: (node) => isBlock(node, { tagName: 'pre', className: 'wp-block-code' }),
+	};
+}

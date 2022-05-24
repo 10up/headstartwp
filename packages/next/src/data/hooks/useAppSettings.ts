@@ -12,6 +12,14 @@ export interface useAppSettingsResponse extends HookResponse {
 	data?: AppEntity;
 }
 
+/**
+ * The useAppSettings hook
+ *
+ * @param params
+ * @param options
+ *
+ * @category Data Fetching Hooks
+ */
 export function useAppSettings(
 	params = {},
 	options: SWRConfiguration<FetchResponse<AppEntity>> = {},
@@ -35,4 +43,10 @@ export function useAppSettings(
 	return { data: result, loading: false };
 }
 
-useAppSettings.fetcher = () => new AppSettingsStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useAppSettings {
+	export const fetcher = () => new AppSettingsStrategy(getWPUrl());
+}

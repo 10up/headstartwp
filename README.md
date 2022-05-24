@@ -19,14 +19,10 @@ Run the following commands from the root of the repo:
 
 The top-level `dev` command will boot up the `projects/wp-nextjs` project and start `tsc` in watch mode for all packages.
 
+### Documentation
 
-
-## Documentation
-- Getting Started
-- API Reference
-    - [@10up/headless-core](./packages/core)
-    - [@10up/headless-next](./packages/next)
-- Guides
+- [[@10up/headless-core]]
+- [[@10up/headless-next]]
 
 ## Support Level
 

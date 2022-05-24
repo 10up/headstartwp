@@ -1,18 +1,58 @@
 import { ConfigError, getCustomTaxonomy } from '../../utils';
 import { endpoints } from '../utils';
-
 import { TermEntity } from '../types';
-
 import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
 
+/**
+ * The endpoint params supported by [[TaxonomyTermsStrategy]]
+ */
 export interface TaxonomyArchiveParams extends EndpointParams {
+	/**
+	 * The taxonomy the terms are to be fetched from.
+	 */
 	taxonomy?: string;
+
+	/**
+	 * Current page of the collection.
+	 *
+	 * @default 1
+	 */
 	page?: string;
+
+	/**
+	 * Maximum number of items to be returned in result set.
+	 *
+	 * @default 10
+	 */
 	per_page?: string;
+
+	/**
+	 * Limit results to those matching a string
+	 */
 	search?: string;
-	include?: string[];
-	exclude?: string[];
+
+	/**
+	 * Limit result set to specific IDs.
+	 */
+	include?: number | number[];
+
+	/**
+	 * Ensure result set excludes specific IDs.
+	 */
+	exclude?: number | number[];
+
+	/**
+	 * Order sort attribute ascending or descending.
+	 *
+	 * @default 'asc'
+	 */
 	order?: 'asc' | 'desc';
+
+	/**
+	 * Sort collection by term attribute.
+	 *
+	 * @default 'name'
+	 */
 	orderby?:
 		| 'id'
 		| 'include'
@@ -22,12 +62,33 @@ export interface TaxonomyArchiveParams extends EndpointParams {
 		| 'term_group'
 		| 'description'
 		| 'count';
+
+	/**
+	 * Whether to hide terms not assigned to any posts.
+	 */
 	hide_empty?: string;
+
+	/**
+	 * Limit result set to terms assigned to a specific parent.
+	 */
 	parent?: number;
+
+	/**
+	 * Limit result set to terms assigned to a specific post.
+	 */
 	post?: number;
-	slug: string | string[];
+
+	/**
+	 * Limit result set to terms with one or more specific slugs.
+	 */
+	slug?: string | string[];
 }
 
+/**
+ * This fetch strategy does not support extracting url params from the url
+ *
+ * @category Data Fetching
+ */
 export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 	TermEntity,
 	TaxonomyArchiveParams
@@ -38,8 +99,12 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 		return endpoints.category;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getParamsFromURL(path: string): Partial<TaxonomyArchiveParams> {
+	getParamsFromURL(
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		path: string,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		params: Partial<TaxonomyArchiveParams> = {},
+	): Partial<TaxonomyArchiveParams> {
 		return { _embed: true };
 	}
 

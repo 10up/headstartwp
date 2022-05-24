@@ -23,7 +23,7 @@ export interface CoverBlockProps extends IBlockAttributes {
 
 export interface ICoverBlock extends IBlock<CoverBlockProps> {}
 
-export const CoverBlock = ({ domNode: node, children, component: Component }: ICoverBlock) => {
+export function CoverBlock({ domNode: node, children, component: Component }: ICoverBlock) {
 	const { name, className, attributes } = useBlock<CoverBlockProps>(node);
 	const { spacing, align } = useBlockAttributes(node);
 
@@ -47,25 +47,31 @@ export const CoverBlock = ({ domNode: node, children, component: Component }: IC
 			{children}
 		</Component>
 	);
-};
+}
 
-CoverBlock.defaultProps = {
-	test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-cover' }),
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace CoverBlock {
+	export const defaultProps = {
+		test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-cover' }),
 
-	/**
-	 * Exclude all direct children except the paragraph inner block
-	 *
-	 * @param node The dom node
-	 * @returns
-	 */
-	exclude: (node) => {
-		const isDirectChild =
-			node?.parent?.attribs &&
-			node.parent.attribs.class.split(' ').includes('wp-block-cover');
+		/**
+		 * Exclude all direct children except the paragraph inner block
+		 *
+		 * @param node The dom node
+		 * @returns
+		 */
+		exclude: (node) => {
+			const isDirectChild =
+				node?.parent?.attribs &&
+				node.parent.attribs.class.split(' ').includes('wp-block-cover');
 
-		return (
-			isDirectChild &&
-			!node.attribs.class.split(' ').includes('wp-block-cover__inner-container')
-		);
-	},
-};
+			return (
+				isDirectChild &&
+				!node.attribs.class.split(' ').includes('wp-block-cover__inner-container')
+			);
+		},
+	};
+}

@@ -1,3 +1,8 @@
+/**
+ * Test comment
+ *
+ * @packageDocumentation
+ */
 import getConfig from 'next/config';
 
 if (typeof window === 'undefined') {

@@ -12,7 +12,7 @@ export interface ColumnsBlockProps extends IBlockAttributes {
 
 export interface IColumnsBlock extends IBlock<ColumnsBlockProps> {}
 
-export const ColumnsBlock = ({ domNode: node, children, component: Component }: IColumnsBlock) => {
+export function ColumnsBlock({ domNode: node, children, component: Component }: IColumnsBlock) {
 	const { name, className } = useBlock(node);
 	const { spacing, colors, blockStyle } = useBlockAttributes(node);
 
@@ -28,8 +28,14 @@ export const ColumnsBlock = ({ domNode: node, children, component: Component }: 
 			{children}
 		</Component>
 	);
-};
+}
 
-ColumnsBlock.defaultProps = {
-	test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-columns' }),
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace ColumnsBlock {
+	export const defaultProps = {
+		test: (node) => isBlock(node, { tagName: 'div', className: 'wp-block-columns' }),
+	};
+}
