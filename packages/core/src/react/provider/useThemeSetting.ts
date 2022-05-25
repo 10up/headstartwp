@@ -1,6 +1,6 @@
 import { useThemeSettings } from './useThemeSettings';
 
-const get = (obj, path, defaultValue = undefined) => {
+const get = (obj, path, defaultValue: any = undefined) => {
 	const travel = (regexp) =>
 		String.prototype.split
 			.call(path, regexp)
@@ -17,12 +17,16 @@ const get = (obj, path, defaultValue = undefined) => {
  * @param blockName - The block name
  * @returns
  */
-export function useThemeSetting(path: string, blockName: string = '') {
+export function useThemeSetting(
+	path: string,
+	blockName: string | null = '',
+	defaultValue: any = '',
+) {
 	const settings = useThemeSettings();
 
 	if (blockName && get(settings, `blocks.${blockName}.${path}`)) {
 		return get(settings, `blocks.${blockName}.${path}`);
 	}
 
-	return get(settings, path);
+	return get(settings, path, defaultValue);
 }

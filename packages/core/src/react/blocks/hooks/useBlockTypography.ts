@@ -23,8 +23,8 @@ interface BlockTypographyAttributes extends IBlockAttributes {
  */
 export function useBlockTypography(node: Element): Typography {
 	const { name, attributes } = useBlock<BlockTypographyAttributes>(node);
-	const defaultfFontSizesSettings = useThemeSetting('typography.fontSizes.default');
-	const fontSizesSettings = useThemeSetting('typography.fontSizes', name);
+	const defaultfFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
+	const fontSizesSettings = useThemeSetting('typography.fontSizes', name, []);
 	const supportsCustomFontSize = !!useThemeSetting('typography.customFontSize', name);
 	const supportsFontStyle = !!useThemeSetting('typography.fontStyle', name);
 	const supportsFontWeight = !!useThemeSetting('typography.fontWeight', name);

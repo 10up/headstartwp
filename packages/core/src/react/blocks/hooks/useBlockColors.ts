@@ -25,11 +25,11 @@ interface ColorBlockAttributes extends IBlockAttributes, Colors {
 export function useBlockColors(node: Element) {
 	const { name, attributes } = useBlock<ColorBlockAttributes>(node);
 
-	const defaultColorsSettings = useThemeSetting('color.palette.default');
-	const defaultGradientsSettings = useThemeSetting('color.palette.default');
+	const defaultColorsSettings = useThemeSetting('color.palette.default', null, []);
+	const defaultGradientsSettings = useThemeSetting('color.palette.default', null, []);
 
-	const colorsSettings = useThemeSetting('color.palette', name);
-	const grandientsSettings = useThemeSetting('color.gradients', name);
+	const colorsSettings = useThemeSetting('color.palette', name, []);
+	const grandientsSettings = useThemeSetting('color.gradients', name, []);
 
 	const colors = Array.isArray(colorsSettings) ? colorsSettings : colorsSettings?.theme;
 	const gradients = Array.isArray(grandientsSettings)
