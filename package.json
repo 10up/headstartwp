@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "dev": "turbo run dev --parallel",
     "prepare": "husky install",
-    "typedoc": "typedoc",
+    "typedoc": "typedoc && echo docs.headless.10up.com > docs/CNAME",
     "typedoc:watch": "typedoc --watch"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
