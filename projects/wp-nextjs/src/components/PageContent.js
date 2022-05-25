@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { usePost } from '@10up/headless-next';
-import { Blocks } from './Blocks';
+import dynamic from 'next/dynamic';
+
+const Blocks = dynamic(() => import('./Blocks'));
 
 /**
  * This is an example of how an inner componnet can access the data without explicity passing the data to it.

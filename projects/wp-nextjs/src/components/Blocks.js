@@ -24,3 +24,5 @@ export const Blocks = ({ html }) => {
 Blocks.propTypes = {
 	html: PropTypes.string.isRequired,
 };
+
+export default Blocks;
