@@ -14,13 +14,11 @@
         "pages": [
             {
                 "title": "Getting Started",
-                "source": "getting-started.md",
-                "children": [
-                    { 
-                        "title": "Installation",
-                        "source": "installation.md"
-                    }
-                ]
+                "source": "getting-started.md"
+            },
+            {
+                "title": "Setting up the framework manually",
+                "source": "installing-from-scratch.md"
             }
         ]
     }

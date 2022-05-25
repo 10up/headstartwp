@@ -1,10 +1,14 @@
 
-> A framework for building headless WordPress sites.
+# 10up's Headless Framework
 
+> A framework for building headless WordPress sites.
 
 ### Documentation
 
-Visit [docs.headless.10up.com](docs.headless.10up.com) for documentation.
+See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) guide.
+
+Visit [docs.headless.10up.com](docs.headless.10up.com) for full documentation.
+
 
 ## Support Level
 
