@@ -1,5 +1,5 @@
 {
-    "name": "10up's Headless Framework",
+    "name": "10up's Headless Framework (BETA)",
     "out": "docs",
     "entryPoints": ["packages/core", "packages/next"],
     "entryPointStrategy": "packages",

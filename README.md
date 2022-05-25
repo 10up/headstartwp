@@ -4,7 +4,7 @@
 
 ### Documentation
 
-Documention is avaliable at [[]]
+Visit [docs.headless.10up.com](docs.headless.10up.com) for documentation.
 
 ## Support Level
 

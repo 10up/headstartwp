@@ -1,4 +1,9 @@
 
+## Automatic Setup
+
+
+## Manual Setup
+
 ## Instructions for using the framework
 > These are temporary instructions
 
