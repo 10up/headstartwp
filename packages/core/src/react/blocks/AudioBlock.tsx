@@ -1,7 +1,7 @@
 import type { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock } from './hooks';
+import { useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 /**
@@ -57,6 +57,7 @@ export interface IAudioBlock extends IBlock<AudioBlockProps> {}
  */
 export function AudioBlock({ domNode: node, children, component: Component }: IAudioBlock) {
 	const { name, className } = useBlock(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	const audio = node.firstChild as Element;
 	const figcaption = node.lastChild as Element;
@@ -73,6 +74,7 @@ export function AudioBlock({ domNode: node, children, component: Component }: IA
 			autoplay={!!audioAttributes.autoplay}
 			loop={!!audioAttributes.loop}
 			preload={audioAttributes.preload}
+			attributes={blockAttributes}
 		>
 			{children}
 		</Component>

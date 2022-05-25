@@ -2,28 +2,22 @@ import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
-import { Colors, IBlockAttributes, Spacing, Typography } from './types';
+import { IBlockAttributes } from './types';
 
-export interface VerseBlockProps extends IBlockAttributes {
-	colors?: Colors;
-	typography?: Typography;
-	spacing?: Spacing;
-}
+export interface VerseBlockProps extends IBlockAttributes {}
 
 export interface IVerseBlock extends IBlock<VerseBlockProps> {}
 
 export function VerseBlock({ domNode: node, component: Component, children }: IVerseBlock) {
 	const { className, name } = useBlock<VerseBlockProps>(node);
-	const { colors, typography, spacing } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
 		<Component
 			name={name}
 			domNode={node}
 			className={className || ''}
-			colors={colors}
-			typography={typography}
-			spacing={spacing}
+			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
 		>
 			{children}

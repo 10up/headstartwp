@@ -2,12 +2,9 @@ import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
-import { Colors, IBlockAttributes, Typography } from './types';
+import { IBlockAttributes } from './types';
 
-export interface PreformattedBlockProps extends IBlockAttributes {
-	colors?: Colors;
-	typography?: Typography;
-}
+export interface PreformattedBlockProps extends IBlockAttributes {}
 
 export interface IPreformattedBlock extends IBlock<PreformattedBlockProps> {}
 
@@ -17,15 +14,14 @@ export function PreformattedBlock({
 	children,
 }: IPreformattedBlock) {
 	const { className, name } = useBlock<PreformattedBlockProps>(node);
-	const { colors, typography } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
 		<Component
 			name={name}
 			domNode={node}
 			className={className || ''}
-			colors={colors}
-			typography={typography}
+			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
 		>
 			{children}

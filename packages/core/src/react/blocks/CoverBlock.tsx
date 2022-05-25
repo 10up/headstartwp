@@ -2,17 +2,15 @@ import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
-import { IBlockAttributes, Align, Spacing } from './types';
+import { IBlockAttributes } from './types';
 
 export interface CoverBlockProps extends IBlockAttributes {
 	overlayColor: string;
-	spacing: Spacing;
 	hasParallax: boolean;
 	isRepeated: boolean;
 	id: number;
 	dimRatio: number;
 	isDark: boolean;
-	align: Align;
 	url: string;
 	minHeight: number;
 	focalPoint?: {
@@ -25,7 +23,7 @@ export interface ICoverBlock extends IBlock<CoverBlockProps> {}
 
 export function CoverBlock({ domNode: node, children, component: Component }: ICoverBlock) {
 	const { name, className, attributes } = useBlock<CoverBlockProps>(node);
-	const { spacing, align } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
 		<Component
@@ -33,16 +31,15 @@ export function CoverBlock({ domNode: node, children, component: Component }: IC
 			domNode={node}
 			className={className}
 			overlayColor={attributes.overlayColor}
-			spacing={spacing}
 			id={attributes.id}
 			dimRatio={attributes.dimRatio}
 			isDark={attributes.isDark}
-			align={align}
 			url={attributes.url}
 			minHeight={attributes.minHeight}
 			hasParallax={!!attributes.hasParallax}
 			isRepeated={!!attributes.isRepeated}
 			focalPoint={attributes.focalPoint}
+			attributes={blockAttributes}
 		>
 			{children}
 		</Component>

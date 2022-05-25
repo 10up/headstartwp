@@ -6,7 +6,6 @@ import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes } from './types';
 
 export interface ImageBlockProps extends IBlockAttributes {
-	blockStyle?: string;
 	width?: number;
 	height?: number;
 	sizeSlug?: string;
@@ -19,7 +18,7 @@ export interface IImageBlock extends IBlock<ImageBlockProps> {}
 
 export function ImageBlock({ domNode: node, children, component: Component }: IImageBlock) {
 	const { name, className, attributes } = useBlock<ImageBlockProps>(node);
-	const { blockStyle } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	const hasFigureNode = (node.firstChild as Element).name === 'figure';
 
@@ -45,7 +44,7 @@ export function ImageBlock({ domNode: node, children, component: Component }: II
 			className={className}
 			src={src}
 			alt={alt}
-			blockStyle={blockStyle}
+			attributes={blockAttributes}
 			width={width || Number(imgNodeWidth)}
 			height={height || Number(imgNodeHeight)}
 		>

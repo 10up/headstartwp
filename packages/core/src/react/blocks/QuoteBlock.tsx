@@ -1,28 +1,22 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
-import { Align, IBlockAttributes, Typography } from './types';
+import { IBlockAttributes } from './types';
 
-export interface QuoteBlockProps extends IBlockAttributes {
-	typography?: Typography;
-	align?: Align;
-	blockStyle?: string;
-}
+export interface QuoteBlockProps extends IBlockAttributes {}
 
 export interface IQuoteBlock extends IBlock<QuoteBlockProps> {}
 
 export function QuoteBlock({ domNode: node, children, component: Component }: IQuoteBlock) {
 	const { name, className } = useBlock<QuoteBlockProps>(node);
-	const { align, typography, blockStyle } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
 		<Component
 			name={name}
 			domNode={node}
 			className={className}
-			align={align}
-			typography={typography}
-			blockStyle={blockStyle}
+			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
 		>
 			{children}

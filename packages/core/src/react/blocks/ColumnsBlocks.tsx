@@ -2,29 +2,18 @@ import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
-import { Colors, IBlockAttributes, Spacing } from './types';
+import { IBlockAttributes } from './types';
 
-export interface ColumnsBlockProps extends IBlockAttributes {
-	colors: Colors;
-	spacing: Spacing;
-	blockStyle: string;
-}
+export interface ColumnsBlockProps extends IBlockAttributes {}
 
 export interface IColumnsBlock extends IBlock<ColumnsBlockProps> {}
 
 export function ColumnsBlock({ domNode: node, children, component: Component }: IColumnsBlock) {
 	const { name, className } = useBlock(node);
-	const { spacing, colors, blockStyle } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
-		<Component
-			name={name}
-			domNode={node}
-			className={className}
-			colors={colors}
-			spacing={spacing}
-			blockStyle={blockStyle}
-		>
+		<Component name={name} domNode={node} className={className} attributes={blockAttributes}>
 			{children}
 		</Component>
 	);
