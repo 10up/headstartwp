@@ -12,29 +12,31 @@ import {
 	PostsArchiveParams,
 	SearchFetchStrategy,
 } from '../../data';
-import { getWPUrl } from '../../utils/getWPUrl';
+import { getWPUrl } from '../../utils';
 
 export interface useSearchResponse extends HookResponse {
 	data?: { posts: PostEntity[]; pageInfo: PageInfo };
 }
 
 /**
- * The useSearch hook. Returns a collection of search entities
+ * The useFetchSearch hook. Returns a collection of post entities
+ *
+ * See {@link useSearch} for usage instructions.
  *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
  *
- * @returns
+ * @category Data Fetching Hooks
  */
-export function useSearchImpl(
+export function useFetchSearch(
 	params: PostsArchiveParams,
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 	path = '',
 ): useSearchResponse {
 	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
 		{ _embed: true, ...params },
-		useSearchImpl.fetcher(),
+		useFetchSearch.fetcher(),
 		options,
 		path,
 	);
@@ -60,4 +62,10 @@ export function useSearchImpl(
 	return { data: { posts, pageInfo }, loading: false };
 }
 
-useSearchImpl.fetcher = () => new SearchFetchStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useFetchSearch {
+	export const fetcher = () => new SearchFetchStrategy(getWPUrl());
+}

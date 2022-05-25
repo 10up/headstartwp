@@ -11,7 +11,7 @@ export interface QuoteBlockProps extends IBlockAttributes {
 
 export interface IQuoteBlock extends IBlock<QuoteBlockProps> {}
 
-export const QuoteBlock = ({ domNode: node, children, component: Component }: IQuoteBlock) => {
+export function QuoteBlock({ domNode: node, children, component: Component }: IQuoteBlock) {
 	const { name, className } = useBlock<QuoteBlockProps>(node);
 	const { align, typography, blockStyle } = useBlockAttributes(node);
 
@@ -28,10 +28,16 @@ export const QuoteBlock = ({ domNode: node, children, component: Component }: IQ
 			{children}
 		</Component>
 	);
-};
+}
 
-QuoteBlock.defaultProps = {
-	test: (node) => {
-		return isBlock(node, { tagName: 'blockquote', className: 'wp-block-quote' });
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace QuoteBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlock(node, { tagName: 'blockquote', className: 'wp-block-quote' });
+		},
+	};
+}

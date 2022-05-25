@@ -17,11 +17,11 @@ export interface PullQuoteBlockProps extends IBlockAttributes {
 
 export interface IPullQuotekBlock extends IBlock<PullQuoteBlockProps> {}
 
-export const PullQuoteBlock = ({
+export function PullQuoteBlock({
 	domNode: node,
 	children,
 	component: Component,
-}: IPullQuotekBlock) => {
+}: IPullQuotekBlock) {
 	const { name, className, attributes } = useBlock<PullQuoteBlockProps>(node);
 	const { align, typography, colors, border } = useBlockAttributes(node);
 
@@ -49,10 +49,16 @@ export const PullQuoteBlock = ({
 			{children}
 		</Component>
 	);
-};
+}
 
-PullQuoteBlock.defaultProps = {
-	test: (node) => {
-		return isBlock(node, { tagName: 'figure', className: 'wp-block-pullquote' });
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace PullQuoteBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlock(node, { tagName: 'figure', className: 'wp-block-pullquote' });
+		},
+	};
+}

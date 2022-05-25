@@ -83,6 +83,117 @@ describe('PostsArchiveFetchStrategy', () => {
 		});
 	});
 
+	it('parses the url properly when taxonopmy is set', () => {
+		expect(fetchStrategy.getParamsFromURL('/category-name', { taxonomy: 'category' })).toEqual({
+			category: 'category-name',
+		});
+
+		expect(fetchStrategy.getParamsFromURL('/tag-name', { taxonomy: 'post_tag' })).toEqual({
+			tag: 'tag-name',
+		});
+
+		// date archives
+		expect(
+			fetchStrategy.getParamsFromURL('/category-name/2021', { taxonomy: 'category' }),
+		).toEqual({
+			category: 'category-name',
+			year: '2021',
+		});
+
+		expect(
+			fetchStrategy.getParamsFromURL('/category-name/2021/10', { taxonomy: 'category' }),
+		).toEqual({
+			category: 'category-name',
+			year: '2021',
+			month: '10',
+		});
+
+		expect(
+			fetchStrategy.getParamsFromURL('/category-name/2021/10/30', { taxonomy: 'category' }),
+		).toEqual({
+			category: 'category-name',
+			year: '2021',
+			month: '10',
+			day: '30',
+		});
+
+		// pagination
+		expect(
+			fetchStrategy.getParamsFromURL('/category-name/page/1', { taxonomy: 'category' }),
+		).toEqual({
+			category: 'category-name',
+			page: '1',
+		});
+
+		expect(
+			fetchStrategy.getParamsFromURL('/category-name/page/10', { taxonomy: 'category' }),
+		).toEqual({
+			category: 'category-name',
+			page: '10',
+		});
+
+		// author
+		expect(
+			fetchStrategy.getParamsFromURL('/category-name/author/author-name/page/10', {
+				taxonomy: 'category',
+			}),
+		).toEqual({
+			category: 'category-name',
+			author: 'author-name',
+			page: '10',
+		});
+	});
+
+	it('parses url properly for custom taxonomies when taxonomy is set', () => {
+		setHeadlessConfig({
+			useWordPressPlugin: false,
+			customTaxonomies: [
+				{
+					slug: 'genre',
+					endpoint: '/wp-json/wp/v2/genre',
+				},
+				{
+					slug: 'type',
+					endpoint: '/wp-json/wp/v2/types',
+				},
+			],
+		});
+
+		expect(fetchStrategy.getParamsFromURL('/genre-name', { taxonomy: 'genre' })).toEqual({
+			genre: 'genre-name',
+		});
+
+		expect(
+			fetchStrategy.getParamsFromURL('/genre-name/2021/10/30', { taxonomy: 'genre' }),
+		).toEqual({
+			genre: 'genre-name',
+			year: '2021',
+			month: '10',
+			day: '30',
+		});
+
+		// pagination
+		expect(fetchStrategy.getParamsFromURL('/genre-name/page/1', { taxonomy: 'genre' })).toEqual(
+			{
+				genre: 'genre-name',
+				page: '1',
+			},
+		);
+
+		expect(
+			fetchStrategy.getParamsFromURL('/genre-name/page/10', { taxonomy: 'genre' }),
+		).toEqual({
+			genre: 'genre-name',
+			page: '10',
+		});
+	});
+
+	it('throws exceptions when taxonomy is unkonwn', () => {
+		expect(() => fetchStrategy.getParamsFromURL('/term-name', { taxonomy: 'genre' })).toThrow(
+			'Taxonomy "genre" not found',
+		);
+	});
+
 	it('bulds the endpoint url properly', () => {
 		// category should not be included directly in the url
 		expect(fetchStrategy.buildEndpointURL({ category: 'cat-test' })).toEqual(
@@ -227,11 +338,15 @@ describe('PostsArchiveFetchStrategy', () => {
 
 		let params = fetchStrategy.getParamsFromURL('/category/category-test');
 		let fetchPromise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		await expect(fetchPromise).rejects.toThrow('Category "category-test" has not been found');
+		await expect(fetchPromise).rejects.toThrow(
+			'Term "category-test" from "category" has not been found',
+		);
 
 		params = fetchStrategy.getParamsFromURL('/tag/tag-test');
 		fetchPromise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		await expect(fetchPromise).rejects.toThrow('Tag "tag-test" has not been found');
+		await expect(fetchPromise).rejects.toThrow(
+			'Term "tag-test" from "post_tag" has not been found',
+		);
 
 		params = fetchStrategy.getParamsFromURL('/genre/action');
 		fetchPromise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
@@ -280,13 +395,13 @@ describe('PostsArchiveFetchStrategy', () => {
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 		expect(apiGetMock).toHaveBeenNthCalledWith(
 			2,
-			'/wp-json/wp/v2/posts?category=category-test',
+			'/wp-json/wp/v2/posts?categories=category-test',
 			{},
 		);
 
 		params = fetchStrategy.getParamsFromURL('/tag/tag-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts?post_tag=tag-test', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts?tags=tag-test', {});
 
 		params = fetchStrategy.getParamsFromURL('/genre/action');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
@@ -307,6 +422,47 @@ describe('PostsArchiveFetchStrategy', () => {
 		expect(apiGetMock).toHaveBeenNthCalledWith(
 			6,
 			'/wp-json/wp/v2/book?page=2&genre=action',
+			{},
+		);
+	});
+
+	it('fetches content properly with when taxonomy is set', async () => {
+		setHeadlessConfig({
+			useWordPressPlugin: true,
+			customTaxonomies: [
+				{
+					slug: 'genre',
+					endpoint: '/wp-json/wp/v2/genre',
+					rewrite: 'genres',
+					restParam: 'genre-rest-param',
+				},
+			],
+		});
+
+		apiGetMock.mockResolvedValue({ headers: {}, json: [{ id: 1 }] });
+
+		let params = fetchStrategy.getParamsFromURL('/genre-name', { taxonomy: 'genre' });
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts?genre-rest-param=genre-name',
+			{},
+		);
+
+		params = fetchStrategy.getParamsFromURL('/genre-name/page/2', { taxonomy: 'genre' });
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts?page=2&genre-rest-param=genre-name',
+			{},
+		);
+
+		params = fetchStrategy.getParamsFromURL('/genre-name/2021/10/30', { taxonomy: 'genre' });
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			3,
+			'/wp-json/wp/v2/posts?year=2021&month=10&day=30&genre-rest-param=genre-name',
 			{},
 		);
 	});

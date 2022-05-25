@@ -12,7 +12,7 @@ export interface HeadingBlockProps extends IBlockAttributes {
 
 export interface IHeadingBlock extends IBlock<HeadingBlockProps> {}
 
-export const HeadingBlock = ({ domNode: node, children, component: Component }: IHeadingBlock) => {
+export function HeadingBlock({ domNode: node, children, component: Component }: IHeadingBlock) {
 	const { name, className, attributes } = useBlock<HeadingBlockProps>(node);
 	const { align, colors, typography } = useBlockAttributes(node);
 
@@ -31,10 +31,16 @@ export const HeadingBlock = ({ domNode: node, children, component: Component }: 
 			{children}
 		</Component>
 	);
-};
+}
 
-HeadingBlock.defaultProps = {
-	test: (node) => {
-		return isBlockByName(node, 'core/heading');
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace HeadingBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlockByName(node, 'core/heading');
+		},
+	};
+}

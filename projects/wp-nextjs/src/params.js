@@ -25,3 +25,8 @@ export const bookParams = { postType: ['book'] };
  * @type {import('@10up/headless-core').PostsArchiveParams}
  */
 export const booksParams = { postType: 'book' };
+
+/**
+ * @type {import('@10up/headless-core').TaxonomyArchiveParams}
+ */
+export const indexTermsParams = { order: 'asc', orderby: 'count' };

@@ -10,7 +10,7 @@ export interface SpacerBlockProps extends IBlockAttributes {
 
 export interface ISpacerBlock extends IBlock<SpacerBlockProps> {}
 
-export const SpacerBlock = ({ domNode: node, children, component: Component }: ISpacerBlock) => {
+export function SpacerBlock({ domNode: node, children, component: Component }: ISpacerBlock) {
 	const { name, className } = useBlock<SpacerBlockProps>(node);
 	const style = getInlineStyles(node);
 	const height = style ? style.height : '';
@@ -25,10 +25,16 @@ export const SpacerBlock = ({ domNode: node, children, component: Component }: I
 			{children}
 		</Component>
 	);
-};
+}
 
-SpacerBlock.defaultProps = {
-	test: (node) => {
-		return isBlock(node, { tagName: 'div', className: 'wp-block-spacer' });
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace SpacerBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlock(node, { tagName: 'div', className: 'wp-block-spacer' });
+		},
+	};
+}

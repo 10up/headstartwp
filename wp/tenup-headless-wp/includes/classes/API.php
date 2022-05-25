@@ -110,6 +110,10 @@ class API {
 		foreach ( $taxonomies as $taxonomy ) {
 			$term = filter_input( INPUT_GET, $taxonomy->name, FILTER_SANITIZE_STRING );
 
+			if ( ! $term ) {
+				$term = filter_input( INPUT_GET, $taxonomy->rest_base, FILTER_SANITIZE_STRING );
+			}
+
 			if ( ! empty( $term ) && ! is_numeric( $term ) ) {
 				if ( isset( $args['tax_query'] ) ) {
 					$args['tax_query'][0]['field'] = 'slug';

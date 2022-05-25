@@ -29,24 +29,27 @@ export const postsMatchers: Matcher[] = [
 		pattern: '/page/:page',
 	},
 	{
-		name: 'category',
-		priority: 30,
-		pattern: '/category/:category',
-	},
-	{
-		name: 'category-with-pagination',
-		priority: 30,
-		pattern: '/category/:category/page/:page',
-	},
-	{
-		name: 'tag',
-		priority: 30,
-		pattern: '/tag/:tag',
-	},
-	{
 		name: 'author',
 		priority: 30,
 		pattern: '/author/:author',
+	},
+	{
+		name: 'author-with-pagination',
+		priority: 30,
+		pattern: '/author/:author/page/:page',
+	},
+];
+
+export const authorArchivesMatchers: Matcher[] = [
+	{
+		name: 'author-archive',
+		priority: 30,
+		pattern: '/:author',
+	},
+	{
+		name: 'author-with-pagination',
+		priority: 30,
+		pattern: '/:author/page/:page',
 	},
 ];
 

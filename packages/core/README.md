@@ -2,6 +2,10 @@
 
 > `@10up/headless-core` is the core package that houses framework-agnostic components and utilities for building headless sites with WordPress.
 
+In addition to the default export, this packages also exports:
+- `@10up/headless-core/react`: React Components and Custom Hooks
+- `@!0up/headless-core/utils`: An additional export that only include small utilities functions. Useful if you don't want to use the whole framework.
+
 ## Installation
 
 ### @next (unstable)
@@ -9,34 +13,6 @@
 ```
 npm install --save @10up/headless-core@next
 ```
-
-## Documentation
-
-### APIs
- - [Utilities](./docs//api/utils.md)
-    - [fetchRedirect](./docs/api/utils.md#fetchRedirect)
-    - [isExternalUrl](./docs/api/utils.md#isexternalurl)
-    - [isInternalLink](./docs/api/utils.md#isinternallink)
-    - [removeSourceUrl](./docs/api/utils.md#removesourceurl)
-    - [getWPUrl](./docs/api/utils.md#getwpurl)
- - [DOM Functions](./docs/api/dom.md)
-    - [isAnchorTag](./docs/api/dom.md#isAnchorTag)
-    - [isImageTag](./docs/api/dom.md#isimagetag)
-    - [isYoutubeEmbed](./docs/api/dom.md#isyoutubeembed)
-    - [isTwitterEmbed](./docs/api/dom.md#istwitterembed)
-    - [wpKsesPost](./docs/api/dom.md)
- - [Data Fetching APIs](./docs/api/data.md)
-
-### Hooks
- - [useFetch](./docs/api/hooks.md#usefetch)
- - [usePostImpl](./docs/api/hooks.md#usepostimpl)
- - [usePostImpl](./docs/api/hooks.md#usepostsimpl)
- - [useSearchImpl](./docs/api/hooks.md#usesearchimpl)
-
-### Components
- - [SettingsProvider](./docs/components/SettingsProvider.md)
- - [BlocksRenderer](./docs/components/BlocksRenderer.md)
- - [Menu](./docs/components/Menu.md)
 
 ## Support Level
 

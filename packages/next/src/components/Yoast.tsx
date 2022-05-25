@@ -1,6 +1,14 @@
 import Head from 'next/head';
 
-export const Yoast = ({ seo }) => {
+/**
+ * The Yoast component renders the Yoast SEO meta tags.
+ * This component is automatically rendered by {@link HeadlessApp} so you don't have to manually render it.
+ *
+ * @param props Component props. Expects a single `seo` prop
+ *
+ * @category React Components
+ */
+export function Yoast({ seo }) {
 	return (
 		<Head>
 			{seo?.yoast_head_json?.title && <title>{seo.yoast_head_json.title}</title>}
@@ -86,4 +94,4 @@ export const Yoast = ({ seo }) => {
 			)}
 		</Head>
 	);
-};
+}

@@ -1,10 +1,11 @@
 {
   "name": "@10up/headless-core",
-  "version": "0.0.1-alpha.33",
+  "version": "0.0.1-alpha.36",
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
   "types": "dist/mjs/index.d.ts",
+  "typedocMain": "src/docs-entry-point.ts",
   "publishConfig": {
     "access": "public"
   },

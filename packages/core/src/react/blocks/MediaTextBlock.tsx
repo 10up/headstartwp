@@ -21,11 +21,7 @@ export interface MediaTextBlockProps extends IBlockAttributes {
 }
 
 export interface IMediaTextBlock extends IBlock<MediaTextBlockProps> {}
-export const MediaTextBlock = ({
-	domNode: node,
-	children,
-	component: Component,
-}: IMediaTextBlock) => {
+export function MediaTextBlock({ domNode: node, children, component: Component }: IMediaTextBlock) {
 	const { name, className, attributes } = useBlock<MediaTextBlockProps>(node);
 	const { colors, blockStyle, align } = useBlockAttributes(node);
 
@@ -50,10 +46,16 @@ export const MediaTextBlock = ({
 			{children}
 		</Component>
 	);
-};
+}
 
-MediaTextBlock.defaultProps = {
-	test: (node) => {
-		return isBlock(node, { tagName: 'div', className: 'wp-block-media-text' });
-	},
-};
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace MediaTextBlock {
+	export const defaultProps = {
+		test: (node) => {
+			return isBlock(node, { tagName: 'div', className: 'wp-block-media-text' });
+		},
+	};
+}

@@ -9,29 +9,32 @@ import {
 	PostParams,
 	SinglePostFetchStrategy,
 } from '../../data';
-import { getWPUrl } from '../../utils/getWPUrl';
+import { getWPUrl } from '../../utils';
 
 export interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };
 }
 
 /**
- * The usePost hook. Returns a single post entity
+ * The useFetchPost hook. Returns a single post entity
+ *
+ * See {@link usePost} for usage instructions.
  *
  * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
  *
- * @returns
+ * @module useFetchPost
+ * @category Data Fetching Hooks
  */
-export function usePostImpl(
+export function useFetchPost(
 	params: PostParams,
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 	path = '',
 ): usePostResponse {
 	const { data, error } = useFetch<PostEntity, PostParams>(
 		{ _embed: true, ...params },
-		usePostImpl.fetcher(),
+		useFetchPost.fetcher(),
 		options,
 		path,
 	);
@@ -53,4 +56,10 @@ export function usePostImpl(
 	return { data: { post }, loading: false };
 }
 
-usePostImpl.fetcher = () => new SinglePostFetchStrategy(getWPUrl());
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useFetchPost {
+	export const fetcher = () => new SinglePostFetchStrategy(getWPUrl());
+}
