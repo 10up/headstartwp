@@ -7,15 +7,6 @@ import { useBlockStyle } from './useBlockStyle';
 import { useBlockTypography } from './useBlockTypography';
 import { useBlockWidth } from './useBlockWidth';
 
-export type BlockSupports = {
-	alignment?: boolean;
-	styles?: boolean;
-	color?: boolean;
-	width?: boolean;
-	typography?: boolean;
-	dimensions?: boolean;
-};
-
 /**
  * useBlockAttributes hooks returns the block attributes for a given block based on what it supports
  *

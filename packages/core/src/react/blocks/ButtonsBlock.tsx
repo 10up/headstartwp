@@ -1,14 +1,9 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAlign } from './hooks';
-import { Align, IBlockAttributes } from './types';
+import { useBlock, useBlockAttributes } from './hooks';
+import { IBlockAttributes } from './types';
 
-export interface ButtonsBlockProps extends IBlockAttributes {
-	/**
-	 * The align value
-	 */
-	align: Align;
-}
+export interface ButtonsBlockProps extends IBlockAttributes {}
 
 /**
  * The interface for the {@link ButtonsBlock} component.
@@ -32,10 +27,10 @@ export interface IButtonsBlock extends IBlock<ButtonsBlockProps> {}
  */
 export function ButtonsBlock({ domNode: node, children, component: Component }: IButtonsBlock) {
 	const { name, className } = useBlock(node);
-	const align = useBlockAlign(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
-		<Component name={name} domNode={node} className={className} align={align}>
+		<Component name={name} domNode={node} className={className} attributes={blockAttributes}>
 			{children}
 		</Component>
 	);

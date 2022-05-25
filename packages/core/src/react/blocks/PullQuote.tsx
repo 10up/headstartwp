@@ -2,14 +2,9 @@ import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
-import { Align, Border, Colors, IBlockAttributes, Typography } from './types';
+import { IBlockAttributes } from './types';
 
 export interface PullQuoteBlockProps extends IBlockAttributes {
-	typography?: Typography;
-	align?: Align;
-	blockStyle?: string;
-	border?: Border;
-	colors?: Colors;
 	quote: string;
 	cite: string;
 	borderColor?: string;
@@ -23,7 +18,7 @@ export function PullQuoteBlock({
 	component: Component,
 }: IPullQuotekBlock) {
 	const { name, className, attributes } = useBlock<PullQuoteBlockProps>(node);
-	const { align, typography, colors, border } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	const blockquote = node.firstChild as Element;
 	const paragraph = blockquote.firstChild as Element;
@@ -37,10 +32,7 @@ export function PullQuoteBlock({
 			name={name}
 			domNode={node}
 			className={className}
-			align={align}
-			typography={typography}
-			colors={colors}
-			border={border}
+			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
 			quote={quote}
 			cite={citeText}

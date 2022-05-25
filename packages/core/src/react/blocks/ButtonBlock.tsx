@@ -1,7 +1,7 @@
 import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { Align, Border, Colors, IBlockAttributes, Typography } from './types';
+import { IBlockAttributes } from './types';
 
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
@@ -36,39 +36,9 @@ export interface ButtonBlockProps extends IBlockAttributes {
 	rel?: string;
 
 	/**
-	 * The colors object
-	 */
-	colors?: Colors;
-
-	/**
 	 * The link placeholer text
 	 */
 	placeholder?: string;
-
-	/**
-	 * The border object
-	 */
-	border?: Border;
-
-	/**
-	 * The block style
-	 */
-	blockStyle?: string;
-
-	/**
-	 * The typography object
-	 */
-	typography?: Typography;
-
-	/**
-	 * The align value
-	 */
-	align: Align;
-
-	/**
-	 * The width value
-	 */
-	width?: string;
 }
 
 export interface IButtonBlock extends IBlock<ButtonBlockProps> {}
@@ -91,7 +61,7 @@ export interface IButtonBlock extends IBlock<ButtonBlockProps> {}
  */
 export function ButtonBlock({ domNode: node, children, component: Component }: IButtonBlock) {
 	const { className, name } = useBlock(node);
-	const { align, blockStyle, border, colors, typography, width } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	const anchor = node.firstChild as Element;
 	const text = (anchor.firstChild as Text).data;
@@ -107,12 +77,7 @@ export function ButtonBlock({ domNode: node, children, component: Component }: I
 			rel={anchor.attribs.rel}
 			placeholder={anchor.attribs.placeholder}
 			text={text}
-			align={align}
-			colors={colors}
-			border={border}
-			typography={typography}
-			width={width}
-			blockStyle={blockStyle}
+			attributes={blockAttributes}
 		>
 			{children}
 		</Component>

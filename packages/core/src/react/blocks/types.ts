@@ -74,6 +74,16 @@ export interface IBlockAttributes {
 	domNode?: Element;
 	htmlAnchor?: string;
 	children?: ReactNode;
+
+	attributes?: {
+		align: Align;
+		blockStyle?: string;
+		border: Border;
+		colors: Colors;
+		typography: Typography;
+		width?: string;
+		spacing: Spacing;
+	};
 }
 
 export interface BlockAttributes extends Colors {
