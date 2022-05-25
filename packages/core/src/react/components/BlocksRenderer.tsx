@@ -5,7 +5,7 @@ import { isBlock, wpKsesPost } from '../../dom';
 import { IBlockAttributes } from '../blocks/types';
 
 /**
- * The interface any children of [[BlocksRenderer]] must implement.
+ * The interface any children of {@link BlocksRenderer} must implement.
  */
 export interface BlockProps {
 	/**
@@ -13,6 +13,7 @@ export interface BlockProps {
 	 * whether that domNode should be replaced with the react component
 	 */
 	test?: (domNode: Element) => boolean;
+
 	/**
 	 * An optional exclude function that also receives a domNode and is executed against every child
 	 * of the node being replaced with a react component.
@@ -85,7 +86,7 @@ export interface BlockRendererProps {
 	ksesAllowList?: IWhiteList;
 
 	/**
-	 * The children components that must implements [[BlockProps]]. Failing to implement [[BlockProps]]
+	 * The children components that must implements {@link BlockProps}. Failing to implement {@link BlockProps}
 	 * will issue a warning at runtime.
 	 *
 	 * Passing children are not mandatory, if you do not pass them `BlocksRenderer` will simply sanitize the html markup.

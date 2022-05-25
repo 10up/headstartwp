@@ -4,11 +4,32 @@ import { useBlock, useBlockAlign } from './hooks';
 import { Align, IBlockAttributes } from './types';
 
 export interface ButtonsBlockProps extends IBlockAttributes {
+	/**
+	 * The align value
+	 */
 	align: Align;
 }
 
+/**
+ * The interface for the {@link ButtonsBlock} component.
+ */
 export interface IButtonsBlock extends IBlock<ButtonsBlockProps> {}
 
+/**
+ * The ButtonsBlock component implements block parsing for the Buttons block.
+ *
+ * This component must be used within a {@link BlocksRenderer} component.
+ *
+ * ```tsx
+ * <BlocksRenderer html={html}>
+ * 	<ButtonsBlock component={DebugComponent} />
+ * </BlocksRenderer>
+ * ```
+ *
+ * @category Blocks
+ *
+ * @param props Component properties
+ */
 export function ButtonsBlock({ domNode: node, children, component: Component }: IButtonsBlock) {
 	const { name, className } = useBlock(node);
 	const align = useBlockAlign(node);
