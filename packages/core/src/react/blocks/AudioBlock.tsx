@@ -5,25 +5,29 @@ import { useBlock } from './hooks';
 import { IBlockAttributes } from './types';
 
 /**
- * The interface for components rendered by [[AudioBlock]].
+ * The interface for components rendered by {@link AudioBlock}
  */
 export interface AudioBlockProps extends IBlockAttributes {
 	/**
 	 * The audio source URL.
 	 */
 	src: string;
+
 	/**
 	 * Whether the audio should be autoplayable
 	 */
 	autoplay?: boolean;
+
 	/**
 	 * Audio caption
 	 */
 	caption?: string;
+
 	/**
 	 * Whether the audio should be played in a loop
 	 */
 	loop?: boolean;
+
 	/**
 	 * Whether to preload the audio or not
 	 */
@@ -31,14 +35,14 @@ export interface AudioBlockProps extends IBlockAttributes {
 }
 
 /**
- * The interface for the [[AudioBlock]] component.
+ * The interface for the {@link AudioBlock} component.
  */
 export interface IAudioBlock extends IBlock<AudioBlockProps> {}
 
 /**
  * The AudioBlock components implements block parsing for the Audio block.
  *
- * This component must be used within a [[BlocksRenderer]] component.
+ * This component must be used within a {@link BlocksRenderer} component.
  *
  * ```tsx
  * <BlocksRenderer html={html}>
@@ -46,7 +50,7 @@ export interface IAudioBlock extends IBlock<AudioBlockProps> {}
  * </BlocksRenderer>
  * ```
  *
- * @category React Components Blocks
+ * @category Blocks
  *
  * @param props Component properties
  *

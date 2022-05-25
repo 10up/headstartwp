@@ -150,7 +150,7 @@ const CategoryPage = () => {
 
 	return (
 		<>
-			<h1>Category Page</h1>
+			<h1>Category Page: {data?.queriedObject.term?.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>

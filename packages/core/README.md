@@ -14,8 +14,6 @@ In addition to the default export, this packages also exports:
 npm install --save @10up/headless-core@next
 ```
 
-## Documentation
-
 ## Support Level
 
 **Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.

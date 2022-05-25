@@ -17,7 +17,7 @@ const AuthorArchive = () => {
 
 	return (
 		<>
-			<h1>Blog Page</h1>
+			<h1>Author Page: {data?.queriedObject.author?.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>
@@ -47,7 +47,7 @@ const AuthorPagesArchive = () => {
 
 	return (
 		<>
-			<h1>Author Pages Archive</h1>
+			<h1>Author Pages Archive: {data?.queriedObject.author?.name}</h1>
 			<ul>
 				{data.posts.map((page) => (
 					<li key={page.id}>
