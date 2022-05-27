@@ -27,3 +27,10 @@ export class EndpointError extends Error {
 		this.name = 'EndpointError';
 	}
 }
+
+export class FrameworkError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = 'FrameworkError';
+	}
+}

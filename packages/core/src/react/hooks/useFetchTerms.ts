@@ -10,6 +10,7 @@ import {
 	TermEntity,
 } from '../../data';
 import { getWPUrl } from '../../utils';
+import { makeErrorCatchProxy } from './util';
 
 export interface useTermsResponse extends HookResponse {
 	data?: { terms: TermEntity[]; pageInfo: PageInfo };
@@ -38,12 +39,12 @@ export function useFetchTerms(
 		path,
 	);
 
-	if (error) {
-		return { error, loading: false };
-	}
-
-	if (!data) {
-		return { loading: true };
+	if (error || !data) {
+		const fakeData = {
+			terms: makeErrorCatchProxy<TermEntity[]>('terms'),
+			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
+		};
+		return { error, loading: !data, data: fakeData };
 	}
 
 	const { result, pageInfo } = data;

@@ -15,6 +15,7 @@ import {
 } from '../../data';
 import { getCustomTaxonomies } from '../../utils/getHeadlessConfig';
 import { getWPUrl } from '../../utils';
+import { makeErrorCatchProxy } from './util';
 
 export type PageType = {
 	/**
@@ -156,12 +157,14 @@ export function useFetchPosts(
 		}
 	});
 
-	if (error) {
-		return { error, loading: false, pageType };
-	}
+	if (error || !data) {
+		const fakeData = {
+			posts: makeErrorCatchProxy<PostEntity[]>('posts'),
+			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
+			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
+		};
 
-	if (!data) {
-		return { loading: true, pageType };
+		return { error, loading: !data, pageType, data: fakeData };
 	}
 
 	const { result, pageInfo } = data;

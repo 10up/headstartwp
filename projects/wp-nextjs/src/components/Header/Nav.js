@@ -33,14 +33,14 @@ const navStyles = css`
 `;
 
 export const Nav = () => {
-	const { data } = useMenu('primary', {
+	const { data, loading, error } = useMenu('primary', {
 		// these settings will re-render menu client side to ensure
 		// it always have the latest items
 		revalidateOnMount: true,
 		revalidateOnFocus: true,
 	});
 
-	if (!data) {
+	if (loading || error) {
 		return null;
 	}
 

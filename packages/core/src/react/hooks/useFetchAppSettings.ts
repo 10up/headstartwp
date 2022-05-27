@@ -3,6 +3,7 @@ import { AppEntity, AppSettingsStrategy, EndpointParams, FetchResponse } from '.
 import { getWPUrl } from '../../utils';
 import { HookResponse } from './types';
 import { useFetch } from './useFetch';
+import { makeErrorCatchProxy } from './util';
 
 export interface useAppSettingsResponse extends HookResponse {
 	data?: AppEntity;
@@ -28,12 +29,9 @@ export function useFetchAppSettings(
 		options,
 	);
 
-	if (error) {
-		return { error, loading: false };
-	}
-
-	if (!data) {
-		return { loading: true };
+	if (error || !data) {
+		const fakeData = makeErrorCatchProxy<AppEntity>('data');
+		return { error, loading: !data, data: fakeData };
 	}
 
 	const { result } = data;
