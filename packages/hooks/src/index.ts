@@ -1,5 +1,5 @@
-/* eslint-disable import/no-cycle */
 export * from './context';
+export * from './util';
 export * from './useOnMount/useOnMount';
 export * from './useIsMounted/useIsMounted';
 export * from './useDebouncedCallback/useDebouncedCallback';

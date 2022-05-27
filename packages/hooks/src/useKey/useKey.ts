@@ -1,5 +1,5 @@
 import { RefObject, useMemo } from 'react';
-import { useEventListener } from '..';
+import { useEventListener } from '../useEventListener/useEventListener';
 
 /**
  * Normalizes the keys that the useKey hook can handle allowing for different options

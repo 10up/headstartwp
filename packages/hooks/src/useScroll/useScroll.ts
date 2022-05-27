@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { isBrowser, getScrollPosition } from '../util';
-import { useSafeLayoutEffect } from '..';
+import { useSafeLayoutEffect } from '../useSafeLayoutEffect/useSafeLayoutEffect';
 
 /**
  * Custom hook to run an effect once the user scrolls through the page

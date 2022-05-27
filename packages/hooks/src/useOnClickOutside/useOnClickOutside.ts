@@ -1,5 +1,5 @@
 import { RefObject, useCallback } from 'react';
-import { useEventListener } from '..';
+import { useEventListener } from '../useEventListener/useEventListener';
 import { isBrowser } from '../util';
 
 const body = isBrowser ? document.body : null;
