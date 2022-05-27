@@ -1,20 +1,36 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAlign } from './hooks';
-import { Align, IBlockAttributes } from './types';
+import { useBlock, useBlockAttributes } from './hooks';
+import { IBlockAttributes } from './types';
 
-export interface ButtonsBlockProps extends IBlockAttributes {
-	align: Align;
-}
+export interface ButtonsBlockProps extends IBlockAttributes {}
 
+/**
+ * The interface for the {@link ButtonsBlock} component.
+ */
 export interface IButtonsBlock extends IBlock<ButtonsBlockProps> {}
 
+/**
+ * The ButtonsBlock component implements block parsing for the Buttons block.
+ *
+ * This component must be used within a {@link BlocksRenderer} component.
+ *
+ * ```tsx
+ * <BlocksRenderer html={html}>
+ * 	<ButtonsBlock component={DebugComponent} />
+ * </BlocksRenderer>
+ * ```
+ *
+ * @category Blocks
+ *
+ * @param props Component properties
+ */
 export function ButtonsBlock({ domNode: node, children, component: Component }: IButtonsBlock) {
 	const { name, className } = useBlock(node);
-	const align = useBlockAlign(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
-		<Component name={name} domNode={node} className={className} align={align}>
+		<Component name={name} domNode={node} className={className} attributes={blockAttributes}>
 			{children}
 		</Component>
 	);

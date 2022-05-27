@@ -1,12 +1,9 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
-import { Align, Colors, IBlockAttributes } from './types';
+import { IBlockAttributes } from './types';
 
 export interface MediaTextBlockProps extends IBlockAttributes {
-	align: Align;
-	blockStyle?: string;
-	colors?: Colors;
 	mediaPosition?: 'left' | 'right';
 	mediaId?: number;
 	mediaType?: 'image' | 'video';
@@ -21,9 +18,10 @@ export interface MediaTextBlockProps extends IBlockAttributes {
 }
 
 export interface IMediaTextBlock extends IBlock<MediaTextBlockProps> {}
+
 export function MediaTextBlock({ domNode: node, children, component: Component }: IMediaTextBlock) {
 	const { name, className, attributes } = useBlock<MediaTextBlockProps>(node);
-	const { colors, blockStyle, align } = useBlockAttributes(node);
+	const blockAttributes = useBlockAttributes(node);
 
 	return (
 		<Component
@@ -31,9 +29,6 @@ export function MediaTextBlock({ domNode: node, children, component: Component }
 			domNode={node}
 			className={className}
 			htmlAnchor={node.attribs.id || ''}
-			align={align}
-			colors={colors}
-			blockStyle={blockStyle}
 			mediaId={attributes.mediaId}
 			mediaPosition={attributes.mediaPosition}
 			mediaType={attributes.mediaType}
@@ -42,6 +37,7 @@ export function MediaTextBlock({ domNode: node, children, component: Component }
 			imageFill={!!attributes.imageFill}
 			focalPoint={attributes.focalPoint}
 			verticalAlignment={attributes.verticalAlignment}
+			attributes={blockAttributes}
 		>
 			{children}
 		</Component>

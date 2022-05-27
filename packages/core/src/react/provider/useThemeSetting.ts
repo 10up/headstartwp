@@ -1,6 +1,6 @@
 import { useThemeSettings } from './useThemeSettings';
 
-const get = (obj, path, defaultValue = undefined) => {
+const get = (obj, path, defaultValue: any = undefined) => {
 	const travel = (regexp) =>
 		String.prototype.split
 			.call(path, regexp)
@@ -11,18 +11,22 @@ const get = (obj, path, defaultValue = undefined) => {
 };
 
 /**
- * Returns a isngle theme setting normalized
+ * Returns a single theme setting normalized
  *
  * @param path - The path to the setting
  * @param blockName - The block name
  * @returns
  */
-export function useThemeSetting(path: string, blockName: string = '') {
+export function useThemeSetting(
+	path: string,
+	blockName: string | null = '',
+	defaultValue: any = '',
+) {
 	const settings = useThemeSettings();
 
-	if (blockName) {
-		return get(settings, `${blockName}.${path}`);
+	if (blockName && get(settings, `blocks.${blockName}.${path}`)) {
+		return get(settings, `blocks.${blockName}.${path}`);
 	}
 
-	return get(settings, path);
+	return get(settings, path, defaultValue);
 }

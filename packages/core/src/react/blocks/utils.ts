@@ -61,9 +61,13 @@ export function getBlockStyle(domNode: Element) {
  */
 export function getColorStyles(domNode: Element): Colors {
 	const colorObject: Colors = {
+		textColorSlug: '',
 		textColor: '',
+		linkColorSlug: '',
 		linkColor: '',
+		gradientSlug: '',
 		gradient: '',
+		backgroundColorSlug: '',
 		backgroundColor: '',
 	};
 

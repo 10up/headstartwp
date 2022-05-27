@@ -21,7 +21,7 @@ const CategoryPage = () => {
 
 	return (
 		<>
-			<h1>Category Page</h1>
+			<h1>Category Page: {data.queriedObject.term.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>
@@ -40,9 +40,6 @@ export async function getServerSideProps(context) {
 		const settledPromises = await resolveBatch([
 			{
 				func: fetchHookData(usePosts.fetcher(), context, {
-					// filtering is recommended for performance reasons to reduce the ammount of props that Next.js has to send via the HTML payload
-					// You can either ALLOW especific fields or REMOVE especific fields.
-					filterData: { method: 'ALLOW', fields: ['id', 'title', 'link'] },
 					params: { taxonomy: 'category' },
 				}),
 			},

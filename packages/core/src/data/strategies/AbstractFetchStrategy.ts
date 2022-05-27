@@ -187,7 +187,12 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		const result = await apiGet(`${this.baseURL}${url}`, args);
 		const { data } = result.json;
 
-		if (typeof result?.json?.code !== 'undefined' && typeof result?.json?.code === 'string') {
+		// if there's an error code and it's not a 4xx status code
+		if (
+			typeof result?.json?.code !== 'undefined' &&
+			typeof result?.json?.code === 'string' &&
+			data?.status !== 400
+		) {
 			let errorMsg = `WordPress returned a '${result?.json?.code}' error for the endpoint '${url}'.`;
 			if (url.includes('/headless-wp')) {
 				errorMsg = `You need to install 10up's Headless WordPress plugin.\n ${errorMsg} `;

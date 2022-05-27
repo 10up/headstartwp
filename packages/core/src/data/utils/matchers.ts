@@ -40,6 +40,19 @@ export const postsMatchers: Matcher[] = [
 	},
 ];
 
+export const authorArchivesMatchers: Matcher[] = [
+	{
+		name: 'author-archive',
+		priority: 30,
+		pattern: '/:author',
+	},
+	{
+		name: 'author-with-pagination',
+		priority: 30,
+		pattern: '/:author/page/:page',
+	},
+];
+
 export const searchMatchers: Matcher[] = [
 	{
 		name: 'search type',

@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-next",
-  "version": "0.0.1-alpha.37",
+  "version": "0.0.1-alpha.39",
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
@@ -44,7 +44,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@10up/headless-core": "^0.0.1-alpha.37",
+    "@10up/headless-core": "^0.0.1-alpha.39",
+    "@emotion/react": "^11.9.0",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
     "next-transpile-modules": "^9.0.0",

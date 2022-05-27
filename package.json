@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "dev": "turbo run dev --parallel",
     "prepare": "husky install",
-    "typedoc": "typedoc",
+    "typedoc": "typedoc && echo docs.headless.10up.com > docs/CNAME",
     "typedoc:watch": "typedoc --watch"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
@@ -23,6 +23,7 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@knodes/typedoc-plugin-code-blocks": "^0.22.5",
     "@knodes/typedoc-plugin-monorepo-readmes": "^0.22.5",
+    "@knodes/typedoc-plugin-pages": "^0.22.5",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "concurrently": "^6.3.0",

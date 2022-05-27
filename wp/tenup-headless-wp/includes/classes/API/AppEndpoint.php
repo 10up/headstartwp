@@ -127,9 +127,13 @@ class AppEndpoint {
 			$response['settings']['posts_per_page']     = get_option( 'posts_per_page' );
 			$response['settings']['privacy_policy_url'] = get_privacy_policy_url();
 
+			$global_styles = wp_get_global_styles();
+
 			$response['theme.json'] = [
 				'settings' => wp_get_global_settings(),
-				'styles'   => wp_get_global_styles(),
+				'styles'   => [
+					'spacing' => $global_styles['spacing'],
+				],
 			];
 
 			// Add any customizations or overrides for the endpoint data

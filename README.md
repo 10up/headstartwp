@@ -1,28 +1,14 @@
 
+# 10up's Headless Framework
+
 > A framework for building headless WordPress sites.
-
-## Instructions for using the framework
-> These are temporary instructions
-
-- Do a clean git clone this repo
-- Copy `projects/wp-nextjs` to a different folder
-    - `cp -R ./projects/wp-nextjs /path-to-my-project`
-- Make sure there isn't a `node_modules` folder under `/path-to-my-project`.
-- `cd /path-to-my-project`
-- `npm install`
-- `npm run dev`
-
-## Instructions for development & running this monorepo
-Run the following commands from the root of the repo:
-- `npm install` 
-- `npm run dev` 
-
-The top-level `dev` command will boot up the `projects/wp-nextjs` project and start `tsc` in watch mode for all packages.
 
 ### Documentation
 
-- [[@10up/headless-core]]
-- [[@10up/headless-next]]
+See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) guide.
+
+Visit [docs.headless.10up.com](docs.headless.10up.com) for full documentation.
+
 
 ## Support Level
 

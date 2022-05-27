@@ -2,9 +2,13 @@ import { Element } from 'html-react-parser';
 import { ReactNode } from 'react';
 
 export interface Colors {
+	backgroundColorSlug: string;
 	backgroundColor: string;
+	gradientSlug: string;
 	gradient: string;
+	textColorSlug: string;
 	textColor: string;
+	linkColorSlug: string;
 	linkColor: string;
 }
 
@@ -17,20 +21,39 @@ export type Style = {
 };
 
 export interface Typography {
-	fontSize?: string;
-	style: {
-		lineHeight?: string;
-		fontSize?: string;
-		textTransform?: string;
-		letterSpacing?: string;
+	fontSize: {
+		slug: string;
+		value: string;
 	};
+	supportsFontStyle: boolean;
+	supportsCustomFontSize: boolean;
+	supportsFontWeight: boolean;
+	supportsLetterSpacing: boolean;
+	supportsLineHight: boolean;
+	supportsTextDecoration: boolean;
+	supportsTextTransform: boolean;
+	lineHeight?: string;
+	textTransform?: string;
+	letterSpacing?: string;
 }
 
 export type Spacing = {
-	paddingTop: string;
-	paddingBottom: string;
-	paddingLeft: string;
-	paddingRight: string;
+	supportsPadding: boolean;
+	padding: {
+		top: string;
+		bottom: string;
+		left: string;
+		right: string;
+	};
+	supportsMargin: boolean;
+	margin: {
+		top: string;
+		bottom: string;
+		left: string;
+		right: string;
+	};
+	supportsBlockGap: boolean;
+	blockGap: string;
 };
 
 export interface GutenbergBlockProps {
@@ -51,6 +74,16 @@ export interface IBlockAttributes {
 	domNode?: Element;
 	htmlAnchor?: string;
 	children?: ReactNode;
+
+	attributes?: {
+		align: Align;
+		blockStyle?: string;
+		border: Border;
+		colors: Colors;
+		typography: Typography;
+		width?: string;
+		spacing: Spacing;
+	};
 }
 
 export interface BlockAttributes extends Colors {
