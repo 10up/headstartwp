@@ -1,2 +1,3 @@
-export { BreakpointsProvider, BreakpointsContext } from './useCurrentBreakpoint/BreakpointsContext';
-export { TransitionProvider, TransitionContext } from './useIsTransitioning/TransitionContext';
+/* eslint-disable import/no-cycle */
+export * from './useCurrentBreakpoint/BreakpointsContext';
+export * from './useIsTransitioning/TransitionContext';
