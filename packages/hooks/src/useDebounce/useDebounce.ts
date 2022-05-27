@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDebouncedCallback } from '../useDebouncedCallback/useDebouncedCallback';
 
-
 /**
  * Debounces a value change so it doesn't create as many re renders.
  *
