@@ -10,7 +10,8 @@
     "dev": "turbo run dev --parallel",
     "prepare": "husky install",
     "typedoc": "typedoc && echo docs.headless.10up.com > docs/CNAME",
-    "typedoc:watch": "typedoc --watch"
+    "typedoc:watch": "typedoc --watch",
+    "publish": "npm run build:packages && npx changeset publish"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
   "workspaces": [
