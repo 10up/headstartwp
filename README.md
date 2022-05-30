@@ -1,13 +1,14 @@
 
-## Instructions
-Requires npm >=7
+# 10up's Headless Framework
 
-- `npm install` from the root
-- `npm run dev`
+> A framework for building headless WordPress sites.
 
-Visit the following urls to test:
--  http://localhost:3000/officiis-repudiandae-sunt-perferendis-repudiandae-nulla
-- http://localhost:3000/2020/05/07/ipsum-repudiandae-est-nam/
+### Documentation
+
+See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) guide.
+
+Visit [docs.headless.10up.com](docs.headless.10up.com) for full documentation.
+
 
 ## Support Level
 

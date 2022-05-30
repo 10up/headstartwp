@@ -1,31 +1,35 @@
-import { usePost, fetchHookData, addHookData } from '@10up/headless-next/data';
-import { handleError } from '@10up/headless-next';
+/**
+ * This is just an example of a single page route for a CPT called 'book'
+ */
+import {
+	fetchHookData,
+	addHookData,
+	handleError,
+	usePost,
+	useAppSettings,
+} from '@10up/headless-next';
+import { PageContent } from '../../components/PageContent';
+import { bookParams } from '../../params';
+import { resolveBatch } from '../../utils/promises';
 
-const Template = () => {
-	const { data } = usePost({ postType: 'book' });
+const BookPage = () => {
+	const { data } = usePost(bookParams);
 
-	return (
-		<div>
-			{data ? (
-				<>
-					<h1>{data.post.title.rendered}</h1>
-					{data.post.content.rendered}
-					<p>Author: {data.post.author[0].name}</p>
-				</>
-			) : (
-				'loading...'
-			)}
-		</div>
-	);
+	return <div>{data ? <PageContent params={bookParams} /> : 'loading...'}</div>;
 };
 
-export default Template;
+export default BookPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const hookData = await fetchHookData('usePost', context, { params: { postType: 'book' } });
+		const settledPromises = await resolveBatch([
+			{
+				func: fetchHookData(usePost.fetcher(), context, { params: bookParams }),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
+		]);
 
-		return addHookData([hookData], {});
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

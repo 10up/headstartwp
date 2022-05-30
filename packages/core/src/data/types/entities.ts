@@ -661,9 +661,30 @@ export type Redirect = {
 	enable_regex: boolean;
 };
 
+export interface MenuItemEntity {
+	ID: number;
+	menu_order: number;
+	post_type: string;
+	post_mime_type: string;
+	menu_item_parent: string;
+	object_id: string;
+	object: string;
+	type: string;
+	type_label: string;
+	url: string;
+	title: string;
+	target: '_blank' | '_self' | '_parent' | '_top';
+	attr_title: string;
+	description: string;
+	classes: string[];
+	slug: string;
+	children: MenuItemEntity[];
+	order: number;
+}
+
 export interface AppEntity extends Entity {
 	menus: {
-		[k: string]: PostEntity[];
+		[k: string]: MenuItemEntity[];
 	};
 	settings: {
 		site_name: string;

@@ -1,12 +1,27 @@
-type removeSourceUrlType = {
+export type removeSourceUrlType = {
+	/**
+	 * The link url, possibly with the source url.
+	 */
 	link: string;
+
+	/**
+	 * The backend url.
+	 */
 	backendUrl: string;
+
+	/**
+	 * The public url. Defaults to '/'.
+	 */
 	publicUrl?: string;
 };
 
 /**
  * Make the link relative if it belongs to the backend, to force client-side
  * navigation.
+ *
+ * Inspired on the Frontity implementation
+ *
+ * @see https://github.com/frontity/frontity/blob/dev/packages/components/link/utils.ts
  *
  * @returns The URL without the Source URL.
  */

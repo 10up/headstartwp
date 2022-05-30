@@ -3,47 +3,49 @@ import {
 	fetchHookData,
 	addHookData,
 	handleError,
-	// useAppSettings,
-	// useMenu,
+	useAppSettings,
 } from '@10up/headless-next';
+import { Link } from '../../components/Link';
+import { blogParams } from '../../params';
+import { resolveBatch } from '../../utils/promises';
 
-const Home = () => {
-	const { loading, error, data, pageType } = usePosts();
-	console.log(pageType, data.pageInfo);
-	// const appSettings = useAppSettings();
-	// console.log(appSettings);
-	// const primaryMenu = useMenu('primary');
-	// console.log(primaryMenu);
-	// const { loading, data } = usePosts({ postType: 'book' });
+const BlogPage = () => {
+	const { loading, error, data } = usePosts(blogParams);
 
 	if (error) {
 		return 'error';
 	}
 
-	return loading ? (
-		'Loading...'
-	) : (
-		<ul>
-			{data.posts.map((post) => (
-				<li key={post.id}>{post.title.rendered}</li>
-			))}
-		</ul>
+	if (loading) {
+		return 'Loading...';
+	}
+
+	return (
+		<>
+			<h1>Blog Page</h1>
+			<ul>
+				{data.posts.map((post) => (
+					<li key={post.id}>
+						<Link href={post.link}>{post.title.rendered}</Link>
+					</li>
+				))}
+			</ul>
+		</>
 	);
 };
 
-export default Home;
+export default BlogPage;
 
 export async function getServerSideProps(context) {
 	try {
-		const postsData = await fetchHookData('usePosts', context, {
-			filterData: { method: 'ALLOW', fields: ['id', 'title'] },
-		});
-		const appData = await fetchHookData('useAppSettings', context);
-		// const hookData = await fetchHookData('usePosts', context, { postType: 'book' });
-		// const hookData = await fetchHookData('usePosts', context, {
-		// 	postType: { slug: 'books', endpoint: '/book' },
-		// });
-		return addHookData([postsData, appData], {});
+		const settledPromises = await resolveBatch([
+			{
+				func: fetchHookData(usePosts.fetcher(), context, { params: blogParams }),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
+		]);
+
+		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}

@@ -1,10 +1,13 @@
-img.alignright {float:right; margin:0 0 1em 1em}
-img.alignleft {float:left; margin:0 1em 1em 0}
-img.aligncenter {display: block; margin-left: auto; margin-right: auto}
-a img.alignright {float:right; margin:0 0 1em 1em}
-a img.alignleft {float:left; margin:0 1em 1em 0}
-a img.aligncenter {display: block; margin-left: auto; margin-right: auto}
+/*
+Includes Global CSS Styles such as libraries css and WP block library
+*/
+@import url("css/nprogress.css");
 
-.wp-block-embed {
-    width: 600px;
+/* this should match the WordPress version you're supporting
+ take this from wp-includes/css/dist/block-library/style.css */
+@import url("css/block-library.css");
+
+html, body {
+	padding: 0;
+	margin: 0;
 }

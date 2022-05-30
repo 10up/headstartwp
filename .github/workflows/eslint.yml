@@ -5,12 +5,20 @@ on: [pull_request]
 jobs:
   eslint:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
-      - name: Checkout Repo
+      - name: Checkout
         uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: ${{ matrix.node-version }}
+
       - name: Setup npm cache
         uses: actions/cache@v1
         with:
@@ -19,6 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Install dependencies
-        run: npm install
-      - name: Run Eslint
-        uses: bradennapier/eslint-plus-action@v3.4.2
+        run: npm install && npm run build:packages
+      - name: Run eslint
+        run: npm run lint

@@ -1,0 +1,4 @@
+{
+    "phpcs.composerJsonPath": "wp/tenup-headless-wp/composer.json",
+    "phpcbf.executablePath": "${workspaceRoot}/wp/tenup-headless-wp/vendor/bin/phpcbf"
+} 

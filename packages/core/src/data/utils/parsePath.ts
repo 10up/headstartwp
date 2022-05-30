@@ -39,6 +39,8 @@ const REGULAR_EXPRESSION = 'RegExp:';
  * @param matchers - An array of Matchers
  * @param path - The path
  *
+ * @category Utility Functions
+ *
  * @returns the extracted parameters
  */
 export function parsePath(matchers: Matcher[], path: string) {

@@ -1,0 +1,19 @@
+name: PHPCS check
+
+on: pull_request
+
+jobs:
+  phpcs:
+    name: phpcs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.4.0
+    - name: Set PHP version
+      uses: shivammathur/setup-php@v2
+    - name: composer install
+      run: cd ./wp/tenup-headless-wp && composer install --ignore-platform-reqs
+    - name: Check PHPCS standard
+      run: ./wp/tenup-headless-wp/vendor/bin/phpcs -i
+    - name: lint
+      run: cd ./wp/tenup-headless-wp && composer run lint

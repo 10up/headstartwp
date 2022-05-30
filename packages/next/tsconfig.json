@@ -1,14 +1,10 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "module": "esnext",
-      "outDir": "dist/mjs",
-      "target": "esnext",
-      "rootDir": "src",
-      "jsx": "react-jsx",      
-      // todo: remove this
-      "noImplicitAny": false
-    },
-    "exclude": ["node_modules", "dist"],
-    "include": ["src"]
-  }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist/mjs",
+    "module": "esnext",
+    "target": "esnext"
+  },
+  "exclude": ["node_modules", "dist", "*/**/__tests__"],
+  "include": ["src"]
+}

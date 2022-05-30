@@ -1,53 +1,45 @@
-import {
-	SearchFetchStrategy,
-	PostEntity,
-	PostsArchiveParams,
-	PageInfo,
-	getPostAuthor,
-	getPostTerms,
-} from '@10up/headless-core';
-import { useFetch } from './useFetch';
-import { HookResponse } from './types';
-
-const endpoint = '/wp-json/wp/v2/posts';
-
-interface useSearchResponse extends HookResponse {
-	data?: { posts: PostEntity[]; pageInfo: PageInfo };
-}
-
-const fetchStrategy = new SearchFetchStrategy();
+import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
+import { useFetchSearch } from '@10up/headless-core/react';
+import { useRouter } from 'next/router';
+import { SWRConfiguration } from 'swr';
+import { convertToPath } from '../utils';
 
 /**
  * The useSearch hook. Returns a collection of search entities
  *
- * @param params - Supported params
+ * ## Usage
  *
- * @returns
+ * ### Basic search automatically mapping URL params in Next.js
+ *
+ * In order to automatically map URL params create a catch-all route named `[...path].js`.
+ * You can create the catch-all at any level e.g: `pages/search/[[...path]].js`
+ *
+ * The `pages/search/[[...path]].js` route for instance would yield a URL like this: `/search/[term]/page/[number]`, `/search/[term]` etc
+ *
+ * {@codeblock ~~/examples/next/useSearch.tsx#basic-search}
+ *
+ * ### Server-Side-Rendering or Static-Site-Generation
+ * {@codeblock ~~/examples/next/useSearch.tsx#ssr-ssg}
+ *
+ * @param params  The parameters accepted by the hook
+ * @param options Options for the SWR configuration
+ *
+ * @category Data Fetching Hooks
  */
-export function useSearch(params: PostsArchiveParams): useSearchResponse {
-	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
-		endpoint,
-		{ _embed: true, ...params },
-		fetchStrategy,
-	);
+export function useSearch(
+	params: PostsArchiveParams = {},
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+) {
+	const { query } = useRouter();
+	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
-	if (error) {
-		return { error, loading: false };
-	}
+	return useFetchSearch(params, options, convertToPath(path));
+}
 
-	if (!data) {
-		return { loading: true };
-	}
-
-	const { result, pageInfo } = data;
-
-	// TODO: fix types
-	const posts = (result as unknown as PostEntity[]).map((post) => {
-		post.author = getPostAuthor(post);
-		post.terms = getPostTerms(post);
-
-		return post;
-	});
-
-	return { data: { posts, pageInfo }, loading: false };
+/**
+ * @internal
+ */
+// eslint-disable-next-line no-redeclare
+export namespace useSearch {
+	export const { fetcher } = useFetchSearch;
 }

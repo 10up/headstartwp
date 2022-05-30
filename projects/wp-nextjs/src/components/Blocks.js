@@ -1,17 +1,21 @@
-import { BlocksRenderer } from '@10up/headless-core';
-import PropTypes from 'prop-types';
+import { BlocksRenderer, YoutubeLiteBlock, ImageBlock } from '@10up/headless-core/react';
+import { TwitterBlock, ImageComponent, LinkBlock } from '@10up/headless-next';
 
-import { isAnchorTag, isImageTag, isTwitterEmbed, isYoutubeEmbed } from '@10up/headless-core/dom';
-import { ImageBlock, LinkBlock, TwitterBlock, YoutubeLiteBlock } from '@10up/headless-next/blocks';
+import { css } from '@emotion/react';
+import PropTypes from 'prop-types';
 
 export const Blocks = ({ html }) => {
 	return (
-		<div style={{ position: 'relative' }}>
+		<div
+			css={css`
+				position: relative;
+			`}
+		>
 			<BlocksRenderer html={html}>
-				<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true })} />
-				<ImageBlock test={(node) => isImageTag(node, { hasDimensions: true })} />
-				<YoutubeLiteBlock test={isYoutubeEmbed} />
-				<TwitterBlock test={isTwitterEmbed} />
+				<ImageBlock component={ImageComponent} />
+				<LinkBlock />
+				<TwitterBlock />
+				<YoutubeLiteBlock />
 			</BlocksRenderer>
 		</div>
 	);
@@ -20,3 +24,5 @@ export const Blocks = ({ html }) => {
 Blocks.propTypes = {
 	html: PropTypes.string.isRequired,
 };
+
+export default Blocks;

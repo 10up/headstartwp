@@ -1,13 +1,16 @@
 {
   "name": "@10up/headless_framework",
+  "version": "1.0.0",
   "description": "Monorepo for headless framework",
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-core",
-    "test": "npm run test --workspaces --if-present",
+    "build": "turbo run build",
+    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-next",
+    "test": "turbo run test",
     "lint": "eslint .",
-    "dev": "npm run build:packages && concurrently \"npm run dev -w=@10up/headless-core\" \"npm run dev -w=@10up/headless-next\" \"npm run dev -w=@10up/wp-nextjs\"",
-    "prepare": "husky install"
+    "dev": "turbo run dev --parallel",
+    "prepare": "husky install",
+    "typedoc": "typedoc && echo docs.headless.10up.com > docs/CNAME",
+    "typedoc:watch": "typedoc --watch"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
   "workspaces": [
@@ -16,14 +19,33 @@
   ],
   "devDependencies": {
     "@10up/eslint-config": "^2.3.7",
+    "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
+    "@knodes/typedoc-plugin-code-blocks": "^0.22.5",
+    "@knodes/typedoc-plugin-monorepo-readmes": "^0.22.5",
+    "@knodes/typedoc-plugin-pages": "^0.22.5",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "concurrently": "^6.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-jest": "^24.4.2",
     "husky": "^7.0.2",
-    "lint-staged": "^11.1.2"
+    "lint-staged": "^11.1.2",
+    "turbo": "^1.2.11",
+    "typedoc": "^0.22.15",
+    "typedoc-monorepo-link-types": "^0.0.2",
+    "typedoc-plugin-inline-sources": "^1.0.1"
+  },
+  "nextBundleAnalysis": {
+    "buildOutputDirectory": "./projects/wp-nextjs/.next",
+    "budget": 148480,
+    "budgetPercentIncreaseRed": 20,
+    "showDetails": true
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
   }
 }
