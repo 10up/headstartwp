@@ -6,5 +6,5 @@
     "target": "esnext",
   },
   "exclude": ["node_modules", "dist", "*/**/__tests__"],
-  "include": ["src", "emotion.d.ts"]
+  "include": ["src"]
 }

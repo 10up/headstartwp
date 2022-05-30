@@ -1,4 +1,5 @@
 export * from './Provider';
+export * from './ThemeSettingsProvider';
 export * from './types';
 export * from './useSettings';
 export * from './useThemeSetting';

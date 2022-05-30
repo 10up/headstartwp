@@ -1,11 +1,10 @@
 import { ReactNode } from 'react';
-import { SettingsProvider } from '@10up/headless-core/react';
+import { SettingsProvider, ThemeSettingsProvider } from '@10up/headless-core/react';
 import { SWRConfig } from 'swr';
 import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
 
 import { useRouter } from 'next/router';
-import { ThemeProvider } from '@emotion/react';
 import { Yoast } from './Yoast';
 
 /**
@@ -94,7 +93,7 @@ export function HeadlessApp({ settings, children, pageProps, swrConfig = {} }: H
 				}}
 			>
 				<Yoast seo={seo} />
-				<ThemeProvider theme={themeJSON}>{children}</ThemeProvider>
+				<ThemeSettingsProvider data={themeJSON}>{children}</ThemeSettingsProvider>
 			</SWRConfig>
 		</SettingsProvider>
 	);

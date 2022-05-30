@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { ObjectInspector } from 'react-inspector';
 import { useBlock } from './hooks';
 
@@ -6,12 +5,12 @@ export const DebugBlock = ({ children, domNode: node, ...props }) => {
 	const { attributes } = useBlock(node);
 	return (
 		<div
-			css={css({
+			style={{
 				border: '1px solid red',
 				padding: '5px 10px',
 				marginTop: '10px',
 				boxSizing: 'border-box',
-			})}
+			}}
 		>
 			<h2>{props.name}</h2>
 
