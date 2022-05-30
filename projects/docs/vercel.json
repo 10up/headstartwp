@@ -1,4 +1,11 @@
 {
+    "version": 2,
+    "builds": [
+        {
+        "src": "lib/index.js",
+        "use": "@now/node"
+        }
+    ],
     "functions": {
       "api/index.js": {
         "includeFiles": "_docs/**"
