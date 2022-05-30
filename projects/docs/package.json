@@ -4,8 +4,7 @@
   "description": "Headless Framework Docs",
   "main": "src/index.js",
   "scripts": {
-    "start": "node api/index.js",
-    "vercel-build": " npm run build:packages --prefix ../../ && npm run typedoc --prefix ../../"
+    "start": "node api/index.js"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
   "license": "ISC",
