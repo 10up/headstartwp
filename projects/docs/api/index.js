@@ -47,7 +47,7 @@ app.use('/', authRouter);
 app.use('/', passport.authenticate('session'));
 app.use('/', (req, res, next) => {
 	if (req.user) {
-		console.log('Serving docs from', staticPath);
+		console.log('Serving docs from', staticPath, existsSync(staticPath));
 		return express.static(staticPath)(req, res, next);
 	}
 	return res.render('login');
