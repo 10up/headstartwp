@@ -3,7 +3,7 @@ name: Release @latest
 on:
   push:
     branches:
-      - develop
+      - trunk
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
