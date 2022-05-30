@@ -38,7 +38,7 @@ app.use('/', authRouter);
 app.use('/', passport.authenticate('session'));
 app.use((req, res, next) => {
 	if (req.user) {
-		return res.json(req.user);
+		return express.static(path.join(__dirname, 'public'))(req, res, next);
 	}
 	return res.render('login');
 });
