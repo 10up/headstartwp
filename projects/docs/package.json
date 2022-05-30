@@ -4,7 +4,8 @@
   "description": "Headless Framework Docs",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "build": "npm run typedoc --prefix ../../"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
   "license": "ISC",
