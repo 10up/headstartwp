@@ -1,25 +1,9 @@
 {
-    "functions": {
-      "api/index.js": {
-        "includeFiles": "_docs/**"
-      }
-    },
-    "routes": [
-        {
-          "src": "/",
-          "dest": "api/index.js"
-        },
-        {
-          "src": "/login(.*)",
-          "dest": "api/index.js"
-        },
-        {
-          "src": "/oauth2(.*)",
-          "dest": "api/index.js"
-        },
-        {
-          "src": "/(.+).(.+)",
-          "dest": "/$1.$2"
-        }
-      ]
+  "version": 2,
+  "routes": [{ "src": "/(.*)", "dest": "/api/index.js" }],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "static/**"
+    }
   }
+}

@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node api/index.js",
-    "build-docs": "npm run typedoc --prefix ../../"
+    "vercel-build": " npm run build:packages --prefix ../../ && npm run typedoc --prefix ../../"
   },
   "author": "Nícholas André <nicholas.andre@10up.com>",
   "license": "ISC",

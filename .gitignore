@@ -2,6 +2,5 @@ dist
 node_modules
 .idea
 .turbo
-public
 /docs
 .vercel
