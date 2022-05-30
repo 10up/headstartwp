@@ -43,7 +43,9 @@ app.use('/', (req, res, next) => {
 
 	return next();
 });
+
 // app.use(express.static(path.join(__dirname, '../static')));
+
 app.use((req, res) => {
 	if (req.url === '/') {
 		return res.sendFile(path.join(__dirname, '../static/index.html'));
