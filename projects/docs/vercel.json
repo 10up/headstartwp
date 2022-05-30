@@ -1,6 +1,6 @@
 {
     "functions": {
-      "api/hello.js": {
+      "api/index.js": {
         "includeFiles": "_docs/**"
       }
     }
