@@ -8,6 +8,7 @@ const passport = require('passport');
 const Redis = require('ioredis');
 const RedisStore = require('connect-redis')(session);
 
+const { existsSync } = require('fs');
 const authRouter = require('../routes/auth');
 
 const redisClient = new Redis(
@@ -37,11 +38,13 @@ app.use(cookieParser());
 app.use('/', authRouter);
 app.use('/', passport.authenticate('session'));
 app.use('/', (req, res, next) => {
-	if (req.user) {
-		return express.static(path.join(__dirname, '../public'))(req, res, next);
+	if (!req.user) {
+		return res.redirect('/login');
 	}
-	return res.render('login');
+	return next();
 });
+app.use(express.static(path.join(__dirname, '../_docs')));
+
 app.listen(port);
 
 console.log(`Server started at http://localhost:${port}`);
