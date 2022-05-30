@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/index.js": {
-        "includeFiles": ["_docs/index.html"]
+        "includeFiles": "_docs/index.html"
       }
     },
     "routes": [
