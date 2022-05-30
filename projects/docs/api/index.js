@@ -15,9 +15,9 @@ const redisClient = new Redis(
 	`rediss://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
 );
 
-const staticPath = existsSync(path.join(process.cwd(), '../_docs'))
-	? path.join(process.cwd(), '../_docs')
-	: path.join(process.cwd(), '_docs');
+const staticPath = existsSync(path.join(__dirname, '../_docs'))
+	? path.join(__dirname, '../_docs')
+	: path.join(__dirname, '_docs');
 
 if (!existsSync(staticPath)) {
 	console.warn('No docs found at, run `npm run typedoc` from root', staticPath);
