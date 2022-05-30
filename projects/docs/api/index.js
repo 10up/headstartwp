@@ -36,13 +36,17 @@ app.use(cookieParser());
 
 app.use('/', authRouter);
 app.use('/', passport.authenticate('session'));
-app.use('/', (req, res, next) => {
+app.use('/', (req, res) => {
 	if (!req.user) {
 		return res.redirect('/login');
 	}
-	return next();
+
+	if (req.url === '/') {
+		return res.redirect('/index.html');
+	}
+
+	return res.redirect(req.url);
 });
-app.use(express.static(path.join(__dirname, '../public')));
 
 app.listen(port);
 
