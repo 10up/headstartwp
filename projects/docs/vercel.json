@@ -1,13 +1,8 @@
 {
     "functions": {
       "api/index.js": {
-        "includeFiles": "../_docs/**"
+        "includeFiles": "_docs/**"
       }
     },
-    "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "api/index.js"
-        }
-      ]
+    "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
   }
