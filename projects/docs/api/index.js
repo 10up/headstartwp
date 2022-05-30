@@ -8,7 +8,6 @@ const passport = require('passport');
 const Redis = require('ioredis');
 const RedisStore = require('connect-redis')(session);
 
-const { existsSync } = require('fs');
 const authRouter = require('../routes/auth');
 
 const redisClient = new Redis(
