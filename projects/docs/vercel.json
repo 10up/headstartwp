@@ -1,0 +1,7 @@
+{
+    "functions": {
+      "api/hello.js": {
+        "includeFiles": "_docs/**"
+      }
+    }
+  }
