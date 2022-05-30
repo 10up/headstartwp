@@ -5,7 +5,7 @@ Runs an effect once the component is mounted. This is useful at times, specially
 ## Example usage
 
 ```jsx
-import { useOnMount } from '@headless/hooks';
+import { useOnMount } from '@10up/react-hooks';
 
 function MyComponent() {
     useOnMount(() => {

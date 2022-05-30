@@ -35,8 +35,7 @@ module.exports = (plop) => {
 				path: 'src/index.ts',
 				separator: '',
 				pattern: /;\n$/,
-				template:
-					"export { {{camelCase name}} } from './{{camelCase name}}/{{camelCase name}}';\n",
+				template: "export * from './{{camelCase name}}/{{camelCase name}}';\n",
 			},
 		],
 	});

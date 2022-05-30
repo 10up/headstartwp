@@ -4,7 +4,7 @@ Convenient hook that skips the mount phase when calling your effect. Sometimes y
 value has changed, specially on SSR where you have all the initial data.
 
 ```jsx
-import { useEffectAfterRender } from '@headless/hooks';
+import { useEffectAfterRender } from '@10up/react-hooks';
 
 function MyComponent( { value } ) {
     useEffectAfterRender( () => {

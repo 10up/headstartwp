@@ -7,7 +7,7 @@ will be automatically disabled on unmount.
 ## Example usage
 
 ```jsx
-import { useFocusTrap } from '@headless/hooks';
+import { useFocusTrap } from '@10up/react-hooks';
 
 function MyModal({ isVisible }) {
     const ref = useFocusTrap( isVisible );

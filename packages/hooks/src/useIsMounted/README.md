@@ -4,7 +4,7 @@ A hook that returns a function that lets you retrieve the current mount state. T
 
 ```jsx
 import { useEffect } from 'react';
-import { useIsMounted } from '@headless/hooks';
+import { useIsMounted } from '@10up/react-hooks';
 
 import { fetchPosts } from 'api'; // Fake module 
 

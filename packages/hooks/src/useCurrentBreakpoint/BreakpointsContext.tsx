@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useCallback, useMemo, useState } from 'react';
-import { useOnWindowResize, useOnMount } from '..';
+import { useOnWindowResize } from '../useOnWindowResize/useOnWindowResize';
+import { useOnMount } from '../useOnMount/useOnMount';
 import { isBrowser } from '../util';
 
 const DEFAULT_BREAKPOINTS = {

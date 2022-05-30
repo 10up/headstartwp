@@ -6,7 +6,7 @@ Useful wrapper around [useEvent](/packages/hooks/src/useEvent/README.md) to trig
 
 ```jsx
 import { useRef, useState } from 'react';
-import { useKey } from '@headless/hooks';
+import { useKey } from '@10up/react-hooks';
 
 function MyModal() {
     const [ isOpen, setIsOpen ] = useState( false );

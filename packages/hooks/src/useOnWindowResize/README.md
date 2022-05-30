@@ -6,7 +6,7 @@ the size actually changed. This can be helpful if you need to recalculate bounds
 ## Example usage
 
 ```jsx
-import { useOnWindowResize } from '@headless/hooks';
+import { useOnWindowResize } from '@10up/react-hooks';
 
 function MyComponent() {
 	const handleChange = useOnWindowResize( () => {
