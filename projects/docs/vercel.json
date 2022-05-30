@@ -10,5 +10,11 @@
       "api/index.js": {
         "includeFiles": "_docs/**"
       }
-    }
+    },
+    "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "/lib/index.js"
+        }
+      ]
   }
