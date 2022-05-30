@@ -3,7 +3,7 @@
     "builds": [
         {
         "src": "lib/index.js",
-        "use": "@now/node"
+        "use": "@vercel/node"
         }
     ],
     "functions": {
@@ -14,7 +14,7 @@
     "routes": [
         {
           "src": "/(.*)",
-          "dest": "/lib/index.js"
+          "dest": "lib/index.js"
         }
       ]
   }
