@@ -8,7 +8,7 @@ const passport = require('passport');
 const Redis = require('ioredis');
 const RedisStore = require('connect-redis')(session);
 
-const authRouter = require('./routes/auth');
+const authRouter = require('../routes/auth');
 
 const redisClient = new Redis(
 	`rediss://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
