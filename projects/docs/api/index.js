@@ -36,7 +36,7 @@ app.use(cookieParser());
 
 app.use('/', authRouter);
 app.use('/', passport.authenticate('session'));
-app.use('/', (req, res, next) => {
+app.use((req, res, next) => {
 	if (req.user) {
 		return express.static(path.join(__dirname, '../public'))(req, res, next);
 	}
