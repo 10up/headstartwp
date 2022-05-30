@@ -8,11 +8,22 @@ const passport = require('passport');
 const Redis = require('ioredis');
 const RedisStore = require('connect-redis')(session);
 
+const { readdirSync, existsSync } = require('fs');
 const authRouter = require('../routes/auth');
 
 const redisClient = new Redis(
 	`rediss://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
 );
+
+const staticPath = existsSync(path.join(__dirname, '../_docs'))
+	? path.join(__dirname, '../_docs')
+	: path.join(__dirname, '_docs');
+
+console.log('Serving docs from', staticPath);
+
+if (!existsSync(staticPath)) {
+	console.warn('No docs found at, run `npm run typedoc` from root', staticPath);
+}
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -38,7 +49,7 @@ app.use('/', authRouter);
 app.use('/', passport.authenticate('session'));
 app.use('/', (req, res, next) => {
 	if (req.user) {
-		return express.static(path.join(__dirname, '../_docs'))(req, res, next);
+		return express.static(staticPath)(req, res, next);
 	}
 	return res.render('login');
 });
