@@ -10,8 +10,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@10up/headless-core": "^0.1.0",
-    "@10up/headless-next": "^0.1.0",
+    "@10up/headless-core": "^0.2.0",
+    "@10up/headless-next": "^0.2.0",
     "@emotion/react": "^11.9.0",
     "clsx": "^1.1.1",
     "next": "^12.1.0",
