@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-core",
-  "version": "0.0.1-alpha.39",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
@@ -55,7 +55,6 @@
     "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
-    "@emotion/react": "^11.9.0",
     "@justinribeiro/lite-youtube": "^1.3.1",
     "html-react-parser": "^1.4.3",
     "path-to-regexp": "^6.2.0",

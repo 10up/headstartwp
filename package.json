@@ -19,6 +19,7 @@
   ],
   "devDependencies": {
     "@10up/eslint-config": "^2.3.7",
+    "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@knodes/typedoc-plugin-code-blocks": "^0.22.5",
