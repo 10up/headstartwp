@@ -15,6 +15,7 @@ jobs:
         node-version: '16'
     - run: npm ci && npm run build:packages
     - run: npm run typedoc
+    - run: rm projects/docs/.gitignore
     - name: Force push to destination branch
       id: push_directory
       uses: cpina/github-action-push-to-another-repository@main
