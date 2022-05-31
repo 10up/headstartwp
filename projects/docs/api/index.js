@@ -8,7 +8,6 @@ const passport = require('passport');
 const Redis = require('ioredis');
 const RedisStore = require('connect-redis')(session);
 
-const { readFileSync } = require('fs');
 const authRouter = require('../routes/auth');
 
 const redisClient = new Redis(
@@ -17,8 +16,6 @@ const redisClient = new Redis(
 
 const app = express();
 const port = process.env.PORT || 8080;
-const indexFile = readFileSync(`${__dirname}/../static/index.html`);
-console.log('static files detected:', indexFile.toString().substring(0, 20));
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
