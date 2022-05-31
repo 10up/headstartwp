@@ -49,7 +49,7 @@ router.get(
 );
 
 router.get('/login', function (req, res) {
-	res.render('login');
+	res.redirect('/login/federated/google');
 });
 
 router.get('/login/federated/google', passport.authenticate('google'));
