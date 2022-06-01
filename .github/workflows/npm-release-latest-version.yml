@@ -24,7 +24,7 @@ jobs:
         run: npm ci
       - name: Exit pre next
         run: |
-          [[ -f .changeset/pre.json ]] &&  npx changeset pre exit || || echo 'not in pre mode, no need to exit'
+          [[ -f .changeset/pre.json ]] &&  npx changeset pre exit || echo 'not in pre mode, no need to exit'
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
