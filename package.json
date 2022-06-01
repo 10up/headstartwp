@@ -4,7 +4,7 @@
   "description": "Monorepo for headless framework",
   "scripts": {
     "build": "turbo run build",
-    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-next",
+    "build:packages": "turbo run build --filter=./packages/*",
     "test": "turbo run test",
     "lint": "eslint .",
     "dev": "turbo run dev --parallel",
