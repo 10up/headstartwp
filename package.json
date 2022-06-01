@@ -4,12 +4,12 @@
   "description": "Monorepo for headless framework",
   "scripts": {
     "build": "turbo run build",
-    "build:packages": "npm run build -w=@10up/headless-core && npm run build -w=@10up/headless-next",
+    "build:packages": "turbo run build --filter=./packages/*",
     "test": "turbo run test",
     "lint": "eslint .",
     "dev": "turbo run dev --parallel",
     "prepare": "husky install",
-    "typedoc": "typedoc && echo docs.headless.10up.com > docs/CNAME",
+    "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
     "publish": "npm run build:packages && npx changeset publish"
   },
@@ -48,5 +48,8 @@
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
   }
 }

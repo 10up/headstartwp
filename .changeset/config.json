@@ -7,5 +7,5 @@
   "access": "restricted",
   "baseBranch": "trunk",
   "updateInternalDependencies": "patch",
-  "ignore": ["@10up/wp-nextjs"]
+  "ignore": ["@10up/wp-nextjs", "@10up/headless-docs"]
 }

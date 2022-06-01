@@ -23,7 +23,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Enter pre next
-        run: npx changeset pre enter next
+        run: |
+          [[ ! -f .changeset/pre.json ]] && npx changeset pre enter next || echo 'already in pre mode'
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1

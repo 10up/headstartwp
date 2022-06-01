@@ -1,6 +1,6 @@
 {
     "name": "10up's Headless Framework (BETA)",
-    "out": "docs",
+    "out": "projects/docs/static",
     "entryPoints": ["packages/core", "packages/next"],
     "entryPointStrategy": "packages",
     "categorizeByGroup": false,

@@ -1,10 +1,10 @@
-name: Deploy to GitHub pages
+name: Deploy Docs Site
 on:
   push:
     # this is the branch where you develop your site
     # as discussed in the publishing sources section
     # this can change if you are using an user/organization repo
-    branches: [ develop, feature/typedoc ]
+    branches: [ develop ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,23 +15,16 @@ jobs:
         node-version: '16'
     - run: npm ci && npm run build:packages
     - run: npm run typedoc
-    # - name: Init new repo in docs folder and commit generated files
-    #  run: |
-    #    cd docs/
-    #    git init
-    #    git add -A
-    #    git config --local user.email "action@github.com"
-    #    git config --local user.name "GitHub Action"
-    #    git commit -m 'deploy'
+    - run: rm projects/docs/.gitignore
     - name: Force push to destination branch
       id: push_directory
       uses: cpina/github-action-push-to-another-repository@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
       with:
-        source-directory: docs/
+        source-directory: projects/docs
         destination-github-username: '10up'
         destination-repository-name: 'headless-docs'
         user-email: bot@10up.com
         commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-        target-branch: develop
+        target-branch: trunk
