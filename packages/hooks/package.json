@@ -1,10 +1,13 @@
 {
   "name": "@10up/react-hooks",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "dist/react-hooks.js",
   "module": "dist/react-hooks.mjs",
   "typings": "dist/react-hooks.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c",
     "test": "jest --selectProjects dom ssr",
