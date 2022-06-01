@@ -5,6 +5,9 @@
   "main": "dist/react-hooks.js",
   "module": "dist/react-hooks.mjs",
   "typings": "dist/react-hooks.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c",
     "test": "jest --selectProjects dom ssr",
