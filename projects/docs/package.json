@@ -1,6 +1,7 @@
 {
   "name": "@10up/headless-docs",
   "version": "1.0.0",
+  "private": true,
   "description": "Headless Framework Docs",
   "main": "src/index.js",
   "scripts": {
