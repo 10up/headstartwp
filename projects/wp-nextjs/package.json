@@ -12,7 +12,11 @@
   "dependencies": {
     "@10up/headless-core": "^0.2.0",
     "@10up/headless-next": "^0.2.0",
-    "@emotion/react": "^11.9.0",
+    "@linaria/babel-preset": "3.0.0-beta.20",
+    "@linaria/core": "3.0.0-beta.20",
+    "@linaria/react": "3.0.0-beta.20",
+    "@linaria/shaker": "3.0.0-beta.20",
+    "@linaria/webpack-loader": "3.0.0-beta.20",
     "clsx": "^1.1.1",
     "next": "^12.1.0",
     "nprogress": "^0.2.0",
@@ -22,8 +26,6 @@
   },
   "devDependencies": {
     "@10up/eslint-config": "^2.4.3",
-    "@emotion/babel-plugin": "^11.9.2",
-    "@emotion/eslint-plugin": "^11.7.0",
     "@next/bundle-analyzer": "^12.1.0",
     "eslint-plugin-import": "^2.26.0"
   },

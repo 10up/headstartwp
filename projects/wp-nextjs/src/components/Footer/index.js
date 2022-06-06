@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from '@linaria/core';
 import { FooterLinks } from './FooterLinks';
 
 const footerStyles = css`
@@ -24,7 +24,7 @@ const footerStyles = css`
 
 const Footer = () => {
 	return (
-		<footer css={footerStyles}>
+		<footer className={footerStyles}>
 			<FooterLinks />
 			<div>
 				<p>Copyright &copy; 10up {new Date().getFullYear()}. All Rights Reserved</p>

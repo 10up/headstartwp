@@ -14,15 +14,15 @@ export const DebugBlock = ({ children, domNode: node, ...props }) => {
 		>
 			<h2>{props.name}</h2>
 
-			<div css={{ padding: '10px' }}>
+			<div style={{ padding: '10px' }}>
 				<ObjectInspector data={props} name="props" expandLevel={0} />
 			</div>
 
-			<div css={{ padding: '10px' }}>
+			<div style={{ padding: '10px' }}>
 				<ObjectInspector data={attributes} name="raw block attributes" expandLevel={0} />
 			</div>
 
-			<div css={{ padding: '2px', marginTop: '5px' }}>{children}</div>
+			<div style={{ padding: '2px', marginTop: '5px' }}>{children}</div>
 		</div>
 	);
 };

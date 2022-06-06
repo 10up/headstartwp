@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from '@linaria/core';
 
 import { Logo } from './Logo';
 import { Nav } from './Nav';
@@ -22,7 +22,7 @@ const headerStyles = css`
 
 const Header = () => {
 	return (
-		<header role="banner" css={headerStyles}>
+		<header role="banner" className={headerStyles}>
 			<Nav />
 			<Logo />
 			<Search />
