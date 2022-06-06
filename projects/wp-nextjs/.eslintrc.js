@@ -1,6 +1,5 @@
 module.exports = {
 	extends: ['@10up/eslint-config/react'],
-	plugins: ['@emotion'],
 	settings: {
 		jsdoc: {
 			mode: 'typescript',

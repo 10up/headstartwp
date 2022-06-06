@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
+import { styled } from '@linaria/react';
 import { FooterLinks } from './FooterLinks';
 
-const footerStyles = css`
+const StyledFooter = styled.footer`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -24,13 +24,13 @@ const footerStyles = css`
 
 const Footer = () => {
 	return (
-		<footer css={footerStyles}>
+		<StyledFooter>
 			<FooterLinks />
 			<div>
 				<p>Copyright &copy; 10up {new Date().getFullYear()}. All Rights Reserved</p>
 			</div>
 			<div />
-		</footer>
+		</StyledFooter>
 	);
 };
 
