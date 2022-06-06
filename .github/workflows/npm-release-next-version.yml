@@ -31,7 +31,7 @@ jobs:
         with:
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: npm run publish
-          title: "Release (@next)"
+          title: "Release"
           commit: "chore: version packages (next)"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
