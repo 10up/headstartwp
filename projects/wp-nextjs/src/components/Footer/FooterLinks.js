@@ -1,5 +1,5 @@
 import { useAppSettings } from '@10up/headless-next';
-import { css } from '@emotion/react';
+import { css } from '@linaria/core';
 import { Link } from '../Link';
 
 const footerLinksStyles = css`
@@ -23,7 +23,7 @@ export const FooterLinks = () => {
 	const { data } = useAppSettings();
 
 	return (
-		<ul css={footerLinksStyles}>
+		<ul className={footerLinksStyles}>
 			<li>
 				<Link href={data?.settings?.privacy_policy_url || '/'}>Privacy Policy</Link>
 			</li>
