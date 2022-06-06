@@ -9,6 +9,7 @@
     "@10up/wp-nextjs": "0.2.0"
   },
   "changesets": [
+    "beige-hairs-swim",
     "empty-turtles-swim"
   ]
 }
