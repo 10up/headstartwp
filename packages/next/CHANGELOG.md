@@ -1,5 +1,12 @@
 # @10up/headless-next
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [e9c7ef0]
+  - @10up/headless-core@0.2.1
+
 ## 0.2.1-next.0
 
 ### Patch Changes
