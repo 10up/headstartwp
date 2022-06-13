@@ -9,15 +9,7 @@ import { Link } from '../../components/Link';
 import { resolveBatch } from '../../utils/promises';
 
 const AuthorPage = () => {
-	const { loading, error, data } = useAuthorArchive();
-
-	if (error) {
-		return 'error';
-	}
-
-	if (loading) {
-		return 'Loading...';
-	}
+	const { data } = useAuthorArchive();
 
 	return (
 		<>

@@ -9,15 +9,7 @@ import { Link } from '../../components/Link';
 import { resolveBatch } from '../../utils/promises';
 
 const CategoryPage = () => {
-	const { loading, error, data } = usePosts({ taxonomy: 'category' });
-
-	if (error) {
-		return 'error';
-	}
-
-	if (loading) {
-		return 'Loading...';
-	}
+	const { data } = usePosts({ taxonomy: 'category' });
 
 	return (
 		<>

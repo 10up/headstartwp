@@ -10,6 +10,7 @@ import {
 	SinglePostFetchStrategy,
 } from '../../data';
 import { getWPUrl } from '../../utils';
+import { makeErrorCatchProxy } from './util';
 
 export interface usePostResponse extends HookResponse {
 	data?: { post: PostEntity };
@@ -39,12 +40,9 @@ export function useFetchPost(
 		path,
 	);
 
-	if (error) {
-		return { error, loading: false };
-	}
-
-	if (!data) {
-		return { loading: true };
+	if (error || !data) {
+		const fakeData = { post: makeErrorCatchProxy<PostEntity>('post') };
+		return { error, loading: !data, data: fakeData };
 	}
 
 	// TODO: fix types
