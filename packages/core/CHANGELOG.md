@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.3.0
+
+### Minor Changes
+
+- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet avaliable.
+
 ## 0.3.0-next.0
 
 ### Minor Changes
