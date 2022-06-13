@@ -6,7 +6,7 @@
  * Version:     1.0.0
  * Author:      10up
  * Author URI:  https://10up.com
- * Text Domain: headless-wp
+ * Text Domain: 10up-headless-wp
  * Domain Path: /languages
  *
  * @package HeadlessWP
@@ -21,17 +21,6 @@ define( 'HEADLESS_WP_PLUGIN_VERSION', '1.0.0' );
 define( 'HEADLESS_WP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'HEADLESS_WP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'HEADLESS_WP_PLUGIN_INC', HEADLESS_WP_PLUGIN_PATH . 'includes/' );
-
-/**
- * Function to run on plugin activation
- */
-function activate() {
-	init();
-	flush_rewrite_rules();
-}
-
-// Activation/Deactivation.
-register_activation_hook( __FILE__, 'activate' );
 
 // Load php-jwt classes.
 $jwt_files = [
