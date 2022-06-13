@@ -1,8 +1,8 @@
 {
     "*.[tj]s": [
-      "npm run lint"
+      "eslint"
     ],
     "*.[tj]sx": [
-      "npm run lint"
+      "eslint"
     ]
 }

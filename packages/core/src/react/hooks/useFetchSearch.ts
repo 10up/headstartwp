@@ -13,6 +13,7 @@ import {
 	SearchFetchStrategy,
 } from '../../data';
 import { getWPUrl } from '../../utils';
+import { makeErrorCatchProxy } from './util';
 
 export interface useSearchResponse extends HookResponse {
 	data?: { posts: PostEntity[]; pageInfo: PageInfo };
@@ -41,12 +42,12 @@ export function useFetchSearch(
 		path,
 	);
 
-	if (error) {
-		return { error, loading: false };
-	}
-
-	if (!data) {
-		return { loading: true };
+	if (error || !data) {
+		const fakeData = {
+			posts: makeErrorCatchProxy<PostEntity[]>('posts'),
+			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
+		};
+		return { error, loading: !data, data: fakeData };
 	}
 
 	const { result, pageInfo } = data;

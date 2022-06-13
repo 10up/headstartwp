@@ -4,31 +4,17 @@ import {
 	useAppSettings,
 	addHookData,
 	handleError,
-	useTerms,
 } from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { PageContent } from '../components/PageContent';
-import { indexParams, indexTermsParams } from '../params';
+import { indexParams } from '../params';
 
 const Homepage = ({ homePageSlug }) => {
 	const params = { ...indexParams, slug: homePageSlug };
-	const { error, loading } = usePost(params);
-	const { loading: loadingTerms, data } = useTerms(indexTermsParams);
-
-	if (error) {
-		return 'Error...';
-	}
-
-	if (loading) {
-		return 'Loading...';
-	}
 
 	return (
 		<div>
 			<PageContent params={params} />
-
-			<h2>terms</h2>
-			<pre>{!loadingTerms && JSON.stringify(data.terms, null, 2)}</pre>
 		</div>
 	);
 };
@@ -62,11 +48,7 @@ export async function getStaticProps(context) {
 			},
 		});
 
-		const termsData = await fetchHookData(useTerms.fetcher(), context, {
-			params: indexTermsParams,
-		});
-
-		return addHookData([hookData, appSettings, termsData], { props: { homePageSlug: slug } });
+		return addHookData([hookData, appSettings], { props: { homePageSlug: slug } });
 	} catch (e) {
 		return handleError(e, context);
 	}

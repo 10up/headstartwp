@@ -10,15 +10,7 @@ import { searchParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 
 const SearchPage = () => {
-	const { error, loading, data } = useSearch(searchParams);
-
-	if (error) {
-		return 'Error';
-	}
-
-	if (loading) {
-		return 'Loading...';
-	}
+	const { data } = useSearch(searchParams);
 
 	if (data.pageInfo.totalItems === 0) {
 		return 'Nothing found';

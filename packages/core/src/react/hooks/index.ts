@@ -6,3 +6,4 @@ export * from './types';
 export * from './useFetchTerms';
 export * from './useFetchAuthorArchive';
 export * from './useFetchAppSettings';
+export * from './useFetchMenu';

@@ -10,15 +10,7 @@ import { blogParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 
 const BlogPage = () => {
-	const { loading, error, data } = usePosts(blogParams);
-
-	if (error) {
-		return 'error';
-	}
-
-	if (loading) {
-		return 'Loading...';
-	}
+	const { data } = usePosts(blogParams);
 
 	return (
 		<>
