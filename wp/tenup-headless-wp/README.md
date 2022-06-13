@@ -17,7 +17,7 @@ For now the only method for installing this plugin is via composer.
     }
   ],
   "require": {
-    "10up/headless-wp": "dev-develop",
+    "10up/tenup-headless-wp": "dev-develop",
   },
   "extra": {
     "installer-paths": {
