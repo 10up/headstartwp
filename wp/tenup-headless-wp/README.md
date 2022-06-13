@@ -9,6 +9,7 @@ For now the only method for installing this plugin is via composer.
 ```json
 {
   "name": "your-project-name",
+	"minimum-stability": "dev",
   "repositories": [
     {
         "type": "vcs",
@@ -16,7 +17,7 @@ For now the only method for installing this plugin is via composer.
     }
   ],
   "require": {
-    "10up/tenup-headless-wp-plugin": "^0.1.0",
+    "10up/headless-wp": "dev-develop",
   },
   "extra": {
     "installer-paths": {
