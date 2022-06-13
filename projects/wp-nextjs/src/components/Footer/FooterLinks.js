@@ -20,7 +20,11 @@ const footerLinksStyles = css`
 `;
 
 export const FooterLinks = () => {
-	const { data } = useAppSettings();
+	const { data, loading } = useAppSettings();
+
+	if (loading) {
+		return null;
+	}
 
 	return (
 		<ul className={footerLinksStyles}>
