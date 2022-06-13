@@ -1,4 +1,5 @@
-import { useTheme } from '@emotion/react';
+import { useContext } from 'react';
+import { ThemeSettingsContext } from './ThemeSettingsProvider';
 
 /**
  * Returns the theme.json styles definitions
@@ -6,7 +7,7 @@ import { useTheme } from '@emotion/react';
  * @returns
  */
 export function useThemeStyles() {
-	const { styles } = useTheme();
+	const { styles } = useContext(ThemeSettingsContext);
 
 	return styles;
 }

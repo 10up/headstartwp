@@ -7,7 +7,7 @@ menus or modals whenever you need to click outside the element.
 
 ```jsx
 import { useRef, useState } from 'react';
-import { useOnClickOutside } from '@headless/hooks';
+import { useOnClickOutside } from '@10up/react-hooks';
 
 function MyModal() {
     const ref = useRef();

@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from '@linaria/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -37,11 +37,11 @@ export const Search = () => {
 				placeholder="Search"
 				value={searchTerm}
 				onChange={(e) => setSearchTerm(e.target.value)}
-				css={searchInputStyles}
+				className={searchInputStyles}
 				onKeyDown={onKeyDown}
 			/>
 
-			<button type="button" css={buttonStyles} onClick={goToSearch}>
+			<button type="button" className={buttonStyles} onClick={goToSearch}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"

@@ -1,0 +1,23 @@
+{
+  "name": "@10up/headless-docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Headless Framework Docs",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "author": "Nícholas André <nicholas.andre@10up.com>",
+  "license": "ISC",
+  "dependencies": {
+    "connect-redis": "^6.1.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "ioredis": "^5.0.5",
+    "passport": "^0.6.0",
+    "passport-google-oidc": "^0.1.0"
+  }
+}

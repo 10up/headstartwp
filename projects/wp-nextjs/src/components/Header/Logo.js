@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from '@linaria/core';
 
 const logoStyles = css`
 	text-align: center;
@@ -17,7 +17,7 @@ const logoStyles = css`
 
 export const Logo = () => {
 	return (
-		<div css={logoStyles}>
+		<div className={logoStyles}>
 			<span>Brand Logo</span>
 		</div>
 	);

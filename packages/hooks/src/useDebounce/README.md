@@ -8,7 +8,7 @@ This hook allows you to debounce any fast changing value. The debounced value wi
 
 ```jsx
 import { useState, useEffect } from 'react';
-import { useDebounce } from '@headless/hooks';
+import { useDebounce } from '@10up/react-hooks';
 
 function MyComponent() {
     const [ searchTerm, setSearchTerm ] = useState( '' );

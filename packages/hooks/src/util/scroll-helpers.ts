@@ -1,4 +1,4 @@
-import { isBrowser } from '.';
+import { isBrowser } from './isBrowser';
 
 export const isElementInView = (
 	el: HTMLElement,
@@ -25,13 +25,13 @@ export const isElementInView = (
 	return isInView;
 };
 
-export function getPosition() {
+export function getScrollPosition() {
 	const doc = isBrowser ? (document as unknown as HTMLElement) : null;
 
 	return isBrowser && doc ? (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0) || 0 : 0;
 }
 
-export function getElementCoordinates(el: HTMLElement, position = getPosition()) {
+export function getElementCoordinates(el: HTMLElement, position = getScrollPosition()) {
 	if (!isBrowser || !el) {
 		return {
 			top: 0,

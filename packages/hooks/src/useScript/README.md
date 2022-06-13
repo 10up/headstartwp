@@ -8,7 +8,7 @@ Common examples of this are embeds which you want to load a script to control it
 
 ```jsx
 import { useRef, useEffect } from 'react';
-import { useScript } from '@headless/hooks';
+import { useScript } from '@10up/react-hooks';
 
 function YoutubeEmbed( { videoId } ) {
     const [ hasLoaded, hasErrored ] = useScript( 'https://www.youtube.com/iframe_api' );

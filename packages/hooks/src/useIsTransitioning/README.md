@@ -13,7 +13,7 @@ If the hook is used without the context it will always return `false`.
 ## Example usage
 
 ```jsx
-import { TransitionProvider, useIsTransitioning } from '@headless/hooks';
+import { TransitionProvider, useIsTransitioning } from '@10up/react-hooks';
 
 const MyComponent = () => {
     const isTransitioning = useCurrentBreakpoint();

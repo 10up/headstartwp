@@ -1,13 +1,13 @@
 import { renderHook } from '@testing-library/react-hooks/dom';
-import { useEvent } from '../..';
+import { useEventListener } from '../..';
 
-describe('useEvent', () => {
+describe('useEventListener', () => {
 	it('should be defined', () => {
-		expect(useEvent).toBeDefined();
+		expect(useEventListener).toBeDefined();
 	});
 
 	it('should render', () => {
-		const { result } = renderHook(() => useEvent({ current: null }, 'click', () => {}));
+		const { result } = renderHook(() => useEventListener({ current: null }, 'click', () => {}));
 		expect(result.error).toBeUndefined();
 	});
 
@@ -18,7 +18,7 @@ describe('useEvent', () => {
 		const handler = () => {};
 
 		const { rerender, unmount } = renderHook(() => {
-			useEvent({ current: button }, 'click', handler);
+			useEventListener({ current: button }, 'click', handler);
 		});
 
 		expect(addSpy).toHaveBeenCalledTimes(1);
@@ -38,7 +38,7 @@ describe('useEvent', () => {
 		const addSpy = jest.spyOn(button, 'addEventListener');
 
 		renderHook(() => {
-			useEvent({ current: button }, 'click', () => {}, { once: true });
+			useEventListener({ current: button }, 'click', () => {}, { once: true });
 		});
 
 		// @ts-ignore
@@ -53,7 +53,7 @@ describe('useEvent', () => {
 		});
 
 		renderHook(() => {
-			useEvent({ current: button }, 'click', spy);
+			useEventListener({ current: button }, 'click', spy);
 		});
 
 		const clickEvent = new Event('click');

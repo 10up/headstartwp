@@ -20,7 +20,6 @@
       "typeRoots": ["node_modules/@types"],
       "outDir": "dist",
       "jsx": "react-jsx",
-      "jsxImportSource": "@emotion/react",
       "noImplicitAny": false,
     },
     "compileOnSave": false,

@@ -1,6 +1,6 @@
 import { Menu } from '@10up/headless-core/react';
 import { useMenu } from '@10up/headless-next';
-import { css } from '@emotion/react';
+import { css } from '@linaria/core';
 
 const navStyles = css`
 	height: 100%;
@@ -44,5 +44,5 @@ export const Nav = () => {
 		return null;
 	}
 
-	return <Menu items={data} css={navStyles} />;
+	return <Menu items={data} className={navStyles} />;
 };

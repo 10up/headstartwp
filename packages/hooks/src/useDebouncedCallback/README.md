@@ -11,7 +11,7 @@ It clears the calls when the component is unmounted.
 ## Example usage
 
 ```jsx
-import { useDebouncedCallback } from '@headless/hooks';
+import { useDebouncedCallback } from '@10up/react-hooks';
 
 function MyComponent() {
     const handleChange = useDebouncedCallback( event => {
