@@ -48,7 +48,10 @@ export async function getStaticProps(context) {
 			},
 		});
 
-		return addHookData([hookData, appSettings], { props: { homePageSlug: slug } });
+		return addHookData([hookData, appSettings], {
+			props: { homePageSlug: slug },
+			revalidate: 10,
+		});
 	} catch (e) {
 		return handleError(e, context);
 	}

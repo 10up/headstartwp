@@ -13,7 +13,7 @@ export async function getStaticProps(context) {
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
 
-		return addHookData(settledPromises, {});
+		return addHookData(settledPromises, { revalidate: 60 });
 	} catch (e) {
 		return handleError(e, context);
 	}
