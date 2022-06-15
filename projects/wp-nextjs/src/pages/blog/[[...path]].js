@@ -6,6 +6,7 @@ import {
 	useAppSettings,
 } from '@10up/headless-next';
 import { Link } from '../../components/Link';
+import { Pagination } from '../../components/Pagination';
 import { blogParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 
@@ -22,6 +23,7 @@ const BlogPage = () => {
 					</li>
 				))}
 			</ul>
+			<Pagination pageInfo={data.pageInfo} />
 		</>
 	);
 };

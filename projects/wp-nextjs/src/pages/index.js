@@ -12,11 +12,7 @@ import { indexParams } from '../params';
 const Homepage = ({ homePageSlug }) => {
 	const params = { ...indexParams, slug: homePageSlug };
 
-	return (
-		<div>
-			<PageContent params={params} />
-		</div>
-	);
+	return <PageContent params={params} />;
 };
 
 Homepage.propTypes = {
