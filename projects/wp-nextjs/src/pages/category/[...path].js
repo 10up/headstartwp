@@ -6,6 +6,7 @@ import {
 	useAppSettings,
 } from '@10up/headless-next';
 import { Link } from '../../components/Link';
+import { Pagination } from '../../components/Pagination';
 import { resolveBatch } from '../../utils/promises';
 
 const CategoryPage = () => {
@@ -21,6 +22,7 @@ const CategoryPage = () => {
 					</li>
 				))}
 			</ul>
+			<Pagination pageInfo={data.pageInfo} />
 		</>
 	);
 };

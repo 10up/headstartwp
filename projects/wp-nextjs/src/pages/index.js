@@ -12,11 +12,7 @@ import { indexParams } from '../params';
 const Homepage = ({ homePageSlug }) => {
 	const params = { ...indexParams, slug: homePageSlug };
 
-	return (
-		<div>
-			<PageContent params={params} />
-		</div>
-	);
+	return <PageContent params={params} />;
 };
 
 Homepage.propTypes = {
@@ -48,7 +44,10 @@ export async function getStaticProps(context) {
 			},
 		});
 
-		return addHookData([hookData, appSettings], { props: { homePageSlug: slug } });
+		return addHookData([hookData, appSettings], {
+			props: { homePageSlug: slug },
+			revalidate: 10,
+		});
 	} catch (e) {
 		return handleError(e, context);
 	}
