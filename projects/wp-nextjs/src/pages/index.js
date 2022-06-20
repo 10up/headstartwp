@@ -30,6 +30,7 @@ const Homepage = ({ homePageSlug }) => {
 		{ per_page: 5, _fields: ['title', 'id'] },
 		// since this is only a client-side query
 		// we want to force revalidating on mount to ensure query runs on mount
+		// this is required bc we have disabled revalidateOnMount gloally in _app.js
 		{ revalidateOnMount: true },
 	);
 
