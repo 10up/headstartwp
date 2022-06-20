@@ -24,12 +24,19 @@ RecentPost.propTypes = {
 
 const Homepage = ({ homePageSlug }) => {
 	const params = { ...indexParams, slug: homePageSlug };
-	const { loading, data } = usePosts({ per_page: 5, _fields: ['title', 'id'] });
+
+	// the query below is a client-side-only query
+	const { loading, data } = usePosts(
+		{ per_page: 5, _fields: ['title', 'id'] },
+		// since this is only a client-side query
+		// we want to force revalidating on mount to ensure query runs on mount
+		{ revalidateOnMount: true },
+	);
 
 	return (
 		<>
 			<PageContent params={params} />
-			<h2>Recent Posts</h2>
+			<h2>Recent Posts (loaded client-side)</h2>
 			{loading
 				? 'Loading Recent Posts...'
 				: data.posts.map((post) => <RecentPost key={post.id} post={post} />)}
