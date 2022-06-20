@@ -185,8 +185,8 @@ export function useFetchPosts(
 		queriedObject.term = posts[0].terms?.category[0];
 	}
 
-	if (queryParams.tag && posts[0].terms?.tag) {
-		queriedObject.term = posts[0].terms?.tag[0];
+	if (queryParams.tag && posts[0].terms?.post_tag) {
+		queriedObject.term = posts[0].terms?.post_tag[0];
 	}
 
 	taxonomies.forEach((taxonomy) => {

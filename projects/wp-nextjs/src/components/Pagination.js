@@ -16,6 +16,10 @@ export const Pagination = ({ pageInfo }) => {
 	const { asPath } = useRouter();
 	const path = !asPath.includes('/page') ? `${asPath}/page/1` : asPath;
 
+	if (pageInfo.totalPages === 1) {
+		return null;
+	}
+
 	return (
 		<PaginationContainer>
 			{pageInfo.page > 1 && (
