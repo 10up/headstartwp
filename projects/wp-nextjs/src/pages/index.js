@@ -4,15 +4,37 @@ import {
 	useAppSettings,
 	addHookData,
 	handleError,
+	usePosts,
 } from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { PageContent } from '../components/PageContent';
 import { indexParams } from '../params';
 
+const RecentPost = ({ post }) => {
+	return (
+		<div>
+			<h3>{post.title.rendered}</h3>
+		</div>
+	);
+};
+
+RecentPost.propTypes = {
+	post: PropTypes.shape({ title: PropTypes.shape({ rendered: PropTypes.string }) }).isRequired,
+};
+
 const Homepage = ({ homePageSlug }) => {
 	const params = { ...indexParams, slug: homePageSlug };
+	const { loading, data } = usePosts({ per_page: 5, _fields: ['title', 'id'] });
 
-	return <PageContent params={params} />;
+	return (
+		<>
+			<PageContent params={params} />
+			<h2>Recent Posts</h2>
+			{loading
+				? 'Loading Recent Posts...'
+				: data.posts.map((post) => <RecentPost key={post.id} post={post} />)}
+		</>
+	);
 };
 
 Homepage.propTypes = {
