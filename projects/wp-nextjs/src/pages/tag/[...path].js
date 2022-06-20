@@ -9,12 +9,12 @@ import { Link } from '../../components/Link';
 import { Pagination } from '../../components/Pagination';
 import { resolveBatch } from '../../utils/promises';
 
-const CategoryPage = () => {
-	const { data } = usePosts({ taxonomy: 'category' });
+const TagPage = () => {
+	const { data } = usePosts({ taxonomy: 'post_tag' });
 
 	return (
 		<>
-			<h1>Category Page: {data.queriedObject.term.name}</h1>
+			<h1>Tag Page: {data.queriedObject?.term?.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>
@@ -27,14 +27,14 @@ const CategoryPage = () => {
 	);
 };
 
-export default CategoryPage;
+export default TagPage;
 
 export async function getServerSideProps(context) {
 	try {
 		const settledPromises = await resolveBatch([
 			{
 				func: fetchHookData(usePosts.fetcher(), context, {
-					params: { taxonomy: 'category' },
+					params: { taxonomy: 'post_tag' },
 				}),
 			},
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
