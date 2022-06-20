@@ -27,10 +27,15 @@ const Homepage = ({ homePageSlug }) => {
 
 	// the query below is a client-side-only query
 	const { loading, data } = usePosts(
-		{ per_page: 5, _fields: ['title', 'id'] },
+		{
+			// you can override any defaults supported by the REST API
+			per_page: 5,
+			// it is recommended to only fetch the fields you need
+			_fields: ['title', 'id'],
+		},
 		// since this is only a client-side query
 		// we want to force revalidating on mount to ensure query runs on mount
-		// this is required bc we have disabled revalidateOnMount gloally in _app.js
+		// this is required bc we have disabled revalidateOnMount globally in _app.js
 		{ revalidateOnMount: true },
 	);
 
