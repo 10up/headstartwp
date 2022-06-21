@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.3.1-next.0
+
+### Patch Changes
+
+- a920bd8: Fix data.queriedObject for tags
+
 ## 0.3.0
 
 ### Minor Changes
