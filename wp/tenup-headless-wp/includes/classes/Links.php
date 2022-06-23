@@ -103,7 +103,7 @@ class Links {
 	 */
 	public function hook_home_url_filter() {
 		if ( ! has_filter( 'home_url', array( $this, 'filter_home_url' ) ) ) {
-			add_filter( 'home_url', array( $this, 'filter_home_url' ), 10, 3 );
+			// add_filter( 'home_url', array( $this, 'filter_home_url' ), 10, 3 );
 		}
 	}
 
