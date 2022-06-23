@@ -7,7 +7,7 @@
 
 See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) guide.
 
-Visit [docs.headless.10up.com](docs.headless.10up.com) for full documentation.
+Visit [docs.headless.10up.com](https://docs.headless.10up.com) for full documentation.
 
 
 ## Support Level
