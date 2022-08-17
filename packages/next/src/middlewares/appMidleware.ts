@@ -7,10 +7,14 @@ function isStaticAssetRequest(req: NextRequest) {
 	return req.nextUrl.pathname.match(ALLOWED_STATIC_PATHS);
 }
 
+function isInternalRequest(req: NextRequest) {
+	return req.nextUrl.pathname.startsWith('/_next');
+}
+
 export async function AppMiddleware(req: NextRequest) {
 	const { redirectStrategy } = getHeadlessConfig();
 
-	if (isStaticAssetRequest(req)) {
+	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
 		return NextResponse.next();
 	}
 
