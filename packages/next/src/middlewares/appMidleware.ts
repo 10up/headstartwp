@@ -9,6 +9,7 @@ function isStaticAssetRequest(req: NextRequest) {
 
 export async function AppMiddleware(req: NextRequest) {
 	const { redirectStrategy } = getHeadlessConfig();
+	console.log({ redirectStrategy });
 
 	if (isStaticAssetRequest(req)) {
 		return NextResponse.next();
