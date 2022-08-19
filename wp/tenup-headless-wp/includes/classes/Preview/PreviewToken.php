@@ -7,7 +7,7 @@
 
 namespace HeadlessWP\Preview;
 
-use Firebase\JWT\JWT;
+use HeadlessWP\JWT\JWT;
 
 /**
  * Class with static methods to generate and parse capability tokens.

@@ -1,6 +1,6 @@
 <?php
 // phpcs:ignoreFile
-namespace Firebase\JWT;
+namespace HeadlessWP\JWT;
 
 class ExpiredException extends \UnexpectedValueException {
 
