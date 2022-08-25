@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { convertToPath } from '../utils';
 
 /**
- * The usePost hook. Returns a collection of post entities
+ * The useTerms hook. Returns a collection of term entities
  *
  * ## Usage
  *
