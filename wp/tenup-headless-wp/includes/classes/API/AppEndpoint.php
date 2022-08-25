@@ -57,17 +57,6 @@ class AppEndpoint {
 	public function handle_api_endpoint() {
 
 		$cache_key = self::$cache_key;
-		$react_url = \HeadlessWP\Plugin::get_react_url();
-
-		// Make sure the user has set the Headless site URL in the settings before returning data
-		if ( empty( trim( $react_url ) ) ) {
-			return new \WP_Error(
-				'headless-wp-error',
-				sprintf( esc_html__( '"Headless frontend site address" theme setting empty. Add setting at %s', 'headless-wp' ), admin_url( 'options-general.php#site_react_url' ) ),
-				array( 'status' => 400 )
-			);
-		}
-
 		$response = wp_cache_get( $cache_key );
 
 		if ( empty( $response ) ) {
