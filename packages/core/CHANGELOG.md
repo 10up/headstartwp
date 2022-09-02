@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.3.2
+
+### Patch Changes
+
+- 8268ca5: Fix: Allow overriding images in next config
+
 ## 0.3.1
 
 ### Patch Changes

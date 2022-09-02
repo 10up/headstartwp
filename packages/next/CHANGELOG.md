@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.3.1
+
+### Patch Changes
+
+- 8268ca5: Fix: Allow overriding images in next config
+- Updated dependencies [8268ca5]
+  - @10up/headless-core@0.3.2
+
 ## 0.3.0
 
 ### Minor Changes
