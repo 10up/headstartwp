@@ -63,7 +63,7 @@ export function withHeadlessConfig(
 
 	global.__10up__HEADLESS_CONFIG = headlessConfig;
 
-	const imageDomains: Array<string> = [];
+	const imageDomains: string[] = nextConfig.images?.domains ?? [];
 
 	try {
 		const imageMainDomain = new URL(headlessConfig.sourceUrl || '');
@@ -80,6 +80,7 @@ export function withHeadlessConfig(
 			headlessConfig,
 		},
 		images: {
+			...nextConfig.images,
 			domains: imageDomains,
 		},
 		async rewrites() {

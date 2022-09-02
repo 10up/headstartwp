@@ -4,7 +4,7 @@
 
 In addition to the default export, this packages also exports:
 - `@10up/headless-core/react`: React Components and Custom Hooks
-- `@!0up/headless-core/utils`: An additional export that only include small utilities functions. Useful if you don't want to use the whole framework.
+- `@10up/headless-core/utils`: An additional export that only include small utilities functions. Useful if you don't want to use the whole framework.
 
 ## Installation
 

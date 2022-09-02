@@ -24,7 +24,7 @@ If you're developing locally and using HTTPS with WordPress and you don't have v
 
 ```
 NEXT_PUBLIC_HEADLESS_WP_URL=https://wordpress.test
-NODE_TLS_REJECT_UNAUTHORIZED=0`
+NODE_TLS_REJECT_UNAUTHORIZED=0
 ```
 
 ## Something Missing?
