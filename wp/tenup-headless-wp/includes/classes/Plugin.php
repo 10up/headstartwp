@@ -167,7 +167,6 @@ class Plugin {
 			array( 'sanitize_callback' => 'intval' )
 		);
 
-			
 		add_settings_field(
 			'headless_isr_revalidate',
 			esc_html__( 'Revalidade Static Pages?', 'headless-wp' ),
@@ -206,8 +205,8 @@ class Plugin {
 	 * This is toggled 'on' by default, so only a value of 0 will indicate a redireect. Otherwise, empty is to redirect
 	 */
 	public static function should_revalidate_isr() {
-		$value = get_option( 'headless_isr_revalidate', '0');
-		
+		$value = get_option( 'headless_isr_revalidate', '0' );
+
 		return '0' !== $value;
 	}
 

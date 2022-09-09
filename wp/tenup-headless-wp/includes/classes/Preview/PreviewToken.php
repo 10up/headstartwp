@@ -13,7 +13,7 @@ use HeadlessWP\JWT\JWT;
 /**
  * Class with static methods to generate and parse capability tokens.
  */
-class PreviewToken extends BaseToken{
+class PreviewToken extends BaseToken {
 
 	/**
 	 * Preview TOKEN Payload

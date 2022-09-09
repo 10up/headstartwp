@@ -13,7 +13,7 @@ use HeadlessWP\JWT\JWT;
  * Class with static methods to generate and parse capability tokens.
  */
 abstract class BaseToken {
-    /**
+	/**
 	 * Generate token using the given payload.
 	 *
 	 * @param array $payload The payload to use for the token.
@@ -24,18 +24,18 @@ abstract class BaseToken {
 
 		// Generate payload.
 		$payload = array_merge(
-            [
-                'iat'       => $issued_at,
-                'exp'       => $issued_at + 5 * MINUTE_IN_SECONDS,
-                'generator' => '10up-headless-wp',
-            ], 
-            $payload
-        );
+			[
+				'iat'       => $issued_at,
+				'exp'       => $issued_at + 5 * MINUTE_IN_SECONDS,
+				'generator' => '10up-headless-wp',
+			],
+			$payload
+		);
 
 		return JWT::encode( $payload, self::get_private_key() );
 	}
 
-    /**
+	/**
 	 * Return the private key used to encode and decode tokens.
 	 *
 	 * @throws \Exception If the private key is not found.
@@ -58,7 +58,7 @@ abstract class BaseToken {
 		throw new \Exception( $error->get_error_message() );
 	}
 
-    /**
+	/**
 	 * Decode capability tokens if present.
 	 */
 	protected static function get_payload_from_token() {
