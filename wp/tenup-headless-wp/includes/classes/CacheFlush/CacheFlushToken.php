@@ -5,7 +5,9 @@
  * @package HeadlessWP
  */
 
-namespace HeadlessWP;
+namespace HeadlessWP\CacheFlush;
+
+use HeadlessWP\BaseToken;
 
 class CacheFlushToken extends BaseToken {
 
@@ -16,12 +18,13 @@ class CacheFlushToken extends BaseToken {
 	 * @return string
 	 */
 	public static function generateForPost( \WP_Post $post ): string {
-		$permalink = get_permalink( $post );
+		$parsed_url = wp_parse_url( get_permalink( $post ) );
+		$path       = $parsed_url !== false ? $parsed_url['path'] : '';
 
 		return self::generate(
 			[
 				'post_id' => $post->ID,
-				'path'    => $permalink,
+				'path'    => $path,
 				'type'    => 'isr-revalidate',
 			]
 		);

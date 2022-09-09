@@ -8,6 +8,7 @@
 namespace HeadlessWP;
 
 use DOMDocument;
+use HeadlessWP\CacheFlush\CacheFlush;
 
 /**
  * Nain plugin class
@@ -34,6 +35,9 @@ class Plugin {
 
 		$preview = new Preview\PreviewLink();
 		$preview->register();
+
+		$cache_flush = new CacheFlush();
+		$cache_flush->register();
 	}
 
 	/**
