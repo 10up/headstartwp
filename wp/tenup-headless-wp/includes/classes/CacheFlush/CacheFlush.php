@@ -31,6 +31,9 @@ class CacheFlush {
 	/**
 	 * Triggers a cache flush operation
 	 *
+	 * @param number   $post_id The Post id.
+	 * @param \WP_Post $post The post object.
+	 *
 	 * @return void
 	 */
 	public function trigger_cache_for_post( $post_id, \WP_Post $post ) {
@@ -48,7 +51,7 @@ class CacheFlush {
 		try {
 			$revalidate_token = CacheFlushToken::generateForPost( $post );
 			$parsed_url       = wp_parse_url( get_permalink( $post ) );
-			$path             = $parsed_url !== false ? $parsed_url['path'] : '';
+			$path             = false !== $parsed_url ? $parsed_url['path'] : '';
 
 			if ( empty( $path ) ) {
 				return;
@@ -73,7 +76,7 @@ class CacheFlush {
 
 			$status_code = wp_remote_retrieve_response_code( $response );
 
-			if ( is_wp_error( $response ) || $status_code !== 200 ) {
+			if ( is_wp_error( $response ) || 200 !== $status_code ) {
 				return;
 			}
 

@@ -57,7 +57,7 @@ class AppEndpoint {
 	public function handle_api_endpoint() {
 
 		$cache_key = self::$cache_key;
-		$response = wp_cache_get( $cache_key );
+		$response  = wp_cache_get( $cache_key );
 
 		if ( empty( $response ) ) {
 
