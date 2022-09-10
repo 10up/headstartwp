@@ -32,8 +32,8 @@ class API {
 		$app_endpoint = new API\AppEndpoint();
 		$app_endpoint->register();
 
-		$preview_endpoint = new API\PreviewEndpoint();
-		$preview_endpoint->register();
+		$token_endpoint = new API\TokenEndpoint();
+		$token_endpoint->register();
 
 		add_action( 'init', array( $this, 'register_post_type_taxonomy_params' ), 999 );
 	}
