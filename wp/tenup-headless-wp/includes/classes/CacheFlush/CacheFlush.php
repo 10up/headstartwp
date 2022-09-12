@@ -25,7 +25,7 @@ class CacheFlush {
 	 * @return void
 	 */
 	public function register() {
-		add_action( 'save_post', [ $this, 'trigger_cache_for_post' ], 10, 2 );
+		add_action( 'save_post', [ $this, 'trigger_cache_for_post' ], 10, 3 );
 	}
 
 	/**
@@ -33,11 +33,22 @@ class CacheFlush {
 	 *
 	 * @param number   $post_id The Post id.
 	 * @param \WP_Post $post The post object.
+	 * @param bool     $update Whether this is a new post or update
 	 *
 	 * @return void
 	 */
-	public function trigger_cache_for_post( $post_id, \WP_Post $post ) {
+	public function trigger_cache_for_post( $post_id, \WP_Post $post, $update ) {
 		if ( ! Plugin::should_revalidate_isr() ) {
+			return;
+		}
+
+		// If this is just a revision, no need to revalidate
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		// no need to revalidate new posts
+		if ( ! $update ) {
 			return;
 		}
 
@@ -51,18 +62,19 @@ class CacheFlush {
 		try {
 			$revalidate_token = CacheFlushToken::generateForPost( $post );
 			$parsed_url       = wp_parse_url( get_permalink( $post ) );
-			$path             = false !== $parsed_url ? $parsed_url['path'] : '';
+			$path             = false !== $parsed_url ? untrailingslashit( $parsed_url['path'] ) : '';
 
 			if ( empty( $path ) ) {
 				return;
 			}
 
-			$revalidate_url = sprintf(
-				'%?post_id=%d&token=%s&path=%s',
-				trailingslashit( $revalidate_endpoint ),
-				$post_id,
-				$revalidate_token,
-				get_permalink( $post )
+			$revalidate_url = add_query_arg(
+				[
+					'post_id' => $post_id,
+					'token'   => $revalidate_token,
+					'path'    => $path,
+				],
+				$revalidate_endpoint
 			);
 
 			$response = wp_remote_get(
@@ -72,15 +84,19 @@ class CacheFlush {
 				]
 			);
 
-			update_post_meta( $post_id, self::LAST_FLUSH_KEY, time() );
-
 			$status_code = wp_remote_retrieve_response_code( $response );
+			$body        = json_decode( wp_remote_retrieve_body( $response ) );
 
-			if ( is_wp_error( $response ) || 200 !== $status_code ) {
-				return;
-			}
+			update_post_meta(
+				$post_id,
+				self::LAST_FLUSH_KEY,
+				[
+					'time'        => time(),
+					'status_code' => $status_code,
+					'message'     => $body->message,
+				]
+			);
 
-			update_post_meta( $post_id, self::LAST_FLUSH_STATUS_KEY, $status_code );
 		} catch ( \Exception $e ) {
 			// do nothing
 		}

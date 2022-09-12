@@ -60,12 +60,12 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 		const verifiedPath = result.path ?? '';
 		const verifitedPostId = result.post_id ?? 0;
 
-		if (verifiedPath !== path || verifitedPostId !== post_id) {
+		if (verifiedPath !== path || Number(verifitedPostId) !== Number(post_id)) {
 			throw new Error('Token mismatch');
 		}
 
 		await res.revalidate(path);
-		return res.json({ revalidated: true });
+		return res.status(200).json({ revalidated: true });
 	} catch (err) {
 		let errorMessage = 'Error verifying the token';
 		if (err instanceof Error) {

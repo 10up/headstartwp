@@ -197,6 +197,11 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 			if (url.includes('/headless-wp')) {
 				errorMsg = `You need to install 10up's Headless WordPress plugin.\n ${errorMsg} `;
 			}
+
+			if (result?.json?.message) {
+				errorMsg = result.json.message;
+			}
+
 			throw new EndpointError(errorMsg);
 		}
 

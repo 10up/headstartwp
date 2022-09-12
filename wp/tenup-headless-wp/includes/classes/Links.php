@@ -29,13 +29,6 @@ class Links {
 		}
 
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
-
-		// We need to hook in early so that the home filter will work when validating an auth token
-		if ( isset( $_SERVER['HTTP_AUTHORIZATION'] ) && $_SERVER['HTTP_AUTHORIZATION'] && false !== strpos( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ), 'Bearer' ) ) {
-			if ( 'HEAD' !== $request_method ) {
-				add_action( 'plugin_loaded', array( $this, 'hook_home_url_filter' ) );
-			}
-		}
 	}
 
 	/**

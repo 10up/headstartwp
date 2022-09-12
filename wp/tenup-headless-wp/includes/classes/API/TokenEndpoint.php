@@ -7,8 +7,8 @@
 
 namespace HeadlessWP\API;
 
+use HeadlessWP\CacheFlush\CacheFlushToken;
 use WP_Error;
-use WP_Post;
 use WP_REST_Request;
 use WP_REST_Server;
 
@@ -37,27 +37,35 @@ class TokenEndpoint {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_item' ),
 					'permission_callback' => array( $this, 'get_item_permissions_check' ),
-					'args'                => [
-						'token' => [
-							'description'       => 'The token to validate',
-							'type'              => 'string',
-							'required'          => true,
-							'sanitize_callback' => 'sanitize_text_field',
-						],
-					],
 				],
 			]
 		);
 	}
 
 	/**
-	 * Checks whether the current request has permission to get the post preview.
+	 * Checks whether the current request validates the token or not
 	 *
 	 * @param WP_REST_Request $request The current request.
 	 * @return boolean|WP_Error True if permisson is granted; error otherwise.
+	 *
+	 * @throws \Exception If payload is invalid.
 	 */
 	public function get_item_permissions_check( WP_REST_Request $request ) {
-		return current_user_can( 'edit_post', $request['id'] );
+		try {
+			$payload = CacheFlushToken::getToken();
+
+			if ( ! isset( $payload ) ) {
+				throw new \Exception( 'type missing' );
+			}
+
+			if ( 'isr-revalidate' === $payload['type'] ) {
+				return true;
+			}
+		} catch ( \Exception $e ) {
+			return false;
+		}
+
+		return false;
 	}
 	/**
 	 * Returns the preview post.
@@ -66,6 +74,13 @@ class TokenEndpoint {
 	 * @return WP_REST_Response The REST response.
 	 */
 	public function get_item( WP_REST_Request $request ) {
+		$payload = CacheFlushToken::getToken();
 
+		return rest_ensure_response(
+			[
+				'post_id' => $payload['post_id'],
+				'path'    => $payload['path'],
+			]
+		);
 	}
 }

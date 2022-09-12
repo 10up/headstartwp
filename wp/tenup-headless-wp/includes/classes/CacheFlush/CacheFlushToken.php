@@ -23,7 +23,7 @@ class CacheFlushToken extends BaseToken {
 	 */
 	public static function generateForPost( \WP_Post $post ): string {
 		$parsed_url = wp_parse_url( get_permalink( $post ) );
-		$path       = false !== $parsed_url ? $parsed_url['path'] : '';
+		$path       = false !== $parsed_url ? untrailingslashit( $parsed_url['path'] ) : '';
 
 		return self::generate(
 			[
@@ -32,5 +32,14 @@ class CacheFlushToken extends BaseToken {
 				'type'    => 'isr-revalidate',
 			]
 		);
+	}
+
+	/**
+	 * Gets the token payload
+	 *
+	 * @return array
+	 */
+	public static function getToken() {
+		return (array) parent::get_payload_from_token();
 	}
 }

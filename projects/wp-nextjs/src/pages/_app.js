@@ -24,7 +24,7 @@ const MyApp = ({ Component, pageProps }) => {
 				/**
 				 * Setting this to true will refetch content whethenever the tab is refocused
 				 */
-				revalidateOnFocus: true,
+				revalidateOnFocus: false,
 				/**
 				 * Settings this to true will refetch content whenever the connection is restablished
 				 */

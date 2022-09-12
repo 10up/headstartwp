@@ -87,7 +87,6 @@ class Plugin {
 	 * Clean up admin menus
 	 */
 	public function clean_up_menus() {
-		remove_submenu_page( 'options-general.php', 'options-permalink.php' );
 		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 		remove_submenu_page( 'themes.php', 'customize.php?return=%2Fwp-admin%2Foptions-reading.php' );
 		remove_menu_page( 'edit-comments.php' );
