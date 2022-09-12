@@ -35,13 +35,6 @@ export class VerifyTokenFetchStrategy extends AbstractFetchStrategy<AppEntity, E
 		return super.buildEndpointURL({ ...rest, _embed: false });
 	}
 
-	/**
-	 * Handles fetching by multiple post types, authToken and revisions
-	 *
-	 * @param url The url to fetch
-	 * @param params The params to build the endpoint url
-	 * @param options FetchOptions
-	 */
 	async fetcher(url: string, params: VerifyTokenParams, options: Partial<FetchOptions> = {}) {
 		if (params.authToken) {
 			options.bearerToken = params.authToken;

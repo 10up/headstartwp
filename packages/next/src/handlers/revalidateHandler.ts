@@ -7,7 +7,7 @@ import { fetchHookData } from '../data';
  *
  * Handling revalidate requires the Headless WordPress Plugin.
  *
- * **Important**: This function is meant to be used in a api route at `/pages/api/revalidate`.
+ * **Important**: This function is meant to be used in a api route e.g: `/pages/api/revalidate`.
  *
  * ### Usage
  *
@@ -60,12 +60,13 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 		const verifiedPath = result.path ?? '';
 		const verifitedPostId = result.post_id ?? 0;
 
+		// make sure the path and post_id matches with what was encoded in the token
 		if (verifiedPath !== path || Number(verifitedPostId) !== Number(post_id)) {
 			throw new Error('Token mismatch');
 		}
 
 		await res.revalidate(path);
-		return res.status(200).json({ revalidated: true });
+		return res.status(200).json({ message: 'success' });
 	} catch (err) {
 		let errorMessage = 'Error verifying the token';
 		if (err instanceof Error) {
