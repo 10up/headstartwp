@@ -6,9 +6,6 @@ import { endpoints } from '../utils';
  * The EndpointParams supported by the [[VerifyTokenFetchStrategy]]
  */
 export interface VerifyTokenParams extends EndpointParams {
-	/**
-	 * The authToken, required to fetch revisions or non-published posts
-	 */
 	authToken?: string;
 }
 
