@@ -1,7 +1,7 @@
 import { revalidateHandler } from '@10up/headless-next';
 
 /**
- * The Preview endpoint just needs to proxy the default preview handler
+ * The revalidate endpoint just needs to proxy the default revalidate handler
  *
  * @param {*} req Next.js request object
  * @param {*} res  Next.js response object

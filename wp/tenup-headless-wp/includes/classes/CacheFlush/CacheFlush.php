@@ -16,8 +16,8 @@ use HeadlessWP\Plugin;
  */
 class CacheFlush {
 
-	const LAST_FLUSH_KEY        = 'tenup-headless-last-cache-flush';
-	const LAST_FLUSH_STATUS_KEY = 'tenup-headless-last-flush-status-key';
+	const LAST_FLUSH_KEY = 'tenup-headless-last-cache-flush';
+
 
 	/**
 	 * Register the
@@ -52,37 +52,18 @@ class CacheFlush {
 			return;
 		}
 
-		/**
-		 * Filters the revalidate endpoint.
-		 *
-		 * @param string $revalidate_endpoint The revalidate endpoint
-		 */
-		$revalidate_endpoint = apply_filters( 'tenup_headless_isr_revalidate_endpoint', trailingslashit( Plugin::get_react_url() ) . 'api/revalidate' );
-
 		try {
-			$revalidate_token = CacheFlushToken::generateForPost( $post );
-			$parsed_url       = wp_parse_url( get_permalink( $post ) );
-			$path             = false !== $parsed_url ? untrailingslashit( $parsed_url['path'] ) : '';
+			$payload = CacheFlushToken::generateForPost( $post );
 
-			if ( empty( $path ) ) {
-				return;
+			$response = $this->revalidate_request( $payload['post_id'], $payload['path'], $payload['token'] );
+
+			$frontpage_id = get_option( 'page_on_front' );
+
+			if ( intval( $frontpage_id ) === intval( $post->ID ) ) {
+				// revalidate front page as well
+				$payload  = CacheFlushToken::generateForPost( $post, '/' );
+				$response = $this->revalidate_request( $payload['post_id'], '/', $payload['token'] );
 			}
-
-			$revalidate_url = add_query_arg(
-				[
-					'post_id' => $post_id,
-					'token'   => $revalidate_token,
-					'path'    => $path,
-				],
-				$revalidate_endpoint
-			);
-
-			$response = wp_remote_get(
-				$revalidate_url,
-				[
-					'timeout' => 30,
-				]
-			);
 
 			$status_code = wp_remote_retrieve_response_code( $response );
 			$body        = json_decode( wp_remote_retrieve_body( $response ) );
@@ -100,5 +81,39 @@ class CacheFlush {
 		} catch ( \Exception $e ) {
 			// do nothing
 		}
+	}
+
+	/**
+	 * Makes a revalidate request for a given path
+	 *
+	 * @param number $post_id The Post id
+	 * @param string $path The Path to revalidate
+	 * @param string $token The jwt token
+	 *
+	 * @return array|\WP_Error
+	 */
+	public function revalidate_request( $post_id, $path, $token ) {
+		/**
+		 * Filters the revalidate endpoint.
+		 *
+		 * @param string $revalidate_endpoint The revalidate endpoint
+		 */
+		$revalidate_endpoint = apply_filters( 'tenup_headless_isr_revalidate_endpoint', trailingslashit( Plugin::get_react_url() ) . 'api/revalidate' );
+
+		$revalidate_url = add_query_arg(
+			[
+				'post_id' => $post_id,
+				'token'   => $token,
+				'path'    => $path,
+			],
+			$revalidate_endpoint
+		);
+
+		return wp_safe_remote_get(
+			$revalidate_url,
+			[
+				'timeout' => 5,
+			]
+		);
 	}
 }

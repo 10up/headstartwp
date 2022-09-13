@@ -13,7 +13,7 @@ use WP_REST_Request;
 use WP_REST_Server;
 
 /**
- * Previews class
+ * TokenEndpoint class
  */
 class TokenEndpoint {
 	/**
@@ -24,7 +24,7 @@ class TokenEndpoint {
 	}
 
 	/**
-	 * Registers a rest route for ptoken endpoint
+	 * Registers a rest route for token endpoint
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class TokenEndpoint {
 		try {
 			$payload = CacheFlushToken::getToken();
 
-			if ( ! isset( $payload ) ) {
+			if ( empty( $payload ) || ! isset( $payload['type'] ) ) {
 				throw new \Exception( 'type missing' );
 			}
 
@@ -68,7 +68,7 @@ class TokenEndpoint {
 		return false;
 	}
 	/**
-	 * Returns the preview post.
+	 * Returns the token payload.
 	 *
 	 * @param WP_REST_Request $request The current request.
 	 * @return WP_REST_Response The REST response.
