@@ -80,7 +80,12 @@ abstract class BaseToken {
 		// Get and parse the token.
 		try {
 			list( $token ) = sscanf( $header, 'Bearer %s' );
-			$payload       = JWT::decode(
+
+			if ( empty( $token ) ) {
+				return null;
+			}
+
+			$payload = JWT::decode(
 				$token,
 				self::get_private_key(),
 				array( 'HS256' )
