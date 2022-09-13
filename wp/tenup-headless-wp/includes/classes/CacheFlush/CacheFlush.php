@@ -109,7 +109,7 @@ class CacheFlush {
 			$revalidate_endpoint
 		);
 
-		return wp_safe_remote_get(
+		return wp_remote_get(
 			$revalidate_url,
 			[
 				'timeout' => 5,
