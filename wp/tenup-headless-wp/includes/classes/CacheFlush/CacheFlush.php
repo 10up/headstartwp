@@ -29,6 +29,20 @@ class CacheFlush {
 	}
 
 	/**
+	 * Checks whether we should use redis as transport method
+	 *
+	 * @return boolean
+	 */
+	private function is_redis_mode() {
+		/**
+		 * Filters whether redis mode should be used. Defaults to false
+		 *
+		 * @param bool $redis_mode Whether Redis should be used to trigger a on-demand revalidate request or not
+		 */
+		return apply_filters( 'tenup_headless_isr_redis_mode', true );
+	}
+
+	/**
 	 * Triggers a cache flush operation
 	 *
 	 * @param number   $post_id The Post id.
@@ -65,16 +79,13 @@ class CacheFlush {
 				$response = $this->revalidate_request( $payload['post_id'], '/', $payload['token'] );
 			}
 
-			$status_code = wp_remote_retrieve_response_code( $response );
-			$body        = json_decode( wp_remote_retrieve_body( $response ) );
-
 			update_post_meta(
 				$post_id,
 				self::LAST_FLUSH_KEY,
 				[
 					'time'        => time(),
-					'status_code' => $status_code,
-					'message'     => $body->message,
+					'status_code' => $response['status_code'],
+					'message'     => $response['message'],
 				]
 			);
 
@@ -93,27 +104,74 @@ class CacheFlush {
 	 * @return array|\WP_Error
 	 */
 	public function revalidate_request( $post_id, $path, $token ) {
-		/**
-		 * Filters the revalidate endpoint.
-		 *
-		 * @param string $revalidate_endpoint The revalidate endpoint
-		 */
-		$revalidate_endpoint = apply_filters( 'tenup_headless_isr_revalidate_endpoint', trailingslashit( Plugin::get_react_url() ) . 'api/revalidate' );
+		if ( $this->is_redis_mode() ) {
+			/**
+			 * Filters the redis credentials
+			 *
+			 * @var array $redis_credentials {
+			 *  Required. Array contains redis credetials.
+			 *
+			 *  @type number $port The redis port
+			 *  @type string $host The redis host
+			 *  @type string $password The redis password
+			 * }
+			 */
+			$redis_credentials = apply_filters(
+				'tenup_headless_redis_credentials',
+				[
+					'scheme'   => 'tls',
+					'host'     => 'localhost',
+					'port'     => 6379,
+					'password' => '',
+				]
+			);
 
-		$revalidate_url = add_query_arg(
-			[
-				'post_id' => $post_id,
-				'token'   => $token,
-				'path'    => $path,
-			],
-			$revalidate_endpoint
-		);
+			$redis = new \Predis\Client( $redis_credentials );
 
-		return wp_remote_get(
-			$revalidate_url,
-			[
-				'timeout' => 5,
-			]
-		);
+			$return = $redis->publish(
+				'isr-revalidate-request',
+				wp_json_encode(
+					[
+						'post_id' => $post_id,
+						'path'    => $path,
+					]
+				)
+			);
+
+			$status_code = 200;
+			$message     = 'Redis';
+		} else {
+			/**
+			 * Filters the revalidate endpoint.
+			 *
+			 * @param string $revalidate_endpoint The revalidate endpoint
+			 */
+			$revalidate_endpoint = apply_filters( 'tenup_headless_isr_revalidate_endpoint', trailingslashit( Plugin::get_react_url() ) . 'api / revalidate' );
+
+			$revalidate_url = add_query_arg(
+				[
+					'post_id' => $post_id,
+					'token'   => $token,
+					'path'    => $path,
+				],
+				$revalidate_endpoint
+			);
+
+			$response = wp_remote_get(
+				$revalidate_url,
+				[
+					'timeout' => 5,
+				]
+			);
+
+			$status_code = wp_remote_retrieve_response_code( $response );
+			$body        = json_decode( wp_remote_retrieve_body( $response ) );
+			$message     = $body->message;
+		}
+
+		return [
+			'status_code' => $status_code,
+			'message'     => $message,
+		];
 	}
 }

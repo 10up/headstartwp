@@ -10,11 +10,12 @@
     }
   ],
   "require": {
-    "php": ">=7.3"
+    "php": ">=7.3",
+    "cheprasov/php-redis-client": "^1.10",
+    "predis/predis": "^2.0"
   },
   "require-dev": {
-    "10up/phpcs-composer": "dev-master",
-    "giacocorsiglia/wordpress-stubs": "^5.1"
+    "10up/phpcs-composer": "dev-master"
   },
   "autoload": {
     "psr-4": {
