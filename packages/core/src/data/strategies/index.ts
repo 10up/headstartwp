@@ -5,3 +5,4 @@ export * from './SearchFetchStrategy';
 export * from './AppSettingsStrategy';
 export * from './TaxonomyTermsStrategy';
 export * from './AuthorArchiveFetchStrategy';
+export * from './VerifyTokenFetchStrategy';

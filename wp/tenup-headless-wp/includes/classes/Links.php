@@ -26,19 +26,9 @@ class Links {
 
 		if ( 'HEAD' !== $request_method ) {
 			add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
-			// add_action( 'init', array( $this, 'hook_home_url_filter' ) );
-			// add_action( 'rest_api_init', array( $this, 'hook_home_url_filter' ) );
-			// add_action( 'admin_init', array( $this, 'hook_home_url_filter' ) );
 		}
 
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
-
-		// We need to hook in early so that the home filter will work when validating an auth token
-		if ( isset( $_SERVER['HTTP_AUTHORIZATION'] ) && $_SERVER['HTTP_AUTHORIZATION'] && false !== strpos( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ), 'Bearer' ) ) {
-			if ( 'HEAD' !== $request_method ) {
-				add_action( 'plugin_loaded', array( $this, 'hook_home_url_filter' ) );
-			}
-		}
 	}
 
 	/**
@@ -96,15 +86,6 @@ class Links {
 		}
 
 		return $array;
-	}
-
-	/**
-	 * To prevent loops, only apply the filter if the home_url filter has not yet already been set
-	 */
-	public function hook_home_url_filter() {
-		if ( ! has_filter( 'home_url', array( $this, 'filter_home_url' ) ) ) {
-			// add_filter( 'home_url', array( $this, 'filter_home_url' ), 10, 3 );
-		}
 	}
 
 	/**

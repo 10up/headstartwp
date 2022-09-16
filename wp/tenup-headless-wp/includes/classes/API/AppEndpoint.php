@@ -57,7 +57,7 @@ class AppEndpoint {
 	public function handle_api_endpoint() {
 
 		$cache_key = self::$cache_key;
-		$response = wp_cache_get( $cache_key );
+		$response  = wp_cache_get( $cache_key );
 
 		if ( empty( $response ) ) {
 
@@ -81,10 +81,11 @@ class AppEndpoint {
 			 * Homepage data retrieval. By default the scaffold will set the homepage depending on the settings in the WordPress admin 'Reading' settings.
 			 * If a homepage 'page' has not been set, then the most recent posts will be used as homepage data
 			 */
-			$homepage_id = (int) get_option( 'page_on_front' );
-
+			$homepage_id         = (int) get_option( 'page_on_front' );
+			$home_page_post_slug = '';
 			if ( $homepage_id > 0 ) {
-				$homepage_post = get_post( $homepage_id );
+				$homepage_post       = get_post( $homepage_id );
+				$home_page_post_slug = $homepage_post->post_name;
 			}
 
 			// Specify any data that will be needed to retrieve the homepage
@@ -92,8 +93,7 @@ class AppEndpoint {
 				'headless_wp_api_app_home',
 				array(
 					'id'   => $homepage_id,
-					'slug' => $homepage_post->post_name,
-
+					'slug' => $home_page_post_slug,
 				)
 			);
 
