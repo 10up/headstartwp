@@ -8,6 +8,7 @@
 namespace HeadlessWP;
 
 use DOMDocument;
+use HeadlessWP\CacheFlush\CacheFlush;
 
 /**
  * Nain plugin class
@@ -34,6 +35,9 @@ class Plugin {
 
 		$preview = new Preview\PreviewLink();
 		$preview->register();
+
+		$cache_flush = new CacheFlush();
+		$cache_flush->register();
 	}
 
 	/**
@@ -83,7 +87,6 @@ class Plugin {
 	 * Clean up admin menus
 	 */
 	public function clean_up_menus() {
-		remove_submenu_page( 'options-general.php', 'options-permalink.php' );
 		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 		remove_submenu_page( 'themes.php', 'customize.php?return=%2Fwp-admin%2Foptions-reading.php' );
 		remove_menu_page( 'edit-comments.php' );
@@ -139,24 +142,48 @@ class Plugin {
 			array( 'sanitize_callback' => 'intval' )
 		);
 
-		$value = $this->should_frontend_redirect();
-
 		// Register the settings
 		add_settings_field(
 			'site_react_redirect',
 			esc_html__( 'Redirect to Headless Site?', 'headless-wp' ),
-			function () use ( $value ) {
+			function () {
 				?>
 				<input
-					type = "checkbox"
-					name = "site_react_redirect"
-					id = "site_react_redirect"
-					value = "1"
-					<?php checked( $value, 1, true ); ?>
+					type="checkbox"
+					name="site_react_redirect"
+					id="site_react_redirect"
+					value="1"
+					<?php checked( $this->should_frontend_redirect(), 1, true ); ?>
 				>
 				<p class="description">
 					<?php esc_html_e( 'Should the front-end of the website automatically redirect to the React website?', 'headless-wp' ); ?><br />
 					<?php esc_html_e( '(/wp-json and /wp-admin requests excluded)', 'headless-wp' ); ?><br />
+					</p>
+				<?php
+			},
+			'general'
+		);
+
+		register_setting(
+			'general',
+			'headless_isr_revalidate',
+			array( 'sanitize_callback' => 'intval' )
+		);
+
+		add_settings_field(
+			'headless_isr_revalidate',
+			esc_html__( 'Revalidade Static Pages?', 'headless-wp' ),
+			function () {
+				?>
+				<input
+					type="checkbox"
+					name="headless_isr_revalidate"
+					id="headless_isr_revalidate"
+					value="1"
+					<?php checked( $this->should_revalidate_isr(), 1, true ); ?>
+				>
+				<p class="description">
+					<?php esc_html_e( 'Should the WordPress automatically revalidate static pages?', 'headless-wp' ); ?><br />
 					</p>
 				<?php
 			},
@@ -171,6 +198,17 @@ class Plugin {
 	 */
 	public static function should_frontend_redirect() {
 		$value = get_option( 'site_react_redirect' );
+
+		return '0' !== $value;
+	}
+
+	/**
+	 * Check the option for revalidating static pages
+	 *
+	 * This is toggled 'on' by default, so only a value of 0 will indicate a redireect. Otherwise, empty is to redirect
+	 */
+	public static function should_revalidate_isr() {
+		$value = get_option( 'headless_isr_revalidate', '0' );
 
 		return '0' !== $value;
 	}

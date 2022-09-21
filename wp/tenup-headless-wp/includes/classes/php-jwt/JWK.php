@@ -1,6 +1,6 @@
 <?php
 // phpcs:ignoreFile
-namespace Firebase\JWT;
+namespace HeadlessWP\JWT;
 
 use DomainException;
 use UnexpectedValueException;

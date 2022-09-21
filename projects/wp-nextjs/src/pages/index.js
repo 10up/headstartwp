@@ -81,7 +81,7 @@ export async function getStaticProps(context) {
 
 		return addHookData([hookData, appSettings], {
 			props: { homePageSlug: slug },
-			revalidate: 10,
+			revalidate: 5 * 60,
 		});
 	} catch (e) {
 		return handleError(e, context);

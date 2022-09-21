@@ -81,7 +81,7 @@ export async function getStaticProps(context) {
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
 
-		return addHookData(settledPromises, { revalidate: 10 });
+		return addHookData(settledPromises, { revalidate: 5 * 60 });
 	} catch (e) {
 		return handleError(e, context);
 	}

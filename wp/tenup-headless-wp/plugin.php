@@ -70,4 +70,3 @@ add_action(
 		PreviewToken::setup();
 	}
 );
-

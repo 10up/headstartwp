@@ -15,11 +15,11 @@ $post_id     = $preview_post->ID;
 $post_type   = get_post_type( $preview_post->ID );
 
 $token = PreviewToken::generate(
-	array(
+	[
 		'type'      => 'preview',
 		'post_type' => $post_type,
 		'post_id'   => $post_id,
-	)
+	]
 );
 
 $preview_url = sprintf(

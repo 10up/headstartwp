@@ -1,7 +1,6 @@
 import {
 	getWPUrl,
 	fetchRedirect,
-	NotFoundError,
 	FilterDataOptions,
 	AbstractFetchStrategy,
 	Entity,
@@ -212,7 +211,7 @@ export async function handleError(
 ): Promise<GetServerSidePropsResult<{}>> {
 	const { redirectStrategy } = getHeadlessConfig();
 
-	if (error instanceof NotFoundError) {
+	if (error.name === 'NotFoundError') {
 		let pathname = '';
 		if (typeof ctx?.req?.url !== 'undefined') {
 			pathname = ctx.req.url;
