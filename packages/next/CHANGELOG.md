@@ -1,5 +1,17 @@
 # @10up/headless-next
 
+## 0.4.0-next.0
+
+### Minor Changes
+
+- 730d47e: Stop using `instanceof` since cjs builds does not work with instanceof. Instead check the error name property.
+- 75d2adb: Introduces on-demand isr revalidation from the WordPress plugin. [#184](https://github.com/10up/headless/pull/184)
+
+### Patch Changes
+
+- Updated dependencies [75d2adb]
+  - @10up/headless-core@0.4.0-next.0
+
 ## 0.3.1
 
 ### Patch Changes

@@ -1,0 +1,15 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@10up/headless-core": "0.3.2",
+    "@10up/react-hooks": "1.2.3",
+    "@10up/headless-next": "0.3.1",
+    "@10up/headless-docs": "1.0.0",
+    "@10up/wp-nextjs": "0.2.0"
+  },
+  "changesets": [
+    "ninety-tips-clap",
+    "rude-brooms-wash"
+  ]
+}

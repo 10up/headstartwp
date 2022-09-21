@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.4.0-next.0
+
+### Minor Changes
+
+- 75d2adb: Introduces on-demand isr revalidation from the WordPress plugin. [#184](https://github.com/10up/headless/pull/184)
+
 ## 0.3.2
 
 ### Patch Changes
