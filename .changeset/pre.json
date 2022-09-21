@@ -1,0 +1,14 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@10up/headless-core": "0.4.0",
+    "@10up/react-hooks": "1.2.3",
+    "@10up/headless-next": "0.4.0",
+    "@10up/headless-docs": "1.0.0",
+    "@10up/wp-nextjs": "0.2.0"
+  },
+  "changesets": [
+    "curvy-nails-help"
+  ]
+}

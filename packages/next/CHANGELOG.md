@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.4.1-next.0
+
+### Patch Changes
+
+- d41a49a: Optimize `addHookData` by removing duplicate theme.json and yoast_head_json
+
 ## 0.4.0
 
 ### Minor Changes
