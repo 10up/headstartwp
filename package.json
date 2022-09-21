@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:packages": "turbo run build --filter=./packages/*",
-    "test": "turbo run test",
+    "test": "npm run build:packages && turbo run test",
     "lint": "eslint .",
     "dev": "npm run build:packages && turbo run dev --parallel",
     "prepare": "husky install",
