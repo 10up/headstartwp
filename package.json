@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:packages": "turbo run build --filter=./packages/*",
-    "test": "turbo run test",
+    "test": "npm run build:packages && turbo run test",
     "lint": "eslint .",
     "dev": "npm run build:packages && turbo run dev --parallel",
     "prepare": "husky install",
@@ -36,7 +36,9 @@
     "turbo": "^1.2.11",
     "typedoc": "^0.22.15",
     "typedoc-monorepo-link-types": "^0.0.2",
-    "typedoc-plugin-inline-sources": "^1.0.1"
+    "typedoc-plugin-inline-sources": "^1.0.1",
+    "jest-environment-jsdom": "^29.0.3",
+    "jest": "^29.0.3"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",

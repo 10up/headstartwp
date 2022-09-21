@@ -114,9 +114,15 @@ export async function fetchHookData(
 	return { key: endpointUrlForKey, data: fetchStrategy.filterData(data, filterDataOptions) };
 }
 
+type ExpectedHookStateResponse = {
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
+	'theme.json': Record<string, any> | null;
+};
+
 export type HookState = {
 	key: string;
-	data: FetchResponse<{ yoast_head_json: {}; yoast_head: {} }>;
+	data: FetchResponse<ExpectedHookStateResponse> | FetchResponse<ExpectedHookStateResponse[]>;
 };
 
 /**
@@ -146,16 +152,48 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	const { props = {}, ...rest } = nextProps;
 	const fallback = {};
 	let seo_json = {};
-	let yoast_head = '';
 	let themeJSON = {};
 
 	hookStates.filter(Boolean).forEach((hookState) => {
 		const { key, data } = hookState;
 
-		// take yoast_seo data
-		seo_json = data.result?.yoast_head_json || data.result?.[0]?.yoast_head_json || seo_json;
-		yoast_head = data.result?.yoast_head || data.result?.[0]?.yoast_head || yoast_head;
-		themeJSON = data.result?.['theme.json'] || data.result?.[0]?.['theme.json'] || themeJSON;
+		// we want to keep only one yoast_head_json object and remove everyhing else to reduce
+		// hydration costs
+
+		if (Array.isArray(data.result) && data.result.length > 0) {
+			if (data.result[0]?.yoast_head_json) {
+				seo_json = { ...data.result[0].yoast_head_json };
+			}
+
+			if (data.result[0]?.['theme.json']) {
+				themeJSON = { ...data.result[0]['theme.json'] };
+			}
+
+			data.result.forEach((post) => {
+				if (post?.yoast_head_json) {
+					post.yoast_head_json = null;
+				}
+				if (post?.yoast_head) {
+					post.yoast_head = null;
+				}
+				if (post?.['theme.json']) {
+					post['theme.json'] = null;
+				}
+			});
+		} else if (!Array.isArray(data.result)) {
+			if (data.result?.yoast_head_json) {
+				seo_json = { ...data.result.yoast_head_json };
+				data.result.yoast_head_json = null;
+			}
+			if (data.result?.yoast_head) {
+				data.result.yoast_head = null;
+			}
+			if (data.result?.['theme.json']) {
+				themeJSON = data.result['theme.json'];
+				data.result['theme.json'] = null;
+			}
+		}
+
 		fallback[key] = data;
 	});
 
@@ -165,7 +203,6 @@ export function addHookData(hookStates: HookState[], nextProps) {
 			...props,
 			seo: {
 				yoast_head_json: seo_json,
-				yoast_head,
 			},
 			themeJSON,
 			fallback,
