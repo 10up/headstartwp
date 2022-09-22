@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.4.1-next.0
+
+### Patch Changes
+
+- dc79cc1: fix domToReact conversion of child nodes.
+
 ## 0.4.0
 
 ### Minor Changes
