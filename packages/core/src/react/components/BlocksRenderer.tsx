@@ -190,8 +190,8 @@ export function BlocksRenderer({ html, ksesAllowList, children }: BlockRendererP
 							...block.props,
 							domNode,
 						},
-						domNode instanceof Element
-							? domToReact(domNode.children, {
+						(domNode as Element)?.children
+							? domToReact((domNode as Element)?.children, {
 									// eslint-disable-next-line react/no-unstable-nested-components
 									replace: (childNode) => {
 										if (typeof options.replace !== 'function') {
