@@ -1,5 +1,5 @@
 import {
-	getHeadlessConfig,
+	getSiteBySourceUrl,
 	getCustomTaxonomies,
 	asyncForEach,
 	getCustomPostType,
@@ -210,7 +210,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		const matchers = [...postsMatchers];
 
 		if (typeof params.taxonomy === 'string') {
-			const taxonomyObj = getCustomTaxonomy(params.taxonomy);
+			const taxonomyObj = getCustomTaxonomy(params.taxonomy, this.baseURL);
 
 			if (!taxonomyObj) {
 				throw new ConfigError(`Taxonomy "${params.taxonomy}" not found`);
@@ -233,7 +233,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			return parsePath(taxonomyMatchers, path);
 		}
 
-		const customTaxonomies = getCustomTaxonomies();
+		const customTaxonomies = getCustomTaxonomies(this.baseURL);
 		customTaxonomies?.forEach((taxonomy) => {
 			const slug = taxonomy?.rewrite ?? taxonomy.slug;
 			matchers.push({
@@ -258,13 +258,13 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	 * @param params The params to build the endpoint with
 	 */
 	buildEndpointURL(params: Partial<PostsArchiveParams>) {
-		const settings = getHeadlessConfig();
+		const settings = getSiteBySourceUrl(this.baseURL);
 
 		// these params should be disregarded whne building out the endpoint
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, tag, postType, taxonomy, ...endpointParams } = params;
 
-		const taxonomies = getCustomTaxonomies();
+		const taxonomies = getCustomTaxonomies(this.baseURL);
 
 		taxonomies.forEach((taxonomy) => {
 			const slug = taxonomy.rewrite ?? taxonomy.slug;
@@ -274,7 +274,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		});
 
 		if (params.postType) {
-			const postType = getCustomPostType(params.postType);
+			const postType = getCustomPostType(params.postType, this.baseURL);
 
 			if (!postType) {
 				throw new ConfigError(
@@ -311,9 +311,9 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		options: Partial<FetchOptions> = {},
 	) {
 		let finalUrl = url;
-		const settings = getHeadlessConfig();
+		const settings = getSiteBySourceUrl(this.baseURL);
 
-		const customTaxonomies = getCustomTaxonomies();
+		const customTaxonomies = getCustomTaxonomies(this.baseURL);
 		if (customTaxonomies) {
 			await asyncForEach(customTaxonomies, async (taxonomy) => {
 				const paramSlug = taxonomy?.rewrite ?? taxonomy.slug;

@@ -1,0 +1,13 @@
+/*
+Includes Global CSS Styles such as libraries css and WP block library
+*/
+@import url("css/nprogress.css");
+
+/* this should match the WordPress version you're supporting
+ take this from wp-includes/css/dist/block-library/style.css */
+@import url("css/block-library.css");
+
+html, body {
+	padding: 0;
+	margin: 0;
+}

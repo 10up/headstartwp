@@ -79,7 +79,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 				? params.postType[0]
 				: params.postType;
 
-			const postType = getCustomPostType(postTypeSlug);
+			const postType = getCustomPostType(postTypeSlug, this.baseURL);
 
 			if (!postType) {
 				throw new ConfigError(

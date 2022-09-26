@@ -10,6 +10,7 @@ import { removeSourceUrl } from './removeSourceUrl';
  * @returns
  */
 export function isInternalLink(url: string) {
+	// TODO...
 	const link = removeSourceUrl({ link: url, backendUrl: getWPUrl() });
 
 	if (isExternalUrl(link)) {

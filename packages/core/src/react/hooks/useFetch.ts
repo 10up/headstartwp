@@ -35,7 +35,7 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	const finalParams = { ...urlParams, ...params };
 
 	const result = useSWR<FetchResponse<E>>(
-		fetchStrategy.buildEndpointURL(finalParams),
+		fetchStrategy.buildEndpointURL({ ...finalParams, sourceUrl }),
 		(url: string) => fetchStrategy.fetcher(url, finalParams),
 		options,
 	);

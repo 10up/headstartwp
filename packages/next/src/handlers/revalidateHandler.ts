@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { VerifyTokenFetchStrategy } from '@10up/headless-core';
+import { getHeadlessConfig, VerifyTokenFetchStrategy } from '@10up/headless-core';
 import { fetchHookData } from '../data';
+import { getSiteFromApiRequest, isMultisiteRequest } from './utils';
 
 /**
  * The RevalidateHandler is responsible for handling revalidate requests.
@@ -42,12 +43,19 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 		return res.status(401).json({ message: 'Invalid params' });
 	}
 
+	const { sourceUrl } = isMultisiteRequest(req)
+		? getSiteFromApiRequest(req)
+		: getHeadlessConfig();
+
 	// call WordPress API to check token
 	try {
 		const { data } = await fetchHookData(
-			new VerifyTokenFetchStrategy(),
+			new VerifyTokenFetchStrategy(sourceUrl),
 			{
-				params: { path: [] },
+				params: {
+					path: [],
+					site: req.headers.host,
+				},
 			},
 			{
 				params: {

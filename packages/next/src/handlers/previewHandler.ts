@@ -1,7 +1,8 @@
 import { PostEntity, SinglePostFetchStrategy } from '@10up/headless-core';
-import { getCustomPostType } from '@10up/headless-core/utils';
+import { getCustomPostType, getHeadlessConfig } from '@10up/headless-core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData } from '../data';
+import { getSiteFromApiRequest, isMultisiteRequest } from './utils';
 
 /**
  * The shape of the preview data that's stored in the preview data cookie
@@ -111,11 +112,18 @@ export async function previewHandler(
 ) {
 	const { post_id, post_type, is_revision, token } = req.query;
 
+	const { sourceUrl } = isMultisiteRequest(req)
+		? getSiteFromApiRequest(req)
+		: getHeadlessConfig();
+
 	const revision = is_revision === '1';
 	const { data } = await fetchHookData(
-		new SinglePostFetchStrategy(),
+		new SinglePostFetchStrategy(sourceUrl),
 		{
-			params: { path: [] },
+			params: {
+				path: [],
+				site: req.headers.host,
+			},
 		},
 		{
 			params: {
@@ -146,7 +154,7 @@ export async function previewHandler(
 
 		res.setPreviewData(previewData);
 
-		const postTypeDef = getCustomPostType(post_type as string);
+		const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
 
 		if (!postTypeDef) {
 			return res.end('Cannot preview an unkown post type');

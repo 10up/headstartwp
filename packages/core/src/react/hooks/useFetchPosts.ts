@@ -148,7 +148,8 @@ export function useFetchPosts(
 		pageType.isPostArchive = true;
 	}
 
-	const taxonomies = getCustomTaxonomies();
+	// TODO...
+	const taxonomies = getCustomTaxonomies(/* Needs base url */);
 	taxonomies.forEach((taxonomy) => {
 		const { slug } = taxonomy;
 		if (queryParams[slug]) {

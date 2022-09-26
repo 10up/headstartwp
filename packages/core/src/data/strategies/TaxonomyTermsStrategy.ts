@@ -111,7 +111,7 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 	buildEndpointURL(params: Partial<TaxonomyArchiveParams>) {
 		const { taxonomy = this.defaultTaxonmy, ...endpointParams } = params;
 
-		const taxonomyObj = getCustomTaxonomy(taxonomy);
+		const taxonomyObj = getCustomTaxonomy(taxonomy, this.baseURL);
 
 		if (!taxonomyObj) {
 			throw new ConfigError(

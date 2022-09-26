@@ -13,9 +13,12 @@ export type CustomTaxonomies = Array<{
 }>;
 
 export type HeadlessConfig = {
+	host?: string;
+	locale?: string;
 	sourceUrl?: string;
 	customPostTypes?: CustomPostTypes;
 	customTaxonomies?: CustomTaxonomies;
 	redirectStrategy?: RedirectStrategy;
 	useWordPressPlugin?: boolean;
+	sites?: HeadlessConfig[];
 };

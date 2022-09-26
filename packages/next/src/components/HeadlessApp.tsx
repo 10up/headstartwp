@@ -1,11 +1,28 @@
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { SettingsProvider, ThemeSettingsProvider } from '@10up/headless-core/react';
 import { SWRConfig } from 'swr';
 import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
 
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
+import { getHeadlessConfig, getSite } from '@10up/headless-core';
 import { Yoast } from './Yoast';
+
+function getSiteFromRouter(router: NextRouter) {
+	const currentSite = router?.query?.site;
+	const settings = getHeadlessConfig();
+	const site =
+		settings.sites &&
+		settings.sites.find(({ host, locale }) => {
+			if (router.locale) {
+				return host === currentSite && locale === router.locale;
+			}
+
+			return host === currentSite;
+		});
+
+	return getSite(site);
+}
 
 /**
  * The props supported by {@link HeadlessApp}.
@@ -84,8 +101,13 @@ export function HeadlessApp({ settings, children, pageProps, swrConfig = {} }: H
 		swrConfig.revalidateOnMount = false;
 	}
 
+	const siteSettings = useMemo(
+		() => (router?.query?.site ? { ...settings, ...getSiteFromRouter(router) } : settings),
+		[settings, router],
+	);
+
 	return (
-		<SettingsProvider settings={settings}>
+		<SettingsProvider settings={siteSettings}>
 			<SWRConfig
 				value={{
 					fallback,
