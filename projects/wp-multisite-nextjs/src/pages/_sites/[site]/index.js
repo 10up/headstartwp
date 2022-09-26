@@ -65,7 +65,6 @@ export const getStaticPaths = async () => {
 			params: {
 				site: site.host,
 			},
-			...(site.locale && { locale: site.locale }),
 		})),
 		fallback: true,
 	};

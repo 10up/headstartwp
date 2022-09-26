@@ -60,6 +60,7 @@ export async function getStaticPaths() {
 					// path is the catch all route, so it must be array with url segments
 					// if you don't want to support date urls just remove the date from the path
 					params: { site: site.host, path: [...datePath, slug] },
+					locale: site.locale,
 				};
 			});
 
@@ -69,6 +70,7 @@ export async function getStaticPaths() {
 				return {
 					// path is the catch all route, so it must be array with url segments
 					params: { site: site.host, path: [slug] },
+					locale: site.locale,
 				};
 			});
 
