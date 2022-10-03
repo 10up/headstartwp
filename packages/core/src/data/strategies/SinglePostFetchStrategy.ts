@@ -56,7 +56,7 @@ export interface PostParams extends EndpointParams {
  *
  * @category Data Fetching
  */
-export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, PostParams> {
+export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[], PostParams> {
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -116,20 +116,15 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 	 * @returns
 	 */
 	prepareResponse(
-		response: FetchResponse<PostEntity>,
+		response: FetchResponse<PostEntity[]>,
 		params: Partial<PostParams>,
 		postType: string,
 	) {
-		// TODO: Fix types
-		const responseTyped: FetchResponse<PostEntity[]> = response as unknown as FetchResponse<
-			PostEntity[]
-		>;
-
 		if (params.revision) {
 			return {
-				...responseTyped,
-				result: responseTyped.result.map((post) => ({ ...post, type: postType })),
-			} as unknown as FetchResponse<PostEntity>;
+				...response,
+				result: response.result.map((post) => ({ ...post, type: postType })),
+			};
 		}
 
 		return response;

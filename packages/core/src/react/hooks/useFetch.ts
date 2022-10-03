@@ -1,5 +1,5 @@
 import useSWR, { SWRConfiguration } from 'swr';
-import type { EndpointParams, Entity, FetchResponse } from '../../data';
+import type { EndpointParams, FetchResponse } from '../../data';
 import { AbstractFetchStrategy } from '../../data';
 
 import { useSettings } from '../provider';
@@ -21,7 +21,7 @@ export interface useFetchOptions {
  * @category Data Fetching Hooks
  *
  */
-export function useFetch<E extends Entity, Params extends EndpointParams>(
+export function useFetch<E, Params extends EndpointParams>(
 	params: Params,
 	fetchStrategy: AbstractFetchStrategy<E, Params>,
 	options: SWRConfiguration<FetchResponse<E>> = {},

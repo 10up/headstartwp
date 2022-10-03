@@ -32,10 +32,10 @@ export interface useSearchResponse extends HookResponse {
  */
 export function useFetchSearch(
 	params: PostsArchiveParams,
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
 	path = '',
 ): useSearchResponse {
-	const { data, error } = useFetch<PostEntity, PostsArchiveParams>(
+	const { data, error } = useFetch<PostEntity[], PostsArchiveParams>(
 		{ _embed: true, ...params },
 		useFetchSearch.fetcher(),
 		options,
@@ -52,8 +52,7 @@ export function useFetchSearch(
 
 	const { result, pageInfo } = data;
 
-	// TODO: fix types
-	const posts = (result as unknown as PostEntity[]).map((post) => {
+	const posts = result.map((post) => {
 		post.author = getPostAuthor(post);
 		post.terms = getPostTerms(post);
 

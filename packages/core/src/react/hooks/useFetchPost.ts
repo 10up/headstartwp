@@ -30,10 +30,10 @@ export interface usePostResponse extends HookResponse {
  */
 export function useFetchPost(
 	params: PostParams,
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
 	path = '',
 ): usePostResponse {
-	const { data, error } = useFetch<PostEntity, PostParams>(
+	const { data, error } = useFetch<PostEntity[], PostParams>(
 		{ _embed: true, ...params },
 		useFetchPost.fetcher(),
 		options,
@@ -45,8 +45,7 @@ export function useFetchPost(
 		return { error, loading: !data, data: fakeData };
 	}
 
-	// TODO: fix types
-	const post = Array.isArray(data.result) ? (data.result[0] as PostEntity) : data.result;
+	const [post] = data.result;
 
 	post.author = getPostAuthor(post);
 	post.terms = getPostTerms(post);
