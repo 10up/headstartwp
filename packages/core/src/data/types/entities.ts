@@ -701,3 +701,20 @@ export interface PageInfo {
 	totalItems: number;
 	page: Number;
 }
+
+/**
+ * The QueriedObject represents the object that the current requests is subjected to.
+ *
+ * Quering by taxonomy and/or author will set the queried object.
+ */
+export type QueriedObject = {
+	/**
+	 * If the request is an author query, this will be populated with the author object
+	 */
+	author?: AuthorEntity;
+
+	/**
+	 * If the request is an term query, this will be populated with the term object
+	 */
+	term?: TermEntity;
+};

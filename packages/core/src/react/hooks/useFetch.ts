@@ -40,5 +40,9 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 		options,
 	);
 
+	if (result.data && !result.error) {
+		result.data.queriedObject = fetchStrategy.getQueriedObject(result.data, finalParams);
+	}
+
 	return { ...result, params: finalParams };
 }

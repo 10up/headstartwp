@@ -111,6 +111,8 @@ export async function fetchHookData(
 		finalParams,
 	);
 
+	data.queriedObject = fetchStrategy.getQueriedObject(data, finalParams);
+
 	return { key: endpointUrlForKey, data: fetchStrategy.filterData(data, filterDataOptions) };
 }
 
@@ -157,9 +159,13 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	hookStates.filter(Boolean).forEach((hookState) => {
 		const { key, data } = hookState;
 
+		// no need to add this to next.js props
+		if (data.queriedObject) {
+			data.queriedObject = {};
+		}
+
 		// we want to keep only one yoast_head_json object and remove everyhing else to reduce
 		// hydration costs
-
 		if (Array.isArray(data.result) && data.result.length > 0) {
 			if (data.result[0]?.yoast_head_json) {
 				seo_json = { ...data.result[0].yoast_head_json };

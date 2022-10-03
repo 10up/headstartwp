@@ -8,12 +8,17 @@ import {
 	addQueryArgs,
 	getCustomTaxonomy,
 } from '../../utils';
-import { endpoints } from '../utils';
+import { endpoints, getPostAuthor, getPostTerms } from '../utils';
 import { apiGet } from '../api';
-import { PostEntity } from '../types';
+import { PostEntity, QueriedObject } from '../types';
 import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
+import {
+	FetchOptions,
+	AbstractFetchStrategy,
+	EndpointParams,
+	FetchResponse,
+} from './AbstractFetchStrategy';
 
 const authorsEndpoint = '/wp-json/wp/v2/users';
 
@@ -40,7 +45,7 @@ export interface PostsArchiveParams extends EndpointParams {
 	 *
 	 * It supports both a category id and category slug
 	 */
-	tag?: string;
+	tag?: number | string;
 
 	/**
 	 * If set will filter results by the specified year
@@ -361,5 +366,57 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		}
 
 		return super.fetcher(finalUrl, params, options);
+	}
+
+	getQueriedObject(response: FetchResponse<PostEntity>, params: Partial<PostsArchiveParams>) {
+		const queriedObject: QueriedObject = {};
+
+		const posts = (response.result as unknown as PostEntity[]).map((post) => {
+			post.author = getPostAuthor(post);
+			post.terms = getPostTerms(post);
+
+			return post;
+		});
+
+		if (params.author && posts[0].author) {
+			queriedObject.author = posts[0].author.find((author) => {
+				if (typeof params.author === 'number') {
+					return author.id === params.author;
+				}
+
+				if (typeof params.author === 'string') {
+					return author.slug === params.author;
+				}
+
+				if (Array.isArray(params.author)) {
+					return params.author.includes(author.id);
+				}
+
+				return false;
+			});
+		}
+
+		if (params.category && posts[0].terms?.category) {
+			queriedObject.term = posts[0].terms?.category.find(
+				(term) => term.slug === params.category,
+			);
+		}
+
+		if (params.tag && posts[0].terms?.tag) {
+			queriedObject.term = posts[0].terms?.tag.find((term) => term.slug === params.tag);
+		}
+
+		const taxonomies = getCustomTaxonomies();
+
+		taxonomies.forEach((taxonomy) => {
+			const { slug } = taxonomy;
+			if (params[slug] && posts[0]?.terms?.[slug]) {
+				queriedObject.term = posts[0]?.terms?.[slug].find(
+					(term) => term.slug === params[slug],
+				);
+			}
+		});
+
+		return queriedObject;
 	}
 }
