@@ -2,7 +2,12 @@ import { getCustomPostType, ConfigError } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
+import {
+	AbstractFetchStrategy,
+	EndpointParams,
+	FetchOptions,
+	FetchResponse,
+} from './AbstractFetchStrategy';
 import { endpoints } from '../utils';
 
 /**
@@ -105,6 +110,32 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 	}
 
 	/**
+	 * Prepares the revision post data
+	 *
+	 * @param response
+	 * @returns
+	 */
+	prepareResponse(
+		response: FetchResponse<PostEntity>,
+		params: Partial<PostParams>,
+		postType: string,
+	) {
+		// TODO: Fix types
+		const responseTyped: FetchResponse<PostEntity[]> = response as unknown as FetchResponse<
+			PostEntity[]
+		>;
+
+		if (params.revision) {
+			return {
+				...responseTyped,
+				result: responseTyped.result.map((post) => ({ ...post, type: postType })),
+			} as unknown as FetchResponse<PostEntity>;
+		}
+
+		return response;
+	}
+
+	/**
 	 * Handles fetching by multiple post types, authToken and revisions
 	 *
 	 * @param url The url to fetch
@@ -119,8 +150,12 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		let error;
 		try {
 			const result = await super.fetcher(url, params, options);
-
-			return result;
+			const postType = params.postType ?? 'post';
+			return this.prepareResponse(
+				result,
+				params,
+				Array.isArray(postType) ? postType[0] : postType,
+			);
 		} catch (e) {
 			error = e;
 		}
@@ -133,22 +168,20 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity, P
 		// skip first post type as it has already been feteched
 		const [, ...postTypes] = params.postType;
 
-		let result;
 		for await (const postType of postTypes) {
 			try {
 				const newParams = { ...params, postType };
 				const endpointUrl = this.buildEndpointURL({ ...newParams, postType });
 
-				result = await super.fetcher(endpointUrl, newParams, options);
+				const result = await super.fetcher(endpointUrl, newParams, options);
+
+				return this.prepareResponse(result, params, postType);
 			} catch (e) {
 				error = e;
 			}
 		}
 
-		if (!result) {
-			throw error;
-		}
-
-		return result;
+		// if gets to the this point then nothing was found then thrown
+		throw error;
 	}
 }

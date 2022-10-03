@@ -114,11 +114,6 @@ export interface PostTypeEntity extends Entity {
  */
 export interface PostEntity extends PostTypeEntity {
 	/**
-	 * Type of Post for the object.
-	 */
-	type: 'post';
-
-	/**
 	 * The content for the object.
 	 */
 	content?: Rendered;
@@ -198,11 +193,6 @@ export interface RevisionEntity extends PostTypeEntity {
  * Interface for entities from the /wp/v2/pages endpoint.
  */
 export interface PageEntity extends PostTypeEntity {
-	/**
-	 * Type of Post for the object.
-	 */
-	type: 'page';
-
 	/**
 	 * The ID for the parent of the object.
 	 */
@@ -701,3 +691,20 @@ export interface PageInfo {
 	totalItems: number;
 	page: Number;
 }
+
+/**
+ * The QueriedObject represents the object that the current requests is subjected to.
+ *
+ * Quering by taxonomy and/or author will set the queried object.
+ */
+export type QueriedObject = {
+	/**
+	 * If the request is an author query, this will be populated with the author object
+	 */
+	author?: AuthorEntity;
+
+	/**
+	 * If the request is an term query, this will be populated with the term object
+	 */
+	term?: TermEntity;
+};
