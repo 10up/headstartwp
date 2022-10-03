@@ -20,7 +20,7 @@ import { convertToPath } from '../utils';
  */
 export function useTerms(
 	params: TaxonomyArchiveParams = {},
-	options: SWRConfiguration<FetchResponse<TermEntity>> = {},
+	options: SWRConfiguration<FetchResponse<TermEntity[]>> = {},
 ) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];

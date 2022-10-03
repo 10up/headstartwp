@@ -28,7 +28,7 @@ import { convertToPath } from '../utils';
  */
 export function useSearch(
 	params: PostsArchiveParams = {},
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
 ) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];

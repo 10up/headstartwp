@@ -3,7 +3,6 @@ import {
 	fetchRedirect,
 	FilterDataOptions,
 	AbstractFetchStrategy,
-	Entity,
 	EndpointParams,
 	FetchResponse,
 } from '@10up/headless-core';
@@ -70,7 +69,7 @@ export function convertToPath(args: string[] | undefined) {
  * @category Next.js Data Fetching Utilities
  */
 export async function fetchHookData(
-	fetchStrategy: AbstractFetchStrategy<Entity, EndpointParams>,
+	fetchStrategy: AbstractFetchStrategy<any, EndpointParams>,
 	ctx: GetServerSidePropsContext | GetStaticPropsContext,
 	options: FetchHookDataOptions = {},
 ) {
