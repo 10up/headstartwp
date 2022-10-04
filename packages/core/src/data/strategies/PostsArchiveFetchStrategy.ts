@@ -406,8 +406,8 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			);
 		}
 
-		if (params.tag && posts[0].terms?.tag) {
-			queriedObject.term = posts[0].terms?.tag.find((term) => term.slug === params.tag);
+		if (params.tag && posts[0].terms?.post_tag) {
+			queriedObject.term = posts[0].terms?.post_tag.find((term) => term.slug === params.tag);
 		}
 
 		const taxonomies = getCustomTaxonomies();
