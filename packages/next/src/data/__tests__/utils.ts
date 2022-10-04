@@ -26,12 +26,13 @@ describe('addHookData', () => {
 			{
 				key: 'first-key',
 				data: {
+					queriedObject: {},
 					result: { ...sampleResult },
 					pageInfo: { ...samplePageInfo },
 				},
 			},
 		];
-		expect(addHookData(hookStates, {})).toEqual({
+		expect(addHookData(hookStates, {})).toMatchObject({
 			props: {
 				fallback: {
 					'first-key': {
@@ -56,13 +57,14 @@ describe('addHookData', () => {
 			{
 				key: 'first-key',
 				data: {
+					queriedObject: {},
 					result: [{ ...sampleResult }, { ...sampleResult }, { ...sampleResult }],
 					pageInfo: samplePageInfo,
 				},
 			},
 		];
 
-		expect(addHookData(hookStates, {})).toEqual({
+		expect(addHookData(hookStates, {})).toMatchObject({
 			props: {
 				fallback: {
 					'first-key': {
