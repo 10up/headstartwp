@@ -189,7 +189,7 @@ export interface PostsArchiveParams extends EndpointParams {
  * @category Data Fetching
  */
 export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
-	PostEntity,
+	PostEntity[],
 	PostsArchiveParams
 > {
 	getDefaultEndpoint(): string {

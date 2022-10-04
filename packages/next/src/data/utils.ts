@@ -3,12 +3,13 @@ import {
 	fetchRedirect,
 	FilterDataOptions,
 	AbstractFetchStrategy,
-	Entity,
 	EndpointParams,
 	FetchResponse,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
+
+import { PreviewData } from '../handlers/types';
 
 /**
  * The supported options for {@link fetchHookData}
@@ -70,8 +71,8 @@ export function convertToPath(args: string[] | undefined) {
  * @category Next.js Data Fetching Utilities
  */
 export async function fetchHookData(
-	fetchStrategy: AbstractFetchStrategy<Entity, EndpointParams>,
-	ctx: GetServerSidePropsContext | GetStaticPropsContext,
+	fetchStrategy: AbstractFetchStrategy<any, EndpointParams>,
+	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions = {},
 ) {
 	const wpURL = getWPUrl();
@@ -96,13 +97,9 @@ export async function fetchHookData(
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
 
 	if (ctx.preview && ctx.previewData && isPreviewRequest) {
-		// @ts-expect-error (TODO: fix this)
 		finalParams.id = ctx.previewData.id;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.revision = ctx.previewData.revision;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.postType = ctx.previewData.postType;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.authToken = ctx.previewData.authToken;
 	}
 

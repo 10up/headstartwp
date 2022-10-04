@@ -21,7 +21,7 @@ import { useFetchPosts } from './useFetchPosts';
  */
 export function useFetchAuthorArchive(
 	params: PostsArchiveParams = {},
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
 	path = '',
 ) {
 	return useFetchPosts(params, options, path, useFetchAuthorArchive.fetcher());
