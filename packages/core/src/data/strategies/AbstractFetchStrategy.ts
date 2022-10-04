@@ -1,4 +1,4 @@
-import { Entity, PageInfo, QueriedObject } from '../types';
+import { PageInfo, QueriedObject } from '../types';
 import { apiGet } from '../api';
 import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
 
@@ -39,7 +39,7 @@ export interface FetchResponse<T> {
 	/**
 	 * Queried Object information
 	 */
-	queriedObject: QueriedObject;
+	queriedObject?: QueriedObject;
 }
 
 /**
@@ -77,7 +77,7 @@ export interface FilterDataOptions {
  *
  * @category Data Fetching
  */
-export abstract class AbstractFetchStrategy<E extends Entity, Params extends EndpointParams> {
+export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R = E> {
 	/**
 	 * Holds the current endpoint for the strategy
 	 */
@@ -166,6 +166,14 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		return url;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	prepareResponse(response: FetchResponse<E>, params: Partial<Params>): FetchResponse<R> {
+		return {
+			...response,
+			result: response.result as unknown as R,
+		};
+	}
+
 	/**
 	 * The default fetcher function
 	 *
@@ -182,7 +190,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		url: string,
 		params: Partial<Params>,
 		options: Partial<FetchOptions> = {},
-	): Promise<FetchResponse<E>> {
+	): Promise<FetchResponse<R>> {
 		const args = {};
 		if (options.bearerToken) {
 			// @ts-expect-error
@@ -228,12 +236,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 			queriedObject: {},
 		};
 
-		return response;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getQueriedObject(response: FetchResponse<E>, params: Partial<Params>) {
-		return {};
+		return this.prepareResponse(response, params);
 	}
 
 	/**
@@ -258,9 +261,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 					// @ts-expect-error
 					allowedData.push({});
 					fields.forEach((field) => {
-						// @ts-expect-error
 						if (data.result[i][field]) {
-							// @ts-expect-error
 							allowedData[i][field] = data.result[i][field];
 						}
 					});
@@ -278,7 +279,6 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 			fields.forEach((field) => {
 				if (Array.isArray(data.result)) {
 					data.result.forEach((record, i) => {
-						// @ts-expect-error
 						delete data.result[i][field];
 					});
 				} else {

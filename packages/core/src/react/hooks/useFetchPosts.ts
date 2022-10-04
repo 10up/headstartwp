@@ -78,7 +78,7 @@ export interface usePostsResponse extends HookResponse {
  */
 export function useFetchPosts(
 	params: PostsArchiveParams,
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
 	path = '',
 	fetcher: PostsArchiveFetchStrategy | undefined = undefined,
 ): usePostsResponse {
@@ -86,7 +86,7 @@ export function useFetchPosts(
 		data,
 		error,
 		params: queryParams,
-	} = useFetch<PostEntity, PostsArchiveParams>(
+	} = useFetch<PostEntity[], PostsArchiveParams>(
 		{ _embed: true, ...params },
 		fetcher ?? useFetchPosts.fetcher(),
 		options,
@@ -149,8 +149,7 @@ export function useFetchPosts(
 
 	const { result, pageInfo, queriedObject } = data;
 
-	// TODO: fix types
-	const posts = (result as unknown as PostEntity[]).map((post) => {
+	const posts = result.map((post) => {
 		post.author = getPostAuthor(post);
 		post.terms = getPostTerms(post);
 

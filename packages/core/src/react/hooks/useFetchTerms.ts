@@ -29,10 +29,10 @@ export interface useTermsResponse extends HookResponse {
  */
 export function useFetchTerms(
 	params: TaxonomyArchiveParams,
-	options: SWRConfiguration<FetchResponse<TermEntity>> = {},
+	options: SWRConfiguration<FetchResponse<TermEntity[]>> = {},
 	path = '',
 ): useTermsResponse {
-	const { data, error } = useFetch<TermEntity, TaxonomyArchiveParams>(
+	const { data, error } = useFetch<TermEntity[], TaxonomyArchiveParams>(
 		{ _embed: true, ...params },
 		useFetchTerms.fetcher(),
 		options,
@@ -49,10 +49,7 @@ export function useFetchTerms(
 
 	const { result, pageInfo } = data;
 
-	// TODO: fix types
-	const terms = result as unknown as TermEntity[];
-
-	return { data: { terms, pageInfo }, loading: false };
+	return { data: { terms: result, pageInfo }, loading: false };
 }
 
 /**

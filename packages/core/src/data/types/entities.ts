@@ -114,11 +114,6 @@ export interface PostTypeEntity extends Entity {
  */
 export interface PostEntity extends PostTypeEntity {
 	/**
-	 * Type of Post for the object.
-	 */
-	type: 'post';
-
-	/**
 	 * The content for the object.
 	 */
 	content?: Rendered;
@@ -198,11 +193,6 @@ export interface RevisionEntity extends PostTypeEntity {
  * Interface for entities from the /wp/v2/pages endpoint.
  */
 export interface PageEntity extends PostTypeEntity {
-	/**
-	 * Type of Post for the object.
-	 */
-	type: 'page';
-
 	/**
 	 * The ID for the parent of the object.
 	 */

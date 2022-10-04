@@ -194,7 +194,7 @@ export interface PostsArchiveParams extends EndpointParams {
  * @category Data Fetching
  */
 export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
-	PostEntity,
+	PostEntity[],
 	PostsArchiveParams
 > {
 	getDefaultEndpoint(): string {
@@ -368,10 +368,24 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		return super.fetcher(finalUrl, params, options);
 	}
 
-	getQueriedObject(response: FetchResponse<PostEntity>, params: Partial<PostsArchiveParams>) {
+	prepareResponse(
+		response: FetchResponse<PostEntity[]>,
+		params: Partial<PostsArchiveParams>,
+	): FetchResponse<PostEntity[]> {
+		return {
+			...response,
+			queriedObject: this.getQueriedObject(response, params),
+		};
+	}
+
+	getQueriedObject(response: FetchResponse<PostEntity[]>, params: Partial<PostsArchiveParams>) {
 		const queriedObject: QueriedObject = {};
 
-		const posts = (response.result as unknown as PostEntity[]).map((post) => {
+		if (!Array.isArray(response.result)) {
+			return queriedObject;
+		}
+
+		const posts = response.result.map((post) => {
 			post.author = getPostAuthor(post);
 			post.terms = getPostTerms(post);
 

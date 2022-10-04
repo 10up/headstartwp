@@ -90,7 +90,7 @@ export interface TaxonomyArchiveParams extends EndpointParams {
  * @category Data Fetching
  */
 export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
-	TermEntity,
+	TermEntity[],
 	TaxonomyArchiveParams
 > {
 	defaultTaxonmy = 'category';
