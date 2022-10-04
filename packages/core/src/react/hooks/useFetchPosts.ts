@@ -156,7 +156,11 @@ export function useFetchPosts(
 		return post;
 	});
 
-	return { data: { posts, pageInfo, queriedObject }, loading: false, pageType };
+	return {
+		data: { posts, pageInfo, queriedObject: queriedObject ?? {} },
+		loading: false,
+		pageType,
+	};
 }
 
 /**
