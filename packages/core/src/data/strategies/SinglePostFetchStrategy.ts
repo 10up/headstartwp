@@ -56,7 +56,13 @@ export interface PostParams extends EndpointParams {
  *
  * @category Data Fetching
  */
-export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[], PostParams> {
+export class SinglePostFetchStrategy extends AbstractFetchStrategy<
+	PostEntity[],
+	PostParams,
+	PostEntity
+> {
+	postType: string = 'post';
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -91,7 +97,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[],
 					'Unkown post type, did you forget to add it to headless.config.js?',
 				);
 			}
-
+			this.postType = postType.slug;
 			this.setEndpoint(postType.endpoint);
 		}
 
@@ -118,14 +124,13 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[],
 	prepareResponse(
 		response: FetchResponse<PostEntity[] | PostEntity>,
 		params: Partial<PostParams>,
-		postType: string,
-	): FetchResponse<PostEntity[]> {
+	): FetchResponse<PostEntity> {
 		const { result } = response;
 
 		if (params.revision && Array.isArray(result)) {
 			return {
 				...response,
-				result: result.map((post) => ({ ...post, type: postType })),
+				result: { ...result[0], type: this.postType },
 			};
 		}
 
@@ -134,18 +139,18 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[],
 		if (params.id && !Array.isArray(result)) {
 			return {
 				...response,
-				result: [result],
+				result,
 			};
 		}
 
 		// make sure result is alway an array for consistency
 		if (Array.isArray(result)) {
-			return { ...response, result };
+			return { ...response, result: result[0] };
 		}
 
 		return {
 			...response,
-			result: [result],
+			result,
 		};
 	}
 
@@ -164,12 +169,8 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[],
 		let error;
 		try {
 			const result = await super.fetcher(url, params, options);
-			const postType = params.postType ?? 'post';
-			return this.prepareResponse(
-				result,
-				params,
-				Array.isArray(postType) ? postType[0] : postType,
-			);
+
+			return result;
 		} catch (e) {
 			error = e;
 		}
@@ -184,12 +185,12 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[],
 
 		for await (const postType of postTypes) {
 			try {
+				this.postType = postType;
 				const newParams = { ...params, postType };
 				const endpointUrl = this.buildEndpointURL({ ...newParams, postType });
 
 				const result = await super.fetcher(endpointUrl, newParams, options);
-
-				return this.prepareResponse(result, params, postType);
+				return result;
 			} catch (e) {
 				error = e;
 			}

@@ -72,7 +72,7 @@ export interface FilterDataOptions {
  *
  * @category Data Fetching
  */
-export abstract class AbstractFetchStrategy<E, Params extends EndpointParams> {
+export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R = E> {
 	/**
 	 * Holds the current endpoint for the strategy
 	 */
@@ -161,6 +161,14 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams> {
 		return url;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	prepareResponse(response: FetchResponse<E>, params: Partial<Params>): FetchResponse<R> {
+		return {
+			...response,
+			result: response.result as unknown as R,
+		};
+	}
+
 	/**
 	 * The default fetcher function
 	 *
@@ -177,7 +185,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams> {
 		url: string,
 		params: Partial<Params>,
 		options: Partial<FetchOptions> = {},
-	): Promise<FetchResponse<E>> {
+	): Promise<FetchResponse<R>> {
 		const args = {};
 		if (options.bearerToken) {
 			// @ts-expect-error
@@ -222,7 +230,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams> {
 			},
 		};
 
-		return response;
+		return this.prepareResponse(response, params);
 	}
 
 	/**

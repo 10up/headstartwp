@@ -21,10 +21,10 @@ export interface useFetchOptions {
  * @category Data Fetching Hooks
  *
  */
-export function useFetch<E, Params extends EndpointParams>(
+export function useFetch<E, Params extends EndpointParams, R = E>(
 	params: Params,
-	fetchStrategy: AbstractFetchStrategy<E, Params>,
-	options: SWRConfiguration<FetchResponse<E>> = {},
+	fetchStrategy: AbstractFetchStrategy<E, Params, R>,
+	options: SWRConfiguration<FetchResponse<R>> = {},
 	path = '',
 ) {
 	const { sourceUrl } = useSettings();
@@ -34,7 +34,7 @@ export function useFetch<E, Params extends EndpointParams>(
 	const urlParams = fetchStrategy.getParamsFromURL(path, params);
 	const finalParams = { ...urlParams, ...params };
 
-	const result = useSWR<FetchResponse<E>>(
+	const result = useSWR<FetchResponse<R>>(
 		fetchStrategy.buildEndpointURL(finalParams),
 		(url: string) => fetchStrategy.fetcher(url, finalParams),
 		options,
