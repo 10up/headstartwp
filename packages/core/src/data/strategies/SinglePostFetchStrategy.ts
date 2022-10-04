@@ -110,24 +110,43 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<PostEntity[],
 	}
 
 	/**
-	 * Prepares the revision post data
+	 * Prepares the post response
 	 *
 	 * @param response
 	 * @returns
 	 */
 	prepareResponse(
-		response: FetchResponse<PostEntity[]>,
+		response: FetchResponse<PostEntity[] | PostEntity>,
 		params: Partial<PostParams>,
 		postType: string,
-	) {
-		if (params.revision) {
+	): FetchResponse<PostEntity[]> {
+		const { result } = response;
+
+		if (params.revision && Array.isArray(result)) {
 			return {
 				...response,
-				result: response.result.map((post) => ({ ...post, type: postType })),
+				result: result.map((post) => ({ ...post, type: postType })),
 			};
 		}
 
-		return response;
+		// if fetching by id result is a single object and not array
+		// we want to normalize to an array for consistency
+		if (params.id && !Array.isArray(result)) {
+			return {
+				...response,
+				result: [result],
+			};
+		}
+
+		// make sure result is alway an array for consistency
+		if (Array.isArray(result)) {
+			return { ...response, result };
+		}
+
+		return {
+			...response,
+			result: [result],
+		};
 	}
 
 	/**
