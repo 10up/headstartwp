@@ -146,7 +146,7 @@ describe('SinglePostFetchStrategy', () => {
 		const results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
 		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts?slug=post-name', {});
-		expect(results).toEqual({
+		expect(results).toMatchObject({
 			result: samplePost,
 			pageInfo: {
 				page: 1,
@@ -225,7 +225,7 @@ describe('SinglePostFetchStrategy', () => {
 			revisionParams,
 		);
 
-		expect(results).toEqual({
+		expect(results).toMatchObject({
 			// ensure post revisions have a type
 			result: { ...samplePostRevision, type: 'post' },
 			pageInfo: {
@@ -248,7 +248,7 @@ describe('SinglePostFetchStrategy', () => {
 			json: samplePostRevision,
 		});
 
-		expect(results).toEqual({
+		expect(results).toMatchObject({
 			// draft posts already comes with type so we don't expect the strategy to add it
 			result: samplePostRevision,
 			pageInfo: {

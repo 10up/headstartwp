@@ -1,4 +1,4 @@
-import { PageInfo } from '../types';
+import { PageInfo, QueriedObject } from '../types';
 import { apiGet } from '../api';
 import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
 
@@ -35,6 +35,11 @@ export interface FetchResponse<T> {
 	 * Contains pagination information
 	 */
 	pageInfo: PageInfo;
+
+	/**
+	 * Queried Object information
+	 */
+	queriedObject: QueriedObject;
 }
 
 /**
@@ -221,16 +226,22 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		}
 
 		const page = Number(params.page) || 1;
-		const response = {
+		const response: FetchResponse<E> = {
 			result: result.json,
 			pageInfo: {
 				totalPages: Number(result.headers['x-wp-totalpages']) || 0,
 				totalItems: Number(result.headers['x-wp-total']) || 0,
 				page,
 			},
+			queriedObject: {},
 		};
 
 		return this.prepareResponse(response, params);
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getQueriedObject(response: FetchResponse<R>, params: Partial<Params>) {
+		return {};
 	}
 
 	/**
