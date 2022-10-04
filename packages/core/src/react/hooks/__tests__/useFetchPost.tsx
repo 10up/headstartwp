@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 
-describe('useFetchpost', () => {
+describe('useFetchPost', () => {
 	const wrapper = ({ children }) => {
 		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
 	};
