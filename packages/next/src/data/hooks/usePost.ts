@@ -39,7 +39,7 @@ import { convertToPath } from '../utils';
  */
 export function usePost(
 	params: PostParams = {},
-	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
+	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 ) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
