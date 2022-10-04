@@ -1,5 +1,12 @@
 # @10up/headless-core
 
+## 0.4.2-next.0
+
+### Patch Changes
+
+- 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
+- b9cece0: Add `type` field to the appropriate post type when previewing post/revisions
+
 ## 0.4.1
 
 ### Patch Changes

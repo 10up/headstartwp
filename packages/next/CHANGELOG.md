@@ -1,5 +1,14 @@
 # @10up/headless-next
 
+## 0.4.2-next.0
+
+### Patch Changes
+
+- 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
+- Updated dependencies [5df4762]
+- Updated dependencies [b9cece0]
+  - @10up/headless-core@0.4.2-next.0
+
 ## 0.4.1
 
 ### Patch Changes
