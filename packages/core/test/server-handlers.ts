@@ -14,6 +14,9 @@ const handlers = [
 		const query = req.url.searchParams;
 		const search = query.get('search');
 		const slug = query.get('slug');
+		const perPage = Number(query.get('per_page'));
+		const category = query.get('categories');
+		const author = query.get('author');
 
 		let results = [...posts];
 
@@ -24,6 +27,24 @@ const handlers = [
 
 		if (slug && slug.length > 0) {
 			results = results.filter((post) => post.slug === slug);
+		}
+
+		if (category) {
+			results = results.filter((post) => {
+				return post._embedded['wp:term']
+					.flat()
+					.find((term) => term.taxonomy === 'category' && term.slug === category);
+			});
+		}
+
+		if (author) {
+			results = results.filter((post) => {
+				return post._embedded.author.find((a) => a.slug === author);
+			});
+		}
+
+		if (perPage) {
+			results = results.slice(0, perPage);
 		}
 
 		return res(ctx.json(results));

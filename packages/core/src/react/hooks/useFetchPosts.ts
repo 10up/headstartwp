@@ -77,7 +77,7 @@ export interface usePostsResponse extends HookResponse {
  * @category Data Fetching Hooks
  */
 export function useFetchPosts(
-	params: PostsArchiveParams,
+	params: PostsArchiveParams = {},
 	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
 	path = '',
 	fetcher: PostsArchiveFetchStrategy | undefined = undefined,

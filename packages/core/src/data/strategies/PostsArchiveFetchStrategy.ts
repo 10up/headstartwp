@@ -368,6 +368,13 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		return super.fetcher(finalUrl, params, options);
 	}
 
+	/**
+	 * Returns the queried object if applicable (e.g if querying by category, tag, author or custom taxonomy term)
+	 *
+	 * @param response The response from the API
+	 * @param params  The request params
+	 * @returns
+	 */
 	getQueriedObject(response: FetchResponse<PostEntity[]>, params: Partial<PostsArchiveParams>) {
 		const queriedObject: QueriedObject = {};
 
