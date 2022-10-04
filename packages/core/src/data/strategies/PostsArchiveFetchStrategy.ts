@@ -368,16 +368,6 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		return super.fetcher(finalUrl, params, options);
 	}
 
-	prepareResponse(
-		response: FetchResponse<PostEntity[]>,
-		params: Partial<PostsArchiveParams>,
-	): FetchResponse<PostEntity[]> {
-		return {
-			...response,
-			queriedObject: this.getQueriedObject(response, params),
-		};
-	}
-
 	getQueriedObject(response: FetchResponse<PostEntity[]>, params: Partial<PostsArchiveParams>) {
 		const queriedObject: QueriedObject = {};
 

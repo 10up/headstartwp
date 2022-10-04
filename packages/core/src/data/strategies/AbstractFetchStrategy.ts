@@ -39,7 +39,7 @@ export interface FetchResponse<T> {
 	/**
 	 * Queried Object information
 	 */
-	queriedObject?: QueriedObject;
+	queriedObject: QueriedObject;
 }
 
 /**
@@ -237,6 +237,11 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		};
 
 		return this.prepareResponse(response, params);
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getQueriedObject(response: FetchResponse<R>, params: Partial<Params>) {
+		return {};
 	}
 
 	/**
