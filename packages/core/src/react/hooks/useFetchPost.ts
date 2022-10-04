@@ -29,7 +29,7 @@ export interface usePostResponse extends HookResponse {
  * @category Data Fetching Hooks
  */
 export function useFetchPost(
-	params: PostParams,
+	params: PostParams = {},
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 	path = '',
 ): usePostResponse {
@@ -42,7 +42,7 @@ export function useFetchPost(
 
 	if (error || !data) {
 		const fakeData = { post: makeErrorCatchProxy<PostEntity>('post') };
-		return { error, loading: !data, data: fakeData };
+		return { error, loading: error ? false : !data, data: fakeData };
 	}
 
 	const post = data.result;
