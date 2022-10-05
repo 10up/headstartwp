@@ -152,19 +152,24 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	const fallback = {};
 	let seo_json = {};
 	let themeJSON = {};
+	let foundSeo = false;
 
 	hookStates.filter(Boolean).forEach((hookState) => {
 		const { key, data } = hookState;
 
-		// no need to add this to next.js props
-		if (data.queriedObject) {
-			data.queriedObject = {};
-		}
-
 		// we want to keep only one yoast_head_json object and remove everyhing else to reduce
 		// hydration costs
+
+		if (data.queriedObject?.author?.yoast_head_json) {
+			seo_json = { ...data.queriedObject?.author?.yoast_head_json };
+			foundSeo = true;
+		} else if (data.queriedObject?.term?.yoast_head_json) {
+			seo_json = { ...data.queriedObject?.term?.yoast_head_json };
+			foundSeo = true;
+		}
+
 		if (Array.isArray(data.result) && data.result.length > 0) {
-			if (data.result[0]?.yoast_head_json) {
+			if (data.result[0]?.yoast_head_json && !foundSeo) {
 				seo_json = { ...data.result[0].yoast_head_json };
 			}
 
@@ -184,7 +189,7 @@ export function addHookData(hookStates: HookState[], nextProps) {
 				}
 			});
 		} else if (!Array.isArray(data.result)) {
-			if (data.result?.yoast_head_json) {
+			if (data.result?.yoast_head_json && !foundSeo) {
 				seo_json = { ...data.result.yoast_head_json };
 				data.result.yoast_head_json = null;
 			}
@@ -195,6 +200,12 @@ export function addHookData(hookStates: HookState[], nextProps) {
 				themeJSON = data.result['theme.json'];
 				data.result['theme.json'] = null;
 			}
+		}
+
+		// no need to add this to next.js props
+		// so let's save a few bytes
+		if (data.queriedObject) {
+			data.queriedObject = {};
 		}
 
 		fallback[key] = data;
