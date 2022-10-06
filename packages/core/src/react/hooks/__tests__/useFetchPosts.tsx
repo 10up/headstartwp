@@ -66,8 +66,6 @@ describe('useFetchPosts', () => {
 				useFetchPosts({
 					category: 'الأخبار-المالية',
 					per_page: 1,
-					// TODO: Fix this. The endpoint URL is not properly created when querying by category.
-					dummy: 'test',
 				}),
 			{
 				wrapper,

@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
+import * as React from 'react';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 
@@ -45,6 +46,7 @@ describe('useFetchPost', () => {
 		});
 
 		await waitForNextUpdate();
+		expect(result.current.data?.post.id).toBe(64);
 		expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
 	});
 
