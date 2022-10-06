@@ -31,15 +31,20 @@ const handlers = [
 
 		if (category) {
 			results = results.filter((post) => {
-				return post._embedded['wp:term']
-					.flat()
-					.find((term) => term.taxonomy === 'category' && term.slug === category);
+				return post._embedded['wp:term'].flat().find((term) => {
+					return (
+						term.taxonomy === 'category' &&
+						decodeURIComponent(term.slug) === decodeURIComponent(category)
+					);
+				});
 			});
 		}
 
 		if (author) {
 			results = results.filter((post) => {
-				return post._embedded.author.find((a) => a.slug === author);
+				return post._embedded.author.find(
+					(a) => decodeURIComponent(a.slug) === decodeURIComponent(author),
+				);
 			});
 		}
 

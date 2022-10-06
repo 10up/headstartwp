@@ -395,8 +395,8 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 					return author.id === params.author;
 				}
 
-				if (typeof params.author === 'string') {
-					return author.slug === params.author;
+				if (typeof params.author === 'string' && typeof author.slug === 'string') {
+					return decodeURIComponent(author.slug) === decodeURIComponent(params.author);
 				}
 
 				if (Array.isArray(params.author)) {
@@ -407,24 +407,20 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			});
 		}
 
-		if (params.category && posts[0].terms?.category) {
-			queriedObject.term = posts[0].terms?.category.find(
-				(term) => term.slug === params.category,
-			);
-		}
-
-		if (params.tag && posts[0].terms?.post_tag) {
-			queriedObject.term = posts[0].terms?.post_tag.find((term) => term.slug === params.tag);
-		}
-
 		const taxonomies = getCustomTaxonomies();
 
 		taxonomies.forEach((taxonomy) => {
-			const { slug } = taxonomy;
-			if (params[slug] && posts[0]?.terms?.[slug]) {
-				queriedObject.term = posts[0]?.terms?.[slug].find(
-					(term) => term.slug === params[slug],
-				);
+			const termSlug = taxonomy.slug;
+			const urlParamSlug = taxonomy.rewrite ?? taxonomy.slug;
+			const termValue = params[urlParamSlug];
+
+			if (termValue && posts[0]?.terms?.[termSlug]) {
+				queriedObject.term = posts[0]?.terms?.[termSlug].find((term) => {
+					return (
+						decodeURIComponent((term.slug as string) ?? '') ===
+						decodeURIComponent((termValue as string) ?? '')
+					);
+				});
 			}
 		});
 
