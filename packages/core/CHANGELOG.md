@@ -1,5 +1,12 @@
 # @10up/headless-core
 
+## 0.4.2-next.1
+
+### Patch Changes
+
+- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 5fb3696: Fix: Better handle queried object detection for utf8 encoded strings.
+
 ## 0.4.2-next.0
 
 ### Patch Changes
