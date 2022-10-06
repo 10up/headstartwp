@@ -466,6 +466,121 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "id": 100,
+                        "link": "https:\/\/js1.10up.com\/category\/الأخبار-المالية\/",
+                        "name": "الأخبار-المالية",
+                        "slug": "الأخبار-المالية",
+                        "taxonomy": "category",
+                        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v19.1 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>News Archives - JavaScript Engineering Test<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/category\/news\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"News Archives - JavaScript Engineering Test\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/category\/news\/\" \/>\n<meta property=\"og:site_name\" content=\"JavaScript Engineering Test\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"JavaScript Engineering Test\",\"description\":\"Just another WordPress site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"},{\"@type\":\"CollectionPage\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/#webpage\",\"url\":\"https:\/\/js1.10up.com\/category\/news\/\",\"name\":\"News Archives - JavaScript Engineering Test\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/category\/news\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/category\/news\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"News\"}]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                        "yoast_head_json": {
+                            "title": "الأخبار-المالية Archives - JavaScript Engineering Test",
+                            "robots": {
+                                "index": "index",
+                                "follow": "follow",
+                                "max-snippet": "max-snippet:-1",
+                                "max-image-preview": "max-image-preview:large",
+                                "max-video-preview": "max-video-preview:-1"
+                            },
+                            "canonical": "https:\/\/js1.10up.com\/category\/الأخبار-المالية\/",
+                            "og_locale": "en_US",
+                            "og_type": "article",
+                            "og_title": "الأخبار-المالية Archives - JavaScript Engineering Test",
+                            "og_url": "https:\/\/js1.10up.com\/category\/الأخبار-المالية\/",
+                            "og_site_name": "JavaScript Engineering Test",
+                            "twitter_card": "summary_large_image",
+                            "schema": {
+                                "@context": "https:\/\/schema.org",
+                                "@graph": [
+                                    {
+                                        "@type": "WebSite",
+                                        "@id": "https:\/\/js1.10up.com\/#website",
+                                        "url": "https:\/\/js1.10up.com\/",
+                                        "name": "JavaScript Engineering Test",
+                                        "description": "Just another WordPress site",
+                                        "potentialAction": [
+                                            {
+                                                "@type": "SearchAction",
+                                                "target": {
+                                                    "@type": "EntryPoint",
+                                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                                },
+                                                "query-input": "required name=search_term_string"
+                                            }
+                                        ],
+                                        "inLanguage": "en-US"
+                                    },
+                                    {
+                                        "@type": "CollectionPage",
+                                        "@id": "https:\/\/js1.10up.com\/category\/news\/#webpage",
+                                        "url": "https:\/\/js1.10up.com\/category\/news\/",
+                                        "name": "News Archives - JavaScript Engineering Test",
+                                        "isPartOf": {
+                                            "@id": "https:\/\/js1.10up.com\/#website"
+                                        },
+                                        "breadcrumb": {
+                                            "@id": "https:\/\/js1.10up.com\/category\/news\/#breadcrumb"
+                                        },
+                                        "inLanguage": "en-US",
+                                        "potentialAction": [
+                                            {
+                                                "@type": "ReadAction",
+                                                "target": [
+                                                    "https:\/\/js1.10up.com\/category\/news\/"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "@type": "BreadcrumbList",
+                                        "@id": "https:\/\/js1.10up.com\/category\/news\/#breadcrumb",
+                                        "itemListElement": [
+                                            {
+                                                "@type": "ListItem",
+                                                "position": 1,
+                                                "name": "Home",
+                                                "item": "https:\/\/js1.10up.com\/"
+                                            },
+                                            {
+                                                "@type": "ListItem",
+                                                "position": 2,
+                                                "name": "News"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "_links": {
+                            "self": [
+                                {
+                                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories\/5"
+                                }
+                            ],
+                            "collection": [
+                                {
+                                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories"
+                                }
+                            ],
+                            "about": [
+                                {
+                                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/taxonomies\/category"
+                                }
+                            ],
+                            "wp:post_type": [
+                                {
+                                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/posts?categories=5"
+                                }
+                            ],
+                            "curies": [
+                                {
+                                    "name": "wp",
+                                    "href": "https:\/\/api.w.org\/{rel}",
+                                    "templated": true
+                                }
+                            ]
+                        }
                     }
                 ],
                 []

@@ -412,11 +412,12 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		taxonomies.forEach((taxonomy) => {
 			const slug = taxonomy?.rewrite ?? taxonomy.slug;
 			if (params[slug] && posts[0]?.terms?.[slug]) {
-				queriedObject.term = posts[0]?.terms?.[slug].find(
-					(term) =>
+				queriedObject.term = posts[0]?.terms?.[slug].find((term) => {
+					return (
 						decodeURIComponent((term.slug as string) ?? '') ===
-						decodeURIComponent((params[slug] as string) ?? ''),
-				);
+						decodeURIComponent((params[slug] as string) ?? '')
+					);
+				});
 			}
 		});
 
