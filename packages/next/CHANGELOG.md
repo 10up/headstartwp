@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.4.2-next.2
+
+### Patch Changes
+
+- 18e408f: Introduce `swr` and `fetchStrategyOptions` namespaces in the fetch options. This allow fetchOptions to be passed directly to the fetch strategy.
+- Updated dependencies [18e408f]
+  - @10up/headless-core@0.4.2-next.2
+
 ## 0.4.2-next.1
 
 ### Patch Changes
