@@ -34,3 +34,17 @@ export class FrameworkError extends Error {
 		this.name = 'FrameworkError';
 	}
 }
+
+/**
+ * Logs a warning in the console in dev mode
+ *
+ * @example warn("You should do/change something.")
+ *
+ * @param message - The message that describes the warning.
+ */
+export const warn = (message: string) => {
+	if (process.env.NODE_ENV !== 'production') {
+		// eslint-disable-next-line no-console
+		console.warn(message);
+	}
+};

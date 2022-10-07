@@ -1,6 +1,5 @@
-import { SWRConfiguration } from 'swr';
 import { useFetch } from './useFetch';
-import type { HookResponse } from './types';
+import type { FetchHookOptions, HookResponse } from './types';
 import {
 	FetchResponse,
 	getPostAuthor,
@@ -30,7 +29,7 @@ export interface usePostResponse extends HookResponse {
  */
 export function useFetchPost(
 	params: PostParams = {},
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: FetchHookOptions<FetchResponse<PostEntity>> = {},
 	path = '',
 ): usePostResponse {
 	const { data, error } = useFetch<PostEntity[], PostParams, PostEntity>(

@@ -1,6 +1,5 @@
 import { AppEntity, FetchResponse } from '@10up/headless-core';
-import { HookResponse, useFetchAppSettings } from '@10up/headless-core/react';
-import { SWRConfiguration } from 'swr';
+import { HookResponse, useFetchAppSettings, FetchHookOptions } from '@10up/headless-core/react';
 
 export interface useAppSettingsResponse extends HookResponse {
 	data?: AppEntity;
@@ -36,7 +35,7 @@ export interface useAppSettingsResponse extends HookResponse {
  */
 export function useAppSettings(
 	params = {},
-	options: SWRConfiguration<FetchResponse<AppEntity>> = {},
+	options: FetchHookOptions<FetchResponse<AppEntity>> = {},
 ): useAppSettingsResponse {
 	return useFetchAppSettings(params, options);
 }
