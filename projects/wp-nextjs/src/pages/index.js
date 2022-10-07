@@ -36,7 +36,7 @@ const Homepage = ({ homePageSlug }) => {
 		// since this is only a client-side query
 		// we want to force revalidating on mount to ensure query runs on mount
 		// this is required bc we have disabled revalidateOnMount globally in _app.js
-		{ revalidateOnMount: true },
+		{ swr: { revalidateOnMount: true } },
 	);
 
 	return (

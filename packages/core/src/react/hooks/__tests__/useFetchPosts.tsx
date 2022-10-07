@@ -96,4 +96,29 @@ describe('useFetchPosts', () => {
 		expect(result.current.pageType.isTaxonomyArchive).toBe(false);
 		expect(result.current.pageType.isTagArchive).toBe(false);
 	});
+
+	it('does not throw error if throwIfNotFound is passed', async () => {
+		const { result, waitForNextUpdate } = renderHook(
+			() =>
+				useFetchPosts(
+					{ category: 'random category that does not exist' },
+					{
+						fetchStrategyOptions: {
+							throwIfNotFound: false,
+						},
+					},
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitForNextUpdate();
+
+		// if throwIfNotfound is not passed error should be not set
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data).toMatchObject({
+			posts: [],
+		});
+	});
 });

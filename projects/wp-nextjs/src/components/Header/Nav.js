@@ -33,12 +33,7 @@ const navStyles = css`
 `;
 
 export const Nav = () => {
-	const { data, loading, error } = useMenu('primary', {
-		// these settings will re-render menu client side to ensure
-		// it always have the latest items
-		revalidateOnMount: true,
-		revalidateOnFocus: true,
-	});
+	const { data, loading, error } = useMenu('primary');
 
 	if (loading || error) {
 		return null;

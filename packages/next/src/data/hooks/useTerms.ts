@@ -1,6 +1,5 @@
 import { TermEntity, FetchResponse, TaxonomyArchiveParams } from '@10up/headless-core';
-import { useFetchTerms } from '@10up/headless-core/react';
-import { SWRConfiguration } from 'swr';
+import { FetchHookOptions, useFetchTerms } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
 import { convertToPath } from '../utils';
 
@@ -20,7 +19,7 @@ import { convertToPath } from '../utils';
  */
 export function useTerms(
 	params: TaxonomyArchiveParams = {},
-	options: SWRConfiguration<FetchResponse<TermEntity[]>> = {},
+	options: FetchHookOptions<FetchResponse<TermEntity[]>> = {},
 ) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];

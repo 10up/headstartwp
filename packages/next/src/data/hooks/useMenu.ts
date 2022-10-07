@@ -1,5 +1,5 @@
-import { SWRConfiguration } from 'swr';
-import { useFetchMenu } from '@10up/headless-core/react';
+import { FetchHookOptions, useFetchMenu } from '@10up/headless-core/react';
+import { AppEntity, FetchResponse } from '@10up/headless-core';
 
 /**
  * The useMenu hooks. Returns a Menu object.
@@ -43,6 +43,9 @@ import { useFetchMenu } from '@10up/headless-core/react';
  *
  * @category Data Fetching Hooks
  */
-export function useMenu(menuLocation: string, options: SWRConfiguration = {}) {
+export function useMenu(
+	menuLocation: string,
+	options: FetchHookOptions<FetchResponse<AppEntity>> = {},
+) {
 	return useFetchMenu(menuLocation, options);
 }
