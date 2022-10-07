@@ -8,12 +8,17 @@ import {
 	addQueryArgs,
 	getCustomTaxonomy,
 } from '../../utils';
-import { endpoints } from '../utils';
+import { endpoints, getPostAuthor, getPostTerms } from '../utils';
 import { apiGet } from '../api';
-import { PostEntity } from '../types';
+import { PostEntity, QueriedObject } from '../types';
 import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
+import {
+	FetchOptions,
+	AbstractFetchStrategy,
+	EndpointParams,
+	FetchResponse,
+} from './AbstractFetchStrategy';
 
 const authorsEndpoint = '/wp-json/wp/v2/users';
 
@@ -40,7 +45,7 @@ export interface PostsArchiveParams extends EndpointParams {
 	 *
 	 * It supports both a category id and category slug
 	 */
-	tag?: string;
+	tag?: number | string;
 
 	/**
 	 * If set will filter results by the specified year
@@ -189,7 +194,7 @@ export interface PostsArchiveParams extends EndpointParams {
  * @category Data Fetching
  */
 export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
-	PostEntity,
+	PostEntity[],
 	PostsArchiveParams
 > {
 	getDefaultEndpoint(): string {
@@ -361,5 +366,64 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		}
 
 		return super.fetcher(finalUrl, params, options);
+	}
+
+	/**
+	 * Returns the queried object if applicable (e.g if querying by category, tag, author or custom taxonomy term)
+	 *
+	 * @param response The response from the API
+	 * @param params  The request params
+	 * @returns
+	 */
+	getQueriedObject(response: FetchResponse<PostEntity[]>, params: Partial<PostsArchiveParams>) {
+		const queriedObject: QueriedObject = {};
+
+		if (!Array.isArray(response.result)) {
+			return queriedObject;
+		}
+
+		const posts = response.result.map((post) => {
+			post.author = getPostAuthor(post);
+			post.terms = getPostTerms(post);
+
+			return post;
+		});
+
+		if (params.author && posts[0].author) {
+			queriedObject.author = posts[0].author.find((author) => {
+				if (typeof params.author === 'number') {
+					return author.id === params.author;
+				}
+
+				if (typeof params.author === 'string' && typeof author.slug === 'string') {
+					return decodeURIComponent(author.slug) === decodeURIComponent(params.author);
+				}
+
+				if (Array.isArray(params.author)) {
+					return params.author.includes(author.id);
+				}
+
+				return false;
+			});
+		}
+
+		const taxonomies = getCustomTaxonomies();
+
+		taxonomies.forEach((taxonomy) => {
+			const termSlug = taxonomy.slug;
+			const urlParamSlug = taxonomy.rewrite ?? taxonomy.slug;
+			const termValue = params[urlParamSlug];
+
+			if (termValue && posts[0]?.terms?.[termSlug]) {
+				queriedObject.term = posts[0]?.terms?.[termSlug].find((term) => {
+					return (
+						decodeURIComponent((term.slug as string) ?? '') ===
+						decodeURIComponent((termValue as string) ?? '')
+					);
+				});
+			}
+		});
+
+		return queriedObject;
 	}
 }

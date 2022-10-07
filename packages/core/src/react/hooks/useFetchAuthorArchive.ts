@@ -1,4 +1,3 @@
-import type { SWRConfiguration } from 'swr';
 import {
 	AuthorArchiveFetchStrategy,
 	FetchResponse,
@@ -6,6 +5,7 @@ import {
 	PostsArchiveParams,
 } from '../../data';
 import { getWPUrl } from '../../utils';
+import { FetchHookOptions } from './types';
 import { useFetchPosts } from './useFetchPosts';
 
 /**
@@ -21,7 +21,7 @@ import { useFetchPosts } from './useFetchPosts';
  */
 export function useFetchAuthorArchive(
 	params: PostsArchiveParams = {},
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
 	path = '',
 ) {
 	return useFetchPosts(params, options, path, useFetchAuthorArchive.fetcher());

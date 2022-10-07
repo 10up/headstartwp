@@ -1,7 +1,6 @@
-import { SWRConfiguration } from 'swr';
 import { useFetch } from './useFetch';
 
-import type { HookResponse } from './types';
+import type { FetchHookOptions, HookResponse } from './types';
 import {
 	FetchResponse,
 	PageInfo,
@@ -29,10 +28,10 @@ export interface useTermsResponse extends HookResponse {
  */
 export function useFetchTerms(
 	params: TaxonomyArchiveParams,
-	options: SWRConfiguration<FetchResponse<TermEntity>> = {},
+	options: FetchHookOptions<FetchResponse<TermEntity[]>> = {},
 	path = '',
 ): useTermsResponse {
-	const { data, error } = useFetch<TermEntity, TaxonomyArchiveParams>(
+	const { data, error } = useFetch<TermEntity[], TaxonomyArchiveParams>(
 		{ _embed: true, ...params },
 		useFetchTerms.fetcher(),
 		options,
@@ -49,10 +48,7 @@ export function useFetchTerms(
 
 	const { result, pageInfo } = data;
 
-	// TODO: fix types
-	const terms = result as unknown as TermEntity[];
-
-	return { data: { terms, pageInfo }, loading: false };
+	return { data: { terms: result, pageInfo }, loading: false };
 }
 
 /**

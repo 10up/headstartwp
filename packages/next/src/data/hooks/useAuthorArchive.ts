@@ -1,6 +1,5 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
-import { useFetchAuthorArchive } from '@10up/headless-core/react';
-import { SWRConfiguration } from 'swr';
+import { FetchHookOptions, useFetchAuthorArchive } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
 import { convertToPath } from '../utils';
 
@@ -43,7 +42,7 @@ import { convertToPath } from '../utils';
  */
 export function useAuthorArchive(
 	params: PostsArchiveParams = {},
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
 ) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];

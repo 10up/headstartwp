@@ -3,12 +3,14 @@ import {
 	fetchRedirect,
 	FilterDataOptions,
 	AbstractFetchStrategy,
-	Entity,
 	EndpointParams,
 	FetchResponse,
+	FetchOptions,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
+import { unstable_serialize } from 'swr';
+import { PreviewData } from '../handlers/types';
 
 /**
  * The supported options for {@link fetchHookData}
@@ -23,6 +25,11 @@ export interface FetchHookDataOptions {
 	 * Optional. If set, the data will be filtered given {@link FilterDataOptions}
 	 */
 	filterData?: FilterDataOptions;
+
+	/**
+	 * Optional. If set, will fowardh fetch options to the fetch strategy
+	 */
+	fetchStrategyOptions?: FetchOptions;
 }
 
 /**
@@ -70,8 +77,8 @@ export function convertToPath(args: string[] | undefined) {
  * @category Next.js Data Fetching Utilities
  */
 export async function fetchHookData(
-	fetchStrategy: AbstractFetchStrategy<Entity, EndpointParams>,
-	ctx: GetServerSidePropsContext | GetStaticPropsContext,
+	fetchStrategy: AbstractFetchStrategy<any, EndpointParams>,
+	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions = {},
 ) {
 	const wpURL = getWPUrl();
@@ -90,28 +97,30 @@ export async function fetchHookData(
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
-	const endpointUrlForKey = fetchStrategy.buildEndpointURL(finalParams);
+	const key = { url: fetchStrategy.getEndpoint(), args: finalParams };
 
 	const isPreviewRequest =
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
 
 	if (ctx.preview && ctx.previewData && isPreviewRequest) {
-		// @ts-expect-error (TODO: fix this)
 		finalParams.id = ctx.previewData.id;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.revision = ctx.previewData.revision;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.postType = ctx.previewData.postType;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.authToken = ctx.previewData.authToken;
 	}
 
 	const data = await fetchStrategy.fetcher(
 		fetchStrategy.buildEndpointURL(finalParams),
 		finalParams,
+		options.fetchStrategyOptions,
 	);
 
-	return { key: endpointUrlForKey, data: fetchStrategy.filterData(data, filterDataOptions) };
+	data.queriedObject = fetchStrategy.getQueriedObject(data, finalParams);
+
+	return {
+		key: unstable_serialize(key),
+		data: fetchStrategy.filterData(data, filterDataOptions),
+	};
 }
 
 type ExpectedHookStateResponse = {
@@ -157,9 +166,13 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	hookStates.filter(Boolean).forEach((hookState) => {
 		const { key, data } = hookState;
 
+		// no need to add this to next.js props
+		if (data.queriedObject) {
+			data.queriedObject = {};
+		}
+
 		// we want to keep only one yoast_head_json object and remove everyhing else to reduce
 		// hydration costs
-
 		if (Array.isArray(data.result) && data.result.length > 0) {
 			if (data.result[0]?.yoast_head_json) {
 				seo_json = { ...data.result[0].yoast_head_json };

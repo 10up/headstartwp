@@ -122,7 +122,17 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('fetches content properly', async () => {
-		apiGetMock.mockResolvedValue({ headers: {}, json: [{ id: 1 }] });
+		const samplePost = { title: 'test', id: 1 };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePost],
+		});
+
 		setHeadlessConfig({
 			customPostTypes: [
 				{
@@ -133,9 +143,17 @@ describe('SinglePostFetchStrategy', () => {
 		});
 
 		let params = fetchStrategy.getParamsFromURL('/post-name');
-		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+		const results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
 		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(results).toMatchObject({
+			result: samplePost,
+			pageInfo: {
+				page: 1,
+				totalItems: 1,
+				totalPages: 1,
+			},
+		});
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
@@ -185,6 +203,60 @@ describe('SinglePostFetchStrategy', () => {
 		);
 		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/book?slug=post-name', {});
 		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?slug=post-name', {});
+	});
+
+	it('handle revisions and draft posts', async () => {
+		const samplePostRevision = { title: 'test', id: 1 };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePostRevision],
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/post-name');
+		const revisionParams = { ...params, revision: true };
+
+		let results = await fetchStrategy.fetcher(
+			fetchStrategy.buildEndpointURL(revisionParams),
+			revisionParams,
+		);
+
+		expect(results).toMatchObject({
+			// ensure post revisions have a type
+			result: { ...samplePostRevision, type: 'post' },
+			pageInfo: {
+				page: 1,
+				totalPages: 1,
+				totalItems: 1,
+			},
+		});
+
+		// handle draft posts
+		const draftParams = { ...params, id: 10 };
+
+		results = await fetchStrategy.fetcher(
+			fetchStrategy.buildEndpointURL(draftParams),
+			draftParams,
+		);
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: samplePostRevision,
+		});
+
+		expect(results).toMatchObject({
+			// draft posts already comes with type so we don't expect the strategy to add it
+			result: samplePostRevision,
+			pageInfo: {
+				page: 1,
+				totalPages: 1,
+				totalItems: 1,
+			},
+		});
 	});
 
 	it('throws errors with bad arguments', async () => {

@@ -1,6 +1,5 @@
-import { SWRConfiguration } from 'swr';
 import { useFetch } from './useFetch';
-import type { HookResponse } from './types';
+import type { FetchHookOptions, HookResponse } from './types';
 import {
 	FetchResponse,
 	getPostAuthor,
@@ -29,11 +28,11 @@ export interface usePostResponse extends HookResponse {
  * @category Data Fetching Hooks
  */
 export function useFetchPost(
-	params: PostParams,
-	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
+	params: PostParams = {},
+	options: FetchHookOptions<FetchResponse<PostEntity>> = {},
 	path = '',
 ): usePostResponse {
-	const { data, error } = useFetch<PostEntity, PostParams>(
+	const { data, error } = useFetch<PostEntity[], PostParams, PostEntity>(
 		{ _embed: true, ...params },
 		useFetchPost.fetcher(),
 		options,
@@ -42,11 +41,10 @@ export function useFetchPost(
 
 	if (error || !data) {
 		const fakeData = { post: makeErrorCatchProxy<PostEntity>('post') };
-		return { error, loading: !data, data: fakeData };
+		return { error, loading: error ? false : !data, data: fakeData };
 	}
 
-	// TODO: fix types
-	const post = Array.isArray(data.result) ? (data.result[0] as PostEntity) : data.result;
+	const post = data.result;
 
 	post.author = getPostAuthor(post);
 	post.terms = getPostTerms(post);

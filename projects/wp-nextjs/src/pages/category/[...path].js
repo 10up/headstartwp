@@ -40,6 +40,13 @@ export async function getServerSideProps(context) {
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
 
+		/**
+		 * It is also possible to get the queried object on the server, this is useful if you need to conditionally fetch data
+		 * server side based on queriedObject
+		 *
+		 * const [posts] = settledPromises;
+		 * console.log(posts.data.queriedObject.term.slug);
+		 */
 		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
