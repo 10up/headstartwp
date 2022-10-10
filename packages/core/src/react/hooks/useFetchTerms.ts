@@ -31,7 +31,7 @@ export function useFetchTerms(
 	options: FetchHookOptions<FetchResponse<TermEntity[]>> = {},
 	path = '',
 ): useTermsResponse {
-	const { data, error } = useFetch<TermEntity[], TaxonomyArchiveParams>(
+	const { data, error, isMainQuery } = useFetch<TermEntity[], TaxonomyArchiveParams>(
 		{ _embed: true, ...params },
 		useFetchTerms.fetcher(),
 		options,
@@ -43,12 +43,12 @@ export function useFetchTerms(
 			terms: makeErrorCatchProxy<TermEntity[]>('terms'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 		};
-		return { error, loading: !data, data: fakeData };
+		return { error, loading: !data, data: fakeData, isMainQuery };
 	}
 
 	const { result, pageInfo } = data;
 
-	return { data: { terms: result, pageInfo }, loading: false };
+	return { data: { terms: result, pageInfo }, loading: false, isMainQuery };
 }
 
 /**

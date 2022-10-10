@@ -8,13 +8,14 @@ import {
 	PageInfo,
 	PostEntity,
 	PostsArchiveParams,
+	QueriedObject,
 	SearchFetchStrategy,
 } from '../../data';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
 export interface useSearchResponse extends HookResponse {
-	data?: { posts: PostEntity[]; pageInfo: PageInfo };
+	data?: { posts: PostEntity[]; pageInfo: PageInfo; queriedObject: QueriedObject };
 }
 
 /**
@@ -29,11 +30,11 @@ export interface useSearchResponse extends HookResponse {
  * @category Data Fetching Hooks
  */
 export function useFetchSearch(
-	params: PostsArchiveParams,
+	params: PostsArchiveParams = {},
 	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
 	path = '',
 ): useSearchResponse {
-	const { data, error } = useFetch<PostEntity[], PostsArchiveParams>(
+	const { data, error, isMainQuery } = useFetch<PostEntity[], PostsArchiveParams>(
 		{ _embed: true, ...params },
 		useFetchSearch.fetcher(),
 		options,
@@ -44,11 +45,12 @@ export function useFetchSearch(
 		const fakeData = {
 			posts: makeErrorCatchProxy<PostEntity[]>('posts'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
+			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
-		return { error, loading: !data, data: fakeData };
+		return { error, loading: !data, data: fakeData, isMainQuery };
 	}
 
-	const { result, pageInfo } = data;
+	const { result, pageInfo, queriedObject } = data;
 
 	const posts = result.map((post) => {
 		post.author = getPostAuthor(post);
@@ -57,7 +59,7 @@ export function useFetchSearch(
 		return post;
 	});
 
-	return { data: { posts, pageInfo }, loading: false };
+	return { data: { posts, pageInfo, queriedObject }, loading: false, isMainQuery };
 }
 
 /**

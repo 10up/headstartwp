@@ -121,4 +121,42 @@ describe('useFetchPosts', () => {
 			posts: [],
 		});
 	});
+
+	it('reads param from the url and sets isMainQuery flag', async () => {
+		let { result, waitForNextUpdate } = renderHook(
+			() => useFetchPosts({}, {}, '/author/jane'),
+			{
+				wrapper,
+			},
+		);
+
+		await waitForNextUpdate();
+
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
+		expect(result.current.isMainQuery).toBe(true);
+
+		({ result, waitForNextUpdate } = renderHook(() => useFetchPosts({ author: 'jane' }), {
+			wrapper,
+		}));
+
+		await waitForNextUpdate();
+
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
+		expect(result.current.isMainQuery).toBe(false);
+
+		({ result, waitForNextUpdate } = renderHook(
+			() => useFetchPosts({ taxonomy: 'category' }, {}, '/news'),
+			{
+				wrapper,
+			},
+		));
+
+		await waitForNextUpdate();
+
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data?.queriedObject.term?.slug).toBe('news');
+		expect(result.current.isMainQuery).toBe(true);
+	});
 });
