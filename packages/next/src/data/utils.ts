@@ -5,10 +5,11 @@ import {
 	AbstractFetchStrategy,
 	EndpointParams,
 	FetchResponse,
+	FetchOptions,
 } from '@10up/headless-core';
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
-
+import { unstable_serialize } from 'swr';
 import { PreviewData } from '../handlers/types';
 
 /**
@@ -24,6 +25,11 @@ export interface FetchHookDataOptions {
 	 * Optional. If set, the data will be filtered given {@link FilterDataOptions}
 	 */
 	filterData?: FilterDataOptions;
+
+	/**
+	 * Optional. If set, will fowardh fetch options to the fetch strategy
+	 */
+	fetchStrategyOptions?: FetchOptions;
 }
 
 /**
@@ -91,7 +97,7 @@ export async function fetchHookData(
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
-	const endpointUrlForKey = fetchStrategy.buildEndpointURL(finalParams);
+	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams } };
 
 	const isPreviewRequest =
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
@@ -106,11 +112,15 @@ export async function fetchHookData(
 	const data = await fetchStrategy.fetcher(
 		fetchStrategy.buildEndpointURL(finalParams),
 		finalParams,
+		options.fetchStrategyOptions,
 	);
 
 	data.queriedObject = fetchStrategy.getQueriedObject(data, finalParams);
 
-	return { key: endpointUrlForKey, data: fetchStrategy.filterData(data, filterDataOptions) };
+	return {
+		key: unstable_serialize(key),
+		data: fetchStrategy.filterData(data, filterDataOptions),
+	};
 }
 
 type ExpectedHookStateResponse = {

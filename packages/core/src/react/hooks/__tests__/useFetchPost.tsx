@@ -46,6 +46,7 @@ describe('useFetchPost', () => {
 		});
 
 		await waitForNextUpdate();
+		expect(result.current.data?.post.id).toBe(64);
 		expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
 	});
 
@@ -101,6 +102,60 @@ describe('useFetchPost', () => {
 		expect(result.current.error).toBeFalsy();
 		expect(result.current.data?.post.id).toBe(64);
 		expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
+	});
+
+	it('keeps backwards compatibility with swr options and that a warning is made', async () => {
+		// eslint-disable-next-line no-console
+		console.warn = jest.fn();
+
+		// should not fetch anything
+		const { result, waitForNextUpdate } = renderHook(
+			() =>
+				useFetchPost(
+					{ slug: 'random slug' },
+					{
+						// @ts-expect-error
+						revalidateOnMount: false,
+					},
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await expect(() => waitForNextUpdate()).rejects.toThrow();
+
+		// eslint-disable-next-line no-console
+		expect(console.warn).toHaveBeenCalledTimes(1);
+
+		// eslint-disable-next-line no-console
+		expect(console.warn).toHaveBeenCalledWith(
+			'useSWR options should be passed under the swr namespace. "{ swr: {"revalidateOnMount":false} }"',
+		);
+
+		expect(result.current.error).toBeFalsy();
+	});
+
+	it('respect swr option', async () => {
+		// should not fetch anything
+		const { result, waitForNextUpdate } = renderHook(
+			() =>
+				useFetchPost(
+					{ slug: 'random slug' },
+					{
+						swr: {
+							revalidateOnMount: false,
+						},
+					},
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await expect(() => waitForNextUpdate()).rejects.toThrow();
+
+		expect(result.current.error).toBeFalsy();
 	});
 
 	it('reads param from the url and sets isMainQuery flag', async () => {

@@ -1,7 +1,6 @@
-import { SWRConfiguration } from 'swr';
 import { AppEntity, AppSettingsStrategy, EndpointParams, FetchResponse } from '../../data';
 import { getWPUrl } from '../../utils';
-import { HookResponse } from './types';
+import { FetchHookOptions, HookResponse } from './types';
 import { useFetch } from './useFetch';
 import { makeErrorCatchProxy } from './util';
 
@@ -21,7 +20,7 @@ export interface useAppSettingsResponse extends HookResponse {
  */
 export function useFetchAppSettings(
 	params = {},
-	options: SWRConfiguration<FetchResponse<AppEntity>> = {},
+	options: FetchHookOptions<FetchResponse<AppEntity>> = {},
 ): useAppSettingsResponse {
 	const { data, error, isMainQuery } = useFetch<AppEntity, EndpointParams>(
 		params,

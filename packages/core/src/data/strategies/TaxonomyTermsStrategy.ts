@@ -1,7 +1,12 @@
 import { ConfigError, getCustomTaxonomy } from '../../utils';
 import { endpoints } from '../utils';
 import { TermEntity } from '../types';
-import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
+import {
+	AbstractFetchStrategy,
+	EndpointParams,
+	FetchOptions,
+	FetchResponse,
+} from './AbstractFetchStrategy';
 
 /**
  * The endpoint params supported by [[TaxonomyTermsStrategy]]
@@ -122,5 +127,13 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 		this.setEndpoint(taxonomyObj.endpoint);
 
 		return super.buildEndpointURL(endpointParams);
+	}
+
+	fetcher(
+		url: string,
+		params: Partial<TaxonomyArchiveParams>,
+		options?: Partial<FetchOptions>,
+	): Promise<FetchResponse<TermEntity[]>> {
+		return super.fetcher(url, params, { ...options, throwIfNotFound: false });
 	}
 }

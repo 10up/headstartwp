@@ -35,7 +35,6 @@ describe('useFetchPosts', () => {
 		await waitForNextUpdate();
 
 		expect(result.current.data?.posts.length).toBe(2);
-		expect(result.current.data?.posts).toMatchSnapshot();
 	});
 
 	it('returns queried object for category archives', async () => {
@@ -61,6 +60,24 @@ describe('useFetchPosts', () => {
 		expect(result.current.pageType.isTagArchive).toBe(false);
 	});
 
+	it('returns queried objects for utf8 encoded slugs', async () => {
+		const { result, waitForNextUpdate } = renderHook(
+			() =>
+				useFetchPosts({
+					category: 'الأخبار-المالية',
+					per_page: 1,
+				}),
+			{
+				wrapper,
+			},
+		);
+
+		await waitForNextUpdate();
+
+		expect(result.current.data?.posts.length).toBe(1);
+		expect(result.current.data?.queriedObject.term?.slug).toBe('الأخبار-المالية');
+	});
+
 	it('returns queried object for author archives', async () => {
 		const { result, waitForNextUpdate } = renderHook(
 			() => useFetchPosts({ author: 'jane', per_page: 1 }),
@@ -78,6 +95,31 @@ describe('useFetchPosts', () => {
 		expect(result.current.pageType.isSearch).toBe(false);
 		expect(result.current.pageType.isTaxonomyArchive).toBe(false);
 		expect(result.current.pageType.isTagArchive).toBe(false);
+	});
+
+	it('does not throw error if throwIfNotFound is passed', async () => {
+		const { result, waitForNextUpdate } = renderHook(
+			() =>
+				useFetchPosts(
+					{ category: 'random category that does not exist' },
+					{
+						fetchStrategyOptions: {
+							throwIfNotFound: false,
+						},
+					},
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitForNextUpdate();
+
+		// if throwIfNotfound is not passed error should be not set
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data).toMatchObject({
+			posts: [],
+		});
 	});
 
 	it('reads param from the url and sets isMainQuery flag', async () => {

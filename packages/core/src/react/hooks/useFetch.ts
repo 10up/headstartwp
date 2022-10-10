@@ -1,8 +1,10 @@
-import useSWR, { SWRConfiguration } from 'swr';
+import useSWR from 'swr';
 import type { EndpointParams, FetchResponse } from '../../data';
 import { AbstractFetchStrategy } from '../../data';
+import { warn } from '../../utils';
 
 import { useSettings } from '../provider';
+import { FetchHookOptions } from './types';
 
 export interface useFetchOptions {
 	shouldFetch?: () => boolean;
@@ -24,7 +26,7 @@ export interface useFetchOptions {
 export function useFetch<E, Params extends EndpointParams, R = E>(
 	params: Params,
 	fetchStrategy: AbstractFetchStrategy<E, Params, R>,
-	options: SWRConfiguration<FetchResponse<R>> = {},
+	options: FetchHookOptions<FetchResponse<R>> = {},
 	path = '',
 ) {
 	const { sourceUrl } = useSettings();
@@ -36,10 +38,30 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 
 	const finalParams = { ...urlParams, ...params };
 
+	const { fetchStrategyOptions, ...validSWROptions } = options;
+
+	// for backwards compat ensure options.swr exists
+	// this would make code that's not namespacing the swr options under `{ swr }` still work.
+	if (!options.swr && Object.keys(validSWROptions).length > 0) {
+		warn(
+			`useSWR options should be passed under the swr namespace. "{ swr: ${JSON.stringify(
+				validSWROptions,
+			)} }"`,
+		);
+
+		// @ts-expect-error
+		options.swr = { ...validSWROptions };
+	}
+
 	const result = useSWR<FetchResponse<R>>(
-		fetchStrategy.buildEndpointURL(finalParams),
-		(url: string) => fetchStrategy.fetcher(url, finalParams),
-		options,
+		{ url: fetchStrategy.getEndpoint(), args: finalParams },
+		({ args }) =>
+			fetchStrategy.fetcher(
+				fetchStrategy.buildEndpointURL(args),
+				finalParams,
+				fetchStrategyOptions,
+			),
+		options.swr,
 	);
 
 	if (result.data && !result.error) {

@@ -1,5 +1,45 @@
 # @10up/headless-next
 
+## 0.4.2
+
+### Patch Changes
+
+- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
+- 18e408f: Introduce `swr` and `fetchStrategyOptions` namespaces in the fetch options. This allow fetchOptions to be passed directly to the fetch strategy.
+- Updated dependencies [82ac782]
+- Updated dependencies [5df4762]
+- Updated dependencies [18e408f]
+- Updated dependencies [b9cece0]
+- Updated dependencies [5fb3696]
+  - @10up/headless-core@0.4.2
+
+## 0.4.2-next.2
+
+### Patch Changes
+
+- 18e408f: Introduce `swr` and `fetchStrategyOptions` namespaces in the fetch options. This allow fetchOptions to be passed directly to the fetch strategy.
+- Updated dependencies [18e408f]
+  - @10up/headless-core@0.4.2-next.2
+
+## 0.4.2-next.1
+
+### Patch Changes
+
+- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- Updated dependencies [82ac782]
+- Updated dependencies [5fb3696]
+  - @10up/headless-core@0.4.2-next.1
+
+## 0.4.2-next.0
+
+### Patch Changes
+
+- 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
+- Updated dependencies [5df4762]
+- Updated dependencies [b9cece0]
+  - @10up/headless-core@0.4.2-next.0
+
 ## 0.4.1
 
 ### Patch Changes

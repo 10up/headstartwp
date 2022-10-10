@@ -1,5 +1,35 @@
 # @10up/headless-core
 
+## 0.4.2
+
+### Patch Changes
+
+- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
+- 18e408f: Introduce `swr` and `fetchStrategyOptions` namespaces in the fetch options. This allow fetchOptions to be passed directly to the fetch strategy.
+- b9cece0: Add `type` field to the appropriate post type when previewing post/revisions
+- 5fb3696: Fix: Better handle queried object detection for utf8 encoded strings.
+
+## 0.4.2-next.2
+
+### Patch Changes
+
+- 18e408f: Introduce `swr` and `fetchStrategyOptions` namespaces in the fetch options. This allow fetchOptions to be passed directly to the fetch strategy.
+
+## 0.4.2-next.1
+
+### Patch Changes
+
+- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 5fb3696: Fix: Better handle queried object detection for utf8 encoded strings.
+
+## 0.4.2-next.0
+
+### Patch Changes
+
+- 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
+- b9cece0: Add `type` field to the appropriate post type when previewing post/revisions
+
 ## 0.4.1
 
 ### Patch Changes
