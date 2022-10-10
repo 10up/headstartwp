@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.4.3-next.1
+
+### Patch Changes
+
+- 9141bb3: Convert back-end urls in seo metadata to front-end urls
+
 ## 0.4.3-next.0
 
 ### Patch Changes
