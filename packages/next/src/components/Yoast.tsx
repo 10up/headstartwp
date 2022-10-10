@@ -1,4 +1,9 @@
+import { getHostUrl, getWPUrl, removeSourceUrl } from '@10up/headless-core';
 import Head from 'next/head';
+
+function convertUrl(url: string) {
+	return `${getHostUrl()}${removeSourceUrl({ link: url, backendUrl: getWPUrl() })}`;
+}
 
 /**
  * The Yoast component renders the Yoast SEO meta tags.
@@ -16,7 +21,7 @@ export function Yoast({ seo }) {
 				<meta name="description" content={seo.yoast_head_json.description} />
 			)}
 			{seo?.yoast_head_json?.canonical && (
-				<link rel="canonical" href={seo.yoast_head_json.canonical} />
+				<link rel="canonical" href={convertUrl(seo.yoast_head_json.canonical)} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.robots && (
 				<>
@@ -44,7 +49,7 @@ export function Yoast({ seo }) {
 				<meta property="og:description" content={seo.yoast_head_json.og_description} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_url && (
-				<meta property="og:url" content={seo.yoast_head_json.og_url} />
+				<meta property="og:url" content={convertUrl(seo.yoast_head_json.og_url)} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_site_name && (
 				<meta property="og:site_name" content={seo.yoast_head_json.og_site_name} />
