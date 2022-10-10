@@ -33,7 +33,7 @@ export function useFetchPost(
 	options: SWRConfiguration<FetchResponse<PostEntity>> = {},
 	path = '',
 ): usePostResponse {
-	const { data, error } = useFetch<PostEntity[], PostParams, PostEntity>(
+	const { data, error, isMainQuery } = useFetch<PostEntity[], PostParams, PostEntity>(
 		{ _embed: true, ...params },
 		useFetchPost.fetcher(),
 		options,
@@ -42,7 +42,7 @@ export function useFetchPost(
 
 	if (error || !data) {
 		const fakeData = { post: makeErrorCatchProxy<PostEntity>('post') };
-		return { error, loading: error ? false : !data, data: fakeData };
+		return { error, loading: error ? false : !data, data: fakeData, isMainQuery };
 	}
 
 	const post = data.result;
@@ -50,7 +50,7 @@ export function useFetchPost(
 	post.author = getPostAuthor(post);
 	post.terms = getPostTerms(post);
 
-	return { data: { post }, loading: false };
+	return { data: { post }, loading: false, isMainQuery };
 }
 
 /**

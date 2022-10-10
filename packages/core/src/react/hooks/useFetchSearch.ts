@@ -35,7 +35,7 @@ export function useFetchSearch(
 	options: SWRConfiguration<FetchResponse<PostEntity[]>> = {},
 	path = '',
 ): useSearchResponse {
-	const { data, error } = useFetch<PostEntity[], PostsArchiveParams>(
+	const { data, error, isMainQuery } = useFetch<PostEntity[], PostsArchiveParams>(
 		{ _embed: true, ...params },
 		useFetchSearch.fetcher(),
 		options,
@@ -47,7 +47,7 @@ export function useFetchSearch(
 			posts: makeErrorCatchProxy<PostEntity[]>('posts'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 		};
-		return { error, loading: !data, data: fakeData };
+		return { error, loading: !data, data: fakeData, isMainQuery };
 	}
 
 	const { result, pageInfo } = data;
@@ -59,7 +59,7 @@ export function useFetchSearch(
 		return post;
 	});
 
-	return { data: { posts, pageInfo }, loading: false };
+	return { data: { posts, pageInfo }, loading: false, isMainQuery };
 }
 
 /**

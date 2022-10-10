@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
+import * as React from 'react';
 import { setHeadlessConfig } from '../../../../test/utils';
 import { SettingsProvider } from '../../provider';
 import { useFetchPosts } from '../useFetchPosts';
@@ -77,5 +78,33 @@ describe('useFetchPosts', () => {
 		expect(result.current.pageType.isSearch).toBe(false);
 		expect(result.current.pageType.isTaxonomyArchive).toBe(false);
 		expect(result.current.pageType.isTagArchive).toBe(false);
+	});
+
+	it('reads param from the url and sets isMainQuery flag', async () => {
+		const { result, waitForNextUpdate } = renderHook(
+			() => useFetchPosts({}, {}, '/author/jane'),
+			{
+				wrapper,
+			},
+		);
+
+		await waitForNextUpdate();
+
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
+		expect(result.current.isMainQuery).toBe(true);
+
+		const { result: secondResult, waitForNextUpdate: secondWait } = renderHook(
+			() => useFetchPosts({ author: 'jane' }),
+			{
+				wrapper,
+			},
+		);
+
+		await secondWait();
+
+		expect(secondResult.current.error).toBeFalsy();
+		expect(secondResult.current.data?.queriedObject.author?.slug).toBe('jane');
+		expect(secondResult.current.isMainQuery).toBe(false);
 	});
 });
