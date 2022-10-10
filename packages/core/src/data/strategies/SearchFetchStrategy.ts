@@ -2,6 +2,9 @@ import { searchMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
 import { endpoints } from '../utils';
+import { apiGet } from '../api';
+import { addQueryArgs, getWPUrl } from '../../utils';
+import { QueriedObject } from '../types';
 
 /**
  * The SearchFetchStrategy extends the [[PostsArchiveFetchStrategy]] and does not make use of the
@@ -36,6 +39,37 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 	 * @param params The params to build the endpoint with
 	 */
 	async fetcher(url: string, params: Partial<PostsArchiveParams>) {
-		return super.fetcher(url, params, { throwIfNotFound: false });
+		let seo_json: Record<string, any> = {};
+
+		try {
+			const result = await apiGet(
+				addQueryArgs(`${getWPUrl()}${endpoints.yoast}`, {
+					url: `${getWPUrl()}/?s=${params.search}`,
+				}),
+			);
+
+			seo_json = { ...result.json.json };
+		} catch (e) {
+			// do nothing
+		}
+
+		const queriedObject: QueriedObject = {
+			search: {
+				type: 'post',
+				subtype: params.postType ?? 'post',
+				yoast_head: '',
+				yoast_head_json: {
+					...seo_json,
+					title: `Search Results for ${params.search} - ${seo_json?.title}`,
+				},
+			},
+		};
+
+		const response = await super.fetcher(url, params, { throwIfNotFound: false });
+
+		return {
+			...response,
+			queriedObject,
+		};
 	}
 }

@@ -630,29 +630,17 @@ export interface CommentEntity extends Entity {
  */
 export interface SearchEntity extends Entity {
 	/**
-	 * Unique identifier for the object.
-	 */
-	id: number | string;
-
-	/**
-	 * The title for the object.
-	 */
-	title: string;
-
-	/**
-	 * URL to the object.
-	 */
-	url: string;
-
-	/**
 	 * Type of Search for the object.
 	 */
-	type: 'post' | 'term' | 'post-format';
+	type: string;
 
 	/**
 	 * Subtype of Search for the object.
 	 */
-	subtype: 'post' | 'page' | 'category' | 'post_tag';
+	subtype: string;
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 export type Redirect = {
@@ -721,5 +709,8 @@ export type QueriedObject = {
 	 */
 	term?: TermEntity;
 
+	/**
+	 * If the request is an search query, this will be populated with the search entiry object
+	 */
 	search?: SearchEntity;
 };

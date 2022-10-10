@@ -123,7 +123,7 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		await expect(() => waitForNextUpdate()).rejects.toThrow();
+		await expect(() => waitForNextUpdate({ timeout: 100 })).rejects.toThrow();
 
 		// eslint-disable-next-line no-console
 		expect(console.warn).toHaveBeenCalledTimes(1);
@@ -153,7 +153,7 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		await expect(() => waitForNextUpdate()).rejects.toThrow();
+		await expect(() => waitForNextUpdate({ timeout: 100 })).rejects.toThrow();
 
 		expect(result.current.error).toBeFalsy();
 	});

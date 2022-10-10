@@ -34,7 +34,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	fetchStrategy.setBaseURL(sourceUrl);
 
 	const urlParams = fetchStrategy.getParamsFromURL(path, params);
-	const isMainQuery = Object.keys(urlParams).filter((param) => param !== '_embed').length > 0;
+	const isMainQuery = fetchStrategy.isMainQuery(path, params);
 
 	const finalParams = { ...urlParams, ...params };
 
@@ -63,10 +63,6 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 			),
 		options.swr,
 	);
-
-	if (result.data && !result.error) {
-		result.data.queriedObject = fetchStrategy.getQueriedObject(result.data, finalParams);
-	}
 
 	return { ...result, params: finalParams, isMainQuery };
 }

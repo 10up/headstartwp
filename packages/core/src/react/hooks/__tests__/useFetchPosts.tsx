@@ -123,7 +123,7 @@ describe('useFetchPosts', () => {
 	});
 
 	it('reads param from the url and sets isMainQuery flag', async () => {
-		const { result, waitForNextUpdate } = renderHook(
+		let { result, waitForNextUpdate } = renderHook(
 			() => useFetchPosts({}, {}, '/author/jane'),
 			{
 				wrapper,
@@ -136,17 +136,27 @@ describe('useFetchPosts', () => {
 		expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
 		expect(result.current.isMainQuery).toBe(true);
 
-		const { result: secondResult, waitForNextUpdate: secondWait } = renderHook(
-			() => useFetchPosts({ author: 'jane' }),
+		({ result, waitForNextUpdate } = renderHook(() => useFetchPosts({ author: 'jane' }), {
+			wrapper,
+		}));
+
+		await waitForNextUpdate();
+
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
+		expect(result.current.isMainQuery).toBe(false);
+
+		({ result, waitForNextUpdate } = renderHook(
+			() => useFetchPosts({ taxonomy: 'category' }, {}, '/news'),
 			{
 				wrapper,
 			},
-		);
+		));
 
-		await secondWait();
+		await waitForNextUpdate();
 
-		expect(secondResult.current.error).toBeFalsy();
-		expect(secondResult.current.data?.queriedObject.author?.slug).toBe('jane');
-		expect(secondResult.current.isMainQuery).toBe(false);
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data?.queriedObject.term?.slug).toBe('news');
+		expect(result.current.isMainQuery).toBe(true);
 	});
 });

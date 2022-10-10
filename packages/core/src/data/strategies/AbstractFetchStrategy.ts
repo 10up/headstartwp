@@ -148,6 +148,20 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	abstract getParamsFromURL(path: string, nonUrlParams: Partial<Params>): Partial<Params>;
 
 	/**
+	 * Checks if this is the main query for a page
+	 *
+	 * @param path The page name
+	 * @param nonUrlParams The non-url params
+	 */
+	isMainQuery(path: string, nonUrlParams: Partial<Params>) {
+		return (
+			Object.keys(this.getParamsFromURL(path, nonUrlParams)).filter(
+				(param) => param !== '_embed',
+			).length > 0
+		);
+	}
+
+	/**
 	 * Builds the final endpoint URL based on the passed parameters
 	 *
 	 * @param params The params to add to the request
@@ -170,6 +184,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	prepareResponse(response: FetchResponse<E>, params: Partial<Params>): FetchResponse<R> {
 		return {
 			...response,
+			queriedObject: this.getQueriedObject(response, params),
 			result: response.result as unknown as R,
 		};
 	}
@@ -240,7 +255,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getQueriedObject(response: FetchResponse<R>, params: Partial<Params>) {
+	getQueriedObject(response: FetchResponse<E>, params: Partial<Params>) {
 		return {};
 	}
 
