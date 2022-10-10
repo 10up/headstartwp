@@ -190,8 +190,6 @@ export function addHookData(hookStates: HookState[], nextProps) {
 
 	if (appSettings) {
 		themeJSON = { ...appSettings.data.result['theme.json'] };
-		// remove to reduce html payload
-		appSettings.data.result['theme.json'] = {};
 	}
 
 	// process the rest of data to optimize payload and pick seo object if there isn't a main query
@@ -208,9 +206,8 @@ export function addHookData(hookStates: HookState[], nextProps) {
 					if (!foundSeo) {
 						seo_json = { ...post.yoast_head_json };
 					}
-					if (post.id > 0) {
-						post.yoast_head_json = null;
-					}
+
+					post.yoast_head_json = null;
 				}
 				if (post?.yoast_head) {
 					post.yoast_head = null;
@@ -226,6 +223,10 @@ export function addHookData(hookStates: HookState[], nextProps) {
 
 			if (data.result?.yoast_head) {
 				data.result.yoast_head = null;
+			}
+
+			if (data.result?.['theme.json']) {
+				data.result['theme.json'] = null;
 			}
 		}
 
