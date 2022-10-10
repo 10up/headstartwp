@@ -14,6 +14,7 @@ export type CustomTaxonomies = Array<{
 
 export type HeadlessConfig = {
 	sourceUrl?: string;
+	hostUrl?: string;
 	customPostTypes?: CustomPostTypes;
 	customTaxonomies?: CustomTaxonomies;
 	redirectStrategy?: RedirectStrategy;

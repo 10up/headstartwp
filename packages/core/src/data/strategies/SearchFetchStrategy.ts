@@ -61,7 +61,6 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 				yoast_head: '',
 				yoast_head_json: {
 					...seo_json,
-					title: `Search Results for ${params.search} - ${seo_json?.title}`,
 				},
 			},
 		};
