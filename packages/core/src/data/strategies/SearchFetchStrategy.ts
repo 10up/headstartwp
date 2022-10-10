@@ -55,6 +55,7 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 
 		const queriedObject: QueriedObject = {
 			search: {
+				searchedValue: params.search ?? '',
 				type: 'post',
 				subtype: params.postType ?? 'post',
 				yoast_head: '',

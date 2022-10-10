@@ -20,13 +20,16 @@ const handlers = [
 
 		let results = [...posts];
 
-		// simulate a not found search
-		if (search === 'not-found') {
-			return res(ctx.json({ data: [], status: 400 }));
-		}
-
 		if (slug && slug.length > 0) {
 			results = results.filter((post) => post.slug === slug);
+		}
+
+		if (search) {
+			results = results.filter((post) => {
+				return (
+					post.title.rendered.includes(search) || post.content.rendered.includes(search)
+				);
+			});
 		}
 
 		if (category) {
@@ -69,6 +72,17 @@ const handlers = [
 		}
 
 		return res(ctx.json(results));
+	}),
+
+	rest.get('/wp-json/yoast/v1/get_head', (req, res, ctx) => {
+		return res(
+			ctx.json({
+				html: '',
+				json: {
+					title: 'mocked yoast respose',
+				},
+			}),
+		);
 	}),
 
 	rest.get('/wp-json/wp/v2/posts/:id', (req, res, ctx) => {

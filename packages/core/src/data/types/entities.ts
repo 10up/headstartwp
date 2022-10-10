@@ -629,6 +629,8 @@ export interface CommentEntity extends Entity {
  * Interface for entities from the /wp/v2/search endpoint.
  */
 export interface SearchEntity extends Entity {
+	searchedValue: string;
+
 	/**
 	 * Type of Search for the object.
 	 */
