@@ -97,7 +97,7 @@ export async function fetchHookData(
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
-	const key = { url: fetchStrategy.getEndpoint(), args: finalParams };
+	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams } };
 
 	const isPreviewRequest =
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
