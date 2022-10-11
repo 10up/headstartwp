@@ -10,7 +10,7 @@ import {
 } from '../../utils';
 import { endpoints, getPostAuthor, getPostTerms } from '../utils';
 import { apiGet } from '../api';
-import { PostEntity, QueriedObject } from '../types';
+import { AuthorEntity, PostEntity, QueriedObject, TermEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import {
@@ -18,7 +18,9 @@ import {
 	AbstractFetchStrategy,
 	EndpointParams,
 	FetchResponse,
+	FilterDataOptions,
 } from './AbstractFetchStrategy';
+import { removeFields } from '../utils/dataFilter';
 
 const authorsEndpoint = '/wp-json/wp/v2/users';
 
@@ -383,10 +385,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		}
 
 		const posts = response.result.map((post) => {
-			post.author = getPostAuthor(post);
-			post.terms = getPostTerms(post);
-
-			return post;
+			return { ...post, author: getPostAuthor(post), terms: getPostTerms(post) };
 		});
 
 		if (params.author && posts[0].author) {
@@ -445,5 +444,53 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		});
 
 		return queriedObject;
+	}
+
+	filterData(data: FetchResponse<PostEntity[]>, options?: FilterDataOptions<PostEntity[]>) {
+		if (typeof options !== 'undefined') {
+			return super.filterData(data, options) as unknown as FetchResponse<PostEntity[]>;
+		}
+
+		const fieldsToRemove = ['yoast_head', '_links'];
+
+		const queriedObject = { ...data.queriedObject };
+
+		if (queriedObject.author) {
+			queriedObject.author = removeFields(
+				fieldsToRemove,
+				queriedObject.author,
+			) as AuthorEntity;
+		}
+
+		if (queriedObject.term) {
+			queriedObject.term = removeFields(fieldsToRemove, queriedObject.term) as TermEntity;
+		}
+
+		const result = (removeFields<PostEntity>(fieldsToRemove, data.result) as PostEntity[]).map(
+			(post) => {
+				if (post._embedded) {
+					return {
+						...post,
+						_embedded: {
+							...post._embedded,
+							author: removeFields(
+								fieldsToRemove,
+								post._embedded.author,
+							) as AuthorEntity[],
+							'wp:term': post._embedded?.['wp:term']?.map(
+								(terms) => removeFields(fieldsToRemove, terms) as TermEntity[],
+							),
+						},
+					};
+				}
+				return post;
+			},
+		);
+
+		return {
+			...data,
+			queriedObject,
+			result,
+		};
 	}
 }

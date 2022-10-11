@@ -150,10 +150,7 @@ export function useFetchPosts(
 	const { result, pageInfo, queriedObject } = data;
 
 	const posts = result.map((post) => {
-		post.author = getPostAuthor(post);
-		post.terms = getPostTerms(post);
-
-		return post;
+		return { ...post, author: getPostAuthor(post), terms: getPostTerms(post) };
 	});
 
 	return {
