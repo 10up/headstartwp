@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-core",
-  "version": "0.4.3-next.3",
+  "version": "0.4.3-next.4",
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",

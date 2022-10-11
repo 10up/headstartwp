@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.4.3-next.4
+
+### Patch Changes
+
+- b3d2216: Further optimize next.js props
+- Updated dependencies [b3d2216]
+  - @10up/headless-core@0.4.3-next.4
+
 ## 0.4.3-next.3
 
 ### Patch Changes
