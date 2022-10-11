@@ -8,7 +8,7 @@ import {
 	addQueryArgs,
 	getCustomTaxonomy,
 } from '../../utils';
-import { endpoints, getPostAuthor, getPostTerms } from '../utils';
+import { endpoints, getPostAuthor, getPostTerms, removeFieldsFromPostRelatedData } from '../utils';
 import { apiGet } from '../api';
 import { AuthorEntity, PostEntity, QueriedObject, TermEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
@@ -468,22 +468,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 		const result = (removeFields<PostEntity>(fieldsToRemove, data.result) as PostEntity[]).map(
 			(post) => {
-				if (post._embedded) {
-					return {
-						...post,
-						_embedded: {
-							...post._embedded,
-							author: removeFields(
-								fieldsToRemove,
-								post._embedded.author,
-							) as AuthorEntity[],
-							'wp:term': post._embedded?.['wp:term']?.map(
-								(terms) => removeFields(fieldsToRemove, terms) as TermEntity[],
-							),
-						},
-					};
-				}
-				return post;
+				return removeFieldsFromPostRelatedData(fieldsToRemove, post);
 			},
 		);
 

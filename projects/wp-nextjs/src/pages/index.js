@@ -5,10 +5,13 @@ import {
 	addHookData,
 	handleError,
 	usePosts,
+	useTerms,
 } from '@10up/headless-next';
 import PropTypes from 'prop-types';
+import { Link } from '../components/Link';
 import { PageContent } from '../components/PageContent';
 import { indexParams } from '../params';
+import { resolveBatch } from '../utils/promises';
 
 const RecentPost = ({ post }) => {
 	return (
@@ -39,6 +42,10 @@ const Homepage = ({ homePageSlug }) => {
 		{ swr: { revalidateOnMount: true } },
 	);
 
+	const {
+		data: { terms },
+	} = useTerms({ taxonomy: 'category' });
+
 	return (
 		<>
 			<PageContent params={params} />
@@ -46,6 +53,19 @@ const Homepage = ({ homePageSlug }) => {
 			{loading
 				? 'Loading Recent Posts...'
 				: data.posts.map((post) => <RecentPost key={post.id} post={post} />)}
+
+			{terms.length > 0 ? (
+				<>
+					<h3>Categories</h3>
+					<ul>
+						{terms.map((term) => (
+							<li key={term.id}>
+								<Link href={term.link}>{term.name}</Link>
+							</li>
+						))}
+					</ul>
+				</>
+			) : null}
 		</>
 	);
 };
@@ -72,14 +92,23 @@ export async function getStaticProps(context) {
 	}
 
 	try {
-		const hookData = await fetchHookData(usePost.fetcher(), context, {
-			params: {
-				...indexParams,
-				slug,
+		const hookData = await resolveBatch([
+			{
+				func: fetchHookData(usePost.fetcher(), context, {
+					params: {
+						...indexParams,
+						slug,
+					},
+				}),
 			},
-		});
+			{
+				func: fetchHookData(useTerms.fetcher(), context, {
+					params: { taxonomy: 'category' },
+				}),
+			},
+		]);
 
-		return addHookData([hookData, appSettings], {
+		return addHookData([...hookData, appSettings], {
 			props: { homePageSlug: slug },
 			revalidate: 5 * 60,
 		});

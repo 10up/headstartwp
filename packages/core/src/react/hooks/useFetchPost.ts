@@ -44,10 +44,11 @@ export function useFetchPost(
 		return { error, loading: error ? false : !data, data: fakeData, isMainQuery };
 	}
 
-	const post = data.result;
-
-	post.author = getPostAuthor(post);
-	post.terms = getPostTerms(post);
+	const post = {
+		...data.result,
+		author: getPostAuthor(data.result),
+		terms: getPostTerms(data.result),
+	};
 
 	return { data: { post }, loading: false, isMainQuery };
 }
