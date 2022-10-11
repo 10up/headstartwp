@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.4.3-next.2
+
+### Patch Changes
+
+- ec25cdd: Fix queried object detection, account for querying by id as well
+
 ## 0.4.3-next.1
 
 ### Patch Changes

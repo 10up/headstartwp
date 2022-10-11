@@ -9,6 +9,7 @@
     "@10up/wp-nextjs": "0.2.0"
   },
   "changesets": [
+    "perfect-dolls-jump",
     "rare-humans-prove",
     "small-forks-develop",
     "tame-jobs-tease"
