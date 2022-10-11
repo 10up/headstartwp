@@ -35,19 +35,35 @@ const handlers = [
 		if (category) {
 			results = results.filter((post) => {
 				return post._embedded['wp:term'].flat().find((term) => {
-					return (
-						term.taxonomy === 'category' &&
-						decodeURIComponent(term.slug) === decodeURIComponent(category)
-					);
+					if (!isNaN(category as unknown as number)) {
+						return Number(category) === term.id && term.taxonomy === 'category';
+					}
+
+					if (typeof category === 'string') {
+						return (
+							term.taxonomy === 'category' &&
+							decodeURIComponent(term.slug) === decodeURIComponent(category)
+						);
+					}
+
+					return false;
 				});
 			});
 		}
 
 		if (author) {
 			results = results.filter((post) => {
-				return post._embedded.author.find(
-					(a) => decodeURIComponent(a.slug) === decodeURIComponent(author),
-				);
+				return post._embedded.author.find((a) => {
+					if (!isNaN(author as unknown as number)) {
+						return a.id === Number(author);
+					}
+
+					if (typeof author === 'string') {
+						return decodeURIComponent(a.slug) === decodeURIComponent(author);
+					}
+
+					return false;
+				});
 			});
 		}
 
