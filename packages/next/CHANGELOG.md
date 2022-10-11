@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.4.3-next.3
+
+### Patch Changes
+
+- ae8739d: Optimize next.js props
+- Updated dependencies [ae8739d]
+  - @10up/headless-core@0.4.3-next.3
+
 ## 0.4.3-next.2
 
 ### Patch Changes

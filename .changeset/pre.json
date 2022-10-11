@@ -9,6 +9,7 @@
     "@10up/wp-nextjs": "0.2.0"
   },
   "changesets": [
+    "little-elephants-wonder",
     "perfect-dolls-jump",
     "rare-humans-prove",
     "small-forks-develop",
