@@ -97,6 +97,26 @@ describe('useFetchPosts', () => {
 		expect(result.current.pageType.isTagArchive).toBe(false);
 	});
 
+	it('returns queried object when querying by id', async () => {
+		let { result, waitForNextUpdate } = renderHook(() => useFetchPosts({ author: 3 }), {
+			wrapper,
+		});
+
+		await waitForNextUpdate();
+
+		expect(result.current.data?.queriedObject.author?.id).toBe(3);
+		expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
+
+		({ result, waitForNextUpdate } = renderHook(() => useFetchPosts({ category: 5 }), {
+			wrapper,
+		}));
+
+		await waitForNextUpdate();
+
+		expect(result.current.data?.queriedObject.term?.id).toBe(5);
+		expect(result.current.data?.queriedObject.term?.slug).toBe('news');
+	});
+
 	it('does not throw error if throwIfNotFound is passed', async () => {
 		const { result, waitForNextUpdate } = renderHook(
 			() =>

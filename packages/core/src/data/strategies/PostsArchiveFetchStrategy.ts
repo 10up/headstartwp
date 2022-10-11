@@ -38,7 +38,7 @@ export interface PostsArchiveParams extends EndpointParams {
 	 *
 	 * It supports both a category id and category slug
 	 */
-	category?: string;
+	category?: string | number | number[];
 
 	/**
 	 * If set will filter results by the specified tag name
@@ -390,7 +390,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		});
 
 		if (params.author && posts[0].author) {
-			queriedObject.author = posts[0].author.find((author) => {
+			const queriedAuthor = posts[0].author.find((author) => {
 				if (typeof params.author === 'number') {
 					return author.id === params.author;
 				}
@@ -405,6 +405,10 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 				return false;
 			});
+
+			if (queriedAuthor) {
+				queriedObject.author = queriedAuthor;
+			}
 		}
 
 		const taxonomies = getCustomTaxonomies();
@@ -415,12 +419,28 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			const termValue = params[urlParamSlug];
 
 			if (termValue && posts[0]?.terms?.[termSlug]) {
-				queriedObject.term = posts[0]?.terms?.[termSlug].find((term) => {
-					return (
-						decodeURIComponent((term.slug as string) ?? '') ===
-						decodeURIComponent((termValue as string) ?? '')
-					);
+				const queriedTerm = posts[0]?.terms?.[termSlug].find((term) => {
+					if (typeof termValue === 'string') {
+						return (
+							decodeURIComponent((term.slug as string) ?? '') ===
+							decodeURIComponent((termValue as string) ?? '')
+						);
+					}
+
+					if (typeof termValue === 'number') {
+						return Number(term.id) === Number(termValue);
+					}
+
+					if (Array.isArray(termValue)) {
+						return termValue.includes(term.id);
+					}
+
+					return false;
 				});
+
+				if (queriedTerm) {
+					queriedObject.term = queriedTerm;
+				}
 			}
 		});
 
