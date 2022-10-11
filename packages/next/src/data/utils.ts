@@ -24,7 +24,7 @@ export interface FetchHookDataOptions {
 	/**
 	 * Optional. If set, the data will be filtered given {@link FilterDataOptions}
 	 */
-	filterData?: FilterDataOptions;
+	filterData?: FilterDataOptions<any>;
 
 	/**
 	 * Optional. If set, will fowardh fetch options to the fetch strategy
@@ -83,7 +83,6 @@ export async function fetchHookData(
 ) {
 	const wpURL = getWPUrl();
 	const params = options?.params || {};
-	const filterDataOptions = options?.filterData || { method: 'ALLOW', fields: ['*'] };
 
 	fetchStrategy.setBaseURL(wpURL);
 
@@ -118,7 +117,7 @@ export async function fetchHookData(
 
 	return {
 		key: unstable_serialize(key),
-		data: fetchStrategy.filterData(data, filterDataOptions),
+		data: fetchStrategy.filterData(data, options.filterData),
 		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
 	};
 }
