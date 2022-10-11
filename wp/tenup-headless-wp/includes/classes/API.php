@@ -35,9 +35,6 @@ class API {
 		$token_endpoint = new API\TokenEndpoint();
 		$token_endpoint->register();
 
-		$api_filter = new API\ApiFilter();
-		$api_filter->register();
-
 		add_action( 'init', array( $this, 'register_post_type_taxonomy_params' ), 999 );
 	}
 
