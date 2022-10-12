@@ -1,5 +1,22 @@
 # @10up/headless-next
 
+## 0.4.3
+
+### Patch Changes
+
+- ae8739d: Optimize next.js props
+- ec25cdd: Fix queried object detection, account for querying by id as well
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that drwas params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- 7923590: Fix: do not include preview params in swr key
+- 9141bb3: Convert back-end urls in seo metadata to front-end urls
+- b3d2216: Further optimize next.js props
+- Updated dependencies [ae8739d]
+- Updated dependencies [ec25cdd]
+- Updated dependencies [dc7edb1]
+- Updated dependencies [9141bb3]
+- Updated dependencies [b3d2216]
+  - @10up/headless-core@0.4.3
+
 ## 0.4.3-next.4
 
 ### Patch Changes
