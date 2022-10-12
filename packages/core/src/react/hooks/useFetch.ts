@@ -34,6 +34,8 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	fetchStrategy.setBaseURL(sourceUrl);
 
 	const urlParams = fetchStrategy.getParamsFromURL(path, params);
+	const isMainQuery = fetchStrategy.isMainQuery(path, params);
+
 	const finalParams = { ...urlParams, ...params };
 
 	const { fetchStrategyOptions, ...validSWROptions } = options;
@@ -62,9 +64,5 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 		options.swr,
 	);
 
-	if (result.data && !result.error) {
-		result.data.queriedObject = fetchStrategy.getQueriedObject(result.data, finalParams);
-	}
-
-	return { ...result, params: finalParams };
+	return { ...result, params: finalParams, isMainQuery };
 }

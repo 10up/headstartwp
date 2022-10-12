@@ -107,6 +107,9 @@ export interface PostTypeEntity extends Entity {
 	 * Whether or not the object can be pinged.
 	 */
 	ping_status?: 'open' | 'closed';
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 /**
@@ -469,6 +472,9 @@ export interface TermEntity extends Entity {
 	 * Meta fields.
 	 */
 	meta?: Record<string, unknown>;
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 /**
@@ -535,6 +541,9 @@ export interface AuthorEntity extends Entity {
 	 * Meta fields.
 	 */
 	meta?: Record<string, unknown>;
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 /**
@@ -620,26 +629,20 @@ export interface CommentEntity extends Entity {
  * Interface for entities from the /wp/v2/search endpoint.
  */
 export interface SearchEntity extends Entity {
-	/**
-	 * Unique identifier for the object.
-	 */
-	id: number | string;
-	/**
-	 * The title for the object.
-	 */
-	title: string;
-	/**
-	 * URL to the object.
-	 */
-	url: string;
+	searchedValue: string;
+
 	/**
 	 * Type of Search for the object.
 	 */
-	type: 'post' | 'term' | 'post-format';
+	type: string;
+
 	/**
 	 * Subtype of Search for the object.
 	 */
-	subtype: 'post' | 'page' | 'category' | 'post_tag';
+	subtype: string;
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 export type Redirect = {
@@ -707,4 +710,9 @@ export type QueriedObject = {
 	 * If the request is an term query, this will be populated with the term object
 	 */
 	term?: TermEntity;
+
+	/**
+	 * If the request is an search query, this will be populated with the search entiry object
+	 */
+	search?: SearchEntity;
 };

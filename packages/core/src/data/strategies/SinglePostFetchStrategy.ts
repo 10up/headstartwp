@@ -7,8 +7,10 @@ import {
 	EndpointParams,
 	FetchOptions,
 	FetchResponse,
+	FilterDataOptions,
 } from './AbstractFetchStrategy';
-import { endpoints } from '../utils';
+import { endpoints, removeFieldsFromPostRelatedData } from '../utils';
+import { removeFields } from '../utils/dataFilter';
 
 /**
  * The EndpointParams supported by the [[SinglePostFetchStrategy]]
@@ -198,5 +200,20 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 
 		// if gets to the this point then nothing was found then thrown
 		throw error;
+	}
+
+	filterData(data: FetchResponse<PostEntity>, filterOptions?: FilterDataOptions<PostEntity>) {
+		if (filterOptions) {
+			return this.filterData(data, filterOptions);
+		}
+
+		const fieldsToRemove = ['yoast_head', '_links'];
+
+		const post = removeFields(fieldsToRemove, data.result) as PostEntity;
+
+		return {
+			...data,
+			result: removeFieldsFromPostRelatedData(fieldsToRemove, post),
+		};
 	}
 }

@@ -24,7 +24,7 @@ describe('SearchFetchStrategy', () => {
 	});
 
 	it('return data properly', async () => {
-		const params = fetchStrategy.getParamsFromURL('/random');
+		const params = fetchStrategy.getParamsFromURL('/ipsum');
 		const url = fetchStrategy.buildEndpointURL(params);
 		const results = await fetchStrategy.fetcher(url, params);
 
@@ -45,7 +45,7 @@ describe('SearchFetchStrategy', () => {
 
 		// asset it does not throw and resolve even if not found
 		await expect(results).resolves.toMatchObject({
-			result: { data: [], status: 400 },
+			result: [],
 			pageInfo: {},
 		});
 	});

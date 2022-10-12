@@ -51,17 +51,17 @@ export function useFetchMenu(
 	menuLocation: string,
 	options: FetchHookOptions<FetchResponse<AppEntity>> = {},
 ): useMenuResponse {
-	const { data, error } = useFetchAppSettings({}, options);
+	const { data, error, isMainQuery } = useFetchAppSettings({}, options);
 
 	const doesNotHasData = !data || data[isProxy] === true;
 	if (error || doesNotHasData) {
 		const fakeData = makeErrorCatchProxy<MenuItemEntity[]>('data');
-		return { error, loading: doesNotHasData, data: fakeData };
+		return { error, loading: doesNotHasData, data: fakeData, isMainQuery };
 	}
 
 	const { menus } = data;
 
 	const menu = menus && menus[menuLocation] ? flatToHierarchical(menus[menuLocation]) : [];
 
-	return { data: menu, loading: false };
+	return { data: menu, loading: false, isMainQuery };
 }

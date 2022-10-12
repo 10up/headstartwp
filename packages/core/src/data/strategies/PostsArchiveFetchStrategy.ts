@@ -8,9 +8,9 @@ import {
 	addQueryArgs,
 	getCustomTaxonomy,
 } from '../../utils';
-import { endpoints, getPostAuthor, getPostTerms } from '../utils';
+import { endpoints, getPostAuthor, getPostTerms, removeFieldsFromPostRelatedData } from '../utils';
 import { apiGet } from '../api';
-import { PostEntity, QueriedObject } from '../types';
+import { AuthorEntity, PostEntity, QueriedObject, TermEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import {
@@ -18,7 +18,9 @@ import {
 	AbstractFetchStrategy,
 	EndpointParams,
 	FetchResponse,
+	FilterDataOptions,
 } from './AbstractFetchStrategy';
+import { removeFields } from '../utils/dataFilter';
 
 const authorsEndpoint = '/wp-json/wp/v2/users';
 
@@ -38,7 +40,7 @@ export interface PostsArchiveParams extends EndpointParams {
 	 *
 	 * It supports both a category id and category slug
 	 */
-	category?: string;
+	category?: string | number | number[];
 
 	/**
 	 * If set will filter results by the specified tag name
@@ -383,14 +385,11 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		}
 
 		const posts = response.result.map((post) => {
-			post.author = getPostAuthor(post);
-			post.terms = getPostTerms(post);
-
-			return post;
+			return { ...post, author: getPostAuthor(post), terms: getPostTerms(post) };
 		});
 
 		if (params.author && posts[0].author) {
-			queriedObject.author = posts[0].author.find((author) => {
+			const queriedAuthor = posts[0].author.find((author) => {
 				if (typeof params.author === 'number') {
 					return author.id === params.author;
 				}
@@ -405,6 +404,10 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 
 				return false;
 			});
+
+			if (queriedAuthor) {
+				queriedObject.author = queriedAuthor;
+			}
 		}
 
 		const taxonomies = getCustomTaxonomies();
@@ -415,15 +418,64 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			const termValue = params[urlParamSlug];
 
 			if (termValue && posts[0]?.terms?.[termSlug]) {
-				queriedObject.term = posts[0]?.terms?.[termSlug].find((term) => {
-					return (
-						decodeURIComponent((term.slug as string) ?? '') ===
-						decodeURIComponent((termValue as string) ?? '')
-					);
+				const queriedTerm = posts[0]?.terms?.[termSlug].find((term) => {
+					if (typeof termValue === 'string') {
+						return (
+							decodeURIComponent((term.slug as string) ?? '') ===
+							decodeURIComponent((termValue as string) ?? '')
+						);
+					}
+
+					if (typeof termValue === 'number') {
+						return Number(term.id) === Number(termValue);
+					}
+
+					if (Array.isArray(termValue)) {
+						return termValue.includes(term.id);
+					}
+
+					return false;
 				});
+
+				if (queriedTerm) {
+					queriedObject.term = queriedTerm;
+				}
 			}
 		});
 
 		return queriedObject;
+	}
+
+	filterData(data: FetchResponse<PostEntity[]>, options?: FilterDataOptions<PostEntity[]>) {
+		if (typeof options !== 'undefined') {
+			return super.filterData(data, options) as unknown as FetchResponse<PostEntity[]>;
+		}
+
+		const fieldsToRemove = ['yoast_head', '_links'];
+
+		const queriedObject = { ...data.queriedObject };
+
+		if (queriedObject.author) {
+			queriedObject.author = removeFields(
+				fieldsToRemove,
+				queriedObject.author,
+			) as AuthorEntity;
+		}
+
+		if (queriedObject.term) {
+			queriedObject.term = removeFields(fieldsToRemove, queriedObject.term) as TermEntity;
+		}
+
+		const result = (removeFields<PostEntity>(fieldsToRemove, data.result) as PostEntity[]).map(
+			(post) => {
+				return removeFieldsFromPostRelatedData(fieldsToRemove, post);
+			},
+		);
+
+		return {
+			...data,
+			queriedObject,
+			result,
+		};
 	}
 }

@@ -123,7 +123,7 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		await expect(() => waitForNextUpdate()).rejects.toThrow();
+		await expect(() => waitForNextUpdate({ timeout: 100 })).rejects.toThrow();
 
 		// eslint-disable-next-line no-console
 		expect(console.warn).toHaveBeenCalledTimes(1);
@@ -153,8 +153,40 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		await expect(() => waitForNextUpdate()).rejects.toThrow();
+		await expect(() => waitForNextUpdate({ timeout: 100 })).rejects.toThrow();
 
 		expect(result.current.error).toBeFalsy();
+	});
+
+	it('reads param from the url and sets isMainQuery flag', async () => {
+		const { result, waitForNextUpdate } = renderHook(
+			() => useFetchPost({}, {}, '/modi-qui-dignissimos-sed-assumenda-sint-iusto'),
+			{
+				wrapper,
+			},
+		);
+
+		await waitForNextUpdate();
+
+		expect(result.current.error).toBeFalsy();
+		expect(result.current.data?.post.slug).toBe(
+			'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+		);
+		expect(result.current.isMainQuery).toBe(true);
+
+		const { result: secondResult, waitForNextUpdate: secondWait } = renderHook(
+			() => useFetchPost({ slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' }),
+			{
+				wrapper,
+			},
+		);
+
+		await secondWait();
+
+		expect(secondResult.current.error).toBeFalsy();
+		expect(secondResult.current.data?.post.slug).toBe(
+			'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+		);
+		expect(secondResult.current.isMainQuery).toBe(false);
 	});
 });

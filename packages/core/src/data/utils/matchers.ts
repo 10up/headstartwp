@@ -57,7 +57,7 @@ export const searchMatchers: Matcher[] = [
 	{
 		name: 'search type',
 		priority: 30,
-		pattern: '/:search?',
+		pattern: '/:search',
 	},
 	{
 		name: 'search-pagination',

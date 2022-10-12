@@ -1,6 +1,7 @@
 import { PageInfo, QueriedObject } from '../types';
 import { apiGet } from '../api';
 import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
+import { acceptFields, removeFields } from '../utils/dataFilter';
 
 /**
  * The base interface for definiting endpoint parameters
@@ -57,13 +58,13 @@ export interface FetchOptions {
 	bearerToken?: string;
 }
 
-export interface FilterDataOptions {
+export interface FilterDataOptions<T> {
 	/**
 	 * If method is 'ALLOW' then only the fields specified in the filter will be returned.
 	 * If method is 'REMOVE' then the fields specified in the filter will be removed.
 	 */
 	method: 'ALLOW' | 'REMOVE';
-	fields: string[];
+	fields: (keyof T)[];
 }
 
 /**
@@ -148,6 +149,20 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	abstract getParamsFromURL(path: string, nonUrlParams: Partial<Params>): Partial<Params>;
 
 	/**
+	 * Checks if this is the main query for a page
+	 *
+	 * @param path The page name
+	 * @param nonUrlParams The non-url params
+	 */
+	isMainQuery(path: string, nonUrlParams: Partial<Params>) {
+		return (
+			Object.keys(this.getParamsFromURL(path, nonUrlParams)).filter(
+				(param) => param !== '_embed',
+			).length > 0
+		);
+	}
+
+	/**
 	 * Builds the final endpoint URL based on the passed parameters
 	 *
 	 * @param params The params to add to the request
@@ -170,6 +185,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	prepareResponse(response: FetchResponse<E>, params: Partial<Params>): FetchResponse<R> {
 		return {
 			...response,
+			queriedObject: this.getQueriedObject(response, params),
 			result: response.result as unknown as R,
 		};
 	}
@@ -240,7 +256,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getQueriedObject(response: FetchResponse<R>, params: Partial<Params>) {
+	getQueriedObject(response: FetchResponse<E>, params: Partial<Params>) {
 		return {};
 	}
 
@@ -252,44 +268,24 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 * @param options The options for filtering
 	 * @returns The filtered data
 	 */
-	filterData(data: FetchResponse<E>, options: FilterDataOptions) {
-		const fields = [...options.fields, 'yoast_head_json'];
+	filterData(data: FetchResponse<R>, filterOptions?: FilterDataOptions<R>) {
+		const options = filterOptions ?? { method: 'ALLOW', fields: ['*'] };
+
+		const { fields } = options;
+
 		if (options.method === 'ALLOW') {
 			if (fields[0] === '*') {
 				return data;
 			}
 
-			const allowedData = Array.isArray(data.result) ? [] : {};
-
-			if (Array.isArray(data.result)) {
-				data.result.forEach((record, i) => {
-					// @ts-expect-error
-					allowedData.push({});
-					fields.forEach((field) => {
-						if (data.result[i][field]) {
-							allowedData[i][field] = data.result[i][field];
-						}
-					});
-				});
-			} else {
-				fields.forEach((field) => {
-					allowedData[field] = data.result[field];
-				});
-			}
-
-			return { ...data, result: allowedData };
+			return { ...data, result: acceptFields<R>(fields, data.result) };
 		}
 
 		if (options.method === 'REMOVE') {
-			fields.forEach((field) => {
-				if (Array.isArray(data.result)) {
-					data.result.forEach((record, i) => {
-						delete data.result[i][field];
-					});
-				} else {
-					delete data.result[field];
-				}
-			});
+			return {
+				...data,
+				result: removeFields<R>(fields, data.result),
+			};
 		}
 
 		return data;

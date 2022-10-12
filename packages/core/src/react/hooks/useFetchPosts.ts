@@ -85,6 +85,7 @@ export function useFetchPosts(
 		data,
 		error,
 		params: queryParams,
+		isMainQuery,
 	} = useFetch<PostEntity[], PostsArchiveParams>(
 		{ _embed: true, ...params },
 		fetcher ?? useFetchPosts.fetcher(),
@@ -143,22 +144,20 @@ export function useFetchPosts(
 			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
 
-		return { error, loading: !data, pageType, data: fakeData };
+		return { error, loading: !data, pageType, data: fakeData, isMainQuery };
 	}
 
 	const { result, pageInfo, queriedObject } = data;
 
 	const posts = result.map((post) => {
-		post.author = getPostAuthor(post);
-		post.terms = getPostTerms(post);
-
-		return post;
+		return { ...post, author: getPostAuthor(post), terms: getPostTerms(post) };
 	});
 
 	return {
 		data: { posts, pageInfo, queriedObject: queriedObject ?? {} },
 		loading: false,
 		pageType,
+		isMainQuery,
 	};
 }
 

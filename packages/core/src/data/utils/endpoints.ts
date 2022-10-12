@@ -5,4 +5,5 @@ export const endpoints = {
 	category: '/wp-json/wp/v2/categories',
 	tags: '/wp-json/wp/v2/tags',
 	tokenVerify: '/wp-json/headless-wp/v1/token',
+	yoast: '/wp-json/yoast/v1/get_head',
 };

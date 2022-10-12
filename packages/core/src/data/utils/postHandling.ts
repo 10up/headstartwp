@@ -1,4 +1,5 @@
-import { PostEntity, TermEntity } from '../types';
+import { AuthorEntity, PostEntity, TermEntity } from '../types';
+import { removeFields } from './dataFilter';
 
 /**
  * Returns the author object from the post object if it exists
@@ -41,4 +42,28 @@ export function getPostTerms(post: PostEntity): Record<string, TermEntity[]> {
 	});
 
 	return terms;
+}
+
+export function removeFieldsFromPostRelatedData(
+	fieldsToRemove: (keyof TermEntity | keyof AuthorEntity)[],
+	post: PostEntity,
+) {
+	if (post._embedded) {
+		return {
+			...post,
+			_embedded: {
+				...post._embedded,
+				author: post._embedded.author
+					? (removeFields(fieldsToRemove, post._embedded.author) as AuthorEntity[])
+					: [],
+				'wp:term': post._embedded?.['wp:term']
+					? post._embedded['wp:term']?.map(
+							(terms) => removeFields(fieldsToRemove, terms) as TermEntity[],
+					  )
+					: [],
+			},
+		};
+	}
+
+	return post;
 }
