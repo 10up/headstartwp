@@ -96,13 +96,6 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10/revisions');
-
-		expect(
-			fetchStrategy.buildEndpointURL({
-				postType: ['book', 'page'],
-				id: 10,
-			}),
 		).toEqual('/wp-json/wp/v2/book/10');
 
 		expect(
@@ -111,7 +104,7 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10/revisions');
+		).toEqual('/wp-json/wp/v2/book/10');
 
 		// ensure it thows an error if post type is not defined
 		expect(() =>
@@ -205,7 +198,7 @@ describe('SinglePostFetchStrategy', () => {
 		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?slug=post-name', {});
 	});
 
-	it('handle revisions and draft posts', async () => {
+	it('handle revisions', async () => {
 		const samplePostRevision = { title: 'test', id: 1 };
 		const sampleHeaders = {
 			'x-wp-totalpages': 1,
@@ -218,44 +211,41 @@ describe('SinglePostFetchStrategy', () => {
 		});
 
 		const params = fetchStrategy.getParamsFromURL('/post-name');
-		const revisionParams = { ...params, revision: true };
+		const revisionParams = { ...params, id: 1, revision: true, authToken: 'test token' };
 
-		let results = await fetchStrategy.fetcher(
-			fetchStrategy.buildEndpointURL(revisionParams),
-			revisionParams,
-		);
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(revisionParams), revisionParams);
 
-		expect(results).toMatchObject({
-			// ensure post revisions have a type
-			result: { ...samplePostRevision, type: 'post' },
-			pageInfo: {
-				page: 1,
-				totalPages: 1,
-				totalItems: 1,
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts/1/revisions?per_page=1',
+			{
+				headers: { Authorization: 'Bearer test token' },
 			},
-		});
-
-		// handle draft posts
-		const draftParams = { ...params, id: 10 };
-
-		results = await fetchStrategy.fetcher(
-			fetchStrategy.buildEndpointURL(draftParams),
-			draftParams,
 		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts/1', {
+			headers: { Authorization: 'Bearer test token' },
+		});
+	});
+
+	it('handle draft posts', async () => {
+		const samplePost = { title: 'test', id: 1 };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
 
 		apiGetMock.mockResolvedValue({
 			headers: sampleHeaders,
-			json: samplePostRevision,
+			json: samplePost,
 		});
 
-		expect(results).toMatchObject({
-			// draft posts already comes with type so we don't expect the strategy to add it
-			result: samplePostRevision,
-			pageInfo: {
-				page: 1,
-				totalPages: 1,
-				totalItems: 1,
-			},
+		const params = fetchStrategy.getParamsFromURL('/post-name');
+		const draftParams = { ...params, id: 10, authToken: 'test token' };
+
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(draftParams), draftParams);
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts/10', {
+			headers: { Authorization: 'Bearer test token' },
 		});
 	});
 

@@ -84,7 +84,15 @@ const handlers = [
 		}
 
 		if (id) {
-			results = results.filter((post) => post.id === id);
+			// @ts-expect-error
+			results = results
+				.filter((post) => post.id === id)
+				.map((revision) => ({
+					...revision,
+					// these things are not included in revisions
+					_embedded: undefined,
+					format: undefined,
+				}));
 		}
 
 		return res(ctx.json(results));
