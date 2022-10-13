@@ -31,7 +31,23 @@ export function getHeadlessConfig() {
 		customTaxonomies,
 		redirectStrategy: redirectStrategy || 'none',
 		useWordPressPlugin: useWordPressPlugin || false,
-		sites: sites || [],
+		sites: (sites || []).map((site) => {
+			// if host is not defined but hostUrl is, infer host from hostUrl
+			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {
+				try {
+					const url = new URL(site.hostUrl);
+
+					return {
+						...site,
+						host: url.host,
+					};
+				} catch (e) {
+					return site;
+				}
+			}
+
+			return site;
+		}),
 	};
 
 	return headlessConfig;
@@ -47,6 +63,8 @@ export function getSite(site?: HeadlessConfig) {
 	const settings = getHeadlessConfig();
 	const headlessConfig: HeadlessConfig = {
 		sourceUrl: site?.sourceUrl || settings.sourceUrl,
+		hostUrl: site?.hostUrl,
+		host: site?.host,
 		customPostTypes: site?.customPostTypes || settings.customPostTypes,
 		customTaxonomies: site?.customTaxonomies || settings.customTaxonomies,
 		redirectStrategy: site?.redirectStrategy || settings.redirectStrategy || 'none',

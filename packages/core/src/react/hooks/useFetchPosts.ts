@@ -14,6 +14,7 @@ import {
 import { getCustomTaxonomies } from '../../utils/getHeadlessConfig';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
+import { useSettings } from '../provider';
 
 export type PageType = {
 	/**
@@ -92,6 +93,7 @@ export function useFetchPosts(
 		options,
 		path,
 	);
+	const { sourceUrl } = useSettings();
 
 	const pageType: PageType = {
 		isPostArchive: false,
@@ -128,8 +130,8 @@ export function useFetchPosts(
 		pageType.isPostArchive = true;
 	}
 
-	// TODO...
-	const taxonomies = getCustomTaxonomies(/* Needs base url */);
+	const taxonomies = getCustomTaxonomies(sourceUrl);
+
 	taxonomies.forEach((taxonomy) => {
 		const { slug } = taxonomy;
 		if (queryParams[slug]) {

@@ -26,7 +26,7 @@ export type removeSourceUrlType = {
  * @returns The URL without the Source URL.
  */
 export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSourceUrlType) {
-	// Ensure `sourceUrl` and `frontityUrl` always include a trailing slash. All
+	// Ensure `sourceUrl` and `publicUrl` always include a trailing slash. All
 	// the logic below is based on those variables fulfilling that condition.
 	const sourceUrl = backendUrl.replace(/\/?$/, '/');
 	const appUrl = publicUrl.replace(/\/?$/, '/');
