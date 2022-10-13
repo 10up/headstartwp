@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.4.4
+
+### Patch Changes
+
+- 803299e: Fix previwing revisions of published posts
+
 ## 0.4.3
 
 ### Patch Changes
