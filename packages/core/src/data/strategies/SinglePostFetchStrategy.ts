@@ -1,4 +1,4 @@
-import { getCustomPostType, ConfigError } from '../../utils';
+import { getCustomPostType, ConfigError, EndpointError } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
@@ -11,6 +11,7 @@ import {
 } from './AbstractFetchStrategy';
 import { endpoints, removeFieldsFromPostRelatedData } from '../utils';
 import { removeFields } from '../utils/dataFilter';
+import { apiGet } from '../api';
 
 /**
  * The EndpointParams supported by the [[SinglePostFetchStrategy]]
@@ -65,6 +66,8 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 > {
 	postType: string = 'post';
 
+	revision?: PostEntity;
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -110,10 +113,6 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			}
 		}
 
-		if (revision) {
-			this.setEndpoint(`${this.getEndpoint()}/revisions`);
-		}
-
 		return super.buildEndpointURL(endpointParams);
 	}
 
@@ -129,16 +128,26 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 	): FetchResponse<PostEntity> {
 		const { result } = response;
 
-		if (params.revision && Array.isArray(result)) {
+		if (
+			typeof this.revision !== 'undefined' &&
+			typeof params.id !== 'undefined' &&
+			!Array.isArray(response.result)
+		) {
+			const revisionContent = {
+				content: { ...this.revision.content },
+				excerpt: { ...this.revision.excerpt },
+				title: { ...this.revision.title },
+			};
 			return {
 				...response,
-				result: { ...result[0], type: this.postType },
+				result: { ...response.result, ...revisionContent },
 			};
 		}
 
 		// if fetching by id result is a single object and not array
 		// we want to normalize to an array for consistency
 		if (params.id && !Array.isArray(result)) {
+			this.setEndpoint(this.getDefaultEndpoint());
 			return {
 				...response,
 				result,
@@ -169,6 +178,25 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 		}
 
 		let error;
+		if (params.revision && params.id) {
+			try {
+				const response = await apiGet(
+					`${this.baseURL}${this.getEndpoint()}/revisions?per_page=1`,
+					{
+						headers: {
+							Authorization: `Bearer ${options.bearerToken}`,
+						},
+					},
+				);
+
+				if (Array.isArray(response.json) && response.json.length > 0) {
+					this.revision = response.json[0];
+				}
+			} catch (e) {
+				throw new EndpointError('Unable to fetch latest revision');
+			}
+		}
+
 		try {
 			const result = await super.fetcher(url, params, options);
 
