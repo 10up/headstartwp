@@ -9,6 +9,7 @@ const sampleYoast = {
 	description: 'test',
 };
 const sampleResult = {
+	id: 0,
 	yoast_head: 'this should be removed',
 	yoast_head_json: sampleYoast,
 	'theme.json': sampleThemeJson,
@@ -26,12 +27,14 @@ describe('addHookData', () => {
 			{
 				key: 'first-key',
 				data: {
+					queriedObject: {},
 					result: { ...sampleResult },
 					pageInfo: { ...samplePageInfo },
 				},
+				isMainQuery: true,
 			},
 		];
-		expect(addHookData(hookStates, {})).toEqual({
+		expect(addHookData(hookStates, {})).toMatchObject({
 			props: {
 				fallback: {
 					'first-key': {
@@ -56,13 +59,15 @@ describe('addHookData', () => {
 			{
 				key: 'first-key',
 				data: {
+					queriedObject: {},
 					result: [{ ...sampleResult }, { ...sampleResult }, { ...sampleResult }],
 					pageInfo: samplePageInfo,
 				},
+				isMainQuery: false,
 			},
 		];
 
-		expect(addHookData(hookStates, {})).toEqual({
+		expect(addHookData(hookStates, {})).toMatchObject({
 			props: {
 				fallback: {
 					'first-key': {
@@ -70,17 +75,14 @@ describe('addHookData', () => {
 							{
 								yoast_head: null,
 								yoast_head_json: null,
-								'theme.json': null,
 							},
 							{
 								yoast_head: null,
 								yoast_head_json: null,
-								'theme.json': null,
 							},
 							{
 								yoast_head: null,
 								yoast_head_json: null,
-								'theme.json': null,
 							},
 						],
 						pageInfo: samplePageInfo,
@@ -89,7 +91,6 @@ describe('addHookData', () => {
 				seo: {
 					yoast_head_json: sampleYoast,
 				},
-				themeJSON: sampleThemeJson,
 			},
 		});
 	});

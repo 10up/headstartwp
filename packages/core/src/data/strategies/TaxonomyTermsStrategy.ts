@@ -1,7 +1,14 @@
 import { ConfigError, getCustomTaxonomy } from '../../utils';
 import { endpoints } from '../utils';
 import { TermEntity } from '../types';
-import { AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
+import {
+	AbstractFetchStrategy,
+	EndpointParams,
+	FetchOptions,
+	FetchResponse,
+	FilterDataOptions,
+} from './AbstractFetchStrategy';
+import { removeFields } from '../utils/dataFilter';
 
 /**
  * The endpoint params supported by [[TaxonomyTermsStrategy]]
@@ -90,7 +97,7 @@ export interface TaxonomyArchiveParams extends EndpointParams {
  * @category Data Fetching
  */
 export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
-	TermEntity,
+	TermEntity[],
 	TaxonomyArchiveParams
 > {
 	defaultTaxonmy = 'category';
@@ -122,5 +129,24 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 		this.setEndpoint(taxonomyObj.endpoint);
 
 		return super.buildEndpointURL(endpointParams);
+	}
+
+	fetcher(
+		url: string,
+		params: Partial<TaxonomyArchiveParams>,
+		options?: Partial<FetchOptions>,
+	): Promise<FetchResponse<TermEntity[]>> {
+		return super.fetcher(url, params, { ...options, throwIfNotFound: false });
+	}
+
+	filterData(data: FetchResponse<TermEntity[]>, filterOptions?: FilterDataOptions<TermEntity[]>) {
+		if (filterOptions) {
+			return super.filterData(data, filterOptions);
+		}
+
+		return {
+			...data,
+			result: removeFields(['yoast_head', '_links'], data.result) as TermEntity[],
+		};
 	}
 }

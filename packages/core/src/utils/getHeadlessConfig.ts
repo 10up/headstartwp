@@ -21,10 +21,12 @@ export function getHeadlessConfig() {
 		customTaxonomies,
 		sourceUrl,
 		sites,
+		hostUrl,
 	} = __10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
 		sourceUrl,
+		hostUrl: hostUrl || '',
 		customPostTypes,
 		customTaxonomies,
 		redirectStrategy: redirectStrategy || 'none',
@@ -185,4 +187,12 @@ export function getCustomPostType(slug: string, sourceUrl?: string) {
 export function getWPUrl() {
 	const { sourceUrl } = getHeadlessConfig();
 	return sourceUrl || '';
+}
+
+/**
+ * Returns the WP URL based on the headless config
+ */
+export function getHostUrl() {
+	const { hostUrl } = getHeadlessConfig();
+	return hostUrl || '';
 }

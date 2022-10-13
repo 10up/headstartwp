@@ -96,13 +96,6 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10/revisions');
-
-		expect(
-			fetchStrategy.buildEndpointURL({
-				postType: ['book', 'page'],
-				id: 10,
-			}),
 		).toEqual('/wp-json/wp/v2/book/10');
 
 		expect(
@@ -111,7 +104,7 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10/revisions');
+		).toEqual('/wp-json/wp/v2/book/10');
 
 		// ensure it thows an error if post type is not defined
 		expect(() =>
@@ -122,7 +115,17 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('fetches content properly', async () => {
-		apiGetMock.mockResolvedValue({ headers: {}, json: [{ id: 1 }] });
+		const samplePost = { title: 'test', id: 1 };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePost],
+		});
+
 		setHeadlessConfig({
 			customPostTypes: [
 				{
@@ -133,9 +136,17 @@ describe('SinglePostFetchStrategy', () => {
 		});
 
 		let params = fetchStrategy.getParamsFromURL('/post-name');
-		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+		const results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
 		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(results).toMatchObject({
+			result: samplePost,
+			pageInfo: {
+				page: 1,
+				totalItems: 1,
+				totalPages: 1,
+			},
+		});
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
@@ -185,6 +196,57 @@ describe('SinglePostFetchStrategy', () => {
 		);
 		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/book?slug=post-name', {});
 		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?slug=post-name', {});
+	});
+
+	it('handle revisions', async () => {
+		const samplePostRevision = { title: 'test', id: 1 };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePostRevision],
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/post-name');
+		const revisionParams = { ...params, id: 1, revision: true, authToken: 'test token' };
+
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(revisionParams), revisionParams);
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts/1/revisions?per_page=1',
+			{
+				headers: { Authorization: 'Bearer test token' },
+			},
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts/1', {
+			headers: { Authorization: 'Bearer test token' },
+		});
+	});
+
+	it('handle draft posts', async () => {
+		const samplePost = { title: 'test', id: 1 };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: samplePost,
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/post-name');
+		const draftParams = { ...params, id: 10, authToken: 'test token' };
+
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(draftParams), draftParams);
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts/10', {
+			headers: { Authorization: 'Bearer test token' },
+		});
 	});
 
 	it('throws errors with bad arguments', async () => {

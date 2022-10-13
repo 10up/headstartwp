@@ -2,13 +2,15 @@ import {
 	fetchRedirect,
 	FilterDataOptions,
 	AbstractFetchStrategy,
-	Entity,
 	EndpointParams,
 	FetchResponse,
 	getHeadlessConfig,
 	getSite,
+	FetchOptions,
 } from '@10up/headless-core';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
+import { unstable_serialize } from 'swr';
+import { PreviewData } from '../handlers/types';
 
 /**
  * The supported options for {@link fetchHookData}
@@ -22,7 +24,12 @@ export interface FetchHookDataOptions {
 	/**
 	 * Optional. If set, the data will be filtered given {@link FilterDataOptions}
 	 */
-	filterData?: FilterDataOptions;
+	filterData?: FilterDataOptions<any>;
+
+	/**
+	 * Optional. If set, will fowardh fetch options to the fetch strategy
+	 */
+	fetchStrategyOptions?: FetchOptions;
 }
 
 /**
@@ -92,13 +99,12 @@ export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPro
  * @category Next.js Data Fetching Utilities
  */
 export async function fetchHookData(
-	fetchStrategy: AbstractFetchStrategy<Entity, EndpointParams>,
-	ctx: GetServerSidePropsContext | GetStaticPropsContext,
+	fetchStrategy: AbstractFetchStrategy<any, EndpointParams>,
+	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions = {},
 ) {
 	const { sourceUrl } = getSiteFromContext(ctx);
 	const params = options?.params || {};
-	const filterDataOptions = options?.filterData || { method: 'ALLOW', fields: ['*'] };
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
@@ -108,43 +114,47 @@ export async function fetchHookData(
 		path = Array.isArray(ctx.params.path) ? ctx.params.path : [ctx.params.path || ''];
 	}
 
-	const urlParams = fetchStrategy.getParamsFromURL(convertToPath(path), params);
+	const stringPath = convertToPath(path);
+	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
-	const endpointUrlForKey = fetchStrategy.buildEndpointURL({ ...finalParams, sourceUrl });
+	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
 
 	const isPreviewRequest =
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
 
 	if (ctx.preview && ctx.previewData && isPreviewRequest) {
-		// @ts-expect-error (TODO: fix this)
 		finalParams.id = ctx.previewData.id;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.revision = ctx.previewData.revision;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.postType = ctx.previewData.postType;
-		// @ts-expect-error (TODO: fix this)
 		finalParams.authToken = ctx.previewData.authToken;
 	}
 
 	const data = await fetchStrategy.fetcher(
 		fetchStrategy.buildEndpointURL(finalParams),
 		finalParams,
+		options.fetchStrategyOptions,
 	);
 
-	return { key: endpointUrlForKey, data: fetchStrategy.filterData(data, filterDataOptions) };
+	return {
+		key: unstable_serialize(key),
+		data: fetchStrategy.filterData(data, options.filterData),
+		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
+	};
 }
 
 type ExpectedHookStateResponse = {
 	yoast_head_json: Record<string, any> | null;
 	yoast_head: string | null;
 	'theme.json': Record<string, any> | null;
+	id: number;
 };
 
 export type HookState = {
 	key: string;
 	data: FetchResponse<ExpectedHookStateResponse> | FetchResponse<ExpectedHookStateResponse[]>;
+	isMainQuery: boolean;
 };
 
 /**
@@ -176,42 +186,67 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	let seo_json = {};
 	let themeJSON = {};
 
-	hookStates.filter(Boolean).forEach((hookState) => {
+	const validHookStates = hookStates.filter(Boolean);
+	const mainQuery = validHookStates.find((hookState) => hookState.isMainQuery);
+	const appSettings = validHookStates.find((hookState) => hookState.data?.result?.['theme.json']);
+
+	// the seo should come from main query if there is any
+	if (mainQuery) {
+		if (mainQuery.data.queriedObject.search?.yoast_head_json) {
+			seo_json = { ...mainQuery.data.queriedObject.search?.yoast_head_json };
+		} else if (mainQuery.data.queriedObject.author?.yoast_head_json) {
+			seo_json = { ...mainQuery.data.queriedObject.author?.yoast_head_json };
+		} else if (mainQuery.data.queriedObject.term?.yoast_head_json) {
+			seo_json = { ...mainQuery.data.queriedObject.term?.yoast_head_json };
+		} else if (Array.isArray(mainQuery.data.result) && mainQuery.data.result.length > 0) {
+			if (mainQuery.data.result[0]?.yoast_head_json) {
+				seo_json = { ...mainQuery.data.result[0].yoast_head_json };
+			}
+		} else if (!Array.isArray(mainQuery.data.result)) {
+			if (mainQuery.data.result?.yoast_head_json) {
+				seo_json = { ...mainQuery.data.result.yoast_head_json };
+			}
+		}
+	}
+
+	if (appSettings) {
+		themeJSON = { ...appSettings.data.result['theme.json'] };
+	}
+
+	// process the rest of data to optimize payload and pick seo object if there isn't a main query
+	validHookStates.forEach((hookState) => {
 		const { key, data } = hookState;
+
+		const foundSeo = Object.keys(seo_json).length > 0;
 
 		// we want to keep only one yoast_head_json object and remove everyhing else to reduce
 		// hydration costs
-
 		if (Array.isArray(data.result) && data.result.length > 0) {
-			if (data.result[0]?.yoast_head_json) {
-				seo_json = { ...data.result[0].yoast_head_json };
-			}
-
-			if (data.result[0]?.['theme.json']) {
-				themeJSON = { ...data.result[0]['theme.json'] };
-			}
-
 			data.result.forEach((post) => {
 				if (post?.yoast_head_json) {
+					if (!foundSeo) {
+						seo_json = { ...post.yoast_head_json };
+					}
+
 					post.yoast_head_json = null;
 				}
 				if (post?.yoast_head) {
 					post.yoast_head = null;
 				}
-				if (post?.['theme.json']) {
-					post['theme.json'] = null;
-				}
 			});
 		} else if (!Array.isArray(data.result)) {
 			if (data.result?.yoast_head_json) {
-				seo_json = { ...data.result.yoast_head_json };
+				if (!foundSeo) {
+					seo_json = { ...data.result.yoast_head_json };
+				}
 				data.result.yoast_head_json = null;
 			}
+
 			if (data.result?.yoast_head) {
 				data.result.yoast_head = null;
 			}
+
 			if (data.result?.['theme.json']) {
-				themeJSON = data.result['theme.json'];
 				data.result['theme.json'] = null;
 			}
 		}

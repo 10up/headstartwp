@@ -107,17 +107,15 @@ export interface PostTypeEntity extends Entity {
 	 * Whether or not the object can be pinged.
 	 */
 	ping_status?: 'open' | 'closed';
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 /**
  * Interface for entities from the /wp/v2/posts endpoint.
  */
 export interface PostEntity extends PostTypeEntity {
-	/**
-	 * Type of Post for the object.
-	 */
-	type: 'post';
-
 	/**
 	 * The content for the object.
 	 */
@@ -198,11 +196,6 @@ export interface RevisionEntity extends PostTypeEntity {
  * Interface for entities from the /wp/v2/pages endpoint.
  */
 export interface PageEntity extends PostTypeEntity {
-	/**
-	 * Type of Post for the object.
-	 */
-	type: 'page';
-
 	/**
 	 * The ID for the parent of the object.
 	 */
@@ -479,6 +472,9 @@ export interface TermEntity extends Entity {
 	 * Meta fields.
 	 */
 	meta?: Record<string, unknown>;
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 /**
@@ -545,6 +541,9 @@ export interface AuthorEntity extends Entity {
 	 * Meta fields.
 	 */
 	meta?: Record<string, unknown>;
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 /**
@@ -630,26 +629,20 @@ export interface CommentEntity extends Entity {
  * Interface for entities from the /wp/v2/search endpoint.
  */
 export interface SearchEntity extends Entity {
-	/**
-	 * Unique identifier for the object.
-	 */
-	id: number | string;
-	/**
-	 * The title for the object.
-	 */
-	title: string;
-	/**
-	 * URL to the object.
-	 */
-	url: string;
+	searchedValue: string;
+
 	/**
 	 * Type of Search for the object.
 	 */
-	type: 'post' | 'term' | 'post-format';
+	type: string;
+
 	/**
 	 * Subtype of Search for the object.
 	 */
-	subtype: 'post' | 'page' | 'category' | 'post_tag';
+	subtype: string;
+
+	yoast_head_json: Record<string, any> | null;
+	yoast_head: string | null;
 }
 
 export type Redirect = {
@@ -701,3 +694,25 @@ export interface PageInfo {
 	totalItems: number;
 	page: Number;
 }
+
+/**
+ * The QueriedObject represents the object that the current requests is subjected to.
+ *
+ * Quering by taxonomy and/or author will set the queried object.
+ */
+export type QueriedObject = {
+	/**
+	 * If the request is an author query, this will be populated with the author object
+	 */
+	author?: AuthorEntity;
+
+	/**
+	 * If the request is an term query, this will be populated with the term object
+	 */
+	term?: TermEntity;
+
+	/**
+	 * If the request is an search query, this will be populated with the search entiry object
+	 */
+	search?: SearchEntity;
+};

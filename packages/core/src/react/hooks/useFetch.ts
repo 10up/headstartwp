@@ -1,8 +1,10 @@
-import useSWR, { SWRConfiguration } from 'swr';
-import type { EndpointParams, Entity, FetchResponse } from '../../data';
+import useSWR from 'swr';
+import type { EndpointParams, FetchResponse } from '../../data';
 import { AbstractFetchStrategy } from '../../data';
+import { warn } from '../../utils';
 
 import { useSettings } from '../provider';
+import { FetchHookOptions } from './types';
 
 export interface useFetchOptions {
 	shouldFetch?: () => boolean;
@@ -21,10 +23,10 @@ export interface useFetchOptions {
  * @category Data Fetching Hooks
  *
  */
-export function useFetch<E extends Entity, Params extends EndpointParams>(
+export function useFetch<E, Params extends EndpointParams, R = E>(
 	params: Params,
-	fetchStrategy: AbstractFetchStrategy<E, Params>,
-	options: SWRConfiguration<FetchResponse<E>> = {},
+	fetchStrategy: AbstractFetchStrategy<E, Params, R>,
+	options: FetchHookOptions<FetchResponse<R>> = {},
 	path = '',
 ) {
 	const { sourceUrl } = useSettings();
@@ -32,13 +34,35 @@ export function useFetch<E extends Entity, Params extends EndpointParams>(
 	fetchStrategy.setBaseURL(sourceUrl);
 
 	const urlParams = fetchStrategy.getParamsFromURL(path, params);
+	const isMainQuery = fetchStrategy.isMainQuery(path, params);
+
 	const finalParams = { ...urlParams, ...params };
 
-	const result = useSWR<FetchResponse<E>>(
-		fetchStrategy.buildEndpointURL({ ...finalParams, sourceUrl }),
-		(url: string) => fetchStrategy.fetcher(url, finalParams),
-		options,
+	const { fetchStrategyOptions, ...validSWROptions } = options;
+
+	// for backwards compat ensure options.swr exists
+	// this would make code that's not namespacing the swr options under `{ swr }` still work.
+	if (!options.swr && Object.keys(validSWROptions).length > 0) {
+		warn(
+			`useSWR options should be passed under the swr namespace. "{ swr: ${JSON.stringify(
+				validSWROptions,
+			)} }"`,
+		);
+
+		// @ts-expect-error
+		options.swr = { ...validSWROptions };
+	}
+
+	const result = useSWR<FetchResponse<R>>(
+		{ url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } },
+		({ args }) =>
+			fetchStrategy.fetcher(
+				fetchStrategy.buildEndpointURL(args),
+				finalParams,
+				fetchStrategyOptions,
+			),
+		options.swr,
 	);
 
-	return { ...result, params: finalParams };
+	return { ...result, params: finalParams, isMainQuery };
 }

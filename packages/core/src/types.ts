@@ -16,6 +16,7 @@ export type HeadlessConfig = {
 	host?: string;
 	locale?: string;
 	sourceUrl?: string;
+	hostUrl?: string;
 	customPostTypes?: CustomPostTypes;
 	customTaxonomies?: CustomTaxonomies;
 	redirectStrategy?: RedirectStrategy;

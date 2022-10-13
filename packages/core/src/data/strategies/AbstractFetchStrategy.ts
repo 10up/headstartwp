@@ -1,6 +1,7 @@
-import { Entity, PageInfo } from '../types';
+import { PageInfo, QueriedObject } from '../types';
 import { apiGet } from '../api';
 import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
+import { acceptFields, removeFields } from '../utils/dataFilter';
 
 /**
  * The base interface for definiting endpoint parameters
@@ -35,6 +36,11 @@ export interface FetchResponse<T> {
 	 * Contains pagination information
 	 */
 	pageInfo: PageInfo;
+
+	/**
+	 * Queried Object information
+	 */
+	queriedObject: QueriedObject;
 }
 
 /**
@@ -52,13 +58,13 @@ export interface FetchOptions {
 	bearerToken?: string;
 }
 
-export interface FilterDataOptions {
+export interface FilterDataOptions<T> {
 	/**
 	 * If method is 'ALLOW' then only the fields specified in the filter will be returned.
 	 * If method is 'REMOVE' then the fields specified in the filter will be removed.
 	 */
 	method: 'ALLOW' | 'REMOVE';
-	fields: string[];
+	fields: (keyof T)[];
 }
 
 /**
@@ -72,7 +78,7 @@ export interface FilterDataOptions {
  *
  * @category Data Fetching
  */
-export abstract class AbstractFetchStrategy<E extends Entity, Params extends EndpointParams> {
+export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R = E> {
 	/**
 	 * Holds the current endpoint for the strategy
 	 */
@@ -143,6 +149,20 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	abstract getParamsFromURL(path: string, nonUrlParams: Partial<Params>): Partial<Params>;
 
 	/**
+	 * Checks if this is the main query for a page
+	 *
+	 * @param path The page name
+	 * @param nonUrlParams The non-url params
+	 */
+	isMainQuery(path: string, nonUrlParams: Partial<Params>) {
+		return (
+			Object.keys(this.getParamsFromURL(path, nonUrlParams)).filter(
+				(param) => param !== '_embed',
+			).length > 0
+		);
+	}
+
+	/**
 	 * Builds the final endpoint URL based on the passed parameters
 	 *
 	 * @param params The params to add to the request
@@ -161,6 +181,15 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		return url;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	prepareResponse(response: FetchResponse<E>, params: Partial<Params>): FetchResponse<R> {
+		return {
+			...response,
+			queriedObject: this.getQueriedObject(response, params),
+			result: response.result as unknown as R,
+		};
+	}
+
 	/**
 	 * The default fetcher function
 	 *
@@ -177,7 +206,7 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		url: string,
 		params: Partial<Params>,
 		options: Partial<FetchOptions> = {},
-	): Promise<FetchResponse<E>> {
+	): Promise<FetchResponse<R>> {
 		const args = {};
 		if (options.bearerToken) {
 			// @ts-expect-error
@@ -213,16 +242,22 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 		}
 
 		const page = Number(params.page) || 1;
-		const response = {
+		const response: FetchResponse<E> = {
 			result: result.json,
 			pageInfo: {
 				totalPages: Number(result.headers['x-wp-totalpages']) || 0,
 				totalItems: Number(result.headers['x-wp-total']) || 0,
 				page,
 			},
+			queriedObject: {},
 		};
 
-		return response;
+		return this.prepareResponse(response, params);
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getQueriedObject(response: FetchResponse<E>, params: Partial<Params>) {
+		return {};
 	}
 
 	/**
@@ -233,47 +268,24 @@ export abstract class AbstractFetchStrategy<E extends Entity, Params extends End
 	 * @param options The options for filtering
 	 * @returns The filtered data
 	 */
-	filterData(data: FetchResponse<E>, options: FilterDataOptions) {
-		const fields = [...options.fields, 'yoast_head_json'];
+	filterData(data: FetchResponse<R>, filterOptions?: FilterDataOptions<R>) {
+		const options = filterOptions ?? { method: 'ALLOW', fields: ['*'] };
+
+		const { fields } = options;
+
 		if (options.method === 'ALLOW') {
 			if (fields[0] === '*') {
 				return data;
 			}
 
-			const allowedData = Array.isArray(data.result) ? [] : {};
-
-			if (Array.isArray(data.result)) {
-				data.result.forEach((record, i) => {
-					// @ts-expect-error
-					allowedData.push({});
-					fields.forEach((field) => {
-						// @ts-expect-error
-						if (data.result[i][field]) {
-							// @ts-expect-error
-							allowedData[i][field] = data.result[i][field];
-						}
-					});
-				});
-			} else {
-				fields.forEach((field) => {
-					allowedData[field] = data.result[field];
-				});
-			}
-
-			return { ...data, result: allowedData };
+			return { ...data, result: acceptFields<R>(fields, data.result) };
 		}
 
 		if (options.method === 'REMOVE') {
-			fields.forEach((field) => {
-				if (Array.isArray(data.result)) {
-					data.result.forEach((record, i) => {
-						// @ts-expect-error
-						delete data.result[i][field];
-					});
-				} else {
-					delete data.result[field];
-				}
-			});
+			return {
+				...data,
+				result: removeFields<R>(fields, data.result),
+			};
 		}
 
 		return data;
