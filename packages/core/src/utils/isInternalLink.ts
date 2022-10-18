@@ -1,6 +1,7 @@
 import { isExternalUrl } from './isExternalUrl';
 import { getWPUrl } from './getHeadlessConfig';
 import { removeSourceUrl } from './removeSourceUrl';
+import { HeadlessConfig } from '../types';
 
 /**
  * Checks if the url is for an internal link
@@ -9,9 +10,12 @@ import { removeSourceUrl } from './removeSourceUrl';
  *
  * @returns
  */
-export function isInternalLink(url: string) {
-	// TODO...
-	const link = removeSourceUrl({ link: url, backendUrl: getWPUrl() });
+export function isInternalLink(url: string, site?: HeadlessConfig) {
+	const link = removeSourceUrl({
+		link: url,
+		backendUrl: site?.sourceUrl ?? getWPUrl(),
+		publicUrl: site?.hostUrl ?? '/',
+	});
 
 	if (isExternalUrl(link)) {
 		return false;

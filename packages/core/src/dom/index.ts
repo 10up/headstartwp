@@ -1,4 +1,5 @@
 import { DOMNode, Element } from 'html-react-parser';
+import { HeadlessConfig } from '../types';
 import { isInternalLink } from '../utils/isInternalLink';
 
 export type isAnchorTagOptions = {
@@ -55,7 +56,11 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  *
  * @returns Whether it's a anchor tag accoriding to the options passed
  */
-export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): node is Element {
+export function isAnchorTag(
+	node: DOMNode,
+	options: isAnchorTagOptions = {},
+	site: HeadlessConfig | undefined = undefined,
+): node is Element {
 	if (!(node instanceof Element)) {
 		return false;
 	}
@@ -75,7 +80,7 @@ export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): no
 			return false;
 		}
 
-		return isInternalLink(href);
+		return isInternalLink(href, site);
 	}
 
 	return true;

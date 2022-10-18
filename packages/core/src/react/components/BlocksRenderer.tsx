@@ -2,7 +2,9 @@ import parse, { HTMLReactParserOptions, domToReact, Element } from 'html-react-p
 import React, { isValidElement, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
 import { isBlock, wpKsesPost } from '../../dom';
+import { HeadlessConfig } from '../../types';
 import { IBlockAttributes } from '../blocks/types';
+import { useSettings } from '../provider';
 
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
@@ -12,7 +14,7 @@ export interface BlockProps {
 	 * A test function receives a domNode and returns a boolean valua indicating
 	 * whether that domNode should be replaced with the react component
 	 */
-	test?: (domNode: Element) => boolean;
+	test?: (domNode: Element, site?: HeadlessConfig) => boolean;
 
 	/**
 	 * An optional exclude function that also receives a domNode and is executed against every child
@@ -20,7 +22,7 @@ export interface BlockProps {
 	 *
 	 * This is useful to selectively disregard certain children of a node when replacing with a react component.
 	 */
-	exclude?: (childNode: Element) => boolean;
+	exclude?: (childNode: Element, site?: HeadlessConfig) => boolean;
 
 	/**
 	 * The tag name of the domNode that should be replaced with the react component
@@ -94,7 +96,7 @@ export interface BlockRendererProps {
 	children?: ReactNode;
 }
 
-const shouldReplaceWithBlock = (block: ReactNode, domNode: Element) => {
+const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: HeadlessConfig) => {
 	if (!isValidElement<BlockProps>(block)) {
 		return false;
 	}
@@ -103,7 +105,7 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element) => {
 	const hasTestFunction = typeof testFn === 'function';
 
 	if (hasTestFunction) {
-		return testFn(domNode);
+		return testFn(domNode, site);
 	}
 
 	if (typeof tagName === 'string' && typeof classList !== 'undefined') {
@@ -140,6 +142,7 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element) => {
  */
 export function BlocksRenderer({ html, ksesAllowList, children }: BlockRendererProps) {
 	const blocks: ReactNode[] = React.Children.toArray(children);
+	const settings = useSettings();
 
 	// Check if components[] has a non-ReactNode type Element
 	// const hasInvalidComponent: boolean = blocks.findIndex((block) => !isValidElement(block)) !== -1;
@@ -182,7 +185,7 @@ export function BlocksRenderer({ html, ksesAllowList, children }: BlockRendererP
 			blocks.forEach((block) => {
 				if (
 					isValidElement<BlockProps>(block) &&
-					shouldReplaceWithBlock(block, domNode as Element)
+					shouldReplaceWithBlock(block, domNode as Element, settings)
 				) {
 					component = React.createElement(
 						block.type,
@@ -200,7 +203,7 @@ export function BlocksRenderer({ html, ksesAllowList, children }: BlockRendererP
 
 										if (
 											typeof block.props.exclude === 'function' &&
-											block.props.exclude(childNode as Element)
+											block.props.exclude(childNode as Element, settings)
 										) {
 											// eslint-disable-next-line react/jsx-no-useless-fragment
 											return <></>;
