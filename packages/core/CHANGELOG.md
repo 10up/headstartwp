@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.4.5-next.0
+
+### Patch Changes
+
+- 35c2f23: Fix previwing revisions of published posts
+
 ## 0.4.4
 
 ### Patch Changes
