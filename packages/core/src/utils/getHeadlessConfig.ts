@@ -75,6 +75,45 @@ export function getSite(site?: HeadlessConfig) {
 }
 
 /**
+ * Finds a site by host and optionally locale
+ *
+ * @param hostOrUrl The hostname
+ *
+ * @returns
+ */
+export function getSiteByHost(hostOrUrl: string, locale?: string) {
+	const settings = getHeadlessConfig();
+	let normalizedHost = hostOrUrl;
+
+	if (normalizedHost.startsWith('https://') || normalizedHost.startsWith('http://')) {
+		try {
+			const { host } = new URL(hostOrUrl);
+			normalizedHost = host;
+		} catch (e) {
+			// do nothing
+		}
+	}
+
+	const site =
+		settings.sites &&
+		settings.sites.find((site) => {
+			const isHost = site.host === normalizedHost;
+
+			if (typeof locale !== 'undefined' && locale) {
+				return isHost && site.locale === locale;
+			}
+
+			return isHost;
+		});
+
+	if (!site) {
+		return null;
+	}
+
+	return getSite(site);
+}
+
+/**
  * Get a site by source url
  *
  * @param sourceUrl

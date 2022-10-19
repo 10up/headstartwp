@@ -4,25 +4,9 @@ import { SWRConfig } from 'swr';
 import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
 
-import { NextRouter, useRouter } from 'next/router';
-import { getHeadlessConfig, getSite } from '@10up/headless-core';
+import { useRouter } from 'next/router';
+import { getSiteByHost } from '@10up/headless-core';
 import { Yoast } from './Yoast';
-
-function getSiteFromRouter(router: NextRouter) {
-	const currentSite = router?.query?.site;
-	const settings = getHeadlessConfig();
-	const site =
-		settings.sites &&
-		settings.sites.find(({ host, locale }) => {
-			if (router.locale) {
-				return host === currentSite && locale === router.locale;
-			}
-
-			return host === currentSite;
-		});
-
-	return getSite(site);
-}
 
 /**
  * The props supported by {@link HeadlessApp}.
@@ -101,10 +85,15 @@ export function HeadlessApp({ settings, children, pageProps, swrConfig = {} }: H
 		swrConfig.revalidateOnMount = false;
 	}
 
-	const siteSettings = useMemo(
-		() => (router?.query?.site ? { ...settings, ...getSiteFromRouter(router) } : settings),
-		[settings, router],
-	);
+	const currentSite = useMemo(() => {
+		if (router.query?.site && !Array.isArray(router.query.site)) {
+			return getSiteByHost(router.query.site, router.locale);
+		}
+
+		return {};
+	}, [router]);
+
+	const siteSettings = useMemo(() => ({ ...settings, ...currentSite }), [settings, currentSite]);
 
 	return (
 		<SettingsProvider settings={siteSettings}>

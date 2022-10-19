@@ -1,9 +1,8 @@
-import { PostEntity, SinglePostFetchStrategy } from '@10up/headless-core';
+import { getSiteByHost, PostEntity, SinglePostFetchStrategy } from '@10up/headless-core';
 import { getCustomPostType, getHeadlessConfig } from '@10up/headless-core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData } from '../data';
 import { PreviewData } from './types';
-import { getSiteFromApiRequest, isMultisiteRequest } from './utils';
 
 /**
  * The options supported by {@link previewHandler}
@@ -85,9 +84,10 @@ export async function previewHandler(
 ) {
 	const { post_id, post_type, is_revision, token } = req.query;
 
-	const { sourceUrl } = isMultisiteRequest(req)
-		? getSiteFromApiRequest(req)
-		: getHeadlessConfig();
+	const site = getSiteByHost(req.headers?.host ?? '');
+	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
+
+	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
 
 	const revision = is_revision === '1';
 	const { data } = await fetchHookData(
