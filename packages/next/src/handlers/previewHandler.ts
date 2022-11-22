@@ -84,6 +84,14 @@ export async function previewHandler(
 ) {
 	const { post_id, post_type, is_revision, token } = req.query;
 
+	if (req.method !== 'GET') {
+		return res.status(401).json({ message: 'Invalid method' });
+	}
+
+	if (!post_id || !token) {
+		return res.status(401).json({ message: 'Missing required params' });
+	}
+
 	const site = getSiteByHost(req.headers?.host ?? '');
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
 
