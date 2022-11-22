@@ -1,5 +1,16 @@
 # @10up/headless-next
 
+## 0.5.0-next.0
+
+### Minor Changes
+
+- ad92a7a: Introducing Multisite support to the headless framework.
+
+### Patch Changes
+
+- Updated dependencies [ad92a7a]
+  - @10up/headless-core@0.5.0-next.0
+
 ## 0.4.3
 
 ### Patch Changes
