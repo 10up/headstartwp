@@ -88,7 +88,7 @@ export async function previewHandler(
 		return res.status(401).json({ message: 'Invalid method' });
 	}
 
-	if (!post_id || !token) {
+	if (!post_id || !token || !post_type) {
 		return res.status(401).json({ message: 'Missing required params' });
 	}
 
@@ -98,59 +98,66 @@ export async function previewHandler(
 	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
 
 	const revision = is_revision === '1';
-	const { data } = await fetchHookData(
-		new SinglePostFetchStrategy(sourceUrl),
-		{
-			params: {
-				path: [],
-				site: req.headers.host,
+	try {
+		const { data } = await fetchHookData(
+			new SinglePostFetchStrategy(sourceUrl),
+			{
+				params: {
+					path: [],
+					site: req.headers.host,
+				},
 			},
-		},
-		{
-			params: {
-				id: post_id,
-				postType: post_type,
+			{
+				params: {
+					id: post_id,
+					postType: post_type,
+					revision,
+					authToken: token,
+				},
+			},
+		);
+
+		const id = Number(post_id);
+
+		const result = Array.isArray(data?.result) ? data.result[0] : data.result;
+
+		if (result?.id === id || result?.parent === id) {
+			const { slug } = result;
+
+			let previewData: PreviewData = {
+				id,
+				postType: post_type as string,
 				revision,
-				authToken: token,
-			},
-		},
-	);
+				authToken: token as string,
+			};
 
-	const id = Number(post_id);
+			if (options.preparePreviewData) {
+				previewData = options.preparePreviewData(req, res, result, previewData);
+			}
 
-	const result = Array.isArray(data?.result) ? data.result[0] : data.result;
-	if (result?.id === id || result?.parent === id) {
-		const { slug } = result;
+			res.setPreviewData(previewData);
 
-		let previewData: PreviewData = {
-			id,
-			postType: post_type as string,
-			revision,
-			authToken: token as string,
-		};
+			const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
 
-		if (options.preparePreviewData) {
-			previewData = options.preparePreviewData(req, res, result, previewData);
+			if (!postTypeDef) {
+				return res.end('Cannot preview an unkown post type');
+			}
+
+			const singleRoute = postTypeDef.single || '/';
+			const prefixRoute = singleRoute === '/' ? '' : singleRoute;
+			const slugOrId = revision ? post_id : slug || post_id;
+
+			if (options?.onRedirect) {
+				return options.onRedirect(req, res, previewData);
+			}
+
+			return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
 		}
-
-		res.setPreviewData(previewData);
-
-		const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
-
-		if (!postTypeDef) {
-			return res.end('Cannot preview an unkown post type');
+	} catch (e) {
+		if (e instanceof Error) {
+			return res.status(401).end(e.message);
 		}
-
-		const singleRoute = postTypeDef.single || '/';
-		const prefixRoute = singleRoute === '/' ? '' : singleRoute;
-		const slugOrId = revision ? post_id : slug || post_id;
-
-		if (options?.onRedirect) {
-			return options.onRedirect(req, res, previewData);
-		}
-
-		return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
 	}
 
-	return res.end('preview mode not enabled');
+	return res.status(401).end('Unable to set preview mode');
 }

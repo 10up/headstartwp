@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import * as React from 'react';
+import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 
@@ -64,7 +65,7 @@ describe('useFetchPost', () => {
 	it('fetches draft posts with authToken', async () => {
 		// 57 is a hardcoded draft post in msw
 		const { result, waitForNextUpdate } = renderHook(
-			() => useFetchPost({ id: 57, authToken: 'Fake Auth Token' }),
+			() => useFetchPost({ id: DRAFT_POST_ID, authToken: VALID_AUTH_TOKEN }),
 			{
 				wrapper,
 			},
