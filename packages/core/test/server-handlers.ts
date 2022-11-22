@@ -5,6 +5,9 @@ interface TestEndpointResponse {
 	ok: boolean;
 }
 
+export const VALID_AUTH_TOKEN = 'this is a valid auth';
+export const DRAFT_POST_ID = 57;
+
 const handlers = [
 	rest.get<DefaultRequestBody, TestEndpointResponse>(/\/test-endpoint/, (req, res, ctx) => {
 		return res(ctx.json({ ok: true }));
@@ -118,8 +121,23 @@ const handlers = [
 		}
 
 		// harcode 57 as a draft post
-		if (id === 57 && !req.headers.has('Authorization')) {
-			return res(ctx.json({ code: 'rest_unauthorized', data: { status: 500 } }));
+		if (id === DRAFT_POST_ID) {
+			if (
+				req.headers.has('Authorization') &&
+				req.headers.get('Authorization') === `Bearer ${VALID_AUTH_TOKEN}`
+			) {
+				return res(ctx.json(results));
+			}
+
+			return res(
+				ctx.json({
+					code: 'rest_cannot_read',
+					message: 'Sorry, you are not allowed to view this post.',
+					data: {
+						status: 401,
+					},
+				}),
+			);
 		}
 
 		return res(ctx.json(results));

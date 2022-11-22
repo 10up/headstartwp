@@ -19,7 +19,7 @@ export class AuthorArchiveFetchStrategy extends PostsArchiveFetchStrategy {
 		nonUrlParams: Partial<PostsArchiveParams> = {},
 	): Partial<PostsArchiveParams> {
 		const matchers = [...authorArchivesMatchers];
-		const customTaxonomies = getCustomTaxonomies();
+		const customTaxonomies = getCustomTaxonomies(this.baseURL);
 
 		customTaxonomies?.forEach((taxonomy) => {
 			const slug = taxonomy?.rewrite ?? taxonomy.slug;

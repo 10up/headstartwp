@@ -20,6 +20,7 @@ export function getHeadlessConfig() {
 		useWordPressPlugin,
 		customTaxonomies,
 		sourceUrl,
+		sites,
 		hostUrl,
 	} = __10up__HEADLESS_CONFIG;
 
@@ -30,16 +31,106 @@ export function getHeadlessConfig() {
 		customTaxonomies,
 		redirectStrategy: redirectStrategy || 'none',
 		useWordPressPlugin: useWordPressPlugin || false,
+		sites: (sites || []).map((site) => {
+			// if host is not defined but hostUrl is, infer host from hostUrl
+			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {
+				try {
+					const url = new URL(site.hostUrl);
+
+					return {
+						...site,
+						host: url.host,
+					};
+				} catch (e) {
+					return site;
+				}
+			}
+
+			return site;
+		}),
 	};
 
 	return headlessConfig;
 }
 
 /**
+ * Get a config for a specific site
+ *
+ * @param site
+ * @returns
+ */
+export function getSite(site?: HeadlessConfig) {
+	const settings = getHeadlessConfig();
+	const headlessConfig: HeadlessConfig = {
+		sourceUrl: site?.sourceUrl || settings.sourceUrl,
+		hostUrl: site?.hostUrl,
+		host: site?.host,
+		customPostTypes: site?.customPostTypes || settings.customPostTypes,
+		customTaxonomies: site?.customTaxonomies || settings.customTaxonomies,
+		redirectStrategy: site?.redirectStrategy || settings.redirectStrategy || 'none',
+		useWordPressPlugin: site?.useWordPressPlugin || settings.useWordPressPlugin || false,
+	};
+
+	return headlessConfig;
+}
+
+/**
+ * Finds a site by host and optionally locale
+ *
+ * @param hostOrUrl The hostname
+ *
+ * @returns
+ */
+export function getSiteByHost(hostOrUrl: string, locale?: string) {
+	const settings = getHeadlessConfig();
+	let normalizedHost = hostOrUrl;
+
+	if (normalizedHost.startsWith('https://') || normalizedHost.startsWith('http://')) {
+		try {
+			const { host } = new URL(hostOrUrl);
+			normalizedHost = host;
+		} catch (e) {
+			// do nothing
+		}
+	}
+
+	const site =
+		settings.sites &&
+		settings.sites.find((site) => {
+			const isHost = site.host === normalizedHost;
+
+			if (typeof locale !== 'undefined' && locale) {
+				return isHost && site.locale === locale;
+			}
+
+			return isHost;
+		});
+
+	if (!site) {
+		return null;
+	}
+
+	return getSite(site);
+}
+
+/**
+ * Get a site by source url
+ *
+ * @param sourceUrl
+ * @returns HeadlessConfig
+ */
+export function getSiteBySourceUrl(sourceUrl: string) {
+	const settings = getHeadlessConfig();
+	const site = settings.sites && settings.sites.find((site) => site.sourceUrl === sourceUrl);
+
+	return getSite(site);
+}
+
+/**
  * Returns the avaliable taxonomy slugs
  */
-export function getCustomTaxonomySlugs() {
-	const { customTaxonomies } = getHeadlessConfig();
+export function getCustomTaxonomySlugs(sourceUrl?: string) {
+	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
 
 	if (!customTaxonomies) {
 		return [];
@@ -51,8 +142,8 @@ export function getCustomTaxonomySlugs() {
 /**
  * Returns the avaliable taxonomies
  */
-export function getCustomTaxonomies() {
-	const { customTaxonomies } = getHeadlessConfig();
+export function getCustomTaxonomies(sourceUrl?: string) {
+	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
 
 	const taxonomies = customTaxonomies || [];
 
@@ -85,8 +176,8 @@ export function getCustomTaxonomies() {
  * @param slug post type slug
  
  */
-export function getCustomTaxonomy(slug: string) {
-	const taxonomies = getCustomTaxonomies();
+export function getCustomTaxonomy(slug: string, sourceUrl?: string) {
+	const taxonomies = getCustomTaxonomies(sourceUrl);
 
 	return taxonomies?.find((taxonomy) => taxonomy.slug === slug);
 }
@@ -95,8 +186,8 @@ export function getCustomTaxonomy(slug: string) {
  * Returns the avaliable post type slugs
  *
  */
-export function getCustomPostTypesSlugs() {
-	const { customPostTypes } = getHeadlessConfig();
+export function getCustomPostTypesSlugs(sourceUrl?: string) {
+	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
 
 	if (!customPostTypes) {
 		return [];
@@ -108,8 +199,8 @@ export function getCustomPostTypesSlugs() {
 /**
  * Returns the avaliable post types
  */
-export function getCustomPostTypes() {
-	const { customPostTypes } = getHeadlessConfig();
+export function getCustomPostTypes(sourceUrl?: string) {
+	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
 
 	const postTypes = customPostTypes || [];
 
@@ -141,8 +232,8 @@ export function getCustomPostTypes() {
  *
  * @param slug post type slug
  */
-export function getCustomPostType(slug: string) {
-	const postTypes = getCustomPostTypes();
+export function getCustomPostType(slug: string, sourceUrl?: string) {
+	const postTypes = getCustomPostTypes(sourceUrl);
 
 	return postTypes?.find((postType) => postType.slug === slug);
 }

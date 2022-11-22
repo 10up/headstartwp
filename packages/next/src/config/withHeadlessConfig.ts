@@ -1,5 +1,6 @@
 import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 import { NextConfig } from 'next';
+import { Rewrite } from 'next/dist/lib/load-custom-routes';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -55,7 +56,7 @@ export function withHeadlessConfig(
 	nextConfig: NextConfig = {},
 	headlessConfig: HeadlessConfig = {},
 ): NextConfig {
-	if (!headlessConfig.sourceUrl) {
+	if (!headlessConfig.sourceUrl && !headlessConfig.sites) {
 		throw new ConfigError(
 			'Missing sourceUrl in headless.config.js. Please add it to your headless.config.js file.',
 		);
@@ -65,13 +66,17 @@ export function withHeadlessConfig(
 
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];
 
-	try {
-		const imageMainDomain = new URL(headlessConfig.sourceUrl || '');
+	const sites = headlessConfig.sites || [headlessConfig];
 
-		imageDomains.push(imageMainDomain.hostname);
-	} catch (e) {
-		// do nothing
-	}
+	sites.forEach((site) => {
+		try {
+			const imageMainDomain = new URL(site.sourceUrl || '');
+
+			imageDomains.push(imageMainDomain.hostname);
+		} catch (e) {
+			// do nothing
+		}
+	});
 
 	return {
 		...nextConfig,
@@ -84,38 +89,45 @@ export function withHeadlessConfig(
 			domains: imageDomains,
 		},
 		async rewrites() {
-			const wpUrl = headlessConfig.sourceUrl;
-			return [
-				{
-					source: '/cache-healthcheck',
-					destination: '/api/cache-healthcheck',
-				},
-				{
-					source: '/block-library.css',
-					destination: `${wpUrl}/wp-includes/css/dist/block-library/style.min.css`,
-				},
-				{
-					source: '/feed',
-					destination: `${wpUrl}/feed`,
-				},
-				// Yoast redirects sitemap.xml to sitemap_index.xml,
-				// doing this upfront to avoid being redirected to the wp domain
-				{
-					source: '/sitemap.xml',
-					destination: `${wpUrl}/sitemap_index.xml`,
-				},
-				// this matches anything that has sitemap and ends with .xml.
-				// This could probably be fine tuned but this should do the trick
-				{
-					// eslint-disable-next-line
-					source: "/:sitemap(.*sitemap.*\.xml)",
-					destination: `${wpUrl}/:sitemap`,
-				},
-				{
-					source: '/ads.txt',
-					destination: `${wpUrl}/ads.txt`,
-				},
-			];
+			const rewrites: Rewrite[] = [];
+			sites.forEach((site) => {
+				const wpUrl = site.sourceUrl;
+				const isMultisite = sites.length >= 1;
+				rewrites.push(
+					...[
+						{
+							source: `${isMultisite && '/_sites/:site'}/cache-healthcheck`,
+							destination: '/api/cache-healthcheck',
+						},
+						{
+							source: `${isMultisite && '/_sites/:site'}/block-library.css`,
+							destination: `${wpUrl}/wp-includes/css/dist/block-library/style.min.css`,
+						},
+						{
+							source: `${isMultisite && '/_sites/:site'}/feed`,
+							destination: `${wpUrl}/feed`,
+						},
+						// Yoast redirects sitemap.xml to sitemap_index.xml,
+						// doing this upfront to avoid being redirected to the wp domain
+						{
+							source: `${isMultisite && '/_sites/:site'}/sitemap.xml`,
+							destination: `${wpUrl}/sitemap_index.xml`,
+						},
+						// this matches anything that has sitemap and ends with .xml.
+						// This could probably be fine tuned but this should do the trick
+						{
+							// eslint-disable-next-line
+						source: `${isMultisite && '/_sites/:site'}/:sitemap(.*sitemap.*\.xml)`,
+							destination: `${wpUrl}/:sitemap`,
+						},
+						{
+							source: `${isMultisite && '/_sites/:site'}/ads.txt`,
+							destination: `${wpUrl}/ads.txt`,
+						},
+					],
+				);
+			});
+			return rewrites;
 		},
 
 		webpack: (config, options) => {

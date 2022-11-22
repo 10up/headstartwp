@@ -1,4 +1,5 @@
 import { isInternalLink } from '..';
+import { HeadlessConfig } from '../../types';
 
 jest.mock('../getHeadlessConfig', () => {
 	return {
@@ -33,5 +34,14 @@ describe('isInternalLink', () => {
 		expect(isInternalLink('https://externalurl.com/')).toBe(false);
 
 		expect(isInternalLink('https://externalurl.com')).toBe(false);
+	});
+
+	it('returns true for internal links of subsites', () => {
+		const site: HeadlessConfig = {
+			sourceUrl: 'https://backendurl.com/site1',
+		};
+
+		expect(isInternalLink('https://backendurl.com/site1/', site)).toBe(true);
+		expect(isInternalLink('https://backendurl.com/site2/', site)).toBe(false);
 	});
 });

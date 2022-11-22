@@ -96,7 +96,7 @@ describe('removeSourceUrl', () => {
 		).toEqual('/post-name-1#id');
 	});
 
-	it('adds subdirectory if frontity url contains it', () => {
+	it('adds subdirectory if public url contains it', () => {
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/folder/post-name-1',

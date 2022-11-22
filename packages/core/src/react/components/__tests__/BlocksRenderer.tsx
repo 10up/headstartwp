@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react';
 import { DOMNode, Element } from 'html-react-parser';
+import { isAnchorTag } from '../../../dom';
+import { SettingsProvider } from '../../provider';
 
 import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
 
@@ -130,6 +132,37 @@ describe('BlocksRenderer', () => {
         <div>
           This Will not Become a p tag
         </div>
+      </div>
+    `);
+	});
+
+	it('passes the current site site to test function', () => {
+		const InternalLink: React.FC<BlockProps> = () => {
+			return <p>INTERNAL LINK</p>;
+		};
+
+		const { container } = render(
+			<SettingsProvider settings={{ sourceUrl: 'https://sourceurl.com/site1' }}>
+				<BlocksRenderer html="<a href='https://sourceurl.com/site1/post-name'>link</a><a href='https://sourceurl.com/site2/post-name'>not internal link</a>">
+					<InternalLink
+						test={(node, site) => {
+							return isAnchorTag(node, { isInternalLink: true }, site);
+						}}
+					/>
+				</BlocksRenderer>
+			</SettingsProvider>,
+		);
+
+		expect(container).toMatchInlineSnapshot(`
+      <div>
+        <p>
+          INTERNAL LINK
+        </p>
+        <a
+          href="https://sourceurl.com/site2/post-name"
+        >
+          not internal link
+        </a>
       </div>
     `);
 	});

@@ -35,7 +35,11 @@ export type LinkBlockProps = {
 export function LinkBlock({ domNode, children }: LinkBlockProps) {
 	const { href, rel, className } = getAttributes(domNode.attribs);
 	const settings = useSettings();
-	const link = removeSourceUrl({ link: href, backendUrl: settings.sourceUrl || '' });
+	const link = removeSourceUrl({
+		link: href,
+		backendUrl: settings.sourceUrl || '',
+		publicUrl: settings.hostUrl ?? '/',
+	});
 	const Component = typeof settings.linkComponent === 'function' ? settings.linkComponent : Link;
 
 	return (
@@ -54,6 +58,6 @@ export function LinkBlock({ domNode, children }: LinkBlockProps) {
 // eslint-disable-next-line no-redeclare
 export namespace LinkBlock {
 	export const defaultProps = {
-		test: (node) => isAnchorTag(node, { isInternalLink: true }),
+		test: (node, site) => isAnchorTag(node, { isInternalLink: true }, site),
 	};
 }

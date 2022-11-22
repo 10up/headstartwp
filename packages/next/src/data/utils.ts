@@ -1,13 +1,13 @@
 import {
-	getWPUrl,
 	fetchRedirect,
 	FilterDataOptions,
 	AbstractFetchStrategy,
 	EndpointParams,
 	FetchResponse,
+	getHeadlessConfig,
+	getSite,
 	FetchOptions,
 } from '@10up/headless-core';
-import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
 import { unstable_serialize } from 'swr';
 import { PreviewData } from '../handlers/types';
@@ -48,6 +48,28 @@ export function convertToPath(args: string[] | undefined) {
 }
 
 /**
+ * Get site using context
+ *
+ * @param ctx
+ * @returns HeadlessConfig
+ */
+export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPropsContext) {
+	const currentSite = ctx?.params?.site;
+	const settings = getHeadlessConfig();
+	const site =
+		settings.sites &&
+		settings.sites.find(({ host, locale }) => {
+			if (ctx.locale) {
+				return host === currentSite && locale === ctx.locale;
+			}
+
+			return host === currentSite;
+		});
+
+	return getSite(site);
+}
+
+/**
  * A function that implementeds data fetching on the server. This should be used in `getServerSideProps`
  * or `getStaticProps`.
  *
@@ -81,10 +103,10 @@ export async function fetchHookData(
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions = {},
 ) {
-	const wpURL = getWPUrl();
+	const { sourceUrl } = getSiteFromContext(ctx);
 	const params = options?.params || {};
 
-	fetchStrategy.setBaseURL(wpURL);
+	fetchStrategy.setBaseURL(sourceUrl);
 
 	let path: string[] = [];
 
@@ -97,7 +119,7 @@ export async function fetchHookData(
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
-	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams } };
+	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
 
 	const isPreviewRequest =
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
@@ -281,7 +303,7 @@ export async function handleError(
 	ctx: GetServerSidePropsContext,
 	rootRoute: string = '',
 ): Promise<GetServerSidePropsResult<{}>> {
-	const { redirectStrategy } = getHeadlessConfig();
+	const { redirectStrategy, sourceUrl } = getSiteFromContext(ctx);
 
 	if (error.name === 'NotFoundError') {
 		let pathname = '';
@@ -296,7 +318,7 @@ export async function handleError(
 		}
 
 		if (redirectStrategy === '404' && pathname) {
-			const redirect = await fetchRedirect(pathname);
+			const redirect = await fetchRedirect(pathname, sourceUrl || '');
 
 			if (redirect.location) {
 				return {

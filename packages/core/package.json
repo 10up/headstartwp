@@ -21,7 +21,8 @@
     "./react": {
       "require": "./dist/cjs/react/index.js",
       "import": "./dist/mjs/react/index.js"
-    }
+    },
+    "./test": "./test/server.ts"
   },
   "files": [
     "dist"

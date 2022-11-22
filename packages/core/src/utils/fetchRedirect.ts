@@ -1,5 +1,3 @@
-import { getWPUrl } from './getHeadlessConfig';
-
 type RedirectData = {
 	/**
 	 * The redirect new locaton
@@ -23,8 +21,8 @@ type RedirectData = {
  *
  * @returns The redirect data
  */
-export async function fetchRedirect(pathname: string): Promise<RedirectData> {
-	const wpURL = getWPUrl().replace(/\/$/, '');
+export async function fetchRedirect(pathname: string, sourceUrl: string): Promise<RedirectData> {
+	const wpURL = sourceUrl.replace(/\/$/, '');
 	// Remove the trailing slash before concatenating the link
 	const redirectionURL = `${wpURL + pathname.replace(/\/$/, '')}/`;
 
