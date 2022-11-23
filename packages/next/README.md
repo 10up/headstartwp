@@ -4,7 +4,7 @@
 
 In addition to the default export, this packages also exports:
 - `@10up/headless-next/config`: For using with `next.config.js` or `next.config.mjs`
-- `@!0up/headless-next/middlewares`: Contains next.js middlewares. Exported separately as the next.js middleware runtime is limited and can only run a subset of APIs.
+- `@10up/headless-next/middlewares`: Contains next.js middlewares. Exported separately as the next.js middleware runtime is limited and can only run a subset of APIs.
 
 ## Installation
 
