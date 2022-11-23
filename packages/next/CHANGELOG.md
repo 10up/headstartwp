@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.5.0-next.1
+
+### Patch Changes
+
+- 5b9bc8b: Merge rewrites config.
+
 ## 0.5.0-next.0
 
 ### Minor Changes
