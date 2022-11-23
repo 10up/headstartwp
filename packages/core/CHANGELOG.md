@@ -1,5 +1,41 @@
 # @10up/headless-core
 
+## 0.5.0-next.1
+
+### Patch Changes
+
+- 6bd469a: add js-xss options param to wpKsesPost and expposing sanitizeFn function to BlocksRenderer
+
+  ## wpKsesPost
+
+  e.g
+
+  ```javascript
+  wpKsesPost(
+      `<p data-post='${JSON.stringify(json_object)}'>Hello World</p>`,
+      {
+          p: ['data-post'],
+      },
+      {
+          onTag(tag, html, options) {
+              if (options.isWhite && tag === 'p') {
+                  return html;
+              }
+
+              return undefined;
+          },
+      },
+  ),
+  ```
+
+  ## BlocksRenderer
+
+  ```javascript
+  <BlocksRenderer html={html} sanitizeFn={html => mySanitizitationFn(html)}>
+    {children}
+  </BLocksRenderer>
+  ```
+
 ## 0.5.0-next.0
 
 ### Minor Changes
