@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import { DOMNode, Element } from 'html-react-parser';
+import * as React from 'react';
 import { isAnchorTag } from '../../../dom';
 import { SettingsProvider } from '../../provider';
-
 import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
 
 describe('BlocksRenderer', () => {
@@ -136,7 +136,7 @@ describe('BlocksRenderer', () => {
     `);
 	});
 
-	it('passes the current site site to test function', () => {
+	it('passes the current site to test function', () => {
 		const InternalLink: React.FC<BlockProps> = () => {
 			return <p>INTERNAL LINK</p>;
 		};

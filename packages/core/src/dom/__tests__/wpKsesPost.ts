@@ -39,4 +39,34 @@ describe('wp_kses_post', () => {
 			),
 		).toEqual('<p class="test"><iframe src="http://example.com"></iframe>Hello World</p>');
 	});
+
+	it('supports json in attributes', () => {
+		const json_object = { post_id: 1, slug: 'test', link: 'https://example.com' };
+		expect(
+			wpKsesPost(
+				`<p data-post='${JSON.stringify(json_object)}'>Hello World</p>`,
+				{
+					p: ['data-post'],
+				},
+				{
+					onTag(tag, html, options) {
+						if (options.isWhite && tag === 'p') {
+							return html;
+						}
+
+						return undefined;
+					},
+				},
+			),
+		).toEqual(`<p data-post='${JSON.stringify(json_object)}'>Hello World</p>`);
+	});
+
+	it('supports json in script tags', () => {
+		const json_object = { post_id: 1, slug: 'test', link: 'https://example.com' };
+		expect(
+			wpKsesPost(`<script type="text/json-block">${JSON.stringify(json_object)}</script>`, {
+				script: ['type'],
+			}),
+		).toEqual(`<script type="text/json-block">${JSON.stringify(json_object)}</script>`);
+	});
 });
