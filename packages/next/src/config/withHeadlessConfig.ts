@@ -66,6 +66,7 @@ export function withHeadlessConfig(
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];
 
 	const sites = headlessConfig.sites || [headlessConfig];
+	const isMultisite = (headlessConfig?.sites?.length ?? 0) > 0;
 
 	sites.forEach((site) => {
 		try {
@@ -93,7 +94,6 @@ export function withHeadlessConfig(
 
 			sites.forEach((site) => {
 				const wpUrl = site.sourceUrl;
-				const isMultisite = sites.length >= 1;
 				const prefix = isMultisite ? '/_sites/:site' : '';
 				const defaultRewrites = [
 					{
