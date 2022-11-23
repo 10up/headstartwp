@@ -94,34 +94,35 @@ export function withHeadlessConfig(
 			sites.forEach((site) => {
 				const wpUrl = site.sourceUrl;
 				const isMultisite = sites.length >= 1;
+				const prefix = isMultisite ? '/_sites/:site' : '';
 				const defaultRewrites = [
 					{
-						source: `${isMultisite && '/_sites/:site'}/cache-healthcheck`,
+						source: `${prefix}/cache-healthcheck`,
 						destination: '/api/cache-healthcheck',
 					},
 					{
-						source: `${isMultisite && '/_sites/:site'}/block-library.css`,
+						source: `${prefix}/block-library.css`,
 						destination: `${wpUrl}/wp-includes/css/dist/block-library/style.min.css`,
 					},
 					{
-						source: `${isMultisite && '/_sites/:site'}/feed`,
+						source: `${prefix}/feed`,
 						destination: `${wpUrl}/feed`,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
 					// doing this upfront to avoid being redirected to the wp domain
 					{
-						source: `${isMultisite && '/_sites/:site'}/sitemap.xml`,
+						source: `${prefix}/sitemap.xml`,
 						destination: `${wpUrl}/sitemap_index.xml`,
 					},
 					// this matches anything that has sitemap and ends with .xml.
 					// This could probably be fine tuned but this should do the trick
 					{
 						// eslint-disable-next-line
-						source: `${isMultisite && '/_sites/:site'}/:sitemap(.*sitemap.*\.xml)`,
+						source: `${prefix}/:sitemap(.*sitemap.*\.xml)`,
 						destination: `${wpUrl}/:sitemap`,
 					},
 					{
-						source: `${isMultisite && '/_sites/:site'}/ads.txt`,
+						source: `${prefix}/ads.txt`,
 						destination: `${wpUrl}/ads.txt`,
 					},
 				];
