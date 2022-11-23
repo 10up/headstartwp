@@ -3,6 +3,7 @@ import React, { isValidElement, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
 import { isBlock, wpKsesPost } from '../../dom';
 import { HeadlessConfig } from '../../types';
+import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
 import { useSettings } from '../provider';
 
@@ -88,6 +89,13 @@ export interface BlockRendererProps {
 	ksesAllowList?: IWhiteList;
 
 	/**
+	 * A custom implementation of the sanitize function.
+	 *
+	 * If none is provided it's going to default to [[wpKsesPost]]
+	 */
+	sanitizeFn?: (html: string, ksesAllowList?: IWhiteList) => string;
+
+	/**
 	 * The children components that must implements {@link BlockProps}. Failing to implement {@link BlockProps}
 	 * will issue a warning at runtime.
 	 *
@@ -140,7 +148,7 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: Headl
  *
  * @category React Components
  */
-export function BlocksRenderer({ html, ksesAllowList, children }: BlockRendererProps) {
+export function BlocksRenderer({ html, ksesAllowList, sanitizeFn, children }: BlockRendererProps) {
 	const blocks: ReactNode[] = React.Children.toArray(children);
 	const settings = useSettings();
 
@@ -171,12 +179,13 @@ export function BlocksRenderer({ html, ksesAllowList, children }: BlockRendererP
 		}) !== -1;
 
 	if (hasInvalidComponent) {
-		console.warn(
-			'Children of <BlocksRenderer /> component should be a type of ReactNode<BlockProps>',
-		);
+		warn('Children of <BlocksRenderer /> component should be a type of ReactNode<BlockProps>');
 	}
 
-	const cleanedHTML = wpKsesPost(html, ksesAllowList);
+	const cleanedHTML =
+		typeof sanitizeFn === 'function'
+			? sanitizeFn(html, ksesAllowList)
+			: wpKsesPost(html, ksesAllowList);
 
 	const options: HTMLReactParserOptions = {
 		replace: (domNode) => {
