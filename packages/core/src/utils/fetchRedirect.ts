@@ -1,4 +1,6 @@
-type RedirectData = {
+import { removeSourceUrl } from './removeSourceUrl';
+
+export type RedirectData = {
 	/**
 	 * The redirect new locaton
 	 *
@@ -37,13 +39,14 @@ export async function fetchRedirect(pathname: string, sourceUrl: string): Promis
 		response.status === 307 ||
 		response.status === 308
 	) {
-		const location = response.headers.get('location') || '';
-
 		try {
-			const url = new URL(location);
+			const location = removeSourceUrl({
+				link: response.headers.get('location') || '',
+				backendUrl: sourceUrl,
+			});
 
 			return {
-				location: url.pathname,
+				location,
 				status: response.status,
 			};
 		} catch (e) {
