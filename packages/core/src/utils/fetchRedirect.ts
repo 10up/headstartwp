@@ -16,6 +16,28 @@ export type RedirectData = {
 	status: number;
 };
 
+const skipURLs = ['wp-login.php', 'wp-register.php', 'wp-admin'];
+
+function shouldSkipRedirect(link: string, redirect: string, sourceUrl: string) {
+	const linkURL = new URL(link, sourceUrl);
+	const redirectURL = new URL(redirect, sourceUrl);
+
+	if (skipURLs.some((path) => redirectURL.pathname.includes(path))) {
+		return true;
+	}
+
+	const linkParams = linkURL.searchParams;
+	const redirectParams = redirectURL.searchParams;
+
+	linkParams.sort();
+	redirectParams.sort();
+
+	return (
+		linkURL.pathname === redirectURL.pathname &&
+		linkParams.toString() === redirectParams.toString()
+	);
+}
+
 /**
  * Fetches a redirect from the WordPress origin by making a HEAD request and checking the response
  *
@@ -44,6 +66,10 @@ export async function fetchRedirect(pathname: string, sourceUrl: string): Promis
 				link: response.headers.get('location') || '',
 				backendUrl: sourceUrl,
 			});
+
+			if (shouldSkipRedirect(pathname, location, sourceUrl)) {
+				throw new Error('Unable to redirect');
+			}
 
 			return {
 				location,
