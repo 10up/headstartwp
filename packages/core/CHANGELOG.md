@@ -1,5 +1,13 @@
 # @10up/headless-core
 
+## 0.5.0-next.2
+
+### Patch Changes
+
+- 4c52fbc: Improve redirect handling in `fetchRedirect`.
+
+  It nows detects redirects that might cause infinite loop and ignore redirects for `wp-login.php`, `wp-register.php` and `wp-admin`.
+
 ## 0.5.0-next.1
 
 ### Patch Changes
