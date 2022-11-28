@@ -1,4 +1,6 @@
-type RedirectData = {
+import { removeSourceUrl } from './removeSourceUrl';
+
+export type RedirectData = {
 	/**
 	 * The redirect new locaton
 	 *
@@ -13,6 +15,28 @@ type RedirectData = {
 	 */
 	status: number;
 };
+
+const skipURLs = ['wp-login.php', 'wp-register.php', 'wp-admin'];
+
+function shouldSkipRedirect(link: string, redirect: string, sourceUrl: string) {
+	const linkURL = new URL(link, sourceUrl);
+	const redirectURL = new URL(redirect, sourceUrl);
+
+	if (skipURLs.some((path) => redirectURL.pathname.includes(path))) {
+		return true;
+	}
+
+	const linkParams = linkURL.searchParams;
+	const redirectParams = redirectURL.searchParams;
+
+	linkParams.sort();
+	redirectParams.sort();
+
+	return (
+		linkURL.pathname === redirectURL.pathname &&
+		linkParams.toString() === redirectParams.toString()
+	);
+}
 
 /**
  * Fetches a redirect from the WordPress origin by making a HEAD request and checking the response
@@ -37,13 +61,18 @@ export async function fetchRedirect(pathname: string, sourceUrl: string): Promis
 		response.status === 307 ||
 		response.status === 308
 	) {
-		const location = response.headers.get('location') || '';
-
 		try {
-			const url = new URL(location);
+			const location = removeSourceUrl({
+				link: response.headers.get('location') || '',
+				backendUrl: sourceUrl,
+			});
+
+			if (shouldSkipRedirect(pathname, location, sourceUrl)) {
+				throw new Error('Unable to redirect');
+			}
 
 			return {
-				location: url.pathname,
+				location,
 				status: response.status,
 			};
 		} catch (e) {
