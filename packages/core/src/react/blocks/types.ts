@@ -71,6 +71,7 @@ export type Border = {
 export interface IBlockAttributes {
 	name: string;
 	className?: string;
+	style?: Record<string, string>;
 	domNode?: Element;
 	htmlAnchor?: string;
 	children?: ReactNode;

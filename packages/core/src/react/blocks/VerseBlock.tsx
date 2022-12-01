@@ -8,7 +8,7 @@ export interface VerseBlockProps extends IBlockAttributes {}
 
 export interface IVerseBlock extends IBlock<VerseBlockProps> {}
 
-export function VerseBlock({ domNode: node, component: Component, children }: IVerseBlock) {
+export function VerseBlock({ domNode: node, component: Component, children, style }: IVerseBlock) {
 	const { className, name } = useBlock<VerseBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -19,6 +19,7 @@ export function VerseBlock({ domNode: node, component: Component, children }: IV
 			className={className || ''}
 			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
+			style={style}
 		>
 			{children}
 		</Component>

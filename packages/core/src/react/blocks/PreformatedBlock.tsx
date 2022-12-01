@@ -12,6 +12,7 @@ export function PreformattedBlock({
 	domNode: node,
 	component: Component,
 	children,
+	style,
 }: IPreformattedBlock) {
 	const { className, name } = useBlock<PreformattedBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
@@ -23,6 +24,7 @@ export function PreformattedBlock({
 			className={className || ''}
 			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
+			style={style}
 		>
 			{children}
 		</Component>

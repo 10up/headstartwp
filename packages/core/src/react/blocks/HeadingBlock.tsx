@@ -9,7 +9,12 @@ export interface HeadingBlockProps extends IBlockAttributes {
 
 export interface IHeadingBlock extends IBlock<HeadingBlockProps> {}
 
-export function HeadingBlock({ domNode: node, children, component: Component }: IHeadingBlock) {
+export function HeadingBlock({
+	domNode: node,
+	children,
+	component: Component,
+	style,
+}: IHeadingBlock) {
 	const { name, className, attributes } = useBlock<HeadingBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -22,6 +27,7 @@ export function HeadingBlock({ domNode: node, children, component: Component }: 
 			className={className}
 			level={level}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>

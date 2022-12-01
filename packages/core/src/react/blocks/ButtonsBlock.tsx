@@ -25,12 +25,23 @@ export interface IButtonsBlock extends IBlock<ButtonsBlockProps> {}
  *
  * @param props Component properties
  */
-export function ButtonsBlock({ domNode: node, children, component: Component }: IButtonsBlock) {
+export function ButtonsBlock({
+	domNode: node,
+	children,
+	component: Component,
+	style,
+}: IButtonsBlock) {
 	const { name, className } = useBlock(node);
 	const blockAttributes = useBlockAttributes(node);
 
 	return (
-		<Component name={name} domNode={node} className={className} attributes={blockAttributes}>
+		<Component
+			name={name}
+			domNode={node}
+			className={className}
+			attributes={blockAttributes}
+			style={style}
+		>
 			{children}
 		</Component>
 	);

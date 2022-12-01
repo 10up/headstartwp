@@ -21,7 +21,7 @@ export interface CoverBlockProps extends IBlockAttributes {
 
 export interface ICoverBlock extends IBlock<CoverBlockProps> {}
 
-export function CoverBlock({ domNode: node, children, component: Component }: ICoverBlock) {
+export function CoverBlock({ domNode: node, children, component: Component, style }: ICoverBlock) {
 	const { name, className, attributes } = useBlock<CoverBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -40,6 +40,7 @@ export function CoverBlock({ domNode: node, children, component: Component }: IC
 			isRepeated={!!attributes.isRepeated}
 			focalPoint={attributes.focalPoint}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>
