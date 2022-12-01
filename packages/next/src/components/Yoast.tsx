@@ -27,7 +27,7 @@ export function Yoast({ seo }) {
 				<>
 					<meta
 						name="robots"
-						content={`${seo.yoast_head_json.robots.index}, ${seo.yoast_head_json.robots.follow}`}
+						content={Object.values(seo.yoast_head_json.robots).join(', ')}
 					/>
 					{seo.hide_on_google_news ? (
 						<meta name="Googlebot-News" content="noindex" />
@@ -71,6 +71,12 @@ export function Yoast({ seo }) {
 					/>
 				</>
 			)}
+			{seo && seo.yoast_head_json && seo.yoast_head_json.article_modified_time && (
+				<meta
+					property="article:modified_time"
+					content={seo.yoast_head_json.article_modified_time}
+				/>
+			)}
 
 			{/* Twitter Meta Tags */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_card && (
@@ -88,6 +94,15 @@ export function Yoast({ seo }) {
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_image && (
 				<meta name="twitter:image" content={seo.yoast_head_json.twitter_image} />
 			)}
+			{seo &&
+				seo.yoast_head_json &&
+				seo.yoast_head_json.twitter_misc &&
+				Object.entries(seo.yoast_head_json.twitter_misc).map(([label, data], index) => (
+					<>
+						<meta name={`twitter:label${index + 1}`} content={label} />
+						<meta name={`twitter:data${index + 1}`} content={String(data)} />
+					</>
+				))}
 			{/* JSON-LD Schema */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.schema && (
 				<script
