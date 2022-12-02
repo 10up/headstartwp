@@ -3,7 +3,7 @@ import { Border, IBlockAttributes } from '../types';
 import { useBlock } from './useBlock';
 
 interface BlockBorderAttributes extends IBlockAttributes {
-	style: {
+	styleConfig: {
 		border: Border;
 	};
 }
@@ -17,5 +17,5 @@ interface BlockBorderAttributes extends IBlockAttributes {
 export function useBlockBorder(node: Element) {
 	const { attributes } = useBlock<BlockBorderAttributes>(node);
 
-	return attributes?.style?.border;
+	return attributes?.styleConfig?.border;
 }
