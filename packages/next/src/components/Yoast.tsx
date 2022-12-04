@@ -1,8 +1,9 @@
-import { getHostUrl, getWPUrl, removeSourceUrl } from '@10up/headless-core';
+import { removeSourceUrl } from '@10up/headless-core';
+import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
 
-function convertUrl(url: string) {
-	return `${getHostUrl()}${removeSourceUrl({ link: url, backendUrl: getWPUrl() })}`;
+function convertUrl(url, hostUrl, sourceUrl) {
+	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
 }
 
 /**
@@ -14,6 +15,7 @@ function convertUrl(url: string) {
  * @category React Components
  */
 export function Yoast({ seo }) {
+	const { hostUrl = '', sourceUrl = '' } = useSettings();
 	return (
 		<Head>
 			{seo?.yoast_head_json?.title && <title>{seo.yoast_head_json.title}</title>}
@@ -21,7 +23,10 @@ export function Yoast({ seo }) {
 				<meta name="description" content={seo.yoast_head_json.description} />
 			)}
 			{seo?.yoast_head_json?.canonical && (
-				<link rel="canonical" href={convertUrl(seo.yoast_head_json.canonical)} />
+				<link
+					rel="canonical"
+					href={convertUrl(seo.yoast_head_json.canonical, hostUrl, sourceUrl)}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.robots && (
 				<>
@@ -49,7 +54,10 @@ export function Yoast({ seo }) {
 				<meta property="og:description" content={seo.yoast_head_json.og_description} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_url && (
-				<meta property="og:url" content={convertUrl(seo.yoast_head_json.og_url)} />
+				<meta
+					property="og:url"
+					content={convertUrl(seo.yoast_head_json.og_url, hostUrl, sourceUrl)}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_site_name && (
 				<meta property="og:site_name" content={seo.yoast_head_json.og_site_name} />
@@ -108,7 +116,10 @@ export function Yoast({ seo }) {
 				<script
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(seo.yoast_head_json.schema),
+						__html: JSON.stringify(seo.yoast_head_json.schema).replace(
+							new RegExp(sourceUrl, 'g'),
+							hostUrl,
+						),
 					}}
 				/>
 			)}
