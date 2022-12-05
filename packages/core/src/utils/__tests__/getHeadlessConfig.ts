@@ -23,7 +23,7 @@ describe('getHeadlessConfig', () => {
 	});
 
 	it('sets host for sites if host is not set and hostUrl is', () => {
-		expect(getHeadlessConfig()?.sites?.[0]?.host).toEqual('site1.com');
+		expect(getHeadlessConfig()?.sites?.[0]?.host).toBe('site1.com');
 	});
 });
 
@@ -51,23 +51,21 @@ describe('getSiteByHost', () => {
 	});
 
 	it('finds sites by host even if host is not set but hostUrl is', () => {
-		expect(getSiteByHost('site1.com')?.sourceUrl).toEqual('https://sourceurl.com/site1');
+		expect(getSiteByHost('site1.com')?.sourceUrl).toBe('https://sourceurl.com/site1');
 
-		expect(getSiteByHost('site2.com')?.sourceUrl).toEqual('https://sourceurl.com/site2');
+		expect(getSiteByHost('site2.com')?.sourceUrl).toBe('https://sourceurl.com/site2');
 	});
 
 	it('also accepts URLs', () => {
-		expect(getSiteByHost('https://site1.com')?.sourceUrl).toEqual(
-			'https://sourceurl.com/site1',
-		);
+		expect(getSiteByHost('https://site1.com')?.sourceUrl).toBe('https://sourceurl.com/site1');
 	});
 
 	it('takes into account the locale', () => {
-		expect(getSiteByHost('https://site1.com', 'en')?.sourceUrl).toEqual(
+		expect(getSiteByHost('https://site1.com', 'en')?.sourceUrl).toBe(
 			'https://sourceurl.com/site1',
 		);
 
-		expect(getSiteByHost('site2.com', 'es')?.sourceUrl).toEqual('https://sourceurl.com/site2');
+		expect(getSiteByHost('site2.com', 'es')?.sourceUrl).toBe('https://sourceurl.com/site2');
 
 		expect(getSiteByHost('site2.com', 'en')).toBeNull();
 		expect(getSiteByHost('site1.com', 'es')).toBeNull();

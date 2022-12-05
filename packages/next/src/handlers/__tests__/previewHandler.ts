@@ -36,7 +36,7 @@ describe('previewHandler', () => {
 		await previewHandler(req, res);
 
 		expect(res._getStatusCode()).toBe(401);
-		expect(res._getData()).toEqual('Sorry, you are not allowed to view this post.');
+		expect(res._getData()).toBe('Sorry, you are not allowed to view this post.');
 	});
 
 	it('works if a valid auth token is provided', async () => {

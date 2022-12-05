@@ -9,8 +9,8 @@ describe('fetchRedirect', () => {
 	it('catches redirect', async () => {
 		const result = await fetchRedirect('/redirect-test', 'http://example.com/');
 
-		expect(result.location).toEqual('/redirected-page');
-		expect(result.status).toEqual(301);
+		expect(result.location).toBe('/redirected-page');
+		expect(result.status).toBe(301);
 	});
 
 	it('does not cause infinite loops', async () => {
