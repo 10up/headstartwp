@@ -44,19 +44,15 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('bulds the endpoint url properly', () => {
-		expect(fetchStrategy.buildEndpointURL({ slug: 'post-name' })).toEqual(
+		expect(fetchStrategy.buildEndpointURL({ slug: 'post-name' })).toBe(
 			'/wp-json/wp/v2/posts?slug=post-name',
 		);
 
 		let params = fetchStrategy.getParamsFromURL('/2021/10/30/parent/post-name');
-		expect(fetchStrategy.buildEndpointURL(params)).toEqual(
-			'/wp-json/wp/v2/posts?slug=post-name',
-		);
+		expect(fetchStrategy.buildEndpointURL(params)).toBe('/wp-json/wp/v2/posts?slug=post-name');
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/30/post-name');
-		expect(fetchStrategy.buildEndpointURL(params)).toEqual(
-			'/wp-json/wp/v2/posts?slug=post-name',
-		);
+		expect(fetchStrategy.buildEndpointURL(params)).toBe('/wp-json/wp/v2/posts?slug=post-name');
 
 		setHeadlessConfig({
 			customPostTypes: [
@@ -72,7 +68,7 @@ describe('SinglePostFetchStrategy', () => {
 				slug: 'book-name',
 				postType: 'book',
 			}),
-		).toEqual('/wp-json/wp/v2/book?slug=book-name');
+		).toBe('/wp-json/wp/v2/book?slug=book-name');
 
 		// when passing multiple post types, buildEndpointUrl should use the first one to build the URL
 		// Then fetch method would later fetch the rest of the post types if needed
@@ -81,14 +77,14 @@ describe('SinglePostFetchStrategy', () => {
 				slug: 'book-name',
 				postType: ['page', 'book'],
 			}),
-		).toEqual('/wp-json/wp/v2/pages?slug=book-name');
+		).toBe('/wp-json/wp/v2/pages?slug=book-name');
 
 		expect(
 			fetchStrategy.buildEndpointURL({
 				postType: 'book',
 				id: 10,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10');
+		).toBe('/wp-json/wp/v2/book/10');
 
 		expect(
 			fetchStrategy.buildEndpointURL({
@@ -96,7 +92,7 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10');
+		).toBe('/wp-json/wp/v2/book/10');
 
 		expect(
 			fetchStrategy.buildEndpointURL({
@@ -104,7 +100,7 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10');
+		).toBe('/wp-json/wp/v2/book/10');
 
 		// ensure it thows an error if post type is not defined
 		expect(() =>
