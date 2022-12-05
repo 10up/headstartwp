@@ -14,7 +14,7 @@ export interface GroupBlockProps extends IBlockAttributes {
 
 export interface IGroupBlock extends IBlock<GroupBlockProps> {}
 
-export function GroupBlock({ domNode: node, children, component: Component }: IGroupBlock) {
+export function GroupBlock({ domNode: node, children, component: Component, style }: IGroupBlock) {
 	const { name, className, attributes } = useBlock<GroupBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -27,6 +27,7 @@ export function GroupBlock({ domNode: node, children, component: Component }: IG
 			tagName={attributes.tagName}
 			layout={attributes.layout}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>

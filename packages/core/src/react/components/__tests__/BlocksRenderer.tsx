@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
-import { DOMNode, Element } from 'html-react-parser';
-import * as React from 'react';
+import { DOMNode, domToReact, Element } from 'html-react-parser';
+import React, { ReactElement } from 'react';
 import { isAnchorTag } from '../../../dom';
 import { SettingsProvider } from '../../provider';
 import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
@@ -165,5 +165,42 @@ describe('BlocksRenderer', () => {
         </a>
       </div>
     `);
+	});
+
+	it('passes the inline styles as an object to the component', () => {
+		const FlexDiv: React.FC<BlockProps> = ({ domNode, style, children }) => {
+			if (style && style.display !== 'flex') {
+				style.display = 'flex';
+
+				return <div style={style}>{children}</div>;
+			}
+
+			return domToReact([domNode as DOMNode]) as ReactElement;
+		};
+
+		const { container } = render(
+			<BlocksRenderer html="<div style='display:flex;'>first content</div><div style='display:block;'>second content</div>">
+				<FlexDiv
+					test={(node) => {
+						return node.name === 'div';
+					}}
+				/>
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchInlineSnapshot(`
+      <div>
+        <div
+          style="display: flex;"
+        >
+          first content
+        </div>
+        <div
+          style="display: flex;"
+        >
+          second content
+        </div>
+      </div>
+	`);
 	});
 });

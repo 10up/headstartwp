@@ -6,6 +6,7 @@ import { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
 import { useSettings } from '../provider';
+import { getInlineStyles } from '../blocks/utils';
 
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
@@ -49,7 +50,12 @@ export interface BlockProps {
 	 *
 	 * Note: the children of the domNode are recursively parsed.
 	 */
-	children?: ReactNode | undefined;
+	children?: ReactNode;
+
+	/**
+	 * The style tag of the domNode as an object.
+	 */
+	style?: Record<string, string>;
 }
 
 /**
@@ -196,11 +202,14 @@ export function BlocksRenderer({ html, ksesAllowList, sanitizeFn, children }: Bl
 					isValidElement<BlockProps>(block) &&
 					shouldReplaceWithBlock(block, domNode as Element, settings)
 				) {
+					const style = getInlineStyles(domNode as Element);
+
 					component = React.createElement(
 						block.type,
 						{
 							...block.props,
 							domNode,
+							style: style || undefined,
 						},
 						(domNode as Element)?.children
 							? domToReact((domNode as Element)?.children, {

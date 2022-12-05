@@ -5,7 +5,7 @@ import { getColorStyles } from '../utils';
 import { useBlock } from './useBlock';
 
 interface ColorBlockAttributes extends IBlockAttributes, Colors {
-	style?: {
+	styleConfig?: {
 		elements?: {
 			link?: {
 				color?: {
@@ -69,10 +69,10 @@ export function useBlockColors(node: Element) {
 		color.gradient = allGradients.find((c) => c.slug === attributes.gradient)?.gradient;
 	}
 
-	if (attributes?.style?.elements?.link?.color?.text) {
+	if (attributes?.styleConfig?.elements?.link?.color?.text) {
 		foundInAttributes = true;
 		color.linkColorSlug =
-			attributes?.style?.elements?.link?.color?.text?.split('|').pop() || '';
+			attributes?.styleConfig?.elements?.link?.color?.text?.split('|').pop() || '';
 		color.linkColor = allColors.find((c) => c.slug === color.linkColorSlug)?.color;
 	}
 

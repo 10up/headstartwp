@@ -2,7 +2,6 @@ import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
-import { getInlineStyles } from './utils';
 
 export interface SpacerBlockProps extends IBlockAttributes {
 	height?: string;
@@ -10,11 +9,15 @@ export interface SpacerBlockProps extends IBlockAttributes {
 
 export interface ISpacerBlock extends IBlock<SpacerBlockProps> {}
 
-export function SpacerBlock({ domNode: node, children, component: Component }: ISpacerBlock) {
+export function SpacerBlock({
+	domNode: node,
+	children,
+	component: Component,
+	style,
+}: ISpacerBlock) {
 	const { name, className } = useBlock<SpacerBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
-	const style = getInlineStyles(node);
 	const height = style ? style.height : '';
 	return (
 		<Component
@@ -24,6 +27,7 @@ export function SpacerBlock({ domNode: node, children, component: Component }: I
 			htmlAnchor={node.attribs.id || ''}
 			height={height}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>

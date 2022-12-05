@@ -55,7 +55,7 @@ export interface IAudioBlock extends IBlock<AudioBlockProps> {}
  * @param props Component properties
  *
  */
-export function AudioBlock({ domNode: node, children, component: Component }: IAudioBlock) {
+export function AudioBlock({ domNode: node, children, component: Component, style }: IAudioBlock) {
 	const { name, className } = useBlock(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -75,6 +75,7 @@ export function AudioBlock({ domNode: node, children, component: Component }: IA
 			loop={!!audioAttributes.loop}
 			preload={audioAttributes.preload}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>
