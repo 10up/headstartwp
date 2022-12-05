@@ -30,7 +30,7 @@
     "@typescript-eslint/parser": "^4.31.2",
     "concurrently": "^6.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-jest": "^25.2.4",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
     "turbo": "^1.2.11",

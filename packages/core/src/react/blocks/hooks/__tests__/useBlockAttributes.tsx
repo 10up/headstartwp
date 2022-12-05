@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { Element } from 'html-react-parser';
 import { useBlockAttributes } from '../useBlockAttributes';
 

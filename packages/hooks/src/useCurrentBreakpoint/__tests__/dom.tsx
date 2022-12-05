@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { renderHook, act } from '@testing-library/react-hooks/dom';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { useCurrentBreakpoint } from '../..';
 import { BreakpointsProvider } from '../../context';
 

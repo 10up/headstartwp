@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks/server';
+import { renderHook } from '@testing-library/react-hooks';
 import { useEffectAfterRender } from '../..';
 
 describe('useEffectAfterRender', () => {

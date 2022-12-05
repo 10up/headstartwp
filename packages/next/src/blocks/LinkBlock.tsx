@@ -43,11 +43,8 @@ export function LinkBlock({ domNode, children }: LinkBlockProps) {
 	const Component = typeof settings.linkComponent === 'function' ? settings.linkComponent : Link;
 
 	return (
-		<Component href={link}>
-			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-			<a rel={rel} className={className}>
-				{children}
-			</a>
+		<Component href={link} rel={rel} className={className}>
+			{children}
 		</Component>
 	);
 }

@@ -10,8 +10,8 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "test": "jest --selectProjects dom ssr",
-    "test:watch": "jest --selectProjects dom ssr --watch",
+    "test": "jest --selectProjects dom",
+    "test:watch": "jest --selectProjects dom --watch",
     "create-hook": "plop"
   },
   "exports": {
