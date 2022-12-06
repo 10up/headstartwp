@@ -5,7 +5,7 @@ import { useBlock } from './useBlock';
 
 interface BlockTypographyAttributes extends IBlockAttributes {
 	fontSize?: string;
-	style: {
+	styleConfig: {
 		typography: {
 			lineHeight?: string;
 			textTransform?: string;
@@ -57,9 +57,9 @@ export function useBlockTypography(node: Element): Typography {
 			supportsLineHight,
 			supportsTextDecoration,
 			supportsTextTransform,
-			lineHeight: attributes?.style?.typography?.lineHeight,
-			textTransform: attributes?.style?.typography?.textTransform,
-			letterSpacing: attributes?.style?.typography?.letterSpacing,
+			lineHeight: attributes?.styleConfig?.typography?.lineHeight,
+			textTransform: attributes?.styleConfig?.typography?.textTransform,
+			letterSpacing: attributes?.styleConfig?.typography?.letterSpacing,
 		};
 	}
 

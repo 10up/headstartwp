@@ -10,7 +10,12 @@ export interface ParagraphBlockProps extends IBlockAttributes {
 
 export interface IParagraphBlock extends IBlock<ParagraphBlockProps> {}
 
-export function ParagraphBlock({ domNode: node, component: Component, children }: IParagraphBlock) {
+export function ParagraphBlock({
+	domNode: node,
+	component: Component,
+	children,
+	style,
+}: IParagraphBlock) {
 	const { className, name, attributes } = useBlock<ParagraphBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -21,6 +26,7 @@ export function ParagraphBlock({ domNode: node, component: Component, children }
 			className={className || ''}
 			attributes={blockAttributes}
 			dropCap={attributes?.dropCap || false}
+			style={style}
 		>
 			{children}
 		</Component>

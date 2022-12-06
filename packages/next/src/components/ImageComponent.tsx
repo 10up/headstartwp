@@ -22,14 +22,14 @@ import { ImageBlockProps } from '@10up/headless-core/react';
  *
  * @category React Components
  */
-export function ImageComponent({ src, alt, width, height, children }: ImageBlockProps) {
+export function ImageComponent({ src, alt, width, height, children, style }: ImageBlockProps) {
 	if (!src) {
 		return children;
 	}
 
 	if (!width || !height) {
-		<Image src={src} alt={alt || ''} fill />;
+		<Image src={src} alt={alt || ''} fill style={style} />;
 	}
 
-	return <Image src={src} alt={alt || ''} width={width} height={height} />;
+	return <Image src={src} alt={alt || ''} width={width} height={height} style={style} />;
 }

@@ -59,7 +59,12 @@ export interface IButtonBlock extends IBlock<ButtonBlockProps> {}
  * @param props Component properties
  *
  */
-export function ButtonBlock({ domNode: node, children, component: Component }: IButtonBlock) {
+export function ButtonBlock({
+	domNode: node,
+	children,
+	component: Component,
+	style,
+}: IButtonBlock) {
 	const { className, name } = useBlock(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -78,6 +83,7 @@ export function ButtonBlock({ domNode: node, children, component: Component }: I
 			placeholder={anchor.attribs.placeholder}
 			text={text}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>

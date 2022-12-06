@@ -9,7 +9,7 @@ export interface ListBlockProps extends IBlockAttributes {
 
 export interface IListBlock extends IBlock<ListBlockProps> {}
 
-export function ListBlock({ domNode: node, children, component: Component }: IListBlock) {
+export function ListBlock({ domNode: node, children, component: Component, style }: IListBlock) {
 	const { name, className, attributes } = useBlock<ListBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -21,6 +21,7 @@ export function ListBlock({ domNode: node, children, component: Component }: ILi
 			htmlAnchor={node.attribs.id || ''}
 			ordered={!!attributes.ordered}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>

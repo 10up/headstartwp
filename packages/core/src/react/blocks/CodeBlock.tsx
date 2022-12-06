@@ -29,12 +29,18 @@ export interface ICodeBlock extends IBlock<CodeBlockProps> {}
  *
  * @param props Component properties
  */
-export function CodeBlock({ domNode: node, children, component: Component }: ICodeBlock) {
+export function CodeBlock({ domNode: node, children, component: Component, style }: ICodeBlock) {
 	const { name, className } = useBlock(node);
 	const blockAttributes = useBlockAttributes(node);
 
 	return (
-		<Component name={name} domNode={node} className={className} attributes={blockAttributes}>
+		<Component
+			name={name}
+			domNode={node}
+			className={className}
+			attributes={blockAttributes}
+			style={style}
+		>
 			{children}
 		</Component>
 	);

@@ -7,7 +7,12 @@ export interface SeparatorBlockProps extends IBlockAttributes {}
 
 export interface ISeparatorBlock extends IBlock<SeparatorBlockProps> {}
 
-export function SeparatorBlock({ domNode: node, children, component: Component }: ISeparatorBlock) {
+export function SeparatorBlock({
+	domNode: node,
+	children,
+	component: Component,
+	style,
+}: ISeparatorBlock) {
 	const { name, className } = useBlock<SeparatorBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -18,6 +23,7 @@ export function SeparatorBlock({ domNode: node, children, component: Component }
 			className={className}
 			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
+			style={style}
 		>
 			{children}
 		</Component>

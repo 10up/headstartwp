@@ -8,12 +8,23 @@ export interface ColumnsBlockProps extends IBlockAttributes {}
 
 export interface IColumnsBlock extends IBlock<ColumnsBlockProps> {}
 
-export function ColumnsBlock({ domNode: node, children, component: Component }: IColumnsBlock) {
+export function ColumnsBlock({
+	domNode: node,
+	children,
+	component: Component,
+	style,
+}: IColumnsBlock) {
 	const { name, className } = useBlock(node);
 	const blockAttributes = useBlockAttributes(node);
 
 	return (
-		<Component name={name} domNode={node} className={className} attributes={blockAttributes}>
+		<Component
+			name={name}
+			domNode={node}
+			className={className}
+			attributes={blockAttributes}
+			style={style}
+		>
 			{children}
 		</Component>
 	);
