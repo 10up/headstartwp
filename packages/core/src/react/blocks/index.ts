@@ -21,3 +21,4 @@ export * from './YoutubeLiteBlock';
 export * from './FileBlock';
 export * from './MediaTextBlock';
 export * from './ImageBlock';
+export * from './hooks';
