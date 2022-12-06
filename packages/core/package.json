@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-core",
-  "version": "0.5.0-next.2",
+  "version": "0.5.0-next.3",
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
@@ -42,7 +42,7 @@
   "license": "ISC",
   "devDependencies": {
     "@testing-library/dom": "^8.19.0",
-    "@testing-library/react": "^13.4.0",    
+    "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.0.3",
     "@types/node-fetch": "^2.5.3",
     "jest": "^29.3.1",
