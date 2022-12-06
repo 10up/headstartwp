@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.5.0-next.4
+
+### Patch Changes
+
+- d7c9871: Export block-related hooks
+
 ## 0.5.0-next.3
 
 ### Minor Changes
