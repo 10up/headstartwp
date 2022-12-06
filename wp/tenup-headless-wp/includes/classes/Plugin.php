@@ -63,13 +63,32 @@ class Plugin {
 			return $html;
 		}
 
+		$block_attrs = $block['attrs'];
+
+		/**
+		 * Filter's out the block's attributes before serializing in the block markup.
+		 * 
+		 * @param Array $attrs The Block's Attributes
+		 * @param Array $block The Block's schema
+		 */
+		$block_attrs = apply_filters( 'tenup_headless_wp_render_block_attrs', $block_attrs, $block );
+
 		$attrs             = $doc->createAttribute( 'data-wp-block' );
-		$attrs->value      = wp_json_encode( $block['attrs'] );
+		$attrs->value      = wp_json_encode( $block_attrs );
 		$block_name        = $doc->createAttribute( 'data-wp-block-name' );
 		$block_name->value = $block['blockName'];
 
 		$root_node->appendChild( $attrs );
 		$root_node->appendChild( $block_name );
+
+		/**
+		 * Filter's the block's DOMElement before rendering
+		 * 
+		 * @param \DOMElement $root_node
+		 * @param string $html The original block markup
+		 * @param Array $block The Block's schema
+		 */	
+		$root_node = apply_filters( 'tenup_headless_wp_render_block_markup', $root_node, $html, $block );
 
 		return $doc->saveHTML();
 	}
