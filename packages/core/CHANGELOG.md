@@ -1,5 +1,17 @@
 # @10up/headless-core
 
+## 0.5.0-next.3
+
+### Minor Changes
+
+- 73e2dc6: Parses the style attribute of HTML elements into an object, and passes that object down as a prop through the BlocksRenderer component.
+
+  Also updates block components to pass style down as a prop to the provided components.
+
+  Closes [#240](https://github.com/10up/headless/issues/240)
+
+- 7e3a45e: Add React 18 and Next.js 13 support.
+
 ## 0.5.0-next.2
 
 ### Patch Changes
