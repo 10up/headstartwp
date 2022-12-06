@@ -67,7 +67,7 @@ class Plugin {
 
 		/**
 		 * Filter's out the block's attributes before serializing in the block markup.
-		 * 
+		 *
 		 * @param Array $attrs The Block's Attributes
 		 * @param Array $block The Block's schema
 		 */
@@ -82,12 +82,12 @@ class Plugin {
 		$root_node->appendChild( $block_name );
 
 		/**
-		 * Filter's the block's DOMElement before rendering
-		 * 
+		 * Filter the block's DOMElement before rendering
+		 *
 		 * @param \DOMElement $root_node
 		 * @param string $html The original block markup
 		 * @param Array $block The Block's schema
-		 */	
+		 */
 		$root_node = apply_filters( 'tenup_headless_wp_render_block_markup', $root_node, $html, $block );
 
 		return $doc->saveHTML();
