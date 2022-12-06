@@ -196,25 +196,23 @@ describe('PostsArchiveFetchStrategy', () => {
 
 	it('bulds the endpoint url properly', () => {
 		// category should not be included directly in the url
-		expect(fetchStrategy.buildEndpointURL({ category: 'cat-test' })).toEqual(
+		expect(fetchStrategy.buildEndpointURL({ category: 'cat-test' })).toBe(
 			'/wp-json/wp/v2/posts',
 		);
 
 		// tag should not be included directly in the url
-		expect(fetchStrategy.buildEndpointURL({ tag: 'tag-test' })).toEqual('/wp-json/wp/v2/posts');
+		expect(fetchStrategy.buildEndpointURL({ tag: 'tag-test' })).toBe('/wp-json/wp/v2/posts');
 
-		expect(fetchStrategy.buildEndpointURL({ page: 2 })).toEqual('/wp-json/wp/v2/posts?page=2');
+		expect(fetchStrategy.buildEndpointURL({ page: 2 })).toBe('/wp-json/wp/v2/posts?page=2');
 
 		// author should not be included in the URL unless config.useWordPressPlugin is true
-		expect(fetchStrategy.buildEndpointURL({ author: 'author' })).toEqual(
-			'/wp-json/wp/v2/posts',
-		);
+		expect(fetchStrategy.buildEndpointURL({ author: 'author' })).toBe('/wp-json/wp/v2/posts');
 
 		setHeadlessConfig({
 			useWordPressPlugin: true,
 		});
 
-		expect(fetchStrategy.buildEndpointURL({ author: 'author' })).toEqual(
+		expect(fetchStrategy.buildEndpointURL({ author: 'author' })).toBe(
 			'/wp-json/wp/v2/posts?author=author',
 		);
 
@@ -234,7 +232,7 @@ describe('PostsArchiveFetchStrategy', () => {
 			],
 		});
 
-		expect(fetchStrategy.buildEndpointURL({ postType: 'book' })).toEqual('/wp-json/wp/v2/book');
+		expect(fetchStrategy.buildEndpointURL({ postType: 'book' })).toBe('/wp-json/wp/v2/book');
 	});
 
 	it('fetches content properly without wordpress plugin', async () => {

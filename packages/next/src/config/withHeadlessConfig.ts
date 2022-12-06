@@ -61,6 +61,7 @@ export function withHeadlessConfig(
 		);
 	}
 
+	// @ts-expect-error
 	global.__10up__HEADLESS_CONFIG = headlessConfig;
 
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];

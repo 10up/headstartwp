@@ -107,7 +107,7 @@ describe('getInlineStyles', () => {
 			color: '#f3f3f3',
 		});
 
-		expect(getInlineStyles(new Element('div', {}))).toEqual(false);
+		expect(getInlineStyles(new Element('div', {}))).toBe(false);
 	});
 });
 
@@ -115,7 +115,7 @@ describe('getWidthStyles', () => {
 	it('gets the width styles properly', () => {
 		expect(
 			getWidthStyles(createNodeWithClass('has-custom-width wp-block-button__width-75')),
-		).toEqual('75');
+		).toBe('75');
 	});
 });
 

@@ -8,9 +8,8 @@ export const Link = ({ href, rel, children }) => {
 	const link = removeSourceUrl({ link: href, backendUrl: settings.sourceUrl || '' });
 
 	return (
-		<NextLink href={link}>
-			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-			<a rel={rel}>{children}</a>
+		<NextLink href={link} rel={rel}>
+			{children}
 		</NextLink>
 	);
 };

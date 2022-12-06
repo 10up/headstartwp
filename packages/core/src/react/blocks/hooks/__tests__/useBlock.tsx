@@ -1,5 +1,4 @@
-import React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { Element } from 'html-react-parser';
 import { SettingsProvider } from '../../../provider';
 import { useBlock } from '../useBlock';

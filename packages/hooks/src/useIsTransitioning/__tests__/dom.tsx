@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks/dom';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { ReactNode } from 'react';
 import { useIsTransitioning } from '../..';
 import { TransitionProvider } from '../../context';

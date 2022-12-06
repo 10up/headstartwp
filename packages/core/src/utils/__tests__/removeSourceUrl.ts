@@ -7,49 +7,49 @@ describe('removeSourceUrl', () => {
 				link: 'http://backendurl.com/',
 				backendUrl: 'https://backendurl.com',
 			}),
-		).toEqual('/');
+		).toBe('/');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/post-name-1',
 				backendUrl: 'https://backendurl.com',
 			}),
-		).toEqual('/post-name-1');
+		).toBe('/post-name-1');
 
 		expect(
 			removeSourceUrl({
 				link: 'https://backendurl.com/post-name-1/',
 				backendUrl: 'http://backendurl.com',
 			}),
-		).toEqual('/post-name-1/');
+		).toBe('/post-name-1/');
 
 		expect(
 			removeSourceUrl({
 				link: 'https://backendurl.com/post-name-1',
 				backendUrl: 'https://backendurl.com',
 			}),
-		).toEqual('/post-name-1');
+		).toBe('/post-name-1');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/post-name-1',
 				backendUrl: 'https://backendurl.com/',
 			}),
-		).toEqual('/post-name-1');
+		).toBe('/post-name-1');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/post-name-1?a=1&b=3&d=3',
 				backendUrl: 'https://backendurl.com/',
 			}),
-		).toEqual('/post-name-1?a=1&b=3&d=3');
+		).toBe('/post-name-1?a=1&b=3&d=3');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/post-name-1#id',
 				backendUrl: 'https://backendurl.com/',
 			}),
-		).toEqual('/post-name-1#id');
+		).toBe('/post-name-1#id');
 	});
 
 	it('removes source url when the backend url contains a folder', () => {
@@ -58,42 +58,42 @@ describe('removeSourceUrl', () => {
 				link: 'http://backendurl.com/folder/post-name-1',
 				backendUrl: 'https://backendurl.com/folder',
 			}),
-		).toEqual('/post-name-1');
+		).toBe('/post-name-1');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/folder/post-name-1/',
 				backendUrl: 'https://backendurl.com/folder',
 			}),
-		).toEqual('/post-name-1/');
+		).toBe('/post-name-1/');
 
 		expect(
 			removeSourceUrl({
 				link: 'https://backendurl.com/folder/post-name-1',
 				backendUrl: 'https://backendurl.com/folder',
 			}),
-		).toEqual('/post-name-1');
+		).toBe('/post-name-1');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/folder/post-name-1',
 				backendUrl: 'https://backendurl.com/folder/',
 			}),
-		).toEqual('/post-name-1');
+		).toBe('/post-name-1');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/folder/post-name-1?a=1&b=3&d=3',
 				backendUrl: 'https://backendurl.com/folder',
 			}),
-		).toEqual('/post-name-1?a=1&b=3&d=3');
+		).toBe('/post-name-1?a=1&b=3&d=3');
 
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/folder/post-name-1#id',
 				backendUrl: 'https://backendurl.com/folder/',
 			}),
-		).toEqual('/post-name-1#id');
+		).toBe('/post-name-1#id');
 	});
 
 	it('adds subdirectory if public url contains it', () => {
@@ -103,7 +103,7 @@ describe('removeSourceUrl', () => {
 				backendUrl: 'https://backendurl.com/folder',
 				publicUrl: 'https://publicurl.com/subdir/',
 			}),
-		).toEqual('/subdir/post-name-1');
+		).toBe('/subdir/post-name-1');
 
 		expect(
 			removeSourceUrl({
@@ -111,7 +111,7 @@ describe('removeSourceUrl', () => {
 				backendUrl: 'https://backendurl.com/folder',
 				publicUrl: 'http://publicurl.com/subdir/',
 			}),
-		).toEqual('/subdir/post-name-1/');
+		).toBe('/subdir/post-name-1/');
 
 		expect(
 			removeSourceUrl({
@@ -119,7 +119,7 @@ describe('removeSourceUrl', () => {
 				backendUrl: 'https://backendurl.com/folder',
 				publicUrl: 'https://publicurl.com/subdir',
 			}),
-		).toEqual('/subdir/post-name-1');
+		).toBe('/subdir/post-name-1');
 
 		expect(
 			removeSourceUrl({
@@ -127,7 +127,7 @@ describe('removeSourceUrl', () => {
 				backendUrl: 'https://backendurl.com/folder/',
 				publicUrl: 'http://publicurl.com/subdir',
 			}),
-		).toEqual('/subdir/post-name-1');
+		).toBe('/subdir/post-name-1');
 
 		expect(
 			removeSourceUrl({
@@ -135,7 +135,7 @@ describe('removeSourceUrl', () => {
 				backendUrl: 'https://backendurl.com/folder',
 				publicUrl: 'https://publicurl.com/subdir/',
 			}),
-		).toEqual('/subdir/post-name-1?a=1&b=3&d=3');
+		).toBe('/subdir/post-name-1?a=1&b=3&d=3');
 
 		expect(
 			removeSourceUrl({
@@ -143,6 +143,6 @@ describe('removeSourceUrl', () => {
 				backendUrl: 'https://backendurl.com/folder/',
 				publicUrl: 'http://publicurl.com/subdir/',
 			}),
-		).toEqual('/subdir/post-name-1#id');
+		).toBe('/subdir/post-name-1#id');
 	});
 });

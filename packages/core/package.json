@@ -35,35 +35,31 @@
     "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
     "watch:ts:cjs": "npm run ts:cjs -- --watch",
     "watch:ts": "npm run ts -- --watch",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "lint": "eslint src/"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@testing-library/dom": "^8.6.0",
-    "@testing-library/react": "^12.1.3",
-    "@testing-library/react-hooks": "^7.0.2",
-    "@types/dompurify": "^2.3.3",
+    "@testing-library/dom": "^8.19.0",
+    "@testing-library/react": "^13.4.0",    
     "@types/jest": "^29.0.3",
     "@types/node-fetch": "^2.5.3",
-    "@types/sanitize-html": "^2.6.0",
-    "jest": "^29.0.3",
+    "jest": "^29.3.1",
     "msw": "^0.35.0",
-    "node-fetch": "^2.6.7",
-    "ts-jest": "^29.0.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.4.3",
     "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
     "@justinribeiro/lite-youtube": "^1.3.1",
-    "html-react-parser": "^1.4.3",
+    "html-react-parser": "^3.0.4",
     "path-to-regexp": "^6.2.0",
-    "react-inspector": "^5.1.1",
-    "swr": "^1.2.2",
+    "react-inspector": "^6.0.1",
+    "swr": "^1.3.0",
     "xss": "^1.0.11"
   },
   "peerDependencies": {
-    "react": "^17.0.2"
+    "react": ">= 17.0.2"
   }
 }
