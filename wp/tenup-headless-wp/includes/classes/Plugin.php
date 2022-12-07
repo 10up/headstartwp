@@ -25,7 +25,7 @@ class Plugin {
 		add_action( 'admin_bar_menu', [ $this, 'clean_up_toolbar' ], 999 );
 
 		add_action( 'init', [ $this, 'i18n' ] );
-		add_filter( 'render_block', [ $this, 'render_block' ], 10, 2 );
+		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
 
 		$links = new Links();
 		$links->register();
@@ -43,12 +43,13 @@ class Plugin {
 	/**
 	 * Filter rendered blocks to include a data-wp-blocks attribute with block's attrs
 	 *
-	 * @param string $html Rendered block content.
-	 * @param array  $block Block data.
+	 * @param string    $html Rendered block content.
+	 * @param array     $block Block data.
+	 * @param \WP_Block $block_instance The block's instance
 	 *
 	 * @return string
 	 */
-	public function render_block( $html, $block ) {
+	public function render_block( $html, $block, $block_instance ) {
 		if ( ! trim( $html ) ) {
 			return $html;
 		}
@@ -63,15 +64,16 @@ class Plugin {
 			return $html;
 		}
 
-		$block_attrs = $block['attrs'];
+		$block_attrs = $block_instance->attributes;
 
 		/**
 		 * Filter's out the block's attributes before serializing in the block markup.
 		 *
-		 * @param Array $attrs The Block's Attributes
-		 * @param Array $block The Block's schema
+		 * @param array $attrs The Block's Attributes
+		 * @param array $block The Block's schema
+		 * @param \WP_Block $block_instance The block's instance
 		 */
-		$block_attrs = apply_filters( 'tenup_headless_wp_render_block_attrs', $block_attrs, $block );
+		$block_attrs = apply_filters( 'tenup_headless_wp_render_block_attrs', $block_attrs, $block, $block_instance );
 
 		$attrs             = $doc->createAttribute( 'data-wp-block' );
 		$attrs->value      = wp_json_encode( $block_attrs );
@@ -86,9 +88,10 @@ class Plugin {
 		 *
 		 * @param \DOMElement $root_node
 		 * @param string $html The original block markup
-		 * @param Array $block The Block's schema
+		 * @param array $block The Block's schema
+		 * @param \WP_Block $block_instance The block's instance
 		 */
-		$root_node = apply_filters( 'tenup_headless_wp_render_block_markup', $root_node, $html, $block );
+		$root_node = apply_filters( 'tenup_headless_wp_render_block_markup', $root_node, $html, $block, $block_instance );
 
 		return $doc->saveHTML();
 	}
