@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.5.0-next.3
+
+### Patch Changes
+
+- 79c4d07: add missing key prop in `Yoast` component.
+- Updated dependencies [9aea8ab]
+  - @10up/headless-core@0.5.0-next.5
+
 ## 0.5.0-next.2
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.5.0-next.5
+
+### Patch Changes
+
+- 9aea8ab: Fix child pages with same slugs but different parent. Takes the link propety in account to properly match the right page.
+
 ## 0.5.0-next.4
 
 ### Patch Changes
