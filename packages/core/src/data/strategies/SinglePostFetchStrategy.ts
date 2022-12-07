@@ -167,7 +167,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 							removeSourceUrl({
 								link: post.link,
 								backendUrl: this.baseURL,
-							}).replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
+							})?.replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
 						);
 					}) ?? result[0],
 			};
