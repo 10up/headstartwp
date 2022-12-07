@@ -1,4 +1,4 @@
-import { getCustomPostType, ConfigError, EndpointError } from '../../utils';
+import { getCustomPostType, ConfigError, EndpointError, removeSourceUrl } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
@@ -68,12 +68,16 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 
 	revision?: PostEntity;
 
+	path: string = '';
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<PostParams> = {}): Partial<PostParams> {
+		this.path = path;
+
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
 
@@ -144,8 +148,6 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			};
 		}
 
-		// if fetching by id result is a single object and not array
-		// we want to normalize to an array for consistency
 		if (params.id && !Array.isArray(result)) {
 			this.setEndpoint(this.getDefaultEndpoint());
 			return {
@@ -154,9 +156,21 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			};
 		}
 
-		// make sure result is alway an array for consistency
+		// if result is an array, prioritize the result where the
+		// link property matches with the current route
 		if (Array.isArray(result)) {
-			return { ...response, result: result[0] };
+			return {
+				...response,
+				result:
+					result.find((post) => {
+						return (
+							removeSourceUrl({
+								link: post.link,
+								backendUrl: this.baseURL,
+							}).replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
+						);
+					}) ?? result[0],
+			};
 		}
 
 		return {
