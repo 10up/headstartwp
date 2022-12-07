@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { removeSourceUrl } from '@10up/headless-core';
 import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
@@ -106,10 +107,10 @@ export function Yoast({ seo }) {
 				seo.yoast_head_json &&
 				seo.yoast_head_json.twitter_misc &&
 				Object.entries(seo.yoast_head_json.twitter_misc).map(([label, data], index) => (
-					<>
+					<Fragment key={`twitter-${label}-${data}`}>
 						<meta name={`twitter:label${index + 1}`} content={label} />
 						<meta name={`twitter:data${index + 1}`} content={String(data)} />
-					</>
+					</Fragment>
 				))}
 			{/* JSON-LD Schema */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.schema && (
