@@ -291,4 +291,38 @@ describe('SinglePostFetchStrategy', () => {
 			'Unkown post type, did you forget to add it to headless.config.js?',
 		);
 	});
+
+	it('handles child pages with same slugs and different parents', async () => {
+		const childPost1 = { title: 'test', id: 1, link: 'http://sourceurl.com/parent-page/about' };
+		const childPost2 = {
+			title: 'test',
+			id: 2,
+			link: 'http://sourceurl.com/parent-page-2/about',
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 2,
+			},
+			json: [childPost1, childPost2],
+		});
+
+		fetchStrategy.setBaseURL('http://sourceurl.com');
+
+		let params = fetchStrategy.getParamsFromURL('/parent-page-2/about');
+		let results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: childPost2,
+		});
+
+		params = fetchStrategy.getParamsFromURL('/parent-page/about');
+
+		results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: childPost1,
+		});
+	});
 });
