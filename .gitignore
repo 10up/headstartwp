@@ -3,3 +3,4 @@ node_modules
 .idea
 .turbo
 .vercel
+.DS_Store
