@@ -1,0 +1,41 @@
+/* You can override the default Infima variables here. */
+:root {
+  --g2-color-light-blue: #cce3eb;
+  --g2-color-lime: #33f078;
+  --g2-color-red: #e26f56;
+  --g2-color-paper: #efefef;
+  --g2-color-paper: #efefef;
+  --g2-color-slate: #40464d;
+  --g2-color-black: #1e1e1e;
+  
+  --ifm-footer-link-color: var(--ifm-color-black);
+  --ifm-color-primary: #df2b26;
+  --ifm-color-primary-dark: #B5130E;
+  --ifm-color-primary-darker: #213dd3;
+  --ifm-color-primary-darkest: #8A0400;
+  --ifm-color-primary-light: #FE4641;
+  --ifm-color-primary-lighter: #FF6662;
+  --ifm-color-primary-lightest: #FF918E;
+  --ifm-footer-background-color: #fff;
+  --ifm-link-decoration: underline;
+  --ifm-link-hover-color: var(--ifm-color-primary-dark);
+  --ifm-code-font-size: 1rem;
+  --ifm-container-width-xl: 80ch;
+  --ifm-container-width: 80ch;
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --ifm-heading-font-family: var(--ifm-font-family-base);
+  --ifm-h1-font-size: 2.625rem;
+  --ifm-h2-font-size: 2rem;
+  --ifm-heading-font-weight: var(--ifm-font-weight-semibold);
+  --ifm-hr-background-color: var(--ifm-color-gray-200);
+  --ifm-leading-desktop: 1.5;
+  --ifm-menu-color-background-active: white;
+  --ifm-navbar-height: 4.375rem;
+  --c-10up-secondary: #E3FAF8;
+  --c-10up-secondary-dark: #7ED5D4;
+  
+  --wide-width: min(calc(100vw - 2.5rem), calc(var(--ifm-container-width-xl) + 300px));
+
+  --docusaurus-highlighted-code-line-bg: #e0e0e0;
+}

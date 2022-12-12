@@ -1,0 +1,30 @@
+/* Added in a separate file as the component isn't styled otherwise. */
+
+.home__heroBanner .navbar__search span {
+	width: 100%;
+}
+
+.home__heroBanner .navbar__search input::placeholder {
+	color: var(--ifm-color-content);
+}
+
+.home__heroBanner
+  [class="searchHintContainer_node_modules-@easyops-cn-docusaurus-search-local-dist-client-client-theme-SearchBar-SearchBar-module"] {
+  display: none !important;
+}
+
+.home__heroBanner .navbar__search input {
+  background-color: #fff;
+  border-radius: 0.75em;
+  height: 4.875rem;
+  display: block;
+  width: 100%;
+  max-width: 47.5rem;
+  border: 3px solid black;
+  padding: 1rem 1.5rem;
+  background-position: right 1.5rem center;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: 1.125rem;
+  color: var(--ifm-color-content);
+}
