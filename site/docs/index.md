@@ -1,8 +1,13 @@
 ---
-sidebar_position: 0
-sidebar_label: API Reference
+id: "index"
+title: "10up's Headless Framework (BETA)"
+sidebar_label: "Table of Contents"
+sidebar_position: 0.5
+hide_table_of_contents: true
+custom_edit_url: null
 ---
 
-# API Reference
+## Modules
 
-This section contains an auto-generated TypeScript API Reference for all components, functions, classes and interfaces exposed by the framework.
+- [@10up/headless-core](modules/10up_headless_core.md)
+- [@10up/headless-next](modules/10up_headless_next.md)
