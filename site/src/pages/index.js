@@ -29,7 +29,7 @@ export default function Home() {
 					<p>
 						Tutorials, resources, references and example code for all things Gutenberg.
 					</p>
-					{/* <SearchBar className={styles.searchBar} /> */}
+					<SearchBar className={styles.searchBar} />
 				</header>
 				<section className={`${styles.grid} content-wrapper`}>
 					<article className={`${styles.gridItem} homeGrid__item`}>
@@ -71,7 +71,7 @@ export default function Home() {
 						</Link>
 					</article>
 
-					<article className={`${styles.gridItem} homeGrid__item`}>
+					{/* <article className={`${styles.gridItem} homeGrid__item`}>
 						<Link to="/training">
 							<img
 								src={trainingSketch}
@@ -88,7 +88,7 @@ export default function Home() {
 						<Link className={styles.gridLink} to="/training">
 							I am ready!
 						</Link>
-					</article>
+	</article>  */}
 				</section>
 
 				<hr />

@@ -16,6 +16,7 @@
   "dependencies": {
     "@docusaurus/core": "^2.2.0",
     "@docusaurus/preset-classic": "^2.2.0",
+    "@easyops-cn/docusaurus-search-local": "^0.33.6",
     "@knodes/typedoc-plugin-code-blocks": "^0.23.1",
     "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",

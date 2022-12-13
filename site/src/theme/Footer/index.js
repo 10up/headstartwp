@@ -67,7 +67,7 @@ export default function FooterWrapper(props) {
 							</svg>
 						</a>
 						<a
-							href="https://github.com/10up/gutenberg-best-practices"
+							href="https://github.com/10up/headless"
 							aria-hidden="true"
 							title="10up on GitHub"
 						>

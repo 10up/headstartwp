@@ -65,7 +65,7 @@ const config = {
 				sidebarCollapsed: false,
 			},
 		],
-		[
+		/* [
 			'@docusaurus/plugin-content-docs',
 			{
 				id: 'training',
@@ -77,7 +77,7 @@ const config = {
 				editUrl: 'https://github.com/10up/headless/tree/trunk/site',
 				sidebarCollapsed: false,
 			},
-		],
+		], */
 		[
 			'@docusaurus/plugin-content-docs',
 			{
@@ -90,15 +90,15 @@ const config = {
 				sidebarCollapsed: false,
 			},
 		],
-		/* [
+		[
 			require.resolve('@easyops-cn/docusaurus-search-local'),
 			{
 				indexDocs: true,
-				docsRouteBasePath: ['reference', 'docs', 'training'],
-				docsDir: ['reference', 'docs', 'training'],
+				docsRouteBasePath: ['reference', 'docs'],
+				docsDir: ['default', 'docs'],
 				hashed: true,
 			},
-		], */
+		],
 	],
 
 	themeConfig:
@@ -120,13 +120,13 @@ const config = {
 						position: 'right',
 						label: 'Docs',
 					},
-					{
+					/* {
 						type: 'doc',
 						docId: 'index',
 						position: 'right',
 						label: 'Tutorial',
 						docsPluginId: 'training',
-					},
+					}, */
 					{
 						type: 'doc',
 						docId: 'index',
@@ -154,10 +154,10 @@ const config = {
 								label: 'Documentatio',
 								to: '/docs',
 							},
-							{
+							/* {
 								label: 'Tutorial',
 								to: '/training',
-							},
+							}, */
 							{
 								label: 'API Reference',
 								to: '/api',
