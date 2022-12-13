@@ -61,7 +61,7 @@ const config = {
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
-				editUrl: 'https://github.com/10up/gutenberg-best-practices/tree/main/',
+				editUrl: 'https://github.com/10up/headless/tree/trunk/site',
 				sidebarCollapsed: false,
 			},
 		],
@@ -74,7 +74,7 @@ const config = {
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
-				editUrl: 'https://github.com/10up/gutenberg-best-practices/tree/main/',
+				editUrl: 'https://github.com/10up/headless/tree/trunk/site',
 				sidebarCollapsed: false,
 			},
 		],
@@ -86,7 +86,7 @@ const config = {
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
-				editUrl: 'https://github.com/10up/gutenberg-best-practices/tree/main/',
+				editUrl: 'https://github.com/10up/headless/tree/trunk/site',
 				sidebarCollapsed: false,
 			},
 		],
@@ -113,33 +113,33 @@ const config = {
 				logo: {
 					src: 'img/10up-logo-full.svg',
 				},
-				/* items: [
+				items: [
 					{
 						type: 'doc',
 						docId: 'index',
 						position: 'right',
-						label: 'Reference',
+						label: 'Docs',
 					},
 					{
 						type: 'doc',
 						docId: 'index',
 						position: 'right',
-						label: 'Training',
+						label: 'Tutorial',
 						docsPluginId: 'training',
 					},
 					{
 						type: 'doc',
 						docId: 'index',
 						position: 'right',
-						label: 'Documentation',
+						label: 'API Reference',
 						docsPluginId: 'docs',
 					},
-				], */
+				],
 			},
 			announcementBar: {
 				id: 'support_us',
 				content:
-					'Have any questions or suggestions? Just open a discussion in <a target="_blank" rel="noopener noreferrer" href="https://github.com/10up/gutenberg-best-practices/discussions/new">this GitHub Repository</a>',
+					'Have any questions or suggestions? Just open a discussion in <a target="_blank" rel="noopener noreferrer" href="https://github.com/10up/headless/discussions/new">this GitHub Repository</a>',
 				backgroundColor: '#fafbfc',
 				textColor: '#091E42',
 				isCloseable: false,
@@ -151,16 +151,16 @@ const config = {
 						title: 'Docs',
 						items: [
 							{
-								label: 'Reference',
-								to: '/reference',
+								label: 'Documentatio',
+								to: '/docs',
 							},
 							{
-								label: 'Training',
+								label: 'Tutorial',
 								to: '/training',
 							},
 							{
-								label: 'Documentation',
-								to: '/docs',
+								label: 'API Reference',
+								to: '/api',
 							},
 						],
 					},
@@ -169,15 +169,15 @@ const config = {
 						items: [
 							{
 								label: 'Slack Channel (internal)',
-								href: 'https://10up.slack.com/archives/C8Z3WMN1K',
+								href: 'https://10up.slack.com/archives/C03EBFXS43F',
 							},
 							{
 								label: 'GitHub Discussions',
-								href: 'https://github.com/10up/gutenberg-best-practices/discussions/',
+								href: 'https://github.com/10up/headless/discussions/',
 							},
 						],
 					},
-					{
+					/* {
 						title: 'Resources',
 						items: [
 							{
@@ -193,7 +193,7 @@ const config = {
 								href: 'https://github.com/10up/wp-scaffold',
 							},
 						],
-					},
+					}, */
 				],
 			},
 			prism: {
