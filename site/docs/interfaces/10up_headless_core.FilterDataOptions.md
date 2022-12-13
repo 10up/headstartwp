@@ -21,7 +21,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:67](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L67)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:67](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L67)
 
 ___
 
@@ -34,4 +34,4 @@ If method is 'REMOVE' then the fields specified in the filter will be removed.
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:66](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L66)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:66](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L66)

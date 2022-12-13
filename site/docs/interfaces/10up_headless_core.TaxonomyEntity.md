@@ -25,7 +25,7 @@ A human-readable description of the taxonomy.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:395](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L395)
+[packages/core/src/data/types/entities.ts:395](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L395)
 
 ___
 
@@ -37,7 +37,7 @@ Whether or not the taxonomy should have children.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:400](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L400)
+[packages/core/src/data/types/entities.ts:400](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L400)
 
 ___
 
@@ -49,7 +49,7 @@ The title for the taxonomy.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:405](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L405)
+[packages/core/src/data/types/entities.ts:405](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L405)
 
 ___
 
@@ -61,7 +61,7 @@ REST base route for the taxonomy.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:415](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L415)
+[packages/core/src/data/types/entities.ts:415](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L415)
 
 ___
 
@@ -73,7 +73,7 @@ An alphanumeric identifier for the taxonomy.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:410](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L410)
+[packages/core/src/data/types/entities.ts:410](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L410)
 
 ___
 
@@ -85,4 +85,4 @@ Types associated with the taxonomy.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:420](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L420)
+[packages/core/src/data/types/entities.ts:420](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L420)

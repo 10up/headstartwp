@@ -39,7 +39,7 @@ It's recommended to avoid additional requests to fetch data
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
 
 ___
 
@@ -51,4 +51,4 @@ The _fields parameter is used to return only the specified fields in the respons
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)

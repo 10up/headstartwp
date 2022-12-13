@@ -15,7 +15,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:658](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L658)
+[packages/core/src/data/types/entities.ts:658](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L658)
 
 ___
 
@@ -25,7 +25,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:670](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L670)
+[packages/core/src/data/types/entities.ts:670](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L670)
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:674](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L674)
+[packages/core/src/data/types/entities.ts:674](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L674)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:672](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L672)
+[packages/core/src/data/types/entities.ts:672](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L672)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:671](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L671)
+[packages/core/src/data/types/entities.ts:671](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L671)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:662](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L662)
+[packages/core/src/data/types/entities.ts:662](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L662)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:659](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L659)
+[packages/core/src/data/types/entities.ts:659](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L659)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:664](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L664)
+[packages/core/src/data/types/entities.ts:664](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L664)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:663](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L663)
+[packages/core/src/data/types/entities.ts:663](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L663)
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:675](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L675)
+[packages/core/src/data/types/entities.ts:675](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L675)
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:661](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L661)
+[packages/core/src/data/types/entities.ts:661](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L661)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:660](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L660)
+[packages/core/src/data/types/entities.ts:660](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L660)
 
 ___
 
@@ -135,7 +135,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:673](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L673)
+[packages/core/src/data/types/entities.ts:673](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L673)
 
 ___
 
@@ -145,7 +145,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:669](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L669)
+[packages/core/src/data/types/entities.ts:669](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L669)
 
 ___
 
@@ -155,7 +155,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:668](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L668)
+[packages/core/src/data/types/entities.ts:668](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L668)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:665](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L665)
+[packages/core/src/data/types/entities.ts:665](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L665)
 
 ___
 
@@ -175,7 +175,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:666](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L666)
+[packages/core/src/data/types/entities.ts:666](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L666)
 
 ___
 
@@ -185,4 +185,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:667](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L667)
+[packages/core/src/data/types/entities.ts:667](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L667)

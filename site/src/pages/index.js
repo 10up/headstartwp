@@ -27,7 +27,8 @@ export default function Home() {
 						10up Headless Framework! <span className={`${styles.beta}`}>Beta</span>
 					</h1>
 					<p>
-						Tutorials, resources, references and example code for all things Gutenberg.
+						The 10up headless framework makes creating headless sites as easy as
+						creating traditional WordPress sites.
 					</p>
 					<SearchBar className={styles.searchBar} />
 				</header>

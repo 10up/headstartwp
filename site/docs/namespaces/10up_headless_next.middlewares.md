@@ -35,4 +35,4 @@ import { appMiddleware } from '@10up/headless-next/middlewares';
 
 #### Defined in
 
-[packages/next/src/middlewares/appMidleware.ts:14](https://github.com/10up/headless/blob/d270384/packages/next/src/middlewares/appMidleware.ts#L14)
+[packages/next/src/middlewares/appMidleware.ts:14](https://github.com/10up/headless/blob/5293da0/packages/next/src/middlewares/appMidleware.ts#L14)

@@ -25,7 +25,7 @@ The ID of the user object, if author was a user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:561](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L561)
+[packages/core/src/data/types/entities.ts:561](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L561)
 
 ___
 
@@ -37,7 +37,7 @@ Avatar URLs for the object author.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:621](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L621)
+[packages/core/src/data/types/entities.ts:621](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L621)
 
 ___
 
@@ -49,7 +49,7 @@ Email address for the object author.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:566](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L566)
+[packages/core/src/data/types/entities.ts:566](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L566)
 
 ___
 
@@ -61,7 +61,7 @@ Display name for the object author.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:571](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L571)
+[packages/core/src/data/types/entities.ts:571](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L571)
 
 ___
 
@@ -73,7 +73,7 @@ URL for the object author.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:576](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L576)
+[packages/core/src/data/types/entities.ts:576](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L576)
 
 ___
 
@@ -85,7 +85,7 @@ The content for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:581](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L581)
+[packages/core/src/data/types/entities.ts:581](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L581)
 
 ___
 
@@ -97,7 +97,7 @@ The date the object was published, in the site's timezone.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:586](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L586)
+[packages/core/src/data/types/entities.ts:586](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L586)
 
 ___
 
@@ -109,7 +109,7 @@ The date the object was published, as GMT.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:591](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L591)
+[packages/core/src/data/types/entities.ts:591](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L591)
 
 ___
 
@@ -121,7 +121,7 @@ Unique identifier for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:556](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L556)
+[packages/core/src/data/types/entities.ts:556](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L556)
 
 ___
 
@@ -133,7 +133,7 @@ URL to the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:596](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L596)
+[packages/core/src/data/types/entities.ts:596](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L596)
 
 ___
 
@@ -145,7 +145,7 @@ Meta fields.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:626](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L626)
+[packages/core/src/data/types/entities.ts:626](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L626)
 
 ___
 
@@ -157,7 +157,7 @@ The ID for the parent of the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:601](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L601)
+[packages/core/src/data/types/entities.ts:601](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L601)
 
 ___
 
@@ -169,7 +169,7 @@ The ID of the associated post object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:606](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L606)
+[packages/core/src/data/types/entities.ts:606](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L606)
 
 ___
 
@@ -181,7 +181,7 @@ State of the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:611](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L611)
+[packages/core/src/data/types/entities.ts:611](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L611)
 
 ___
 
@@ -193,4 +193,4 @@ Type of Comment for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:616](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L616)
+[packages/core/src/data/types/entities.ts:616](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L616)

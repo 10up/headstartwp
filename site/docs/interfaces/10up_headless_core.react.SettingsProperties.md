@@ -21,7 +21,7 @@ Setting that enables ui tools.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:295](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L295)
+[packages/core/src/react/provider/types.ts:295](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L295)
 
 ___
 
@@ -42,7 +42,7 @@ Settings related to borders.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:299](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L299)
+[packages/core/src/react/provider/types.ts:299](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L299)
 
 ___
 
@@ -70,7 +70,7 @@ Settings related to colors.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:320](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L320)
+[packages/core/src/react/provider/types.ts:320](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L320)
 
 ___
 
@@ -86,7 +86,7 @@ Generate custom CSS custom properties of the form `--wp--custom--{key}--{nested-
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:519](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L519)
+[packages/core/src/react/provider/types.ts:519](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L519)
 
 ___
 
@@ -105,7 +105,7 @@ Settings related to layout.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:411](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L411)
+[packages/core/src/react/provider/types.ts:411](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L411)
 
 ___
 
@@ -126,7 +126,7 @@ Settings related to spacing.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:424](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L424)
+[packages/core/src/react/provider/types.ts:424](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L424)
 
 ___
 
@@ -153,4 +153,4 @@ Settings related to typography.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:446](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L446)
+[packages/core/src/react/provider/types.ts:446](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L446)

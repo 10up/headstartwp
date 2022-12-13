@@ -15,7 +15,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:658](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L658)
+[packages/core/src/react/provider/types.ts:658](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L658)
 
 ___
 
@@ -25,7 +25,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:659](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L659)
+[packages/core/src/react/provider/types.ts:659](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L659)
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:660](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L660)
+[packages/core/src/react/provider/types.ts:660](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L660)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:661](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L661)
+[packages/core/src/react/provider/types.ts:661](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L661)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:662](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L662)
+[packages/core/src/react/provider/types.ts:662](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L662)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:663](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L663)
+[packages/core/src/react/provider/types.ts:663](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L663)
 
 ___
 
@@ -75,4 +75,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:657](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L657)
+[packages/core/src/react/provider/types.ts:657](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L657)

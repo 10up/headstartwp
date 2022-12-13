@@ -23,4 +23,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetch.ts:10](https://github.com/10up/headless/blob/d270384/packages/core/src/react/hooks/useFetch.ts#L10)
+[packages/core/src/react/hooks/useFetch.ts:10](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetch.ts#L10)

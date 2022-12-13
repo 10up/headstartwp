@@ -25,7 +25,7 @@ HookResponse.data
 
 #### Defined in
 
-[packages/next/src/data/hooks/useAppSettings.ts:5](https://github.com/10up/headless/blob/d270384/packages/next/src/data/hooks/useAppSettings.ts#L5)
+[packages/next/src/data/hooks/useAppSettings.ts:5](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/useAppSettings.ts#L5)
 
 ___
 

@@ -39,7 +39,7 @@ IBlockAttributes.attributes
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:79](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L79)
+[packages/core/src/react/blocks/types.ts:79](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L79)
 
 ___
 
@@ -53,7 +53,7 @@ IBlockAttributes.children
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:77](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L77)
+[packages/core/src/react/blocks/types.ts:77](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L77)
 
 ___
 
@@ -67,7 +67,7 @@ IBlockAttributes.className
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:73](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L73)
+[packages/core/src/react/blocks/types.ts:73](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L73)
 
 ___
 
@@ -81,7 +81,7 @@ IBlockAttributes.domNode
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:75](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L75)
+[packages/core/src/react/blocks/types.ts:75](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L75)
 
 ___
 
@@ -95,7 +95,7 @@ IBlockAttributes.htmlAnchor
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:76](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L76)
+[packages/core/src/react/blocks/types.ts:76](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L76)
 
 ___
 
@@ -109,7 +109,7 @@ IBlockAttributes.name
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:72](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L72)
+[packages/core/src/react/blocks/types.ts:72](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L72)
 
 ___
 
@@ -123,4 +123,4 @@ IBlockAttributes.style
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:74](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L74)
+[packages/core/src/react/blocks/types.ts:74](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L74)

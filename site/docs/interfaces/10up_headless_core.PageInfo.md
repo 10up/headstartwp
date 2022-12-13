@@ -15,7 +15,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:695](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L695)
+[packages/core/src/data/types/entities.ts:695](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L695)
 
 ___
 
@@ -25,7 +25,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:694](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L694)
+[packages/core/src/data/types/entities.ts:694](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L694)
 
 ___
 
@@ -35,4 +35,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:693](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L693)
+[packages/core/src/data/types/entities.ts:693](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L693)

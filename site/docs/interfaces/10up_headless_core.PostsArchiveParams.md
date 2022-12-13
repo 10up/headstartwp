@@ -31,7 +31,7 @@ It's recommended to avoid additional requests to fetch data
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
 
 ___
 
@@ -47,7 +47,7 @@ The _fields parameter is used to return only the specified fields in the respons
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
 
 ___
 
@@ -59,7 +59,7 @@ Limit result set to posts assigned to specific authors.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:82](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L82)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:82](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L82)
 
 ___
 
@@ -71,7 +71,7 @@ Ensure result set excludes posts assigned to specific authors.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:87](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L87)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:87](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L87)
 
 ___
 
@@ -83,7 +83,7 @@ Limit result set to all items that have the specified term assigned in the categ
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:155](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L155)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:155](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L155)
 
 ___
 
@@ -95,7 +95,7 @@ Limit result set to all items except those that have the specified term assigned
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:160](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L160)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:160](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L160)
 
 ___
 
@@ -109,7 +109,7 @@ It supports both a category id and category slug
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:43](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L43)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:43](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L43)
 
 ___
 
@@ -121,7 +121,7 @@ If set will filter results by the specified day
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:65](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L65)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:65](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L65)
 
 ___
 
@@ -133,7 +133,7 @@ Ensure result set excludes specific IDs.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:92](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L92)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:92](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L92)
 
 ___
 
@@ -145,7 +145,7 @@ Limit result set to specific IDs.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:97](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L97)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:97](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L97)
 
 ___
 
@@ -157,7 +157,7 @@ If set will filter results by the specified month
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:60](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L60)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:60](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L60)
 
 ___
 
@@ -169,7 +169,7 @@ Offset the result set by a specific number of items.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:102](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L102)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:102](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L102)
 
 ___
 
@@ -185,7 +185,7 @@ Order sort attribute ascending or descending.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:109](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L109)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:109](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L109)
 
 ___
 
@@ -201,7 +201,7 @@ Sort collection by object attribute.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:128](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L128)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:128](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L128)
 
 ___
 
@@ -217,7 +217,7 @@ Current page of the collection.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:36](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L36)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:36](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L36)
 
 ___
 
@@ -233,7 +233,7 @@ Maximum number of items to be returned in result set.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:72](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L72)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:72](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L72)
 
 ___
 
@@ -249,7 +249,7 @@ The post type to query for.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:116](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L116)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:116](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L116)
 
 ___
 
@@ -261,7 +261,7 @@ Limit results to those matching a string.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:77](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L77)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:77](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L77)
 
 ___
 
@@ -273,7 +273,7 @@ Limit result set to posts with one or more specific slugs.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:121](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L121)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:121](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L121)
 
 ___
 
@@ -289,7 +289,7 @@ Limit result set to posts assigned one or more statuses.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:145](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L145)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:145](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L145)
 
 ___
 
@@ -301,7 +301,7 @@ Limit result set to items that are sticky.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:182](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L182)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:182](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L182)
 
 ___
 
@@ -315,7 +315,7 @@ It supports both a category id and category slug
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:50](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L50)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:50](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L50)
 
 ___
 
@@ -327,7 +327,7 @@ Limit result set to all items that have the specified term assigned in the tags 
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:172](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L172)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:172](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L172)
 
 ___
 
@@ -339,7 +339,7 @@ Limit result set to all items except those that have the specified term assigned
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:177](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L177)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:177](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L177)
 
 ___
 
@@ -351,7 +351,7 @@ Limit result set based on relationship between multiple taxonomies.
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:150](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L150)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:150](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L150)
 
 ___
 
@@ -365,7 +365,7 @@ If you only specify the taxonomy, the term slug will be assumed to be the first 
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:167](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L167)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:167](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L167)
 
 ___
 
@@ -377,4 +377,4 @@ If set will filter results by the specified year
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:55](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L55)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:55](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L55)

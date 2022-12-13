@@ -25,7 +25,7 @@ Contains pagination information
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:38](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L38)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:38](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L38)
 
 ___
 
@@ -37,7 +37,7 @@ Queried Object information
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:43](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L43)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:43](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L43)
 
 ___
 
@@ -49,4 +49,4 @@ Contains the actual data returned from the API
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:33](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L33)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:33](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L33)

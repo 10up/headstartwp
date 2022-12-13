@@ -22,7 +22,7 @@ Passing children are not mandatory, if you do not pass them `BlocksRenderer` wil
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:110](https://github.com/10up/headless/blob/d270384/packages/core/src/react/components/BlocksRenderer.tsx#L110)
+[packages/core/src/react/components/BlocksRenderer.tsx:110](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L110)
 
 ___
 
@@ -40,7 +40,7 @@ The HTML string to be parsed.
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:83](https://github.com/10up/headless/blob/d270384/packages/core/src/react/components/BlocksRenderer.tsx#L83)
+[packages/core/src/react/components/BlocksRenderer.tsx:83](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L83)
 
 ___
 
@@ -59,7 +59,7 @@ The allow list for the parser
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:95](https://github.com/10up/headless/blob/d270384/packages/core/src/react/components/BlocksRenderer.tsx#L95)
+[packages/core/src/react/components/BlocksRenderer.tsx:95](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L95)
 
 ___
 
@@ -88,4 +88,4 @@ If none is provided it's going to default to [wpKsesPost](../modules/10up_headle
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:102](https://github.com/10up/headless/blob/d270384/packages/core/src/react/components/BlocksRenderer.tsx#L102)
+[packages/core/src/react/components/BlocksRenderer.tsx:102](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L102)

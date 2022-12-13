@@ -30,7 +30,7 @@ Border styles.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:531](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L531)
+[packages/core/src/react/provider/types.ts:531](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L531)
 
 ___
 
@@ -50,7 +50,7 @@ Color styles.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:552](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L552)
+[packages/core/src/react/provider/types.ts:552](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L552)
 
 ___
 
@@ -78,7 +78,7 @@ Spacing styles.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:569](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L569)
+[packages/core/src/react/provider/types.ts:569](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L569)
 
 ___
 
@@ -103,4 +103,4 @@ Typography styles.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:620](https://github.com/10up/headless/blob/d270384/packages/core/src/react/provider/types.ts#L620)
+[packages/core/src/react/provider/types.ts:620](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L620)

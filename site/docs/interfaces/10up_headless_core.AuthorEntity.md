@@ -25,7 +25,7 @@ Avatar URLs for the user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:538](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L538)
+[packages/core/src/data/types/entities.ts:538](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L538)
 
 ___
 
@@ -37,7 +37,7 @@ Description of the user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:523](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L523)
+[packages/core/src/data/types/entities.ts:523](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L523)
 
 ___
 
@@ -49,7 +49,7 @@ Unique identifier for the user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:508](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L508)
+[packages/core/src/data/types/entities.ts:508](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L508)
 
 ___
 
@@ -61,7 +61,7 @@ Author URL of the user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:528](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L528)
+[packages/core/src/data/types/entities.ts:528](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L528)
 
 ___
 
@@ -73,7 +73,7 @@ Meta fields.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:543](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L543)
+[packages/core/src/data/types/entities.ts:543](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L543)
 
 ___
 
@@ -85,7 +85,7 @@ Display name for the user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:513](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L513)
+[packages/core/src/data/types/entities.ts:513](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L513)
 
 ___
 
@@ -97,7 +97,7 @@ An alphanumeric identifier for the user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:533](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L533)
+[packages/core/src/data/types/entities.ts:533](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L533)
 
 ___
 
@@ -109,7 +109,7 @@ URL of the user.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:518](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L518)
+[packages/core/src/data/types/entities.ts:518](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L518)
 
 ___
 
@@ -119,7 +119,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:546](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L546)
+[packages/core/src/data/types/entities.ts:546](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L546)
 
 ___
 
@@ -129,4 +129,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:545](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L545)
+[packages/core/src/data/types/entities.ts:545](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L545)

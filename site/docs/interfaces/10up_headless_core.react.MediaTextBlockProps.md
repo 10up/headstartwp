@@ -37,7 +37,7 @@ IBlockAttributes.attributes
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:79](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L79)
+[packages/core/src/react/blocks/types.ts:79](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L79)
 
 ___
 
@@ -51,7 +51,7 @@ IBlockAttributes.children
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:77](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L77)
+[packages/core/src/react/blocks/types.ts:77](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L77)
 
 ___
 
@@ -65,7 +65,7 @@ IBlockAttributes.className
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:73](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L73)
+[packages/core/src/react/blocks/types.ts:73](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L73)
 
 ___
 
@@ -79,7 +79,7 @@ IBlockAttributes.domNode
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:75](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L75)
+[packages/core/src/react/blocks/types.ts:75](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L75)
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:13](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L13)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:13](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L13)
 
 ___
 
@@ -110,7 +110,7 @@ IBlockAttributes.htmlAnchor
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:76](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L76)
+[packages/core/src/react/blocks/types.ts:76](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L76)
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:12](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L12)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:12](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L12)
 
 ___
 
@@ -130,7 +130,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:8](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L8)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:8](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L8)
 
 ___
 
@@ -140,7 +140,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:7](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L7)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:7](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L7)
 
 ___
 
@@ -150,7 +150,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:10](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L10)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:10](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L10)
 
 ___
 
@@ -160,7 +160,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:9](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L9)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:9](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L9)
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:11](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L11)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:11](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L11)
 
 ___
 
@@ -184,7 +184,7 @@ IBlockAttributes.name
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:72](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L72)
+[packages/core/src/react/blocks/types.ts:72](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L72)
 
 ___
 
@@ -198,7 +198,7 @@ IBlockAttributes.style
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:74](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L74)
+[packages/core/src/react/blocks/types.ts:74](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L74)
 
 ___
 
@@ -208,4 +208,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:17](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/MediaTextBlock.tsx#L17)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L17)

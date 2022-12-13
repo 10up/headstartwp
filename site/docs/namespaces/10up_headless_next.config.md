@@ -38,4 +38,4 @@ HOC used to wrap the nextjs config object with the headless config object.
 
 #### Defined in
 
-[packages/next/src/config/withHeadlessConfig.ts:54](https://github.com/10up/headless/blob/d270384/packages/next/src/config/withHeadlessConfig.ts#L54)
+[packages/next/src/config/withHeadlessConfig.ts:54](https://github.com/10up/headless/blob/5293da0/packages/next/src/config/withHeadlessConfig.ts#L54)

@@ -31,7 +31,7 @@ It's recommended to avoid additional requests to fetch data
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
 
 ___
 
@@ -47,7 +47,7 @@ The _fields parameter is used to return only the specified fields in the respons
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
 
 ___
 
@@ -59,7 +59,7 @@ Ensure result set excludes specific IDs.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:49](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L49)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:49](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L49)
 
 ___
 
@@ -71,7 +71,7 @@ Whether to hide terms not assigned to any posts.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:76](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L76)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:76](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L76)
 
 ___
 
@@ -83,7 +83,7 @@ Limit result set to specific IDs.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:44](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L44)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:44](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L44)
 
 ___
 
@@ -99,7 +99,7 @@ Order sort attribute ascending or descending.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:56](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L56)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:56](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L56)
 
 ___
 
@@ -115,7 +115,7 @@ Sort collection by term attribute.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:63](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L63)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:63](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L63)
 
 ___
 
@@ -131,7 +131,7 @@ Current page of the collection.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:27](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L27)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:27](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L27)
 
 ___
 
@@ -143,7 +143,7 @@ Limit result set to terms assigned to a specific parent.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:81](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L81)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:81](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L81)
 
 ___
 
@@ -159,7 +159,7 @@ Maximum number of items to be returned in result set.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:34](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L34)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:34](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L34)
 
 ___
 
@@ -171,7 +171,7 @@ Limit result set to terms assigned to a specific post.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:86](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L86)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:86](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L86)
 
 ___
 
@@ -183,7 +183,7 @@ Limit results to those matching a string
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:39](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L39)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:39](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L39)
 
 ___
 
@@ -195,7 +195,7 @@ Limit result set to terms with one or more specific slugs.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:91](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L91)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:91](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L91)
 
 ___
 
@@ -207,4 +207,4 @@ The taxonomy the terms are to be fetched from.
 
 #### Defined in
 
-[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:20](https://github.com/10up/headless/blob/d270384/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L20)
+[packages/core/src/data/strategies/TaxonomyTermsStrategy.ts:20](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/TaxonomyTermsStrategy.ts#L20)

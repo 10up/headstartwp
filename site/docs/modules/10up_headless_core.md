@@ -91,7 +91,7 @@ Whether it's a anchor tag accoriding to the options passed
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:59](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L59)
+[packages/core/src/dom/index.ts:59](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L59)
 
 ___
 
@@ -131,7 +131,7 @@ true if the node passes the test
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:259](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L259)
+[packages/core/src/dom/index.ts:259](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L259)
 
 ___
 
@@ -174,7 +174,7 @@ true if the node passes the test
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:315](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L315)
+[packages/core/src/dom/index.ts:315](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L315)
 
 ___
 
@@ -216,7 +216,7 @@ Whether it's an image tag or not according to the options passed
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:123](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L123)
+[packages/core/src/dom/index.ts:123](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L123)
 
 ___
 
@@ -255,7 +255,7 @@ true if the node is a twitter embed
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:209](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L209)
+[packages/core/src/dom/index.ts:209](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L209)
 
 ___
 
@@ -294,7 +294,7 @@ true if the node is a youtube embed
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:169](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L169)
+[packages/core/src/dom/index.ts:169](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L169)
 
 ___
 
@@ -331,7 +331,7 @@ Sanitized string of HTML.
 
 #### Defined in
 
-[packages/core/src/dom/wpKsesPost.ts:25](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/wpKsesPost.ts#L25)
+[packages/core/src/dom/wpKsesPost.ts:25](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/wpKsesPost.ts#L25)
 
 ## Data Fetching
 
@@ -355,7 +355,7 @@ Fetch Wrapper to handle GET requests.
 
 #### Defined in
 
-[packages/core/src/data/api/fetch-utils.ts:40](https://github.com/10up/headless/blob/d270384/packages/core/src/data/api/fetch-utils.ts#L40)
+[packages/core/src/data/api/fetch-utils.ts:40](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/api/fetch-utils.ts#L40)
 
 ___
 
@@ -378,7 +378,7 @@ Fetch Wrapper to handle POST requests
 
 #### Defined in
 
-[packages/core/src/data/api/fetch-utils.ts:17](https://github.com/10up/headless/blob/d270384/packages/core/src/data/api/fetch-utils.ts#L17)
+[packages/core/src/data/api/fetch-utils.ts:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/api/fetch-utils.ts#L17)
 
 ## Data Handling
 
@@ -400,7 +400,7 @@ Returns the author object from the post object if it exists
 
 #### Defined in
 
-[packages/core/src/data/utils/postHandling.ts:11](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/postHandling.ts#L11)
+[packages/core/src/data/utils/postHandling.ts:11](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/postHandling.ts#L11)
 
 ___
 
@@ -422,7 +422,7 @@ Returns the terms assoiacted with the post
 
 #### Defined in
 
-[packages/core/src/data/utils/postHandling.ts:22](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/postHandling.ts#L22)
+[packages/core/src/data/utils/postHandling.ts:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/postHandling.ts#L22)
 
 ## Other
 
@@ -432,7 +432,7 @@ Returns the terms assoiacted with the post
 
 #### Defined in
 
-[packages/core/src/types.ts:1](https://github.com/10up/headless/blob/d270384/packages/core/src/types.ts#L1)
+[packages/core/src/types.ts:1](https://github.com/10up/headless/blob/5293da0/packages/core/src/types.ts#L1)
 
 ___
 
@@ -442,7 +442,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/types.ts:8](https://github.com/10up/headless/blob/d270384/packages/core/src/types.ts#L8)
+[packages/core/src/types.ts:8](https://github.com/10up/headless/blob/5293da0/packages/core/src/types.ts#L8)
 
 ___
 
@@ -466,7 +466,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/types.ts:15](https://github.com/10up/headless/blob/d270384/packages/core/src/types.ts#L15)
+[packages/core/src/types.ts:15](https://github.com/10up/headless/blob/5293da0/packages/core/src/types.ts#L15)
 
 ___
 
@@ -484,7 +484,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/utils/matchers.ts:1](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/matchers.ts#L1)
+[packages/core/src/data/utils/matchers.ts:1](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/matchers.ts#L1)
 
 ___
 
@@ -506,7 +506,7 @@ Quering by taxonomy and/or author will set the queried object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:703](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L703)
+[packages/core/src/data/types/entities.ts:703](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L703)
 
 ___
 
@@ -527,7 +527,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:648](https://github.com/10up/headless/blob/d270384/packages/core/src/data/types/entities.ts#L648)
+[packages/core/src/data/types/entities.ts:648](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L648)
 
 ___
 
@@ -544,7 +544,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/utils/fetchRedirect.ts:3](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/fetchRedirect.ts#L3)
+[packages/core/src/utils/fetchRedirect.ts:3](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/fetchRedirect.ts#L3)
 
 ___
 
@@ -554,7 +554,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/types.ts:7](https://github.com/10up/headless/blob/d270384/packages/core/src/types.ts#L7)
+[packages/core/src/types.ts:7](https://github.com/10up/headless/blob/5293da0/packages/core/src/types.ts#L7)
 
 ___
 
@@ -570,7 +570,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:5](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L5)
+[packages/core/src/dom/index.ts:5](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L5)
 
 ___
 
@@ -587,7 +587,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:220](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L220)
+[packages/core/src/dom/index.ts:220](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L220)
 
 ___
 
@@ -603,7 +603,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:89](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L89)
+[packages/core/src/dom/index.ts:89](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L89)
 
 ___
 
@@ -621,7 +621,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/utils/removeSourceUrl.ts:1](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/removeSourceUrl.ts#L1)
+[packages/core/src/utils/removeSourceUrl.ts:1](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/removeSourceUrl.ts#L1)
 
 ___
 
@@ -631,7 +631,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/utils/matchers.ts:43](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/matchers.ts#L43)
+[packages/core/src/data/utils/matchers.ts:43](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/matchers.ts#L43)
 
 ___
 
@@ -653,7 +653,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/utils/endpoints.ts:1](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/endpoints.ts#L1)
+[packages/core/src/data/utils/endpoints.ts:1](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/endpoints.ts#L1)
 
 ___
 
@@ -669,7 +669,7 @@ https://codex.wordpress.org/Function_Reference/wp_kses_post
 
 #### Defined in
 
-[packages/core/src/dom/wpKsesPost.ts:72](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/wpKsesPost.ts#L72)
+[packages/core/src/dom/wpKsesPost.ts:72](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/wpKsesPost.ts#L72)
 
 ___
 
@@ -679,7 +679,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/utils/matchers.ts:7](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/matchers.ts#L7)
+[packages/core/src/data/utils/matchers.ts:7](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/matchers.ts#L7)
 
 ___
 
@@ -689,7 +689,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/utils/matchers.ts:20](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/matchers.ts#L20)
+[packages/core/src/data/utils/matchers.ts:20](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/matchers.ts#L20)
 
 ___
 
@@ -699,7 +699,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/utils/matchers.ts:56](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/matchers.ts#L56)
+[packages/core/src/data/utils/matchers.ts:56](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/matchers.ts#L56)
 
 ___
 
@@ -709,7 +709,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/dom/index.ts:142](https://github.com/10up/headless/blob/d270384/packages/core/src/dom/index.ts#L142)
+[packages/core/src/dom/index.ts:142](https://github.com/10up/headless/blob/5293da0/packages/core/src/dom/index.ts#L142)
 
 ___
 
@@ -730,7 +730,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/utils/url.ts:167](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/url.ts#L167)
+[packages/core/src/utils/url.ts:167](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/url.ts#L167)
 
 ___
 
@@ -751,7 +751,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/utils/asyncForEach.ts:1](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/asyncForEach.ts#L1)
+[packages/core/src/utils/asyncForEach.ts:1](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/asyncForEach.ts#L1)
 
 ___
 
@@ -793,7 +793,7 @@ Query string.
 
 #### Defined in
 
-[packages/core/src/utils/url.ts:129](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/url.ts#L129)
+[packages/core/src/utils/url.ts:129](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/url.ts#L129)
 
 ___
 
@@ -818,7 +818,7 @@ The redirect data
 
 #### Defined in
 
-[packages/core/src/utils/fetchRedirect.ts:48](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/fetchRedirect.ts#L48)
+[packages/core/src/utils/fetchRedirect.ts:48](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/fetchRedirect.ts#L48)
 
 ___
 
@@ -832,7 +832,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/api/fetch-utils.ts:3](https://github.com/10up/headless/blob/d270384/packages/core/src/data/api/fetch-utils.ts#L3)
+[packages/core/src/data/api/fetch-utils.ts:3](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/api/fetch-utils.ts#L3)
 
 ___
 
@@ -855,7 +855,7 @@ Returns a single post type by slug if defined
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:235](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L235)
+[packages/core/src/utils/getHeadlessConfig.ts:235](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L235)
 
 ___
 
@@ -877,7 +877,7 @@ Returns the avaliable post types
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:202](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L202)
+[packages/core/src/utils/getHeadlessConfig.ts:202](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L202)
 
 ___
 
@@ -899,7 +899,7 @@ Returns the avaliable post type slugs
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:189](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L189)
+[packages/core/src/utils/getHeadlessConfig.ts:189](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L189)
 
 ___
 
@@ -921,7 +921,7 @@ Returns the avaliable taxonomies
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:145](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L145)
+[packages/core/src/utils/getHeadlessConfig.ts:145](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L145)
 
 ___
 
@@ -944,7 +944,7 @@ Returns a single post type by slug if defined
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:179](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L179)
+[packages/core/src/utils/getHeadlessConfig.ts:179](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L179)
 
 ___
 
@@ -966,7 +966,7 @@ Returns the avaliable taxonomy slugs
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:132](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L132)
+[packages/core/src/utils/getHeadlessConfig.ts:132](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L132)
 
 ___
 
@@ -989,7 +989,7 @@ The contents of headless.config.js
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:16](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L16)
+[packages/core/src/utils/getHeadlessConfig.ts:16](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L16)
 
 ___
 
@@ -1005,7 +1005,7 @@ Returns the WP URL based on the headless config
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:252](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L252)
+[packages/core/src/utils/getHeadlessConfig.ts:252](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L252)
 
 ___
 
@@ -1037,7 +1037,7 @@ Query args object.
 
 #### Defined in
 
-[packages/core/src/utils/url.ts:78](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/url.ts#L78)
+[packages/core/src/utils/url.ts:78](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/url.ts#L78)
 
 ___
 
@@ -1057,7 +1057,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/utils/url.ts:49](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/url.ts#L49)
+[packages/core/src/utils/url.ts:49](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/url.ts#L49)
 
 ___
 
@@ -1079,7 +1079,7 @@ Get a config for a specific site
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:62](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L62)
+[packages/core/src/utils/getHeadlessConfig.ts:62](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L62)
 
 ___
 
@@ -1102,7 +1102,7 @@ Finds a site by host and optionally locale
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:84](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L84)
+[packages/core/src/utils/getHeadlessConfig.ts:84](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L84)
 
 ___
 
@@ -1126,7 +1126,7 @@ HeadlessConfig
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:122](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L122)
+[packages/core/src/utils/getHeadlessConfig.ts:122](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L122)
 
 ___
 
@@ -1142,7 +1142,7 @@ Returns the WP URL based on the headless config
 
 #### Defined in
 
-[packages/core/src/utils/getHeadlessConfig.ts:244](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/getHeadlessConfig.ts#L244)
+[packages/core/src/utils/getHeadlessConfig.ts:244](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/getHeadlessConfig.ts#L244)
 
 ___
 
@@ -1172,7 +1172,7 @@ True if the link is an external Url.
 
 #### Defined in
 
-[packages/core/src/utils/isExternalUrl.ts:12](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/isExternalUrl.ts#L12)
+[packages/core/src/utils/isExternalUrl.ts:12](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/isExternalUrl.ts#L12)
 
 ___
 
@@ -1195,7 +1195,7 @@ Checks if the url is for an internal link
 
 #### Defined in
 
-[packages/core/src/utils/isInternalLink.ts:13](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/isInternalLink.ts#L13)
+[packages/core/src/utils/isInternalLink.ts:13](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/isInternalLink.ts#L13)
 
 ___
 
@@ -1216,7 +1216,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/utils/postHandling.ts:47](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/postHandling.ts#L47)
+[packages/core/src/data/utils/postHandling.ts:47](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/postHandling.ts#L47)
 
 ___
 
@@ -1247,7 +1247,7 @@ The URL without the Source URL.
 
 #### Defined in
 
-[packages/core/src/utils/removeSourceUrl.ts:28](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/removeSourceUrl.ts#L28)
+[packages/core/src/utils/removeSourceUrl.ts:28](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/removeSourceUrl.ts#L28)
 
 ___
 
@@ -1275,7 +1275,7 @@ warn("You should do/change something.")
 
 #### Defined in
 
-[packages/core/src/utils/errors.ts:45](https://github.com/10up/headless/blob/d270384/packages/core/src/utils/errors.ts#L45)
+[packages/core/src/utils/errors.ts:45](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/errors.ts#L45)
 
 ## Utility Functions
 
@@ -1300,4 +1300,4 @@ the extracted parameters
 
 #### Defined in
 
-[packages/core/src/data/utils/parsePath.ts:46](https://github.com/10up/headless/blob/d270384/packages/core/src/data/utils/parsePath.ts#L46)
+[packages/core/src/data/utils/parsePath.ts:46](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/utils/parsePath.ts#L46)

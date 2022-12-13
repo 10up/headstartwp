@@ -37,7 +37,7 @@ IBlockAttributes.attributes
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:79](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L79)
+[packages/core/src/react/blocks/types.ts:79](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L79)
 
 ___
 
@@ -51,7 +51,7 @@ IBlockAttributes.children
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:77](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L77)
+[packages/core/src/react/blocks/types.ts:77](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L77)
 
 ___
 
@@ -65,7 +65,7 @@ IBlockAttributes.className
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:73](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L73)
+[packages/core/src/react/blocks/types.ts:73](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L73)
 
 ___
 
@@ -79,7 +79,7 @@ IBlockAttributes.domNode
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:75](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L75)
+[packages/core/src/react/blocks/types.ts:75](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L75)
 
 ___
 
@@ -89,7 +89,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/FileBlock.tsx:8](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/FileBlock.tsx#L8)
+[packages/core/src/react/blocks/FileBlock.tsx:8](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/FileBlock.tsx#L8)
 
 ___
 
@@ -103,7 +103,7 @@ IBlockAttributes.htmlAnchor
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:76](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L76)
+[packages/core/src/react/blocks/types.ts:76](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L76)
 
 ___
 
@@ -113,7 +113,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/FileBlock.tsx:7](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/FileBlock.tsx#L7)
+[packages/core/src/react/blocks/FileBlock.tsx:7](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/FileBlock.tsx#L7)
 
 ___
 
@@ -127,7 +127,7 @@ IBlockAttributes.name
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:72](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L72)
+[packages/core/src/react/blocks/types.ts:72](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L72)
 
 ___
 
@@ -137,7 +137,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/FileBlock.tsx:9](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/FileBlock.tsx#L9)
+[packages/core/src/react/blocks/FileBlock.tsx:9](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/FileBlock.tsx#L9)
 
 ___
 
@@ -151,4 +151,4 @@ IBlockAttributes.style
 
 #### Defined in
 
-[packages/core/src/react/blocks/types.ts:74](https://github.com/10up/headless/blob/d270384/packages/core/src/react/blocks/types.ts#L74)
+[packages/core/src/react/blocks/types.ts:74](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/types.ts#L74)
