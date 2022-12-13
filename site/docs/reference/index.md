@@ -1,3 +1,10 @@
+---
+id: "index"
+title: "10up's Headless Framework (BETA)"
+sidebar_label: "Readme"
+sidebar_position: 0
+custom_edit_url: null
+---
 
 # 10up's Headless Framework
 
@@ -8,7 +15,6 @@
 See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) guide.
 
 Visit [docs.headless.10up.com](https://docs.headless.10up.com) for full documentation.
-
 
 ## Support Level
 
