@@ -43,7 +43,9 @@ export function Yoast({ seo, useHtml = false }: Props) {
 					seo?.yoast_head.replace(/"(https?:\/[^"]+)"/g, (_match, link) => {
 						if (
 							link.match(
-								/\/(wp-(json|admin|content|includes))|feed|comments|xmlrpc\//,
+								new RegExp(
+									`^${sourceUrl}/((wp-(json|admin|content|includes))|feed|comments|xmlrpc)`,
+								),
 							)
 						) {
 							return link;

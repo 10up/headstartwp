@@ -6,7 +6,7 @@
 module.exports = {
 	sites: [
 		{
-			host: 'site1.localhost:3001',
+			hostUrl: 'http://site1.localhost:3001',
 			/**
 			 * The WordPress Source Url
 			 */
@@ -18,7 +18,7 @@ module.exports = {
 			useWordPressPlugin: true,
 		},
 		{
-			host: 'site2.localhost:3001',
+			hostUrl: 'http://site2.localhost:3001',
 			/**
 			 * The WordPress Source Url
 			 */
