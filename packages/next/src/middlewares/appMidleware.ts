@@ -36,6 +36,10 @@ export async function AppMiddleware(req: NextRequest) {
 		}
 	}
 
+	if (req.nextUrl.pathname.endsWith('/page/1') || req.nextUrl.pathname.endsWith('/page/1/')) {
+		return NextResponse.redirect(req.url.replace('/page/1', ''));
+	}
+
 	if (isMultisiteRequest) {
 		const url = req.nextUrl;
 		const hostname = req.headers.get('host') || '';

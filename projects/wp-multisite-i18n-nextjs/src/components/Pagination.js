@@ -24,15 +24,25 @@ export const Pagination = ({ pageInfo }) => {
 		<PaginationContainer>
 			{pageInfo.page > 1 && (
 				<PaginationItem>
-					<Link href={path.replace(`page/${pageInfo.page}`, `page/${pageInfo.page - 1}`)}>
+					<Link
+						href={path.replace(
+							`/page/${pageInfo.page}`,
+							pageInfo.page > 2 ? `/page/${pageInfo.page - 1}` : '',
+						)}
+					>
 						Prev
 					</Link>
 				</PaginationItem>
 			)}
 			{Array.from(Array(pageInfo.totalPages).keys()).map((page) => (
-				<PaginationItem>
+				<PaginationItem key={page + 1}>
 					{pageInfo.page !== page + 1 ? (
-						<Link href={path.replace(`page/${pageInfo.page}`, `page/${page + 1}`)}>
+						<Link
+							href={path.replace(
+								`/page/${pageInfo.page}`,
+								page > 0 ? `/page/${page + 1}` : '',
+							)}
+						>
 							{page + 1}
 						</Link>
 					) : (
@@ -42,7 +52,9 @@ export const Pagination = ({ pageInfo }) => {
 			))}
 			{pageInfo.page < pageInfo.totalPages && (
 				<PaginationItem>
-					<Link href={path.replace(`page/${pageInfo.page}`, `page/${pageInfo.page + 1}`)}>
+					<Link
+						href={path.replace(`/page/${pageInfo.page}`, `/page/${pageInfo.page + 1}`)}
+					>
 						Next
 					</Link>
 				</PaginationItem>
@@ -52,9 +64,9 @@ export const Pagination = ({ pageInfo }) => {
 };
 
 Pagination.propTypes = {
-	pageInfo: {
+	pageInfo: PropTypes.shape({
 		page: PropTypes.number,
 		totalItems: PropTypes.number,
 		totalPages: PropTypes.number,
-	}.isRequired,
+	}).isRequired,
 };
