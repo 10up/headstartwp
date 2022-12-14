@@ -2,10 +2,27 @@ import { Fragment } from 'react';
 import { removeSourceUrl } from '@10up/headless-core';
 import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
+import parse from 'html-react-parser';
 
-function convertUrl(url, hostUrl, sourceUrl) {
+function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
 }
+
+type Props = {
+	seo: {
+		yoast_head_json: Record<string, any>;
+		yoast_head?: string;
+		hide_on_google_news: boolean;
+	};
+
+	/**
+	 * If true, will make the Yoast component use the `yoast_head` raw html to populate meta tags
+	 * instead of `yoast_head_json`.
+	 *
+	 * `yoast_head` is the default and preferable option.
+	 */
+	useHtml?: boolean;
+};
 
 /**
  * The Yoast component renders the Yoast SEO meta tags.
@@ -15,8 +32,32 @@ function convertUrl(url, hostUrl, sourceUrl) {
  *
  * @category React Components
  */
-export function Yoast({ seo }) {
+export function Yoast({ seo, useHtml = false }: Props) {
 	const { hostUrl = '', sourceUrl = '' } = useSettings();
+
+	if (seo.yoast_head && useHtml) {
+		return (
+			<Head>
+				{parse(
+					// TODO: Not really a fan of this url replacement...
+					seo?.yoast_head.replace(/"(https?:\/[^"]+)"/g, (_match, link) => {
+						if (
+							link.match(
+								new RegExp(
+									`^${sourceUrl}/((wp-(json|admin|content|includes))|feed|comments|xmlrpc)`,
+								),
+							)
+						) {
+							return link;
+						}
+
+						return convertUrl(link, hostUrl, sourceUrl);
+					}),
+				)}
+			</Head>
+		);
+	}
+
 	return (
 		<Head>
 			{seo?.yoast_head_json?.title && <title>{seo.yoast_head_json.title}</title>}
