@@ -36,6 +36,14 @@ export type HeadlessAppProps = {
 	 */
 	pageProps: any;
 
+	/**
+	 * If true, will make the Yoast component use the `yoast_head` raw html to populate meta tags
+	 * instead of `yoast_head_json`.
+	 *
+	 * `yoast_head` is the default and preferable option.
+	 */
+	useYoastHtml?: boolean;
+
 	children?: ReactNode;
 };
 
@@ -74,7 +82,13 @@ export type HeadlessAppProps = {
  *
  * @category React Components
  */
-export function HeadlessApp({ settings, children, pageProps, swrConfig = {} }: HeadlessAppProps) {
+export function HeadlessApp({
+	settings,
+	children,
+	pageProps,
+	swrConfig = {},
+	useYoastHtml = false,
+}: HeadlessAppProps) {
 	const { fallback = {}, seo = {}, themeJSON = { settings: {}, styles: {} } } = pageProps;
 	const router = useRouter();
 
@@ -103,7 +117,7 @@ export function HeadlessApp({ settings, children, pageProps, swrConfig = {} }: H
 					...swrConfig,
 				}}
 			>
-				<Yoast seo={seo} />
+				<Yoast seo={seo} useHtml={useYoastHtml} />
 				<ThemeSettingsProvider data={themeJSON}>{children}</ThemeSettingsProvider>
 			</SWRConfig>
 		</SettingsProvider>

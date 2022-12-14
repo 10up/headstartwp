@@ -40,6 +40,7 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 	 */
 	async fetcher(url: string, params: Partial<PostsArchiveParams>) {
 		let seo_json: Record<string, any> = {};
+		let seo: string = '';
 
 		try {
 			const result = await apiGet(
@@ -48,6 +49,7 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 				}),
 			);
 
+			seo = result.json.html;
 			seo_json = { ...result.json.json };
 		} catch (e) {
 			// do nothing
@@ -58,7 +60,7 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 				searchedValue: params.search ?? '',
 				type: 'post',
 				subtype: params.postType ?? 'post',
-				yoast_head: '',
+				yoast_head: seo,
 				yoast_head_json: {
 					...seo_json,
 				},

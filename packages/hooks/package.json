@@ -10,7 +10,6 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "test": "jest --selectProjects dom",
     "test:watch": "jest --selectProjects dom --watch",
     "create-hook": "plop"
   },
@@ -22,7 +21,7 @@
     }
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.5",
