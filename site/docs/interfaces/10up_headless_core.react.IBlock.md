@@ -79,7 +79,7 @@ Omit.children
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:53](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L53)
+[packages/core/src/react/components/BlocksRenderer.tsx:53](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L53)
 
 ___
 
@@ -97,7 +97,7 @@ Omit.classList
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:41](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L41)
+[packages/core/src/react/components/BlocksRenderer.tsx:41](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L41)
 
 ___
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:66](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L66)
+[packages/core/src/react/components/BlocksRenderer.tsx:66](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L66)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:67](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L67)
+[packages/core/src/react/components/BlocksRenderer.tsx:67](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L67)
 
 ___
 
@@ -131,7 +131,7 @@ Omit.domNode
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:65](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L65)
+[packages/core/src/react/components/BlocksRenderer.tsx:65](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L65)
 
 ___
 
@@ -165,7 +165,7 @@ Omit.exclude
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:27](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L27)
+[packages/core/src/react/components/BlocksRenderer.tsx:27](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L27)
 
 ___
 
@@ -181,7 +181,7 @@ Omit.style
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:58](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L58)
+[packages/core/src/react/components/BlocksRenderer.tsx:58](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L58)
 
 ___
 
@@ -199,4 +199,4 @@ Omit.tagName
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:34](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L34)
+[packages/core/src/react/components/BlocksRenderer.tsx:34](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L34)

@@ -31,7 +31,7 @@ Note: the children of the domNode are recursively parsed.
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:53](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L53)
+[packages/core/src/react/components/BlocksRenderer.tsx:53](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L53)
 
 ___
 
@@ -49,7 +49,7 @@ If tagName is specified, then classList is mandatory
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:41](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L41)
+[packages/core/src/react/components/BlocksRenderer.tsx:41](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L41)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:66](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L66)
+[packages/core/src/react/components/BlocksRenderer.tsx:66](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L66)
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:67](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L67)
+[packages/core/src/react/components/BlocksRenderer.tsx:67](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L67)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:65](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L65)
+[packages/core/src/react/components/BlocksRenderer.tsx:65](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L65)
 
 ___
 
@@ -125,7 +125,7 @@ This is useful to selectively disregard certain children of a node when replacin
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:27](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L27)
+[packages/core/src/react/components/BlocksRenderer.tsx:27](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L27)
 
 ___
 
@@ -141,7 +141,7 @@ The style tag of the domNode as an object.
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:58](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L58)
+[packages/core/src/react/components/BlocksRenderer.tsx:58](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L58)
 
 ___
 
@@ -159,4 +159,4 @@ If a test function is not supplied, then passing tagName is mandatory
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:34](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L34)
+[packages/core/src/react/components/BlocksRenderer.tsx:34](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L34)

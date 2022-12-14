@@ -23,7 +23,7 @@ Interface for entities from the /wp/v2/search endpoint.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:632](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L632)
+[packages/core/src/data/types/entities.ts:632](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L632)
 
 ___
 
@@ -35,7 +35,7 @@ Subtype of Search for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:642](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L642)
+[packages/core/src/data/types/entities.ts:642](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L642)
 
 ___
 
@@ -47,7 +47,7 @@ Type of Search for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:637](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L637)
+[packages/core/src/data/types/entities.ts:637](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L637)
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:645](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L645)
+[packages/core/src/data/types/entities.ts:645](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L645)
 
 ___
 
@@ -67,4 +67,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:644](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L644)
+[packages/core/src/data/types/entities.ts:644](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L644)

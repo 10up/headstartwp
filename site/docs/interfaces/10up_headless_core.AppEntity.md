@@ -27,7 +27,7 @@ Empty interface from which all entities inherit.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:679](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L679)
+[packages/core/src/data/types/entities.ts:679](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L679)
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:689](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L689)
+[packages/core/src/data/types/entities.ts:689](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L689)
 
 ___
 
@@ -57,4 +57,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:682](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L682)
+[packages/core/src/data/types/entities.ts:682](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L682)

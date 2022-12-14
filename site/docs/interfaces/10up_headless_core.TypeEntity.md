@@ -25,7 +25,7 @@ A human-readable description of the post type.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:360](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L360)
+[packages/core/src/data/types/entities.ts:360](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L360)
 
 ___
 
@@ -37,7 +37,7 @@ Whether or not the post type should have children.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:365](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L365)
+[packages/core/src/data/types/entities.ts:365](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L365)
 
 ___
 
@@ -49,7 +49,7 @@ The title for the post type.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:370](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L370)
+[packages/core/src/data/types/entities.ts:370](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L370)
 
 ___
 
@@ -61,7 +61,7 @@ REST base route for the post type.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:380](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L380)
+[packages/core/src/data/types/entities.ts:380](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L380)
 
 ___
 
@@ -73,7 +73,7 @@ An alphanumeric identifier for the post type.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:375](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L375)
+[packages/core/src/data/types/entities.ts:375](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L375)
 
 ___
 
@@ -85,4 +85,4 @@ Taxonomies associated with post type.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:385](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L385)
+[packages/core/src/data/types/entities.ts:385](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L385)

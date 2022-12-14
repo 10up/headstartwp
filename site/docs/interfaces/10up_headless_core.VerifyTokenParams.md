@@ -31,7 +31,7 @@ It's recommended to avoid additional requests to fetch data
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
 
 ___
 
@@ -47,7 +47,7 @@ The _fields parameter is used to return only the specified fields in the respons
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
 
 ___
 
@@ -57,4 +57,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/strategies/VerifyTokenFetchStrategy.ts:9](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/VerifyTokenFetchStrategy.ts#L9)
+[packages/core/src/data/strategies/VerifyTokenFetchStrategy.ts:9](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/VerifyTokenFetchStrategy.ts#L9)

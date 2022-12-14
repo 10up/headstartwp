@@ -23,7 +23,7 @@ Avatar URL with image size of 24 pixels.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:487](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L487)
+[packages/core/src/data/types/entities.ts:487](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L487)
 
 ___
 
@@ -35,7 +35,7 @@ Avatar URL with image size of 48 pixels.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:492](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L492)
+[packages/core/src/data/types/entities.ts:492](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L492)
 
 ___
 
@@ -47,4 +47,4 @@ Avatar URL with image size of 96 pixels.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:497](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L497)
+[packages/core/src/data/types/entities.ts:497](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L497)

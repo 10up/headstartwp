@@ -107,7 +107,7 @@ This component must be used within a [BlocksRenderer](10up_headless_core.react.m
 
 #### Defined in
 
-[packages/core/src/react/blocks/AudioBlock.tsx:58](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/AudioBlock.tsx#L58)
+[packages/core/src/react/blocks/AudioBlock.tsx:58](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/AudioBlock.tsx#L58)
 
 ___
 
@@ -137,7 +137,7 @@ This component must be used within a [BlocksRenderer](10up_headless_core.react.m
 
 #### Defined in
 
-[packages/core/src/react/blocks/ButtonBlock.tsx:62](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/ButtonBlock.tsx#L62)
+[packages/core/src/react/blocks/ButtonBlock.tsx:62](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/ButtonBlock.tsx#L62)
 
 ___
 
@@ -167,7 +167,7 @@ This component must be used within a [BlocksRenderer](10up_headless_core.react.m
 
 #### Defined in
 
-[packages/core/src/react/blocks/ButtonsBlock.tsx:28](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/ButtonsBlock.tsx#L28)
+[packages/core/src/react/blocks/ButtonsBlock.tsx:28](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/ButtonsBlock.tsx#L28)
 
 ___
 
@@ -197,7 +197,7 @@ This component must be used within a [BlocksRenderer](10up_headless_core.react.m
 
 #### Defined in
 
-[packages/core/src/react/blocks/CodeBlock.tsx:32](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/CodeBlock.tsx#L32)
+[packages/core/src/react/blocks/CodeBlock.tsx:32](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/CodeBlock.tsx#L32)
 
 ## Data Fetching Hooks
 
@@ -241,7 +241,7 @@ the actual data fetching logic
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetch.ts:26](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetch.ts#L26)
+[packages/core/src/react/hooks/useFetch.ts:26](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetch.ts#L26)
 
 ___
 
@@ -266,7 +266,7 @@ See useAppSettings
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchAppSettings.ts:21](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchAppSettings.ts#L21)
+[packages/core/src/react/hooks/useFetchAppSettings.ts:21](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchAppSettings.ts#L21)
 
 ___
 
@@ -289,7 +289,7 @@ The useFetchMenu hooks. Returns a Menu object.
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchMenu.ts:50](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchMenu.ts#L50)
+[packages/core/src/react/hooks/useFetchMenu.ts:50](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchMenu.ts#L50)
 
 ___
 
@@ -316,7 +316,7 @@ See usePosts for usage instructions.
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchPosts.ts:79](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchPosts.ts#L79)
+[packages/core/src/react/hooks/useFetchPosts.ts:79](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchPosts.ts#L79)
 
 ___
 
@@ -342,7 +342,7 @@ See useSearch for usage instructions.
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchSearch.ts:32](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchSearch.ts#L32)
+[packages/core/src/react/hooks/useFetchSearch.ts:32](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchSearch.ts#L32)
 
 ___
 
@@ -368,7 +368,7 @@ See useTerms for usage instructions.
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchTerms.ts:29](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchTerms.ts#L29)
+[packages/core/src/react/hooks/useFetchTerms.ts:29](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchTerms.ts#L29)
 
 ## Other
 
@@ -392,7 +392,7 @@ See useTerms for usage instructions.
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:15](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L15)
+[packages/core/src/react/components/Menu.tsx:15](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L15)
 
 ___
 
@@ -402,7 +402,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:10](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L10)
+[packages/core/src/react/components/Menu.tsx:10](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L10)
 
 ___
 
@@ -426,7 +426,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:27](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L27)
+[packages/core/src/react/components/Menu.tsx:27](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L27)
 
 ___
 
@@ -436,7 +436,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:23](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L23)
+[packages/core/src/react/components/Menu.tsx:23](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L23)
 
 ___
 
@@ -457,7 +457,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:29](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L29)
+[packages/core/src/react/components/Menu.tsx:29](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L29)
 
 ___
 
@@ -481,7 +481,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:21](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L21)
+[packages/core/src/react/components/Menu.tsx:21](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L21)
 
 ___
 
@@ -491,7 +491,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L17)
+[packages/core/src/react/components/Menu.tsx:17](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L17)
 
 ___
 
@@ -515,7 +515,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchPosts.ts:19](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchPosts.ts#L19)
+[packages/core/src/react/hooks/useFetchPosts.ts:19](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchPosts.ts#L19)
 
 ___
 
@@ -525,7 +525,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:5](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L5)
+[packages/core/src/react/provider/types.ts:5](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L5)
 
 ___
 
@@ -535,7 +535,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:10](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L10)
+[packages/core/src/react/provider/types.ts:10](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L10)
 
 ___
 
@@ -545,7 +545,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:24](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L24)
+[packages/core/src/react/provider/types.ts:24](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L24)
 
 ___
 
@@ -555,7 +555,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:18](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L18)
+[packages/core/src/react/provider/types.ts:18](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L18)
 
 ___
 
@@ -565,7 +565,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:289](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L289)
+[packages/core/src/react/provider/types.ts:289](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L289)
 
 ___
 
@@ -575,7 +575,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/Provider.tsx:5](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/Provider.tsx#L5)
+[packages/core/src/react/provider/Provider.tsx:5](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/Provider.tsx#L5)
 
 ___
 
@@ -585,7 +585,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/ThemeSettingsProvider.tsx:4](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/ThemeSettingsProvider.tsx#L4)
+[packages/core/src/react/provider/ThemeSettingsProvider.tsx:4](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/ThemeSettingsProvider.tsx#L4)
 
 ___
 
@@ -605,7 +605,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/ColumnBlock.tsx:11](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/ColumnBlock.tsx#L11)
+[packages/core/src/react/blocks/ColumnBlock.tsx:11](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/ColumnBlock.tsx#L11)
 
 ___
 
@@ -625,7 +625,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/ColumnsBlocks.tsx:11](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/ColumnsBlocks.tsx#L11)
+[packages/core/src/react/blocks/ColumnsBlocks.tsx:11](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/ColumnsBlocks.tsx#L11)
 
 ___
 
@@ -645,7 +645,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/CoverBlock.tsx:24](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/CoverBlock.tsx#L24)
+[packages/core/src/react/blocks/CoverBlock.tsx:24](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/CoverBlock.tsx#L24)
 
 ___
 
@@ -665,7 +665,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/DebugBlock.tsx:4](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/DebugBlock.tsx#L4)
+[packages/core/src/react/blocks/DebugBlock.tsx:4](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/DebugBlock.tsx#L4)
 
 ___
 
@@ -685,7 +685,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/FileBlock.tsx:14](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/FileBlock.tsx#L14)
+[packages/core/src/react/blocks/FileBlock.tsx:14](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/FileBlock.tsx#L14)
 
 ___
 
@@ -705,7 +705,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/GroupBlock.tsx:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/GroupBlock.tsx#L17)
+[packages/core/src/react/blocks/GroupBlock.tsx:17](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/GroupBlock.tsx#L17)
 
 ___
 
@@ -725,7 +725,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/HeadingBlock.tsx:12](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/HeadingBlock.tsx#L12)
+[packages/core/src/react/blocks/HeadingBlock.tsx:12](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/HeadingBlock.tsx#L12)
 
 ___
 
@@ -745,7 +745,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/ImageBlock.tsx:19](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/ImageBlock.tsx#L19)
+[packages/core/src/react/blocks/ImageBlock.tsx:19](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/ImageBlock.tsx#L19)
 
 ___
 
@@ -765,7 +765,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/ListBlock.tsx:12](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/ListBlock.tsx#L12)
+[packages/core/src/react/blocks/ListBlock.tsx:12](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/ListBlock.tsx#L12)
 
 ___
 
@@ -785,7 +785,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/MediaTextBlock.tsx:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/MediaTextBlock.tsx#L22)
+[packages/core/src/react/blocks/MediaTextBlock.tsx:22](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/MediaTextBlock.tsx#L22)
 
 ___
 
@@ -805,7 +805,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:109](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L109)
+[packages/core/src/react/components/Menu.tsx:109](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L109)
 
 ___
 
@@ -825,7 +825,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/components/Menu.tsx:54](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/Menu.tsx#L54)
+[packages/core/src/react/components/Menu.tsx:54](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/Menu.tsx#L54)
 
 ___
 
@@ -845,7 +845,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/ParagraphBlock.tsx:13](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/ParagraphBlock.tsx#L13)
+[packages/core/src/react/blocks/ParagraphBlock.tsx:13](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/ParagraphBlock.tsx#L13)
 
 ___
 
@@ -865,7 +865,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/PreformatedBlock.tsx:11](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/PreformatedBlock.tsx#L11)
+[packages/core/src/react/blocks/PreformatedBlock.tsx:11](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/PreformatedBlock.tsx#L11)
 
 ___
 
@@ -885,7 +885,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/PullQuote.tsx:15](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/PullQuote.tsx#L15)
+[packages/core/src/react/blocks/PullQuote.tsx:15](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/PullQuote.tsx#L15)
 
 ___
 
@@ -905,7 +905,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/QuoteBlock.tsx:10](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/QuoteBlock.tsx#L10)
+[packages/core/src/react/blocks/QuoteBlock.tsx:10](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/QuoteBlock.tsx#L10)
 
 ___
 
@@ -925,7 +925,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/SeparatorBlock.tsx:10](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/SeparatorBlock.tsx#L10)
+[packages/core/src/react/blocks/SeparatorBlock.tsx:10](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/SeparatorBlock.tsx#L10)
 
 ___
 
@@ -966,7 +966,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/SpacerBlock.tsx:12](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/SpacerBlock.tsx#L12)
+[packages/core/src/react/blocks/SpacerBlock.tsx:12](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/SpacerBlock.tsx#L12)
 
 ___
 
@@ -986,7 +986,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/TableBlock.tsx:12](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/TableBlock.tsx#L12)
+[packages/core/src/react/blocks/TableBlock.tsx:12](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/TableBlock.tsx#L12)
 
 ___
 
@@ -1027,7 +1027,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/blocks/VerseBlock.tsx:11](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/VerseBlock.tsx#L11)
+[packages/core/src/react/blocks/VerseBlock.tsx:11](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/VerseBlock.tsx#L11)
 
 ___
 
@@ -1049,7 +1049,7 @@ Renders Youtube embeds with lite-youtube-embed
 
 #### Defined in
 
-[packages/core/src/react/blocks/YoutubeLiteBlock.tsx:32](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/YoutubeLiteBlock.tsx#L32)
+[packages/core/src/react/blocks/YoutubeLiteBlock.tsx:32](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/YoutubeLiteBlock.tsx#L32)
 
 ___
 
@@ -1083,7 +1083,7 @@ Returns the block name and attributes
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlock.ts:30](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlock.ts#L30)
+[packages/core/src/react/blocks/hooks/useBlock.ts:30](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlock.ts#L30)
 
 ___
 
@@ -1105,7 +1105,7 @@ Returns the block align style (if avaliable)
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockAlign.ts:16](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockAlign.ts#L16)
+[packages/core/src/react/blocks/hooks/useBlockAlign.ts:16](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockAlign.ts#L16)
 
 ___
 
@@ -1137,7 +1137,7 @@ useBlockAttributes hooks returns the block attributes for a given block based on
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockAttributes.ts:18](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockAttributes.ts#L18)
+[packages/core/src/react/blocks/hooks/useBlockAttributes.ts:18](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockAttributes.ts#L18)
 
 ___
 
@@ -1159,7 +1159,7 @@ Returns the block style (if avaliable)
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockBorder.ts:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockBorder.ts#L17)
+[packages/core/src/react/blocks/hooks/useBlockBorder.ts:17](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockBorder.ts#L17)
 
 ___
 
@@ -1181,7 +1181,7 @@ Returns the block style (if avaliable)
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockColors.ts:25](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockColors.ts#L25)
+[packages/core/src/react/blocks/hooks/useBlockColors.ts:25](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockColors.ts#L25)
 
 ___
 
@@ -1203,7 +1203,7 @@ Returns the block style (if avaliable)
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockSpacing.ts:21](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockSpacing.ts#L21)
+[packages/core/src/react/blocks/hooks/useBlockSpacing.ts:21](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockSpacing.ts#L21)
 
 ___
 
@@ -1225,7 +1225,7 @@ Returns the block style (if avaliable)
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockStyle.ts:10](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockStyle.ts#L10)
+[packages/core/src/react/blocks/hooks/useBlockStyle.ts:10](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockStyle.ts#L10)
 
 ___
 
@@ -1247,7 +1247,7 @@ Returns the block style (if avaliable)
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockTypography.ts:24](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockTypography.ts#L24)
+[packages/core/src/react/blocks/hooks/useBlockTypography.ts:24](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockTypography.ts#L24)
 
 ___
 
@@ -1269,7 +1269,7 @@ Returns the block style (if avaliable)
 
 #### Defined in
 
-[packages/core/src/react/blocks/hooks/useBlockWidth.ts:16](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/blocks/hooks/useBlockWidth.ts#L16)
+[packages/core/src/react/blocks/hooks/useBlockWidth.ts:16](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/blocks/hooks/useBlockWidth.ts#L16)
 
 ___
 
@@ -1295,7 +1295,7 @@ See useAuthorArchive
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchAuthorArchive.ts:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchAuthorArchive.ts#L22)
+[packages/core/src/react/hooks/useFetchAuthorArchive.ts:22](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchAuthorArchive.ts#L22)
 
 ___
 
@@ -1317,7 +1317,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchPost.ts:30](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchPost.ts#L30)
+[packages/core/src/react/hooks/useFetchPost.ts:30](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchPost.ts#L30)
 
 ___
 
@@ -1331,7 +1331,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/provider/useSettings.ts:4](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/useSettings.ts#L4)
+[packages/core/src/react/provider/useSettings.ts:4](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/useSettings.ts#L4)
 
 ___
 
@@ -1355,7 +1355,7 @@ Returns a single theme setting normalized
 
 #### Defined in
 
-[packages/core/src/react/provider/useThemeSetting.ts:20](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/useThemeSetting.ts#L20)
+[packages/core/src/react/provider/useThemeSetting.ts:20](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/useThemeSetting.ts#L20)
 
 ___
 
@@ -1371,7 +1371,7 @@ Returns the raw theme.json settings definitions
 
 #### Defined in
 
-[packages/core/src/react/provider/useThemeSettings.ts:9](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/useThemeSettings.ts#L9)
+[packages/core/src/react/provider/useThemeSettings.ts:9](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/useThemeSettings.ts#L9)
 
 ___
 
@@ -1387,7 +1387,7 @@ Returns the theme.json styles definitions
 
 #### Defined in
 
-[packages/core/src/react/provider/useThemeStyles.ts:9](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/useThemeStyles.ts#L9)
+[packages/core/src/react/provider/useThemeStyles.ts:9](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/useThemeStyles.ts#L9)
 
 ## React Components
 
@@ -1427,4 +1427,4 @@ The children components must implement the [BlockProps](../interfaces/10up_headl
 
 #### Defined in
 
-[packages/core/src/react/components/BlocksRenderer.tsx:157](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/components/BlocksRenderer.tsx#L157)
+[packages/core/src/react/components/BlocksRenderer.tsx:157](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/components/BlocksRenderer.tsx#L157)

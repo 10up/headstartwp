@@ -19,7 +19,7 @@ Optional. If set, will fowardh fetch options to the fetch strategy
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:32](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L32)
+[packages/next/src/data/utils.ts:32](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L32)
 
 ___
 
@@ -31,7 +31,7 @@ Optional. If set, the data will be filtered given FilterDataOptions
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:27](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L27)
+[packages/next/src/data/utils.ts:27](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L27)
 
 ___
 
@@ -43,4 +43,4 @@ This should match params passed to the hook on the client side.
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:22](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L22)
+[packages/next/src/data/utils.ts:22](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L22)

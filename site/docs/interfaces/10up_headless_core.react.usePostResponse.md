@@ -31,7 +31,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[packages/core/src/react/hooks/useFetchPost.ts:15](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/useFetchPost.ts#L15)
+[packages/core/src/react/hooks/useFetchPost.ts:15](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/useFetchPost.ts#L15)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/hooks/types.ts:6](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/types.ts#L6)
+[packages/core/src/react/hooks/types.ts:6](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/types.ts#L6)
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/hooks/types.ts:8](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/types.ts#L8)
+[packages/core/src/react/hooks/types.ts:8](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/types.ts#L8)
 
 ___
 
@@ -73,4 +73,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/react/hooks/types.ts:7](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/hooks/types.ts#L7)
+[packages/core/src/react/hooks/types.ts:7](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/hooks/types.ts#L7)

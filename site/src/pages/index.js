@@ -34,7 +34,7 @@ export default function Home() {
 				</header>
 				<section className={`${styles.grid} content-wrapper`}>
 					<article className={`${styles.gridItem} homeGrid__item`}>
-						<Link to="/guides">
+						<Link to="/docs">
 							<img
 								src={guideSketch}
 								alt="Two hand drawn books with light bulb over them"

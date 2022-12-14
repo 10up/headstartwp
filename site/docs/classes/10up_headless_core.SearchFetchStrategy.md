@@ -40,7 +40,7 @@ The strategy constructor
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:103](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L103)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:103](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L103)
 
 ## Properties
 
@@ -56,7 +56,7 @@ The base URL where the API is located
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:90](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L90)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:90](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L90)
 
 ___
 
@@ -72,7 +72,7 @@ Holds the current endpoint for the strategy
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:85](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L85)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:85](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L85)
 
 ## Methods
 
@@ -98,7 +98,7 @@ Handles taxonomy filters and switch endpoint based on post type
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:267](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L267)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:267](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L267)
 
 ___
 
@@ -128,7 +128,7 @@ instead the user should be informated that no posts were found
 
 #### Defined in
 
-[packages/core/src/data/strategies/SearchFetchStrategy.ts:41](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SearchFetchStrategy.ts#L41)
+[packages/core/src/data/strategies/SearchFetchStrategy.ts:41](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SearchFetchStrategy.ts#L41)
 
 ___
 
@@ -158,7 +158,7 @@ The filtered data
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:449](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L449)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:449](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L449)
 
 ___
 
@@ -192,7 +192,7 @@ new PostsArchiveFetchStrategy('http://my-wp-url.com').get({perPage: 10});
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:309](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L309)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:309](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L309)
 
 ___
 
@@ -213,7 +213,7 @@ for the strategy
 
 #### Defined in
 
-[packages/core/src/data/strategies/SearchFetchStrategy.ts:20](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SearchFetchStrategy.ts#L20)
+[packages/core/src/data/strategies/SearchFetchStrategy.ts:20](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SearchFetchStrategy.ts#L20)
 
 ___
 
@@ -236,7 +236,7 @@ The current endpoint for the strategy
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:130](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L130)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:130](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L130)
 
 ___
 
@@ -265,7 +265,7 @@ It also takes into account the custom taxonomies specified in `headless.config.j
 
 #### Defined in
 
-[packages/core/src/data/strategies/SearchFetchStrategy.ts:24](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SearchFetchStrategy.ts#L24)
+[packages/core/src/data/strategies/SearchFetchStrategy.ts:24](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SearchFetchStrategy.ts#L24)
 
 ___
 
@@ -292,7 +292,7 @@ Returns the queried object if applicable (e.g if querying by category, tag, auth
 
 #### Defined in
 
-[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:380](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L380)
+[packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts:380](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/PostsArchiveFetchStrategy.ts#L380)
 
 ___
 
@@ -319,7 +319,7 @@ Checks if this is the main query for a page
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:157](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L157)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:157](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L157)
 
 ___
 
@@ -344,7 +344,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:185](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L185)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:185](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L185)
 
 ___
 
@@ -368,7 +368,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:120](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L120)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:120](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L120)
 
 ___
 
@@ -396,4 +396,4 @@ E.g: The actual endpoint for a post depends on its post_type
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:116](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L116)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:116](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L116)

@@ -31,7 +31,7 @@ It's recommended to avoid additional requests to fetch data
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:17](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L17)
 
 ___
 
@@ -47,7 +47,7 @@ The _fields parameter is used to return only the specified fields in the respons
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:22](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L22)
 
 ___
 
@@ -59,7 +59,7 @@ The authToken, required to fetch revisions or non-published posts
 
 #### Defined in
 
-[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:46](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L46)
+[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:46](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L46)
 
 ___
 
@@ -71,7 +71,7 @@ Fetch post by id
 
 #### Defined in
 
-[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:36](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L36)
+[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:36](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L36)
 
 ___
 
@@ -86,7 +86,7 @@ multiple requests will be issued to each post type until a matching post is foun
 
 #### Defined in
 
-[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:31](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L31)
+[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:31](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L31)
 
 ___
 
@@ -98,7 +98,7 @@ If set will fetch the latest post revision
 
 #### Defined in
 
-[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:41](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L41)
+[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:41](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L41)
 
 ___
 
@@ -110,4 +110,4 @@ The slug of the post to fetch
 
 #### Defined in
 
-[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:23](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L23)
+[packages/core/src/data/strategies/SinglePostFetchStrategy.ts:23](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/SinglePostFetchStrategy.ts#L23)

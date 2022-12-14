@@ -55,7 +55,7 @@ A response object.
 
 #### Defined in
 
-[packages/next/src/handlers/previewHandler.ts:80](https://github.com/10up/headless/blob/5293da0/packages/next/src/handlers/previewHandler.ts#L80)
+[packages/next/src/handlers/previewHandler.ts:80](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/handlers/previewHandler.ts#L80)
 
 ___
 
@@ -95,7 +95,7 @@ A response object.
 
 #### Defined in
 
-[packages/next/src/handlers/revalidateHandler.ts:30](https://github.com/10up/headless/blob/5293da0/packages/next/src/handlers/revalidateHandler.ts#L30)
+[packages/next/src/handlers/revalidateHandler.ts:30](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/handlers/revalidateHandler.ts#L30)
 
 ## Data Fetching Hooks
 
@@ -138,7 +138,7 @@ that you can access global settings and menus in your pages & components
 
 #### Defined in
 
-[packages/next/src/data/hooks/useAppSettings.ts:36](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/useAppSettings.ts#L36)
+[packages/next/src/data/hooks/useAppSettings.ts:36](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/hooks/useAppSettings.ts#L36)
 
 ___
 
@@ -190,7 +190,7 @@ The following URL params are supported:
 
 #### Defined in
 
-[packages/next/src/data/hooks/useAuthorArchive.ts:43](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/useAuthorArchive.ts#L43)
+[packages/next/src/data/hooks/useAuthorArchive.ts:43](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/hooks/useAuthorArchive.ts#L43)
 
 ___
 
@@ -247,7 +247,7 @@ export const Nav = () => {
 
 #### Defined in
 
-[packages/next/src/data/hooks/useMenu.ts:46](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/useMenu.ts#L46)
+[packages/next/src/data/hooks/useMenu.ts:46](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/hooks/useMenu.ts#L46)
 
 ___
 
@@ -295,7 +295,7 @@ The `pages/[...path].js` route for instance would yield a URL like this: `/post-
 
 #### Defined in
 
-[packages/next/src/data/hooks/usePost.ts:39](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/usePost.ts#L39)
+[packages/next/src/data/hooks/usePost.ts:39](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/hooks/usePost.ts#L39)
 
 ___
 
@@ -375,7 +375,7 @@ If you're you are not using the built-in WordPress authors for your author archi
 
 #### Defined in
 
-[packages/next/src/data/hooks/usePosts.ts:73](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/usePosts.ts#L73)
+[packages/next/src/data/hooks/usePosts.ts:73](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/hooks/usePosts.ts#L73)
 
 ___
 
@@ -412,7 +412,7 @@ The `pages/search/[[...path]].js` route for instance would yield a URL like this
 
 #### Defined in
 
-[packages/next/src/data/hooks/useSearch.ts:28](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/useSearch.ts#L28)
+[packages/next/src/data/hooks/useSearch.ts:28](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/hooks/useSearch.ts#L28)
 
 ___
 
@@ -441,7 +441,7 @@ const { loading, data } = useTerms({ taxonomy: 'category', slug: 'cat-name' });
 
 #### Defined in
 
-[packages/next/src/data/hooks/useTerms.ts:20](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/hooks/useTerms.ts#L20)
+[packages/next/src/data/hooks/useTerms.ts:20](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/hooks/useTerms.ts#L20)
 
 ## Next.js Data Fetching Utilities
 
@@ -479,7 +479,7 @@ export async function getServerSideProps(context) {
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:183](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L183)
+[packages/next/src/data/utils.ts:183](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L183)
 
 ___
 
@@ -501,7 +501,7 @@ Creates a path from array of arguments
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:42](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L42)
+[packages/next/src/data/utils.ts:42](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L42)
 
 ___
 
@@ -549,7 +549,7 @@ export async function getServerSideProps(context) {
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:101](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L101)
+[packages/next/src/data/utils.ts:101](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L101)
 
 ___
 
@@ -591,7 +591,7 @@ export async function getServerSideProps(context) {
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:301](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L301)
+[packages/next/src/data/utils.ts:301](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L301)
 
 ## Other
 
@@ -612,7 +612,7 @@ The props supported by [HeadlessApp](10up_headless_next.md#headlessapp).
 
 #### Defined in
 
-[packages/next/src/components/HeadlessApp.tsx:14](https://github.com/10up/headless/blob/5293da0/packages/next/src/components/HeadlessApp.tsx#L14)
+[packages/next/src/components/HeadlessApp.tsx:14](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/components/HeadlessApp.tsx#L14)
 
 ___
 
@@ -630,7 +630,7 @@ ___
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:154](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L154)
+[packages/next/src/data/utils.ts:154](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L154)
 
 ___
 
@@ -647,7 +647,7 @@ ___
 
 #### Defined in
 
-[packages/next/src/blocks/LinkBlock.tsx:8](https://github.com/10up/headless/blob/5293da0/packages/next/src/blocks/LinkBlock.tsx#L8)
+[packages/next/src/blocks/LinkBlock.tsx:8](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/blocks/LinkBlock.tsx#L8)
 
 ___
 
@@ -666,7 +666,7 @@ The options supported by [previewHandler](10up_headless_next.md#previewhandler)
 
 #### Defined in
 
-[packages/next/src/handlers/previewHandler.ts:10](https://github.com/10up/headless/blob/5293da0/packages/next/src/handlers/previewHandler.ts#L10)
+[packages/next/src/handlers/previewHandler.ts:10](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/handlers/previewHandler.ts#L10)
 
 ___
 
@@ -690,7 +690,7 @@ HeadlessConfig
 
 #### Defined in
 
-[packages/next/src/data/utils.ts:56](https://github.com/10up/headless/blob/5293da0/packages/next/src/data/utils.ts#L56)
+[packages/next/src/data/utils.ts:56](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/data/utils.ts#L56)
 
 ## React Components
 
@@ -740,7 +740,7 @@ export default MyApp;
 
 #### Defined in
 
-[packages/next/src/components/HeadlessApp.tsx:77](https://github.com/10up/headless/blob/5293da0/packages/next/src/components/HeadlessApp.tsx#L77)
+[packages/next/src/components/HeadlessApp.tsx:77](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/components/HeadlessApp.tsx#L77)
 
 ___
 
@@ -775,7 +775,7 @@ import { ImageComponent } from "@10up/headless-next";
 
 #### Defined in
 
-[packages/next/src/components/ImageComponent.tsx:25](https://github.com/10up/headless/blob/5293da0/packages/next/src/components/ImageComponent.tsx#L25)
+[packages/next/src/components/ImageComponent.tsx:25](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/components/ImageComponent.tsx#L25)
 
 ___
 
@@ -810,7 +810,7 @@ The next/link component
 
 #### Defined in
 
-[packages/next/src/blocks/LinkBlock.tsx:35](https://github.com/10up/headless/blob/5293da0/packages/next/src/blocks/LinkBlock.tsx#L35)
+[packages/next/src/blocks/LinkBlock.tsx:35](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/blocks/LinkBlock.tsx#L35)
 
 ___
 
@@ -843,7 +843,7 @@ import { TwitterBlock } from "@10up/headless-next";
 
 #### Defined in
 
-[packages/next/src/blocks/TwitterBlock.tsx:24](https://github.com/10up/headless/blob/5293da0/packages/next/src/blocks/TwitterBlock.tsx#L24)
+[packages/next/src/blocks/TwitterBlock.tsx:24](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/blocks/TwitterBlock.tsx#L24)
 
 ___
 
@@ -866,4 +866,4 @@ This component is automatically rendered by [HeadlessApp](10up_headless_next.md#
 
 #### Defined in
 
-[packages/next/src/components/Yoast.tsx:18](https://github.com/10up/headless/blob/5293da0/packages/next/src/components/Yoast.tsx#L18)
+[packages/next/src/components/Yoast.tsx:18](https://github.com/10up/headless/blob/2a6e2a0/packages/next/src/components/Yoast.tsx#L18)

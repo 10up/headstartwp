@@ -31,7 +31,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/core/src/utils/errors.ts:11](https://github.com/10up/headless/blob/5293da0/packages/core/src/utils/errors.ts#L11)
+[packages/core/src/utils/errors.ts:11](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/utils/errors.ts#L11)
 
 ## Properties
 

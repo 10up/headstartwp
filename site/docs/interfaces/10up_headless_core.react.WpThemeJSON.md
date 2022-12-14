@@ -17,7 +17,7 @@ JSON schema URI for theme.json.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:36](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L36)
+[packages/core/src/react/provider/types.ts:36](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L36)
 
 ___
 
@@ -29,7 +29,7 @@ Additional metadata for custom templates defined in the templates folder.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:256](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L256)
+[packages/core/src/react/provider/types.ts:256](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L256)
 
 ___
 
@@ -45,7 +45,7 @@ Settings for the block editor and individual blocks. These include things like:
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:48](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L48)
+[packages/core/src/react/provider/types.ts:48](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L48)
 
 ___
 
@@ -57,7 +57,7 @@ Organized way to set CSS properties. Styles in the top-level will be added in th
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:147](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L147)
+[packages/core/src/react/provider/types.ts:147](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L147)
 
 ___
 
@@ -69,7 +69,7 @@ Additional metadata for template parts defined in the parts folder.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:273](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L273)
+[packages/core/src/react/provider/types.ts:273](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L273)
 
 ___
 
@@ -81,4 +81,4 @@ Version of theme.json to use.
 
 #### Defined in
 
-[packages/core/src/react/provider/types.ts:40](https://github.com/10up/headless/blob/5293da0/packages/core/src/react/provider/types.ts#L40)
+[packages/core/src/react/provider/types.ts:40](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/react/provider/types.ts#L40)

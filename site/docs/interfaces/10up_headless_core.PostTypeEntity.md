@@ -44,7 +44,7 @@ Interfaces that extends from this one are:
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:96](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L96)
+[packages/core/src/data/types/entities.ts:96](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L96)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:92](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L92)
+[packages/core/src/data/types/entities.ts:92](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L92)
 
 ___
 
@@ -66,7 +66,7 @@ Whether or not comments are open on the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:104](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L104)
+[packages/core/src/data/types/entities.ts:104](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L104)
 
 ___
 
@@ -78,7 +78,7 @@ The date the object was published, in the site's timezone.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:40](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L40)
+[packages/core/src/data/types/entities.ts:40](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L40)
 
 ___
 
@@ -90,7 +90,7 @@ The date the object was published, as GMT.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:45](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L45)
+[packages/core/src/data/types/entities.ts:45](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L45)
 
 ___
 
@@ -102,7 +102,7 @@ The globally unique identifier for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:50](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L50)
+[packages/core/src/data/types/entities.ts:50](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L50)
 
 ___
 
@@ -114,7 +114,7 @@ Unique identifier for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:65](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L65)
+[packages/core/src/data/types/entities.ts:65](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L65)
 
 ___
 
@@ -126,7 +126,7 @@ URL to the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:70](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L70)
+[packages/core/src/data/types/entities.ts:70](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L70)
 
 ___
 
@@ -138,7 +138,7 @@ The date the object was last modified, in the site's timezone.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:55](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L55)
+[packages/core/src/data/types/entities.ts:55](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L55)
 
 ___
 
@@ -150,7 +150,7 @@ The date the object was last modified, as GMT.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:60](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L60)
+[packages/core/src/data/types/entities.ts:60](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L60)
 
 ___
 
@@ -162,7 +162,7 @@ Whether or not the object can be pinged.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:109](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L109)
+[packages/core/src/data/types/entities.ts:109](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L109)
 
 ___
 
@@ -174,7 +174,7 @@ An alphanumeric identifier for the object unique to its type.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:75](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L75)
+[packages/core/src/data/types/entities.ts:75](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L75)
 
 ___
 
@@ -186,7 +186,7 @@ A named status for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:80](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L80)
+[packages/core/src/data/types/entities.ts:80](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L80)
 
 ___
 
@@ -196,7 +196,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:94](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L94)
+[packages/core/src/data/types/entities.ts:94](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L94)
 
 ___
 
@@ -208,7 +208,7 @@ The title for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:90](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L90)
+[packages/core/src/data/types/entities.ts:90](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L90)
 
 ___
 
@@ -220,7 +220,7 @@ Type of Post for the object.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:85](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L85)
+[packages/core/src/data/types/entities.ts:85](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L85)
 
 ___
 
@@ -230,7 +230,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:112](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L112)
+[packages/core/src/data/types/entities.ts:112](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L112)
 
 ___
 
@@ -240,4 +240,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:111](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L111)
+[packages/core/src/data/types/entities.ts:111](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L111)

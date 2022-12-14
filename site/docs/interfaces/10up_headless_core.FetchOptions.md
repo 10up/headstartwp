@@ -19,7 +19,7 @@ The autherntication token to use for the request.
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:58](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L58)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:58](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L58)
 
 ___
 
@@ -31,4 +31,4 @@ Whether to thrown an exception if data is not found.
 
 #### Defined in
 
-[packages/core/src/data/strategies/AbstractFetchStrategy.ts:53](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L53)
+[packages/core/src/data/strategies/AbstractFetchStrategy.ts:53](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/strategies/AbstractFetchStrategy.ts#L53)

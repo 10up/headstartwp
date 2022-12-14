@@ -29,7 +29,7 @@ Number of published posts for the term.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:439](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L439)
+[packages/core/src/data/types/entities.ts:439](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L439)
 
 ___
 
@@ -41,7 +41,7 @@ HTML description of the term.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:444](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L444)
+[packages/core/src/data/types/entities.ts:444](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L444)
 
 ___
 
@@ -53,7 +53,7 @@ Unique identifier for the term.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:434](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L434)
+[packages/core/src/data/types/entities.ts:434](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L434)
 
 ___
 
@@ -65,7 +65,7 @@ URL of the term.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:449](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L449)
+[packages/core/src/data/types/entities.ts:449](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L449)
 
 ___
 
@@ -77,7 +77,7 @@ Meta fields.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:474](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L474)
+[packages/core/src/data/types/entities.ts:474](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L474)
 
 ___
 
@@ -89,7 +89,7 @@ HTML title for the term.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:454](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L454)
+[packages/core/src/data/types/entities.ts:454](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L454)
 
 ___
 
@@ -101,7 +101,7 @@ The parent term ID.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:469](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L469)
+[packages/core/src/data/types/entities.ts:469](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L469)
 
 ___
 
@@ -113,7 +113,7 @@ An alphanumeric identifier for the term unique to its type.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:459](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L459)
+[packages/core/src/data/types/entities.ts:459](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L459)
 
 ___
 
@@ -125,7 +125,7 @@ Type attribution for the term.
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:464](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L464)
+[packages/core/src/data/types/entities.ts:464](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L464)
 
 ___
 
@@ -135,7 +135,7 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:477](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L477)
+[packages/core/src/data/types/entities.ts:477](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L477)
 
 ___
 
@@ -145,4 +145,4 @@ ___
 
 #### Defined in
 
-[packages/core/src/data/types/entities.ts:476](https://github.com/10up/headless/blob/5293da0/packages/core/src/data/types/entities.ts#L476)
+[packages/core/src/data/types/entities.ts:476](https://github.com/10up/headless/blob/2a6e2a0/packages/core/src/data/types/entities.ts#L476)
