@@ -145,4 +145,13 @@ describe('removeSourceUrl', () => {
 			}),
 		).toBe('/subdir/post-name-1#id');
 	});
+
+	it('does nothing if url starts with a hash', () => {
+		expect(
+			removeSourceUrl({
+				link: '#id',
+				backendUrl: 'https://backendurl.com',
+			}),
+		).toBe('#id');
+	});
 });

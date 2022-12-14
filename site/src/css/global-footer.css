@@ -1,0 +1,99 @@
+.footer {
+  padding-inline: 0;
+  border-top: 2px solid var(--ifm-color-secondary-lightest);
+}
+
+.footer-about {
+  background-color: var(--ifm-color-secondary-lightest);
+  padding: 3rem var(--ifm-spacing-horizontal);
+}
+
+.footer-about-inner {
+  margin: 0 auto;
+  max-width: var(--wide-width);
+  text-align: center;
+}
+
+.cta-careers {
+  vertical-align: top;
+}
+
+.license {
+  margin-top: 20px;
+}
+
+.license p {
+  margin: 0;
+}
+
+.license .copyright {
+  margin-right: 4px;
+}
+
+@media (min-width: 900px) {
+  .cta-careers {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    width: 48%;
+  }
+
+  .license {
+    display: inline-block;
+    margin-left: 2%;
+    text-align: right;
+    width: 48%;
+    margin-top: 0;
+  }
+}
+
+.cta-careers .button {
+  margin-top: .5em;
+  background-color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.cta-careers .button:hover {
+  background-color: var(--ifm-color-primary-dark);
+}
+
+
+.footer-10up {
+  padding: 3rem var(--ifm-spacing-horizontal);
+}
+
+.footer-10up .wrap {
+  margin: 0 auto;
+  max-width: var(--wide-width);
+  text-align: center;
+}
+
+.footer-10up .social-media svg {
+  width: 25px;
+  margin-right: 15px;
+}
+
+.footer-10up .social-media path {
+  fill: var(--ifm-color-gray-600);
+}
+
+.footer-10up .social-media svg:hover path {
+  fill: var(--ifm-color-black);
+}
+
+.footer-10up p {
+  margin: 20px 0;
+}
+
+@media (min-width: 900px) {
+  .footer-10up .wrap {
+    display: flex;
+    text-align: left;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-10up p {
+    margin: 0;
+  }
+}

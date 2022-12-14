@@ -1,0 +1,9 @@
+.theme-doc-markdown h1 {
+	border-bottom: 1px dashed #ddd;
+	padding-bottom: 2rem;
+	margin-bottom: 2rem;
+}
+
+main > .container {
+	margin-bottom: 4rem;
+}
