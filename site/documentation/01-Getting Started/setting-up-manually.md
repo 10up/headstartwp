@@ -1,4 +1,6 @@
-The recommended way to get started with the framework is by installing the official started project. See [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) for more information.
+# Setting up the framework from scratch
+
+The recommended way to get started with the framework is by installing the official started project. See [Getting Started](/docs) for more information.
 
 This guide will help you set up the framework in a clean Next.js project.
 
@@ -116,6 +118,30 @@ import { previewHandler } from '@10up/headless-next';
  */
 export default async function handler(req, res) {
 	return previewHandler(req, res);
+}
+```
+
+### Setting up the revalidate endpoint
+
+The framework supports ISR revalidation triggered by WordPress. To enable ISR revalidate, make sure you have the WordPress plugin enabled and activate the option in WordPress settings.
+
+![ISR Option](../../static/img/revalidate-option.png)
+
+Then add the `revalidateHandler` to `pages/api/revalidate.js`
+
+```js
+import { revalidateHandler } from '@10up/headless-next';
+
+/**
+ * The revalidate endpoint just needs to proxy the default revalidate handler
+ *
+ * @param {*} req Next.js request object
+ * @param {*} res  Next.js response object
+ *
+ * @returns
+ */
+export default async function handler(req, res) {
+	return revalidateHandler(req, res);
 }
 ```
 
