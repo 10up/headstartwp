@@ -36,6 +36,12 @@ export type HeadlessAppProps = {
 	 */
 	pageProps: any;
 
+	/**
+	 * If true, will make the Yoast component use the `yoast_head` raw html to populate meta tags
+	 * instead of `yoast_head_json`.
+	 *
+	 * `yoast_head` is the default and preferable option.
+	 */
 	useYoastHtml?: boolean;
 
 	children?: ReactNode;

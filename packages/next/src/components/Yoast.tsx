@@ -14,6 +14,13 @@ type Props = {
 		yoast_head?: string;
 		hide_on_google_news: boolean;
 	};
+
+	/**
+	 * If true, will make the Yoast component use the `yoast_head` raw html to populate meta tags
+	 * instead of `yoast_head_json`.
+	 *
+	 * `yoast_head` is the default and preferable option.
+	 */
 	useHtml?: boolean;
 };
 
