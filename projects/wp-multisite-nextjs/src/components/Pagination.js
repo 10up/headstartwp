@@ -26,8 +26,8 @@ export const Pagination = ({ pageInfo }) => {
 				<PaginationItem>
 					<Link
 						href={path.replace(
-							`page/${pageInfo.page}`,
-							pageInfo.page > 2 ? `page/${pageInfo.page - 1}` : '',
+							`/page/${pageInfo.page}`,
+							pageInfo.page > 2 ? `/page/${pageInfo.page - 1}` : '',
 						)}
 					>
 						Prev
@@ -39,8 +39,8 @@ export const Pagination = ({ pageInfo }) => {
 					{pageInfo.page !== page + 1 ? (
 						<Link
 							href={path.replace(
-								`page/${pageInfo.page}`,
-								page > 0 ? `page/${page + 1}` : '',
+								`/page/${pageInfo.page}`,
+								page > 0 ? `/page/${page + 1}` : '',
 							)}
 						>
 							{page + 1}
@@ -52,7 +52,9 @@ export const Pagination = ({ pageInfo }) => {
 			))}
 			{pageInfo.page < pageInfo.totalPages && (
 				<PaginationItem>
-					<Link href={path.replace(`page/${pageInfo.page}`, `page/${pageInfo.page + 1}`)}>
+					<Link
+						href={path.replace(`/page/${pageInfo.page}`, `/page/${pageInfo.page + 1}`)}
+					>
 						Next
 					</Link>
 				</PaginationItem>
