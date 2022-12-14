@@ -31,7 +31,7 @@ export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSou
 	const sourceUrl = backendUrl.replace(/\/?$/, '/');
 	const appUrl = publicUrl.replace(/\/?$/, '/');
 
-	if (sourceUrl === '/') {
+	if (sourceUrl === '/' || link.startsWith('#')) {
 		return link;
 	}
 
