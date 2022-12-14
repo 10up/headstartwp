@@ -1,5 +1,15 @@
 # @10up/headless-core
 
+## 0.5.0-next.6
+
+### Minor Changes
+
+- ae938bd: Add ability to use the `yoast_head` html to populate the head tags instead of manually rendering every property of the yoast_head_json
+
+### Patch Changes
+
+- f393ac9: fix: removeSourceUrl should not add a / to the beginning of the link if it's a hash link. [#267](https://github.com/10up/headless/issues/267)
+
 ## 0.5.0-next.5
 
 ### Patch Changes

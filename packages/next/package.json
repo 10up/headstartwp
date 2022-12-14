@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-next",
-  "version": "0.5.0-next.3",
+  "version": "0.5.0-next.4",
   "description": "",
   "main": "dist/cjs/index.js",
   "source": "src/index.ts",
@@ -44,7 +44,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@10up/headless-core": "^0.5.0-next.5",
+    "@10up/headless-core": "^0.5.0-next.6",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
     "next-transpile-modules": "^10.0.0",
