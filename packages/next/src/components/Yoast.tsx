@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { removeSourceUrl } from '@10up/headless-core';
 import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
+import parse from 'html-react-parser';
 
 function convertUrl(url, hostUrl, sourceUrl) {
 	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
@@ -17,6 +18,29 @@ function convertUrl(url, hostUrl, sourceUrl) {
  */
 export function Yoast({ seo }) {
 	const { hostUrl = '', sourceUrl = '' } = useSettings();
+
+	// TODO: Config option?
+	if (true) {
+		return (
+			<Head>
+				{parse(
+					// TODO: Not really a fan of this url replacement...
+					seo?.yoast_head.replace(/"(https?:\/[^"]+)"/g, (_match, link) => {
+						if (
+							link.match(
+								/\/(wp-(json|admin|content|includes))|feed|comments|xmlrpc\//,
+							)
+						) {
+							return link;
+						}
+
+						return convertUrl(link, hostUrl, sourceUrl);
+					}),
+				)}
+			</Head>
+		);
+	}
+
 	return (
 		<Head>
 			{seo?.yoast_head_json?.title && <title>{seo.yoast_head_json.title}</title>}

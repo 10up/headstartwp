@@ -146,7 +146,7 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 
 		return {
 			...data,
-			result: removeFields(['yoast_head', '_links'], data.result) as TermEntity[],
+			result: removeFields(['_links'], data.result) as TermEntity[],
 		};
 	}
 }

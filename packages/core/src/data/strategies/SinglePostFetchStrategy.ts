@@ -249,7 +249,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			return this.filterData(data, filterOptions);
 		}
 
-		const fieldsToRemove = ['yoast_head', '_links'];
+		const fieldsToRemove = ['_links'];
 
 		const post = removeFields(fieldsToRemove, data.result) as PostEntity;
 

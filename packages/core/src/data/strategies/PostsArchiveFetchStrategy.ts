@@ -451,7 +451,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			return super.filterData(data, options) as unknown as FetchResponse<PostEntity[]>;
 		}
 
-		const fieldsToRemove = ['yoast_head', '_links'];
+		const fieldsToRemove = ['_links'];
 
 		const queriedObject = { ...data.queriedObject };
 
