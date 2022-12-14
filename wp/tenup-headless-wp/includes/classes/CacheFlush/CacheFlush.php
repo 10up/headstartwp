@@ -12,7 +12,7 @@ use HeadlessWP\Plugin;
 /**
  * The Cache Flush class
  *
- * Handles triggering cacle flush requests
+ * Handles triggering cache flush requests
  */
 class CacheFlush {
 

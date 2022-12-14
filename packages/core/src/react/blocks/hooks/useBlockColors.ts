@@ -17,7 +17,7 @@ interface ColorBlockAttributes extends IBlockAttributes, Colors {
 }
 
 /**
- * Returns the block style (if avaliable)
+ * Returns the block style (if available)
  *
  * @param node DomNode
  * @returns

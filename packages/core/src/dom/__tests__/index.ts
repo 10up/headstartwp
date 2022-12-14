@@ -20,7 +20,7 @@ describe('isAnchorTag', () => {
 		expect(isAnchorTag(node)).toBe(false);
 	});
 
-	it('properly detecets anchor nodes with internal links', () => {
+	it('properly detects anchor nodes with internal links', () => {
 		let node = new Element('a', { href: 'https://backendurl.com/post-name' });
 		expect(isAnchorTag(node, { isInternalLink: true })).toBe(true);
 

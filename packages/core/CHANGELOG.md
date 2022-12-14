@@ -14,7 +14,7 @@
 
 ### Patch Changes
 
-- 9aea8ab: Fix child pages with same slugs but different parent. Takes the link propety in account to properly match the right page.
+- 9aea8ab: Fix child pages with same slugs but different parent. Takes the link property in account to properly match the right page.
 
 ## 0.5.0-next.4
 
@@ -40,13 +40,13 @@
 
 - 4c52fbc: Improve redirect handling in `fetchRedirect`.
 
-  It nows detects redirects that might cause infinite loop and ignore redirects for `wp-login.php`, `wp-register.php` and `wp-admin`.
+  It now detects redirects that might cause infinite loop and ignore redirects for `wp-login.php`, `wp-register.php` and `wp-admin`.
 
 ## 0.5.0-next.1
 
 ### Patch Changes
 
-- 6bd469a: add js-xss options param to wpKsesPost and expposing sanitizeFn function to BlocksRenderer
+- 6bd469a: add js-xss options param to wpKsesPost and exposing sanitizeFn function to BlocksRenderer
 
   ## wpKsesPost
 
@@ -88,7 +88,7 @@
 
 ### Patch Changes
 
-- 803299e: Fix previwing revisions of published posts
+- 803299e: Fix previewing revisions of published posts
 
 ## 0.4.3
 
@@ -96,7 +96,7 @@
 
 - ae8739d: Optimize next.js props
 - ec25cdd: Fix queried object detection, account for querying by id as well
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that drwas params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
 - 9141bb3: Convert back-end urls in seo metadata to front-end urls
 - b3d2216: Further optimize next.js props
 
@@ -128,7 +128,7 @@
 
 ### Patch Changes
 
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that drwas params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
 
 ## 0.4.2
 
@@ -188,13 +188,13 @@
 
 ### Minor Changes
 
-- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet avaliable.
+- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet available.
 
 ## 0.3.0-next.0
 
 ### Minor Changes
 
-- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet avaliable.
+- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet available.
 
 ## 0.2.1
 

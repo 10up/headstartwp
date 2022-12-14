@@ -36,7 +36,7 @@ export interface ButtonBlockProps extends IBlockAttributes {
 	rel?: string;
 
 	/**
-	 * The link placeholer text
+	 * The link placeholder text
 	 */
 	placeholder?: string;
 }

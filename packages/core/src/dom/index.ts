@@ -54,7 +54,7 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  *
  * @category DOM Helpers
  *
- * @returns Whether it's a anchor tag accoriding to the options passed
+ * @returns Whether it's an anchor tag according to the options passed
  */
 export function isAnchorTag(
 	node: DOMNode,
@@ -88,7 +88,7 @@ export function isAnchorTag(
 
 export type isImageTagOptions = {
 	/**
-	 * If true, will check if the image tag contains wdith and height attributes
+	 * If true, will check if the image tag contains width and height attributes
 	 */
 	hasDimensions?: boolean;
 };

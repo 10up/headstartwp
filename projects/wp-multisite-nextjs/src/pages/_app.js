@@ -22,11 +22,11 @@ const MyApp = ({ Component, pageProps }) => {
 			pageProps={pageProps}
 			swrConfig={{
 				/**
-				 * Setting this to true will refetch content whethenever the tab is refocused
+				 * Setting this to true will refetch content whenever the tab is refocused
 				 */
 				revalidateOnFocus: false,
 				/**
-				 * Settings this to true will refetch content whenever the connection is restablished
+				 * Settings this to true will refetch content whenever the connection is reestablished
 				 */
 				revalidateOnReconnect: false,
 				/**

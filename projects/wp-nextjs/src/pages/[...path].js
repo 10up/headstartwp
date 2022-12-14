@@ -32,7 +32,7 @@ export default SinglePostsPage;
 
 /**
  * This is an example of pre-rendering a set of pages at build times.
- * In this specific example, we are pre-rendering the first 50 posts (withn dates in the URL) and the first 50 pages.
+ * In this specific example, we are pre-rendering the first 50 posts (within dates in the URL) and the first 50 pages.
  *
  * @returns {Promise<*>}
  */
