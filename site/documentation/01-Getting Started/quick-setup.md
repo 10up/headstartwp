@@ -1,3 +1,9 @@
+---
+sidebar_label: Quick Setup
+---
+
+# Quick Setup
+
 If you're new to Next.js, we recommend reviewing [Next.js docs](https://nextjs.org/docs/getting-started).
 
 ## System Requirements
@@ -17,7 +23,7 @@ Then run `npm run dev` and open http://localhost:3000 in your browser.
 
 ### Environment Variables
 
-By default the starter project will point to js1.10up.com. Either change the 
+By default the starter project will point to `js1.10up.com`. Either change the 
 `NEXT_PUBLIC_HEADLESS_WP_URL` variable or create a `.env.local` file to override the default env variables.
 
 If you're developing locally and using HTTPS with WordPress and you don't have valid certs, you will need to add `NODE_TLS_REJECT_UNAUTHORIZED=0` as a env variable

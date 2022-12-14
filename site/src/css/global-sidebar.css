@@ -1,0 +1,21 @@
+.theme-doc-sidebar-container a {
+	text-decoration: none
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+	/* background: var(--ifm-color-white); */
+	outline: 1px solid #ddd;
+	box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.1);
+}
+
+.menu__list {
+	font-size: .875rem;
+}
+
+.menu__list-item-collapsible {
+	font-size: 1.125rem;
+}
+
+.menu__list-item-collapsible a {
+	color: black;
+}

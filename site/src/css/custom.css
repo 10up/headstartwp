@@ -1,0 +1,21 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+
+@font-face {
+  font-family: "Virgil";
+  src: url("/static/Virgil.woff2") format("woff2");
+}
+
+@import "variables";
+@import "global-site";
+@import "global-header";
+@import "global-footer";
+@import "global-sidebar";
+@import "homepage-search";
+@import "homepage-components";
+@import "docs-content";
