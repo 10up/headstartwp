@@ -15,7 +15,7 @@ jobs:
         node-version: '16'
     - run: npm ci && npm run build:packages
     - run: cd site && npm ci && npm run build
-    - run: mv -R site/build projects/docs/static
+    - run: mv site/build projects/docs/static
     - run: rm projects/docs/.gitignore
     - name: Force push to destination branch
       id: push_directory
