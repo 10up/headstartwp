@@ -4,9 +4,18 @@ import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
 import parse from 'html-react-parser';
 
-function convertUrl(url, hostUrl, sourceUrl) {
+function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
 }
+
+type Props = {
+	seo: {
+		yoast_head_json: Record<string, any>;
+		yoast_head?: string;
+		hide_on_google_news: boolean;
+	};
+	useHtml?: boolean;
+};
 
 /**
  * The Yoast component renders the Yoast SEO meta tags.
@@ -16,11 +25,10 @@ function convertUrl(url, hostUrl, sourceUrl) {
  *
  * @category React Components
  */
-export function Yoast({ seo }) {
+export function Yoast({ seo, useHtml = false }: Props) {
 	const { hostUrl = '', sourceUrl = '' } = useSettings();
 
-	// TODO: Config option?
-	if (true) {
+	if (seo.yoast_head && useHtml) {
 		return (
 			<Head>
 				{parse(

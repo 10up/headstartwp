@@ -37,6 +37,7 @@ const MyApp = ({ Component, pageProps }) => {
 			settings={{
 				linkComponent: Link,
 			}}
+			useYoastHtml
 		>
 			<Layout>
 				<Component {...props} />
