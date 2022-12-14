@@ -1,5 +1,18 @@
 # @10up/headless-next
 
+## 0.5.0-next.4
+
+### Minor Changes
+
+- ae938bd: Add ability to use the `yoast_head` html to populate the head tags instead of manually rendering every property of the yoast_head_json
+
+### Patch Changes
+
+- 3fc39d3: Redirect :path/page/1 to :path/
+- Updated dependencies [f393ac9]
+- Updated dependencies [ae938bd]
+  - @10up/headless-core@0.5.0-next.6
+
 ## 0.5.0-next.3
 
 ### Patch Changes
