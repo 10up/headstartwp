@@ -11,8 +11,12 @@ function isInternalRequest(req: NextRequest) {
 	return req.nextUrl.pathname.startsWith('/_next');
 }
 
+function isApiRequest(req) {
+	return req.nextUrl.pathname.startsWith('/api');
+}
+
 export async function AppMiddleware(req: NextRequest) {
-	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
+	if (isStaticAssetRequest(req) || isInternalRequest(req) || isApiRequest(req)) {
 		return NextResponse.next();
 	}
 
