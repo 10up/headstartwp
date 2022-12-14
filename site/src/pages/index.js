@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -6,15 +7,7 @@ import SearchBar from '@theme/SearchBar';
 
 import guideSketch from '@site/static/img/guides-sketch.png';
 import referenceSketch from '@site/static/img/reference-sketch.png';
-import trainingSketch from '@site/static/img/training-sketch.png';
-import gotQuestionsImage from '@site/static/img/got-questions.png';
 
-import contribBlock from '@site/static/img/contrib-block.png';
-import contribBlock2x from '@site/static/img/contrib-block@2x.png';
-import contribDocs from '@site/static/img/contrib-docs.png';
-import contribDocs2x from '@site/static/img/contrib-docs@2x.png';
-import contribScaffold from '@site/static/img/contrib-scaffold.png';
-import contribScaffold2x from '@site/static/img/contrib-scaffold@2x.png';
 import styles from './index.module.css';
 
 export default function Home() {
