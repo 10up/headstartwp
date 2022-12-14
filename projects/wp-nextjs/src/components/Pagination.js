@@ -35,7 +35,7 @@ export const Pagination = ({ pageInfo }) => {
 				</PaginationItem>
 			)}
 			{Array.from(Array(pageInfo.totalPages).keys()).map((page) => (
-				<PaginationItem>
+				<PaginationItem key={page + 1}>
 					{pageInfo.page !== page + 1 ? (
 						<Link
 							href={path.replace(
@@ -64,9 +64,9 @@ export const Pagination = ({ pageInfo }) => {
 };
 
 Pagination.propTypes = {
-	pageInfo: {
+	pageInfo: PropTypes.shape({
 		page: PropTypes.number,
 		totalItems: PropTypes.number,
 		totalPages: PropTypes.number,
-	}.isRequired,
+	}).isRequired,
 };
