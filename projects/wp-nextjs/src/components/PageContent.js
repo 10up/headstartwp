@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic';
 const Blocks = dynamic(() => import('./Blocks'));
 
 /**
- * This is an example of how an inner componnet can access the data without explicity passing the data to it.
- * This reduces prop drilling but creates an implicit dependecy with its parent. Use this strategy with caution and on components that are tied to a particular route.
+ * This is an example of how an inner component can access the data without explicitly passing the data to it.
+ * This reduces prop drilling but creates an implicit dependency with its parent. Use this strategy with caution and on components that are tied to a particular route.
  *
  * @param {*} props Props object
  *

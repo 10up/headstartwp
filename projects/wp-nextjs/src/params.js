@@ -20,7 +20,7 @@ export const blogParams = {
 	postType: 'post',
 
 	/**
-	 * Specyfing the _fields param reduces the amount of data queried and returned by the API.
+	 * Specifying the _fields param reduces the amount of data queried and returned by the API.
 	 */
 	_fields: ['id', 'title', 'link'],
 };

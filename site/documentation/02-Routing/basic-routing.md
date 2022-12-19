@@ -10,7 +10,7 @@ The headless framework takes advantage of Next.js routing by leveraging a featur
 
 ## How Routing Works
 
-To undertand how routing works in the headless framework, let’s take a look at the route in the starter project ([src/pages/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/%5B...path%5D.js)) that corresponds to a single post/page template (single.php) in WordPress.
+To understand how routing works in the headless framework, let’s take a look at the route in the starter project ([src/pages/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/%5B...path%5D.js)) that corresponds to a single post/page template (single.php) in WordPress.
 
 First, note that it is using single brackets and not double brackets. That is because we only want to “catch” that route if no other top-level route is matched (such as `index.js`). Therefore, any route in the form of /post-name or /2022/10/1 will match `src/[...path].js`. You can confirm this by opening any post by either the /post-name route or the date route. E.g:
 

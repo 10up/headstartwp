@@ -1,5 +1,5 @@
 /**
- * Some hosting requires a health-check endpoint to monitor site avaliabiliy
+ * Some hosting requires a health-check endpoint to monitor site availability
  *
  * @param {*} req Next.js request
  * @param {*} res Next.js response

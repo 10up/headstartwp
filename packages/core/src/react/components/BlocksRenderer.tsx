@@ -13,8 +13,8 @@ import { getInlineStyles } from '../blocks/utils';
  */
 export interface BlockProps {
 	/**
-	 * A test function receives a domNode and returns a boolean valua indicating
-	 * whether that domNode should be replaced with the react component
+	 * A test function receives a domNode and returns a boolean value indicating
+	 * whether that domNode should be replaced with the React component
 	 */
 	test?: (domNode: Element, site?: HeadlessConfig) => boolean;
 
@@ -169,7 +169,7 @@ export function BlocksRenderer({ html, ksesAllowList, sanitizeFn, children }: Bl
 			const { test: testFn, tagName, classList } = block.props;
 			const hasTestFunction = typeof testFn === 'function';
 
-			// if has a test function component is not invaldi
+			// if has a test function component is not invalid
 			if (hasTestFunction) {
 				return false;
 			}

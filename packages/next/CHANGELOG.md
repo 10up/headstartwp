@@ -63,7 +63,7 @@
 
 - ae8739d: Optimize next.js props
 - ec25cdd: Fix queried object detection, account for querying by id as well
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that drwas params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
 - 7923590: Fix: do not include preview params in swr key
 - 9141bb3: Convert back-end urls in seo metadata to front-end urls
 - b3d2216: Further optimize next.js props
@@ -110,7 +110,7 @@
 
 ### Patch Changes
 
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that drwas params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
 - 7923590: Fix: do not include preview params in swr key
 - Updated dependencies [dc7edb1]
   - @10up/headless-core@0.4.3-next.0
@@ -185,7 +185,7 @@
 
 ### Minor Changes
 
-- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet avaliable.
+- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet available.
 
 ### Patch Changes
 
@@ -196,7 +196,7 @@
 
 ### Minor Changes
 
-- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet avaliable.
+- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet available.
 
 ### Patch Changes
 
