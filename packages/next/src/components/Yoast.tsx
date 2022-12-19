@@ -39,19 +39,19 @@ export function Yoast({ seo, useHtml = false }: Props) {
 		return (
 			<Head>
 				{parse(
-					// TODO: Not really a fan of this url replacement...
 					seo?.yoast_head.replace(/"(https?:\/[^"]+)"/g, (_match, link) => {
 						if (
 							link.match(
 								new RegExp(
 									`^${sourceUrl}/((wp-(json|admin|content|includes))|feed|comments|xmlrpc)`,
 								),
-							)
+							) ||
+							!link.startsWith(sourceUrl)
 						) {
-							return link;
+							return `"${link}"`;
 						}
 
-						return convertUrl(link, hostUrl, sourceUrl);
+						return `"${convertUrl(link, hostUrl, sourceUrl)}"`;
 					}),
 				)}
 			</Head>
