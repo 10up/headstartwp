@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.5.0-next.5
+
+### Patch Changes
+
+- b5e59cd: Fix url replacement on Yoast component
+
 ## 0.5.0-next.4
 
 ### Minor Changes
