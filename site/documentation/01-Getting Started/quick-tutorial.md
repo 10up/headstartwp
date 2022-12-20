@@ -1,14 +1,15 @@
 ---
-sidebar_position: 1
+slug: /getting-started/quick-tutorial
 ---
 
-# Basic Routing
+# Basic Concepts
+
 
 ## Introduction
 
 If you’re familiar with Next.js you probably already know that it has a file-system-based router. The routes are declared under the `src/pages` folder. To learn more about Next.js routing, read the [official docs](https://nextjs.org/docs/routing/introduction).
 
-> the `app` folder is currently not supported. Support for new Next.js 13 features are underway.
+> the `app` folder is currently not supported in 10up's headless framework. Support for new Next.js 13 features are underway.
 
 The headless framework takes advantage of Next.js routing by leveraging a feature called “catch-all routes” which allows the framework to automatically map URL segments to WordPress routes and the proper REST API parameters necessary to fetch the appropriate data. It does so by adopting a convention of using a “catch-all” route named `[...path].js` or `[[...path]].js`.
 
