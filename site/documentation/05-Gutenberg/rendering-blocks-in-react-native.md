@@ -1,5 +1,6 @@
 ---
 sidebar_label: Rendering Blocks in React Native
+slug: /gutenberg/rendering-blocks-io-ract-native
 ---
 
 # Rendering Blocks in React Native
