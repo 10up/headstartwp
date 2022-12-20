@@ -1,6 +1,7 @@
 ---
 sidebar_label: Rendering Custom Blocks
 sidebar_position: 1
+slug: /gutenberg/rendering-custom-blocks
 ---
 
 # Rendering Custom Blocks

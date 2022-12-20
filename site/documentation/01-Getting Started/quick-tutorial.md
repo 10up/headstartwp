@@ -1,10 +1,15 @@
-# Basic Routing
+---
+slug: /getting-started/quick-tutorial
+---
+
+# Basic Concepts
+
 
 ## Introduction
 
 If you’re familiar with Next.js you probably already know that it has a file-system-based router. The routes are declared under the `src/pages` folder. To learn more about Next.js routing, read the [official docs](https://nextjs.org/docs/routing/introduction).
 
-> the `app` folder is currently not supported. Support for new Next.js 13 features are underway.
+> the `app` folder is currently not supported in 10up's headless framework. Support for new Next.js 13 features are underway.
 
 The headless framework takes advantage of Next.js routing by leveraging a feature called “catch-all routes” which allows the framework to automatically map URL segments to WordPress routes and the proper REST API parameters necessary to fetch the appropriate data. It does so by adopting a convention of using a “catch-all” route named `[...path].js` or `[[...path]].js`.
 
@@ -19,7 +24,9 @@ First, note that it is using single brackets and not double brackets. That is be
 
 The great thing about this is that you don’t need multiple Next.js routes to handle the same resource!
 
-Now let’s look at how data fetching for this route works. To make things easier to understand, let’s first comment out `getStaticPaths` and `getStaticProps`functions, this will completely disable server/static data-fetching, therefore turning your page into a SPA-style page.
+### Basic Data Fetching
+
+Now let’s look at how data fetching for this route works. To make things easier to understand, let’s disregard `getStaticPaths` and `getStaticProps`functions.
 
 ```js
 //src/params.js
@@ -49,7 +56,11 @@ const SinglePostsPage = () => {
 };
 ```
 
-The `usePost` hook is one of the framework data-fetching hooks. As its name suggests it fetches a single post for a given set of params. We’re passing one param called “postType", which is telling the hook to fetch the current page from either the “page” or “post” post type. Note that we’re not passing the slug. If we don’t pass the slug, the framework will automatically extract the post/page slug from the URL, if present.
+At this point, page is not rendered on the server (or at build time) at all. Therefore this route is behaving like a single page application.
+
+The `usePost` hook is one of the framework data-fetching hooks. As its name suggests it fetches a single post for a given set of params. We’re passing one param called “postType", which is telling the hook to fetch the current page from either the “page” or “post” post type. Note that we’re not passing the slug. Passing the slug is optional and if don’t pass the slug, the framework will automatically extract the post/page slug from the URL, if present.
+
+> Extracting the *slug* from the url **only** works when using the `[...path].js` or `[[...path]].js `catch-all route style.
 
 ![SPA Data Fetching](../../static/img/spa-data-fetching-1.gif)
 

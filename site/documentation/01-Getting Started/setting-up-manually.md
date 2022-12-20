@@ -1,3 +1,7 @@
+---
+slug: /getting-started/setting-up-manually
+sidebar_position: 1
+---
 # Setting up the framework from scratch
 
 The recommended way to get started with the framework is by installing the official started project. See [Getting Started](/docs) for more information.
