@@ -1,5 +1,6 @@
 ---
 slug: /getting-started/installing-wordpress-plugin
+sidebar_position: 4
 ---
 
 # Installing WordPress Plugin

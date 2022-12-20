@@ -2,7 +2,7 @@
 slug: /getting-started/quick-tutorial
 ---
 
-# Basic Concepts
+# Quick Introduction to the Framework
 
 
 ## Introduction

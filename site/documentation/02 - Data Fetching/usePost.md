@@ -63,3 +63,30 @@ const PostOrPage = () => {
 	);
 };
 ```
+
+## Fetching from a custom post type
+
+In order to fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
+
+```js
+//src/pages/book/[...path].js
+import { usePost } from '@10up/headless-next';
+
+const PostPage = () => {
+	const { loading, error, data } = usePost({ postType: 'book' });
+
+	if (loading) {
+		return 'Loading...';
+	}
+
+	if (error) {
+		return 'error...';
+	}
+
+	return (
+		<div>
+			<h2>{data?.post.title.rendered}</h2>
+		</div>
+	);
+};
+```

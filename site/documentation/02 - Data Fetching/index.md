@@ -20,7 +20,7 @@ Next.js is the main meta-framework supported by 10up's Headless Framework, there
 
 The Next.js bindings are exposed by the `@10up/headless-next` package.
 
-The main difference is that the Next.js binding will automatically extract URL segments into request params (i.e extracing post name from the URL automatically) when used in conjuction with the "path" catch-all pattern like `src/page/[...path.js]`.
+The main difference is that the Next.js binding will automatically extract URL segments into request params (i.e extracting post name from the URL automatically) when used in conjuction with the "path" catch-all pattern like `src/page/[...path.js]`.
 
 The following example uses the `useFetchPost` to manually fetch a page with the `about` slug.
 
@@ -67,6 +67,3 @@ const Page = () => {
 Then visiting a URL like `/about` or `/privacy-policy` will render the contents of the about and privacy policy pages respectively.
 
 > The remaining of this section will assume the Next.js versions of the hooks are used. It will also assume the "path" catch-all route conventions are being used.
-
-## Basic usage
-
