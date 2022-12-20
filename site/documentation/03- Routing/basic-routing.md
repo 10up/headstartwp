@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Basic Routing
 
 ## Introduction
@@ -19,7 +23,9 @@ First, note that it is using single brackets and not double brackets. That is be
 
 The great thing about this is that you don’t need multiple Next.js routes to handle the same resource!
 
-Now let’s look at how data fetching for this route works. To make things easier to understand, let’s first comment out `getStaticPaths` and `getStaticProps`functions, this will completely disable server/static data-fetching, therefore turning your page into a SPA-style page.
+### Basic Data Fetching
+
+Now let’s look at how data fetching for this route works. To make things easier to understand, let’s disregard `getStaticPaths` and `getStaticProps`functions.
 
 ```js
 //src/params.js
@@ -49,7 +55,11 @@ const SinglePostsPage = () => {
 };
 ```
 
-The `usePost` hook is one of the framework data-fetching hooks. As its name suggests it fetches a single post for a given set of params. We’re passing one param called “postType", which is telling the hook to fetch the current page from either the “page” or “post” post type. Note that we’re not passing the slug. If we don’t pass the slug, the framework will automatically extract the post/page slug from the URL, if present.
+At this point, page is not rendered on the server (or at build time) at all. Therefore this route is behaving like a single page application.
+
+The `usePost` hook is one of the framework data-fetching hooks. As its name suggests it fetches a single post for a given set of params. We’re passing one param called “postType", which is telling the hook to fetch the current page from either the “page” or “post” post type. Note that we’re not passing the slug. Passing the slug is optional and if don’t pass the slug, the framework will automatically extract the post/page slug from the URL, if present.
+
+> Extracting the *slug* from the url **only** works when using the `[...path].js` or `[[...path]].js `catch-all route style.
 
 ![SPA Data Fetching](../../static/img/spa-data-fetching-1.gif)
 

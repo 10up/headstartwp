@@ -1,5 +1,7 @@
 ---
 sidebar_label: Quick Setup
+slug: /getting-started/quick-setup
+sidebar_position: 0
 ---
 
 # Quick Setup
