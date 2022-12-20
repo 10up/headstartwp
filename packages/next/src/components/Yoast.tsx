@@ -2,7 +2,12 @@ import { Fragment } from 'react';
 import { removeSourceUrl } from '@10up/headless-core';
 import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
-import parse from 'html-react-parser';
+import parse, {
+	attributesToProps,
+	domToReact,
+	Element,
+	HTMLReactParserOptions,
+} from 'html-react-parser';
 
 function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
@@ -36,26 +41,47 @@ export function Yoast({ seo, useHtml = false }: Props) {
 	const { hostUrl = '', sourceUrl = '' } = useSettings();
 
 	if (seo.yoast_head && useHtml) {
-		return (
-			<Head>
-				{parse(
-					seo?.yoast_head.replace(/"(https?:\/[^"]+)"/g, (_match, link) => {
-						if (
-							link.match(
-								new RegExp(
-									`^${sourceUrl}/((wp-(json|admin|content|includes))|feed|comments|xmlrpc)`,
-								),
-							) ||
-							!link.startsWith(sourceUrl)
-						) {
-							return `"${link}"`;
-						}
+		const options: HTMLReactParserOptions = {
+			trim: true,
+			// eslint-disable-next-line react/no-unstable-nested-components
+			replace: (domNode) => {
+				if (domNode instanceof Element) {
+					const { name: Name } = domNode;
+					const props = attributesToProps(domNode.attribs);
 
-						return `"${convertUrl(link, hostUrl, sourceUrl)}"`;
-					}),
-				)}
-			</Head>
-		);
+					if (props.rel === 'canonical') {
+						props.href = convertUrl(props.href, hostUrl, sourceUrl);
+					}
+
+					if (props.property === 'og:url') {
+						props.content = convertUrl(props.content, hostUrl, sourceUrl);
+					}
+
+					if (props.type === 'application/ld+json') {
+						// @ts-ignore
+						domNode.children[0].data = domNode.children[0].data.replace(
+							new RegExp(sourceUrl, 'g'),
+							hostUrl,
+						);
+					}
+
+					if (domNode.children.length > 0) {
+						return (
+							// @ts-ignore
+							<Name {...props} key={JSON.stringify(props)}>
+								{domToReact(domNode.children, options)}
+							</Name>
+						);
+					}
+
+					return <Name {...props} key={JSON.stringify(props)} />;
+				}
+
+				return domNode;
+			},
+		};
+
+		return <Head>{parse(seo.yoast_head, options)}</Head>;
 	}
 
 	return (
