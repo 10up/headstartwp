@@ -1,8 +1,15 @@
-import { Fragment } from 'react';
+import { createElement, Fragment } from 'react';
 import { removeSourceUrl } from '@10up/headless-core';
 import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
-import parse from 'html-react-parser';
+import parse, {
+	attributesToProps,
+	DOMNode,
+	domToReact,
+	Element,
+	HTMLReactParserOptions,
+	Text,
+} from 'html-react-parser';
 
 function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
@@ -25,6 +32,17 @@ type Props = {
 };
 
 /**
+ * Checks if the dom node is of type Text
+ *
+ * @param domNode The DOMNode object
+ *
+ * @returns
+ */
+function isTextElement(domNode: DOMNode): domNode is Text {
+	return domNode.type === 'text';
+}
+
+/**
  * The Yoast component renders the Yoast SEO meta tags.
  * This component is automatically rendered by {@link HeadlessApp} so you don't have to manually render it.
  *
@@ -36,26 +54,50 @@ export function Yoast({ seo, useHtml = false }: Props) {
 	const { hostUrl = '', sourceUrl = '' } = useSettings();
 
 	if (seo.yoast_head && useHtml) {
-		return (
-			<Head>
-				{parse(
-					seo?.yoast_head.replace(/"(https?:\/[^"]+)"/g, (_match, link) => {
-						if (
-							link.match(
-								new RegExp(
-									`^${sourceUrl}/((wp-(json|admin|content|includes))|feed|comments|xmlrpc)`,
-								),
-							) ||
-							!link.startsWith(sourceUrl)
-						) {
-							return `"${link}"`;
-						}
+		const options: HTMLReactParserOptions = {
+			trim: true,
+			// eslint-disable-next-line react/no-unstable-nested-components
+			replace: (domNode) => {
+				if (domNode instanceof Element) {
+					const { name } = domNode;
+					const props = attributesToProps(domNode.attribs);
 
-						return `"${convertUrl(link, hostUrl, sourceUrl)}"`;
-					}),
-				)}
-			</Head>
-		);
+					if (props.rel === 'canonical') {
+						props.href = convertUrl(props.href, hostUrl, sourceUrl);
+					}
+
+					if (props.property === 'og:url') {
+						props.content = convertUrl(props.content, hostUrl, sourceUrl);
+					}
+
+					if (
+						props.type === 'application/ld+json' &&
+						domNode.firstChild &&
+						isTextElement(domNode.firstChild)
+					) {
+						domNode.firstChild.data = domNode.firstChild.data.replace(
+							new RegExp(sourceUrl, 'g'),
+							hostUrl,
+						);
+					}
+
+					const key = JSON.stringify({ name, ...props });
+					if (domNode.children.length > 0) {
+						return createElement(
+							name,
+							{ ...props, key },
+							domToReact(domNode.children, options),
+						);
+					}
+
+					return createElement(name, { ...props, key });
+				}
+
+				return domNode;
+			},
+		};
+
+		return <Head>{parse(seo.yoast_head, options)}</Head>;
 	}
 
 	return (
