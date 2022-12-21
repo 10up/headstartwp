@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.5.0-next.6
+
+### Patch Changes
+
+- d41be3b: Fix duplicate yoast tags
+
 ## 0.5.0-next.5
 
 ### Patch Changes
