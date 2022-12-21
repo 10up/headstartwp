@@ -1,4 +1,10 @@
-import { getCustomPostType, ConfigError, EndpointError, removeSourceUrl } from '../../utils';
+import {
+	getCustomPostType,
+	ConfigError,
+	EndpointError,
+	removeSourceUrl,
+	NotFoundError,
+} from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
@@ -159,17 +165,22 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 		// if result is an array, prioritize the result where the
 		// link property matches with the current route
 		if (Array.isArray(result)) {
+			const post = result.find((post) => {
+				return (
+					removeSourceUrl({
+						link: post.link,
+						backendUrl: this.baseURL,
+					})?.replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
+				);
+			});
+
+			if (!post) {
+				throw new NotFoundError('Post was found but did not match current path');
+			}
+
 			return {
 				...response,
-				result:
-					result.find((post) => {
-						return (
-							removeSourceUrl({
-								link: post.link,
-								backendUrl: this.baseURL,
-							})?.replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
-						);
-					}) ?? result[0],
+				result: post,
 			};
 		}
 
