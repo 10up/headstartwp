@@ -16,7 +16,7 @@ const config = {
 	favicon: 'img/favicon.ico',
 	organizationName: '10up', // Usually your GitHub org/user name.
 	projectName: 'headless-framework', // Usually your repo name.
-
+	trailingSlash: true,
 	presets: [
 		[
 			'classic',
