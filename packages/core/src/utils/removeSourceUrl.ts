@@ -30,10 +30,12 @@ export type removeSourceUrlType = {
 export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSourceUrlType) {
 	if (typeof link === 'undefined') {
 		warn('link is undefined, double check if you are passing a valid value');
+		return undefined;
 	}
 
 	if (typeof backendUrl === 'undefined') {
 		warn('backendUrl is undefined, double check if you are passing a valid value');
+		return undefined;
 	}
 
 	// Ensure `sourceUrl` and `publicUrl` always include a trailing slash. All
