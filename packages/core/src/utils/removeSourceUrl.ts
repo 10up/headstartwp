@@ -1,3 +1,5 @@
+import { warn } from './errors';
+
 export type removeSourceUrlType = {
 	/**
 	 * The link url, possibly with the source url.
@@ -26,6 +28,14 @@ export type removeSourceUrlType = {
  * @returns The URL without the Source URL.
  */
 export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSourceUrlType) {
+	if (typeof link === 'undefined') {
+		warn('link is undefined, double check if you are passing a valid value');
+	}
+
+	if (typeof backendUrl === 'undefined') {
+		warn('backendUrl is undefined, double check if you are passing a valid value');
+	}
+
 	// Ensure `sourceUrl` and `publicUrl` always include a trailing slash. All
 	// the logic below is based on those variables fulfilling that condition.
 	const sourceUrl = backendUrl.replace(/\/?$/, '/');
