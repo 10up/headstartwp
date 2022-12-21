@@ -11,6 +11,8 @@ The `usePost` hook fetches a single WordPress post from a registered post type. 
 
 ## Basic Usage
 
+The basic usage is pretty simple and it assumes a route named `src/pages/[...path].js` where the `slug` is extracted from the URL.
+
 ```js
 //src/pages/[...path].js
 import { usePost } from '@10up/headless-next';
@@ -33,6 +35,33 @@ const PostPage = () => {
 	);
 };
 ```
+
+#### Post path matching
+
+> The behavior described here was implemented in version **0.5.x** of the framework.
+
+The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsuported permalinks. 
+
+> The scenarios described below assumes [pre-fetching](/docs/data-fetching/prefetching) is being used in Next.js
+
+Example where path matches:
+
+- User visits URL `/post-name`
+- The post with the `post-name` slug contains a `http://backend.com/post-name` link.
+- Since the URL and the path of `post.link` matches the page/post is rendered.
+
+Example where path does not match:
+
+- User visits URL `/parent-page/post-name`
+- The post with the `post-name` slug contains a `http://backend.com/different-parent/post-name` url
+- Since the URL (`/parent-page/post-name`) and the path of `post.link` (`different-parent/post-name`) **do not** match a 404 page is issued.
+
+Example where path does not match but is redirected to the right one:
+- User visits URL `/post-name`
+- The post with the `post-name` slug contains a `http://backend.com/2022/10/30/post-name` url
+- Since the URL and the path of `post.link` do not match, a NotFound error is thrown
+- If prefetching is setup following [pre-fetching](/docs/data-fetching/prefetching) and `redirectStrategy` is set to "404" or "always" in `headless.config.js`, `handleError` will then look if there's a redirect avaliable and since WordPress redirects `/post-name` to `/2022/10/30/post-name`, the framework will also perform the redirect.
+
 
 ### Fetching from multiple post types
 

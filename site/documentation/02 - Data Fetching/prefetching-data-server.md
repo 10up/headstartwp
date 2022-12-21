@@ -1,3 +1,6 @@
+---
+slug: /data-fetching/prefetching
+---
 # Prefetching data on the server
 
 To enable prefetching data on the server use the `fetchHookData` function alongside `addHookData`.
