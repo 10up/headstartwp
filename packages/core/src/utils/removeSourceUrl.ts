@@ -35,7 +35,7 @@ export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSou
 
 	if (typeof backendUrl === 'undefined') {
 		warn('backendUrl is undefined, double check if you are passing a valid value');
-		return '';
+		return link;
 	}
 
 	// Ensure `sourceUrl` and `publicUrl` always include a trailing slash. All
