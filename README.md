@@ -9,6 +9,15 @@ See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.ht
 
 Visit [docs.headless.10up.com](https://docs.headless.10up.com) for full documentation.
 
+#### Running docs site locally
+
+The docs site lives in the `site` directory. It is currently not part of the monorepo/workspace setup so `npm install` must be executed in the `site` dir. To run the docs site locally run the following commands:
+
+```bash
+cd site
+npm install
+npm run start
+```
 
 ## Support Level
 
