@@ -6,7 +6,7 @@ slug: /data-fetching
 
 The Headless Framework exposes several custom react hooks that provides a seamless data-fethcing experience with WordPress.. Those hooks are built to be "isomorphic" i.e, can be executed either on the browser or on the server (e.g: Node.js).
 
-The data-fetching logic itself is abstracted by [strategies](data-fetching/strategies). The custom react hooks are powered by [useSwr](https://swr.vercel.app/).
+The data-fetching logic itself is abstracted by [strategies](/docs/data-fetching/strategies). The custom react hooks are powered by [useSwr](https://swr.vercel.app/).
 
 > With Next.js `app` directory support added in Next.js 13, we will be providing special hooks that will work well with Suspense and Streaming. At the moment, we do not recommend using the existing custom hooks in the `app` directory.
 
