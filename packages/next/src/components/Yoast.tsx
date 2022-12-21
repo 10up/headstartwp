@@ -1,12 +1,14 @@
-import { Fragment } from 'react';
+import { createElement, Fragment } from 'react';
 import { removeSourceUrl } from '@10up/headless-core';
 import { useSettings } from '@10up/headless-core/react';
 import Head from 'next/head';
 import parse, {
 	attributesToProps,
+	DOMNode,
 	domToReact,
 	Element,
 	HTMLReactParserOptions,
+	Text,
 } from 'html-react-parser';
 
 function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
@@ -30,6 +32,17 @@ type Props = {
 };
 
 /**
+ * Checks if the dom node is of type Text
+ *
+ * @param domNode The DOMNode object
+ *
+ * @returns
+ */
+function isTextElement(domNode: DOMNode): domNode is Text {
+	return domNode.type === 'text';
+}
+
+/**
  * The Yoast component renders the Yoast SEO meta tags.
  * This component is automatically rendered by {@link HeadlessApp} so you don't have to manually render it.
  *
@@ -46,7 +59,7 @@ export function Yoast({ seo, useHtml = false }: Props) {
 			// eslint-disable-next-line react/no-unstable-nested-components
 			replace: (domNode) => {
 				if (domNode instanceof Element) {
-					const { name: Name } = domNode;
+					const { name } = domNode;
 					const props = attributesToProps(domNode.attribs);
 
 					if (props.rel === 'canonical') {
@@ -57,24 +70,27 @@ export function Yoast({ seo, useHtml = false }: Props) {
 						props.content = convertUrl(props.content, hostUrl, sourceUrl);
 					}
 
-					if (props.type === 'application/ld+json') {
-						// @ts-ignore
-						domNode.children[0].data = domNode.children[0].data.replace(
+					if (
+						props.type === 'application/ld+json' &&
+						domNode.firstChild &&
+						isTextElement(domNode.firstChild)
+					) {
+						domNode.firstChild.data = domNode.firstChild.data.replace(
 							new RegExp(sourceUrl, 'g'),
 							hostUrl,
 						);
 					}
 
+					const key = JSON.stringify({ name, ...props });
 					if (domNode.children.length > 0) {
-						return (
-							// @ts-ignore
-							<Name {...props} key={JSON.stringify(props)}>
-								{domToReact(domNode.children, options)}
-							</Name>
+						return createElement(
+							name,
+							{ ...props, key },
+							domToReact(domNode.children, options),
 						);
 					}
 
-					return <Name {...props} key={JSON.stringify(props)} />;
+					return createElement(name, { ...props, key });
 				}
 
 				return domNode;
