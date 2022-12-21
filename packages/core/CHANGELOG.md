@@ -1,5 +1,12 @@
 # @10up/headless-core
 
+## 0.5.0-next.7
+
+### Patch Changes
+
+- e0dfa77: warn if `removeSourceUrl` is used without valid `link` or `backendUrl` values.
+- e1b79c7: Fix: check if current path matches the returned post in the SinglePostFetch strategy
+
 ## 0.5.0-next.6
 
 ### Minor Changes
