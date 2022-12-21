@@ -100,7 +100,6 @@ export async function getStaticProps(context) {
 			revalidate: 5 * 60,
 		});
 	} catch (e) {
-		console.log(e);
 		return handleError(e, context);
 	}
 }
