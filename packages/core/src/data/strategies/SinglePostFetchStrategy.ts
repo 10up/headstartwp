@@ -76,6 +76,8 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 
 	path: string = '';
 
+	shoudCheckCurrentPathAgainstPostLink: boolean = true;
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -83,6 +85,8 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<PostParams> = {}): Partial<PostParams> {
 		this.path = path;
+		// if slug is passed, it is being manually overriden then don't check current path
+		this.shoudCheckCurrentPathAgainstPostLink = typeof nonUrlParams.slug === 'undefined';
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
@@ -165,17 +169,26 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 		// if result is an array, prioritize the result where the
 		// link property matches with the current route
 		if (Array.isArray(result)) {
-			const post = result.find((post) => {
-				return (
-					removeSourceUrl({
-						link: post.link,
-						backendUrl: this.baseURL,
-					})?.replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
-				);
-			});
+			const shouldCheckCurrentPath =
+				this.path.length > 0 &&
+				this.path !== '/' &&
+				this.shoudCheckCurrentPathAgainstPostLink;
+
+			const post = shouldCheckCurrentPath
+				? result.find((post) => {
+						return (
+							removeSourceUrl({
+								link: post.link,
+								backendUrl: this.baseURL,
+							})?.replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
+						);
+				  })
+				: result[0];
 
 			if (!post) {
-				throw new NotFoundError('Post was found but did not match current path');
+				throw new NotFoundError(
+					`Post was found but did not match current path: "${this.path}"`,
+				);
 			}
 
 			return {
