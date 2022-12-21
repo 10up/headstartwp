@@ -111,7 +111,7 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('fetches content properly', async () => {
-		const samplePost = { title: 'test', id: 1 };
+		const samplePost = { title: 'test', id: 1, link: '/2021/10/post-name' };
 		const sampleHeaders = {
 			'x-wp-totalpages': 1,
 			'x-wp-total': 1,
@@ -131,7 +131,7 @@ describe('SinglePostFetchStrategy', () => {
 			],
 		});
 
-		let params = fetchStrategy.getParamsFromURL('/post-name');
+		let params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
 		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts?slug=post-name', {});
@@ -180,7 +180,7 @@ describe('SinglePostFetchStrategy', () => {
 				return Promise.resolve({ headers: {}, json: [] });
 			}
 
-			return Promise.resolve({ headers: {}, json: [{ id: 1 }] });
+			return Promise.resolve({ headers: {}, json: [{ id: 1, link: '/2021/10/post-name' }] });
 		});
 
 		// when passing multiple post types and the first one is not found, the rest of the post types should be fetched
@@ -195,7 +195,7 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('handle revisions', async () => {
-		const samplePostRevision = { title: 'test', id: 1 };
+		const samplePostRevision = { title: 'test', id: 1, link: '/post-name' };
 		const sampleHeaders = {
 			'x-wp-totalpages': 1,
 			'x-wp-total': 1,

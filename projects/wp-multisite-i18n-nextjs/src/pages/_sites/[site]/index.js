@@ -1,10 +1,10 @@
 import { getHeadlessConfig } from '@10up/headless-core/utils';
 import {
-	usePost,
 	fetchHookData,
 	useAppSettings,
 	addHookData,
 	handleError,
+	usePost,
 	usePosts,
 } from '@10up/headless-next';
 import PropTypes from 'prop-types';
@@ -74,6 +74,7 @@ export const getStaticPaths = async () => {
 export async function getStaticProps(context) {
 	let appSettings;
 	let slug;
+
 	try {
 		appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 		/**
