@@ -1,4 +1,4 @@
-import { getHeadlessConfig } from '@10up/headless-core';
+import { getHeadlessConfig, removeSourceUrl } from '@10up/headless-core';
 import {
 	usePost,
 	fetchHookData,
@@ -47,30 +47,38 @@ export async function getStaticPaths() {
 
 			const postsData = await fetcher.get({ postType: 'post', per_page: 50 });
 
-			const postsPath = postsData.result.map(({ date, slug }) => {
-				const dateString = new Date(date).toLocaleDateString('en-US', {
-					year: 'numeric',
-					month: '2-digit',
-					day: '2-digit',
-				});
-
-				const datePath = dateString.split('/');
-
+			const postsPath = postsData.result.map(({ link }) => {
 				return {
 					// path is the catch all route, so it must be array with url segments
 					// if you don't want to support date urls just remove the date from the path
-					params: { site: site.host, path: [...datePath, slug] },
+					params: {
+						site: site.host,
+						path: removeSourceUrl({ link, backendUrl: site.sourceUrl })
+							.substring(1)
+							.split('/'),
+					},
 				};
 			});
 
 			const pagesData = await fetcher.get({ postType: 'page', per_page: 50 });
 
-			const pagePaths = pagesData.result.map(({ slug }) => {
-				return {
-					// path is the catch all route, so it must be array with url segments
-					params: { site: site.host, path: [slug] },
-				};
-			});
+			const pagePaths = pagesData.result
+				.map(({ link }) => {
+					const normalizedLink = removeSourceUrl({ link, backendUrl: site.sourceUrl });
+
+					if (normalizedLink === '/') {
+						return false;
+					}
+
+					return {
+						// path is the catch all route, so it must be array with url segments
+						params: {
+							site: site.host,
+							path: normalizedLink.substring(1).split('/'),
+						},
+					};
+				})
+				.filter(Boolean);
 
 			paths.push(...postsPath, ...pagePaths);
 		}),
