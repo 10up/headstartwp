@@ -154,7 +154,6 @@ export async function previewHandler(
 			return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
 		}
 	} catch (e) {
-		console.log(e);
 		if (e instanceof Error) {
 			return res.status(401).end(e.message);
 		}
