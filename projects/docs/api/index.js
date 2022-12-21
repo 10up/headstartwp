@@ -50,8 +50,7 @@ app.use((req, res) => {
 	if (req.url === '/') {
 		return res.sendFile(path.join(__dirname, '../static/index.html'));
 	}
-	const url = req.url.endsWith('/') ? req.url : `${req.url}/`;
-	return res.sendFile(path.join(__dirname, `../static/${url}`));
+	return res.sendFile(path.join(__dirname, `../static/${req.url}`));
 });
 
 app.listen(port);
