@@ -47,11 +47,19 @@ export async function getStaticPaths() {
 
 			const postsData = await fetcher.get({ postType: 'post', per_page: 50 });
 
-			const postsPath = postsData.result.map(({ slug }) => {
+			const postsPath = postsData.result.map(({ date, slug }) => {
+				const dateString = new Date(date).toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+				});
+
+				const datePath = dateString.split('/');
+
 				return {
 					// path is the catch all route, so it must be array with url segments
 					// if you don't want to support date urls just remove the date from the path
-					params: { site: site.host, path: [slug] },
+					params: { site: site.host, path: [...datePath, slug] },
 				};
 			});
 
