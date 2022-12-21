@@ -40,7 +40,7 @@ export default function Home() {
 							If you are unsure how to do something with the framework, this is where
 							you should start.
 						</p>
-						<Link className={styles.gridLink} to="/docs">
+						<Link className={styles.gridLink} to="/docs/">
 							Give me the details
 						</Link>
 					</article>
@@ -60,7 +60,7 @@ export default function Home() {
 							information about every function, class and React components in the
 							framework.
 						</p>
-						<Link className={styles.gridLink} to="/api">
+						<Link className={styles.gridLink} to="/api/">
 							Quick access
 						</Link>
 					</article>
