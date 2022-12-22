@@ -1,15 +1,17 @@
 
-# 10up's Headless Framework
+# 10up Headless Framework
 
 > A framework for building headless WordPress sites.
 
-### Documentation
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![eslint](https://github.com/10up/headless/actions/workflows/eslint.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/eslint.yml) [![PHPCS check](https://github.com/10up/headless/actions/workflows/phpcs.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/phpcs.yml) [![unit tests](https://github.com/10up/headless/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/unit-tests.yml)
+
+## Documentation
 
 See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) guide.
 
 Visit [docs.headless.10up.com](https://docs.headless.10up.com) for full documentation.
 
-#### Running docs site locally
+### Running docs site locally
 
 The docs site lives in the `site` directory. It is currently not part of the monorepo/workspace setup so `npm install` must be executed in the `site` dir. To run the docs site locally run the following commands:
 
@@ -23,7 +25,12 @@ npm run start
 
 **Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
 
+## Changelog
+
+A complete listing of all notable changes to 10up's Headless Framework are documented in CHANGELOG.md files within the [core](https://github.com/10up/headless/blob/develop/packages/core/CHANGELOG.md), [hooks](https://github.com/10up/headless/blob/develop/packages/hooks/CHANGELOG.md), and [next](https://github.com/10up/headless/blob/develop/packages/next/CHANGELOG.md) packages.
+
 ## Repository Structure and Engineering Guidelines
+
 Visit the [CONTRIBUTING](/CONTRIBUTING.md) page for initial contribution and engineering guidance.
 
 This repository is a monorepo, under the `packages` there are all the tools that are published to npm. The `projects` directory is a collection of tests projects linked to the tools in `packages` and is used for testing purposes.
