@@ -1,6 +1,10 @@
 {
   "name": "headless-wp",
   "version": "1.0.0",
+  "description": "10up Headless WordPress Plugin",
+  "homepage": "https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/README.md",
+  "license" : "GPL-2.0-or-later",
+  "author": "10up <info@10up.com> (https://10up.com/)",
   "engines": {
     "node": ">=12.0.0"
   }

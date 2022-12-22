@@ -1,4 +1,4 @@
-# Hooks
+# @10up/react-hooks
 
 > Battle tested hooks that can be reused and are safe to use within SSR environments.
 

@@ -1,7 +1,10 @@
 {
   "name": "@10up/react-hooks",
   "version": "1.2.3",
-  "description": "",
+  "description": "Battle tested hooks that can be reused and are safe to use within SSR environments.",
+  "homepage": "https://github.com/10up/headless/blob/develop/packages/hooks/README.md",
+  "license": "MIT",
+  "author": "10up <info@10up.com> (https://10up.com/)",
   "main": "dist/react-hooks.js",
   "module": "dist/react-hooks.mjs",
   "typings": "dist/react-hooks.d.ts",
@@ -20,8 +23,6 @@
       "default": "./dist/react-hooks.mjs"
     }
   },
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.5",
