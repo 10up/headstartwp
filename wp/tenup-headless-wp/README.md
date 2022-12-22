@@ -2,6 +2,8 @@
 
 > All Development happens inside [@10up/headless](https://github.com/10up/headless). This repo is meant for distribution of the plugin. Please head over to the main monorepo for issues and PRs.
 
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Headless WordPress Plugin GPLv2 License](https://img.shields.io/badge/Headless%20WordPress%20plugin-GPLv2-orange)](https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/LICENSE.md)
+
 ## Installation
 
 For now the only method for installing this plugin is via composer.

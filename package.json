@@ -2,6 +2,15 @@
   "name": "@10up/headless_framework",
   "version": "1.0.0",
   "description": "Monorepo for headless framework",
+  "homepage": "https://github.com/10up/headless#readme",
+  "author": "10up <info@10up.com> (https://10up.com/)",
+  "contributors": [
+    {
+      "name" : "Nícholas André",
+      "email" : "nicholas.andre@10up.com",
+      "url" : "https://github.com/nicholasio"
+    }
+  ],
   "scripts": {
     "build": "turbo run build",
     "build:packages": "turbo run build --filter=./packages/*",
@@ -13,7 +22,6 @@
     "typedoc:watch": "typedoc --watch",
     "publish": "npm run build:packages && npx changeset publish"
   },
-  "author": "Nícholas André <nicholas.andre@10up.com>",
   "workspaces": [
     "packages/*",
     "projects/*"
