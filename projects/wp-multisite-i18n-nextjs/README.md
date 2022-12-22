@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with 10up's Headless Framework.
+# wp-multieiste-i18n-nextjs project
+
+> This is a [Next.js](https://nextjs.org/) project bootstrapped with 10up's Headless Framework.
+
+[![wp-multisite-i18n-nextjs Project GPLv2 License](https://img.shields.io/badge/wp--multisite--i18n--nextjs%20project-GPLv2-orange)](https://github.com/10up/headless/blob/develop/projects/wp-multisite-i18n-nextjs/LICENSE.md)
 
 ## Getting Started
 

@@ -4,6 +4,9 @@
 > A framework for building headless WordPress sites.
 
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![eslint](https://github.com/10up/headless/actions/workflows/eslint.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/eslint.yml) [![PHPCS check](https://github.com/10up/headless/actions/workflows/phpcs.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/phpcs.yml) [![unit tests](https://github.com/10up/headless/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/unit-tests.yml)
+[![Core Package MIT License](https://img.shields.io/badge/core%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/core/LICENSE.md) [![Hooks Package MIT License](https://img.shields.io/badge/hooks%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/hooks/LICENSE.md) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/next/LICENSE.md)
+[![wp-multisite-i18n-nextjs Project GPLv2 License](https://img.shields.io/badge/wp--multisite--i18n--nextjs%20project-GPLv2-orange)](https://github.com/10up/headless/blob/develop/projects/wp-multisite-i18n-nextjs/LICENSE.md) [![wp-multisite-nextjs Project GPLv2 License](https://img.shields.io/badge/wp--multisite--nextjs%20project-GPLv2-orange)](https://github.com/10up/headless/blob/develop/projects/wp-multisite-nextjs/LICENSE.md) [![wp-nextjs Project GPLv2 License](https://img.shields.io/badge/wp--nextjs%20package-GPLv2-orange)](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/LICENSE.md)
+[![Headless WordPress Plugin GPLv2 License](https://img.shields.io/badge/Headless%20WordPress%20plugin-GPLv2-orange)](https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/LICENSE.md)
 
 ## Documentation
 
