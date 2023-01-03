@@ -22,7 +22,7 @@ export default function FooterWrapper(props) {
 						<p>
 							Open source, MIT licensed.
 							<br />
-							<span className="copyright">Copyright &copy; 2022</span>
+							<span className="copyright">Copyright &copy; 2023</span>
 						</p>
 					</div>
 				</div>
@@ -34,11 +34,11 @@ export default function FooterWrapper(props) {
 						<img src="/img/10up-logo-full.svg" alt="10up logo" width="75" height="75" />
 					</a>
 					<p>
-						Finely crafted by 10up, ©2022.
-						<br />
+						Finely crafted by 10up, ©2023.
+						{/* <br />
 						<a href="https://docs.google.com/document/d/1SC7f6WQs8xN4bJyZ51cn9DFcSf6BhxprfbF9JkYYgOE/edit">
 							Privacy Policy
-						</a>
+	</a> */}
 					</p>
 
 					<div className="social-media">

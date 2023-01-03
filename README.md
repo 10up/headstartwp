@@ -1,7 +1,7 @@
 
 # 10up Headless Framework
 
-> A framework for building headless WordPress sites.
+> A powerfull framework for creating JavaScript-based frontend for WordPress
 
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![eslint](https://github.com/10up/headless/actions/workflows/eslint.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/eslint.yml) [![PHPCS check](https://github.com/10up/headless/actions/workflows/phpcs.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/phpcs.yml) [![unit tests](https://github.com/10up/headless/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/10up/headless/actions/workflows/unit-tests.yml)
 [![Core Package MIT License](https://img.shields.io/badge/core%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/core/LICENSE.md) [![Hooks Package MIT License](https://img.shields.io/badge/hooks%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/hooks/LICENSE.md) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/next/LICENSE.md)
@@ -10,7 +10,7 @@
 
 ## Documentation
 
-See our [Getting Started](http://docs.headless.10up.com/pages/getting-started.html) guide.
+See our [Getting Started](http://docs.headless.10up.com/docs/getting-started/quick-setup/) guide.
 
 Visit [docs.headless.10up.com](https://docs.headless.10up.com) for full documentation.
 

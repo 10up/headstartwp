@@ -20,8 +20,7 @@ export default function Home() {
 						10up Headless Framework! <span className={`${styles.beta}`}>Beta</span>
 					</h1>
 					<p>
-						The 10up headless framework makes creating headless sites as easy as
-						creating traditional WordPress sites.
+						A powerfull framework for creating JavaScript-based frontend for WordPress
 					</p>
 					<SearchBar className={styles.searchBar} />
 				</header>
