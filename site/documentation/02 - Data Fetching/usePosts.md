@@ -47,6 +47,22 @@ The route will automatically render the latest 10 posts and you get pagination, 
 - /blog/tag/tag-name
 - /blog/category/category-name/page/2
 
+## Queried Object
+
+The `usePosts` hook exposes a `queriedObject`. It's similar to WordPress [get_queried_object()](https://developer.wordpress.org/reference/functions/get_queried_object/) function.
+
+It essentially returned the what's being queried for, e.g: author or category. If the current page is querying posts within a certain author, then that author object will be populated in `data.queriedObject.author`. Similarly, if the current page is quering posts from a given category `data.queriedObject.term` will be populated with that category.
+
+Example: 
+```javascript
+// category-name can either come from the URL or be manually specified.
+const { data } = usePosts({ taxonomy: 'category', category: 'cat-name' });
+
+return (
+	<h1>Category Page: {data.queriedObject.term.name}</h1>
+);
+```
+
 ## Category Archive
 
 You can use the `usePosts` hook to create a category archive route (`src/pages/category/[...path].js`).
