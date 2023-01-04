@@ -1,5 +1,63 @@
 # @10up/headless-core
 
+## 0.5.0
+
+### Minor Changes
+
+- 33592ea: Introducing Multisite support to the headless framework.
+- 33592ea: Add ability to use the `yoast_head` html to populate the head tags instead of manually rendering every property of the yoast_head_json
+- 33592ea: Parses the style attribute of HTML elements into an object, and passes that object down as a prop through the BlocksRenderer component.
+
+  Also updates block components to pass style down as a prop to the provided components.
+
+  Closes [#240](https://github.com/10up/headless/issues/240)
+
+- 33592ea: Add React 18 and Next.js 13 support.
+
+### Patch Changes
+
+- 33592ea: warn if `removeSourceUrl` is used without valid `link` or `backendUrl` values.
+- 33592ea: fix: removeSourceUrl should not add a / to the beginning of the link if it's a hash link. [#267](https://github.com/10up/headless/issues/267)
+- 33592ea: Export block-related hooks
+- 33592ea: Fix: check if current path matches the returned post in the SinglePostFetch strategy
+- 33592ea: Improve redirect handling in `fetchRedirect`.
+
+  It nows detects redirects that might cause infinite loop and ignore redirects for `wp-login.php`, `wp-register.php` and `wp-admin`.
+
+- 33592ea: add js-xss options param to wpKsesPost and expposing sanitizeFn function to BlocksRenderer
+
+  ## wpKsesPost
+
+  e.g
+
+  ```javascript
+  wpKsesPost(
+      `<p data-post='${JSON.stringify(json_object)}'>Hello World</p>`,
+      {
+          p: ['data-post'],
+      },
+      {
+          onTag(tag, html, options) {
+              if (options.isWhite && tag === 'p') {
+                  return html;
+              }
+
+              return undefined;
+          },
+      },
+  ),
+  ```
+
+  ## BlocksRenderer
+
+  ```javascript
+  <BlocksRenderer html={html} sanitizeFn={(html) => mySanitizitationFn(html)}>
+      {children}
+  </BLocksRenderer>
+  ```
+
+- 33592ea: Fix child pages with same slugs but different parent. Takes the link propety in account to properly match the right page.
+
 ## 0.5.0-next.7
 
 ### Patch Changes

@@ -1,5 +1,40 @@
 # @10up/headless-next
 
+## 0.5.0
+
+### Minor Changes
+
+- 33592ea: Update Yoast robots tag and add article:modified_time, twitter:label and twitter:data tags
+- 33592ea: Introducing Multisite support to the headless framework.
+- 33592ea: Add ability to use the `yoast_head` html to populate the head tags instead of manually rendering every property of the yoast_head_json
+- 33592ea: Parses the style attribute of HTML elements into an object, and passes that object down as a prop through the BlocksRenderer component.
+
+  Also updates block components to pass style down as a prop to the provided components.
+
+  Closes [#240](https://github.com/10up/headless/issues/240)
+
+- 33592ea: Add React 18 and Next.js 13 support.
+
+### Patch Changes
+
+- 33592ea: Merge rewrites config.
+- 33592ea: Fix url replacement on Yoast component
+- 33592ea: add missing key prop in `Yoast` component.
+- 33592ea: Fix duplicate yoast tags
+- 33592ea: Redirect :path/page/1 to :path/
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+- Updated dependencies [33592ea]
+  - @10up/headless-core@0.5.0
+
 ## 0.5.0-next.6
 
 ### Patch Changes
