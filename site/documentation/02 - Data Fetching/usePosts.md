@@ -13,10 +13,11 @@ The `usePosts` hook fetches a collection of WordPress posts from a registered po
 
 Assuming a `src/pages/blog/[[...path]].js` route with the following content.
 
-> This example is using the optional catch-all route `[[..path]].js` because we want the `/blog` route to be handled by the same file.
+:::info
+This example is using the optional catch-all route `[[..path]].js` because we want the `/blog` route to be handled by the same file.
+:::info
 
-```js
-//src/pages/blog/[[...path]].js
+```js title="src/pages/blog/[[...path]].js"
 import { usePost } from '@10up/headless-next';
 
 const ArchivePage = () => {
@@ -67,10 +68,11 @@ return (
 
 You can use the `usePosts` hook to create a category archive route (`src/pages/category/[...path].js`).
 
-> We use `[...path].js` here because **we do not want** the `/category` route to render anything.
+:::info
+We use `[...path].js` here because **we do not want** the `/category` route to render anything.
+:::info
 
-```js
-// src/pages/category/[...path].js
+```js title="src/pages/category/[...path].js"
 import {
 	usePosts,
 	fetchHookData,

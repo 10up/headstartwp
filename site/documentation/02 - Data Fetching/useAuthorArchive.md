@@ -12,10 +12,11 @@ The `useAuthorArchive` hook fetches a collection of WordPress posts from a regis
 
 Assuming a `src/pages/author/[...path].js` route with the following content.
 
-> This example is using the catch-all route `[..path].js` because **we do not want** the `/author` path to be handled by this route.
+:::info
+This example is using the catch-all route `[..path].js` because **we do not want** the `/author` path to be handled by this route.
+:::info
 
-```js
-// src/pages/author/[...path].js
+```js title="src/pages/author/[...path].js"
 import { useAuthorArchive } from '@10up/headless-next';
 
 const ArchivePage = () => {
@@ -48,8 +49,7 @@ The route will automatically render the latest 10 posts from the current author.
 ## Author Archive for Custom Post Type
 
 In order to fetch posts from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section. 
-```js
-// src/pages/author/[...path].js
+```js title="src/pages/author/[...path].js"
 import { useAuthorArchive } from '@10up/headless-next';
 
 const ArchivePage = () => {
