@@ -16,7 +16,7 @@ export interface ImageBlockProps extends IBlockAttributes {
 
 export interface IImageBlock extends IBlock<ImageBlockProps> {}
 
-export function ImageBlock({ domNode: node, children, component: Component }: IImageBlock) {
+export function ImageBlock({ domNode: node, children, component: Component, style }: IImageBlock) {
 	const { name, className, attributes } = useBlock<ImageBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -47,6 +47,7 @@ export function ImageBlock({ domNode: node, children, component: Component }: II
 			attributes={blockAttributes}
 			width={width || Number(imgNodeWidth)}
 			height={height || Number(imgNodeHeight)}
+			style={style}
 		>
 			{children}
 		</Component>

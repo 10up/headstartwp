@@ -1,4 +1,10 @@
-import { getCustomPostType, ConfigError, EndpointError } from '../../utils';
+import {
+	getCustomPostType,
+	ConfigError,
+	EndpointError,
+	removeSourceUrl,
+	NotFoundError,
+} from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
@@ -68,12 +74,20 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 
 	revision?: PostEntity;
 
+	path: string = '';
+
+	shoudCheckCurrentPathAgainstPostLink: boolean = true;
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<PostParams> = {}): Partial<PostParams> {
+		this.path = path;
+		// if slug is passed, it is being manually overriden then don't check current path
+		this.shoudCheckCurrentPathAgainstPostLink = typeof nonUrlParams.slug === 'undefined';
+
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
 
@@ -95,7 +109,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 				? params.postType[0]
 				: params.postType;
 
-			const postType = getCustomPostType(postTypeSlug);
+			const postType = getCustomPostType(postTypeSlug, this.baseURL);
 
 			if (!postType) {
 				throw new ConfigError(
@@ -144,8 +158,6 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			};
 		}
 
-		// if fetching by id result is a single object and not array
-		// we want to normalize to an array for consistency
 		if (params.id && !Array.isArray(result)) {
 			this.setEndpoint(this.getDefaultEndpoint());
 			return {
@@ -154,9 +166,35 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			};
 		}
 
-		// make sure result is alway an array for consistency
+		// if result is an array, prioritize the result where the
+		// link property matches with the current route
 		if (Array.isArray(result)) {
-			return { ...response, result: result[0] };
+			const shouldCheckCurrentPath =
+				this.path.length > 0 &&
+				this.path !== '/' &&
+				this.shoudCheckCurrentPathAgainstPostLink;
+
+			const post = shouldCheckCurrentPath
+				? result.find((post) => {
+						return (
+							removeSourceUrl({
+								link: post.link,
+								backendUrl: this.baseURL,
+							})?.replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
+						);
+				  })
+				: result[0];
+
+			if (!post) {
+				throw new NotFoundError(
+					`Post was found but did not match current path: "${this.path}"`,
+				);
+			}
+
+			return {
+				...response,
+				result: post,
+			};
 		}
 
 		return {
@@ -235,7 +273,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			return this.filterData(data, filterOptions);
 		}
 
-		const fieldsToRemove = ['yoast_head', '_links'];
+		const fieldsToRemove = ['_links'];
 
 		const post = removeFields(fieldsToRemove, data.result) as PostEntity;
 

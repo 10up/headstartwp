@@ -1,6 +1,6 @@
 import { Element } from 'html-react-parser';
 import { useSettings } from '../../provider';
-import { IBlockAttributes } from '../types';
+import { IBlockAttributes, IDataWPBlock } from '../types';
 
 /**
  * Parses Json without throwing errors
@@ -46,9 +46,14 @@ export function useBlock<T extends IBlockAttributes>(node: Element) {
 	}
 
 	const blockName = node.attribs['data-wp-block-name'] || '';
-	const attrs: T = node.attribs['data-wp-block']
-		? (safeParsing(node.attribs['data-wp-block']) as unknown as T)
-		: ({} as T);
+	const attrs: IDataWPBlock = node.attribs['data-wp-block']
+		? safeParsing(node.attribs['data-wp-block'])
+		: {};
 
-	return { attributes: attrs, name: blockName, className: node.attribs.class };
+	if (attrs.style) {
+		attrs.styleConfig = attrs.style;
+		delete attrs.style;
+	}
+
+	return { attributes: attrs as unknown as T, name: blockName, className: node.attribs.class };
 }

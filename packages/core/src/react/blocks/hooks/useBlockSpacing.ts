@@ -4,7 +4,7 @@ import { IBlockAttributes, Spacing } from '../types';
 import { useBlock } from './useBlock';
 
 interface BlockSpacingAttributes extends IBlockAttributes {
-	style: {
+	styleConfig: {
 		spacing: {
 			padding: Spacing['padding'];
 			margin: Spacing['margin'];
@@ -26,8 +26,8 @@ export function useBlockSpacing(node: Element): Spacing {
 	const styles = useThemeStyles();
 
 	return {
-		padding: attributes?.style?.spacing?.padding,
-		margin: attributes?.style?.spacing?.margin,
+		padding: attributes?.styleConfig?.spacing?.padding,
+		margin: attributes?.styleConfig?.spacing?.margin,
 		supportsMargin,
 		supportsPadding,
 		supportsBlockGap,

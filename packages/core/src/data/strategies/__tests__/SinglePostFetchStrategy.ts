@@ -44,19 +44,15 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('bulds the endpoint url properly', () => {
-		expect(fetchStrategy.buildEndpointURL({ slug: 'post-name' })).toEqual(
+		expect(fetchStrategy.buildEndpointURL({ slug: 'post-name' })).toBe(
 			'/wp-json/wp/v2/posts?slug=post-name',
 		);
 
 		let params = fetchStrategy.getParamsFromURL('/2021/10/30/parent/post-name');
-		expect(fetchStrategy.buildEndpointURL(params)).toEqual(
-			'/wp-json/wp/v2/posts?slug=post-name',
-		);
+		expect(fetchStrategy.buildEndpointURL(params)).toBe('/wp-json/wp/v2/posts?slug=post-name');
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/30/post-name');
-		expect(fetchStrategy.buildEndpointURL(params)).toEqual(
-			'/wp-json/wp/v2/posts?slug=post-name',
-		);
+		expect(fetchStrategy.buildEndpointURL(params)).toBe('/wp-json/wp/v2/posts?slug=post-name');
 
 		setHeadlessConfig({
 			customPostTypes: [
@@ -72,7 +68,7 @@ describe('SinglePostFetchStrategy', () => {
 				slug: 'book-name',
 				postType: 'book',
 			}),
-		).toEqual('/wp-json/wp/v2/book?slug=book-name');
+		).toBe('/wp-json/wp/v2/book?slug=book-name');
 
 		// when passing multiple post types, buildEndpointUrl should use the first one to build the URL
 		// Then fetch method would later fetch the rest of the post types if needed
@@ -81,14 +77,14 @@ describe('SinglePostFetchStrategy', () => {
 				slug: 'book-name',
 				postType: ['page', 'book'],
 			}),
-		).toEqual('/wp-json/wp/v2/pages?slug=book-name');
+		).toBe('/wp-json/wp/v2/pages?slug=book-name');
 
 		expect(
 			fetchStrategy.buildEndpointURL({
 				postType: 'book',
 				id: 10,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10');
+		).toBe('/wp-json/wp/v2/book/10');
 
 		expect(
 			fetchStrategy.buildEndpointURL({
@@ -96,7 +92,7 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10');
+		).toBe('/wp-json/wp/v2/book/10');
 
 		expect(
 			fetchStrategy.buildEndpointURL({
@@ -104,7 +100,7 @@ describe('SinglePostFetchStrategy', () => {
 				id: 10,
 				revision: true,
 			}),
-		).toEqual('/wp-json/wp/v2/book/10');
+		).toBe('/wp-json/wp/v2/book/10');
 
 		// ensure it thows an error if post type is not defined
 		expect(() =>
@@ -115,7 +111,7 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('fetches content properly', async () => {
-		const samplePost = { title: 'test', id: 1 };
+		const samplePost = { title: 'test', id: 1, link: '/2021/10/post-name' };
 		const sampleHeaders = {
 			'x-wp-totalpages': 1,
 			'x-wp-total': 1,
@@ -135,7 +131,7 @@ describe('SinglePostFetchStrategy', () => {
 			],
 		});
 
-		let params = fetchStrategy.getParamsFromURL('/post-name');
+		let params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
 		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts?slug=post-name', {});
@@ -184,7 +180,7 @@ describe('SinglePostFetchStrategy', () => {
 				return Promise.resolve({ headers: {}, json: [] });
 			}
 
-			return Promise.resolve({ headers: {}, json: [{ id: 1 }] });
+			return Promise.resolve({ headers: {}, json: [{ id: 1, link: '/2021/10/post-name' }] });
 		});
 
 		// when passing multiple post types and the first one is not found, the rest of the post types should be fetched
@@ -199,7 +195,7 @@ describe('SinglePostFetchStrategy', () => {
 	});
 
 	it('handle revisions', async () => {
-		const samplePostRevision = { title: 'test', id: 1 };
+		const samplePostRevision = { title: 'test', id: 1, link: '/post-name' };
 		const sampleHeaders = {
 			'x-wp-totalpages': 1,
 			'x-wp-total': 1,
@@ -294,5 +290,39 @@ describe('SinglePostFetchStrategy', () => {
 		await expect(fetchPromise).rejects.toThrow(
 			'Unkown post type, did you forget to add it to headless.config.js?',
 		);
+	});
+
+	it('handles child pages with same slugs and different parents', async () => {
+		const childPost1 = { title: 'test', id: 1, link: 'http://sourceurl.com/parent-page/about' };
+		const childPost2 = {
+			title: 'test',
+			id: 2,
+			link: 'http://sourceurl.com/parent-page-2/about',
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 2,
+			},
+			json: [childPost1, childPost2],
+		});
+
+		fetchStrategy.setBaseURL('http://sourceurl.com');
+
+		let params = fetchStrategy.getParamsFromURL('/parent-page-2/about');
+		let results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: childPost2,
+		});
+
+		params = fetchStrategy.getParamsFromURL('/parent-page/about');
+
+		results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: childPost1,
+		});
 	});
 });

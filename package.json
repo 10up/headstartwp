@@ -2,6 +2,15 @@
   "name": "@10up/headless_framework",
   "version": "1.0.0",
   "description": "Monorepo for headless framework",
+  "homepage": "https://github.com/10up/headless#readme",
+  "author": "10up <info@10up.com> (https://10up.com/)",
+  "contributors": [
+    {
+      "name" : "Nícholas André",
+      "email" : "nicholas.andre@10up.com",
+      "url" : "https://github.com/nicholasio"
+    }
+  ],
   "scripts": {
     "build": "turbo run build",
     "build:packages": "turbo run build --filter=./packages/*",
@@ -13,7 +22,6 @@
     "typedoc:watch": "typedoc --watch",
     "publish": "npm run build:packages && npx changeset publish"
   },
-  "author": "Nícholas André <nicholas.andre@10up.com>",
   "workspaces": [
     "packages/*",
     "projects/*"
@@ -23,20 +31,14 @@
     "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@knodes/typedoc-plugin-code-blocks": "^0.22.5",
-    "@knodes/typedoc-plugin-monorepo-readmes": "^0.22.5",
-    "@knodes/typedoc-plugin-pages": "^0.22.5",
-    "@typescript-eslint/eslint-plugin": "^4.31.2",
-    "@typescript-eslint/parser": "^4.31.2",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
     "concurrently": "^6.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-jest": "^25.2.4",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
     "turbo": "^1.2.11",
-    "typedoc": "^0.22.15",
-    "typedoc-monorepo-link-types": "^0.0.2",
-    "typedoc-plugin-inline-sources": "^1.0.1",
     "jest-environment-jsdom": "^29.0.3",
     "jest": "^29.0.3"
   },

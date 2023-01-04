@@ -1,4 +1,5 @@
 import { DOMNode, Element } from 'html-react-parser';
+import { HeadlessConfig } from '../types';
 import { isInternalLink } from '../utils/isInternalLink';
 
 export type isAnchorTagOptions = {
@@ -53,9 +54,13 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  *
  * @category DOM Helpers
  *
- * @returns Whether it's a anchor tag accoriding to the options passed
+ * @returns Whether it's an anchor tag according to the options passed
  */
-export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): node is Element {
+export function isAnchorTag(
+	node: DOMNode,
+	options: isAnchorTagOptions = {},
+	site: HeadlessConfig | undefined = undefined,
+): node is Element {
 	if (!(node instanceof Element)) {
 		return false;
 	}
@@ -75,7 +80,7 @@ export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): no
 			return false;
 		}
 
-		return isInternalLink(href);
+		return isInternalLink(href, site);
 	}
 
 	return true;
@@ -83,7 +88,7 @@ export function isAnchorTag(node: DOMNode, options: isAnchorTagOptions = {}): no
 
 export type isImageTagOptions = {
 	/**
-	 * If true, will check if the image tag contains wdith and height attributes
+	 * If true, will check if the image tag contains width and height attributes
 	 */
 	hasDimensions?: boolean;
 };

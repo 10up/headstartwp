@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks/dom';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { useDebounce } from '../..';
 
 describe('useDebounce', () => {

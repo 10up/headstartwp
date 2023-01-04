@@ -118,7 +118,7 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 	buildEndpointURL(params: Partial<TaxonomyArchiveParams>) {
 		const { taxonomy = this.defaultTaxonmy, ...endpointParams } = params;
 
-		const taxonomyObj = getCustomTaxonomy(taxonomy);
+		const taxonomyObj = getCustomTaxonomy(taxonomy, this.baseURL);
 
 		if (!taxonomyObj) {
 			throw new ConfigError(
@@ -146,7 +146,7 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 
 		return {
 			...data,
-			result: removeFields(['yoast_head', '_links'], data.result) as TermEntity[],
+			result: removeFields(['_links'], data.result) as TermEntity[],
 		};
 	}
 }

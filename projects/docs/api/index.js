@@ -50,7 +50,6 @@ app.use((req, res) => {
 	if (req.url === '/') {
 		return res.sendFile(path.join(__dirname, '../static/index.html'));
 	}
-
 	return res.sendFile(path.join(__dirname, `../static/${req.url}`));
 });
 

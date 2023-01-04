@@ -11,7 +11,7 @@ export interface FileBlockProps extends IBlockAttributes {
 
 export interface IFileBlock extends IBlock<FileBlockProps> {}
 
-export function FileBlock({ domNode: node, children, component: Component }: IFileBlock) {
+export function FileBlock({ domNode: node, children, component: Component, style }: IFileBlock) {
 	const { name, className, attributes } = useBlock<FileBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -25,6 +25,7 @@ export function FileBlock({ domNode: node, children, component: Component }: IFi
 			href={attributes.href}
 			showDownloadButton={!!attributes.showDownloadButton}
 			attributes={blockAttributes}
+			style={style}
 		>
 			{children}
 		</Component>

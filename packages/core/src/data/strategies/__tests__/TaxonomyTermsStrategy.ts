@@ -33,7 +33,7 @@ describe('TaxonomyTermsStrategy', () => {
 
 	it('bulds the endpoint url properly', () => {
 		// category should not be included directly in the url
-		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'category' })).toEqual(
+		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'category' })).toBe(
 			'/wp-json/wp/v2/categories',
 		);
 
@@ -51,6 +51,6 @@ describe('TaxonomyTermsStrategy', () => {
 			],
 		});
 
-		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'book' })).toEqual('/wp-json/wp/v2/book');
+		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'book' })).toBe('/wp-json/wp/v2/book');
 	});
 });

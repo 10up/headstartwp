@@ -1,13 +1,13 @@
 import {
-	getWPUrl,
 	fetchRedirect,
 	FilterDataOptions,
 	AbstractFetchStrategy,
 	EndpointParams,
 	FetchResponse,
+	getHeadlessConfig,
+	getSite,
 	FetchOptions,
 } from '@10up/headless-core';
-import { getHeadlessConfig } from '@10up/headless-core/utils';
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticPropsContext } from 'next';
 import { unstable_serialize } from 'swr';
 import { PreviewData } from '../handlers/types';
@@ -48,6 +48,28 @@ export function convertToPath(args: string[] | undefined) {
 }
 
 /**
+ * Get site using context
+ *
+ * @param ctx
+ * @returns HeadlessConfig
+ */
+export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPropsContext) {
+	const currentSite = ctx?.params?.site;
+	const settings = getHeadlessConfig();
+	const site =
+		settings.sites &&
+		settings.sites.find(({ host, locale }) => {
+			if (ctx.locale) {
+				return host === currentSite && locale === ctx.locale;
+			}
+
+			return host === currentSite;
+		});
+
+	return getSite(site);
+}
+
+/**
  * A function that implementeds data fetching on the server. This should be used in `getServerSideProps`
  * or `getStaticProps`.
  *
@@ -81,10 +103,10 @@ export async function fetchHookData(
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions = {},
 ) {
-	const wpURL = getWPUrl();
+	const { sourceUrl } = getSiteFromContext(ctx);
 	const params = options?.params || {};
 
-	fetchStrategy.setBaseURL(wpURL);
+	fetchStrategy.setBaseURL(sourceUrl);
 
 	let path: string[] = [];
 
@@ -97,7 +119,7 @@ export async function fetchHookData(
 	const finalParams = { _embed: true, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
-	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams } };
+	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
 
 	const isPreviewRequest =
 		typeof urlParams.slug === 'string' ? urlParams.slug.includes('-preview=true') : false;
@@ -162,6 +184,7 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	const { props = {}, ...rest } = nextProps;
 	const fallback = {};
 	let seo_json = {};
+	let seo = '';
 	let themeJSON = {};
 
 	const validHookStates = hookStates.filter(Boolean);
@@ -185,6 +208,21 @@ export function addHookData(hookStates: HookState[], nextProps) {
 				seo_json = { ...mainQuery.data.result.yoast_head_json };
 			}
 		}
+		if (mainQuery.data.queriedObject.search?.yoast_head) {
+			seo = mainQuery.data.queriedObject.search?.yoast_head;
+		} else if (mainQuery.data.queriedObject.author?.yoast_head) {
+			seo = mainQuery.data.queriedObject.author?.yoast_head;
+		} else if (mainQuery.data.queriedObject.term?.yoast_head) {
+			seo = mainQuery.data.queriedObject.term?.yoast_head;
+		} else if (Array.isArray(mainQuery.data.result) && mainQuery.data.result.length > 0) {
+			if (mainQuery.data.result[0]?.yoast_head) {
+				seo = mainQuery.data.result[0].yoast_head;
+			}
+		} else if (!Array.isArray(mainQuery.data.result)) {
+			if (mainQuery.data.result?.yoast_head) {
+				seo = mainQuery.data.result.yoast_head;
+			}
+		}
 	}
 
 	if (appSettings) {
@@ -195,32 +233,42 @@ export function addHookData(hookStates: HookState[], nextProps) {
 	validHookStates.forEach((hookState) => {
 		const { key, data } = hookState;
 
-		const foundSeo = Object.keys(seo_json).length > 0;
+		const foundSeoJson = Object.keys(seo_json).length > 0;
+		const foundSeo = seo.length > 0;
 
 		// we want to keep only one yoast_head_json object and remove everyhing else to reduce
 		// hydration costs
 		if (Array.isArray(data.result) && data.result.length > 0) {
 			data.result.forEach((post) => {
 				if (post?.yoast_head_json) {
-					if (!foundSeo) {
+					if (!foundSeoJson) {
 						seo_json = { ...post.yoast_head_json };
 					}
 
 					post.yoast_head_json = null;
 				}
+
 				if (post?.yoast_head) {
+					if (!foundSeo) {
+						seo = post.yoast_head;
+					}
+
 					post.yoast_head = null;
 				}
 			});
 		} else if (!Array.isArray(data.result)) {
 			if (data.result?.yoast_head_json) {
-				if (!foundSeo) {
+				if (!foundSeoJson) {
 					seo_json = { ...data.result.yoast_head_json };
 				}
 				data.result.yoast_head_json = null;
 			}
 
 			if (data.result?.yoast_head) {
+				if (!foundSeo) {
+					seo = data.result.yoast_head;
+				}
+
 				data.result.yoast_head = null;
 			}
 
@@ -238,6 +286,7 @@ export function addHookData(hookStates: HookState[], nextProps) {
 			...props,
 			seo: {
 				yoast_head_json: seo_json,
+				yoast_head: seo,
 			},
 			themeJSON,
 			fallback,
@@ -281,7 +330,7 @@ export async function handleError(
 	ctx: GetServerSidePropsContext,
 	rootRoute: string = '',
 ): Promise<GetServerSidePropsResult<{}>> {
-	const { redirectStrategy } = getHeadlessConfig();
+	const { redirectStrategy, sourceUrl } = getSiteFromContext(ctx);
 
 	if (error.name === 'NotFoundError') {
 		let pathname = '';
@@ -296,7 +345,7 @@ export async function handleError(
 		}
 
 		if (redirectStrategy === '404' && pathname) {
-			const redirect = await fetchRedirect(pathname);
+			const redirect = await fetchRedirect(pathname, sourceUrl || '');
 
 			if (redirect.location) {
 				return {

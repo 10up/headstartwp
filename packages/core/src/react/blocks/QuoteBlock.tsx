@@ -7,7 +7,7 @@ export interface QuoteBlockProps extends IBlockAttributes {}
 
 export interface IQuoteBlock extends IBlock<QuoteBlockProps> {}
 
-export function QuoteBlock({ domNode: node, children, component: Component }: IQuoteBlock) {
+export function QuoteBlock({ domNode: node, children, component: Component, style }: IQuoteBlock) {
 	const { name, className } = useBlock<QuoteBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -18,6 +18,7 @@ export function QuoteBlock({ domNode: node, children, component: Component }: IQ
 			className={className}
 			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
+			style={style}
 		>
 			{children}
 		</Component>

@@ -1,10 +1,12 @@
-## @10up/headless-next
+# @10up/headless-next
 
 > `@10up/headless-next` is the Next.js bindings for the headless framework.
 
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/next/LICENSE.md)
+
 In addition to the default export, this packages also exports:
 - `@10up/headless-next/config`: For using with `next.config.js` or `next.config.mjs`
-- `@!0up/headless-next/middlewares`: Contains next.js middlewares. Exported separately as the next.js middleware runtime is limited and can only run a subset of APIs.
+- `@10up/headless-next/middlewares`: Contains next.js middlewares. Exported separately as the next.js middleware runtime is limited and can only run a subset of APIs.
 
 ## Installation
 

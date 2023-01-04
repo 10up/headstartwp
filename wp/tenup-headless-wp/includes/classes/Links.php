@@ -131,6 +131,7 @@ class Links {
 
 				// Redirect the frontend WordPress request to the React website URL.
 				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
+				exit;
 		}
 	}
 }

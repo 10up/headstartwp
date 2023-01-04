@@ -1,3 +1,4 @@
+import { getWPUrl, removeSourceUrl } from '@10up/headless-core';
 import {
 	usePost,
 	fetchHookData,
@@ -32,37 +33,41 @@ export default SinglePostsPage;
 
 /**
  * This is an example of pre-rendering a set of pages at build times.
- * In this specific example, we are pre-rendering the first 50 posts (withn dates in the URL) and the first 50 pages.
+ * In this specific example, we are pre-rendering the first 50 posts (within dates in the URL) and the first 50 pages.
  *
  * @returns {Promise<*>}
  */
 export async function getStaticPaths() {
 	const postsData = await usePosts.fetcher().get({ postType: 'post', per_page: 50 });
 
-	const postsPath = postsData.result.map(({ date, slug }) => {
-		const dateString = new Date(date).toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
-		});
-
-		const datePath = dateString.split('/');
-
+	const postsPath = postsData.result.map(({ link }) => {
 		return {
 			// path is the catch all route, so it must be array with url segments
 			// if you don't want to support date urls just remove the date from the path
-			params: { path: [...datePath, slug] },
+			params: {
+				path: removeSourceUrl({ link, backendUrl: getWPUrl() }).substring(1).split('/'),
+			},
 		};
 	});
 
 	const pagesData = await usePosts.fetcher().get({ postType: 'page', per_page: 50 });
 
-	const pagePaths = pagesData.result.map(({ slug }) => {
-		return {
-			// path is the catch all route, so it must be array with url segments
-			params: { path: [slug] },
-		};
-	});
+	const pagePaths = pagesData.result
+		.map(({ link }) => {
+			const normalizedLink = removeSourceUrl({ link, backendUrl: getWPUrl() });
+
+			if (normalizedLink === '/') {
+				return false;
+			}
+
+			return {
+				// path is the catch all route, so it must be array with url segments
+				params: {
+					path: normalizedLink.substring(1).split('/'),
+				},
+			};
+		})
+		.filter(Boolean);
 
 	return {
 		paths: [...postsPath, ...pagePaths],

@@ -9,7 +9,7 @@ export interface TableBlockProps extends IBlockAttributes {
 
 export interface ITableBlock extends IBlock<TableBlockProps> {}
 
-export function TableBlock({ domNode: node, children, component: Component }: ITableBlock) {
+export function TableBlock({ domNode: node, children, component: Component, style }: ITableBlock) {
 	const { name, className, attributes } = useBlock<TableBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -21,6 +21,7 @@ export function TableBlock({ domNode: node, children, component: Component }: IT
 			attributes={blockAttributes}
 			htmlAnchor={node.attribs.id || ''}
 			hasFixedLayout={!!attributes.hasFixedLayout}
+			style={style}
 		>
 			{children}
 		</Component>

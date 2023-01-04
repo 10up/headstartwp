@@ -1,6 +1,10 @@
 {
   "name": "@10up/wp-nextjs",
   "version": "0.2.0",
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with 10up's Headless Framework.",
+  "homepage": "https://github.com/10up/headless/blob/develop/projects/wp-nextjs/README.md",
+  "license" : "GPL-2.0-or-later",
+  "author": "10up <info@10up.com> (https://10up.com/)",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,19 +14,19 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@10up/headless-core": "^0.4.4",
-    "@10up/headless-next": "^0.4.3",
-    "@linaria/babel-preset": "^4.1.2",
-    "@linaria/core": "^4.1.1",
-    "@linaria/react": "^4.1.2",
-    "@linaria/shaker": "^4.1.2",
-    "@linaria/webpack-loader": "^4.1.2",
+    "@10up/headless-core": "^0.5.0-next.7",
+    "@10up/headless-next": "^0.5.0-next.6",
+    "@linaria/babel-preset": "^4.3.1",
+    "@linaria/core": "^4.2.3",
+    "@linaria/react": "^4.3.1",
+    "@linaria/shaker": "^4.2.5",
+    "@linaria/webpack-loader": "^4.1.9",
     "clsx": "^1.1.1",
-    "next": "^12.2.0",
+    "next": "^13.0.6",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@10up/eslint-config": "^2.4.3",

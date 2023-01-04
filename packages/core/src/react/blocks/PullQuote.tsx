@@ -16,6 +16,7 @@ export function PullQuoteBlock({
 	domNode: node,
 	children,
 	component: Component,
+	style,
 }: IPullQuotekBlock) {
 	const { name, className, attributes } = useBlock<PullQuoteBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
@@ -37,6 +38,7 @@ export function PullQuoteBlock({
 			quote={quote}
 			cite={citeText}
 			borderColor={attributes.borderColor || ''}
+			style={style}
 		>
 			{children}
 		</Component>

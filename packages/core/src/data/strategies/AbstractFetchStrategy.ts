@@ -4,13 +4,13 @@ import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
 import { acceptFields, removeFields } from '../utils/dataFilter';
 
 /**
- * The base interface for definiting endpoint parameters
+ * The base interface for defining endpoint parameters
  *
- * Strategies should define type with the actuall supported EndPointParams
+ * Strategies should define type with the actually supported EndPointParams
  */
 export interface EndpointParams {
 	/**
-	 * The _embed param returneds associated entities in the response
+	 * The _embed param returned associated entities in the response
 	 *
 	 * It's recommended to avoid additional requests to fetch data
 	 */
@@ -53,7 +53,7 @@ export interface FetchOptions {
 	throwIfNotFound: boolean;
 
 	/**
-	 * The autherntication token to use for the request.
+	 * The authentication token to use for the request.
 	 */
 	bearerToken?: string;
 }
@@ -70,7 +70,7 @@ export interface FilterDataOptions<T> {
 /**
  * Abstract class that lays out a strategy for fetching data
  *
- * All Fetch Stategies should implement this class and it allows to share logic for fetching data both
+ * All Fetch Strategies should implement this class and it allows to share logic for fetching data both
  * on the front-end and on the back-end.
  *
  * @template E The type of entity that is fetched (e.g PostEntity, TermEntity etc)
@@ -107,7 +107,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	}
 
 	/**
-	 * The strategy can switch endpoints at runtime if neeeded.
+	 * The strategy can switch endpoints at runtime if needed.
 	 *
 	 * E.g: The actual endpoint for a post depends on its post_type
 	 *

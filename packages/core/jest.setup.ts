@@ -7,6 +7,7 @@ global.TextEncoder = TextEncoder;
 // @ts-ignore
 global.TextDecoder = TextDecoder;
 
+// @ts-expect-error
 global.__10up__HEADLESS_CONFIG = {};
 
 beforeAll(() => server.listen());

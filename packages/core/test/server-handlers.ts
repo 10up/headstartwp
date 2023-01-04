@@ -1,11 +1,27 @@
 import { rest, DefaultRequestBody } from 'msw';
+import { redirect } from './mocks/redirect';
 import posts from './__fixtures__/posts/posts.json';
 
 interface TestEndpointResponse {
 	ok: boolean;
 }
 
+export const VALID_AUTH_TOKEN = 'this is a valid auth';
+export const DRAFT_POST_ID = 57;
+
 const handlers = [
+	rest.head('http://example.com/redirect-test', (req, res) => {
+		return res(redirect('http://example.com/redirected-page', 301));
+	}),
+
+	rest.head('http://example.com/infinite-loop', (req, res) => {
+		return res(redirect('http://example.com/infinite-loop', 301));
+	}),
+
+	rest.head('http://example.com/rsa-blocked-page', (req, res) => {
+		return res(redirect('http://example.com/wp-login.php', 301));
+	}),
+
 	rest.get<DefaultRequestBody, TestEndpointResponse>(/\/test-endpoint/, (req, res, ctx) => {
 		return res(ctx.json({ ok: true }));
 	}),
@@ -118,8 +134,23 @@ const handlers = [
 		}
 
 		// harcode 57 as a draft post
-		if (id === 57 && !req.headers.has('Authorization')) {
-			return res(ctx.json({ code: 'rest_unauthorized', data: { status: 500 } }));
+		if (id === DRAFT_POST_ID) {
+			if (
+				req.headers.has('Authorization') &&
+				req.headers.get('Authorization') === `Bearer ${VALID_AUTH_TOKEN}`
+			) {
+				return res(ctx.json(results));
+			}
+
+			return res(
+				ctx.json({
+					code: 'rest_cannot_read',
+					message: 'Sorry, you are not allowed to view this post.',
+					data: {
+						status: 401,
+					},
+				}),
+			);
 		}
 
 		return res(ctx.json(results));

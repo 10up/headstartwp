@@ -87,7 +87,7 @@ class API {
 
 	/**
 	 * Modifies the REST API query parameters to check for a taxonomy term slug instead of ID, which is the default
-	 * This is passed via the URL via ?<taxonomy>=term, eg ?category=catgory-slug
+	 * This is passed via the URL via ?<taxonomy>=term, eg ?category=category-slug
 	 *
 	 * @param array  - $args The Rest Args
 	 * @param object - $request The Request Object

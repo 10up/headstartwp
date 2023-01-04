@@ -1,0 +1,11 @@
+.navbar {
+	padding-block: 1rem;
+}
+
+.navbar a {
+	text-decoration: none;
+}
+
+html:not(.docs-wrapper) .navbar {
+	box-shadow: none;
+}

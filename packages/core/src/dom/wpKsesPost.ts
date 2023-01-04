@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
-import sanitize, { getDefaultWhiteList } from 'xss';
+import sanitize, { getDefaultWhiteList, IFilterXSSOptions } from 'xss';
 import type { IWhiteList } from 'xss';
 
 /**
@@ -14,6 +14,7 @@ import type { IWhiteList } from 'xss';
  *
  * @param content The content to sanitize.
  * @param allowList Optional. The list of allowed HTML tags and attributes. If not set, the default allow list will be used.
+ * @param options Optional. IFilterXSSOptions.
  *
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
  *
@@ -21,7 +22,11 @@ import type { IWhiteList } from 'xss';
  *
  * @returns Sanitized string of HTML.
  */
-export const wpKsesPost = (content: string, allowList?: IWhiteList): string => {
+export const wpKsesPost = (
+	content: string,
+	allowList?: IWhiteList,
+	options?: IFilterXSSOptions,
+): string => {
 	if (typeof allowList === 'undefined') {
 		allowList = ksesAllowedList;
 	}
@@ -30,6 +35,7 @@ export const wpKsesPost = (content: string, allowList?: IWhiteList): string => {
 		whiteList: allowList,
 		stripIgnoreTag: true,
 		stripIgnoreTagBody: true,
+		...(options || {}),
 	});
 };
 

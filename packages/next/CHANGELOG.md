@@ -1,12 +1,81 @@
 # @10up/headless-next
 
+## 0.5.0-next.6
+
+### Patch Changes
+
+- d41be3b: Fix duplicate yoast tags
+
+## 0.5.0-next.5
+
+### Patch Changes
+
+- b5e59cd: Fix url replacement on Yoast component
+
+## 0.5.0-next.4
+
+### Minor Changes
+
+- ae938bd: Add ability to use the `yoast_head` html to populate the head tags instead of manually rendering every property of the yoast_head_json
+
+### Patch Changes
+
+- 3fc39d3: Redirect :path/page/1 to :path/
+- Updated dependencies [f393ac9]
+- Updated dependencies [ae938bd]
+  - @10up/headless-core@0.5.0-next.6
+
+## 0.5.0-next.3
+
+### Patch Changes
+
+- 79c4d07: add missing key prop in `Yoast` component.
+- Updated dependencies [9aea8ab]
+  - @10up/headless-core@0.5.0-next.5
+
+## 0.5.0-next.2
+
+### Minor Changes
+
+- be4137f: Update Yoast robots tag and add article:modified_time, twitter:label and twitter:data tags
+- 73e2dc6: Parses the style attribute of HTML elements into an object, and passes that object down as a prop through the BlocksRenderer component.
+
+  Also updates block components to pass style down as a prop to the provided components.
+
+  Closes [#240](https://github.com/10up/headless/issues/240)
+
+- 7e3a45e: Add React 18 and Next.js 13 support.
+
+### Patch Changes
+
+- Updated dependencies [73e2dc6]
+- Updated dependencies [7e3a45e]
+  - @10up/headless-core@0.5.0-next.3
+
+## 0.5.0-next.1
+
+### Patch Changes
+
+- 5b9bc8b: Merge rewrites config.
+
+## 0.5.0-next.0
+
+### Minor Changes
+
+- ad92a7a: Introducing Multisite support to the headless framework.
+
+### Patch Changes
+
+- Updated dependencies [ad92a7a]
+  - @10up/headless-core@0.5.0-next.0
+
 ## 0.4.3
 
 ### Patch Changes
 
 - ae8739d: Optimize next.js props
 - ec25cdd: Fix queried object detection, account for querying by id as well
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that drwas params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
 - 7923590: Fix: do not include preview params in swr key
 - 9141bb3: Convert back-end urls in seo metadata to front-end urls
 - b3d2216: Further optimize next.js props
@@ -53,7 +122,7 @@
 
 ### Patch Changes
 
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that drwas params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
 - 7923590: Fix: do not include preview params in swr key
 - Updated dependencies [dc7edb1]
   - @10up/headless-core@0.4.3-next.0
@@ -128,7 +197,7 @@
 
 ### Minor Changes
 
-- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet avaliable.
+- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet available.
 
 ### Patch Changes
 
@@ -139,7 +208,7 @@
 
 ### Minor Changes
 
-- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet avaliable.
+- 9b992b9: Throw an error when trying to access data from useFetch hooks when the data is not yet available.
 
 ### Patch Changes
 

@@ -7,6 +7,7 @@ module.exports = {
 		'jsdoc/require-returns': 0,
 		'jsdoc/require-param': 0,
 		'react/function-component-definition': 0,
+		'react/require-default-props': 0,
 	},
 	settings: {
 		'import/resolver': 'typescript',
