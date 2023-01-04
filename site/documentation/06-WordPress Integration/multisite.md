@@ -96,10 +96,42 @@ _document.js
 api/
 ```
 
-With this setup, the frameworks middleware will rewrite all requests to `_sites/hostName`. This allows you to power all of you sites with the same codebase. This is very useful if you're building sites that supports internationalization or if the only thing that changes across sites is the content.
+With this setup, the frameworks middleware will rewrite all requests to `_sites/hostName`. All of the data-fetching hooks will fetch data to the appropriate WordPress instance.
 
-## Creating Routes that target a specific site
+This allows you to power all of you sites with the same codebase. This is very useful if you're building sites that supports internationalization or if the only thing that changes across sites is the content.
+
+### Creating Routes that target a specific site
 
 It is possible to create routes specific to each site. To do this simple create a folder for that particular site eg: `src/pages/_sites/mysite.com/index.js`. Then when a user visits `mysite.com` the `index.js` route file will be used instead of the one in `[site]/index.js`.
 
 This provides a powerfull way of powering complex multi-tenant apps that shares codebase but render completely different pages and layouts.
+
+## Known Issues
+
+**404.js and 500.js are unable to know the current site**
+
+At the moment, there's a limitation in Next.js that doesn't allow the `404.js` and `500.js` pages to know the current site. These two files **must** be in the root of the pages directory and and we can't rewrite them. Additionally, they only supports `getStaticProps` which means there's no way to know which site you're on in case you need to fetch data specific for that site.
+
+If you need to fetch data in `404.js` or `500.js` there's one workaround but it rely on client-side data-fetching. In `_app.js` do the following:
+
+```javascript
+import { getSiteByHost } from '@10up/headless-core';
+
+//grab the current site
+const currentSite = useMemo(() => {
+    if (router.query?.site && !Array.isArray(router.query.site)) {
+        return getSiteByHost(router.query.site, router.locale);
+    }
+
+    // 404.js and 500.js do not have a site query param.
+    if (typeof window !== 'undefined') {
+        return getSiteByHost(window.location.host, router.locale);
+    }
+    return {};
+}, [router]);
+
+// pass it to HeadlessApp to override the current site settings defined by the framework
+// once react hydrates and window is defined, the currentSite will be set for 404 and 500 poages.
+<HeadlessApp settings={currentSite} />
+```
+
