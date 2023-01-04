@@ -37,7 +37,7 @@ The `host` option is automatically inferrered if `hostUrl` is set. You probably 
 
 ## customPostTypes
 
-To add support for cusotm post types, add your custom post type to the `customPostTypes` setting in `headless.config.js`.
+To add support for custom post types, add your custom post type to the `customPostTypes` setting in `headless.config.js`.
 
 ```js
 // src/headless.config.js
@@ -76,7 +76,7 @@ module.exports = {
     ],
     cstomTaxonomies: [
 		// this is just an example
-		{
+		{ 
 			slug: 'genre',
 			endpoint: '/wp-json/wp/v2/genre',
 			postType: ['book'],

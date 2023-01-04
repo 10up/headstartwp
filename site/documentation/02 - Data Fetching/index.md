@@ -4,7 +4,7 @@ slug: /data-fetching
 
 # Data Fetching
 
-The Headless Framework exposes several custom react hooks that provides a seamless data-fethcing experience with WordPress.. Those hooks are built to be "isomorphic" i.e, can be executed either on the browser or on the server (e.g: Node.js).
+The Headless Framework exposes several custom react hooks that provides a seamless data-fetching experience with WordPress. Those hooks are built to be "isomorphic" i.e, can be executed either on the browser or on the server (e.g: Node.js).
 
 The data-fetching logic itself is abstracted by [strategies](/docs/data-fetching/strategies). The custom react hooks are powered by [useSwr](https://swr.vercel.app/).
 
