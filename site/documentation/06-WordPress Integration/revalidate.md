@@ -56,3 +56,7 @@ export default async function handler(req, res) {
 	return revalidateHandler(req, res);
 }
 ```
+
+## How does it work?
+
+The default implementation will revalidate any post or page upon saving in WordPress. You can see the logic [here](https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/includes/classes/CacheFlush/CacheFlush.php#L40).

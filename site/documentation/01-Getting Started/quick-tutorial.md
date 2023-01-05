@@ -28,15 +28,14 @@ The great thing about this is that you don’t need multiple Next.js routes to h
 
 Now let’s look at how data fetching for this route works. To make things easier to understand, let’s disregard `getStaticPaths` and `getStaticProps`functions.
 
-```js
-//src/params.js
+```js title="src/params.js"
 /**
  * @type {import('@10up/headless-core').PostParams}
  */
 export const singleParams = { postType: ['page', 'post'] };
+```
 
-
-// src/pages/[...path].js
+```js title="src/pages/[...path].js"
 const SinglePostsPage = () => {
 	const { loading, error } = usePost(singleParams);
 
@@ -74,7 +73,7 @@ The framework data fetching layer is “isomorphic”, you start with client-sid
 
 It is important to note that **you should always pre-fetch on the server the “main query” and/or the “core” data for a page in a headless site**. That’s what we’ll do next! Keep the getStaticPaths commented out and uncomment getStaticProps.
 
-```js
+```js title="src/pages/[...path].js"
 export async function getStaticProps(context) {
 	try {
 
@@ -124,7 +123,7 @@ There’s also the concept of “queried object” which is very similar to [get
 
 Let’s take a look at [src/pages/category/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/category/%5B...path%5D.js)
 
-```js
+```js title="src/pages/category/[...path].js"
 const CategoryPage = () => {
 	const { data } = usePosts({ taxonomy: 'category' });
 

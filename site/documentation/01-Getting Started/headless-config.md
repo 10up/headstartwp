@@ -8,7 +8,7 @@ The `headless.config.js` file contains several config options for 10up's headles
 
 Here's a sample config file
 
-```javascript
+```javascript title="src/headless.config.js"
 module.exports = {
     sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
     hostUrl: process.env.HOST_URL,
@@ -21,7 +21,7 @@ module.exports = {
 
 ## sourceUrl
 
-The `sourceUrl` option should point to a valid WordPress installation form where the headless site should be sourced to.
+The `sourceUrl` option should point to a valid WordPress installation from where the headless site should be sourced to.
 
 ## useWordPressPlugin
 
@@ -39,8 +39,7 @@ The `host` option is automatically inferrered if `hostUrl` is set. You probably 
 
 To add support for custom post types, add your custom post type to the `customPostTypes` setting in `headless.config.js`.
 
-```js
-// src/headless.config.js
+```js title="src/headless.config.js"
 module.exports = {
     sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
     hostUrl: process.env.HOST_URL,
@@ -56,14 +55,20 @@ module.exports = {
 }
 ```
 
-The `single` option is required for properly previwing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; The framework will use the `single` path to redirect the previewed post to the right path/route.
+After adding a custom post type to the config, you will be able to fetch posts from the registered post type via the slug:
+
+```js
+usePost({ postType: ['book'] });
+usePosts({ postType:'book', perPage: 10 });
+```
+
+The `single` option is required for properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; The framework will use the `single` path to redirect the previewed post to the right path/route.
 
 ## customTaxonomies
 
 To add support for custom taxonomies, add your custom taxonomy to the `customTaxonomies` setting in `headless.config.js`.
 
-```js
-// src/headless.config.js
+```js title="src/headless.config.js"
 module.exports = {
     customPostTypes: [
         {
@@ -75,7 +80,6 @@ module.exports = {
         },
     ],
     cstomTaxonomies: [
-		// this is just an example
 		{ 
 			slug: 'genre',
 			endpoint: '/wp-json/wp/v2/genre',
@@ -84,6 +88,51 @@ module.exports = {
 	],
 }
 ```
+
+After adding a custom taxonomy to the config, you will be able to filter posts by the registered taxonomy or fetch terms from it.
+
+```js
+usePost({ postType: ['book'], genre: 'action' });
+usePosts({ postType:'book', genre: 'action' perPage: 10 });
+useTerms({ taxonomy: 'genre' } );
+```
+
+Additionally if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
+
+```js title=src/pages/books/[[...path]].js
+import { usePosts} from '@10up/headless-next';
+const BooksPage = () => {
+	const { data, error, loading } = usePosts({postType: 'book'});
+
+	if (error) {
+		return 'error';
+	}
+
+	if (loading) {
+		return 'Loading...';
+	}
+
+	return (
+		<ul>
+			{data.posts.map((post) => (
+				<li key={post.id}>{post.title.rendered}</li>
+			))}
+		</ul>
+	);
+};
+
+export default BooksPage;
+```
+
+This route would automatically handle the following URLs:
+- /books -> list latest books
+- /books/page/x -> paginate books
+- /books/genre/genre-name -> filter books by genre
+- /books/genre/genre-name/page/2 -> paginate books filtered by genre
+
+:::caution
+The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/docs/data-fetching/prefetching) for instructions.
+:::caution
 
 ## redirectStrategy
 

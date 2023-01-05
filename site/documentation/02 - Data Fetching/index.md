@@ -46,8 +46,7 @@ usePost({ post_type: 'page' }, {}, '/about' );
 
 By using the Next.js bindings and following the path catch-all route convention, the URL extraction is automatic.
 
-```js
-// src/pages/[...path].js
+```js title="src/pages/[...path].js"
 import { usePost } from '@10up/headless-next';
 
 const Page = () => {

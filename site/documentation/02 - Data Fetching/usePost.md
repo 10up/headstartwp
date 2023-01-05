@@ -13,8 +13,7 @@ The `usePost` hook fetches a single WordPress post from a registered post type. 
 
 The basic usage is pretty simple and it assumes a route named `src/pages/[...path].js` where the `slug` is extracted from the URL.
 
-```js
-//src/pages/[...path].js
+```js title=src/pages/[...path].js
 import { usePost } from '@10up/headless-next';
 
 const PostPage = () => {
