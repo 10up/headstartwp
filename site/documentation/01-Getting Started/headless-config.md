@@ -8,7 +8,7 @@ The `headless.config.js` file contains several config options for 10up's headles
 
 Here's a sample config file
 
-```javascript title="src/headless.config.js"
+```javascript title="headless.config.js"
 module.exports = {
     sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
     hostUrl: process.env.HOST_URL,
@@ -39,7 +39,7 @@ The `host` option is automatically inferrered if `hostUrl` is set. You probably 
 
 To add support for custom post types, add your custom post type to the `customPostTypes` setting in `headless.config.js`.
 
-```js title="src/headless.config.js"
+```js title="headless.config.js"
 module.exports = {
     sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
     hostUrl: process.env.HOST_URL,
@@ -68,7 +68,7 @@ The `single` option is required for properly previewing custom post types when t
 
 To add support for custom taxonomies, add your custom taxonomy to the `customTaxonomies` setting in `headless.config.js`.
 
-```js title="src/headless.config.js"
+```js title="headless.config.js"
 module.exports = {
     customPostTypes: [
         {
