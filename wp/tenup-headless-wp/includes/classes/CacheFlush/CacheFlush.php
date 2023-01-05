@@ -74,7 +74,8 @@ class CacheFlush {
 				[
 					'time'        => time(),
 					'status_code' => $status_code,
-					'message'     => $body->message,
+					'message'     => isset( $body->message ) ? $body->message : '',
+					'path'        => isset( $body->path ) ? $body->path : '',
 				]
 			);
 
