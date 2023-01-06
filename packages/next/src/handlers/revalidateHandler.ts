@@ -42,7 +42,8 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 		return res.status(401).json({ message: 'Invalid params' });
 	}
 
-	const site = getSiteByHost(req.headers?.host ?? '');
+	const host = req.headers.host ?? '';
+	const site = getSiteByHost(host);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
 
 	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
@@ -54,7 +55,7 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 			{
 				params: {
 					path: [],
-					site: req.headers.host,
+					site: host,
 				},
 			},
 			{
@@ -73,8 +74,14 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 			throw new Error('Token mismatch');
 		}
 
-		await res.revalidate(path);
-		return res.status(200).json({ message: 'success' });
+		let pathToRevalidate = path;
+
+		if (isMultisiteRequest) {
+			pathToRevalidate = `/_sites/${host}${path}`;
+		}
+
+		await res.revalidate(pathToRevalidate);
+		return res.status(200).json({ message: 'success', path: pathToRevalidate });
 	} catch (err) {
 		let errorMessage = 'Error verifying the token';
 		if (err instanceof Error) {
