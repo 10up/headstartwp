@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.5.1-next.0
+
+### Patch Changes
+
+- a76d817: Fix [#294](https://github.com/10up/headless/issues/294): use the full path for multisite revalidation. PR [#296](https://github.com/10up/headless/pull/296).
+
 ## 0.5.0
 
 ### Minor Changes
