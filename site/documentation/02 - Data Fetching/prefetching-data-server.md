@@ -6,8 +6,7 @@ slug: /data-fetching/prefetching
 To enable prefetching data on the server use the `fetchHookData` function alongside `addHookData`.
 We also recommend using the `handleError` function and to wrap the `fetchHookData` call in a try/catch.
 
-```js
-//src/pages/[...path].js
+```js title="src/pages/[...path].js"
 import { 
     usePost, 
     fetchHookData, 

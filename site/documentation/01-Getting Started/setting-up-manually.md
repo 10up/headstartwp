@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # Setting up the framework from scratch
 
-The recommended way to get started with the framework is by installing the official started project. See [Getting Started](/docs) for more information.
+The recommended way to get started with the framework is by installing the official started project. See [Quick Setup](/docs/getting-started/quick-setup/) for more information.
 
 This guide will help you set up the framework in a clean Next.js project.
 
@@ -26,7 +26,7 @@ npm install --save @10up/headless-core @10up/headless-next
 
 Create a `headless.config.js` file at the root of your Next.js project.
 
-```js
+```js title="headless.config.js"
 /**
  * Headless Config
  *
@@ -55,8 +55,7 @@ If you're developing locally and your WordPress instance uses https but does not
 
 Create a `next.config.js` file with the following contents:
 
-```js
-// next.config.js
+```js title=next.config.js
 const { withHeadlessConfig } = require('@10up/headless-next/config');
 const headlessConfig = require('./headless.config');
 
@@ -74,7 +73,7 @@ module.exports = withHeadlessConfig(nextConfig, headlessConfig);
 
 Create a custom `_app.js` to wrap the application with `HeadlessApp` component.
 
-```js
+```js title=src/pages/_app.js
 import { HeadlessApp } from '@10up/headless-next';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -107,9 +106,9 @@ export default MyApp;
 
 The WordPress plugin expects the preview endpoint to be located at `/api/preview`.
 
-To enable support for previews, create a `pages/api/preview.js` with the following contents:
+To enable support for previews, create a `src/pages/api/preview.js` with the following contents:
 
-```js
+```js title=src/pages/api/preview.js
 import { previewHandler } from '@10up/headless-next';
 
 /**
@@ -131,9 +130,9 @@ The framework supports ISR revalidation triggered by WordPress. To enable ISR re
 
 ![ISR Option](../../static/img/revalidate-option.png)
 
-Then add the `revalidateHandler` to `pages/api/revalidate.js`
+Then add the `revalidateHandler` to `src/pages/api/revalidate.js`
 
-```js
+```js title=src/pages/api/revalidate.js
 import { revalidateHandler } from '@10up/headless-next';
 
 /**
@@ -151,13 +150,11 @@ export default async function handler(req, res) {
 
 ### Creating your first route
 
-To make sure everything is working as expected create a route catch-all route called `pages/[...path].js`. This route will be responsible for rendering single post and pages.
+To make sure everything is working as expected create a catch-all route called `pages/[...path].js`. This route will be responsible for rendering single post and pages.
 
 By creating a `[...path].js` route, the framework will automatically detect and extract URL parameters from the `path` argument.
 
-```js
-// pages/[...path].js
-
+```js title=src/pages/[...path].js
 import {
 	usePost,
 	fetchHookData,
@@ -201,7 +198,7 @@ With the example above, you might have noticed that the data is only being fetch
 
 Add this to the `pages/[...path].js` file
 
-```js
+```js title="src/pages/[...path].js"
 // or export async function getServerSideProps(context)
 export async function getStaticProps(context) {
 	try {

@@ -13,8 +13,7 @@ The `usePost` hook fetches a single WordPress post from a registered post type. 
 
 The basic usage is pretty simple and it assumes a route named `src/pages/[...path].js` where the `slug` is extracted from the URL.
 
-```js
-//src/pages/[...path].js
+```js title=src/pages/[...path].js
 import { usePost } from '@10up/headless-next';
 
 const PostPage = () => {
@@ -38,11 +37,15 @@ const PostPage = () => {
 
 #### Post path matching
 
-> The behavior described here was implemented in version **0.5.x** of the framework.
+:::caution
+The behavior described here was implemented in version **0.5.x** of the framework.
+:::caution
 
 The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsuported permalinks. 
 
-> The scenarios described below assumes [pre-fetching](/docs/data-fetching/prefetching) is being used in Next.js
+:::info
+The scenarios described below assumes [pre-fetching](/docs/data-fetching/prefetching) is being used in Next.js
+:::info
 
 Example where path matches:
 
@@ -67,11 +70,12 @@ Example where path does not match but is redirected to the right one:
 
 When specifying an array of post type, the slug will be searched in both endpoint and the first one to return a valid post object will be used.
 
-> Note: this might result in URL conflicts, i.e a post or page using the same slug. The first post type specified will take precedence. In such cases, consider using a different URL structure for each for instance (e.g: using `src/pages/article/[...path].js` for posts).
+:::caution
+This might result in URL conflicts, i.e a post or page using the same slug. The first post type specified will take precedence. In such cases, consider using a different URL structure for each for instance (e.g: using `src/pages/article/[...path].js` for posts).
+:::caution
 
 
-```js
-//src/pages/[...path].js
+```js title="src/pages/[...path].js"
 import { usePost } from '@10up/headless-next';
 
 const PostOrPage = () => {
@@ -97,8 +101,7 @@ const PostOrPage = () => {
 
 In order to fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
 
-```js
-//src/pages/book/[...path].js
+```js title="src/pages/book/[...path].js"
 import { usePost } from '@10up/headless-next';
 
 const PostPage = () => {
