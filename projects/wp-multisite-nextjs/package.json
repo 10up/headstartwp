@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@10up/headless-core": "^0.5.0",
-    "@10up/headless-next": "^0.5.0",
+    "@10up/headless-next": "^0.5.1",
     "@linaria/babel-preset": "^4.3.1",
     "@linaria/core": "^4.2.3",
     "@linaria/react": "^4.3.1",
