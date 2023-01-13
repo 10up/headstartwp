@@ -59,7 +59,7 @@ class AppEndpoint {
 		$cache_key = self::$cache_key;
 		$response  = wp_cache_get( $cache_key );
 
-		if ( empty( $response ) ) {
+		if ( empty( $response ) || ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) ) {
 
 			$response = [
 				'menus'     => [],
