@@ -6,7 +6,7 @@
 
 Since the introduction of [#286](https://github.com/10up/headless/pull/286) fetching single custom post types would always yield a 404. This PR fixes the issue by properly matching the current path with the custom post permalinks.
 
-This requires that the `single` propety is set in `headless.config.js`.
+This requires that the `single` property is set in `headless.config.js`.
 
 ```js
 customPostTypes: [
