@@ -325,4 +325,53 @@ describe('SinglePostFetchStrategy', () => {
 			result: childPost1,
 		});
 	});
+
+	it('handles post path mapping', async () => {
+		const englishPostSlug = 'test';
+		const utf8EncodedPostSlug = 'لأخبار-المالية';
+
+		const post1 = {
+			title: 'test',
+			id: 1,
+			link: `http://sourceurl.com/${englishPostSlug}`,
+		};
+
+		const post2 = {
+			title: 'test',
+			id: 2,
+			link: `http://sourceurl.com/${encodeURIComponent(utf8EncodedPostSlug)}`,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 1,
+			},
+			json: [post1],
+		});
+
+		fetchStrategy.setBaseURL('http://sourceurl.com');
+
+		let params = fetchStrategy.getParamsFromURL(`/${englishPostSlug}`);
+		let results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: post1,
+		});
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 1,
+			},
+			json: [post2],
+		});
+
+		params = fetchStrategy.getParamsFromURL(`/${utf8EncodedPostSlug}`);
+		results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: post2,
+		});
+	});
 });
