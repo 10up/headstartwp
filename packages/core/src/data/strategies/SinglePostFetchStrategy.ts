@@ -131,6 +131,45 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 	}
 
 	/**
+	 * Returns only the post that matches the current path
+	 *
+	 * @param result
+	 * @param params
+	 * @returns
+	 */
+	getPostThatMatchesCurrentPath(
+		result: PostEntity[],
+		params: PostParams,
+	): PostEntity | undefined {
+		return result.find((post) => {
+			const postPath = decodeURIComponent(
+				removeSourceUrl({
+					link: post.link,
+					backendUrl: this.baseURL,
+				}),
+			)?.replace(/\/?$/, '/');
+
+			const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
+
+			if (params.postType && params.postType.length > 0) {
+				const expectedPostTypes = Array.isArray(params.postType)
+					? params.postType
+					: [params.postType];
+				const postType = post.type ?? '';
+
+				if (expectedPostTypes.includes(postType)) {
+					const postTypeObject = getCustomPostType(postType, this.baseURL);
+					const singlePrefix = postTypeObject?.single?.replace(/\/?$/, '') ?? '';
+
+					return postPath === `${singlePrefix}${currentPath}`;
+				}
+			}
+
+			return postPath === currentPath;
+		});
+	}
+
+	/**
 	 * Prepares the post response
 	 *
 	 * @param response
@@ -175,17 +214,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 				this.shoudCheckCurrentPathAgainstPostLink;
 
 			const post = shouldCheckCurrentPath
-				? result.find((post) => {
-						const postPath = removeSourceUrl({
-							link: post.link,
-							backendUrl: this.baseURL,
-						})?.replace(/\/?$/, '/');
-
-						return (
-							decodeURIComponent(postPath) ===
-							decodeURIComponent(this.path).replace(/\/?$/, '/')
-						);
-				  })
+				? this.getPostThatMatchesCurrentPath(result, params)
 				: result[0];
 
 			if (!post) {
