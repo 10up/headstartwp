@@ -99,7 +99,7 @@ describe('useFetchPost', () => {
 			expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
 			// ensure fields that don't exists in revisions are returned
 			expect(result.current.data?.post.format).toBe('standard');
-			expect(result.current.data?.post?.terms?.category.at(0)?.slug).toBe('news');
+			expect(result.current.data?.post?.terms?.category[0]?.slug).toBe('news');
 		});
 	});
 
