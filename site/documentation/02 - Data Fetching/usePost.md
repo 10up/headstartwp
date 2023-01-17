@@ -43,9 +43,13 @@ The behavior described here was implemented in version **0.5.x** of the framewor
 
 The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsuported permalinks. 
 
-:::info
-The scenarios described below assumes [pre-fetching](/docs/data-fetching/prefetching) is being used in Next.js
-:::info
+:::caution
+The framework requires that the permalink structure set on the backend matches the URL structure being used on the front-end. 
+
+This means that if you include the date in your permalinks the URLs to a post without the date will 404 in the framework.
+
+This is also true for custom post types, if the WordPress backend expects a custom post type to be at `/book/book-name` the front-end must also follow the same URL structure. If you wish to change the permalink structure for custom post types make sure to make the changes both in WordPress and in your front-end code.
+:::caution
 
 Example where path matches:
 

@@ -62,7 +62,9 @@ usePost({ postType: ['book'] });
 usePosts({ postType:'book', perPage: 10 });
 ```
 
-The `single` option is required for properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; The framework will use the `single` path to redirect the previewed post to the right path/route.
+The `single` option is required for a number of things that includes:
+- properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; In this case, the framework will use the `single` path to redirect the previewed post to the right path/route.
+- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/docs/data-fetching/usepost/#post-path-matching) for more info.
 
 ## customTaxonomies
 
