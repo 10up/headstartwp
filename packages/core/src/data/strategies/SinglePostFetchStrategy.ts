@@ -176,11 +176,14 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 
 			const post = shouldCheckCurrentPath
 				? result.find((post) => {
+						const postPath = removeSourceUrl({
+							link: post.link,
+							backendUrl: this.baseURL,
+						})?.replace(/\/?$/, '/');
+
 						return (
-							removeSourceUrl({
-								link: post.link,
-								backendUrl: this.baseURL,
-							})?.replace(/\/?$/, '/') === this.path.replace(/\/?$/, '/')
+							decodeURIComponent(postPath) ===
+							decodeURIComponent(this.path).replace(/\/?$/, '/')
 						);
 				  })
 				: result[0];
