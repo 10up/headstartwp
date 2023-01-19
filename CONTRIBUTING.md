@@ -30,10 +30,18 @@ The `develop` branch is the development branch which means it contains the next 
 
 ### System requirements
 
-- [Node.js](https://nodejs.org/) >= 16.0.0. 
+- [Node.js](https://nodejs.org/) >= 16.0.0.
+- [PHP](https://www.php.net/) >= 8.0.
+- [Docker](https://www.docker.com/)
 
 ## Get the project running
-TBD
+
+First and foremost, run `npm install` from the root. Then run `npm run dev` or `npm run dev:multisite`. 
+
+The `npm run dev` command will spin up a single WordPress instance that by default will run at http://localhost:8888 and a the starter Next.js project.
+
+The `npm run dev:multisite` command will spin up a single WordPress instance that by default will run at http://localhost:8888 and the multisite next.js project.
+
 
 ## Troubleshooting
 
