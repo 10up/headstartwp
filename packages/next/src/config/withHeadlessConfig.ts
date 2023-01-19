@@ -133,7 +133,7 @@ export function withHeadlessConfig(
 					// between WordPress and NextJS app.
 					{
 						source: '/main-sitemap.xsl',
-						destination: `${headlessConfig.sourceUrl}/main-sitemap.xsl`,
+						destination: `${wpUrl}/main-sitemap.xsl`,
 					},
 					{
 						source: `${prefix}/ads.txt`,
