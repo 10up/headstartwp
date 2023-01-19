@@ -29,6 +29,9 @@ class Links {
 		}
 
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
+
+		// Override sitemap stylesheet.
+		add_filter( 'wpseo_stylesheet_url', array( $this, 'maybe_override_wpseo_stylesheet_url' ) );
 	}
 
 	/**
@@ -133,5 +136,39 @@ class Links {
 				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
 				exit;
 		}
+	}
+
+	/**
+	 * Replace host domain for sitemap stylesheet url.
+	 *
+	 * @param  string $stylesheet Sitemap stylesheet xml markup.
+	 * @return string             Modified sitemap stylesheet xml markup.
+	 */
+	public function maybe_override_wpseo_stylesheet_url( $stylesheet ) {
+		$dom = new \DOMDocument();
+		$dom->loadXml( sprintf( '<?xml version="1.0"?>%s<xml/>', $stylesheet ) );
+		$xpath = new \DOMXpath( $dom );
+		$attrs = (array) new \SimpleXMLElement(
+			sprintf(
+				'<element %s />',
+				$xpath->evaluate( 'string(//processing-instruction()[name() = "xml-stylesheet"])' )
+			)
+		);
+
+		// Bail early, if we don't have a stylesheet url.
+		if ( empty( $attrs['@attributes']['href'] ) ) {
+			return $stylesheet;
+		}
+
+		$stylesheet_url = $attrs['@attributes']['href'];
+		$host = wp_parse_url( $stylesheet_url, PHP_URL_HOST );
+
+		// Bail early, if the stylesheet url is not valid.
+		if ( empty( $host ) ) {
+			return $stylesheet;
+		}
+
+		$site_url = preg_replace( '/(^http[s]?:)\/\//', '', \get_option( 'site_react_url' ) );
+		return str_replace( $host, $site_url, $stylesheet );
 	}
 }
