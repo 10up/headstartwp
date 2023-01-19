@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with 10up's Headless Framework.",
   "homepage": "https://github.com/10up/headless/blob/develop/projects/wp-multisite-i18n-nextjs/README.md",
-  "license" : "GPL-2.0-or-later",
+  "license": "GPL-2.0-or-later",
   "author": "10up <info@10up.com> (https://10up.com/)",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@10up/headless-core": "^0.5.1",
-    "@10up/headless-next": "^0.5.1",
+    "@10up/headless-next": "^0.5.2",
     "@linaria/babel-preset": "^4.3.1",
     "@linaria/core": "^4.2.3",
     "@linaria/react": "^4.3.1",
