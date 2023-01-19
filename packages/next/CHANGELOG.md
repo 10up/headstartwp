@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.5.2-next.0
+
+### Patch Changes
+
+- 189b84d: feat: add a default rewrite rule for robots.txt
+
 ## 0.5.1
 
 ### Patch Changes
