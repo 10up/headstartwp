@@ -119,7 +119,7 @@ class Links {
 
 		global $wp;
 
-		if ( is_admin() || is_preview() ) {
+		if ( is_admin() || is_preview() || is_robots() ) {
 			return;
 		}
 

@@ -109,6 +109,10 @@ export function withHeadlessConfig(
 						source: `${prefix}/feed`,
 						destination: `${wpUrl}/feed`,
 					},
+					{
+						source: '/robots.txt',
+						destination: `${wpUrl}/robots.txt`,
+					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
 					// doing this upfront to avoid being redirected to the wp domain
 					{
