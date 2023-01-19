@@ -4,3 +4,4 @@ node_modules
 .turbo
 .vercel
 .DS_Store
+.vscode
