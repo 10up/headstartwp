@@ -163,21 +163,24 @@ class Links {
 	 * @return array        Modified array of links to be shown in sitemap.
 	 */
 	public function maybe_override_sitemap_index_links( array $links ) : array {
-		return array_map( function( $link ) {
-			// Bail, if we don't have loc.
-			if ( empty( $link['loc'] ) ) {
+		return array_map(
+			function( $link ) {
+				// Bail, if we don't have loc.
+				if ( empty( $link['loc'] ) ) {
+					return $link;
+				}
+
+				// Replace base url in loc with NextJS app url.
+				$link['loc'] = str_replace(
+					home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ),
+					untrailingslashit( Plugin::get_react_url() ),
+					$link['loc']
+				);
+
 				return $link;
-			}
-
-			// Replace base url in loc with NextJS app url.
-			$link['loc'] = str_replace(
-				home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ),
-				untrailingslashit( Plugin::get_react_url() ),
-				$link['loc']
-			);
-
-			return $link;
-		}, $links );
+			},
+			$links
+		);
 	}
 
 	/**
@@ -192,8 +195,8 @@ class Links {
 		$url->loadXML( $xml );
 
 		// Get all `loc` nodes.
-		$locs = $url->getElementsByTagName('loc');
-		foreach ($locs as $loc) {
+		$locs = $url->getElementsByTagName( 'loc' );
+		foreach ( $locs as $loc ) {
 			// Bail, if it's not a url.
 			if ( filter_var( $loc->nodeValue, FILTER_VALIDATE_URL ) === false ) {
 				continue;
