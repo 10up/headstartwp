@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.5.3-next.0
+
+### Patch Changes
+
+- 3c7186f: [#313](https://github.com/10up/headless/pull/313) feat: add support for yoast sitemaps.
+
 ## 0.5.2
 
 ### Patch Changes

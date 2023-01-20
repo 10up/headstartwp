@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-next",
-  "version": "0.5.2",
+  "version": "0.5.3-next.0",
   "description": "`@10up/headless-next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headless/blob/develop/packages/next/README.md",
   "license": "MIT",
