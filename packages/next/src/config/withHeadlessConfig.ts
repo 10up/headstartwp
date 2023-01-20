@@ -114,7 +114,7 @@ export function withHeadlessConfig(
 					},
 					{
 						source: '/robots.txt',
-						destination: `${wpUrl}/robots.txt`,
+						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
 					// doing this upfront to avoid being redirected to the wp domain

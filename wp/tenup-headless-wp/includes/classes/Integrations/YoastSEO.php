@@ -21,6 +21,8 @@ class YoastSEO {
 
 		// Override url in sitemap for posts, pages, taxonomy archives, authors etc.
 		add_filter( 'wpseo_sitemap_url', array( $this, 'maybe_override_sitemap_url' ), 10, 2 );
+
+		add_filter( 'robots_txt', array( $this, 'maybe_override_sitemap_robots_url' ), 999999 );
 	}
 
 	/**
@@ -29,6 +31,10 @@ class YoastSEO {
 	 * @return boolean
 	 */
 	protected function should_rewrite_urls() {
+		if ( ! Plugin::get_react_url() ) {
+			return false;
+		}
+
 		$rewrite_urls = filter_input( INPUT_GET, 'rewrite_urls', FILTER_SANITIZE_NUMBER_INT );
 
 		return (bool) $rewrite_urls;
@@ -107,7 +113,7 @@ class YoastSEO {
 			// Create new text node with the replaced url.
 			$new_value = $url->createTextNode(
 				str_replace(
-					home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ),
+					untrailingslashit( home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ) ),
 					untrailingslashit( Plugin::get_react_url() ),
 					$loc->nodeValue // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 				)
@@ -130,5 +136,22 @@ class YoastSEO {
 
 		// Return final xml string.
 		return implode( '', $all );
+	}
+
+	/**
+	 * Overrides the sitemap url with the front-end url
+	 *
+	 * @return string
+	 */
+	public function maybe_override_sitemap_robots_url( $output ) {
+		if ( $this->should_rewrite_urls() ) {
+			return str_replace(
+				untrailingslashit( home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ) ),
+				untrailingslashit( Plugin::get_react_url() ),
+				$output,
+			);
+		}
+
+		return $output;
 	}
 }
