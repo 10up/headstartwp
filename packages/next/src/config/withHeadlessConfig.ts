@@ -126,6 +126,16 @@ export function withHeadlessConfig(
 						source: `${prefix}/:sitemap(.*sitemap.*\.xml)`,
 						destination: `${wpUrl}/:sitemap`,
 					},
+					// This is to match the sitemap stylesheet,
+					// which gets added into the sitemap xml markup by Yoast.
+					// And if we don't rewrite this, users may see CSP/CORS error
+					// due to different host domains in the url,
+					// between WordPress and NextJS app.
+					{
+						// eslint-disable-next-line
+						source: '/:path(.*main-sitemap\.xsl)',
+						destination: `${wpUrl}/:path`,
+					},
 					{
 						source: `${prefix}/ads.txt`,
 						destination: `${wpUrl}/ads.txt`,

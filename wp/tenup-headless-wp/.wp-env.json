@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    ".",
+    "../local-plugin",
+    "https://downloads.wordpress.org/plugin/wordpress-seo.19.14.zip",
+    "https://downloads.wordpress.org/plugin/safe-redirect-manager.1.11.1.zip"
+  ]
+}

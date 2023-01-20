@@ -29,6 +29,9 @@ class Links {
 		}
 
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
+
+		// Override sitemap stylesheet.
+		add_filter( 'wpseo_stylesheet_url', array( $this, 'override_wpseo_stylesheet_url' ) );
 	}
 
 	/**
@@ -133,5 +136,17 @@ class Links {
 				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
 				exit;
 		}
+	}
+
+	/**
+	 * Replace host domain for sitemap stylesheet url.
+	 *
+	 * @return string  Modified sitemap stylesheet xml markup.
+	 */
+	public function override_wpseo_stylesheet_url() {
+		return sprintf(
+			'<?xml-stylesheet type="text/xsl" href="%s/wp-content/plugins/wordpress-seo/css/main-sitemap.xsl"?>',
+			untrailingslashit( Plugin::get_react_url() )
+		);
 	}
 }
