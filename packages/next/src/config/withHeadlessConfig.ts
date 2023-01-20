@@ -132,8 +132,9 @@ export function withHeadlessConfig(
 					// due to different host domains in the url,
 					// between WordPress and NextJS app.
 					{
-						source: '/main-sitemap.xsl',
-						destination: `${wpUrl}/main-sitemap.xsl`,
+						// eslint-disable-next-line
+						source: '/:path(.*main-sitemap\.xsl)',
+						destination: `${wpUrl}/:path`,
 					},
 					{
 						source: `${prefix}/ads.txt`,
