@@ -198,7 +198,7 @@ class Links {
 		$locs = $url->getElementsByTagName( 'loc' );
 		foreach ( $locs as $loc ) {
 			// Bail, if it's not a url.
-			if ( filter_var( $loc->nodeValue, FILTER_VALIDATE_URL ) === false ) {
+			if ( filter_var( $loc->nodeValue, FILTER_VALIDATE_URL ) === false ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 				continue;
 			}
 
@@ -207,12 +207,12 @@ class Links {
 				str_replace(
 					home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ),
 					untrailingslashit( Plugin::get_react_url() ),
-					$loc->nodeValue
+					$loc->nodeValue // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 				)
 			);
 
 			// Remove existing child nodes.
-			foreach ( $loc->childNodes as $node ) {
+			foreach ( $loc->childNodes as $node ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 				$loc->removeChild( $node );
 			}
 
@@ -223,7 +223,7 @@ class Links {
 		// Merge all child nodes and prepare string.
 		$all = array_map(
 			[ $url, 'saveXML' ],
-			iterator_to_array( $url->childNodes )
+			iterator_to_array( $url->childNodes ) // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 		);
 
 		// Return final xml string.
