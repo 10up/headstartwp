@@ -4,10 +4,14 @@
  *
  * @package HeadlessWP
  */
+
 namespace HeadlessWP\Integrations;
 
 use HeadlessWP\Plugin;
 
+/**
+ * The YoastSEO integration class
+ */
 class YoastSEO {
 	/**
 	 * Register Hooks
@@ -43,6 +47,8 @@ class YoastSEO {
 	/**
 	 * Replace host domain for sitemap stylesheet url.
 	 *
+	 * @param string $stylesheet the stylesheet markup
+	 *
 	 * @return string  Modified sitemap stylesheet xml markup.
 	 */
 	public function override_wpseo_stylesheet_url( $stylesheet ) {
@@ -63,7 +69,7 @@ class YoastSEO {
 	 * @return array        Modified array of links to be shown in sitemap.
 	 */
 	public function maybe_override_sitemap_index_links( array $links ) : array {
-		if ( ! $this->should_rewrite_urls()) {
+		if ( ! $this->should_rewrite_urls() ) {
 			return $links;
 		}
 
@@ -76,7 +82,7 @@ class YoastSEO {
 
 				// Replace base url in loc with NextJS app url.
 				$link['loc'] = str_replace(
-					home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ),
+					untrailingslashit( home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ) ),
 					untrailingslashit( Plugin::get_react_url() ),
 					$link['loc']
 				);
@@ -140,6 +146,8 @@ class YoastSEO {
 
 	/**
 	 * Overrides the sitemap url with the front-end url
+	 *
+	 * @param string $output the robots.txt output
 	 *
 	 * @return string
 	 */

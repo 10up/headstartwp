@@ -41,8 +41,8 @@ class Plugin {
 		$cache_flush->register();
 
 		// Integrations
-		$yoaast_seo = new YoastSEO();
-		$yoaast_seo->register();
+		$yoast_seo = new YoastSEO();
+		$yoast_seo->register();
 	}
 
 	/**
