@@ -12,6 +12,16 @@ export type CustomTaxonomies = Array<{
 	restParam?: string;
 }>;
 
+export interface Integration {
+	enable: boolean;
+}
+
+export interface YoastSEOIntegration extends Integration {}
+
+export type Integrations = {
+	yoastSEO?: YoastSEOIntegration;
+};
+
 export type HeadlessConfig = {
 	host?: string;
 	locale?: string;
@@ -21,5 +31,6 @@ export type HeadlessConfig = {
 	customTaxonomies?: CustomTaxonomies;
 	redirectStrategy?: RedirectStrategy;
 	useWordPressPlugin?: boolean;
+	integrations?: Integrations;
 	sites?: HeadlessConfig[];
 };
