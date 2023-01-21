@@ -9,6 +9,7 @@ namespace HeadlessWP;
 
 use DOMDocument;
 use HeadlessWP\CacheFlush\CacheFlush;
+use HeadlessWP\Integrations\YoastSEO;
 
 /**
  * Nain plugin class
@@ -38,6 +39,10 @@ class Plugin {
 
 		$cache_flush = new CacheFlush();
 		$cache_flush->register();
+
+		// Integrations
+		$yoast_seo = new YoastSEO();
+		$yoast_seo->register();
 	}
 
 	/**

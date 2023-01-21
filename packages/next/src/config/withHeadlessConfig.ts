@@ -96,6 +96,9 @@ export function withHeadlessConfig(
 			sites.forEach((site) => {
 				const wpUrl = site.sourceUrl;
 				const prefix = isMultisite ? '/_sites/:site' : '';
+				const shouldRewriteYoastSEOUrls =
+					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
+
 				const defaultRewrites = [
 					{
 						source: `${prefix}/cache-healthcheck`,
@@ -111,20 +114,20 @@ export function withHeadlessConfig(
 					},
 					{
 						source: '/robots.txt',
-						destination: `${wpUrl}/robots.txt`,
+						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
 					// doing this upfront to avoid being redirected to the wp domain
 					{
 						source: `${prefix}/sitemap.xml`,
-						destination: `${wpUrl}/sitemap_index.xml`,
+						destination: `${wpUrl}/sitemap_index.xml?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// this matches anything that has sitemap and ends with .xml.
 					// This could probably be fine tuned but this should do the trick
 					{
 						// eslint-disable-next-line
 						source: `${prefix}/:sitemap(.*sitemap.*\.xml)`,
-						destination: `${wpUrl}/:sitemap`,
+						destination: `${wpUrl}/:sitemap?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// This is to match the sitemap stylesheet,
 					// which gets added into the sitemap xml markup by Yoast.
