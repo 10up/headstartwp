@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.5.4
+
+### Patch Changes
+
+- d039566: [#318](https://github.com/10up/headless/pull/318) feat: add an official yoast seo integration.
+- Updated dependencies [d039566]
+  - @10up/headless-core@0.5.2
+
 ## 0.5.3
 
 ### Patch Changes
