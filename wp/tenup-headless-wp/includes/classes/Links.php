@@ -116,17 +116,21 @@ class Links {
 	 * Redirect the WordPress frontend if the React website URL has been filled in and the user has selected to redirect the frontend
 	 */
 	public function maybe_redirect_frontend() {
-
 		global $wp;
-
-		if ( is_admin() || is_preview() || is_robots() ) {
-			return;
-		}
 
 		$site_url = \get_option( 'site_react_url' );
 
-		if ( ! empty( $site_url ) && true === Plugin::should_frontend_redirect() ) {
+		$should_redirect = ! is_admin() && ! is_preview() && ! is_robots() && ! is_feed() && ! empty( $site_url );
+		$should_redirect = $should_redirect && true === Plugin::should_frontend_redirect();
 
+		/**
+		 * Filter's whether the frontend should redirect to the react url
+		 *
+		 * @param array $should_redirect The default should redirect value.
+		 */
+		$should_redirect = apply_filters( 'tenup_headless_wp_frontend_should_redirect', $should_redirect );
+
+		if ( $should_redirect ) {
 				$url_request = $wp->request;
 
 				// Redirect the frontend WordPress request to the React website URL.
