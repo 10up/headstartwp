@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.5.5
+
+### Patch Changes
+
+- 2a35630: fix ts entry points in package.json
+- Updated dependencies [2a35630]
+  - @10up/headless-core@0.5.3
+
 ## 0.5.4
 
 ### Patch Changes

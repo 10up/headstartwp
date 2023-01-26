@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-next",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "`@10up/headless-next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headless/blob/develop/packages/next/README.md",
   "license": "MIT",
@@ -16,11 +16,13 @@
     },
     "./middlewares": {
       "require": "./dist/cjs/middlewares/index.js",
-      "import": "./dist/mjs/middlewares/index.js"
+      "import": "./dist/mjs/middlewares/index.js",
+      "types": "./dist/mjs/middlewares/index.d.ts"
     },
     "./config": {
       "require": "./dist/cjs/config/index.js",
-      "import": "./dist/mjs/config/index.js"
+      "import": "./dist/mjs/config/index.js",
+      "types": "./dist/mjs/config/index.d.ts"
     },
     "./config/loader": "./config-loader.js",
     "./webpack-loader": "./webpack-loader.js"
@@ -45,7 +47,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@10up/headless-core": "^0.5.2",
+    "@10up/headless-core": "^0.5.3",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
     "next-transpile-modules": "^10.0.0",

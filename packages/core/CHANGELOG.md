@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.5.3
+
+### Patch Changes
+
+- 2a35630: fix ts entry points in package.json
+
 ## 0.5.2
 
 ### Patch Changes
