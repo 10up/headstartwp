@@ -19,11 +19,13 @@
     },
     "./utils": {
       "require": "./dist/cjs/utils/index.js",
-      "import": "./dist/mjs/utils/index.js"
+      "import": "./dist/mjs/utils/index.js",
+      "types": "./dist/mjs/utils/index.d.ts"
     },
     "./react": {
       "require": "./dist/cjs/react/index.js",
-      "import": "./dist/mjs/react/index.js"
+      "import": "./dist/mjs/react/index.js",
+      "types": "./dist/mjs/react/index.d.ts"
     },
     "./test": "./test/server.ts"
   },
