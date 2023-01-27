@@ -7,7 +7,6 @@
 
 namespace HeadlessWP;
 
-
 use HeadlessWP\CacheFlush\CacheFlush;
 use HeadlessWP\Integrations\Gutenberg;
 use HeadlessWP\Integrations\YoastSEO;
