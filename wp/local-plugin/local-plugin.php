@@ -22,4 +22,3 @@ function bootstrap() {
 	$wp_rewrite->set_permalink_structure( '/%postname%/' );
 	flush_rewrite_rules();
 }
-
