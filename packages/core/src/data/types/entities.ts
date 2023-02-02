@@ -37,27 +37,27 @@ export interface PostTypeEntity extends Entity {
 	/**
 	 * The date the object was published, in the site's timezone.
 	 */
-	date?: string;
+	date: string;
 
 	/**
 	 * The date the object was published, as GMT.
 	 */
-	date_gmt?: string;
+	date_gmt: string;
 
 	/**
 	 * The globally unique identifier for the object.
 	 */
-	guid?: Rendered;
+	guid: Rendered;
 
 	/**
 	 * The date the object was last modified, in the site's timezone.
 	 */
-	modified?: string;
+	modified: string;
 
 	/**
 	 * The date the object was last modified, as GMT.
 	 */
-	modified_gmt?: string;
+	modified_gmt: string;
 
 	/**
 	 * Unique identifier for the object.
@@ -77,17 +77,17 @@ export interface PostTypeEntity extends Entity {
 	/**
 	 * A named status for the object.
 	 */
-	status?: 'publish' | 'future' | 'draft' | 'pending' | 'private';
+	status: 'publish' | 'future' | 'draft' | 'pending' | 'private';
 
 	/**
 	 * Type of Post for the object.
 	 */
-	type?: string;
+	type: string;
 
 	/**
 	 * The title for the object.
 	 */
-	title?: Rendered;
+	title: Rendered;
 
 	author?: AuthorEntity[];
 
@@ -106,7 +106,7 @@ export interface PostTypeEntity extends Entity {
 	/**
 	 * Whether or not the object can be pinged.
 	 */
-	ping_status?: 'open' | 'closed';
+	ping_status: 'open' | 'closed';
 
 	yoast_head_json: Record<string, any> | null;
 	yoast_head: string | null;
@@ -119,17 +119,17 @@ export interface PostEntity extends PostTypeEntity {
 	/**
 	 * The content for the object.
 	 */
-	content?: Rendered;
+	content: Rendered;
 
 	/**
 	 * The excerpt for the object.
 	 */
-	excerpt?: Rendered;
+	excerpt: Rendered;
 
 	/**
 	 * The format for the object.
 	 */
-	format?:
+	format:
 		| 'standard'
 		| 'aside'
 		| 'chat'
@@ -144,17 +144,17 @@ export interface PostEntity extends PostTypeEntity {
 	/**
 	 * Meta fields.
 	 */
-	meta?: Record<string, unknown>;
+	meta: Record<string, unknown>;
 
 	/**
 	 * Whether or not the object should be treated as sticky.
 	 */
-	sticky?: boolean;
+	sticky: boolean;
 
 	/**
 	 * The theme file to use to display the object.
 	 */
-	template?: string;
+	template: string;
 
 	/**
 	 * The terms assigned to the object in the category taxonomy.
@@ -169,7 +169,7 @@ export interface PostEntity extends PostTypeEntity {
 	/**
 	 * The ID of the featured media for the object.
 	 */
-	featured_media?: number;
+	featured_media: number;
 }
 
 /**
@@ -199,37 +199,37 @@ export interface PageEntity extends PostTypeEntity {
 	/**
 	 * The ID for the parent of the object.
 	 */
-	parent?: number;
+	parent: number;
 
 	/**
 	 * The content for the object.
 	 */
-	content?: Rendered;
+	content: Rendered;
 
 	/**
 	 * The excerpt for the object.
 	 */
-	excerpt?: Rendered;
+	excerpt: Rendered;
 
 	/**
 	 * The order of the object in relation to other object of its type.
 	 */
-	menu_order?: number;
+	menu_order: number;
 
 	/**
 	 * Meta fields.
 	 */
-	meta?: Record<string, unknown>;
+	meta: Record<string, unknown>;
 
 	/**
 	 * The theme file to use to display the object.
 	 */
-	template?: string;
+	template: string;
 
 	/**
 	 * The ID of the featured media for the object.
 	 */
-	featured_media?: number;
+	featured_media: number;
 }
 
 /**
@@ -254,27 +254,27 @@ export interface AttachmentEntity extends PostTypeEntity {
 	/**
 	 * Alternative text to display when attachment is not displayed.
 	 */
-	alt_text?: string;
+	alt_text: string;
 
 	/**
 	 * The attachment caption.
 	 */
-	caption?: Rendered;
+	caption: Rendered;
 
 	/**
 	 * The attachment description.
 	 */
-	description?: Rendered;
+	description: Rendered;
 
 	/**
 	 * Attachment type.
 	 */
-	media_type?: 'image' | 'file';
+	media_type: 'image' | 'file';
 
 	/**
 	 * The attachment MIME type.
 	 */
-	mime_type?: string;
+	mime_type: string;
 
 	/**
 	 * Details about the media file, specific to its type.
@@ -337,17 +337,17 @@ export interface AttachmentEntity extends PostTypeEntity {
 	/**
 	 * The ID for the associated post of the attachment.
 	 */
-	post?: number;
+	post: number;
 
 	/**
 	 * URL to the original attachment file.
 	 */
-	source_url?: string;
+	source_url: string;
 
 	/**
 	 * List of the missing image sizes of the attachment.
 	 */
-	missing_image_sizes?: string[];
+	missing_image_sizes: string[];
 }
 
 /**
@@ -392,22 +392,22 @@ export interface TaxonomyEntity extends Entity {
 	/**
 	 * A human-readable description of the taxonomy.
 	 */
-	description?: string;
+	description: string;
 
 	/**
 	 * Whether or not the taxonomy should have children.
 	 */
-	hierarchical?: boolean;
+	hierarchical: boolean;
 
 	/**
 	 * The title for the taxonomy.
 	 */
-	name?: string;
+	name: string;
 
 	/**
 	 * An alphanumeric identifier for the taxonomy.
 	 */
-	slug?: string;
+	slug: string;
 
 	/**
 	 * REST base route for the taxonomy.
@@ -436,12 +436,12 @@ export interface TermEntity extends Entity {
 	/**
 	 * Number of published posts for the term.
 	 */
-	count?: number;
+	count: number;
 
 	/**
 	 * HTML description of the term.
 	 */
-	description?: string;
+	description: string;
 
 	/**
 	 * URL of the term.
@@ -451,12 +451,12 @@ export interface TermEntity extends Entity {
 	/**
 	 * HTML title for the term.
 	 */
-	name?: string;
+	name: string;
 
 	/**
 	 * An alphanumeric identifier for the term unique to its type.
 	 */
-	slug?: string;
+	slug: string;
 
 	/**
 	 * Type attribution for the term.
@@ -466,12 +466,12 @@ export interface TermEntity extends Entity {
 	/**
 	 * The parent term ID.
 	 */
-	parent?: number;
+	parent: number;
 
 	/**
 	 * Meta fields.
 	 */
-	meta?: Record<string, unknown>;
+	meta: Record<string, unknown>;
 
 	yoast_head_json: Record<string, any> | null;
 	yoast_head: string | null;
@@ -510,17 +510,17 @@ export interface AuthorEntity extends Entity {
 	/**
 	 * Display name for the user.
 	 */
-	name?: string;
+	name: string;
 
 	/**
 	 * URL of the user.
 	 */
-	url?: string;
+	url: string;
 
 	/**
 	 * Description of the user.
 	 */
-	description?: string;
+	description: string;
 
 	/**
 	 * Author URL of the user.
@@ -530,7 +530,7 @@ export interface AuthorEntity extends Entity {
 	/**
 	 * An alphanumeric identifier for the user.
 	 */
-	slug?: string;
+	slug: string;
 
 	/**
 	 * Avatar URLs for the user.
@@ -540,7 +540,7 @@ export interface AuthorEntity extends Entity {
 	/**
 	 * Meta fields.
 	 */
-	meta?: Record<string, unknown>;
+	meta: Record<string, unknown>;
 
 	yoast_head_json: Record<string, any> | null;
 	yoast_head: string | null;
@@ -553,62 +553,62 @@ export interface CommentEntity extends Entity {
 	/**
 	 * Unique identifier for the object.
 	 */
-	id?: number;
+	id: number;
 
 	/**
 	 * The ID of the user object, if author was a user.
 	 */
-	author?: number;
+	author: number;
 
 	/**
 	 * Email address for the object author.
 	 */
-	author_email?: string;
+	author_email: string;
 
 	/**
 	 * Display name for the object author.
 	 */
-	author_name?: string;
+	author_name: string;
 
 	/**
 	 * URL for the object author.
 	 */
-	author_url?: string;
+	author_url: string;
 
 	/**
 	 * The content for the object.
 	 */
-	content?: Rendered;
+	content: Rendered;
 
 	/**
 	 * The date the object was published, in the site's timezone.
 	 */
-	date?: string;
+	date: string;
 
 	/**
 	 * The date the object was published, as GMT.
 	 */
-	date_gmt?: string;
+	date_gmt: string;
 
 	/**
 	 * URL to the object.
 	 */
-	link?: string;
+	link: string;
 
 	/**
 	 * The ID for the parent of the object.
 	 */
-	parent?: number;
+	parent: number;
 
 	/**
 	 * The ID of the associated post object.
 	 */
-	post?: number;
+	post: number;
 
 	/**
 	 * State of the object.
 	 */
-	status?: string;
+	status: string;
 
 	/**
 	 * Type of Comment for the object.
@@ -618,12 +618,12 @@ export interface CommentEntity extends Entity {
 	/**
 	 * Avatar URLs for the object author.
 	 */
-	author_avatar_urls?: AvatarUrls;
+	author_avatar_urls: AvatarUrls;
 
 	/**
 	 * Meta fields.
 	 */
-	meta?: Record<string, unknown>;
+	meta: Record<string, unknown>;
 }
 /**
  * Interface for entities from the /wp/v2/search endpoint.
@@ -692,7 +692,7 @@ export interface AppEntity extends Entity {
 export interface PageInfo {
 	totalPages: number;
 	totalItems: number;
-	page: Number;
+	page: number;
 }
 
 /**

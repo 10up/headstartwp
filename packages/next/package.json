@@ -12,7 +12,8 @@
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",
-      "import": "./dist/mjs/index.js"
+      "import": "./dist/mjs/index.js",
+      "types": "./dist/mjs/index.d.ts"
     },
     "./middlewares": {
       "require": "./dist/cjs/middlewares/index.js",
