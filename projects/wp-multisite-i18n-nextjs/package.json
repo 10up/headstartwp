@@ -14,8 +14,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@10up/headless-core": "^0.5.3",
-    "@10up/headless-next": "^0.5.5",
+    "@10up/headless-core": "^0.5.4-next.0",
+    "@10up/headless-next": "^0.5.6-next.0",
     "@linaria/babel-preset": "^4.3.1",
     "@linaria/core": "^4.2.3",
     "@linaria/react": "^4.3.1",
