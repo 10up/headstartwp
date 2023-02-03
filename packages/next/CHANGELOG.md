@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.5.6-next.0
+
+### Patch Changes
+
+- 13a1327: Update TypeScript types for WP entities
+- Updated dependencies [13a1327]
+  - @10up/headless-core@0.5.4-next.0
+
 ## 0.5.5
 
 ### Patch Changes
