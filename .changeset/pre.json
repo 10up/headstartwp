@@ -12,6 +12,7 @@
     "headless-wp": "1.0.0"
   },
   "changesets": [
+    "great-grapes-accept",
     "weak-pans-sparkle"
   ]
 }
