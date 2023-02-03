@@ -17,10 +17,10 @@ import { convertToPath } from '../utils';
  *
  * @category Data Fetching Hooks
  */
-export function useTerms(
-	params: TaxonomyArchiveParams = {},
-	options: FetchHookOptions<FetchResponse<TermEntity[]>> = {},
-) {
+export function useTerms<
+	T extends TermEntity = TermEntity,
+	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
+>(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 

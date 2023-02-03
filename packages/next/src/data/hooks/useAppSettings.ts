@@ -1,4 +1,4 @@
-import { AppEntity, FetchResponse } from '@10up/headless-core';
+import { AppEntity, EndpointParams, FetchResponse } from '@10up/headless-core';
 import { useFetchAppSettings, FetchHookOptions } from '@10up/headless-core/react';
 
 /**
@@ -29,11 +29,11 @@ import { useFetchAppSettings, FetchHookOptions } from '@10up/headless-core/react
  *
  * @category Data Fetching Hooks
  */
-export function useAppSettings(
-	params = {},
-	options: FetchHookOptions<FetchResponse<AppEntity>> = {},
-) {
-	return useFetchAppSettings(params, options);
+export function useAppSettings<
+	T extends AppEntity = AppEntity,
+	P extends EndpointParams = EndpointParams,
+>(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T>> = {}) {
+	return useFetchAppSettings<T, P>(params, options);
 }
 
 /**

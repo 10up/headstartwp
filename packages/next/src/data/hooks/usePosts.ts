@@ -70,10 +70,10 @@ import { convertToPath } from '../utils';
  *
  * @category Data Fetching Hooks
  */
-export function usePosts(
-	params: PostsArchiveParams = {},
-	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
-) {
+export function usePosts<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+>(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
