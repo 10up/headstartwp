@@ -135,6 +135,10 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		return this.endpoint;
 	}
 
+	getDefaultParams(): Partial<Params> {
+		return {};
+	}
+
 	/**
 	 * Returns the supported params from the URL if present.
 	 *
@@ -268,7 +272,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 * @param options The options for filtering
 	 * @returns The filtered data
 	 */
-	filterData(data: FetchResponse<R>, filterOptions?: FilterDataOptions<R>) {
+	filterData(data: FetchResponse<R>, filterOptions?: FilterDataOptions<R>): FetchResponse<R> {
 		const options = filterOptions ?? { method: 'ALLOW', fields: ['*'] };
 
 		const { fields } = options;
@@ -278,13 +282,13 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 				return data;
 			}
 
-			return { ...data, result: acceptFields<R>(fields, data.result) };
+			return { ...data, result: acceptFields<R>(fields, data.result) as R };
 		}
 
 		if (options.method === 'REMOVE') {
 			return {
 				...data,
-				result: removeFields<R>(fields, data.result),
+				result: removeFields<R>(fields, data.result) as R,
 			};
 		}
 

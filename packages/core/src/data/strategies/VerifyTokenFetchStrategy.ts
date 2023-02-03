@@ -17,8 +17,8 @@ export interface VerifyTokenParams extends EndpointParams {
  */
 export class VerifyTokenFetchStrategy extends AbstractFetchStrategy<
 	AppEntity,
-	AppEntity,
-	EndpointParams
+	EndpointParams,
+	AppEntity
 > {
 	getDefaultEndpoint(): string {
 		return endpoints.tokenVerify;

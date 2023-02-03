@@ -8,6 +8,12 @@ module.exports = {
 		'jsdoc/require-param': 0,
 		'react/function-component-definition': 0,
 		'react/require-default-props': 0,
+		'jest/expect-expect': [
+			'warn',
+			{
+				assertFunctionNames: ['expect', 'expectTypeOf'],
+			},
+		],
 	},
 	settings: {
 		'import/resolver': 'typescript',

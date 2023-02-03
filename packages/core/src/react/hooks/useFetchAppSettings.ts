@@ -4,8 +4,8 @@ import { FetchHookOptions, HookResponse } from './types';
 import { useFetch } from './useFetch';
 import { makeErrorCatchProxy } from './util';
 
-export interface useAppSettingsResponse extends HookResponse {
-	data?: AppEntity;
+export interface useAppSettingsResponse<T extends AppEntity> extends HookResponse {
+	data?: T;
 }
 
 /**
@@ -18,18 +18,21 @@ export interface useAppSettingsResponse extends HookResponse {
  *
  * @category Data Fetching Hooks
  */
-export function useFetchAppSettings(
-	params = {},
-	options: FetchHookOptions<FetchResponse<AppEntity>> = {},
-): useAppSettingsResponse {
-	const { data, error, isMainQuery } = useFetch<AppEntity, EndpointParams>(
+export function useFetchAppSettings<
+	T extends AppEntity = AppEntity,
+	P extends EndpointParams = EndpointParams,
+>(
+	params: P | {} = {},
+	options: FetchHookOptions<FetchResponse<T>> = {},
+): useAppSettingsResponse<T> {
+	const { data, error, isMainQuery } = useFetch<T, P>(
 		params,
-		useFetchAppSettings.fetcher(),
+		useFetchAppSettings.fetcher<T, P>(),
 		options,
 	);
 
 	if (error || !data) {
-		const fakeData = makeErrorCatchProxy<AppEntity>('data');
+		const fakeData = makeErrorCatchProxy<T>('data');
 		return { error, loading: !data, data: fakeData, isMainQuery };
 	}
 
@@ -43,5 +46,10 @@ export function useFetchAppSettings(
  */
 // eslint-disable-next-line no-redeclare
 export namespace useFetchAppSettings {
-	export const fetcher = () => new AppSettingsStrategy(getWPUrl());
+	export const fetcher = <
+		T extends AppEntity = AppEntity,
+		P extends EndpointParams = EndpointParams,
+	>(
+		sourceUrl?: string,
+	) => new AppSettingsStrategy<T, P>(sourceUrl ?? getWPUrl());
 }

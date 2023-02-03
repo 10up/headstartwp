@@ -1,4 +1,5 @@
 import { getCustomTaxonomies } from '../../utils';
+import { PostEntity } from '../types';
 import { authorArchivesMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
@@ -12,12 +13,15 @@ import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFet
  *
  * @category Data Fetching
  */
-export class AuthorArchiveFetchStrategy extends PostsArchiveFetchStrategy {
+export class AuthorArchiveFetchStrategy<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+> extends PostsArchiveFetchStrategy<T, P> {
 	getParamsFromURL(
 		path: string,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		nonUrlParams: Partial<PostsArchiveParams> = {},
-	): Partial<PostsArchiveParams> {
+		nonUrlParams: Partial<P> = {},
+	): Partial<P> {
 		const matchers = [...authorArchivesMatchers];
 		const customTaxonomies = getCustomTaxonomies(this.baseURL);
 
@@ -36,6 +40,6 @@ export class AuthorArchiveFetchStrategy extends PostsArchiveFetchStrategy {
 			});
 		});
 
-		return parsePath(matchers, path);
+		return parsePath(matchers, path) as Partial<P>;
 	}
 }
