@@ -195,10 +195,10 @@ export interface PostsArchiveParams extends EndpointParams {
  *
  * @category Data Fetching
  */
-export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
-	PostEntity[],
-	PostsArchiveParams
-> {
+export class PostsArchiveFetchStrategy<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+> extends AbstractFetchStrategy<T[], P> {
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -210,10 +210,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	 *
 	 * @param path The URL path to extract params from
 	 */
-	getParamsFromURL(
-		path: string,
-		params: Partial<PostsArchiveParams> = {},
-	): Partial<PostsArchiveParams> {
+	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
 		const matchers = [...postsMatchers];
 
 		if (typeof params.taxonomy === 'string') {
@@ -237,7 +234,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 				pattern: `/:${taxonomy}`,
 			});
 
-			return parsePath(taxonomyMatchers, path);
+			return parsePath(taxonomyMatchers, path) as Partial<P>;
 		}
 
 		const customTaxonomies = getCustomTaxonomies(this.baseURL);
@@ -256,7 +253,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			});
 		});
 
-		return parsePath(matchers, path);
+		return parsePath(matchers, path) as Partial<P>;
 	}
 
 	/**
@@ -264,7 +261,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	 *
 	 * @param params The params to build the endpoint with
 	 */
-	buildEndpointURL(params: Partial<PostsArchiveParams>) {
+	buildEndpointURL(params: Partial<P>) {
 		const settings = getSiteBySourceUrl(this.baseURL);
 
 		// these params should be disregarded whne building out the endpoint
@@ -299,7 +296,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			delete endpointParams.author;
 		}
 
-		return super.buildEndpointURL(endpointParams);
+		return super.buildEndpointURL(endpointParams as P);
 	}
 
 	/**
@@ -312,11 +309,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	 * @param params The params to build the endpoint with
 	 * @param options FetchOptions
 	 */
-	async fetcher(
-		url: string,
-		params: Partial<PostsArchiveParams>,
-		options: Partial<FetchOptions> = {},
-	) {
+	async fetcher(url: string, params: Partial<P>, options: Partial<FetchOptions> = {}) {
 		let finalUrl = url;
 		const settings = getSiteBySourceUrl(this.baseURL);
 
@@ -377,7 +370,7 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 	 * @param params  The request params
 	 * @returns
 	 */
-	getQueriedObject(response: FetchResponse<PostEntity[]>, params: Partial<PostsArchiveParams>) {
+	getQueriedObject(response: FetchResponse<T[]>, params: Partial<P>) {
 		const queriedObject: QueriedObject = {};
 
 		if (!Array.isArray(response.result)) {
@@ -446,9 +439,9 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 		return queriedObject;
 	}
 
-	filterData(data: FetchResponse<PostEntity[]>, options?: FilterDataOptions<PostEntity[]>) {
+	filterData(data: FetchResponse<T[]>, options?: FilterDataOptions<T[]>): FetchResponse<T[]> {
 		if (typeof options !== 'undefined') {
-			return super.filterData(data, options) as unknown as FetchResponse<PostEntity[]>;
+			return super.filterData(data, options) as unknown as FetchResponse<T[]>;
 		}
 
 		const fieldsToRemove = ['_links'];
@@ -466,16 +459,14 @@ export class PostsArchiveFetchStrategy extends AbstractFetchStrategy<
 			queriedObject.term = removeFields(fieldsToRemove, queriedObject.term) as TermEntity;
 		}
 
-		const result = (removeFields<PostEntity>(fieldsToRemove, data.result) as PostEntity[]).map(
-			(post) => {
-				return removeFieldsFromPostRelatedData(fieldsToRemove, post);
-			},
-		);
+		const result = (removeFields<T>(fieldsToRemove, data.result) as T[]).map((post) => {
+			return removeFieldsFromPostRelatedData(fieldsToRemove, post);
+		});
 
 		return {
 			...data,
 			queriedObject,
-			result,
+			result: result as T[],
 		};
 	}
 }

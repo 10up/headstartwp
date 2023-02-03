@@ -11,8 +11,8 @@ import {
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
-export interface useTermsResponse extends HookResponse {
-	data?: { terms: TermEntity[]; pageInfo: PageInfo };
+export interface useTermsResponse<T extends TermEntity> extends HookResponse {
+	data?: { terms: T[]; pageInfo: PageInfo };
 }
 
 /**
@@ -26,21 +26,24 @@ export interface useTermsResponse extends HookResponse {
  *
  * @category Data Fetching Hooks
  */
-export function useFetchTerms(
-	params: TaxonomyArchiveParams,
-	options: FetchHookOptions<FetchResponse<TermEntity[]>> = {},
+export function useFetchTerms<
+	T extends TermEntity = TermEntity,
+	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
+>(
+	params: P | {},
+	options: FetchHookOptions<FetchResponse<T[]>> = {},
 	path = '',
-): useTermsResponse {
-	const { data, error, isMainQuery } = useFetch<TermEntity[], TaxonomyArchiveParams>(
-		{ _embed: true, ...params },
-		useFetchTerms.fetcher(),
+): useTermsResponse<T> {
+	const { data, error, isMainQuery } = useFetch<T[], P>(
+		params,
+		useFetchTerms.fetcher<T, P>(),
 		options,
 		path,
 	);
 
 	if (error || !data) {
 		const fakeData = {
-			terms: makeErrorCatchProxy<TermEntity[]>('terms'),
+			terms: makeErrorCatchProxy<T[]>('terms'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 		};
 		return { error, loading: !data, data: fakeData, isMainQuery };
@@ -56,5 +59,8 @@ export function useFetchTerms(
  */
 // eslint-disable-next-line no-redeclare
 export namespace useFetchTerms {
-	export const fetcher = () => new TaxonomyTermsStrategy(getWPUrl());
+	export const fetcher = <
+		T extends TermEntity = TermEntity,
+		P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
+	>() => new TaxonomyTermsStrategy<T, P>(getWPUrl());
 }

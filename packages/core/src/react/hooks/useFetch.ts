@@ -24,7 +24,7 @@ export interface useFetchOptions {
  *
  */
 export function useFetch<E, Params extends EndpointParams, R = E>(
-	params: Params,
+	params: Params | {},
 	fetchStrategy: AbstractFetchStrategy<E, Params, R>,
 	options: FetchHookOptions<FetchResponse<R>> = {},
 	path = '',

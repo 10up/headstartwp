@@ -1,6 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
+import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
 import { setHeadlessConfig } from '../../../../test/utils';
+import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPosts } from '../useFetchPosts';
 
@@ -168,6 +170,27 @@ describe('useFetchPosts', () => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.term?.slug).toBe('news');
 			expect(result.current.isMainQuery).toBe(true);
+		});
+	});
+
+	describe('useFetchPosts types', () => {
+		it('allows overriding types', () => {
+			interface Book extends PostEntity {
+				isbn: string;
+			}
+
+			interface BookParams extends PostsArchiveParams {
+				isbn: string;
+			}
+
+			expectTypeOf(
+				useFetchPosts<Book, BookParams>({ isbn: 'sdasd' }).data?.posts,
+			).toMatchTypeOf<
+				| Array<{
+						isbn: string;
+				  }>
+				| undefined
+			>();
 		});
 	});
 });

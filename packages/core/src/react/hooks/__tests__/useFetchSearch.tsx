@@ -1,6 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
+import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
 import { setHeadlessConfig } from '../../../../test/utils';
+import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearch } from '../useFetchSearch';
 
@@ -57,6 +59,27 @@ describe('useFetchPosts', () => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.search?.searchedValue).toBe('lorem');
 			expect(result.current.isMainQuery).toBe(false);
+		});
+	});
+
+	describe('useFetchSearch types', () => {
+		it('allows overriding types', () => {
+			interface Book extends PostEntity {
+				isbn: string;
+			}
+
+			interface BookParams extends PostsArchiveParams {
+				isbn: string;
+			}
+
+			expectTypeOf(
+				useFetchSearch<Book, BookParams>({ isbn: 'sdasd' }).data?.posts,
+			).toMatchTypeOf<
+				| Array<{
+						isbn: string;
+				  }>
+				| undefined
+			>();
 		});
 	});
 });

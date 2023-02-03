@@ -11,8 +11,8 @@ import {
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
-export interface usePostResponse extends HookResponse {
-	data?: { post: PostEntity };
+export interface usePostResponse<T extends PostEntity = PostEntity> extends HookResponse {
+	data?: { post: T };
 }
 
 /**
@@ -27,20 +27,20 @@ export interface usePostResponse extends HookResponse {
  * @module useFetchPost
  * @category Data Fetching Hooks
  */
-export function useFetchPost(
-	params: PostParams = {},
-	options: FetchHookOptions<FetchResponse<PostEntity>> = {},
+export function useFetchPost<T extends PostEntity = PostEntity, P extends PostParams = PostParams>(
+	params: P | {} = {},
+	options: FetchHookOptions<FetchResponse<T>> = {},
 	path = '',
-): usePostResponse {
-	const { data, error, isMainQuery } = useFetch<PostEntity[], PostParams, PostEntity>(
-		{ _embed: true, ...params },
-		useFetchPost.fetcher(),
+): usePostResponse<T> {
+	const { data, error, isMainQuery } = useFetch<T[], P, T>(
+		params,
+		useFetchPost.fetcher<T, P>(),
 		options,
 		path,
 	);
 
 	if (error || !data) {
-		const fakeData = { post: makeErrorCatchProxy<PostEntity>('post') };
+		const fakeData = { post: makeErrorCatchProxy<T>('post') };
 		return { error, loading: error ? false : !data, data: fakeData, isMainQuery };
 	}
 
@@ -58,5 +58,8 @@ export function useFetchPost(
  */
 // eslint-disable-next-line no-redeclare
 export namespace useFetchPost {
-	export const fetcher = () => new SinglePostFetchStrategy(getWPUrl());
+	export const fetcher = <
+		T extends PostEntity = PostEntity,
+		P extends PostParams = PostParams,
+	>() => new SinglePostFetchStrategy<T, P>(getWPUrl());
 }

@@ -1,6 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import * as React from 'react';
+import { expectTypeOf } from 'expect-type';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
+import { PostEntity, PostParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 
@@ -185,5 +187,24 @@ describe('useFetchPost', () => {
 			);
 			expect(secondResult.current.isMainQuery).toBe(false);
 		});
+	});
+});
+
+describe('useFetchPost types', () => {
+	it('allows overriding types', () => {
+		interface Book extends PostEntity {
+			isbn: string;
+		}
+
+		interface BookParams extends PostParams {
+			isbn: string;
+		}
+
+		expectTypeOf(useFetchPost<Book, BookParams>({ isbn: 'sdasd' }).data?.post).toMatchTypeOf<
+			| {
+					isbn: string;
+			  }
+			| undefined
+		>();
 	});
 });

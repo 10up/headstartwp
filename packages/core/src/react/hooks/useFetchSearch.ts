@@ -14,8 +14,8 @@ import {
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
-export interface useSearchResponse extends HookResponse {
-	data?: { posts: PostEntity[]; pageInfo: PageInfo; queriedObject: QueriedObject };
+export interface useSearchResponse<T extends PostEntity = PostEntity> extends HookResponse {
+	data?: { posts: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
 }
 
 /**
@@ -29,21 +29,24 @@ export interface useSearchResponse extends HookResponse {
  *
  * @category Data Fetching Hooks
  */
-export function useFetchSearch(
-	params: PostsArchiveParams = {},
-	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
+export function useFetchSearch<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+>(
+	params: P | {} = {},
+	options: FetchHookOptions<FetchResponse<T[]>> = {},
 	path = '',
-): useSearchResponse {
-	const { data, error, isMainQuery } = useFetch<PostEntity[], PostsArchiveParams>(
-		{ _embed: true, ...params },
-		useFetchSearch.fetcher(),
+): useSearchResponse<T> {
+	const { data, error, isMainQuery } = useFetch<T[], P>(
+		params,
+		useFetchSearch.fetcher<T, P>(),
 		options,
 		path,
 	);
 
 	if (error || !data) {
 		const fakeData = {
-			posts: makeErrorCatchProxy<PostEntity[]>('posts'),
+			posts: makeErrorCatchProxy<T[]>('posts'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
@@ -67,5 +70,8 @@ export function useFetchSearch(
  */
 // eslint-disable-next-line no-redeclare
 export namespace useFetchSearch {
-	export const fetcher = () => new SearchFetchStrategy(getWPUrl());
+	export const fetcher = <
+		T extends PostEntity = PostEntity,
+		P extends PostsArchiveParams = PostsArchiveParams,
+	>() => new SearchFetchStrategy<T, P>(getWPUrl());
 }

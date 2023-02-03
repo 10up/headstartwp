@@ -96,10 +96,10 @@ export interface TaxonomyArchiveParams extends EndpointParams {
  *
  * @category Data Fetching
  */
-export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
-	TermEntity[],
-	TaxonomyArchiveParams
-> {
+export class TaxonomyTermsStrategy<
+	T extends TermEntity = TermEntity,
+	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
+> extends AbstractFetchStrategy<T[], P> {
 	defaultTaxonmy = 'category';
 
 	getDefaultEndpoint(): string {
@@ -110,12 +110,12 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		path: string,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		params: Partial<TaxonomyArchiveParams> = {},
-	): Partial<TaxonomyArchiveParams> {
-		return { _embed: true };
+		params: Partial<P> = {},
+	): Partial<P> {
+		return { _embed: true } as Partial<P>;
 	}
 
-	buildEndpointURL(params: Partial<TaxonomyArchiveParams>) {
+	buildEndpointURL(params: Partial<P>) {
 		const { taxonomy = this.defaultTaxonmy, ...endpointParams } = params;
 
 		const taxonomyObj = getCustomTaxonomy(taxonomy, this.baseURL);
@@ -128,25 +128,28 @@ export class TaxonomyTermsStrategy extends AbstractFetchStrategy<
 
 		this.setEndpoint(taxonomyObj.endpoint);
 
-		return super.buildEndpointURL(endpointParams);
+		return super.buildEndpointURL(endpointParams as P);
 	}
 
 	fetcher(
 		url: string,
-		params: Partial<TaxonomyArchiveParams>,
+		params: Partial<P>,
 		options?: Partial<FetchOptions>,
-	): Promise<FetchResponse<TermEntity[]>> {
+	): Promise<FetchResponse<T[]>> {
 		return super.fetcher(url, params, { ...options, throwIfNotFound: false });
 	}
 
-	filterData(data: FetchResponse<TermEntity[]>, filterOptions?: FilterDataOptions<TermEntity[]>) {
+	filterData(
+		data: FetchResponse<T[]>,
+		filterOptions?: FilterDataOptions<T[]>,
+	): FetchResponse<T[]> {
 		if (filterOptions) {
-			return super.filterData(data, filterOptions);
+			return super.filterData(data, filterOptions) as FetchResponse<T[]>;
 		}
 
 		return {
 			...data,
-			result: removeFields(['_links'], data.result) as TermEntity[],
+			result: removeFields(['_links'], data.result) as T[],
 		};
 	}
 }

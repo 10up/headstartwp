@@ -36,14 +36,14 @@ import { convertToPath } from '../utils';
  *
  * @category Data Fetching Hooks
  */
-export function usePost(
-	params: PostParams = {},
-	options: FetchHookOptions<FetchResponse<PostEntity>> = {},
+export function usePost<T extends PostEntity = PostEntity, P extends PostParams = PostParams>(
+	params: Partial<P> = {},
+	options: FetchHookOptions<FetchResponse<T>> = {},
 ) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 
-	return useFetchPost(params, options, convertToPath(path));
+	return useFetchPost<T, P>(params, options, convertToPath(path));
 }
 
 /**
