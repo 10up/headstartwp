@@ -26,6 +26,14 @@ const handlers = [
 		return res(ctx.json({ ok: true }));
 	}),
 
+	rest.get('/wp-json/wp/v2/categories', (req, res, ctx) => {
+		return res(ctx.json({ ok: true }));
+	}),
+
+	rest.get('/wp-json/headless-wp/v1/app', (req, res, ctx) => {
+		return res(ctx.json({ ok: true }));
+	}),
+
 	rest.get('/wp-json/wp/v2/posts', (req, res, ctx) => {
 		const query = req.url.searchParams;
 		const search = query.get('search');
