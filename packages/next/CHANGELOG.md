@@ -1,5 +1,16 @@
 # @10up/headless-next
 
+## 0.6.0-next.1
+
+### Minor Changes
+
+- 0c0350a: Improve TypeScript Support
+
+### Patch Changes
+
+- Updated dependencies [0c0350a]
+  - @10up/headless-core@0.6.0-next.1
+
 ## 0.5.6-next.0
 
 ### Patch Changes
