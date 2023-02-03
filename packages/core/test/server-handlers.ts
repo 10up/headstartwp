@@ -33,8 +33,14 @@ const handlers = [
 		const perPage = Number(query.get('per_page'));
 		const category = query.get('categories');
 		const author = query.get('author');
+		const embed = query.get('_embed');
 
 		let results = [...posts];
+
+		if (!embed) {
+			// @ts-expect-error
+			results = results.map((post) => ({ ...post, _embedded: {} }));
+		}
 
 		if (slug && slug.length > 0) {
 			results = results.filter((post) => post.slug === slug);
@@ -126,7 +132,15 @@ const handlers = [
 	}),
 
 	rest.get('/wp-json/wp/v2/posts/:id', (req, res, ctx) => {
+		const query = req.url.searchParams;
+		const embed = query.get('_embed');
+
 		let results = [...posts];
+
+		if (!embed) {
+			// @ts-expect-error
+			results = results.map((post) => ({ ...post, _embedded: {} }));
+		}
 		const id = Number(req.params.id);
 
 		if (id) {

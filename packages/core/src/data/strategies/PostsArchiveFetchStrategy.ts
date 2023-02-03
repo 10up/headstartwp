@@ -203,6 +203,10 @@ export class PostsArchiveFetchStrategy<
 		return endpoints.posts;
 	}
 
+	getDefaultParams(): Partial<P> {
+		return { _embed: true } as P;
+	}
+
 	/**
 	 * This strategy automatically extracts taxonomy filters, date filters and paginations params from the URL
 	 *

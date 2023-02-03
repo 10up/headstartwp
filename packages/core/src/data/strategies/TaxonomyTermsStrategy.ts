@@ -106,13 +106,17 @@ export class TaxonomyTermsStrategy<
 		return endpoints.category;
 	}
 
+	getDefaultParams(): Partial<P> {
+		return { _embed: true } as P;
+	}
+
 	getParamsFromURL(
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		path: string,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		params: Partial<P> = {},
 	): Partial<P> {
-		return { _embed: true } as Partial<P>;
+		return {} as Partial<P>;
 	}
 
 	buildEndpointURL(params: Partial<P>) {

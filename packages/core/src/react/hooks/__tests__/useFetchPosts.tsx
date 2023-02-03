@@ -22,7 +22,7 @@ describe('useFetchPosts', () => {
 		expect(() => result.current.data?.posts.at(0)?.title).toThrow();
 		expect(result.current.loading).toBe(true);
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeUndefined();
 			expect(result.current.loading).toBe(false);
 			expect(() => result.current.data).not.toThrow();
@@ -34,7 +34,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.posts.length).toBe(2);
 		});
 	});
@@ -51,7 +51,7 @@ describe('useFetchPosts', () => {
 			},
 		);
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.posts.length).toBe(1);
 			expect(result.current.data?.queriedObject.term?.slug).toBe('uncategorized');
 			expect(result.current.pageType.isAuthorArchive).toBe(false);
@@ -74,7 +74,7 @@ describe('useFetchPosts', () => {
 			},
 		);
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.posts.length).toBe(1);
 			expect(result.current.data?.queriedObject.term?.slug).toBe('الأخبار-المالية');
 		});
@@ -85,7 +85,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.posts.length).toBe(1);
 			expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
 			expect(result.current.pageType.isAuthorArchive).toBe(true);
@@ -101,7 +101,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.queriedObject.author?.id).toBe(3);
 			expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
 		});
@@ -110,7 +110,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		}));
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.queriedObject.term?.id).toBe(5);
 			expect(result.current.data?.queriedObject.term?.slug).toBe('news');
 		});
@@ -132,7 +132,7 @@ describe('useFetchPosts', () => {
 			},
 		);
 
-		waitFor(() => {
+		await waitFor(() => {
 			// if throwIfNotfound is not passed error should be not set
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data).toMatchObject({
@@ -146,7 +146,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
 			expect(result.current.isMainQuery).toBe(true);
@@ -156,7 +156,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		}));
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.author?.slug).toBe('jane');
 			expect(result.current.isMainQuery).toBe(false);
@@ -166,7 +166,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		}));
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.term?.slug).toBe('news');
 			expect(result.current.isMainQuery).toBe(true);

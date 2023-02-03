@@ -18,17 +18,11 @@ describe('TaxonomyTermsStrategy', () => {
 	});
 
 	it('does not parse anything from url', async () => {
-		expect(fetchStrategy.getParamsFromURL('/')).toEqual({
-			_embed: true,
-		});
+		expect(fetchStrategy.getParamsFromURL('/')).toEqual({});
 
-		expect(fetchStrategy.getParamsFromURL('/tag/tag-test')).toEqual({
-			_embed: true,
-		});
+		expect(fetchStrategy.getParamsFromURL('/tag/tag-test')).toEqual({});
 
-		expect(fetchStrategy.getParamsFromURL('/category/cat-test/tag/tag-test')).toEqual({
-			_embed: true,
-		});
+		expect(fetchStrategy.getParamsFromURL('/category/cat-test/tag/tag-test')).toEqual({});
 	});
 
 	it('bulds the endpoint url properly', () => {

@@ -87,8 +87,9 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	}
 
 	const stringPath = convertToPath(path);
+	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
-	const finalParams = { ...urlParams, ...params };
+	const finalParams = { ...defaultParams, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
 	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };

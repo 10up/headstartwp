@@ -81,6 +81,10 @@ export class SinglePostFetchStrategy<
 		return endpoints.posts;
 	}
 
+	getDefaultParams(): Partial<P> {
+		return { _embed: true } as P;
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
 		this.path = path;

@@ -135,6 +135,10 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		return this.endpoint;
 	}
 
+	getDefaultParams(): Partial<Params> {
+		return {};
+	}
+
 	/**
 	 * Returns the supported params from the URL if present.
 	 *

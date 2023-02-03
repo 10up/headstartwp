@@ -33,10 +33,11 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
+	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(path, params);
 	const isMainQuery = fetchStrategy.isMainQuery(path, params);
 
-	const finalParams = { ...urlParams, ...params };
+	const finalParams = { ...defaultParams, ...urlParams, ...params };
 
 	const { fetchStrategyOptions, ...validSWROptions } = options;
 
