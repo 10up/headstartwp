@@ -1,4 +1,5 @@
 import type { TaxonomyArchiveParams, TermEntity } from '@10up/headless-core';
+import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { useTerms } from '../useTerms';
 
@@ -12,7 +13,9 @@ describe('useTerms types', () => {
 			editor: string;
 		}
 
-		expectTypeOf(useTerms<Genre, GenreParams>({ editor: 'sdasd' }).data?.terms).toMatchTypeOf<
+		const { result } = renderHook(() => useTerms<Genre, GenreParams>({ editor: 'sdasd' }));
+
+		expectTypeOf(result.current.data?.terms).toMatchTypeOf<
 			| Array<{
 					editor: string;
 			  }>

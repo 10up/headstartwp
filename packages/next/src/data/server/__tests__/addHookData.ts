@@ -1,4 +1,4 @@
-import { addHookData, HookState } from '../utils';
+import { addHookData, HookState } from '../addHookData';
 
 const sampleThemeJson = {
 	settings: {},

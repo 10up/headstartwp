@@ -1,3 +1,4 @@
+import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { TaxonomyArchiveParams, TermEntity } from '../../../data';
 import { useFetchTerms } from '../useFetchTerms';
@@ -12,9 +13,9 @@ describe('useFetchTerms types', () => {
 			editor: string;
 		}
 
-		expectTypeOf(
-			useFetchTerms<Genre, GenreParams>({ editor: 'sdasd' }).data?.terms,
-		).toMatchTypeOf<
+		const { result } = renderHook(() => useFetchTerms<Genre, GenreParams>({ editor: 'sdasd' }));
+
+		expectTypeOf(result.current.data?.terms).toMatchTypeOf<
 			| Array<{
 					editor: string;
 			  }>

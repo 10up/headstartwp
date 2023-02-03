@@ -1,3 +1,4 @@
+import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { AppEntity, EndpointParams } from '../../../data';
 import { useFetchAppSettings } from '../useFetchAppSettings';
@@ -12,9 +13,10 @@ describe('useFetchAppSettings types', () => {
 			includeCustomSettings: boolean;
 		}
 
-		expectTypeOf(
-			useFetchAppSettings<MyAppEntity, Params>({ includeCustomSettings: true }).data,
-		).toMatchTypeOf<
+		const { result } = renderHook(() =>
+			useFetchAppSettings<MyAppEntity, Params>({ includeCustomSettings: true }),
+		);
+		expectTypeOf(result.current.data).toMatchTypeOf<
 			| {
 					myCustomSetting: string;
 			  }

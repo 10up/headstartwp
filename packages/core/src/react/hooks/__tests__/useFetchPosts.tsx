@@ -183,9 +183,9 @@ describe('useFetchPosts', () => {
 				isbn: string;
 			}
 
-			expectTypeOf(
-				useFetchPosts<Book, BookParams>({ isbn: 'sdasd' }).data?.posts,
-			).toMatchTypeOf<
+			const { result } = renderHook(() => useFetchPosts<Book, BookParams>({ isbn: 'sdasd' }));
+
+			expectTypeOf(result.current.data?.posts).toMatchTypeOf<
 				| Array<{
 						isbn: string;
 				  }>

@@ -1,3 +1,4 @@
+import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { PostEntity, PostsArchiveParams } from '../../../data';
 import { useFetchAuthorArchive } from '../useFetchAuthorArchive';
@@ -12,9 +13,11 @@ describe('useFetchAuthorArchive types', () => {
 			isbn: string;
 		}
 
-		expectTypeOf(
-			useFetchAuthorArchive<Book, BookParams>({ isbn: 'sdasd' }).data?.posts,
-		).toMatchTypeOf<
+		const { result } = renderHook(() =>
+			useFetchAuthorArchive<Book, BookParams>({ isbn: 'sdasd' }),
+		);
+
+		expectTypeOf(result.current.data?.posts).toMatchTypeOf<
 			| Array<{
 					isbn: string;
 			  }>

@@ -1,5 +1,6 @@
 import type { AppEntity, EndpointParams } from '@10up/headless-core';
 import { expectTypeOf } from 'expect-type';
+import { renderHook } from '@testing-library/react';
 import { useAppSettings } from '../useAppSettings';
 
 describe('useAppSettings types', () => {
@@ -12,9 +13,11 @@ describe('useAppSettings types', () => {
 			includeCustomSettings: boolean;
 		}
 
-		expectTypeOf(
-			useAppSettings<MyAppEntity, Params>({ includeCustomSettings: true }).data,
-		).toMatchTypeOf<
+		const { result } = renderHook(() =>
+			useAppSettings<MyAppEntity, Params>({ includeCustomSettings: true }),
+		);
+
+		expectTypeOf(result.current.data).toMatchTypeOf<
 			| {
 					myCustomSetting: string;
 			  }

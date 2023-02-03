@@ -1,4 +1,5 @@
 import type { PostEntity, PostsArchiveParams } from '@10up/headless-core';
+import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { useSearch } from '../useSearch';
 
@@ -12,7 +13,9 @@ describe('useSearch types', () => {
 			isbn: string;
 		}
 
-		expectTypeOf(useSearch<Book, BookParams>({ isbn: 'sdasd' }).data?.posts).toMatchTypeOf<
+		const { result } = renderHook(() => useSearch<Book, BookParams>({ isbn: 'sdasd' }));
+
+		expectTypeOf(result.current.data?.posts).toMatchTypeOf<
 			| Array<{
 					isbn: string;
 			  }>
