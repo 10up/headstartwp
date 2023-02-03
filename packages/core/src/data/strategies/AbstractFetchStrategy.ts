@@ -169,7 +169,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 *
 	 * @returns The endpoint URL.
 	 */
-	buildEndpointURL(params: Params): string {
+	buildEndpointURL(params: Partial<Params>): string {
 		const { _embed, ...endpointParams } = params;
 
 		const url = addQueryArgs(this.getEndpoint(), { ...endpointParams });

@@ -1,7 +1,7 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
 import { FetchHookOptions, useFetchSearch } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
-import { convertToPath } from '../utils';
+import { convertToPath } from '../convertToPath';
 
 /**
  * The useSearch hook. Returns a collection of search entities

@@ -1,7 +1,7 @@
 import { FetchResponse, PostEntity, PostParams } from '@10up/headless-core';
 import { useRouter } from 'next/router';
 import { FetchHookOptions, useFetchPost } from '@10up/headless-core/react';
-import { convertToPath } from '../utils';
+import { convertToPath } from '../convertToPath';
 
 /**
  * The usePost hook. Returns a single post entity

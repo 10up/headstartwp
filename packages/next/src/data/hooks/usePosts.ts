@@ -1,7 +1,7 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
 import { FetchHookOptions, useFetchPosts } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
-import { convertToPath } from '../utils';
+import { convertToPath } from '../convertToPath';
 
 /**
  * The usePost hook. Returns a collection of post entities

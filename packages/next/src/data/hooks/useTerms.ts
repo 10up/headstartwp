@@ -1,7 +1,7 @@
 import { TermEntity, FetchResponse, TaxonomyArchiveParams } from '@10up/headless-core';
 import { FetchHookOptions, useFetchTerms } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
-import { convertToPath } from '../utils';
+import { convertToPath } from '../convertToPath';
 
 /**
  * The useTerms hook. Returns a collection of term entities
