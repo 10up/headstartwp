@@ -132,7 +132,6 @@ export class SinglePostFetchStrategy<
 			}
 		}
 
-		// TODO: figure this one out
 		return super.buildEndpointURL(endpointParams as P);
 	}
 
