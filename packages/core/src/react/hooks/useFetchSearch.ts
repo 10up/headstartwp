@@ -73,5 +73,7 @@ export namespace useFetchSearch {
 	export const fetcher = <
 		T extends PostEntity = PostEntity,
 		P extends PostsArchiveParams = PostsArchiveParams,
-	>() => new SearchFetchStrategy<T, P>(getWPUrl());
+	>(
+		sourceUrl?: string,
+	) => new SearchFetchStrategy<T, P>(sourceUrl ?? getWPUrl());
 }

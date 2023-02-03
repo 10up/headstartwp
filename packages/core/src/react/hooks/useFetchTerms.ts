@@ -62,5 +62,7 @@ export namespace useFetchTerms {
 	export const fetcher = <
 		T extends TermEntity = TermEntity,
 		P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
-	>() => new TaxonomyTermsStrategy<T, P>(getWPUrl());
+	>(
+		sourceUrl?: string,
+	) => new TaxonomyTermsStrategy<T, P>(sourceUrl ?? getWPUrl());
 }

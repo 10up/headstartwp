@@ -34,5 +34,7 @@ export namespace useFetchAuthorArchive {
 	export const fetcher = <
 		T extends PostEntity = PostEntity,
 		P extends PostsArchiveParams = PostsArchiveParams,
-	>() => new AuthorArchiveFetchStrategy<T, P>(getWPUrl());
+	>(
+		sourceUrl?: string,
+	) => new AuthorArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl());
 }

@@ -58,8 +58,7 @@ export function useFetchPost<T extends PostEntity = PostEntity, P extends PostPa
  */
 // eslint-disable-next-line no-redeclare
 export namespace useFetchPost {
-	export const fetcher = <
-		T extends PostEntity = PostEntity,
-		P extends PostParams = PostParams,
-	>() => new SinglePostFetchStrategy<T, P>(getWPUrl());
+	export const fetcher = <T extends PostEntity = PostEntity, P extends PostParams = PostParams>(
+		sourceUrl?: string,
+	) => new SinglePostFetchStrategy<T, P>(sourceUrl ?? getWPUrl());
 }

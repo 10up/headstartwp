@@ -170,5 +170,7 @@ export namespace useFetchPosts {
 	export const fetcher = <
 		T extends PostEntity = PostEntity,
 		P extends PostsArchiveParams = PostsArchiveParams,
-	>() => new PostsArchiveFetchStrategy<T, P>(getWPUrl());
+	>(
+		sourceUrl?: string,
+	) => new PostsArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl());
 }

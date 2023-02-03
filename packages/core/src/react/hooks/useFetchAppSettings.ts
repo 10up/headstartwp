@@ -49,5 +49,7 @@ export namespace useFetchAppSettings {
 	export const fetcher = <
 		T extends AppEntity = AppEntity,
 		P extends EndpointParams = EndpointParams,
-	>() => new AppSettingsStrategy<T, P>(getWPUrl());
+	>(
+		sourceUrl?: string,
+	) => new AppSettingsStrategy<T, P>(sourceUrl ?? getWPUrl());
 }
