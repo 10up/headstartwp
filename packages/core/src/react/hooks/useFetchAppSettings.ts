@@ -51,5 +51,6 @@ export namespace useFetchAppSettings {
 		P extends EndpointParams = EndpointParams,
 	>(
 		sourceUrl?: string,
-	) => new AppSettingsStrategy<T, P>(sourceUrl ?? getWPUrl());
+		defaultParams?: P,
+	) => new AppSettingsStrategy<T, P>(sourceUrl ?? getWPUrl(), defaultParams);
 }

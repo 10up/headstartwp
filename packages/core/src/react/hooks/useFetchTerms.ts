@@ -64,5 +64,6 @@ export namespace useFetchTerms {
 		P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
 	>(
 		sourceUrl?: string,
-	) => new TaxonomyTermsStrategy<T, P>(sourceUrl ?? getWPUrl());
+		defaultParams?: P,
+	) => new TaxonomyTermsStrategy<T, P>(sourceUrl ?? getWPUrl(), defaultParams);
 }

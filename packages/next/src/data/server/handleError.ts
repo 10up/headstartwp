@@ -1,9 +1,19 @@
 import { fetchRedirect } from '@10up/headless-core';
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { GetServerSidePropsResult } from 'next';
+import { HeadlessGetServerSidePropsContext, HeadlessGetStaticPropsPropsContext } from '../types';
 import { getSiteFromContext } from './getSiteFromContext';
 
 function isStringArray(el): el is string[] {
 	return Array.isArray(el);
+}
+
+function isGetServerSide(
+	ctx: HeadlessGetServerSidePropsContext | HeadlessGetStaticPropsPropsContext,
+): ctx is HeadlessGetServerSidePropsContext {
+	return (
+		typeof (ctx as HeadlessGetServerSidePropsContext).req !== 'undefined' &&
+		typeof (ctx as HeadlessGetServerSidePropsContext).req.url !== 'undefined'
+	);
 }
 
 /**
@@ -35,15 +45,15 @@ function isStringArray(el): el is string[] {
  */
 export async function handleError(
 	error: Error,
-	ctx: GetServerSidePropsContext,
+	ctx: HeadlessGetServerSidePropsContext | HeadlessGetStaticPropsPropsContext,
 	rootRoute: string = '',
 ): Promise<GetServerSidePropsResult<{}>> {
 	const { redirectStrategy, sourceUrl } = getSiteFromContext(ctx);
 
 	if (error.name === 'NotFoundError') {
 		let pathname = '';
-		if (typeof ctx?.req?.url !== 'undefined') {
-			pathname = ctx.req.url;
+		if (isGetServerSide(ctx)) {
+			pathname = ctx.req.url ?? '';
 		} else {
 			// build out the url from params.path
 			pathname =

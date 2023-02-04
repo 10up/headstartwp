@@ -80,6 +80,12 @@ export interface FilterDataOptions<T> {
  */
 export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R = E> {
 	/**
+	 * The Default Params
+	 */
+
+	defaultParams: Partial<Params> = {};
+
+	/**
 	 * Holds the current endpoint for the strategy
 	 */
 	endpoint: string = '';
@@ -100,9 +106,13 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 *
 	 * @param baseURL The base URL of the API
 	 */
-	constructor(baseURL?: string) {
+	constructor(baseURL?: string, defaultParams?: Partial<Params>) {
 		if (baseURL) {
 			this.setBaseURL(baseURL);
+		}
+
+		if (defaultParams) {
+			this.defaultParams = defaultParams;
 		}
 	}
 
@@ -136,7 +146,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	}
 
 	getDefaultParams(): Partial<Params> {
-		return {};
+		return this.defaultParams;
 	}
 
 	/**
