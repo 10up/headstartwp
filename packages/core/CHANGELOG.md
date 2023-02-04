@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.6.0-next.2
+
+### Patch Changes
+
+- 4093142: Introducing types for next.js data-fetching methods and the ability to pass default param via fetcher()
+
 ## 0.6.0-next.1
 
 ### Minor Changes
