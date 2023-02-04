@@ -36,5 +36,6 @@ export namespace useFetchAuthorArchive {
 		P extends PostsArchiveParams = PostsArchiveParams,
 	>(
 		sourceUrl?: string,
-	) => new AuthorArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl());
+		defaultParams?: P,
+	) => new AuthorArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl(), defaultParams);
 }

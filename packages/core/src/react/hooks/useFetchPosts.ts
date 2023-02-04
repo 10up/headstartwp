@@ -172,5 +172,6 @@ export namespace useFetchPosts {
 		P extends PostsArchiveParams = PostsArchiveParams,
 	>(
 		sourceUrl?: string,
-	) => new PostsArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl());
+		defaultParams?: P,
+	) => new PostsArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl(), defaultParams);
 }

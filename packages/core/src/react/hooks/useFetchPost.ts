@@ -60,5 +60,6 @@ export function useFetchPost<T extends PostEntity = PostEntity, P extends PostPa
 export namespace useFetchPost {
 	export const fetcher = <T extends PostEntity = PostEntity, P extends PostParams = PostParams>(
 		sourceUrl?: string,
-	) => new SinglePostFetchStrategy<T, P>(sourceUrl ?? getWPUrl());
+		defaultParams?: P,
+	) => new SinglePostFetchStrategy<T, P>(sourceUrl ?? getWPUrl(), defaultParams);
 }
