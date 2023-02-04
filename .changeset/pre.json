@@ -9,9 +9,11 @@
     "@10up/wp-multisite-i18n-nextjs": "0.2.0",
     "@10up/wp-multisite-nextjs": "0.2.0",
     "@10up/wp-nextjs": "0.2.0",
-    "headless-wp": "1.0.0"
+    "headless-wp": "1.0.0",
+    "@10up/wp-nextjs-ts": "0.2.0"
   },
   "changesets": [
+    "eleven-ligers-attack",
     "great-grapes-accept",
     "weak-pans-sparkle"
   ]
