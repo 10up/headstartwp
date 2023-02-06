@@ -1,5 +1,12 @@
 # @10up/wp-nextjs-ts
 
+## 0.2.1-next.1
+
+### Patch Changes
+
+- Updated dependencies [906f32a]
+  - @10up/headless-core@0.6.0-next.3
+
 ## 0.2.1-next.0
 
 ### Patch Changes

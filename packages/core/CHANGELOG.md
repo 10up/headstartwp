@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.6.0-next.3
+
+### Patch Changes
+
+- 906f32a: Fix: defaultParams were not being taken into account
+
 ## 0.6.0-next.2
 
 ### Patch Changes
