@@ -107,7 +107,7 @@ export class TaxonomyTermsStrategy<
 	}
 
 	getDefaultParams(): Partial<P> {
-		return { _embed: true } as P;
+		return { _embed: true, ...super.getDefaultParams() } as P;
 	}
 
 	getParamsFromURL(
