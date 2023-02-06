@@ -444,4 +444,10 @@ describe('SinglePostFetchStrategy', () => {
 			result: post2,
 		});
 	});
+
+	it('allows overriding default params', () => {
+		const defaultParams = { postType: 'book' };
+		const fetcher = new SinglePostFetchStrategy('http://sourceurl.com', defaultParams);
+		expect(fetcher.getDefaultParams()).toMatchObject(defaultParams);
+	});
 });

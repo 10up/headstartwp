@@ -82,7 +82,7 @@ export class SinglePostFetchStrategy<
 	}
 
 	getDefaultParams(): Partial<P> {
-		return { _embed: true } as P;
+		return { _embed: true, ...super.getDefaultParams() } as P;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

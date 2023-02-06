@@ -47,4 +47,10 @@ describe('TaxonomyTermsStrategy', () => {
 
 		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'book' })).toBe('/wp-json/wp/v2/book');
 	});
+
+	it('allows overriding default params', () => {
+		const defaultParams = { taxonomy: 'genre' };
+		const fetcher = new TaxonomyTermsStrategy('http://sourceurl.com', defaultParams);
+		expect(fetcher.getDefaultParams()).toMatchObject(defaultParams);
+	});
 });
