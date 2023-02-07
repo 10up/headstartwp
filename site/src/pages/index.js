@@ -17,10 +17,10 @@ export default function Home() {
 			<main>
 				<header className={`${styles.heroBanner} home__heroBanner`}>
 					<h1>
-						10up Headless Framework! <span className={`${styles.beta}`}>Beta</span>
+						10up Headless Framework <span className={`${styles.beta}`}>Beta</span>
 					</h1>
 					<p>
-						A powerfull framework for creating JavaScript-based frontend for WordPress
+						A framework for building headless WordPress sites.
 					</p>
 					<SearchBar className={styles.searchBar} />
 				</header>
