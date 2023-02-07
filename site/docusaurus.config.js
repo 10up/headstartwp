@@ -169,10 +169,6 @@ const config = {
 						title: 'Community',
 						items: [
 							{
-								label: 'Slack Channel (internal)',
-								href: 'https://10up.slack.com/archives/C03EBFXS43F',
-							},
-							{
 								label: 'GitHub Discussions',
 								href: 'https://github.com/10up/headless/discussions/',
 							},
