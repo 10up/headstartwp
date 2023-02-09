@@ -13,4 +13,17 @@ module.exports = {
 			'@10up/headless-next/middlewares',
 		],
 	},
+	rules: {
+		'import/extensions': [
+			'error',
+			'ignorePackages',
+			{
+				js: 'never',
+				mjs: 'never',
+				jsx: 'never',
+				ts: 'never',
+				tsx: 'never',
+			},
+		],
+	},
 };
