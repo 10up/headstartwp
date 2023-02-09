@@ -10,6 +10,8 @@
  * Empty interface from which all entities inherit.
  */
 export interface Entity {
+	yoast_head_json?: Record<string, any> | null;
+	yoast_head?: string | null;
 	[k: string]: unknown;
 }
 
@@ -640,9 +642,6 @@ export interface SearchEntity extends Entity {
 	 * Subtype of Search for the object.
 	 */
 	subtype: string;
-
-	yoast_head_json: Record<string, any> | null;
-	yoast_head: string | null;
 }
 
 export type Redirect = {
@@ -687,6 +686,7 @@ export interface AppEntity extends Entity {
 		posts_per_page: string;
 	};
 	redirects: Redirect[];
+	'theme.json': Record<string, any>;
 }
 
 export interface PageInfo {

@@ -1,4 +1,22 @@
-export async function resolveBatch(promises) {
+import { FetchResponse } from '@10up/headless-core';
+
+const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfilledResult<T> =>
+	input.status === 'fulfilled';
+
+/**
+ * The fetchBatch function recieves an array of PromiseObject and
+ * optionally skips throwing exceptions for the ones passed with `throw: false`.
+ *
+ * @param promises Array of PromiseObject to be resolved.
+ *
+ * @returns The resolved promises.
+ */
+export async function resolveBatch(
+	promises: {
+		func: Promise<{ key: string; data: FetchResponse<any>; isMainQuery: boolean }>;
+		throw?: boolean;
+	}[],
+) {
 	const promisesArray = Array.isArray(promises) ? promises : [promises];
 	const promisesArrayFunc = promisesArray.map(({ func }) => func);
 	const shouldThrowPromisesArray = promisesArray.map(({ throw: shouldThrow }) =>
@@ -15,6 +33,6 @@ export async function resolveBatch(promises) {
 		}
 	});
 
-	const fulfilledPromises = settledPromises.filter(({ status }) => status === 'fulfilled');
+	const fulfilledPromises = settledPromises.filter(isFulfilled);
 	return fulfilledPromises.map(({ value }) => value);
 }
