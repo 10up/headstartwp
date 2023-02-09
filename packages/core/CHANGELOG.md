@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.6.0-next.4
+
+### Patch Changes
+
+- d062e6e: Fix: addHookData ts typing
+
 ## 0.6.0-next.3
 
 ### Patch Changes
