@@ -1,17 +1,29 @@
-import { FetchResponse } from '@10up/headless-core';
+import { AppEntity, Entity, FetchResponse, PostEntity } from '@10up/headless-core';
+import type { Redirect } from 'next';
 
-type ExpectedHookStateResponse = {
-	yoast_head_json: Record<string, any> | null;
-	yoast_head: string | null;
-	'theme.json': Record<string, any> | null;
-	id: number;
-};
-
-export type HookState = {
+export type HookState<T> = {
 	key: string;
-	data: FetchResponse<ExpectedHookStateResponse> | FetchResponse<ExpectedHookStateResponse[]>;
+	data: T;
 	isMainQuery: boolean;
 };
+
+export type NextJSProps<P> = {
+	props?: P;
+	redirect?: Redirect;
+	revalidate?: number | boolean;
+	notFound?: boolean;
+};
+
+function hasYoastTags(data: Entity): data is PostEntity {
+	return (
+		typeof (data as PostEntity).yoast_head !== 'undefined' &&
+		typeof (data as PostEntity).yoast_head_json !== 'undefined'
+	);
+}
+
+function isAppEntity(data: Entity): data is AppEntity {
+	return typeof (data as AppEntity).settings !== 'undefined';
+}
 
 /**
  * The `addHookData` function is responsible for collecting all of the results from the `fetchHookData` function calls
@@ -36,7 +48,10 @@ export type HookState = {
  *
  * @category Next.js Data Fetching Utilities
  */
-export function addHookData(hookStates: HookState[], nextProps) {
+export function addHookData<P = { [key: string]: any }>(
+	hookStates: HookState<FetchResponse<Entity | Entity[]>>[],
+	nextProps: NextJSProps<P>,
+) {
 	const { props = {}, ...rest } = nextProps;
 	const fallback = {};
 	let seo_json = {};
@@ -45,7 +60,9 @@ export function addHookData(hookStates: HookState[], nextProps) {
 
 	const validHookStates = hookStates.filter(Boolean);
 	const mainQuery = validHookStates.find((hookState) => hookState.isMainQuery);
-	const appSettings = validHookStates.find((hookState) => hookState.data?.result?.['theme.json']);
+	const appSettings = validHookStates.find(
+		(hookState) => !Array.isArray(hookState.data.result) && isAppEntity(hookState.data.result),
+	);
 
 	// the seo should come from main query if there is any
 	if (mainQuery) {
@@ -59,10 +76,8 @@ export function addHookData(hookStates: HookState[], nextProps) {
 			if (mainQuery.data.result[0]?.yoast_head_json) {
 				seo_json = { ...mainQuery.data.result[0].yoast_head_json };
 			}
-		} else if (!Array.isArray(mainQuery.data.result)) {
-			if (mainQuery.data.result?.yoast_head_json) {
-				seo_json = { ...mainQuery.data.result.yoast_head_json };
-			}
+		} else if (!Array.isArray(mainQuery.data.result) && hasYoastTags(mainQuery.data.result)) {
+			seo_json = { ...mainQuery.data.result.yoast_head_json };
 		}
 		if (mainQuery.data.queriedObject.search?.yoast_head) {
 			seo = mainQuery.data.queriedObject.search?.yoast_head;
@@ -70,19 +85,21 @@ export function addHookData(hookStates: HookState[], nextProps) {
 			seo = mainQuery.data.queriedObject.author?.yoast_head;
 		} else if (mainQuery.data.queriedObject.term?.yoast_head) {
 			seo = mainQuery.data.queriedObject.term?.yoast_head;
-		} else if (Array.isArray(mainQuery.data.result) && mainQuery.data.result.length > 0) {
-			if (mainQuery.data.result[0]?.yoast_head) {
-				seo = mainQuery.data.result[0].yoast_head;
-			}
-		} else if (!Array.isArray(mainQuery.data.result)) {
-			if (mainQuery.data.result?.yoast_head) {
-				seo = mainQuery.data.result.yoast_head;
-			}
+		} else if (
+			Array.isArray(mainQuery.data.result) &&
+			mainQuery.data.result.length > 0 &&
+			mainQuery.data.result[0]?.yoast_head &&
+			hasYoastTags(mainQuery.data.result[0])
+		) {
+			seo = mainQuery.data.result[0].yoast_head;
+		} else if (!Array.isArray(mainQuery.data.result) && hasYoastTags(mainQuery.data.result)) {
+			seo = mainQuery.data.result.yoast_head ?? '';
 		}
 	}
 
-	if (appSettings) {
-		themeJSON = { ...appSettings.data.result['theme.json'] };
+	const appEntity = appSettings?.data.result;
+	if (appEntity && !Array.isArray(appEntity) && isAppEntity(appEntity)) {
+		themeJSON = { ...appEntity['theme.json'] };
 	}
 
 	// process the rest of data to optimize payload and pick seo object if there isn't a main query
