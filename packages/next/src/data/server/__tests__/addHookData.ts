@@ -1,3 +1,4 @@
+import { FetchResponse } from '@10up/headless-core';
 import { addHookData, HookState } from '../addHookData';
 
 const sampleThemeJson = {
@@ -12,6 +13,10 @@ const sampleResult = {
 	id: 0,
 	yoast_head: 'this should be removed',
 	yoast_head_json: sampleYoast,
+};
+
+const appSettingsResult = {
+	settings: {},
 	'theme.json': sampleThemeJson,
 };
 
@@ -23,7 +28,9 @@ const samplePageInfo = {
 
 describe('addHookData', () => {
 	it('[non-array] transforms the data properly and remove extra stuff', () => {
-		const hookStates: HookState[] = [
+		const hookStates: HookState<
+			FetchResponse<typeof sampleResult | typeof appSettingsResult>
+		>[] = [
 			{
 				key: 'first-key',
 				data: {
@@ -33,6 +40,15 @@ describe('addHookData', () => {
 				},
 				isMainQuery: true,
 			},
+			{
+				key: 'second-key',
+				data: {
+					queriedObject: {},
+					result: { ...appSettingsResult },
+					pageInfo: { ...samplePageInfo },
+				},
+				isMainQuery: false,
+			},
 		];
 		expect(addHookData(hookStates, {})).toMatchObject({
 			props: {
@@ -41,21 +57,23 @@ describe('addHookData', () => {
 						result: {
 							yoast_head: null,
 							yoast_head_json: null,
-							'theme.json': null,
 						},
 						pageInfo: samplePageInfo,
+					},
+					'second-key': {
+						result: { ...appSettingsResult, 'theme.json': null },
 					},
 				},
 				seo: {
 					yoast_head_json: sampleYoast,
 				},
-				themeJSON: sampleThemeJson,
+				themeJSON: { ...sampleThemeJson },
 			},
 		});
 	});
 
 	it('[array] transforms the data properly and remove extra stuff', () => {
-		const hookStates: HookState[] = [
+		const hookStates: HookState<FetchResponse<typeof sampleResult[]>>[] = [
 			{
 				key: 'first-key',
 				data: {
