@@ -19,9 +19,7 @@ export default function Home() {
 					<h1>
 						10up Headless Framework <span className={`${styles.beta}`}>Beta</span>
 					</h1>
-					<p>
-						A framework for building headless WordPress sites.
-					</p>
+					<p>A framework for building headless WordPress sites.</p>
 					<SearchBar className={styles.searchBar} />
 				</header>
 				<section className={`${styles.grid} content-wrapper`}>
