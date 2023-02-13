@@ -7,16 +7,17 @@ on:
   push:
     branches:
       - trunk
+      - feature/plugin-deploy
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
       - name: Set PHP version
         uses: shivammathur/setup-php@v2
-      - name: Pushes to another repository
+      - name: Publish to the publishing repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
@@ -28,3 +29,24 @@ jobs:
           user-email: bot@10up.com
           commit-message: See ORIGIN_COMMIT from $GITHUB_REF
           target-branch: trunk
+      - name: Checkout the publishing repository
+        uses: actions/checkout@v3
+        with:
+          repository: 10up/tenup-headless-wp-plugin
+          path: 'repo'
+      - name: Create Github Tag
+        working-directory: ./repo
+        run:  'echo "VERSION=$(grep -Po ''\"version\": \"[0-9\\.]+\"'' package.json | grep -Po ''[0-9\\.]+'')" >> $GITHUB_ENV'
+      - name: Tag
+        working-directory: ./repo
+        run: |
+          echo "Releasing version $VERSION ..."
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b "release-$VERSION"
+          git add -f dist/*
+          git commit -m "Release $VERSION"
+          git tag "$VERSION"
+          git push --tags
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
