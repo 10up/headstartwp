@@ -34,6 +34,7 @@ jobs:
         with:
           repository: 10up/tenup-headless-wp-plugin
           path: 'repo'
+          ref: trunk
       - name: Create Github Tag
         run:  'echo "VERSION=$(grep -Po ''\"version\": \"[0-9\\.]+\"'' repo/package.json | grep -Po ''[0-9\\.]+'')" >> $GITHUB_ENV'
       - name: Tag
@@ -43,7 +44,6 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b "release-$VERSION"
-          git commit -m "Release $VERSION"
           git tag "$VERSION"
           git push --tags
         env:
