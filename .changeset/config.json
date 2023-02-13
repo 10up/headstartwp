@@ -7,6 +7,6 @@
   "access": "restricted",
   "baseBranch": "trunk",
   "updateInternalDependencies": "patch",
-  "privatePackages": { "version": true, "tag": true },
+  "privatePackages": { "version": true, "tag": false },
   "ignore": ["@10up/wp-nextjs", "@10up/wp-nextjs-ts", "@10up/wp-multisite-nextjs", "@10up/wp-multisite-i18n-nextjs", "@10up/headless-docs"]
 }
