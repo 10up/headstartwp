@@ -35,16 +35,14 @@ jobs:
           repository: 10up/tenup-headless-wp-plugin
           path: 'repo'
       - name: Create Github Tag
-        working-directory: ./repo
-        run:  'echo "VERSION=$(grep -Po ''\"version\": \"[0-9\\.]+\"'' package.json | grep -Po ''[0-9\\.]+'')" >> $GITHUB_ENV'
+        run:  'cd repo && echo "VERSION=$(grep -Po ''\"version\": \"[0-9\\.]+\"'' package.json | grep -Po ''[0-9\\.]+'')" >> $GITHUB_ENV'
       - name: Tag
-        working-directory: ./repo
         run: |
+          cd repo
           echo "Releasing version $VERSION ..."
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout -b "release-$VERSION"
-          git add -f dist/*
           git commit -m "Release $VERSION"
           git tag "$VERSION"
           git push --tags
