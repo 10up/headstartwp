@@ -51,7 +51,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
         with:
-          source-directory: wp/tenup-headless-wp/
+          source-directory: wp/headless-wp/
           destination-github-username: '10up'
           destination-repository-name: 'tenup-headless-wp-plugin'
           user-email: bot@10up.com
