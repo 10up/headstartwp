@@ -6,7 +6,7 @@
 
 ## Installation
 
-The only method for installing this plugin is via composer: `composer require 10up/tenup-headless-wp`.
+The only method for installing this plugin is via composer: `composer require 10up/headless-wp-plugin`.
 
 Make sure to set up the path for installing this as a WordPress Plugin:
 
@@ -15,7 +15,7 @@ Make sure to set up the path for installing this as a WordPress Plugin:
   "name": "your-project-name",
   "minimum-stability": "dev",
   "require": {
-    "10up/tenup-headless-wp": "^0.5.0",
+    "10up/headless-wp-plugin": "^0.5.0",
   },
   "extra": {
     "installer-paths": {

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - trunk2
+      - feature/plugin-deploy
 
 jobs:
   build:

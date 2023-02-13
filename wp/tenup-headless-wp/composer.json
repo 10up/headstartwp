@@ -1,5 +1,5 @@
 {
-  "name": "10up/tenup-headless-wp",
+  "name": "10up/headless-wp-plugin",
   "description": "10up Headless WordPress API Plugin",
   "type": "wordpress-plugin",
   "authors": [
