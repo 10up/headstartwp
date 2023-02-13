@@ -1,12 +1,9 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Release Stable WP Plugin
-
 
 on:
   push:
     branches:
-      - trunk
+      - trunk2
 
 jobs:
   build:
