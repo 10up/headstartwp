@@ -21,7 +21,7 @@ jobs:
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
         with:
           source-directory: wp/tenup-headless-wp/
           destination-github-username: '10up'
@@ -49,4 +49,4 @@ jobs:
           git tag "$VERSION"
           git push --tags
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TOKEN: ${{ secrets.API_GITHUB_TOKEN }}
