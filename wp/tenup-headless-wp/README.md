@@ -13,7 +13,7 @@ Make sure to set up the path for installing this as a WordPress Plugin:
 ```json
 {
   "name": "your-project-name",
-	"minimum-stability": "dev",
+  "minimum-stability": "dev",
   "require": {
     "10up/tenup-headless-wp": "^0.5.0",
   },
