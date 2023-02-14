@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.6.0-next.5
+
+### Patch Changes
+
+- 83f2fd6: Remove unnecessary dependency.
+
 ## 0.6.0-next.4
 
 ### Patch Changes
