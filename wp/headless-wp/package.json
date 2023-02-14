@@ -1,0 +1,19 @@
+{
+  "name": "@10up/headless-wp-plugin",
+  "version": "0.5.0",
+  "private": true,
+  "description": "10up Headless WordPress Plugin",
+  "homepage": "https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/README.md",
+  "license": "GPL-2.0-or-later",
+  "author": "10up <info@10up.com> (https://10up.com/)",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "wp-env": "wp-env",
+    "wp-env:start": "npm run wp-env -- start --xdebug"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^5.10.0"
+  }
+}

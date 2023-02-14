@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started with Actions
+# this is disabled for now to avoid breaking projets using the older method of installation
+
+name: Release develop WP Plugin
+
+on:
+  push:
+    branches:
+      - develop2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+      - name: Set PHP version
+        uses: shivammathur/setup-php@v2
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
+        with:
+          source-directory: wp/headless-wp/
+          destination-github-username: '10up'
+          destination-repository-name: 'tenup-headless-wp-plugin'
+          user-email: bot@10up.com
+          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+          target-branch: develop

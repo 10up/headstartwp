@@ -1,7 +1,7 @@
-import { getSiteByHost, PostEntity, SinglePostFetchStrategy } from '@10up/headless-core';
+import { getSiteByHost, PostEntity } from '@10up/headless-core';
 import { getCustomPostType, getHeadlessConfig } from '@10up/headless-core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { fetchHookData } from '../data';
+import { fetchHookData, usePost } from '../data';
 import { PreviewData } from './types';
 
 /**
@@ -100,7 +100,7 @@ export async function previewHandler(
 	const revision = is_revision === '1';
 	try {
 		const { data } = await fetchHookData(
-			new SinglePostFetchStrategy(sourceUrl),
+			usePost.fetcher(sourceUrl),
 			{
 				params: {
 					path: [],
@@ -109,10 +109,10 @@ export async function previewHandler(
 			},
 			{
 				params: {
-					id: post_id,
+					id: Number(post_id),
 					postType: post_type,
 					revision,
-					authToken: token,
+					authToken: token as string,
 				},
 			},
 		);

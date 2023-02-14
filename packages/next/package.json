@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-next",
-  "version": "0.5.5",
+  "version": "0.6.0-next.4",
   "description": "`@10up/headless-next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headless/blob/develop/packages/next/README.md",
   "license": "MIT",
@@ -12,7 +12,8 @@
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",
-      "import": "./dist/mjs/index.js"
+      "import": "./dist/mjs/index.js",
+      "types": "./dist/mjs/index.d.ts"
     },
     "./middlewares": {
       "require": "./dist/cjs/middlewares/index.js",
@@ -35,7 +36,7 @@
     "config-loader.js",
     "webpack-loader.js"
   ],
-  "sideEffects": "false",
+  "sideEffects": false,
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
@@ -47,10 +48,9 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@10up/headless-core": "^0.5.3",
+    "@10up/headless-core": "^0.6.0-next.5",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
-    "next-transpile-modules": "^10.0.0",
     "schema-utils": "^4.0.0",
     "swr": "^1.3.0"
   },
@@ -59,7 +59,9 @@
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.0.3",
     "copy-webpack-plugin": "^10.2.4",
+    "expect-type": "^0.15.0",
     "jest": "^29.0.3",
+    "next-router-mock": "^0.9.1",
     "node-mocks-http": "^1.11.0",
     "ts-jest": "^29.0.1",
     "typescript": "^4.4.3",

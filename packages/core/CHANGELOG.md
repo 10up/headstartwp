@@ -1,5 +1,41 @@
 # @10up/headless-core
 
+## 0.6.0-next.5
+
+### Patch Changes
+
+- 83f2fd6: Remove unnecessary dependency.
+
+## 0.6.0-next.4
+
+### Patch Changes
+
+- d062e6e: Fix: addHookData ts typing
+
+## 0.6.0-next.3
+
+### Patch Changes
+
+- 906f32a: Fix: defaultParams were not being taken into account
+
+## 0.6.0-next.2
+
+### Patch Changes
+
+- 4093142: Introducing types for next.js data-fetching methods and the ability to pass default param via fetcher()
+
+## 0.6.0-next.1
+
+### Minor Changes
+
+- 0c0350a: Improve TypeScript Support
+
+## 0.5.4-next.0
+
+### Patch Changes
+
+- 13a1327: Update TypeScript types for WP entities
+
 ## 0.5.3
 
 ### Patch Changes

@@ -65,11 +65,10 @@ export interface PostParams extends EndpointParams {
  *
  * @category Data Fetching
  */
-export class SinglePostFetchStrategy extends AbstractFetchStrategy<
-	PostEntity[],
-	PostParams,
-	PostEntity
-> {
+export class SinglePostFetchStrategy<
+	T extends PostEntity = PostEntity,
+	P extends PostParams = PostParams,
+> extends AbstractFetchStrategy<T[], P, T> {
 	postType: string = 'post';
 
 	revision?: PostEntity;
@@ -82,16 +81,22 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 		return endpoints.posts;
 	}
 
+	getDefaultParams(): Partial<P> {
+		return { _embed: true, ...super.getDefaultParams() } as P;
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getParamsFromURL(path: string, nonUrlParams: Partial<PostParams> = {}): Partial<PostParams> {
+	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
 		this.path = path;
+
 		// if slug is passed, it is being manually overriden then don't check current path
 		this.shoudCheckCurrentPathAgainstPostLink = typeof nonUrlParams.slug === 'undefined';
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
 
-		return params;
+		// TODO: figure typings for this
+		return params as Partial<P>;
 	}
 
 	/**
@@ -99,7 +104,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 	 *
 	 * @param params The params to build the endpoint url
 	 */
-	buildEndpointURL(params: PostParams) {
+	buildEndpointURL(params: P) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { id, authToken, revision, postType, ...endpointParams } = params;
 
@@ -127,7 +132,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 			}
 		}
 
-		return super.buildEndpointURL(endpointParams);
+		return super.buildEndpointURL(endpointParams as P);
 	}
 
 	/**
@@ -137,10 +142,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 	 * @param params
 	 * @returns
 	 */
-	getPostThatMatchesCurrentPath(
-		result: PostEntity[],
-		params: PostParams,
-	): PostEntity | undefined {
+	getPostThatMatchesCurrentPath(result: T[], params: Partial<P>): T | undefined {
 		return result.find((post) => {
 			const postPath = decodeURIComponent(
 				removeSourceUrl({
@@ -175,10 +177,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 	 * @param response
 	 * @returns
 	 */
-	prepareResponse(
-		response: FetchResponse<PostEntity[] | PostEntity>,
-		params: Partial<PostParams>,
-	): FetchResponse<PostEntity> {
+	prepareResponse(response: FetchResponse<T[] | T>, params: Partial<P>): FetchResponse<T> {
 		const { result } = response;
 
 		if (
@@ -242,7 +241,7 @@ export class SinglePostFetchStrategy extends AbstractFetchStrategy<
 	 * @param params The params to build the endpoint url
 	 * @param options FetchOptions
 	 */
-	async fetcher(url: string, params: PostParams, options: Partial<FetchOptions> = {}) {
+	async fetcher(url: string, params: P, options: Partial<FetchOptions> = {}) {
 		if (params.authToken) {
 			options.bearerToken = params.authToken;
 		}

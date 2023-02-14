@@ -8,13 +8,16 @@ import { endpoints } from '../utils';
  *
  * @category Data Fetching
  */
-export class AppSettingsStrategy extends AbstractFetchStrategy<AppEntity, EndpointParams> {
+export class AppSettingsStrategy<
+	T extends AppEntity = AppEntity,
+	P extends EndpointParams = EndpointParams,
+> extends AbstractFetchStrategy<T, P> {
 	getDefaultEndpoint(): string {
 		return endpoints.appSettings;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getParamsFromURL(path: string, params: Partial<EndpointParams> = {}): Partial<EndpointParams> {
-		return { _embed: true };
+	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
+		return {};
 	}
 }

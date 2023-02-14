@@ -1,0 +1,47 @@
+name: Release Stable WP Plugin
+
+### This has been merged into release-latest-version action
+
+on:
+  push:
+    branches:
+      - trunk2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set PHP version
+        uses: shivammathur/setup-php@v2
+      - name: Publish to the publishing repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
+        with:
+          source-directory: wp/headless-wp/
+          destination-github-username: '10up'
+          destination-repository-name: 'tenup-headless-wp-plugin'
+          user-email: bot@10up.com
+          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+          target-branch: trunk
+      - name: Checkout the publishing repository
+        uses: actions/checkout@v3
+        with:
+          repository: 10up/tenup-headless-wp-plugin
+          path: 'repo'
+          ref: trunk
+          token: ${{ secrets.API_GITHUB_TOKEN }}
+      - name: Create Github Tag
+        run:  'echo "VERSION=$(grep -Po ''\"version\": \"[0-9\\.]+\"'' repo/package.json | grep -Po ''[0-9\\.]+'')" >> $GITHUB_ENV'
+      - name: Tag
+        run: |
+          cd repo
+          echo "Releasing version $VERSION ..."
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b "release-$VERSION"
+          git tag "$VERSION"
+          git push --tags

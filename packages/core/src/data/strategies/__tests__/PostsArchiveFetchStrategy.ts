@@ -464,4 +464,10 @@ describe('PostsArchiveFetchStrategy', () => {
 			{},
 		);
 	});
+
+	it('allows overriding default params', () => {
+		const defaultParams = { postType: 'book' };
+		const fetcher = new PostsArchiveFetchStrategy('http://sourceurl.com', defaultParams);
+		expect(fetcher.getDefaultParams()).toMatchObject(defaultParams);
+	});
 });

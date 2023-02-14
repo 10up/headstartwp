@@ -1,7 +1,7 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
 import { FetchHookOptions, useFetchSearch } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
-import { convertToPath } from '../utils';
+import { convertToPath } from '../convertToPath';
 
 /**
  * The useSearch hook. Returns a collection of search entities
@@ -25,10 +25,10 @@ import { convertToPath } from '../utils';
  *
  * @category Data Fetching Hooks
  */
-export function useSearch(
-	params: PostsArchiveParams = {},
-	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
-) {
+export function useSearch<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+>(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 

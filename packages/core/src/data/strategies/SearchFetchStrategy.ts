@@ -4,7 +4,7 @@ import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFet
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
 import { addQueryArgs, getWPUrl } from '../../utils';
-import { QueriedObject } from '../types';
+import { PostEntity, QueriedObject } from '../types';
 
 /**
  * The SearchFetchStrategy extends the [[PostsArchiveFetchStrategy]] and does not make use of the
@@ -16,7 +16,10 @@ import { QueriedObject } from '../types';
  *
  * @category Data Fetching
  */
-export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
+export class SearchFetchStrategy<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+> extends PostsArchiveFetchStrategy<T, P> {
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -24,9 +27,9 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 	getParamsFromURL(
 		path: string,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		nonUrlParams: Partial<PostsArchiveParams> = {},
-	): Partial<PostsArchiveParams> {
-		return parsePath(searchMatchers, path);
+		nonUrlParams: Partial<P> = {},
+	): Partial<P> {
+		return parsePath(searchMatchers, path) as Partial<P>;
 	}
 
 	/**
@@ -38,7 +41,7 @@ export class SearchFetchStrategy extends PostsArchiveFetchStrategy {
 	 * @param url The url to parse
 	 * @param params The params to build the endpoint with
 	 */
-	async fetcher(url: string, params: Partial<PostsArchiveParams>) {
+	async fetcher(url: string, params: Partial<P>) {
 		let seo_json: Record<string, any> = {};
 		let seo: string = '';
 

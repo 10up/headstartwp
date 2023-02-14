@@ -1,0 +1,33 @@
+{
+  "name": "10up/headless-wp-plugin",
+  "description": "10up Headless WordPress API Plugin",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "10up",
+      "email": "info@10up.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.3"
+  },
+  "require-dev": {
+    "10up/phpcs-composer": "dev-master",
+    "giacocorsiglia/wordpress-stubs": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "HeadlessWP\\": "includes/classes/"
+    }
+  },
+  "scripts": {
+    "lint": "phpcs .",
+    "lint-fix": "phpcbf ."
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

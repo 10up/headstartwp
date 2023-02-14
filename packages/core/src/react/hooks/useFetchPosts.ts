@@ -55,9 +55,9 @@ export type PageType = {
 	taxonomy: string;
 };
 
-export interface usePostsResponse extends HookResponse {
+export interface usePostsResponse<T extends PostEntity = PostEntity> extends HookResponse {
 	data?: {
-		posts: PostEntity[];
+		posts: T[];
 		pageInfo: PageInfo;
 		queriedObject: QueriedObject;
 	};
@@ -76,23 +76,21 @@ export interface usePostsResponse extends HookResponse {
  *
  * @category Data Fetching Hooks
  */
-export function useFetchPosts(
-	params: PostsArchiveParams = {},
-	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
+export function useFetchPosts<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+>(
+	params: P | {} = {},
+	options: FetchHookOptions<FetchResponse<T[]>> = {},
 	path = '',
-	fetcher: PostsArchiveFetchStrategy | undefined = undefined,
-): usePostsResponse {
+	fetcher: PostsArchiveFetchStrategy<T, P> | undefined = undefined,
+): usePostsResponse<T> {
 	const {
 		data,
 		error,
 		params: queryParams,
 		isMainQuery,
-	} = useFetch<PostEntity[], PostsArchiveParams>(
-		{ _embed: true, ...params },
-		fetcher ?? useFetchPosts.fetcher(),
-		options,
-		path,
-	);
+	} = useFetch<T[], P>(params, fetcher ?? useFetchPosts.fetcher<T, P>(), options, path);
 	const { sourceUrl } = useSettings();
 
 	const pageType: PageType = {
@@ -142,7 +140,7 @@ export function useFetchPosts(
 
 	if (error || !data) {
 		const fakeData = {
-			posts: makeErrorCatchProxy<PostEntity[]>('posts'),
+			posts: makeErrorCatchProxy<T[]>('posts'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
@@ -169,5 +167,11 @@ export function useFetchPosts(
  */
 // eslint-disable-next-line no-redeclare
 export namespace useFetchPosts {
-	export const fetcher = () => new PostsArchiveFetchStrategy(getWPUrl());
+	export const fetcher = <
+		T extends PostEntity = PostEntity,
+		P extends PostsArchiveParams = PostsArchiveParams,
+	>(
+		sourceUrl?: string,
+		defaultParams?: P,
+	) => new PostsArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl(), defaultParams);
 }

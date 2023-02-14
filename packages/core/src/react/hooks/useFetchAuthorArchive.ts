@@ -19,12 +19,11 @@ import { useFetchPosts } from './useFetchPosts';
  *
  * @returns
  */
-export function useFetchAuthorArchive(
-	params: PostsArchiveParams = {},
-	options: FetchHookOptions<FetchResponse<PostEntity[]>> = {},
-	path = '',
-) {
-	return useFetchPosts(params, options, path, useFetchAuthorArchive.fetcher());
+export function useFetchAuthorArchive<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+>(params: PostEntity | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}, path = '') {
+	return useFetchPosts<T, P>(params, options, path, useFetchAuthorArchive.fetcher<T, P>());
 }
 
 /**
@@ -32,5 +31,11 @@ export function useFetchAuthorArchive(
  */
 // eslint-disable-next-line no-redeclare
 export namespace useFetchAuthorArchive {
-	export const fetcher = () => new AuthorArchiveFetchStrategy(getWPUrl());
+	export const fetcher = <
+		T extends PostEntity = PostEntity,
+		P extends PostsArchiveParams = PostsArchiveParams,
+	>(
+		sourceUrl?: string,
+		defaultParams?: P,
+	) => new AuthorArchiveFetchStrategy<T, P>(sourceUrl ?? getWPUrl(), defaultParams);
 }

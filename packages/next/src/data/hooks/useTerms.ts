@@ -1,7 +1,7 @@
 import { TermEntity, FetchResponse, TaxonomyArchiveParams } from '@10up/headless-core';
 import { FetchHookOptions, useFetchTerms } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
-import { convertToPath } from '../utils';
+import { convertToPath } from '../convertToPath';
 
 /**
  * The useTerms hook. Returns a collection of term entities
@@ -17,10 +17,10 @@ import { convertToPath } from '../utils';
  *
  * @category Data Fetching Hooks
  */
-export function useTerms(
-	params: TaxonomyArchiveParams = {},
-	options: FetchHookOptions<FetchResponse<TermEntity[]>> = {},
-) {
+export function useTerms<
+	T extends TermEntity = TermEntity,
+	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
+>(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
 	const { query } = useRouter();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
 

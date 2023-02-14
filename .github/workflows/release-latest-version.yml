@@ -1,0 +1,77 @@
+name: Release @latest
+
+on:
+  push:
+    branches:
+      - trunk      
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  packages:
+    name: Release
+    runs-on: ubuntu-latest
+    outputs:
+      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install Dependencies
+        run: npm ci
+      - name: Promote from @next
+        run: |
+          [[ -f .changeset/pre.json ]] && { git config user.email "github-actions[bot]@users.noreply.github.com"; git config user.name "github-actions[bot]"; npx changeset pre exit; npx changeset version; git add -u; git commit -m "chore: promote from @next" --no-verify; git push --follow-tags; } || echo 'not in pre mode, no need to exit'
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: npm run publish
+          commit: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  plugin-release:
+    runs-on: ubuntu-latest
+    needs: [packages]
+    # only tun this when there are no changesets to be published
+    if: needs.packages.outputs.hasChangesets == 'false'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Publish to the publishing repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
+        with:
+          source-directory: wp/headless-wp/
+          destination-github-username: '10up'
+          destination-repository-name: 'tenup-headless-wp-plugin'
+          user-email: bot@10up.com
+          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+          target-branch: trunk
+      - name: Checkout the publishing repository
+        uses: actions/checkout@v3
+        with:
+          repository: 10up/tenup-headless-wp-plugin
+          path: 'repo'
+          ref: trunk
+          token: ${{ secrets.API_GITHUB_TOKEN }}
+      - name: Create Github Tag
+        run:  'echo "VERSION=$(grep -Po ''\"version\": \"[0-9\\.]+\"'' repo/package.json | grep -Po ''[0-9\\.]+'')" >> $GITHUB_ENV'
+      - name: Tag
+        run: |
+          cd repo
+          echo "Releasing version $VERSION ..."
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b "release-$VERSION"
+          git tag "$VERSION"
+          git push --tags
