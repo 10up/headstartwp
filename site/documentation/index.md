@@ -5,4 +5,4 @@ sidebar_label: Introduction
 
 # Introduction
 
-This is the main documentation for the headless framework.
+Welcome to the Headless framework documentation site! If you are new, we highly recommend reading all the way through [Getting Started](/docs/getting-started/quick-setup/).
