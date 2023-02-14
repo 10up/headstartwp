@@ -36,7 +36,7 @@
     "config-loader.js",
     "webpack-loader.js"
   ],
-  "sideEffects": "false",
+  "sideEffects": false,
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
@@ -51,7 +51,6 @@
     "@10up/headless-core": "^0.6.0-next.4",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
-    "next-transpile-modules": "^10.0.0",
     "schema-utils": "^4.0.0",
     "swr": "^1.3.0"
   },

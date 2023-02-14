@@ -33,7 +33,7 @@
   "files": [
     "dist"
   ],
-  "sideEffects": "false",
+  "sideEffects": false,
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
