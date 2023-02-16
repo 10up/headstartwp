@@ -21,10 +21,6 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-main > .container {
-  margin-top: 4rem;
-}
-
 .theme-doc-markdown iframe {
   width: 100%;
   aspect-ratio: 16/9;
