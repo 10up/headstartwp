@@ -18,15 +18,15 @@ Make sure to set up the path for installing this as a WordPress Plugin:
 ```json
 {
   "name": "your-project-name",
-  "minimum-stability": "dev",
   "require": {
     "10up/headless-wp-plugin": "^0.5.0",
   },
   "extra": {
     "installer-paths": {
-	  "plugins/{$name}/": [
-	    "type:wordpress-plugin"
-	  ]
+      "plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ]
+    }
   }
 }
 ```
