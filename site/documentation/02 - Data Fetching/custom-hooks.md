@@ -67,7 +67,7 @@ Then when using the custom hook `isbn` will show up as an property of the return
 
 ## Creating your own AppSettings hook
 
-If you're using TypeScript and you are extending the framework's app endpoint and including new fields you can create your own custom hook and specify the the additional TypeScript types.
+If you're using TypeScript and you are extending the framework's app endpoint and including new fields you can create your own custom hook and specify the additional TypeScript types.
 
 ```js title=src/hooks/useMyAppSettings.ts
 import { FetchResponse, AppEntity, AppSettingsStrategy } from '@10up/headless-core';
@@ -89,4 +89,8 @@ useMyAppSettings.fetcher = (sourceUrl?: string) =>
 ```
 
 ## Custom Strategies
+
+Depending on what you're doing you might need to create a completely custom Fetch Strategy. A Fetch Stragety must extend [AbstractFetchStrategy](/api/classes/10up_headless_core.AbstractFetchStrategy/) and it must contain all of the logic needed to fetch the data.
+
+If you feel like to need to create a custom strategy check out the [default Fetch Strategies](https://github.com/10up/headless/tree/develop/packages/core/src/data/strategies) as well as the [hooks](https://github.com/10up/headless/tree/develop/packages/core/src/react/hooks) that implements them.
 
