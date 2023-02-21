@@ -36,6 +36,8 @@ export const singleParams = { postType: ['page', 'post'] };
 ```
 
 ```js title="src/pages/[...path].js"
+import { usePost } from '@10up/headless-next';
+
 const SinglePostsPage = () => {
 	const { loading, error } = usePost(singleParams);
 
@@ -57,7 +59,7 @@ const SinglePostsPage = () => {
 
 At this point, page is not rendered on the server (or at build time) at all. Therefore this route is behaving like a single page application.
 
-The `usePost` hook is one of the framework data-fetching hooks. As its name suggests it fetches a single post for a given set of params. We’re passing one param called “postType", which is telling the hook to fetch the current page from either the “page” or “post” post type. Note that we’re not passing the slug. Passing the slug is optional and if don’t pass the slug, the framework will automatically extract the post/page slug from the URL, if present.
+The `usePost` hook is one of the framework data-fetching hooks. As its name suggests it fetches a single post for a given set of params. We’re passing one param called “postType", which is telling the hook to fetch the current page from either the “page” or “post” post type. Note that we’re not passing the slug. Passing the slug is optional and if you don’t pass the slug, the framework will automatically extract the post/page slug from the URL, if present.
 
 > Extracting the *slug* from the url **only** works when using the `[...path].js` or `[[...path]].js `catch-all route style.
 
@@ -68,7 +70,7 @@ Without server-side data fetching, the experience gets clunky and web vitals are
 The framework data fetching layer is “isomorphic”, you start with client-side data fetching then opt-in for data that must be pre-fetched on the server. There are a few benefits of this approach:
 
 - It’s possible to easily switch between pre-fetched and non-prefetched data
-- You can pre-fetch on the server and re-fetch on the client, for instance, you might want to re-fetch a “most recent posts” block on the homepage.
+- You can pre-fetch on the server and re-fetch on the client, for instance, you might want to re-fetch the "most recent posts" block on the homepage.
 - Mitigate prop-drilling, no need to pass a post props to every component as you can simply call the custom hooks (as long as the params match what’s being queried for).
 
 It is important to note that **you should always pre-fetch on the server the “main query” and/or the “core” data for a page in a headless site**. That’s what we’ll do next! Keep the getStaticPaths commented out and uncomment getStaticProps.
@@ -97,15 +99,15 @@ To enable pre-rendering of this route all we need to do is pre-fetch all of the 
 
 The function responsible for pre-fetching data is `fetchHookData`. It accepts the following params:
 
-- A fetcher strategy that you can get via usePost.fetcher()
+- A fetcher strategy that you can get via `usePost.fetcher()`
 - The next.js context. It is used to extract parameters from the URL among other things.
 - An object containing the params. The params must match the params being used by the hooks, otherwise, there will be a key mismatch and data would be pre-fetched for the wrong set of params.
 
-The resolveBatch function is just a utility function that lets you run multiple promises in parallel and select which ones you don’t want to throw errors for. In this case, we’re ignoring the error potentially thrown by useAppSettings.fetcher() the reason being that this hook requires the Headless WordPress plugin, and therefore disabling that plugin would cause a crash on the site if we don’t ignore error throws by useAppSettings.fetcher(). Ultimately, it is up to your to decide how to handle errors, we just give you the tools to make your job easier.
+The `resolveBatch` function is just a utility function that lets you run multiple promises in parallel and select which ones you don’t want to throw errors for. In this case, we’re ignoring the error potentially thrown by useAppSettings.fetcher() the reason being that this hook requires the Headless WordPress plugin, and therefore disabling that plugin would cause a crash on the site if we don’t ignore error throws by `useAppSettings.fetcher()`. Ultimately, it is up to your to decide how to handle errors, we just give you the tools to make your job easier.
 
-Next, we have the addHookData function which expects an array of “hook data” (i.e pre-fetched data for the custom hooks returned by fetchHookData). The addHookData will simply put the results on the cache and hydrate the custom hook with pre-fetched data. The second params is an object that represents the Next.js props you can return from getStaticProps or getServerSideProps.
+Next, we have the `addHookData` function which expects an array of "hook data" (i.e pre-fetched data for the custom hooks returned by `fetchHookData`). The `addHookData` will simply put the results on the cache and hydrate the custom hook with pre-fetched data. The second params is an object that represents the Next.js props you can return from getStaticProps or getServerSideProps.
 
-If anything fails, we call the handleError function which provides standard error handling such as rendering a 404 page if a page is not found and optionally handling redirects (if redirect strategy is set to 404 in headless.config.js).
+If anything fails, we call the `handleError` function which provides standard error handling such as rendering a 404 page if a page is not found and optionally handling redirects (if redirect strategy is set to 404 in headless.config.js).
 
 Lastly, the getStaticPaths will return an array of paths that should be pre-rendered at build time. This should only be used in conjunction with getStaticProps. Note that the framework doesn’t force getStaticProps you can use getServerSideProps (especially if your hosting doesn’t provide good support for ISR).
 
@@ -113,17 +115,19 @@ One benefit of pre-rendering (a subset of your pages) at build time is that it c
 
 ## Main Query, Queried Object, and SEO handling.
 
-At this point, you might be wondering how the framework handles SEO integration. It does so by using the yoast_head_json object added by the Yoast plugin to every resource in the REST API. It works for both single pages and archive pages. The yoast_head_json from either the main query or the queried object is used to populate the page’s meta tags.
+At this point, you might be wondering how the framework handles SEO integration. It does so by using the `yoast_head` (or `yoast_head_json` object) added by the Yoast plugin to every resource in the REST API. It works for both single pages and archive pages. The yoast_head_json from either the main query or the queried object is used to populate the page’s meta tags.
 
-The “Main Query” is the query that draws parameters from the URL. For example, in src/pages/[...path].js, the usePost is the main query since it extracts parameters from the URL. Therefore the yoast_head_json associated with the resource returned by usePost is used to populate the page’s SEO meta tags. This allows for additional data to be fetched with other custom hooks without messing with the SEO meta tags for the page.
+The "Main Query" is the query that draws parameters from the URL. For example, in `src/pages/[...path].js`, the usePost is the main query since it extracts parameters from the URL. Therefore the yoast_head_json associated with the resource returned by usePost is used to populate the page's SEO meta tags. This allows for additional data to be fetched with other custom hooks without messing with the SEO meta tags for the page.
 
-For instance, you might want to display an array of related posts at the bottom of the single post template, since this doesn’t represent the “main query” of the page it won’t be used to populate the page’s SEO meta tags.
+For instance, you might want to display an array of related posts at the bottom of the single post template, since this doesn’t represent the "main query" of the page it won’t be used to populate the page's SEO meta tags.
 
-There’s also the concept of “queried object” which is very similar to [get_queried_object()](https://developer.wordpress.org/reference/functions/get_queried_object/) function in WP. It returns the resource that is being “queried for”. For instance, in a category archive page, the queried object represents the category that’s being queried for.
+There’s also the concept of "queried object" which is very similar to [get_queried_object()](https://developer.wordpress.org/reference/functions/get_queried_object/) function in WP. It returns the resource that is being "queried for". For instance, in a category archive page, the queried object represents the category that's being queried for.
 
-Let’s take a look at [src/pages/category/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/category/%5B...path%5D.js)
+Let's take a look at [src/pages/category/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/category/%5B...path%5D.js)
 
 ```js title="src/pages/category/[...path].js"
+import { usePosts } from '@10up/headless-next';
+
 const CategoryPage = () => {
 	const { data } = usePosts({ taxonomy: 'category' });
 
@@ -143,9 +147,9 @@ const CategoryPage = () => {
 };
 ```
 
-In this route, we’re fetching a list of posts that belong to the category taxonomy. Note that again, we’re not passing the category slug, it’s automatically inferred by the framework.
+In this route, we're fetching a list of posts that belong to the category taxonomy. Note that again, we're not passing the category slug, it’s automatically inferred by the framework.
 
-Since we’re querying posts that belong to a specific category, data.queriedObject is available with a term object representing the queried category. You will note that this route follows the same “pattern” from src/[...path].js.
+Since we’re querying posts that belong to a specific category, `data.queriedObject` is available with a term object representing the queried category. You will note that this route follows the same "pattern" from `src/[...path].js`.
 
 Take some time to review the other routes, did you spot the pattern?
 
@@ -160,8 +164,8 @@ As you might have noticed, the category route is not handling errors and loading
 
 At 10up, we strongly believe that a great developer experience increases developer productivity! Therefore the framework will try to help you, the developer, as much as it can.
 
-In this case, it “detects” that you’re trying to access something that’s returned by the custom hook but is not yet available. As the error message suggests, you need to either handle the loading/error states or pre-fetch the data on the server. We didn’t see this error on the single post route because loading/error states are being handled on that route!
+In this case, it "detects" that you’re trying to access something that's returned by the custom hook but is not yet available. As the error message suggests, you need to either handle the loading/error states or pre-fetch the data on the server. We didn't see this error on the single post route because loading/error states are being handled on that route!
 
-So as long as you’re pre-fetching data on the server you do not need to handle loading/error states on the client.
+So as long as you're pre-fetching data on the server you do not need to handle loading/error states on the client.
 
 One way to make things more consistent and your code more resilient without directly handling loading states is by using Suspense, however, that is not fully supported in Next.js and the framework itself (but it will!).
