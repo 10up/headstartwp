@@ -20,7 +20,7 @@ import { removeFields } from '../utils/dataFilter';
 import { apiGet } from '../api';
 
 /**
- * The EndpointParams supported by the [[SinglePostFetchStrategy]]
+ * The EndpointParams supported by the {@link SinglePostFetchStrategy}
  */
 export interface PostParams extends EndpointParams {
 	/**
@@ -61,7 +61,7 @@ export interface PostParams extends EndpointParams {
  * - `/2021/10/20/post-name` maps to `{ year: 2021, month: 10, day: 20, slug: 'post-name }`
  * - `/2021/` maps to `{ year: 2021, slug: 'post-name' }`
  *
- * @see [[getParamsFromURL]] to learn about url param mapping
+ * @see {@link getParamsFromURL} to learn about url param mapping
  *
  * @category Data Fetching
  */
@@ -175,6 +175,7 @@ export class SinglePostFetchStrategy<
 	 * Prepares the post response
 	 *
 	 * @param response
+	 * @param params
 	 * @returns
 	 */
 	prepareResponse(response: FetchResponse<T[] | T>, params: Partial<P>): FetchResponse<T> {

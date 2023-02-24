@@ -36,7 +36,7 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  * Checks if the provided node is an valid anchor tag
  *
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
- * the underlying parser used by [[BlocksRenderer]].
+ * the underlying parser used by {@link BlocksRenderer}.
  *
  * ## Usage
  *
@@ -97,7 +97,7 @@ export type isImageTagOptions = {
  * Checks if the provided node is an valid image tag
  *
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
- * the underlying parser used by [[BlocksRenderer]].
+ * the underlying parser used by {@link BlocksRenderer}.
  *
  * ## Usage
  *
@@ -146,7 +146,7 @@ export const youtubeEmbedRegex =
  * Checks if the node is an youtube embed
  *
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
- * the underlying parser used by [[BlocksRenderer]].
+ * the underlying parser used by {@link BlocksRenderer}.
  *
  * ## Usage
  *
@@ -186,7 +186,7 @@ export function isYoutubeEmbed(node: DOMNode) {
  * Checks if the node is an twitter embed
  *
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
- * the underlying parser used by [[BlocksRenderer]].
+ * the underlying parser used by {@link BlocksRenderer}.
  *
  * ## Usage
  *
@@ -236,7 +236,7 @@ export type isBlockOptions = {
  * Tests a node by tagName and/or className
  *
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
- * the underlying parser used by [[BlocksRenderer]].
+ * the underlying parser used by {@link BlocksRenderer}.
  *
  * ## Usage
  *
@@ -291,7 +291,7 @@ export function isBlock(node: DOMNode, _options: isBlockOptions) {
  * this function relies on those attributes to determine if the node is a block.
  *
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
- * the underlying parser used by [[BlocksRenderer]].
+ * the underlying parser used by {@link BlocksRenderer}.
  *
  * ## Usage
  *
