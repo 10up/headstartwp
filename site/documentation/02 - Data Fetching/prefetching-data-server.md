@@ -42,7 +42,7 @@ export async function getStaticProps(context) {
 }
 ```
 
-- The [fetchHookData](/api/modules/10up_headless_next#fetchhookdata) function receives a [strategy](/docs/data-fetching/strategies), the Next.js context object and a object containing the params. The `params` must match the params passed to the hook, hence why it's been moved into a variable outside of the `SinglePostsPage` component.
+- The [fetchHookData](/api/modules/10up_headless_next#fetchhookdata) function receives a [strategy](/api/classes/10up_headless_core.AbstractFetchStrategy/), the Next.js context object and a object containing the params. The `params` must match the params passed to the hook, hence why it's been moved into a variable outside of the `SinglePostsPage` component.
 - The [addHookData](/api/modules/10up_headless_next#addhookdata) receives an array of responses returned by `fetchHookData` and prepares that data to be returned to the page as props. If you need to pass additional props just pass them in the second argument.
 - The [handleError](/api/modules/10up_headless_next#ahandleError) function handles errors such as 404, redirects (when redirects are set to 404) among other things.
 

@@ -11,7 +11,7 @@ import {
 import { removeFields } from '../utils/dataFilter';
 
 /**
- * The endpoint params supported by [[TaxonomyTermsStrategy]]
+ * The endpoint params supported by {@link TaxonomyTermsStrategy}
  */
 export interface TaxonomyArchiveParams extends EndpointParams {
 	/**

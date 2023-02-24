@@ -7,7 +7,7 @@ import { addQueryArgs, getWPUrl } from '../../utils';
 import { PostEntity, QueriedObject } from '../types';
 
 /**
- * The SearchFetchStrategy extends the [[PostsArchiveFetchStrategy]] and does not make use of the
+ * The SearchFetchStrategy extends the {@link PostsArchiveFetchStrategy} and does not make use of the
  * search endpoint. Instead it uses the specified postType endpoint.
  *
  * This strategy supports extracting endpoint params from url E.g:

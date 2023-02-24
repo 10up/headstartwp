@@ -68,13 +68,13 @@ export interface IBlock<T extends IBlockAttributes> extends Omit<BlockProps, 'te
 }
 
 /**
- * The type definition for the [[BlocksRenderer]] component.
+ * The type definition for the {@link BlocksRenderer} component.
  */
 export interface BlockRendererProps {
 	/**
 	 * The HTML string to be parsed.
 	 *
-	 * ```
+	 * ```jsx
 	 * <BlocksRenderer
 	 *		html="<div><p>hello world</p> div content</div>"
 	 * />,
@@ -85,7 +85,7 @@ export interface BlockRendererProps {
 	/**
 	 * The allow list for the parser
 	 *
-	 * ```
+	 * ```jsx
 	 * <BlocksRenderer
 	 *		html="<div><p>hello world</p> div content</div>"
 	 *		ksesAllowList={{ div: [] }}
@@ -97,7 +97,7 @@ export interface BlockRendererProps {
 	/**
 	 * A custom implementation of the sanitize function.
 	 *
-	 * If none is provided it's going to default to [[wpKsesPost]]
+	 * If none is provided it's going to default to {@link wpKsesPost}
 	 */
 	sanitizeFn?: (html: string, ksesAllowList?: IWhiteList) => string;
 
@@ -136,19 +136,27 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: Headl
  * The `BlocksRenderer` component takes in arbitrary html markup and receives a list of react components
  * as children that allows replacing dom nodes with React Components.
  *
- * The html prop is sanitized through [[wpKsesPost]] so it's safe for rendering arbitrary html markup.
+ * The html prop is sanitized through {@link wpKsesPost} so it's safe for rendering arbitrary html markup.
  *
- * The children components must implement the [[BlockProps]] interface
+ * The children components must implement the {@link BlockProps} interface
  *
  * ## Usage
  *
  * ### Usage with the test function
  *
- * {@codeblock ~~/examples/core/BlocksRenderer.tsx#test-function}
+ * ```jsx
+ * <BlocksRenderer html={html}>
+ *  <MyLinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true })} />
+ * </BlocksRenderer>
+ * ```
  *
  * ### Usage with classList and tagName props
  *
- * {@codeblock ~~/examples/core/BlocksRenderer.tsx#props}
+ * ```jsx
+ * <BlocksRenderer html={html}>
+ *   <MyLinkBlock tagName="a" classList="my-special-anchor" />
+ * </BlocksRenderer>
+ * ```
  *
  * @param props Component properties
  *
