@@ -25,10 +25,10 @@ Then run `npm run dev` and open http://localhost:3000 in your browser.
 
 ### Environment Variables
 
-By default the starter project will point to `js1.10up.com`. Either change the 
+By default, the starter project will point to `js1.10up.com`. Either change the 
 `NEXT_PUBLIC_HEADLESS_WP_URL` variable or create a `.env.local` file to override the default env variables.
 
-If you're developing locally and using HTTPS with WordPress and you don't have valid certs, you will need to add `NODE_TLS_REJECT_UNAUTHORIZED=0` as a env variable
+If you're developing locally and using HTTPS with WordPress and you don't have valid certs, you will need to add `NODE_TLS_REJECT_UNAUTHORIZED=0` as an env variable
 
 ```
 NEXT_PUBLIC_HEADLESS_WP_URL=https://wordpress.test
