@@ -1,6 +1,6 @@
 ---
 sidebar_label: Rendering Blocks in React Native
-slug: /gutenberg/rendering-blocks-io-ract-native
+slug: /gutenberg/rendering-blocks-in-react-native
 ---
 
 # Rendering Blocks in React Native
@@ -9,7 +9,7 @@ slug: /gutenberg/rendering-blocks-io-ract-native
 
 The BlocksRenderer component can also be used to render Gutenberg blocks in React Native, by rendering blocks to native components without using a webview.
 
-The examples on this section are part of a demo react native expo hosted on the [headless-expo](https://github.com/nicholasio/headless-expo) repo. This Demo app uses expo and the headless framework to fetch a page and render Gutenberg blocks as react-native components.
+The examples in this section are part of a demo react native expo hosted on the [headless-expo](https://github.com/nicholasio/headless-expo) repo. This Demo app uses expo and the headless framework to fetch a page and render Gutenberg blocks as react-native components.
 
 All of the code for this demo app lives in [App.js](https://github.com/nicholasio/headless-expo/blob/trunk/App.js). Since the demo app is using the data-fetching hooks from the core headless framework package, we first need to wrap the App with the SettingsProvider component.
 
@@ -61,7 +61,7 @@ function SinglePostComponent() {
 }
 ```
 
-useFetchPost is the core implementation of the usePost. The next.js hooks are built on top of the core data-fetching hooks. The core data-fetching hooks can be used in any react environment. In this example, we’re fetching a page, with a slug called “react-native-test”.
+useFetchPost is the core implementation of the usePost. The next.js hooks are built on top of the core data-fetching hooks. The core data-fetching hooks can be used in any react environment. In this example, we’re fetching a page, with a slug called "react-native-test".
 
 This is all we need to have a React Native app that fetches data from a WP instance. The next step is building out the Block components.
 
@@ -108,7 +108,7 @@ EmptyBlock.defaultProps = {
 
 The goal of the EmptyBlock is to catch all non-allowed blocks and skip rendering them at all. Additionally, it also catches orphan text nodes that only contain whitespaces (this would catch things carriage returns, spacing around tags, etc…)
 
-Note that we’re using defaultProps to provide the test function. This has the same end result of passing the test function as a prop directly.
+Note that we’re using defaultProps to provide the test function. This has the same result of passing the test function as a prop directly.
 
 The next step is implementing a RawText component.
 
@@ -137,7 +137,7 @@ RawText.defaultProps = {
 };
 ```
 
-The goal here is to trim all text nodes. This is mostly to clean up text nodes. Therefore, we catch any non-orphans and non-empty text field nodes and replace them with a “trimmed” version.
+The goal here is to trim all text nodes. This is mostly to clean up text nodes. Therefore, we catch any non-orphans and non-empty text field nodes and replace them with a "trimmed" version.
 
 Now we have ensured that we don’t have lingering text nodes and that valid text node does not contain additional whitespaces at the beginning and end.
 
@@ -153,11 +153,11 @@ const RNParagraphBlock = ({ children }) => {
 };
 ```
 
-Note that this is essentially replacing the “p” tag with a native “Text” component. “children” in this context represent text nodes that are processed via the “RawText” block. If we didn’t render children here, RawText block would never be executed for this paragraph. It’s a recursive logic!
+Note that this is essentially replacing the "p" tag with a native "Text" component. "children" in this context represent text nodes that are processed via the "RawText" block. If we didn’t render children here, RawText block would never be executed for this paragraph. It’s recursive logic!
 
 ## Heading Block
 
-The heading block is very similar, we leverage the “level” prop that’s automatically passed by the HeadingBlock component. We use it to create a dynamic class name that contains the style for the heading.
+The heading block is very similar, we leverage the "level" prop that’s automatically passed by the HeadingBlock component. We use it to create a dynamic class name that contains the style for the heading.
 
 ```js
 import { /* ... */, Text} from "react-native";
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
 
 ## Image Block
 
-The last block we’ll implement is the image block. It is a bit more complex but it first captures the image caption by looping through the DOM node children until it finds a “figcaption” Then it uses the “height”, “width” and “src” props that are automatically passed by the ImageBlock component to render the image using the native “Image” component.
+The last block we’ll implement is the image block. It is a bit more complex but it first captures the image caption by looping through the DOM node children until it finds a "figcaption" Then it uses the "height", "width" and "src" props that are automatically passed by the ImageBlock component to render the image using the native "Image" component.
 
 ```js
 import { /* ... */, Image, Text} from "react-native";

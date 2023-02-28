@@ -7,7 +7,7 @@ sidebar_position: 2
 
 > The [usePosts](/api/modules/10up_headless_next#useposts) hook is the Next.js binding for the [useFetchPosts](/api/namespaces/10up_headless_core.react#usefetchposts).
 
-The `usePosts` hook fetches a collection of WordPress posts from a registered post type. It's basic usage is very simple.
+The `usePosts` hook fetches a collection of WordPress posts from a registered post type. Its basic usage is very simple.
 
 ## Basic Usage
 

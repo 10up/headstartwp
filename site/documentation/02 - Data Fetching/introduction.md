@@ -6,9 +6,9 @@ sidebar_position: 0
 
 # Introduction
 
-The Headless Framework exposes several custom react hooks that provides a seamless data-fetching experience with WordPress. Those hooks are built to be "isomorphic" i.e, can be executed either on the browser or on the server (e.g: Node.js).
+The Headless Framework exposes several customs react hooks that provide a seamless data-fetching experience with WordPress. Those hooks are built to be "isomorphic" i.e can be executed either on the browser or on the server (e.g: Node.js).
 
-The data-fetching logic itself is abstracted by [strategies](/api/classes/10up_headless_core.AbstractFetchStrategy/). The custom react hooks are powered by [useSwr](https://swr.vercel.app/).
+The data-fetching logic itself is abstracted by [strategies](/api/classes/10up_headless_core.AbstractFetchStrategy/). The custom React hooks are powered by [useSwr](https://swr.vercel.app/).
 
 > With Next.js `app` directory support added in Next.js 13, we will be providing special hooks that will work well with Suspense and Streaming. At the moment, we do not recommend using the existing custom hooks in the `app` directory.
 
@@ -18,11 +18,11 @@ The `@10up/headless-core/react` package export exposes the react hooks implement
 
 ## Next.js "bindings" 
 
-Next.js is the main meta-framework supported by 10up's Headless Framework, therefore we provide special bindings that makes using the framework a breeze.
+Next.js is the main meta-framework supported by 10up's Headless Framework, therefore we provide special bindings that make using the framework a breeze.
 
 The Next.js bindings are exposed by the `@10up/headless-next` package.
 
-The main difference is that the Next.js binding will automatically extract URL segments into request params (i.e extracting post name from the URL automatically) when used in conjuction with the "path" catch-all pattern like `src/page/[...path.js]`.
+The main difference is that the Next.js binding will automatically extract URL segments into request params (i.e extracting post name from the URL automatically) when used in conjunction with the "path" catch-all pattern like `src/page/[...path.js]`.
 
 The following example uses the `useFetchPost` to manually fetch a page with the `about` slug.
 
@@ -40,7 +40,7 @@ const Page = () => {
 };
 ```
 
-You could ommit the `slug` param by specifing the current path of the page and it will parse the path and extract matched params following the WordPress pretty permalinks convention.
+You could omit the `slug` param by specifying the current path of the page and it will parse the path and extract matched params following the WordPress pretty permalinks convention.
 
 ```js
 usePost({ post_type: 'page' }, {}, '/about' );

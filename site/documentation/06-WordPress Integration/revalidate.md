@@ -5,11 +5,11 @@ slug: /wordpress-integration/revalidate
 
 # On-demand ISR revalidation
 
-[On-demand Revalidation](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation) is the ability to revalidate static pages programatically from the CMS.
+[On-demand Revalidation](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation) is the ability to revalidate static pages programmatically from the CMS.
 
-Without On-demand ISR revalidation users will need to wait until the time set in the `revalidate` prop has passed before they can see a updated version of that page. This means that if a `revalidate` is set to 5min, users would potentially have to wait up to 5min before they can see new content.
+Without On-demand ISR revalidation users will need to wait until the time set in the `revalidate` prop has passed before they can see an updated version of that page. This means that if a `revalidate` is set to 5min, users would potentially have to wait up to 5min before they can see new content.
 
-It is preffered to have the CMS ask the Next.js app to revalidate those pages when possible. This can be done via "On-Demand Revalidation".
+It is preferred to have the CMS ask the Next.js app to revalidate those pages when possible. This can be done via "On-Demand Revalidation".
 
 ## Usage
 
@@ -34,7 +34,7 @@ $revalidate_endpoint = apply_filters(
 
 ### Revalidate Endpoint
 
-Simply create an Next.js API endpoint that uses the `revalidateHandler` provided by the framework. 
+Simply create a Next.js API endpoint that uses the `revalidateHandler` provided by the framework. 
 
 :::caution
 If you changed the default value of the endpoint path via the `tenup_headless_isr_revalidate_endpoint` filter, make sure you change it in the Next.js app as well. 
