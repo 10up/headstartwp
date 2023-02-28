@@ -179,6 +179,9 @@ const cssAllowList = {
 	overflow: true,
 	'vertical-align': true,
 	display: true,
+
+	'list-style': true,
+	'list-style-image': true,
 };
 
 const commonAttributes = [
