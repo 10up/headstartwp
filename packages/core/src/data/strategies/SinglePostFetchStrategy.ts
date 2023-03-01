@@ -50,6 +50,16 @@ export interface PostParams extends EndpointParams {
 	 * The authToken, required to fetch revisions or non-published posts
 	 */
 	authToken?: string;
+
+	/**
+	 * Whether post.link should be checked against current path
+	 */
+	matchCurrentPath?: boolean;
+
+	/**
+	 * If set, this is the path that will be checked if `slug` is set or `matchCurrentPath` is set to true.
+	 */
+	fullPath?: string;
 }
 
 /**
@@ -87,13 +97,14 @@ export class SinglePostFetchStrategy<
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
-		this.path = path;
-
-		// if slug is passed, it is being manually overriden then don't check current path
-		this.shoudCheckCurrentPathAgainstPostLink = typeof nonUrlParams.slug === 'undefined';
+		this.path = nonUrlParams.fullPath ?? path;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
+
+		// if slug is passed, it is being manually overriden then don't check current path
+		this.shoudCheckCurrentPathAgainstPostLink =
+			nonUrlParams.matchCurrentPath ?? typeof nonUrlParams.slug === 'undefined';
 
 		// TODO: figure typings for this
 		return params as Partial<P>;
@@ -106,7 +117,8 @@ export class SinglePostFetchStrategy<
 	 */
 	buildEndpointURL(params: P) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { id, authToken, revision, postType, ...endpointParams } = params;
+		const { id, authToken, revision, postType, matchCurrentPath, fullPath, ...endpointParams } =
+			params;
 
 		if (params.postType) {
 			// if postType is a array of slugs, start off with the first post type
