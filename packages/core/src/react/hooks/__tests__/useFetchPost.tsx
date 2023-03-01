@@ -228,6 +228,31 @@ describe('useFetchPost', () => {
 			);
 		});
 	});
+
+	it('matches post.link with fullPath when set', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPost(
+					{
+						// force post path mapping against this path
+						fullPath:
+							'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto',
+					},
+					{},
+					'/modi-qui-dignissimos-sed-assumenda-sint-iusto',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.post.slug).toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			);
+		});
+	});
 });
 
 describe('useFetchPost types', () => {

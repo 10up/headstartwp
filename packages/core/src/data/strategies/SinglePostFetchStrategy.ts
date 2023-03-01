@@ -55,6 +55,11 @@ export interface PostParams extends EndpointParams {
 	 * Whether post.link should be checked against current path
 	 */
 	matchCurrentPath?: boolean;
+
+	/**
+	 * If set, this is the path that will be checked if `slug` is set or `matchCurrentPath` is set to true.
+	 */
+	fullPath?: string;
 }
 
 /**
@@ -92,7 +97,7 @@ export class SinglePostFetchStrategy<
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
-		this.path = path;
+		this.path = nonUrlParams.fullPath ?? path;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
@@ -112,7 +117,8 @@ export class SinglePostFetchStrategy<
 	 */
 	buildEndpointURL(params: P) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { id, authToken, revision, postType, matchCurrentPath, ...endpointParams } = params;
+		const { id, authToken, revision, postType, matchCurrentPath, fullPath, ...endpointParams } =
+			params;
 
 		if (params.postType) {
 			// if postType is a array of slugs, start off with the first post type

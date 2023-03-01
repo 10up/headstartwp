@@ -38,10 +38,10 @@ const PostPage = () => {
 #### Post path matching
 
 :::caution
-The behavior described here was implemented in version **0.5.x** of the framework.
+The behavior described here was implemented in version **0.5.x** of the framework and can be disabled by passing `matchCurrentPath: false` to `usePost` (and `fetchHookData` for server-side data fetching).
 :::caution
 
-The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsuported permalinks. 
+The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsupported permalinks. 
 
 :::caution
 The framework requires that the permalink structure set on the backend matches the URL structure being used on the front-end. 
@@ -103,7 +103,7 @@ const PostOrPage = () => {
 
 ## Fetching from a custom post type
 
-In order to fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
+To fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
 
 ```js title="src/pages/book/[...path].js"
 import { usePost } from '@10up/headless-next';
