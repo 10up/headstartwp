@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.6.1
+
+### Patch Changes
+
+- 6282580: Introducing `matchCurrentPath` flag and `fullPath` option to usePost hook for better control over post path mapping
+
 ## 0.6.1-next.0
 
 ### Patch Changes
