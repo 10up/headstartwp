@@ -11,22 +11,22 @@ The WordPress plugin currently lives in a private Github Repo. Make sure you hav
 
 ## Composer Installation (Recommended)
 
-AThe only method for installing this plugin is via composer: `composer require 10up/headless-wp-plugin`.
+The only method for installing this plugin is via composer: `composer require 10up/headless-wp-plugin`.
 
 Make sure to set up the path for installing this as a WordPress Plugin:
 
 ```json
 {
   "name": "your-project-name",
-  "minimum-stability": "dev",
   "require": {
     "10up/headless-wp-plugin": "^0.5.0",
   },
   "extra": {
     "installer-paths": {
-	  "plugins/{$name}/": [
-	    "type:wordpress-plugin"
-	  ]
+      "plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ]
+    }
   }
 }
 ```

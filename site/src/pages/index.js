@@ -7,6 +7,7 @@ import SearchBar from '@theme/SearchBar';
 
 import guideSketch from '@site/static/img/guides-sketch.png';
 import referenceSketch from '@site/static/img/reference-sketch.png';
+import principlesSketch from '@site/static/img/priciples-sketch.png';
 
 import styles from './index.module.css';
 
@@ -62,24 +63,24 @@ export default function Home() {
 						</Link>
 					</article>
 
-					{/* <article className={`${styles.gridItem} homeGrid__item`}>
-						<Link to="/training">
+					<article className={`${styles.gridItem} homeGrid__item`}>
+						<Link to="/philosophy">
 							<img
-								src={trainingSketch}
-								alt="Hand drawn lifting weights"
+								src={principlesSketch}
+								alt="Hand drawn light bulb"
 								width={320}
 								height={153}
 							/>
 						</Link>
-						<h2>Tutorial</h2>
+						<h2>Framework Principles</h2>
 						<p>
-							This section contains a series of articles that teaches various aspects
-							of the framework in a step-by-step fashion.
+							If you are curious about why some of decisions behind the framework were
+							made, read the guiding principles for 10up Headless Framework.
 						</p>
-						<Link className={styles.gridLink} to="/training">
-							I am ready!
+						<Link className={styles.gridLink} to="/philosophy">
+							Read
 						</Link>
-	</article>  */}
+					</article>
 				</section>
 
 				<hr />

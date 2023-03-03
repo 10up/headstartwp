@@ -5,11 +5,11 @@ slug: /wordpress-integration/previews
 
 # Previews
 
-The preview feature requires the 10up's headless WordPress plugin installed. The preview functionality is built on top of [Next.js preview API](https://nextjs.org/docs/advanced-features/preview-mode). It uses a short-lived JWT token generated on the WordPress side that can only be used for previewing, this means it is not neecessary to set up a hardcoded secret between WP and Next.js.
+The preview feature requires the 10up's headless WordPress plugin installed. The preview functionality is built on top of [Next.js preview API](https://nextjs.org/docs/advanced-features/preview-mode). It uses a short-lived JWT token generated on the WordPress side that can only be used for previewing, this means it is not necessary to set up a hardcoded secret between WP and Next.js.
 
-In order for previews to work, make sure the frontend URL is entered in WP settings as per instructions in [Installing WordPress Plugin](/docs/getting-started/installing-wordpress-plugin).
+For previews to work, make sure the frontend URL is entered in WP settings as per instructions in [Installing WordPress Plugin](/docs/getting-started/installing-wordpress-plugin).
 
-The logic for generated the JWT token and redirecting to the preview endpoint can be seen [here](https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/includes/classes/Preview/preview.php).
+The logic for generating the JWT token and redirecting to the preview endpoint can be seen [here](https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/includes/classes/Preview/preview.php).
 
 ```php
 $token = PreviewToken::generate(
@@ -38,8 +38,8 @@ Below is a summary of the preview workflow.
 - The token encodes the post type and post id.
 - A preview URL is generated assuming the preview endpoint lives at `/api/preview`
 - WordPress redirects to the preview endpoint
-- The token is sent alongside the post_type, post_id and a a boolean indicating whether the post being previewed is a revision or not. 
-- The token is verify against the parameters and the token is used to fetch the post's draft/revision content.
+- The token is sent alongside the post_type, post_id and a boolean indicating whether the post being previewed is a revision or not. 
+- The token is verified against the parameters and the token is used to fetch the post's draft/revision content.
 
 
 
@@ -64,13 +64,68 @@ export default async function handler(req, res) {
 }
 ```
 
-That's all that is needed in order to enable WordPress preview.
+That's all that is needed to enable WordPress preview.
 
-While previewing the URL will not reflect the actual URL of the post, but instead it will contain the post id and a `-preview` suffix.
+While previewing the URL will not reflect the actual URL of the post, but instead, it will contain the post id and a `-preview` suffix.
+
+### `previewHandler` options
+
+#### `preparePreviewData`
+
+This allows you to alter the preview data object before it is stored by Next.js (i.e before calling `res.setPreviewData`). You can use this if you need to add additional fields to preview data object.
+
+```ts
+export default async function handler(req, res) {
+	return previewHandler(req, res, {
+		preparePreviewData(req, res, post, previewData) {
+			return { ...previewData, name: post.name };
+		},
+	});
+}
+```
+
+`name` would now be avaliable in the context object of `getServerSideProps` and `getStaticProps` (`ctx.previewData`);
+
+#### `onRedirect`
+
+The `onRedirect` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts are `/%category%/%postname%/` you could create a `src/pages/[category]/[...path.js]` route to handle single post. However once you do that the `previewHandler` doesn't know how to redirect to that URL and as such you will have to provide your own redirect handling.
+
+:::caution
+When handling redirects yourself, make sure to always append `-preview=true` to the end of the redirected URL.
+:::caution
+
+```ts
+import { getPostTerms } from '@10up/headless-core';
+import { previewHandler } from '@10up/headless-next';
+
+export default async function handler(req, res) {
+	return previewHandler(req, res, {
+		// add categorySlug and post slug to preview data
+		preparePreviewData(req, res, post, previewData) {
+			const terms = getPostTerms(post);
+			if (Array.isArray(terms?.category) && terms.category.length > 0) {
+				const [category] = terms.category;
+
+				return { ...previewData, categorySlug: category.slug, slug: post.slug };
+			}
+			return { ...previewData };
+		},
+		onRedirect(req, res, previewData, defaultRedirect) {
+			const { postType, id, slug, categorySlug } = previewData;
+
+			if (postType === 'post' && typeof categorySlug === 'string') {
+				return res.redirect(`/${categorySlug}/${id}/${slug || id}-preview=true`);
+			}
+
+			return defaultRedirect();
+		},
+	});
+}
+```
 
 ## FAQ
 
-**After a while the preview URL stops working**
+**After a while, the preview URL stops working**
 
 The JWT token expires after 5 min by default, after this period, open another preview window from WordPress to preview the post.
 

@@ -5,7 +5,24 @@ module.exports = {
 	rules: {
 		'jsdoc/require-returns-type': 0,
 		'jsdoc/require-returns': 0,
-		'jsdoc/require-param': 0,
+		'jsdoc/require-param': [
+			'warn',
+			{
+				checkDestructured: false,
+			},
+		],
+		'jsdoc/check-tag-names': [
+			'warn',
+			{
+				definedTags: ['category'],
+			},
+		],
+		'jsdoc/check-param-names': [
+			'warn',
+			{
+				checkDestructured: false,
+			},
+		],
 		'react/function-component-definition': 0,
 		'react/require-default-props': 0,
 		'jest/expect-expect': [

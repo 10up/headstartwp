@@ -20,7 +20,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeUndefined();
 			expect(result.current.loading).toBe(false);
 			expect(() => result.current.data).not.toThrow();
@@ -33,7 +33,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.posts.length).toBe(2);
 			expect(result.current.data?.queriedObject.search?.subtype).toBe('post');
 			expect(result.current.data?.queriedObject.search?.searchedValue).toBe('ipsum');
@@ -45,7 +45,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.search?.searchedValue).toBe('ipsum');
 			expect(result.current.isMainQuery).toBe(true);
@@ -55,7 +55,7 @@ describe('useFetchPosts', () => {
 			wrapper,
 		}));
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.search?.searchedValue).toBe('lorem');
 			expect(result.current.isMainQuery).toBe(false);

@@ -7,7 +7,7 @@ sidebar_position: 1
 
 > The [usePost](/api/modules/10up_headless_next#usepost) hook is the Next.js binding for the [useFetchPost](/api/namespaces/10up_headless_core.react#usefetchpost).
 
-The `usePost` hook fetches a single WordPress post from a registered post type. It's basic usage is very simple.
+The `usePost` hook fetches a single WordPress post from a registered post type. Its basic usage is very simple.
 
 ## Basic Usage
 
@@ -38,10 +38,10 @@ const PostPage = () => {
 #### Post path matching
 
 :::caution
-The behavior described here was implemented in version **0.5.x** of the framework.
+The behavior described here was implemented in version **0.5.x** of the framework and can be disabled by passing `matchCurrentPath: false` to `usePost` (and `fetchHookData` for server-side data fetching).
 :::caution
 
-The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsuported permalinks. 
+The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsupported permalinks. 
 
 :::caution
 The framework requires that the permalink structure set on the backend matches the URL structure being used on the front-end. 
@@ -103,7 +103,7 @@ const PostOrPage = () => {
 
 ## Fetching from a custom post type
 
-In order to fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
+To fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
 
 ```js title="src/pages/book/[...path].js"
 import { usePost } from '@10up/headless-next';

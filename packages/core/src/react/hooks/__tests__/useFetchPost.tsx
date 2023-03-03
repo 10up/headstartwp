@@ -23,8 +23,7 @@ describe('useFetchPost', () => {
 		);
 		expect(result.current.loading).toBe(true);
 
-		// await waitForNextUpdate();
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeUndefined();
 			expect(result.current.loading).toBe(false);
 			expect(() => result.current.data).not.toThrow();
@@ -37,7 +36,7 @@ describe('useFetchPost', () => {
 			{ wrapper },
 		);
 
-		waitFor(() =>
+		await waitFor(() =>
 			expect(result.current.data?.post.slug).toBe(
 				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
 			),
@@ -49,7 +48,7 @@ describe('useFetchPost', () => {
 			wrapper,
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.data?.post.id).toBe(64);
 			expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
 		});
@@ -61,7 +60,7 @@ describe('useFetchPost', () => {
 			wrapper,
 		});
 
-		waitFor(() => expect(result.current.error).toBeTruthy());
+		await waitFor(() => expect(result.current.error).toBeTruthy());
 	});
 
 	it('fetches draft posts with authToken', async () => {
@@ -73,7 +72,7 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.post.id).toBe(57);
 		});
@@ -84,7 +83,7 @@ describe('useFetchPost', () => {
 			wrapper,
 		});
 
-		waitFor(() => expect(result.current.error).toBeTruthy());
+		await waitFor(() => expect(result.current.error).toBeTruthy());
 	});
 
 	it('fetches revisions with authToken', async () => {
@@ -95,7 +94,7 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.post.id).toBe(64);
 			expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
@@ -165,7 +164,7 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.post.slug).toBe(
 				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
@@ -180,12 +179,78 @@ describe('useFetchPost', () => {
 			},
 		);
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(secondResult.current.error).toBeFalsy();
 			expect(secondResult.current.data?.post.slug).toBe(
 				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
 			);
 			expect(secondResult.current.isMainQuery).toBe(false);
+		});
+	});
+
+	it('matches post.link with current path when matchCurrentPath is set', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPost(
+					{
+						slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+						matchCurrentPath: true,
+					},
+					{},
+					'/another-path',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeTruthy();
+		});
+
+		const { result: secondResult } = renderHook(
+			() =>
+				useFetchPost(
+					{
+						slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+					},
+					{},
+					'/another-path',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(secondResult.current.data?.post.slug).toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			);
+		});
+	});
+
+	it('matches post.link with fullPath when set', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPost(
+					{
+						// force post path mapping against this path
+						fullPath:
+							'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto',
+					},
+					{},
+					'/modi-qui-dignissimos-sed-assumenda-sint-iusto',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.post.slug).toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			);
 		});
 	});
 });

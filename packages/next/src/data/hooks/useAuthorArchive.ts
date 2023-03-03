@@ -22,19 +22,6 @@ import { convertToPath } from '../convertToPath';
  * - Pagination (/page/2)
  * - Custom Taxonomy (/author//taxonomy/term-name)
  *
- * ## Usage
- *
- * ### Fetching an author archive
- * {@codeblock ~~/examples/next/useAuthorArchive.tsx#list-of-post}
- *
- * ### Fetching an author archive of pages
- *
- * {@codeblock ~~/examples/next/useAuthorArchive.tsx#list-of-pages}
- *
- * ### Server-Side-Rendering or Static-Site-Generation
- *
- * {@codeblock ~~/examples/next/useAuthorArchive.tsx#ssr-ssg}
- *
  * @param params  The parameters accepted by the hook
  * @param options Options for the SWR configuration
  *

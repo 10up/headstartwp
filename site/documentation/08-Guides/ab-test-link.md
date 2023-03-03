@@ -97,7 +97,7 @@ export const Link = ({ href, rel, children }) => {
 };
 ```
 
-The changes to this component limit to checking the query object from the router and if the navigation param is equal to “spa” or undefined, in which case it will default to use Next.js Link component. Otherwise, it defaults to an MPA by simply rendering a regular anchor tag.
+The changes to this component limit to checking the query object from the router and if the navigation param is equal to “spa” or undefined, in which case it will default to use the Next.js Link component. Otherwise, it defaults to an MPA by simply rendering a regular anchor tag.
 
 Note that the link is converted to a relative link to remove the WordPress domain.
 

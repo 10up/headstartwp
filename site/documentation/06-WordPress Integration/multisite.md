@@ -5,13 +5,13 @@ slug: /wordpress-integration/multisite
 
 # Multisite
 
-10up's headless framework has built in support WordPress multisite via the `sites` property in the `headless.config.js` file. This transform the Next.js app in a multi-tenant app.
+10up's headless framework has built-in support for WordPress multisite via the `sites` property in the `headless.config.js` file. This transforms the Next.js app into a multi-tenant app.
 
 The `sites` option allows specifying as many sites you want to connect to your app. Each site must have a `sourceUrl` and a `hostUrl`. The `hostUrl` will be used to match the current site and `sourceUrl` indicates where content should be sourced from.
 
-This feature does not require that all sites belong to the same multisite, you're free to connect the Next.js app to completely separate WordPress instance, as long as those instance implements what you Next.js app needs.
+This feature does not require that all sites belong to the same multisite, you're free to connect the Next.js app to a completely separate WordPress instance, as long as that instance implements what your Next.js app needs.
 
-Take a look at the [multisite demo project](https://github.com/10up/headless/tree/develop/projects/wp-multisite-nextjs) to familiarize yourself with the set up.
+Take a look at the [multisite demo project](https://github.com/10up/headless/tree/develop/projects/wp-multisite-nextjs) to familiarize yourself with the set-up.
 
 ## Usage
 
@@ -43,7 +43,7 @@ module.exports = {
 };
 ```
 
-In the example above we specifying that all sites must use the WordPress plugin and that the redirect strategy should be `404`. Then we're declaring two sites which will respond via the http://site1.localhost:3001 and http://site2.localhost:3001 URLs. The sourceUrl for each comes from a env variable.
+In the example above we specify that all sites must use the WordPress plugin and that the redirect strategy should be `404`. Then we're declaring two sites that will respond via the http://site1.localhost:3001 and http://site2.localhost:3001 URLs. The `sourceUrl` for each comes from an env variable.
 
 This means that when we visit http://site1.localhost:3001, the source URL specified by `NEXT_PUBLIC_HEADLESS_WP_URL` will be used.
 
@@ -96,23 +96,23 @@ _document.js
 api/
 ```
 
-With this setup, the frameworks middleware will rewrite all requests to `_sites/hostName`. All of the data-fetching hooks will fetch data to the appropriate WordPress instance.
+With this setup, the framework's middleware will rewrite all requests to `_sites/hostName`. All of the data-fetching hooks will fetch data to the appropriate WordPress instance.
 
-This allows you to power all of you sites with the same codebase. This is very useful if you're building sites that supports internationalization or if the only thing that changes across sites is the content.
+This allows you to power all of your sites with the same codebase. This is very useful if you're building sites that support internationalization or if the only thing that changes across sites is the content.
 
 ### Creating Routes that target a specific site
 
-It is possible to create routes specific to each site. To do this simple create a folder for that particular site eg: `src/pages/_sites/mysite.com/index.js`. Then when a user visits `mysite.com` the `index.js` route file will be used instead of the one in `[site]/index.js`.
+It is possible to create routes specific to each site. To do this simply create a folder for that particular site eg: `src/pages/_sites/mysite.com/index.js`. Then when a user visits `mysite.com` the `index.js` route file will be used instead of the one in `[site]/index.js`.
 
-This provides a powerfull way of powering complex multi-tenant apps that shares codebase but render completely different pages and layouts.
+This provides a powerful way of powering complex multi-tenant apps that shares a codebase but render completely different pages and layouts.
 
 ## Known Issues
 
 **404.js and 500.js are unable to know the current site**
 
-At the moment, there's a limitation in Next.js that doesn't allow the `404.js` and `500.js` pages to know the current site. These two files **must** be in the root of the pages directory and and we can't rewrite them. Additionally, they only supports `getStaticProps` which means there's no way to know which site you're on in case you need to fetch data specific for that site.
+At the moment, there's a limitation in Next.js that doesn't allow the `404.js` and `500.js` pages to know the current site. These two files **must** be in the root of the pages directory and we can't rewrite them. Additionally, they only support `getStaticProps` which means there's no way to know which site you're on in case you need to fetch data specific for that site.
 
-If you need to fetch data in `404.js` or `500.js` there's one workaround but it rely on client-side data-fetching. In `_app.js` do the following:
+If you need to fetch data in `404.js` or `500.js` there's one workaround but it relies on client-side data-fetching. In `_app.js` do the following:
 
 ```javascript
 import { getSiteByHost } from '@10up/headless-core';

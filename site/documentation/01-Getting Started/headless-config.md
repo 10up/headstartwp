@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # Headless Config
 
-The `headless.config.js` file contains several config options for 10up's headless framework. This file should export a object of type [HeadlessConfig](/api/modules/10up_headless_core/#headlessconfig).
+The `headless.config.js` file contains several config options for 10up's headless framework. This file should export an object of type [HeadlessConfig](/api/modules/10up_headless_core/#headlessconfig).
 
 Here's a sample config file
 
@@ -33,7 +33,7 @@ The `hostUrl` option should contain the value where the frontend app lives. This
 
 ## host
 
-The `host` option is automatically inferrered if `hostUrl` is set. You probably don't need to se this option by yourself. The `host` value is used by the multisite feature to match the current site to a site config.
+The `host` option is automatically inferred if `hostUrl` is set. You probably don't need to set this option by yourself. The `host` value is used by the multisite feature to match the current site to a site config.
 
 ## customPostTypes
 
@@ -99,7 +99,7 @@ usePosts({ postType:'book', genre: 'action' perPage: 10 });
 useTerms({ taxonomy: 'genre' } );
 ```
 
-Additionally if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
+Additionally, if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
 
 ```js title=src/pages/books/[[...path]].js
 import { usePosts} from '@10up/headless-next';
@@ -138,6 +138,6 @@ The code snippet above does not implement pre-fetching, which you probably want 
 
 ## redirectStrategy
 
-This option control how redirects are handlded. There are 2 supported methods of handling redirects.
+This option control how redirects are handled. There are 2 supported methods of handling redirects.
 - 404: If a route 404, the framework will check to see if there's a redirect for that page in WP. If so it performs the redirect. This is the recommended option.
-- always: When this option is set, the framework will **always** check for redirects prior to rendering any page. Using this option carefully as it will impact perfomance.
+- always: When this option is set, the framework will **always** check for redirects before rendering any page. Using this option carefully since it will impact performance.

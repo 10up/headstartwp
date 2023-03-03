@@ -3,7 +3,7 @@ import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractF
 import { endpoints } from '../utils';
 
 /**
- * The EndpointParams supported by the [[VerifyTokenFetchStrategy]]
+ * The EndpointParams supported by the {@link VerifyTokenFetchStrategy}
  */
 export interface VerifyTokenParams extends EndpointParams {
 	authToken?: string;

@@ -25,7 +25,7 @@ import { removeFields } from '../utils/dataFilter';
 const authorsEndpoint = '/wp-json/wp/v2/users';
 
 /**
- * The EndpointParams supported by the [[PostsArchiveFetchStrategy]]
+ * The EndpointParams supported by the {@link PostsArchiveFetchStrategy}
  */
 export interface PostsArchiveParams extends EndpointParams {
 	/**
@@ -191,7 +191,7 @@ export interface PostsArchiveParams extends EndpointParams {
  * - `/page/2/` maps to `{ page: 2 }`
  * - `/genre/genre-name/page/2` maps to `{ genre: 'genre-name', page: 2 }` if a `genre` taxonomy is defined in `headless.config.js`
  *
- * @see [[getParamsFromURL]] to learn about url param mapping
+ * @see {@link getParamsFromURL} to learn about url param mapping
  *
  * @category Data Fetching
  */
@@ -213,6 +213,7 @@ export class PostsArchiveFetchStrategy<
 	 * It also takes into account the custom taxonomies specified in `headless.config.js`
 	 *
 	 * @param path The URL path to extract params from
+	 * @param params
 	 */
 	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
 		const matchers = [...postsMatchers];

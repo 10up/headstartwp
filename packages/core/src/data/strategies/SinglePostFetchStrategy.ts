@@ -20,7 +20,7 @@ import { removeFields } from '../utils/dataFilter';
 import { apiGet } from '../api';
 
 /**
- * The EndpointParams supported by the [[SinglePostFetchStrategy]]
+ * The EndpointParams supported by the {@link SinglePostFetchStrategy}
  */
 export interface PostParams extends EndpointParams {
 	/**
@@ -50,6 +50,16 @@ export interface PostParams extends EndpointParams {
 	 * The authToken, required to fetch revisions or non-published posts
 	 */
 	authToken?: string;
+
+	/**
+	 * Whether post.link should be checked against current path
+	 */
+	matchCurrentPath?: boolean;
+
+	/**
+	 * If set, this is the path that will be checked if `slug` is set or `matchCurrentPath` is set to true.
+	 */
+	fullPath?: string;
 }
 
 /**
@@ -61,7 +71,7 @@ export interface PostParams extends EndpointParams {
  * - `/2021/10/20/post-name` maps to `{ year: 2021, month: 10, day: 20, slug: 'post-name }`
  * - `/2021/` maps to `{ year: 2021, slug: 'post-name' }`
  *
- * @see [[getParamsFromURL]] to learn about url param mapping
+ * @see {@link getParamsFromURL} to learn about url param mapping
  *
  * @category Data Fetching
  */
@@ -87,13 +97,14 @@ export class SinglePostFetchStrategy<
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
-		this.path = path;
-
-		// if slug is passed, it is being manually overriden then don't check current path
-		this.shoudCheckCurrentPathAgainstPostLink = typeof nonUrlParams.slug === 'undefined';
+		this.path = nonUrlParams.fullPath ?? path;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
+
+		// if slug is passed, it is being manually overriden then don't check current path
+		this.shoudCheckCurrentPathAgainstPostLink =
+			nonUrlParams.matchCurrentPath ?? typeof nonUrlParams.slug === 'undefined';
 
 		// TODO: figure typings for this
 		return params as Partial<P>;
@@ -106,7 +117,8 @@ export class SinglePostFetchStrategy<
 	 */
 	buildEndpointURL(params: P) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { id, authToken, revision, postType, ...endpointParams } = params;
+		const { id, authToken, revision, postType, matchCurrentPath, fullPath, ...endpointParams } =
+			params;
 
 		if (params.postType) {
 			// if postType is a array of slugs, start off with the first post type
@@ -175,6 +187,7 @@ export class SinglePostFetchStrategy<
 	 * Prepares the post response
 	 *
 	 * @param response
+	 * @param params
 	 * @returns
 	 */
 	prepareResponse(response: FetchResponse<T[] | T>, params: Partial<P>): FetchResponse<T> {
