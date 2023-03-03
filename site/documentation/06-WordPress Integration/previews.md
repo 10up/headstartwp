@@ -64,9 +64,64 @@ export default async function handler(req, res) {
 }
 ```
 
-That's all that is needed in order to enable WordPress preview.
+That's all that is needed to enable WordPress preview.
 
 While previewing the URL will not reflect the actual URL of the post, but instead, it will contain the post id and a `-preview` suffix.
+
+### `previewHandler` options
+
+#### `preparePreviewData`
+
+This allows you to alter the preview data object before it is stored by Next.js (i.e before calling `res.setPreviewData`). You can use this if you need to add additional fields to preview data object.
+
+```ts
+export default async function handler(req, res) {
+	return previewHandler(req, res, {
+		preparePreviewData(req, res, post, previewData) {
+			return { ...previewData, name: post.name };
+		},
+	});
+}
+```
+
+`name` would now be avaliable in the context object of `getServerSideProps` and `getStaticProps` (`ctx.previewData`);
+
+#### `onRedirect`
+
+The `onRedirect` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts are `/%category%/%postname%/` you could create a `src/pages/[category]/[...path.js]` route to handle single post. However once you do that the `previewHandler` doesn't know how to redirect to that URL and as such you will have to provide your own redirect handling.
+
+:::caution
+When handling redirects yourself, make sure to always append `-preview=true` to the end of the redirected URL.
+:::caution
+
+```ts
+import { getPostTerms } from '@10up/headless-core';
+import { previewHandler } from '@10up/headless-next';
+
+export default async function handler(req, res) {
+	return previewHandler(req, res, {
+		// add categorySlug and post slug to preview data
+		preparePreviewData(req, res, post, previewData) {
+			const terms = getPostTerms(post);
+			if (Array.isArray(terms?.category) && terms.category.length > 0) {
+				const [category] = terms.category;
+
+				return { ...previewData, categorySlug: category.slug, slug: post.slug };
+			}
+			return { ...previewData };
+		},
+		onRedirect(req, res, previewData, defaultRedirect) {
+			const { postType, id, slug, categorySlug } = previewData;
+
+			if (postType === 'post' && typeof categorySlug === 'string') {
+				return res.redirect(`/${categorySlug}/${id}/${slug || id}-preview=true`);
+			}
+
+			return defaultRedirect();
+		},
+	});
+}
+```
 
 ## FAQ
 
