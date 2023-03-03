@@ -33,10 +33,15 @@ export interface FetchHookDataOptions<P = unknown, T = unknown> {
 
 function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams {
 	const postUrlParams = urlParams as unknown as PostParams;
+	const nonUrlParams = params as unknown as PostParams;
+
+	const isPreviewRequestBasedOnNonUrlParams =
+		typeof nonUrlParams.slug === 'string' ? nonUrlParams.slug.includes('-preview=true') : false;
+
 	const isPreviewRequest =
 		typeof postUrlParams.slug === 'string'
 			? postUrlParams.slug.includes('-preview=true')
-			: false;
+			: isPreviewRequestBasedOnNonUrlParams;
 
 	return isPreviewRequest;
 }

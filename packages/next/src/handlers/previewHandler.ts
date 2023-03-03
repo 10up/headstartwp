@@ -34,6 +34,7 @@ export type PreviewHandlerOptions = {
 		req: NextApiRequest,
 		res: NextApiResponse,
 		previewData: PreviewData,
+		defaultRedirect?: PreviewHandlerOptions['onRedirect'],
 	) => NextApiResponse;
 
 	/**
@@ -143,15 +144,19 @@ export async function previewHandler(
 				return res.end('Cannot preview an unkown post type');
 			}
 
-			const singleRoute = postTypeDef.single || '/';
-			const prefixRoute = singleRoute === '/' ? '' : singleRoute;
-			const slugOrId = revision ? post_id : slug || post_id;
+			const defaultRedirect: PreviewHandlerOptions['onRedirect'] = (req, res) => {
+				const singleRoute = postTypeDef.single || '/';
+				const prefixRoute = singleRoute === '/' ? '' : singleRoute;
+				const slugOrId = revision ? post_id : slug || post_id;
+
+				return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
+			};
 
 			if (options?.onRedirect) {
-				return options.onRedirect(req, res, previewData);
+				return options.onRedirect(req, res, previewData, defaultRedirect);
 			}
 
-			return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
+			return defaultRedirect(req, res, previewData);
 		}
 	} catch (e) {
 		if (e instanceof Error) {
