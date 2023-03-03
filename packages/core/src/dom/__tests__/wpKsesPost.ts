@@ -67,4 +67,12 @@ describe('wp_kses_post', () => {
 			}),
 		).toBe(`<script type="text/json-block">${JSON.stringify(json_object)}</script>`);
 	});
+
+	it('allows whiltelisted css properties', () => {
+		expect(
+			wpKsesPost('<div style="color:var(--blue); --white:#ffffff; flex-basis:100px;" />'),
+		).toBe('<div style="color:var(--blue); --white:#ffffff; flex-basis:100px;" />');
+
+		expect(wpKsesPost('<div style="-white:#ffffff;" />')).toBe('<div style />');
+	});
 });
