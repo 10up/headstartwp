@@ -117,7 +117,7 @@ export default async function handler(req, res) {
 				return res.redirect(`/${categorySlug}/${id}/${slug || id}-preview=true`);
 			}
 
-			return defaultRedirect();
+			return defaultRedirect(req, res, previewData);
 		},
 	});
 }

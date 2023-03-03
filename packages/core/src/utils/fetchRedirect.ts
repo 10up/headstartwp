@@ -42,6 +42,7 @@ function shouldSkipRedirect(link: string, redirect: string, sourceUrl: string) {
  * Fetches a redirect from the WordPress origin by making a HEAD request and checking the response
  *
  * @param pathname The path to the page to fetch the redirect for
+ * @param sourceUrl The source url
  *
  * @returns The redirect data
  */

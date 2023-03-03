@@ -1,8 +1,19 @@
 import { addHookData, fetchHookData, handleError, useAppSettings } from '@10up/headless-next';
+import Head from 'next/head';
 import { resolveBatch } from '../utils/promises';
 
 const NotFoundPage = () => {
-	return <h1>404 - Page Not Found</h1>;
+	const { data } = useAppSettings();
+
+	return (
+		<>
+			<Head>
+				<title>{`Page Not Found - ${data.settings.site_name}`}</title>
+				<meta name="description" content={data.settings.site_desc} />
+			</Head>
+			<h1>404 - Page Not Found</h1>
+		</>
+	);
 };
 
 export async function getStaticProps(context) {
