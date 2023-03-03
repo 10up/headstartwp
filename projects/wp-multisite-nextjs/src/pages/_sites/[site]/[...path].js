@@ -42,8 +42,10 @@ export async function getStaticPaths() {
 	const paths = [];
 	await Promise.all(
 		sites.map(async (site) => {
-			const fetcher = usePosts.fetcher();
-			fetcher.setBaseURL(site.sourceUrl);
+			const settings = await useAppSettings.fetcher(site.sourceUrl).get();
+			const frontPage = settings?.result?.home?.slug ?? '';
+
+			const fetcher = usePosts.fetcher(site.sourceUrl);
 
 			const postsData = await fetcher.get({ postType: 'post', per_page: 50 });
 
@@ -66,7 +68,7 @@ export async function getStaticPaths() {
 				.map(({ link }) => {
 					const normalizedLink = removeSourceUrl({ link, backendUrl: site.sourceUrl });
 
-					if (normalizedLink === '/') {
+					if (normalizedLink === '/' || normalizedLink === frontPage) {
 						return false;
 					}
 
