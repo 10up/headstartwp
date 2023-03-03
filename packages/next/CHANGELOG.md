@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.6.1-next.0
+
+### Patch Changes
+
+- 97c7cbb: Fix: improved check in isPreviewRequest and exposing defaultRedirect handler in previewHandler
+- Updated dependencies [6282580]
+  - @10up/headless-core@0.6.1-next.0
+
 ## 0.6.0
 
 ### Minor Changes
