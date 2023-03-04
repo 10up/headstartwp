@@ -105,6 +105,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 * The strategy constructor
 	 *
 	 * @param baseURL The base URL of the API
+	 * @param defaultParams (optional) list of default params
 	 */
 	constructor(baseURL?: string, defaultParams?: Partial<Params>) {
 		if (baseURL) {
@@ -214,6 +215,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 * @param url The URL to fetch
 	 * @param params The request params
 	 *
+	 * @param options The fetcher options
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async fetcher(
@@ -279,7 +281,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 * payload size.
 	 *
 	 * @param data The data to filter
-	 * @param options The options for filtering
+	 * @param filterOptions Filter options
 	 * @returns The filtered data
 	 */
 	filterData(data: FetchResponse<R>, filterOptions?: FilterDataOptions<R>): FetchResponse<R> {
@@ -320,7 +322,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 *
 	 * @returns
 	 */
-	get(params: Params) {
+	get(params: Partial<Params> = {}) {
 		return this.fetcher(this.buildEndpointURL(params), params);
 	}
 }

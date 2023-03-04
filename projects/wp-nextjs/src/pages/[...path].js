@@ -38,6 +38,8 @@ export default SinglePostsPage;
  * @returns {Promise<*>}
  */
 export async function getStaticPaths() {
+	const settings = await useAppSettings.fetcher().get();
+	const frontPage = settings?.result?.home?.slug ?? '';
 	const postsData = await usePosts.fetcher().get({ postType: 'post', per_page: 50 });
 
 	const postsPath = postsData.result.map(({ link }) => {
@@ -56,7 +58,7 @@ export async function getStaticPaths() {
 		.map(({ link }) => {
 			const normalizedLink = removeSourceUrl({ link, backendUrl: getWPUrl() });
 
-			if (normalizedLink === '/') {
+			if (normalizedLink === '/' || normalizedLink === frontPage) {
 				return false;
 			}
 
