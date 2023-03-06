@@ -1,22 +1,28 @@
-import { addHookData, fetchHookData, handleError, useAppSettings } from '@10up/headless-next';
+import {
+	addHookData,
+	fetchHookData,
+	handleError,
+	useAppSettings,
+	HeadlessGetStaticProps,
+} from '@10up/headless-next';
 import Head from 'next/head';
 import { resolveBatch } from '../utils/promises';
 
-const NotFoundPage = () => {
+const ServerErrorPage = () => {
 	const { data } = useAppSettings();
 
 	return (
 		<>
 			<Head>
-				<title>{`Page Not Found - ${data.settings.site_name}`}</title>
+				<title>Error - {data.settings.site_name} </title>
 				<meta name="description" content={data.settings.site_desc} />
 			</Head>
-			<h1>404 - Page Not Found</h1>
+			<h1>500 - Internal Server Error</h1>
 		</>
 	);
 };
 
-export async function getStaticProps(context) {
+export const getStaticProps: HeadlessGetStaticProps = async (context) => {
 	try {
 		// fetch batch of promises and throws errors selectively
 		// passing `throw:false` will prevent errors from being thrown for that promise
@@ -28,5 +34,5 @@ export async function getStaticProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
-export default NotFoundPage;
+};
+export default ServerErrorPage;

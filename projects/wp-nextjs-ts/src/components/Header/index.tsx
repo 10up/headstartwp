@@ -1,5 +1,5 @@
 import { css } from '@linaria/core';
-
+import { FC } from 'react';
 import { Logo } from './Logo';
 import { Nav } from './Nav';
 import { Search } from './Search';
@@ -20,7 +20,7 @@ const headerStyles = css`
 	}
 `;
 
-const Header = () => {
+const Header: FC = () => {
 	return (
 		<header role="banner" className={headerStyles}>
 			<Nav />

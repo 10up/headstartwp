@@ -1,5 +1,7 @@
+import { AppEntity } from '@10up/headless-core';
 import { useAppSettings } from '@10up/headless-next';
 import { css } from '@linaria/core';
+import { FC } from 'react';
 import { Link } from '../Link';
 
 const footerLinksStyles = css`
@@ -19,7 +21,11 @@ const footerLinksStyles = css`
 	}
 `;
 
-export const FooterLinks = () => {
+type Settings = AppEntity['settings'] & {
+	privacy_policy_url: string;
+};
+
+export const FooterLinks: FC = () => {
 	const { data, loading } = useAppSettings();
 
 	if (loading) {
@@ -29,7 +35,9 @@ export const FooterLinks = () => {
 	return (
 		<ul className={footerLinksStyles}>
 			<li>
-				<Link href={data?.settings?.privacy_policy_url || '/'}>Privacy Policy</Link>
+				<Link href={(data?.settings as Settings)?.privacy_policy_url || '/'}>
+					Privacy Policy
+				</Link>
 			</li>
 			<li>
 				<Link href="/">Terms of Use</Link>

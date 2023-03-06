@@ -6,14 +6,15 @@ import {
 	handleError,
 	usePosts,
 	useTerms,
+	HeadlessGetStaticProps,
 } from '@10up/headless-next';
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import { Link } from '../components/Link';
 import { PageContent } from '../components/PageContent';
 import { indexParams } from '../params';
 import { resolveBatch } from '../utils/promises';
 
-const RecentPost = ({ post }) => {
+const RecentPost: FC<{ post: { title: { rendered?: string } } }> = ({ post }) => {
 	return (
 		<div>
 			<h3>{post.title.rendered}</h3>
@@ -21,11 +22,7 @@ const RecentPost = ({ post }) => {
 	);
 };
 
-RecentPost.propTypes = {
-	post: PropTypes.shape({ title: PropTypes.shape({ rendered: PropTypes.string }) }).isRequired,
-};
-
-const Homepage = ({ homePageSlug }) => {
+const Homepage: FC<{ homePageSlug: string }> = ({ homePageSlug }) => {
 	const params = { ...indexParams, slug: homePageSlug };
 
 	// the query below is a client-side-only query
@@ -70,17 +67,15 @@ const Homepage = ({ homePageSlug }) => {
 	);
 };
 
-Homepage.propTypes = {
-	homePageSlug: PropTypes.string.isRequired,
-};
-
 export default Homepage;
 
-export async function getStaticProps(context) {
-	let appSettings;
-	let slug;
+export const getStaticProps: HeadlessGetStaticProps = async (context) => {
+	let appSettings: any;
+	let slug: string;
+
 	try {
 		appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+
 		/**
 		 * The static front-page can be set in the WP admin. The default one will be 'front-page'
 		 */
@@ -115,4 +110,4 @@ export async function getStaticProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+};

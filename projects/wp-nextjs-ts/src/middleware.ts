@@ -13,6 +13,6 @@ export const config = {
 	],
 };
 
-export async function middleware(...args) {
-	return AppMiddleware(...args);
+export async function middleware(...args: any[]) {
+	return AppMiddleware(args[0]);
 }

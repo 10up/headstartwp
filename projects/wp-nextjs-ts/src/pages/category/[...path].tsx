@@ -1,20 +1,22 @@
 import {
+	usePosts,
 	fetchHookData,
 	addHookData,
 	handleError,
 	useAppSettings,
-	useAuthorArchive,
+	HeadlessGetServerSideProps,
 } from '@10up/headless-next';
+import { FC } from 'react';
 import { Link } from '../../components/Link';
 import { Pagination } from '../../components/Pagination';
 import { resolveBatch } from '../../utils/promises';
 
-const AuthorPage = () => {
-	const { data } = useAuthorArchive();
+const CategoryPage: FC = () => {
+	const { data } = usePosts({ taxonomy: 'category' });
 
 	return (
 		<>
-			<h1>Author Page: {data.queriedObject.author.name}</h1>
+			<h1>Category Page: {data.queriedObject.term.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>
@@ -27,19 +29,28 @@ const AuthorPage = () => {
 	);
 };
 
-export default AuthorPage;
+export default CategoryPage;
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: HeadlessGetServerSideProps = async (context) => {
 	try {
 		const settledPromises = await resolveBatch([
 			{
-				func: fetchHookData(useAuthorArchive.fetcher(), context),
+				func: fetchHookData(usePosts.fetcher(), context, {
+					params: { taxonomy: 'category' },
+				}),
 			},
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
 
+		/**
+		 * It is also possible to get the queried object on the server, this is useful if you need to conditionally fetch data
+		 * server side based on queriedObject
+		 *
+		 * const [posts] = settledPromises;
+		 * console.log(posts.data.queriedObject.term.slug);
+		 */
 		return addHookData(settledPromises, {});
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+};
