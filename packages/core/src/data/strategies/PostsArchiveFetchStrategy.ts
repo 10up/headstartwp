@@ -236,7 +236,7 @@ export class PostsArchiveFetchStrategy<
 			taxonomyMatchers.push({
 				name: 'taxonomy-term-slug',
 				priority: 30,
-				pattern: `/:${taxonomy}`,
+				pattern: `/(.*)?/:${taxonomy}`,
 			});
 
 			return parsePath(taxonomyMatchers, path) as Partial<P>;
