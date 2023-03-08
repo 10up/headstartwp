@@ -33,7 +33,7 @@ function shouldSkipRedirect(link: string, redirect: string, sourceUrl: string) {
 	redirectParams.sort();
 
 	return (
-		linkURL.pathname === redirectURL.pathname &&
+		linkURL.pathname.replace(/\/$/, '') === redirectURL.pathname.replace(/\/$/, '') &&
 		linkParams.toString() === redirectParams.toString()
 	);
 }

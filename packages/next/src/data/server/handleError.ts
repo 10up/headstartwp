@@ -12,7 +12,8 @@ function isGetServerSide(
 ): ctx is HeadlessGetServerSidePropsContext {
 	return (
 		typeof (ctx as HeadlessGetServerSidePropsContext).req !== 'undefined' &&
-		typeof (ctx as HeadlessGetServerSidePropsContext).req.url !== 'undefined'
+		typeof (ctx as HeadlessGetServerSidePropsContext).req.url !== 'undefined' &&
+		!(ctx as HeadlessGetServerSidePropsContext).req.url?.startsWith('/_next')
 	);
 }
 
