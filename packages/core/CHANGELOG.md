@@ -1,5 +1,14 @@
 # @10up/headless-core
 
+## 0.6.2-next.0
+
+### Patch Changes
+
+- 9bf3642: Check for wp-admin and related pahts in isInternalLink
+- 9fa4319: Fix previews handling for multisite with locale
+- 3671143: Fixes an issue where taxonomy archives would support non-starndard WP routes (/category/author/author-name and /category/:year/:month/:day) and adds support for nested taxonomy routes (/parent-category/category).
+- 61231c3: Fix: add css allowlist similar to WordPress wp_kses_post
+
 ## 0.6.1
 
 ### Patch Changes
