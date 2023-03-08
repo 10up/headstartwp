@@ -117,7 +117,8 @@ class Plugin {
 		add_settings_field(
 			'headless_site_locale',
 			esc_html__( 'Headless Multisite Locale (optional)', 'headless-wp' ),
-			function() { ?>
+			function() {
+				?>
 				<input
 					type="text"
 					name="headless_site_locale"
@@ -130,7 +131,6 @@ class Plugin {
 			},
 			'general'
 		);
-
 
 		// Redirect frontend to React website
 		register_setting(
@@ -235,9 +235,9 @@ class Plugin {
 
 		if ( $locale && str_ends_with( $site_url, $locale ) ) {
 			$parsed_url = wp_parse_url( $site_url );
-			$path = explode('/', $parsed_url['path'] );
+			$path       = explode( '/', $parsed_url['path'] );
 			if ( is_array( $path ) && count( $path ) > 0 ) {
-				unset( $path[ count( $path ) -1] );
+				unset( $path[ count( $path ) - 1 ] );
 			}
 
 			$base_url = sprintf(
@@ -250,11 +250,13 @@ class Plugin {
 				$base_url = sprintf( '%s:%s', $base_url, $parsed_url['port'] );
 			}
 
-			return untrailingslashit( sprintf(
-				'%s%s',
-				$base_url,
-				implode( '/', $path )
-			) );
+			return untrailingslashit(
+				sprintf(
+					'%s%s',
+					$base_url,
+					implode( '/', $path )
+				)
+			);
 		}
 
 		return $site_url;
