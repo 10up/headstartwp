@@ -255,7 +255,6 @@ export class SinglePostFetchStrategy<
 	 * @param options FetchOptions
 	 */
 	async fetcher(url: string, params: P, options: Partial<FetchOptions> = {}) {
-		console.log('the url', this.baseURL);
 		if (params.authToken) {
 			options.bearerToken = params.authToken;
 		}
