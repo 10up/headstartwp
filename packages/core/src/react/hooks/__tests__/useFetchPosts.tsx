@@ -173,6 +173,21 @@ describe('useFetchPosts', () => {
 		});
 	});
 
+	it('works with nested taxonomy', async () => {
+		const { result } = renderHook(
+			() => useFetchPosts({ taxonomy: 'category' }, {}, '/parent-category/news'),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.queriedObject.term?.slug).toBe('news');
+			expect(result.current.isMainQuery).toBe(true);
+		});
+	});
+
 	describe('useFetchPosts types', () => {
 		it('allows overriding types', () => {
 			interface Book extends PostEntity {
