@@ -102,14 +102,16 @@ export async function previewHandler(
 	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
 
 	const revision = is_revision === '1';
+
 	try {
 		const { data } = await fetchHookData(
 			usePost.fetcher(sourceUrl),
 			{
 				params: {
 					path: [],
-					site: req.headers.host,
+					site: req.headers?.host,
 				},
+				locale: typeof locale === 'string' ? locale : undefined,
 			},
 			{
 				params: {
@@ -151,6 +153,10 @@ export async function previewHandler(
 				const singleRoute = postTypeDef.single || '/';
 				const prefixRoute = singleRoute === '/' ? '' : singleRoute;
 				const slugOrId = revision ? post_id : slug || post_id;
+
+				if (locale) {
+					return res.redirect(`/${locale}/${prefixRoute}/${slugOrId}-preview=true`);
+				}
 
 				return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
 			};

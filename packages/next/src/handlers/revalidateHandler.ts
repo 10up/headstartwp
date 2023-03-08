@@ -55,8 +55,9 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 			{
 				params: {
 					path: [],
-					site: host,
+					site: req.headers?.host,
 				},
+				locale: typeof locale === 'string' ? locale : undefined,
 			},
 			{
 				params: {
@@ -77,6 +78,9 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 		let pathToRevalidate = path;
 
 		if (isMultisiteRequest) {
+			if (locale) {
+				pathToRevalidate = `/_sites/${host}/${locale}/${path}`;
+			}
 			pathToRevalidate = `/_sites/${host}${path}`;
 		}
 

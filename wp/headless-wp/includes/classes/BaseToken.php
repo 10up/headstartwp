@@ -40,8 +40,8 @@ abstract class BaseToken {
 	 *
 	 * @throws \Exception If the private key is not found.
 	 */
-	private static function get_private_key() {
-		if ( defined( '10UP_HEADLESS_JWT_AUTH_KEY' ) ) {
+	private static function get_private_key() {		
+		if ( defined( 'TENUP_HEADLESS_JWT_AUTH_KEY' ) ) {
 			return TENUP_HEADLESS_JWT_AUTH_KEY;
 		}
 
@@ -84,7 +84,6 @@ abstract class BaseToken {
 			if ( empty( $token ) ) {
 				return null;
 			}
-
 			$payload = JWT::decode(
 				$token,
 				self::get_private_key(),
