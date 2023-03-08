@@ -227,11 +227,13 @@ export class PostsArchiveFetchStrategy<
 
 			const taxonomy = taxonomyObj.rewrite ?? taxonomyObj.slug;
 
-			const taxonomyMatchers = matchers.map((matcher) => ({
-				...matcher,
-				name: `${matcher.name}-taxonomy`,
-				pattern: `/:${taxonomy}${matcher.pattern}`,
-			}));
+			const taxonomyMatchers = matchers
+				.filter((matcher) => matcher.name !== 'date' && !matcher.name.includes('author'))
+				.map((matcher) => ({
+					...matcher,
+					name: `${matcher.name}-taxonomy`,
+					pattern: `/(.*)?/:${taxonomy}${matcher.pattern}`,
+				}));
 
 			taxonomyMatchers.push({
 				name: 'taxonomy-term-slug',
