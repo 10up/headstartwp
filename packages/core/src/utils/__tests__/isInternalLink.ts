@@ -36,6 +36,14 @@ describe('isInternalLink', () => {
 		expect(isInternalLink('https://externalurl.com')).toBe(false);
 	});
 
+	it('returns false for wp-admin and related paths', () => {
+		expect(isInternalLink('https://backendurl.com/wp-admin')).toBe(false);
+		expect(isInternalLink('https://backendurl.com/wp-admin/post.php')).toBe(false);
+		expect(isInternalLink('https://backendurl.com/wp-admin/edit.php')).toBe(false);
+		expect(isInternalLink('https://backendurl.com/wp-register.php')).toBe(false);
+		expect(isInternalLink('https://backendurl.com/wp-login.php')).toBe(false);
+	});
+
 	it('returns true for internal links of subsites', () => {
 		const site: HeadlessConfig = {
 			sourceUrl: 'https://backendurl.com/site1',

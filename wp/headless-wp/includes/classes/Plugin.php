@@ -108,6 +108,30 @@ class Plugin {
 			'general'
 		);
 
+		register_setting(
+			'general',
+			'headless_site_locale',
+			array( 'sanitize_callback' => 'esc_attr' )
+		);
+
+		add_settings_field(
+			'headless_site_locale',
+			esc_html__( 'Headless Multisite Locale (optional)', 'headless-wp' ),
+			function() {
+				?>
+				<input
+					type="text"
+					name="headless_site_locale"
+					id="headless_site_locale"
+					class="regular-text"
+					value="<?php echo esc_attr( $this->get_site_locale() ); ?>"
+				>
+				<p class="description"><?php esc_html_e( 'Se the site locale if this site is using Multisite with locale.', 'headless-wp' ); ?></p>
+				<?php
+			},
+			'general'
+		);
+
 		// Redirect frontend to React website
 		register_setting(
 			'general',
@@ -190,11 +214,52 @@ class Plugin {
 	 * Retrieves the site React URL
 	 */
 	public static function get_react_url() {
+		return get_option( 'site_react_url' );
+	}
 
-		$site_react_url = get_option( 'site_react_url' );
+	/**
+	 * Retrieves the site React URL
+	 */
+	public static function get_site_locale() {
+		return get_option( 'headless_site_locale' );
+	}
 
-		return $site_react_url;
+	/**
+	 * Returns the non-localized site url.
+	 *
+	 * @return string
+	 */
+	public static function get_non_localized_headless_url() {
+		$site_url = untrailingslashit( self::get_react_url() );
+		$locale   = self::get_site_locale();
 
+		if ( $locale && str_ends_with( $site_url, $locale ) ) {
+			$parsed_url = wp_parse_url( $site_url );
+			$path       = explode( '/', $parsed_url['path'] );
+			if ( is_array( $path ) && count( $path ) > 0 ) {
+				unset( $path[ count( $path ) - 1 ] );
+			}
+
+			$base_url = sprintf(
+				'%s://%s',
+				$parsed_url['scheme'],
+				$parsed_url['host']
+			);
+
+			if ( isset( $parsed_url['port'] ) ) {
+				$base_url = sprintf( '%s:%s', $base_url, $parsed_url['port'] );
+			}
+
+			return untrailingslashit(
+				sprintf(
+					'%s%s',
+					$base_url,
+					implode( '/', $path )
+				)
+			);
+		}
+
+		return $site_url;
 	}
 
 	/**

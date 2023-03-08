@@ -7,6 +7,7 @@ import { HeadlessConfig } from '../types';
  * Checks if the url is for an internal link
  *
  * @param url The url to check
+ * @param site (optional) the site config
  *
  * @returns
  */
@@ -21,5 +22,5 @@ export function isInternalLink(url: string, site?: HeadlessConfig) {
 		return false;
 	}
 
-	return true;
+	return !['/wp-login.php', '/wp-register.php', '/wp-admin'].some((p) => link.includes(p));
 }

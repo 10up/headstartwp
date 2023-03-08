@@ -1,8 +1,19 @@
 import { addHookData, fetchHookData, handleError, useAppSettings } from '@10up/headless-next';
+import Head from 'next/head';
 import { resolveBatch } from '../utils/promises';
 
 const ServerErrorPage = () => {
-	return <h1>500 - Internal Server Error</h1>;
+	const { data } = useAppSettings();
+
+	return (
+		<>
+			<Head>
+				<title>Error - {data.settings.site_name} </title>
+				<meta name="description" content={data.settings.site_desc} />
+			</Head>
+			<h1>500 - Internal Server Error</h1>
+		</>
+	);
 };
 
 export async function getStaticProps(context) {

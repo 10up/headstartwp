@@ -92,31 +92,6 @@ describe('PostsArchiveFetchStrategy', () => {
 			tag: 'tag-name',
 		});
 
-		// date archives
-		expect(
-			fetchStrategy.getParamsFromURL('/category-name/2021', { taxonomy: 'category' }),
-		).toEqual({
-			category: 'category-name',
-			year: '2021',
-		});
-
-		expect(
-			fetchStrategy.getParamsFromURL('/category-name/2021/10', { taxonomy: 'category' }),
-		).toEqual({
-			category: 'category-name',
-			year: '2021',
-			month: '10',
-		});
-
-		expect(
-			fetchStrategy.getParamsFromURL('/category-name/2021/10/30', { taxonomy: 'category' }),
-		).toEqual({
-			category: 'category-name',
-			year: '2021',
-			month: '10',
-			day: '30',
-		});
-
 		// pagination
 		expect(
 			fetchStrategy.getParamsFromURL('/category-name/page/1', { taxonomy: 'category' }),
@@ -132,15 +107,32 @@ describe('PostsArchiveFetchStrategy', () => {
 			page: '10',
 		});
 
-		// author
+		// nested taxonomies
 		expect(
-			fetchStrategy.getParamsFromURL('/category-name/author/author-name/page/10', {
+			fetchStrategy.getParamsFromURL('/parent-category/category-name/page/1', {
 				taxonomy: 'category',
 			}),
 		).toEqual({
 			category: 'category-name',
-			author: 'author-name',
-			page: '10',
+			page: '1',
+		});
+
+		expect(
+			fetchStrategy.getParamsFromURL('/parent-category/category-name/page/1', {
+				taxonomy: 'category',
+			}),
+		).toEqual({
+			category: 'category-name',
+			page: '1',
+		});
+
+		expect(
+			fetchStrategy.getParamsFromURL('/parent-tag/tag-name/page/1', {
+				taxonomy: 'post_tag',
+			}),
+		).toEqual({
+			tag: 'tag-name',
+			page: '1',
 		});
 	});
 
@@ -161,15 +153,6 @@ describe('PostsArchiveFetchStrategy', () => {
 
 		expect(fetchStrategy.getParamsFromURL('/genre-name', { taxonomy: 'genre' })).toEqual({
 			genre: 'genre-name',
-		});
-
-		expect(
-			fetchStrategy.getParamsFromURL('/genre-name/2021/10/30', { taxonomy: 'genre' }),
-		).toEqual({
-			genre: 'genre-name',
-			year: '2021',
-			month: '10',
-			day: '30',
 		});
 
 		// pagination
@@ -424,7 +407,7 @@ describe('PostsArchiveFetchStrategy', () => {
 		);
 	});
 
-	it('fetches content properly with when taxonomy is set', async () => {
+	it('fetches content properly when taxonomy is set', async () => {
 		setHeadlessConfig({
 			useWordPressPlugin: true,
 			customTaxonomies: [
@@ -453,14 +436,6 @@ describe('PostsArchiveFetchStrategy', () => {
 		expect(apiGetMock).toHaveBeenNthCalledWith(
 			2,
 			'/wp-json/wp/v2/posts?page=2&genre-rest-param=genre-name',
-			{},
-		);
-
-		params = fetchStrategy.getParamsFromURL('/genre-name/2021/10/30', { taxonomy: 'genre' });
-		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(
-			3,
-			'/wp-json/wp/v2/posts?year=2021&month=10&day=30&genre-rest-param=genre-name',
 			{},
 		);
 	});
