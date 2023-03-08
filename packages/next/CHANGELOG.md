@@ -1,5 +1,16 @@
 # @10up/headless-next
 
+## 0.6.2
+
+### Patch Changes
+
+- 9fa4319: Fix previews handling for multisite with locale
+- Updated dependencies [9bf3642]
+- Updated dependencies [9fa4319]
+- Updated dependencies [3671143]
+- Updated dependencies [61231c3]
+  - @10up/headless-core@0.6.2
+
 ## 0.6.1
 
 ### Patch Changes
