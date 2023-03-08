@@ -80,7 +80,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl } = getSiteFromContext(ctx);
+	const { sourceUrl, integrations } = getSiteFromContext(ctx);
 	const params = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
@@ -95,6 +95,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
 	const finalParams = { ...defaultParams, ...urlParams, ...params };
+
+	if (integrations?.polylang?.enable && ctx.locale) {
+		finalParams.lang = ctx.locale;
+	}
 
 	// we don't want to include the preview params in the key
 	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
