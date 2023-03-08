@@ -47,6 +47,46 @@ In the example above we specify that all sites must use the WordPress plugin and
 
 This means that when we visit http://site1.localhost:3001, the source URL specified by `NEXT_PUBLIC_HEADLESS_WP_URL` will be used.
 
+#### Internationalized routing
+
+If you're using [Next.js i18n](https://nextjs.org/docs/advanced-features/i18n-routing) feature you can specify the locale in the site's config object and the locale will also be used when matching a site.
+
+```javascript
+/**
+ * Headless Config
+ *
+ * @type {import('@10up/headless-core').HeadlessConfig}
+ */
+module.exports = {
+    redirectStrategy: '404',
+    useWordPressPlugin: true,
+
+	sites: [
+		{
+			hostUrl: 'http://site1.localhost:3001',
+			sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
+			locale: 'en'
+		},
+		{
+			hostUrl: 'http://site1.localhost:3001',
+			sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL_2,
+			locale: 'es'
+		},
+	],
+};
+```
+
+The above config means that `http://site1.localhost:3001/en` will match the first site config and `http://site1.localhost:3001/es` will match the second site config.
+
+**Note**: You must declare those locales in Next.js config. See [Next.js documentation](https://nextjs.org/docs/advanced-features/i18n-routing) for more information.
+
+When using locales make sure to add the locale to `Settings -> General -> Headless Multisite Locale (optional)`. This is required for previews and the revalidate handler to work properly since API routes are not localized in Next.js.
+
+As an example, the first site config in the example above would need the following settings in WordPress.
+
+![Plugin settings Multisite Locale](../../static/img/documentation/wordpress-integration/multisite-locale.png)
+
+
 ### Middleware
 
 Make sure you have the framework's middleware setup at `src/middleware.js`.

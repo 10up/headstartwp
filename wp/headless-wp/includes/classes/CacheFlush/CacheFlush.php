@@ -106,6 +106,7 @@ class CacheFlush {
 				'post_id' => $post_id,
 				'token'   => $token,
 				'path'    => $path,
+				'locale'  => Plugin::get_site_locale(),
 			],
 			$revalidate_endpoint
 		);
