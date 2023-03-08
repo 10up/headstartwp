@@ -40,7 +40,7 @@ abstract class BaseToken {
 	 *
 	 * @throws \Exception If the private key is not found.
 	 */
-	private static function get_private_key() {		
+	private static function get_private_key() {
 		if ( defined( 'TENUP_HEADLESS_JWT_AUTH_KEY' ) ) {
 			return TENUP_HEADLESS_JWT_AUTH_KEY;
 		}
