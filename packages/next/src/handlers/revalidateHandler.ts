@@ -28,7 +28,7 @@ import { fetchHookData } from '../data';
  * @category API handlers
  */
 export async function revalidateHandler(req: NextApiRequest, res: NextApiResponse) {
-	const { post_id, path, token } = req.query;
+	const { post_id, path, token, locale } = req.query;
 
 	if (req.method !== 'GET') {
 		return res.status(401).json({ message: 'Invalid method' });
@@ -43,7 +43,7 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 	}
 
 	const host = req.headers.host ?? '';
-	const site = getSiteByHost(host);
+	const site = getSiteByHost(host, typeof locale === 'string' ? locale : undefined);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
 
 	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
