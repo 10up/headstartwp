@@ -20,6 +20,14 @@ export interface EndpointParams {
 	 * The _fields parameter is used to return only the specified fields in the response
 	 */
 	_fields?: string[];
+
+	/**
+	 * The polylang ?lang parameter.
+	 *
+	 * This is only used if the polylang integration is enabled
+	 */
+	lang?: string;
+
 	[k: string]: unknown;
 }
 

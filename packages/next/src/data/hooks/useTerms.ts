@@ -1,5 +1,5 @@
 import { TermEntity, FetchResponse, TaxonomyArchiveParams } from '@10up/headless-core';
-import { FetchHookOptions, useFetchTerms } from '@10up/headless-core/react';
+import { FetchHookOptions, useFetchTerms, useSettings } from '@10up/headless-core/react';
 import { useRouter } from 'next/router';
 import { convertToPath } from '../convertToPath';
 
@@ -20,9 +20,14 @@ import { convertToPath } from '../convertToPath';
 export function useTerms<
 	T extends TermEntity = TermEntity,
 	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
->(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
-	const { query } = useRouter();
+>(params: Partial<P> = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
+	const { query, locale } = useRouter();
+	const { integrations } = useSettings();
 	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
+
+	if (locale && integrations?.polylang?.enable) {
+		params.lang = locale;
+	}
 
 	return useFetchTerms(params, options, convertToPath(path));
 }
