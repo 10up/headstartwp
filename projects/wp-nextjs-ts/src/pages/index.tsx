@@ -8,6 +8,7 @@ import {
 	useTerms,
 	HeadlessGetStaticProps,
 } from '@10up/headless-next';
+import { FetchResponse, AppEntity } from '@10up/headless-core';
 import { FC } from 'react';
 import { Link } from '../components/Link';
 import { PageContent } from '../components/PageContent';
@@ -69,8 +70,14 @@ const Homepage: FC<{ homePageSlug: string }> = ({ homePageSlug }) => {
 
 export default Homepage;
 
+interface AppSettings {
+	key: string;
+	data: FetchResponse<AppEntity>;
+	isMainQuery: boolean;
+}
+
 export const getStaticProps: HeadlessGetStaticProps = async (context) => {
-	let appSettings: any;
+	let appSettings: AppSettings;
 	let slug: string;
 
 	try {
@@ -79,7 +86,7 @@ export const getStaticProps: HeadlessGetStaticProps = async (context) => {
 		/**
 		 * The static front-page can be set in the WP admin. The default one will be 'front-page'
 		 */
-		slug = appSettings.data.result?.home?.slug ?? 'front-page';
+		slug = (appSettings.data.result?.home as any)?.slug ?? 'front-page';
 	} catch (e) {
 		if (e.name === 'EndpointError') {
 			slug = 'front-page';
