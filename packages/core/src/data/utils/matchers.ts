@@ -30,12 +30,12 @@ export const postsMatchers: Matcher[] = [
 	},
 	{
 		name: 'author',
-		priority: 30,
+		priority: 20,
 		pattern: '/author/:author',
 	},
 	{
 		name: 'author-with-pagination',
-		priority: 30,
+		priority: 10,
 		pattern: '/author/:author/page/:page',
 	},
 ];
