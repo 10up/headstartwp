@@ -2,6 +2,7 @@ import { getPathName } from '../handleError';
 
 describe('getPathName', () => {
 	test('it removes multisite path', () => {
+		expect(getPathName('/_sites/site.com:3300/path/name/')).toBe('/path/name/');
 		expect(getPathName('/_sites/site.com/path/name')).toBe('/path/name');
 		expect(getPathName('/_sites/site.com:3300/path/name')).toBe('/path/name');
 		expect(getPathName('/_sites/site1.localhost:3300/path/name')).toBe('/path/name');
