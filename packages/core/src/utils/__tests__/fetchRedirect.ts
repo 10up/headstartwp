@@ -24,4 +24,16 @@ describe('fetchRedirect', () => {
 
 		expect(result.location).toBeNull();
 	});
+
+	it('ignores missing slash', async () => {
+		const result = await fetchRedirect('/redirect-test-missing-slash', 'http://example.com/');
+
+		expect(result.location).toBeNull();
+	});
+
+	it('ignores added slash', async () => {
+		const result = await fetchRedirect('/redirect-test-missing-slash/', 'http://example.com/');
+
+		expect(result.location).toBeNull();
+	});
 });
