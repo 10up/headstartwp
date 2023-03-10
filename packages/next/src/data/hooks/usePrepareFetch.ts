@@ -15,13 +15,13 @@ export function usePrepareFetch<T extends Entity | Entity[], P extends EndpointP
 	options: FetchHookOptions<FetchResponse<T>> = {},
 ) {
 	const params = { ..._params };
-	const { query, locale } = useRouter();
+	const { query, locale, defaultLocale } = useRouter();
 	const { integrations } = useSettings();
 
 	const path = convertToPath(Array.isArray(query.path) ? query.path : [query.path || '']);
 
-	if (locale && integrations?.polylang?.enable) {
-		params.lang = locale;
+	if ((locale || defaultLocale) && integrations?.polylang?.enable) {
+		params.lang = locale ?? defaultLocale;
 	}
 
 	return { params, path, options };

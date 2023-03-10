@@ -96,8 +96,8 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
 	const finalParams = { ...defaultParams, ...urlParams, ...params };
 
-	if (integrations?.polylang?.enable && ctx.locale) {
-		finalParams.lang = ctx.locale;
+	if (integrations?.polylang?.enable && (ctx.locale || ctx.defaultLocale)) {
+		finalParams.lang = ctx.locale ?? ctx.defaultLocale;
 	}
 
 	// we don't want to include the preview params in the key

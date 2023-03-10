@@ -126,7 +126,7 @@ class Plugin {
 					class="regular-text"
 					value="<?php echo esc_attr( $this->get_site_locale() ); ?>"
 				>
-				<p class="description"><?php esc_html_e( 'Se the site locale if this site is using Multisite with locale.', 'headless-wp' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Set the site locale if this site is using Multisite with locale.', 'headless-wp' ); ?></p>
 				<?php
 			},
 			'general'

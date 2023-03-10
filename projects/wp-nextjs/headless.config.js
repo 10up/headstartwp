@@ -37,5 +37,8 @@ module.exports = {
 		yoastSEO: {
 			enable: true,
 		},
+		polylang: {
+			enable: true,
+		},
 	},
 };

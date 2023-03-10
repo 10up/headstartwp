@@ -15,6 +15,10 @@ const nextConfig = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+	i18n: {
+		locales: ['en', 'pt'],
+		defaultLocale: 'en',
+	},
 };
 
 module.exports = withBundleAnalyzer(withHeadlessConfig(nextConfig, headlessConfig));
