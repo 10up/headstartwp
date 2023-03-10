@@ -1,7 +1,6 @@
 import { FetchResponse, PostEntity, PostParams } from '@10up/headless-core';
-import { useRouter } from 'next/router';
-import { FetchHookOptions, useFetchPost, useSettings } from '@10up/headless-core/react';
-import { convertToPath } from '../convertToPath';
+import { FetchHookOptions, useFetchPost } from '@10up/headless-core/react';
+import { usePrepareFetch } from './usePrepareFetch';
 
 /**
  * The usePost hook. Returns a single post entity
@@ -20,15 +19,13 @@ export function usePost<T extends PostEntity = PostEntity, P extends PostParams 
 	params: Partial<P> = {},
 	options: FetchHookOptions<FetchResponse<T>> = {},
 ) {
-	const { query, locale } = useRouter();
-	const { integrations } = useSettings();
-	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
+	const useFetchArguments = usePrepareFetch(params, options);
 
-	if (locale && integrations?.polylang?.enable) {
-		params.lang = locale;
-	}
-
-	return useFetchPost<T, P>(params, options, convertToPath(path));
+	return useFetchPost<T, P>(
+		useFetchArguments.params,
+		useFetchArguments.options,
+		useFetchArguments.path,
+	);
 }
 
 /**
