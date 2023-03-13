@@ -22,6 +22,14 @@ const handlers = [
 		return res(redirect('http://example.com/wp-login.php', 301));
 	}),
 
+	rest.head('http://example.com/redirect-test-missing-slash', (req, res) => {
+		return res(redirect('http://example.com/redirect-test-missing-slash/', 301));
+	}),
+
+	rest.head('http://example.com/redirect-test-missing-slash/', (req, res) => {
+		return res(redirect('http://example.com/redirect-test-missing-slash', 301));
+	}),
+
 	rest.get<DefaultRequestBody, TestEndpointResponse>(/\/test-endpoint/, (req, res, ctx) => {
 		return res(ctx.json({ ok: true }));
 	}),
