@@ -76,11 +76,18 @@ class TokenEndpoint {
 	public function get_item( WP_REST_Request $request ) {
 		$payload = CacheFlushToken::getToken();
 
-		return rest_ensure_response(
-			[
-				'post_id' => $payload['post_id'],
-				'path'    => $payload['path'],
-			]
-		);
+		$response = [
+			'paths' => implode( ',', $payload['paths'] )
+		];
+
+		if ( isset( $payload['post_id'] ) ) {
+			$response['post_id'] = $payload['post_id'];
+		}
+
+		if ( isset( $payload['terms_ids'] ) ) {
+			$response['terms_ids'] = implode( ',', $payload['terms_ids'] );
+		}
+
+		return rest_ensure_response( $response );
 	}
 }
