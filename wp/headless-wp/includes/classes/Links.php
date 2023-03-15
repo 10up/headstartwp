@@ -21,12 +21,7 @@ class Links {
 	 * Set up any hooks
 	 */
 	public function register() {
-		// if request method is HEAD then the headless site is making a HEAD request to figure out redirects, so don't mess with redirects or home_url
-		$request_method = $_SERVER['REQUEST_METHOD'];
-
-		if ( 'HEAD' !== $request_method ) {
-			add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
-		}
+		add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
 
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
 	}
@@ -116,6 +111,17 @@ class Links {
 	 * Redirect the WordPress frontend if the React website URL has been filled in and the user has selected to redirect the frontend
 	 */
 	public function maybe_redirect_frontend() {
+		// if request method is HEAD then the headless site is making a HEAD request to figure out redirects, so don't mess with redirects or home_url
+		$request_method = $_SERVER['REQUEST_METHOD'];
+
+		if ( 'HEAD' === $request_method ) {
+			return;
+		}
+
+		if ( isset( $_SERVER['HTTP_X_WP_REDIRECT_CHECK'] ) ) {
+			return;
+		}
+
 		global $wp;
 
 		$site_url = \get_option( 'site_react_url' );

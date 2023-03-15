@@ -54,6 +54,9 @@ export async function fetchRedirect(pathname: string, sourceUrl: string): Promis
 	const response = await fetch(redirectionURL, {
 		method: 'HEAD',
 		redirect: 'manual',
+		headers: {
+			'X-WP-Redirect-Check': '1',
+		},
 	});
 
 	if (
