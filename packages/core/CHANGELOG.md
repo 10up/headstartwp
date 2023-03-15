@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.6.3
+
+### Patch Changes
+
+- 664f306: Fix redirects by using resolvedUrl instead of req.url
+
 ## 0.6.3-next.0
 
 ### Patch Changes
