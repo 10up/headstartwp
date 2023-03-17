@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock } from './hooks';
+import { defaultElement, useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes } from './types';
 
@@ -9,7 +9,7 @@ export interface ColumnsBlockProps extends IBlockAttributes {}
 export interface IColumnsBlock extends IBlock<ColumnsBlockProps> {}
 
 export function ColumnsBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,

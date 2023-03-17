@@ -1,14 +1,19 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface VerseBlockProps extends IBlockAttributes {}
 
 export interface IVerseBlock extends IBlock<VerseBlockProps> {}
 
-export function VerseBlock({ domNode: node, component: Component, children, style }: IVerseBlock) {
+export function VerseBlock({
+	domNode: node = defaultElement,
+	component: Component,
+	children,
+	style,
+}: IVerseBlock) {
 	const { className, name } = useBlock<VerseBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 

@@ -1,7 +1,7 @@
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface PreformattedBlockProps extends IBlockAttributes {}
@@ -9,7 +9,7 @@ export interface PreformattedBlockProps extends IBlockAttributes {}
 export interface IPreformattedBlock extends IBlock<PreformattedBlockProps> {}
 
 export function PreformattedBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	component: Component,
 	children,
 	style,

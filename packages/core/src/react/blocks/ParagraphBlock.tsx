@@ -1,7 +1,7 @@
 import { Element } from 'html-react-parser';
 import { isBlockByName } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface ParagraphBlockProps extends IBlockAttributes {
@@ -11,7 +11,7 @@ export interface ParagraphBlockProps extends IBlockAttributes {
 export interface IParagraphBlock extends IBlock<ParagraphBlockProps> {}
 
 export function ParagraphBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	component: Component,
 	children,
 	style,

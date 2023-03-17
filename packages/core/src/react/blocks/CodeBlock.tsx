@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock } from './hooks';
+import { defaultElement, useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes } from './types';
 
@@ -29,7 +29,12 @@ export interface ICodeBlock extends IBlock<CodeBlockProps> {}
  *
  * @param props Component properties
  */
-export function CodeBlock({ domNode: node, children, component: Component, style }: ICodeBlock) {
+export function CodeBlock({
+	domNode: node = defaultElement,
+	children,
+	component: Component,
+	style,
+}: ICodeBlock) {
 	const { name, className } = useBlock(node);
 	const blockAttributes = useBlockAttributes(node);
 
