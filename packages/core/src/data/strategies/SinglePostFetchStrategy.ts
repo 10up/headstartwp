@@ -4,6 +4,7 @@ import {
 	EndpointError,
 	removeSourceUrl,
 	NotFoundError,
+	getSiteBySourceUrl,
 } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
@@ -97,7 +98,16 @@ export class SinglePostFetchStrategy<
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
-		this.path = nonUrlParams.fullPath ?? path;
+		const config = getSiteBySourceUrl(this.baseURL);
+
+		// if polylang integration is enabled and there's a lang argument
+		// prefix the path with locale, this is required for post path mapping
+		const localizedPath =
+			config.integrations?.polylang?.enable && nonUrlParams.lang
+				? `/${nonUrlParams.lang}${path}`
+				: path;
+
+		this.path = nonUrlParams.fullPath ?? localizedPath;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);

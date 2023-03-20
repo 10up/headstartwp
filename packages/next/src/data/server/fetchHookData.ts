@@ -81,7 +81,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	options: FetchHookDataOptions<P, T> = {},
 ) {
 	const { sourceUrl, integrations } = getSiteFromContext(ctx);
-	const params = options?.params || {};
+	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
@@ -91,14 +91,14 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		path = Array.isArray(ctx.params.path) ? ctx.params.path : [ctx.params.path || ''];
 	}
 
+	if (integrations?.polylang?.enable && (ctx.locale || ctx.defaultLocale)) {
+		params.lang = ctx.locale ?? ctx.defaultLocale;
+	}
+
 	const stringPath = convertToPath(path);
 	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
 	const finalParams = { ...defaultParams, ...urlParams, ...params };
-
-	if (integrations?.polylang?.enable && (ctx.locale || ctx.defaultLocale)) {
-		finalParams.lang = ctx.locale ?? ctx.defaultLocale;
-	}
 
 	// we don't want to include the preview params in the key
 	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };

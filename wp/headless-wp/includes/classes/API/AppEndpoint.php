@@ -37,14 +37,17 @@ class AppEndpoint {
 	 * Register custom endpoints
 	 */
 	public function register_endpoints() {
+
+		$args = [
+			'methods'             => 'GET',
+			'callback'            => [ $this, 'handle_api_endpoint' ],
+			'permission_callback' => '__return_true',
+		];
+
 		register_rest_route(
 			HeadlessWP\API::$namespace,
 			'app',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'handle_api_endpoint' ),
-				'permission_callback' => '__return_true',
-			)
+			$args
 		);
 	}
 
@@ -53,8 +56,12 @@ class AppEndpoint {
 	 *
 	 * This endpoint is checked on every request to include common site information site as menu data, homepage information, etc to kick off the
 	 * front-end website. The data that is returned can be customized through filters to meet the unique needs of your website
+	 *
+	 * @param \WP_REST_Request $request The Rest Request
+	 *
+	 * @return \WP_Rest_Response
 	 */
-	public function handle_api_endpoint() {
+	public function handle_api_endpoint( \WP_REST_Request $request ) {
 
 		$cache_key = self::$cache_key;
 		$response  = wp_cache_get( $cache_key );
