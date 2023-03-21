@@ -86,6 +86,8 @@ export class SinglePostFetchStrategy<
 
 	path: string = '';
 
+	locale: string = '';
+
 	shoudCheckCurrentPathAgainstPostLink: boolean = true;
 
 	getDefaultEndpoint(): string {
@@ -100,14 +102,11 @@ export class SinglePostFetchStrategy<
 	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
 		const config = getSiteBySourceUrl(this.baseURL);
 
-		// if polylang integration is enabled and there's a lang argument
-		// prefix the path with locale, this is required for post path mapping
-		const localizedPath =
-			config.integrations?.polylang?.enable && nonUrlParams.lang
-				? `/${nonUrlParams.lang}${path}`
-				: path;
+		// this is required for post path mapping
+		this.locale =
+			config.integrations?.polylang?.enable && nonUrlParams.lang ? nonUrlParams.lang : '';
 
-		this.path = nonUrlParams.fullPath ?? localizedPath;
+		this.path = nonUrlParams.fullPath ?? path;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
@@ -185,11 +184,14 @@ export class SinglePostFetchStrategy<
 					const postTypeObject = getCustomPostType(postType, this.baseURL);
 					const singlePrefix = postTypeObject?.single?.replace(/\/?$/, '') ?? '';
 
-					return postPath === `${singlePrefix}${currentPath}`;
+					return (
+						postPath === `${singlePrefix}${currentPath}` ||
+						postPath === `/${this.locale}${singlePrefix}${currentPath}`
+					);
 				}
 			}
 
-			return postPath === currentPath;
+			return postPath === currentPath || postPath === `/${this.locale}${currentPath}`;
 		});
 	}
 
@@ -241,7 +243,7 @@ export class SinglePostFetchStrategy<
 
 			if (!post) {
 				throw new NotFoundError(
-					`Post was found but did not match current path: "${this.path}"`,
+					`Post was found but did not match current path: "${this.path}""`,
 				);
 			}
 
