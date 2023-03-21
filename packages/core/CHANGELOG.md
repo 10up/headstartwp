@@ -1,5 +1,23 @@
 # @10up/headless-core
 
+## 0.6.4
+
+### Patch Changes
+
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+
+## 0.6.4-next.0
+
+### Patch Changes
+
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+
+## 0.6.3
+
+### Patch Changes
+
+- 664f306: Fix redirects by using resolvedUrl instead of req.url
+
 ## 0.6.3-next.0
 
 ### Patch Changes
