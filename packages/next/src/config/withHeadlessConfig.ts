@@ -111,7 +111,7 @@ export function withHeadlessConfig(
 					},
 					{
 						source: `${prefix}/feed`,
-						destination: `${wpUrl}/feed?rewrite_urls=${shouldRewriteFeedUrls}`,
+						destination: `${wpUrl}/feed/?rewrite_urls=${shouldRewriteFeedUrls}`,
 					},
 					{
 						source: '/robots.txt',
