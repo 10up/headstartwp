@@ -98,6 +98,7 @@ export function withHeadlessConfig(
 				const prefix = isMultisite ? '/_sites/:site' : '';
 				const shouldRewriteYoastSEOUrls =
 					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
+				const shouldRewriteFeedUrls = site.rewriteFeedUrls === true ? 1 : 0;
 
 				const defaultRewrites = [
 					{
@@ -110,7 +111,7 @@ export function withHeadlessConfig(
 					},
 					{
 						source: `${prefix}/feed`,
-						destination: `${wpUrl}/feed`,
+						destination: `${wpUrl}/feed?rewrite_urls=${shouldRewriteFeedUrls}`,
 					},
 					{
 						source: '/robots.txt',
