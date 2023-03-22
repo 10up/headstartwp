@@ -18,7 +18,7 @@ class Feed {
 	 */
 	public function register() {
 		add_filter( 'the_permalink_rss', [ $this, 'filter_url' ], 999 );
-		add_filter( 'the_content_feed', [ $this, 'filter_url' ], 999 );
+		add_filter( 'the_content_feed', [ $this, 'filter_url' ], 9999 );
 		add_filter( 'the_excerpt_rss', [ $this, 'filter_url' ], 999 );
 		add_filter( 'comments_link_feed', [ $this, 'filter_url' ], 999 );
 		add_filter( 'self_link', [ $this, 'filter_url' ], 999 );
@@ -51,6 +51,18 @@ class Feed {
 			return $content;
 		}
 
-		return str_replace( untrailingslashit( home_url() ), untrailingslashit( Plugin::get_react_url() ), $content );
+		$skip_paths = [ 'wp-login.php', 'wp-register.php', 'wp-admin', 'wp-content' ];
+
+		$content = str_replace( untrailingslashit( home_url() ), untrailingslashit( Plugin::get_react_url() ), $content );
+
+		foreach ( $skip_paths as $skip_path ) {
+			$content = str_replace(
+				sprintf( '%s/%s', untrailingslashit( Plugin::get_react_url() ), $skip_path ),
+				sprintf( '%s/%s', untrailingslashit( home_url() ), $skip_path ),
+				$content
+			);
+		}
+
+		return $content;
 	}
 }

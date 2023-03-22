@@ -32,6 +32,5 @@ export type HeadlessConfig = {
 	redirectStrategy?: RedirectStrategy;
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
-	rewriteFeedUrls?: boolean;
 	sites?: HeadlessConfig[];
 };
