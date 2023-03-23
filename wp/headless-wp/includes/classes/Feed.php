@@ -18,10 +18,11 @@ class Feed {
 	 */
 	public function register() {
 		add_filter( 'the_permalink_rss', [ $this, 'filter_url' ], 999 );
-		add_filter( 'the_content_feed', [ $this, 'filter_url' ], 9999 );
+		add_filter( 'the_content_feed', [ $this, 'filter_url' ], 999 );
 		add_filter( 'the_excerpt_rss', [ $this, 'filter_url' ], 999 );
 		add_filter( 'comments_link_feed', [ $this, 'filter_url' ], 999 );
-		add_filter( 'self_link', [ $this, 'filter_url' ], 999 );
+		add_filter( 'commnet_link', [ $this, 'filter_url' ], 999 );
+		add_filter( 'get_bloginfo_rss', [ $this, 'filter_rss_url' ], 999, 2 );
 	}
 
 	/**
@@ -64,5 +65,25 @@ class Feed {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Filters the feed url
+	 *
+	 * @param string $info The value
+	 * @param string $option The option name
+	 *
+	 * @return string
+	 */
+	public function filter_rss_url( $info, $option ) {
+		if ( ! $this->should_rewrite_urls() ) {
+			return $info;
+		}
+
+		if ( 'url' === $option ) {
+			return trailingslashit( Plugin::get_react_url() );
+		}
+
+		return $info;
 	}
 }
