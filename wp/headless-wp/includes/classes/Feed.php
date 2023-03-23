@@ -37,7 +37,12 @@ class Feed {
 
 		$rewrite_urls = filter_input( INPUT_GET, 'rewrite_urls', FILTER_SANITIZE_NUMBER_INT );
 
-		return (bool) $rewrite_urls;
+		/**
+		 * Filter's out whether feed urls should be rewritten
+		 *
+		 * @param boolean $rewrite_urls Whether the current request should rewrite_urls
+		 */
+		return apply_filters( 'tenup_headless_wp_should_rewrite_feed_urls', (bool) $rewrite_urls );
 	}
 
 	/**
