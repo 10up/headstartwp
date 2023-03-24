@@ -39,6 +39,9 @@ class Plugin {
 		$cache_flush = new CacheFlush();
 		$cache_flush->register();
 
+		$feed = new Feed();
+		$feed->register();
+
 		// Integrations
 		$yoast_seo = new YoastSEO();
 		$yoast_seo->register();

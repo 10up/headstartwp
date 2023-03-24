@@ -48,7 +48,7 @@ function traverse(rules) {
  * HOC used to wrap the nextjs config object with the headless config object.
  *
  * @param {object} nextConfig The nextjs config object
- * @param {object} headlessConfig
+ * @param {object} headlessConfig The headless config
  * @returns
  */
 export function withHeadlessConfig(
@@ -110,7 +110,7 @@ export function withHeadlessConfig(
 					},
 					{
 						source: `${prefix}/feed`,
-						destination: `${wpUrl}/feed`,
+						destination: `${wpUrl}/feed/?rewrite_urls=1`,
 					},
 					{
 						source: '/robots.txt',
