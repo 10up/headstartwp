@@ -1,6 +1,6 @@
 import { setHeadlessConfig } from '../../../../test/utils';
 import { apiGet } from '../../api';
-import { SinglePostFetchStrategy } from '../SinglePostFetchStrategy';
+import { PostParams, SinglePostFetchStrategy } from '../SinglePostFetchStrategy';
 
 jest.mock('../../api');
 
@@ -443,6 +443,151 @@ describe('SinglePostFetchStrategy', () => {
 		expect(results).toMatchObject({
 			result: post2,
 		});
+	});
+
+	it('handle post path mapping with locale', async () => {
+		const englishPostSlug = 'test';
+		const utf8EncodedPostSlug = 'لأخبار-المالية';
+
+		const post1 = {
+			title: 'test',
+			id: 1,
+			link: `http://sourceurl.com/en/${englishPostSlug}`,
+		};
+
+		const post2 = {
+			title: 'test',
+			id: 2,
+			link: `http://sourceurl.com/ar/${encodeURIComponent(utf8EncodedPostSlug)}`,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 1,
+			},
+			json: [post1],
+		});
+
+		setHeadlessConfig({
+			integrations: {
+				polylang: {
+					enable: true,
+				},
+			},
+		});
+
+		fetchStrategy.setBaseURL('http://sourceurl.com');
+
+		let params: Partial<PostParams> = { lang: 'en' };
+		params = fetchStrategy.getParamsFromURL(`/${englishPostSlug}`, params);
+		let results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: post1,
+		});
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 1,
+			},
+			json: [post2],
+		});
+
+		params = { lang: 'ar' };
+		params = fetchStrategy.getParamsFromURL(`/${utf8EncodedPostSlug}`, params);
+		results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: post2,
+		});
+
+		// if lang is not passed it should fail
+		params = fetchStrategy.getParamsFromURL(`/${utf8EncodedPostSlug}`);
+
+		await expect(
+			fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params),
+		).rejects.toThrow();
+	});
+
+	it('handle post path mapping with locale for cpts', async () => {
+		const englishPostSlug = 'test';
+		const utf8EncodedPostSlug = 'لأخبار-المالية';
+
+		const post1 = {
+			title: 'test',
+			id: 1,
+			link: `http://sourceurl.com/en/book/${englishPostSlug}`,
+			type: 'book',
+		};
+
+		const post2 = {
+			title: 'test',
+			id: 2,
+			link: `http://sourceurl.com/ar/book/${encodeURIComponent(utf8EncodedPostSlug)}`,
+			type: 'book',
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 1,
+			},
+			json: [post1],
+		});
+
+		setHeadlessConfig({
+			integrations: {
+				polylang: {
+					enable: true,
+				},
+			},
+			customPostTypes: [
+				{
+					endpoint: 'https://sourceurl.com',
+					slug: 'book',
+					single: '/book',
+					archive: '/books',
+				},
+			],
+		});
+
+		fetchStrategy.setBaseURL('http://sourceurl.com');
+
+		let params: Partial<PostParams> = { lang: 'en', postType: 'book' };
+		params = { ...params, ...fetchStrategy.getParamsFromURL(`/${englishPostSlug}`, params) };
+		let results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: post1,
+		});
+
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 1,
+			},
+			json: [post2],
+		});
+
+		params = { lang: 'ar', postType: 'book' };
+		params = {
+			...params,
+			...fetchStrategy.getParamsFromURL(`/${utf8EncodedPostSlug}`, params),
+		};
+		results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: post2,
+		});
+
+		// if lang is not passed it should fail
+		params = fetchStrategy.getParamsFromURL(`/${utf8EncodedPostSlug}`);
+
+		await expect(
+			fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params),
+		).rejects.toThrow();
 	});
 
 	it('allows overriding default params', () => {

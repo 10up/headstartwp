@@ -1,7 +1,6 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
 import { FetchHookOptions, useFetchAuthorArchive } from '@10up/headless-core/react';
-import { useRouter } from 'next/router';
-import { convertToPath } from '../convertToPath';
+import { usePrepareFetch } from './usePrepareFetch';
 
 /**
  * The useAuthorArchive hook. Returns a collection of post entities queried by author
@@ -30,11 +29,14 @@ import { convertToPath } from '../convertToPath';
 export function useAuthorArchive<
 	T extends PostEntity = PostEntity,
 	P extends PostsArchiveParams = PostsArchiveParams,
->(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
-	const { query } = useRouter();
-	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
+>(params: Partial<P> = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
+	const useFetchArguments = usePrepareFetch(params, options);
 
-	return useFetchAuthorArchive<T, P>(params, options, convertToPath(path));
+	return useFetchAuthorArchive<T, P>(
+		useFetchArguments.params,
+		useFetchArguments.options,
+		useFetchArguments.path,
+	);
 }
 
 /**

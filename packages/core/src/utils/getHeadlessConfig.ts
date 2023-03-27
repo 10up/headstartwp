@@ -22,6 +22,7 @@ export function getHeadlessConfig() {
 		sourceUrl,
 		sites,
 		hostUrl,
+		integrations,
 	} = __10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
@@ -31,6 +32,7 @@ export function getHeadlessConfig() {
 		customTaxonomies,
 		redirectStrategy: redirectStrategy || 'none',
 		useWordPressPlugin: useWordPressPlugin || false,
+		integrations,
 		sites: (sites || []).map((site) => {
 			// if host is not defined but hostUrl is, infer host from hostUrl
 			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {
@@ -69,6 +71,7 @@ export function getSite(site?: HeadlessConfig) {
 		customTaxonomies: site?.customTaxonomies || settings.customTaxonomies,
 		redirectStrategy: site?.redirectStrategy || settings.redirectStrategy || 'none',
 		useWordPressPlugin: site?.useWordPressPlugin || settings.useWordPressPlugin || false,
+		integrations: site?.integrations || settings.integrations,
 	};
 
 	return headlessConfig;
@@ -79,6 +82,7 @@ export function getSite(site?: HeadlessConfig) {
  *
  * @param hostOrUrl The hostname
  *
+ * @param locale
  * @returns
  */
 export function getSiteByHost(hostOrUrl: string, locale?: string) {
@@ -128,6 +132,8 @@ export function getSiteBySourceUrl(sourceUrl: string) {
 
 /**
  * Returns the avaliable taxonomy slugs
+ *
+ * @param sourceUrl
  */
 export function getCustomTaxonomySlugs(sourceUrl?: string) {
 	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
@@ -141,6 +147,8 @@ export function getCustomTaxonomySlugs(sourceUrl?: string) {
 
 /**
  * Returns the avaliable taxonomies
+ *
+ * @param sourceUrl
  */
 export function getCustomTaxonomies(sourceUrl?: string) {
 	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
@@ -175,6 +183,7 @@ export function getCustomTaxonomies(sourceUrl?: string) {
  *
  * @param slug post type slug
  
+ * @param sourceUrl
  */
 export function getCustomTaxonomy(slug: string, sourceUrl?: string) {
 	const taxonomies = getCustomTaxonomies(sourceUrl);
@@ -185,6 +194,7 @@ export function getCustomTaxonomy(slug: string, sourceUrl?: string) {
 /**
  * Returns the avaliable post type slugs
  *
+ * @param sourceUrl
  */
 export function getCustomPostTypesSlugs(sourceUrl?: string) {
 	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
@@ -198,6 +208,8 @@ export function getCustomPostTypesSlugs(sourceUrl?: string) {
 
 /**
  * Returns the avaliable post types
+ *
+ * @param sourceUrl
  */
 export function getCustomPostTypes(sourceUrl?: string) {
 	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
@@ -231,6 +243,7 @@ export function getCustomPostTypes(sourceUrl?: string) {
  * Returns a single post type by slug if defined
  *
  * @param slug post type slug
+ * @param sourceUrl
  */
 export function getCustomPostType(slug: string, sourceUrl?: string) {
 	const postTypes = getCustomPostTypes(sourceUrl);

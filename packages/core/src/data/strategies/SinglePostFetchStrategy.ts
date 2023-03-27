@@ -4,6 +4,7 @@ import {
 	EndpointError,
 	removeSourceUrl,
 	NotFoundError,
+	getSiteBySourceUrl,
 } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
@@ -85,6 +86,8 @@ export class SinglePostFetchStrategy<
 
 	path: string = '';
 
+	locale: string = '';
+
 	shoudCheckCurrentPathAgainstPostLink: boolean = true;
 
 	getDefaultEndpoint(): string {
@@ -97,6 +100,12 @@ export class SinglePostFetchStrategy<
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	getParamsFromURL(path: string, nonUrlParams: Partial<P> = {}): Partial<P> {
+		const config = getSiteBySourceUrl(this.baseURL);
+
+		// this is required for post path mapping
+		this.locale =
+			config.integrations?.polylang?.enable && nonUrlParams.lang ? nonUrlParams.lang : '';
+
 		this.path = nonUrlParams.fullPath ?? path;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -175,11 +184,14 @@ export class SinglePostFetchStrategy<
 					const postTypeObject = getCustomPostType(postType, this.baseURL);
 					const singlePrefix = postTypeObject?.single?.replace(/\/?$/, '') ?? '';
 
-					return postPath === `${singlePrefix}${currentPath}`;
+					return (
+						postPath === `${singlePrefix}${currentPath}` ||
+						postPath === `/${this.locale}${singlePrefix}${currentPath}`
+					);
 				}
 			}
 
-			return postPath === currentPath;
+			return postPath === currentPath || postPath === `/${this.locale}${currentPath}`;
 		});
 	}
 
@@ -231,7 +243,7 @@ export class SinglePostFetchStrategy<
 
 			if (!post) {
 				throw new NotFoundError(
-					`Post was found but did not match current path: "${this.path}"`,
+					`Post was found but did not match current path: "${this.path}""`,
 				);
 			}
 
