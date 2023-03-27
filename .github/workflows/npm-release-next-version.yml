@@ -39,8 +39,6 @@ jobs:
   plugin-release:
     runs-on: ubuntu-latest
     needs: [packages]
-    # only run this when if pre mode is active
-    if: ${{ [[ -f .changeset/pre.json ]] }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
