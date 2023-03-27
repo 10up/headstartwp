@@ -66,6 +66,8 @@ jobs:
       - name: Tag
         run: |
           cd repo
+          git fetch --all --tags
+          
           echo "Releasing version $VERSION ..."
           if [ $(git tag -l "$VERSION") ]; then
               echo "Plugin version already published"
