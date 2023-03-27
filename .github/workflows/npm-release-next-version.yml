@@ -76,6 +76,7 @@ jobs:
               git config user.email github-actions@github.com
               git checkout -b "$VERSION"
               git tag "$VERSION"
-              git push --all --tags origin
+              git push --tags
+              git push --all origin
           fi
           
