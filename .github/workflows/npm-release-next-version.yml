@@ -74,8 +74,8 @@ jobs:
           else
               git config user.name github-actions
               git config user.email github-actions@github.com
-              git checkout -b "release-$VERSION"
+              git checkout -b "$VERSION"
               git tag "$VERSION"
-              git push --tags
+              git push --all --tags origin
           fi
           
