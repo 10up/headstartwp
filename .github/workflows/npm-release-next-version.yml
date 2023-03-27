@@ -67,7 +67,7 @@ jobs:
         run: |
           cd repo
           echo "Releasing version $VERSION ..."
-          if [ $(git tag -l "$VERSION" ]; then
+          if [ $(git tag -l "$VERSION") ]; then
               echo "Plugin version already published"
           else
               git config user.name github-actions
