@@ -62,7 +62,7 @@ jobs:
           ref: next
           token: ${{ secrets.API_GITHUB_TOKEN }}
       - name: Create Github Tag
-        run:  'echo "VERSION=$(grep -Po ''\"version\": \"[0-9\\.]+\"'' repo/package.json | grep -Po ''[0-9\\.]+'')" >> $GITHUB_ENV'
+        run:  'echo "VERSION=$(cat repo/package.json | jq -r '.version')" >> $GITHUB_ENV'
       - name: Tag
         run: |
           cd repo
