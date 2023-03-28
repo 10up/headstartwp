@@ -7,24 +7,27 @@ import { IncrementalCacheValue } from 'next/dist/server/response-cache';
 import { createClient, RedisClientType } from 'redis';
 import path from 'path';
 
+let redisClient: RedisClientType<Record<string, never>, Record<string, never>>;
+
 export default class RedisCache implements CacheHandler {
 	private flushToDisk?: boolean;
-
-	private redisClient: RedisClientType<Record<string, never>, Record<string, never>>;
 
 	private serverDistDir: string | undefined;
 
 	constructor(ctx: CacheHandlerContext) {
 		this.flushToDisk = ctx.flushToDisk;
-		this.redisClient = createClient({
+		redisClient = createClient({
 			url: process.env.NEXT_REDIS_URL ?? undefined,
 		});
 		this.serverDistDir = ctx.serverDistDir;
+		this.connect();
 	}
 
 	private async connect() {
-		if (!this.redisClient.isOpen) {
-			await this.redisClient.connect();
+		if (!redisClient.isOpen) {
+			console.log('connecting');
+			await redisClient.connect();
+			console.log('connected');
 		}
 	}
 
@@ -39,20 +42,13 @@ export default class RedisCache implements CacheHandler {
 	public async get(key: string, fetchCache?: boolean): Promise<CacheHandlerValue | null> {
 		await this.connect();
 
-		const value = await this.redisClient.get(this.getSeedPath(key));
-		console.log('key', key);
+		const value = await redisClient.get(this.getSeedPath(key));
+
 		if (!value) {
 			return null;
 		}
 
-		return {
-			value: {
-				kind: 'ROUTE',
-				body: Buffer.from(value),
-				headers: {},
-				status: 200,
-			},
-		};
+		return JSON.parse(value) as CacheHandlerValue;
 	}
 
 	public async set(
@@ -61,14 +57,8 @@ export default class RedisCache implements CacheHandler {
 		fetchCache?: boolean,
 	): Promise<void> {
 		if (!this.flushToDisk || !data) return;
-
 		await this.connect();
-		const pathname = this.getSeedPath(key);
-		console.log(pathname, data);
-		if (data.kind === 'PAGE') {
-			await this.redisClient.set(pathname, data.html);
-		} else if (data.kind === 'ROUTE') {
-			await this.redisClient.set(pathname, data.body);
-		}
+
+		redisClient.set(key, JSON.stringify({ lastModified: Date.now(), value: data }));
 	}
 }
