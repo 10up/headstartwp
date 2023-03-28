@@ -68,13 +68,13 @@ jobs:
         run:  echo "VERSION=$(cat repo/package.json | jq -r '.version')" >> $GITHUB_ENV
       - name: Tag
         run: |
-        cd repo
+          cd repo
           git fetch --all --tags
           echo "Releasing version $VERSION ..."
           if [ $(git tag -l "$VERSION") ]; then
               echo "Plugin version already published"
           else
-               git config user.name github-actions
+              git config user.name github-actions
               git config user.email github-actions@github.com
               git checkout -b "release-$VERSION"
               git tag "$VERSION"

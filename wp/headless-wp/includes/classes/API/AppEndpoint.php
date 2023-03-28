@@ -24,13 +24,58 @@ class AppEndpoint {
 	public static $cache_key = 'headless_wp_api_app';
 
 	/**
+	 * Key for storing the cache keys
+	 *
+	 * @var string
+	 */
+	private static $cache_key_store = 'headless_wp_api_app_cache_key_store';
+
+	/**
 	 * Registers all actions and hooks
 	 */
 	public function register() {
+		add_action( 'rest_api_init', [ $this, 'register_endpoints' ] );
 
-		add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
-		add_action( 'save_post', array( $this, 'invalidate_cache' ) ); // Clear the cache for this endpoint when posts are saved
+		// Clear the cache for this endpoint when posts and options are saved
+		add_action( 'save_post', [ $this, 'invalidate_cache' ] );
+		add_action( 'update_option', [ $this, 'maybe_invalidate_cache' ] );
 
+	}
+
+	/**
+	 * Generates a dynamic key given params
+	 *
+	 * @param array $params The request params
+	 *
+	 * @return string
+	 */
+	public function get_cache_key( $params ) {
+		return sprintf( '%s_%s', self::$cache_key, md5( wp_json_encode( $params ) ) );
+	}
+
+	/**
+	 * Returns all stored cache keys
+	 *
+	 * @return array
+	 */
+	public function get_cache_keys() {
+		return get_option( self::$cache_key_store, [] );
+	}
+
+	/**
+	 * Stores the cache key for later invalidation
+	 *
+	 * @param string $cache_key The cache key to store
+	 *
+	 * @return void
+	 */
+	public function store_cache_key( $cache_key ) {
+		$cache_keys = $this->get_cache_keys();
+
+		// storing as a dict for faster access
+		$cache_keys[ $cache_key ] = true;
+
+		update_option( self::$cache_key_store, $cache_keys );
 	}
 
 	/**
@@ -62,8 +107,7 @@ class AppEndpoint {
 	 * @return \WP_Rest_Response
 	 */
 	public function handle_api_endpoint( \WP_REST_Request $request ) {
-
-		$cache_key = self::$cache_key;
+		$cache_key = $this->get_cache_key( $request->get_params() );
 		$response  = wp_cache_get( $cache_key );
 
 		if ( empty( $response ) ) {
@@ -74,15 +118,6 @@ class AppEndpoint {
 				'settings'  => [],
 				'redirects' => [],
 			];
-
-			// Support safe redirect manager redirects
-			if ( function_exists( '\srm_get_redirects' ) ) {
-				$response['redirects'] = \srm_get_redirects(
-					[
-						'posts_per_page' => 300,
-					]
-				);
-			}
 
 			/**
 			 * Homepage data retrieval. By default the scaffold will set the homepage depending on the settings in the WordPress admin 'Reading' settings.
@@ -138,6 +173,8 @@ class AppEndpoint {
 			// Since this endpoint is hit on every page, cache the data to help speed the site
 			\wp_cache_set( $cache_key, $response, '', 15 * MINUTE_IN_SECONDS );
 
+			$this->store_cache_key( $cache_key );
+
 		}
 
 		return rest_ensure_response( $response );
@@ -181,11 +218,29 @@ class AppEndpoint {
 	}
 
 	/**
+	 * Maybe invalidate cache when updating options
+	 *
+	 * @param string $option_name The option name
+	 *
+	 * @return void
+	 */
+	public function maybe_invalidate_cache( $option_name ) {
+		if ( self::$cache_key_store !== $option_name ) {
+			$this->invalidate_cache();
+		}
+	}
+
+	/**
 	 * Invalidates the cache for this endpoint
 	 */
 	public function invalidate_cache() {
-		$cache_key = self::$cache_key;
+		$cache_keys = $this->get_cache_keys();
 
-		wp_cache_delete( $cache_key );
+		// cache keys is a dict, and the key is the cache_key
+		foreach ( $cache_keys as $cache_key => $val ) {
+			wp_cache_delete( $cache_key );
+		}
+
+		delete_option( self::$cache_key_store );
 	}
 }
