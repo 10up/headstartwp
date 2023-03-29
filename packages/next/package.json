@@ -38,7 +38,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run ts && npm run ts:cjs",
+    "build": "npm run ts && npm run ts:cjs && ./set-package-json-dist.sh",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
     "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
