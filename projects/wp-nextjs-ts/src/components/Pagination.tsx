@@ -1,6 +1,7 @@
+import { PageInfo } from '@10up/headless-core';
 import { styled } from '@linaria/react';
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import { Link } from './Link';
 
 const PaginationContainer = styled.ul`
@@ -12,7 +13,7 @@ const PaginationItem = styled.li`
 	margin-right: 5px;
 `;
 
-export const Pagination = ({ pageInfo }) => {
+export const Pagination: FC<{ pageInfo: PageInfo }> = ({ pageInfo }) => {
 	const { asPath } = useRouter();
 	const path = !asPath.includes('/page') ? `${asPath}/page/1` : asPath;
 
@@ -61,12 +62,4 @@ export const Pagination = ({ pageInfo }) => {
 			)}
 		</PaginationContainer>
 	);
-};
-
-Pagination.propTypes = {
-	pageInfo: PropTypes.shape({
-		page: PropTypes.number,
-		totalItems: PropTypes.number,
-		totalPages: PropTypes.number,
-	}).isRequired,
 };

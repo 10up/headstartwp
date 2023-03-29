@@ -1,6 +1,6 @@
 import { css } from '@linaria/core';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 const buttonStyles = css`
 	border: none;
@@ -16,7 +16,7 @@ const searchInputStyles = css`
 	padding: 10px 20px;
 `;
 
-export const Search = () => {
+export const Search: FC = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const router = useRouter();
 

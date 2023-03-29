@@ -4,16 +4,18 @@ import {
 	addHookData,
 	handleError,
 	useAppSettings,
+	HeadlessGetServerSideProps,
 } from '@10up/headless-next';
+import { FC } from 'react';
 import { Link } from '../../components/Link';
 import { searchParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 
-const SearchPage = () => {
+const SearchPage: FC = () => {
 	const { data } = useSearch(searchParams);
 
 	if (data.pageInfo.totalItems === 0) {
-		return 'Nothing found';
+		return <>Nothing found</>;
 	}
 
 	return (
@@ -34,7 +36,7 @@ const SearchPage = () => {
 
 export default SearchPage;
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: HeadlessGetServerSideProps = async (context) => {
 	try {
 		const settledPromises = await resolveBatch([
 			{
@@ -50,4 +52,4 @@ export async function getServerSideProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+};

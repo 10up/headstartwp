@@ -1,6 +1,7 @@
 import { Menu } from '@10up/headless-core/react';
 import { useMenu } from '@10up/headless-next';
 import { css } from '@linaria/core';
+import { FC } from 'react';
 
 const navStyles = css`
 	height: 100%;
@@ -32,7 +33,7 @@ const navStyles = css`
 	}
 `;
 
-export const Nav = () => {
+export const Nav: FC = () => {
 	const { data, loading, error } = useMenu('primary');
 
 	if (loading || error) {

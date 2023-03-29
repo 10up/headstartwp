@@ -1,4 +1,6 @@
 import { HeadlessApp } from '@10up/headless-next';
+import { FC } from 'react';
+import { AppProps } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { Link } from '../components/Link';
@@ -12,9 +14,8 @@ Router.events.on('routeChangeComplete', () => {
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
-// eslint-disable-next-line react/prop-types
-const MyApp = ({ Component, pageProps }) => {
-	// eslint-disable-next-line react/prop-types, no-unused-vars
+const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { fallback = {}, themeJson = {}, ...props } = pageProps;
 
 	return (
@@ -40,6 +41,7 @@ const MyApp = ({ Component, pageProps }) => {
 			useYoastHtml
 		>
 			<Layout>
+				{/* eslint-disable-next-line react/jsx-props-no-spreading */}
 				<Component {...props} />
 			</Layout>
 		</HeadlessApp>

@@ -1,5 +1,5 @@
 import parse, { HTMLReactParserOptions, domToReact, Element } from 'html-react-parser';
-import React, { isValidElement, ReactNode } from 'react';
+import React, { isValidElement, ReactElement, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
 import { isBlock, wpKsesPost } from '../../dom';
 import { HeadlessConfig } from '../../types';
@@ -62,9 +62,9 @@ export interface BlockProps {
  * The common interface for a block transform component
  */
 export interface IBlock<T extends IBlockAttributes> extends Omit<BlockProps, 'test'> {
-	domNode: Element;
+	domNode?: Element;
 	className?: string;
-	component: React.FC<T>;
+	component: (props: T) => ReactElement | null;
 }
 
 /**

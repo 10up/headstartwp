@@ -1,5 +1,6 @@
 import { useAppSettings } from '@10up/headless-next';
 import { css } from '@linaria/core';
+import { FC } from 'react';
 import { Link } from '../Link';
 
 const footerLinksStyles = css`
@@ -19,7 +20,7 @@ const footerLinksStyles = css`
 	}
 `;
 
-export const FooterLinks = () => {
+export const FooterLinks: FC = () => {
 	const { data, loading } = useAppSettings();
 
 	if (loading) {

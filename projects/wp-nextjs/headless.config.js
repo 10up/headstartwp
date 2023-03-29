@@ -24,7 +24,6 @@ module.exports = {
 		{
 			slug: 'genre',
 			endpoint: '/wp-json/wp/v2/genre',
-			postType: ['book'],
 		},
 	],
 	redirectStrategy: '404',

@@ -1,6 +1,14 @@
 import { Element } from 'html-react-parser';
+import { FrameworkError } from '../../../utils';
 import { useSettings } from '../../provider';
 import { IBlockAttributes, IDataWPBlock } from '../types';
+
+const BLOCK_MISSING = '_HEADLESS_/_MISSING__BLOCK_';
+
+export const defaultElement = new Element('div', {
+	'data-wp-block': JSON.stringify({}),
+	'data-wp-block-name': BLOCK_MISSING,
+});
 
 /**
  * Parses Json without throwing errors
@@ -27,8 +35,12 @@ function safeParsing(json): Record<string, any> {
  *
  * @returns
  */
-export function useBlock<T extends IBlockAttributes>(node: Element) {
+export function useBlock<T extends IBlockAttributes>(node?: Element) {
 	const { useWordPressPlugin } = useSettings();
+
+	if (typeof node === 'undefined') {
+		throw new FrameworkError('You are using `useBlock` on a undefined node');
+	}
 
 	if (
 		typeof node.attribs['data-wp-block-name'] === 'undefined' &&
@@ -46,6 +58,13 @@ export function useBlock<T extends IBlockAttributes>(node: Element) {
 	}
 
 	const blockName = node.attribs['data-wp-block-name'] || '';
+
+	if (blockName === BLOCK_MISSING) {
+		if (typeof node === 'undefined') {
+			throw new FrameworkError('You are using `useBlock` on a undefined node');
+		}
+	}
+
 	const attrs: IDataWPBlock = node.attribs['data-wp-block']
 		? safeParsing(node.attribs['data-wp-block'])
 		: {};

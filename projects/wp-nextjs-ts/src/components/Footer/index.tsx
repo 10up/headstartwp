@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { FC } from 'react';
 import { FooterLinks } from './FooterLinks';
 
 const StyledFooter = styled.footer`
@@ -22,7 +23,7 @@ const StyledFooter = styled.footer`
 	}
 `;
 
-const Footer = () => {
+const Footer: FC = () => {
 	return (
 		<StyledFooter>
 			<FooterLinks />

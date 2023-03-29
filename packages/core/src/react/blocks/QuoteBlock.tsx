@@ -1,13 +1,18 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface QuoteBlockProps extends IBlockAttributes {}
 
 export interface IQuoteBlock extends IBlock<QuoteBlockProps> {}
 
-export function QuoteBlock({ domNode: node, children, component: Component, style }: IQuoteBlock) {
+export function QuoteBlock({
+	domNode: node = defaultElement,
+	children,
+	component: Component,
+	style,
+}: IQuoteBlock) {
 	const { name, className } = useBlock<QuoteBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 

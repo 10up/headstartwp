@@ -9,7 +9,7 @@ const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfill
  *
  * @param promises Array of PromiseObject to be resolved.
  *
- * @returns The resolved promises.
+ * @returns {Promise} The resolved promises.
  */
 export async function resolveBatch(
 	promises: {

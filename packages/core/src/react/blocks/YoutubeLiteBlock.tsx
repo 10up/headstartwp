@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
 import { isYoutubeEmbed, youtubeEmbedRegex } from '../../dom';
+import { IBlock } from '../components';
+import { useBlock } from './hooks';
+import { IBlockAttributes } from './types';
 
 interface LiteYoutube {
 	videoid: string;
@@ -22,6 +25,12 @@ declare global {
 	}
 }
 
+export interface YoutubeLiteBlockProps extends IBlockAttributes {
+	src: string;
+	title: string;
+}
+
+export interface IYoutubeLiteBlock extends IBlock<YoutubeLiteBlockProps> {}
 /**
  * Renders Youtube embeds with lite-youtube-embed
  *
@@ -29,14 +38,16 @@ declare global {
  *
  * @returns
  */
-export function YoutubeLiteBlock({ domNode }) {
+export function YoutubeLiteBlock({ domNode }: Omit<IYoutubeLiteBlock, 'component'>) {
 	useEffect(() => {
 		import('@justinribeiro/lite-youtube');
 	}, []);
 
-	const { src, title } = domNode.attribs;
+	const { attributes } = useBlock<YoutubeLiteBlockProps>(domNode);
 
-	const videoId = src.match(youtubeEmbedRegex)[7];
+	const { src, title } = attributes;
+
+	const videoId = src.match(youtubeEmbedRegex)?.[7];
 
 	return <lite-youtube videoid={videoId} videotitle={title} />;
 }
