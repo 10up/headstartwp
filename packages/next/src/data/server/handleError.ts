@@ -10,10 +10,25 @@ function isStringArray(el): el is string[] {
 function isGetServerSide(
 	ctx: HeadlessGetServerSidePropsContext | HeadlessGetStaticPropsPropsContext,
 ): ctx is HeadlessGetServerSidePropsContext {
-	return (
-		typeof (ctx as HeadlessGetServerSidePropsContext).req !== 'undefined' &&
-		typeof (ctx as HeadlessGetServerSidePropsContext).req.url !== 'undefined'
-	);
+	return typeof (ctx as HeadlessGetServerSidePropsContext).resolvedUrl !== 'undefined';
+}
+
+/**
+ * Extracts the path name out of the Next.js resolvedUrl
+ *
+ * @param resolvedUrl The full resolved URL
+ *
+ * @returns
+ */
+export function getPathName(resolvedUrl: string) {
+	// /_sites/:site/:rest(.*)
+	const matches = resolvedUrl.match(/^\/_sites\/((?:[^\/]+?))\/((?:.*))(?:\/(?=$))?$/i); // eslint-disable-line no-useless-escape
+
+	if (matches) {
+		return `/${matches[2]}`;
+	}
+
+	return resolvedUrl;
 }
 
 /**
@@ -53,13 +68,18 @@ export async function handleError(
 	if (error.name === 'NotFoundError') {
 		let pathname = '';
 		if (isGetServerSide(ctx)) {
-			pathname = ctx.req.url ?? '';
+			pathname = getPathName(ctx.resolvedUrl);
 		} else {
 			// build out the url from params.path
 			pathname =
 				typeof ctx?.params !== 'undefined' && isStringArray(ctx.params?.path)
 					? `${rootRoute}/${ctx.params.path.join('/')}`
 					: `${rootRoute}/${ctx.params?.path as string}`;
+
+			// if there's a locale and it isn't the default locale append the locale to pathname
+			if (ctx.locale && ctx.defaultLocale && ctx.defaultLocale !== ctx.locale) {
+				pathname = `/${ctx.locale}${pathname}`;
+			}
 		}
 
 		if (redirectStrategy === '404' && pathname) {

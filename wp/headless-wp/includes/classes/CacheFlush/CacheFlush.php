@@ -101,11 +101,18 @@ class CacheFlush {
 		 */
 		$revalidate_endpoint = apply_filters( 'tenup_headless_isr_revalidate_endpoint', trailingslashit( Plugin::get_react_url() ) . 'api/revalidate' );
 
+		$locale = Plugin::get_site_locale();
+
+		if ( function_exists( 'pll_get_post_language' ) ) {
+			$locale = pll_get_post_language( $post_id, 'slug' );
+		}
+
 		$revalidate_url = add_query_arg(
 			[
 				'post_id' => $post_id,
 				'token'   => $token,
 				'path'    => $path,
+				'locale'  => $locale,
 			],
 			$revalidate_endpoint
 		);

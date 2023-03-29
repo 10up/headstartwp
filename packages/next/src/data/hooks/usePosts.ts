@@ -1,7 +1,6 @@
 import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
 import { FetchHookOptions, useFetchPosts } from '@10up/headless-core/react';
-import { useRouter } from 'next/router';
-import { convertToPath } from '../convertToPath';
+import { usePrepareFetch } from './usePrepareFetch';
 
 /**
  * The usePost hook. Returns a collection of post entities
@@ -63,11 +62,14 @@ import { convertToPath } from '../convertToPath';
 export function usePosts<
 	T extends PostEntity = PostEntity,
 	P extends PostsArchiveParams = PostsArchiveParams,
->(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
-	const { query } = useRouter();
-	const path = Array.isArray(query.path) ? query.path : [query.path || ''];
+>(params: Partial<P> = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
+	const useFetchArguments = usePrepareFetch(params, options);
 
-	return useFetchPosts(params, options, convertToPath(path));
+	return useFetchPosts(
+		useFetchArguments.params,
+		useFetchArguments.options,
+		useFetchArguments.path,
+	);
 }
 
 /**

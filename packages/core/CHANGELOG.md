@@ -1,5 +1,73 @@
 # @10up/headless-core
 
+## 0.7.0-next.0
+
+### Minor Changes
+
+- fdde401: Introduces a new feature: The PolyLang Integration. To use simply enable the integration
+
+  ```js title="headless.config.js"
+  module.exports = {
+    // other settings
+    integrations: {
+      yoastSEO: {
+        enable: true,
+      },
+      polylang: {
+        enable: true,
+      },
+    },
+  };
+  ```
+
+  and add the supported locales to next.config.js.
+
+  ```js title="next.config.js"
+  module.exports = {
+    i18n: {
+      // These are all the locales you want to support in
+      // your application
+      locales: ["en", "fr", "nl"],
+      // This is the default locale you want to be used when visiting
+      // a non-locale prefixed path e.g. `/hello`
+      defaultLocale: "en",
+    },
+  };
+  ```
+
+## 0.6.4
+
+### Patch Changes
+
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+
+## 0.6.4-next.0
+
+### Patch Changes
+
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+
+## 0.6.3
+
+### Patch Changes
+
+- 664f306: Fix redirects by using resolvedUrl instead of req.url
+
+## 0.6.3-next.0
+
+### Patch Changes
+
+- 664f306: Fix redirects by using resolvedUrl instead of req.url
+
+## 0.6.2
+
+### Patch Changes
+
+- 9bf3642: Check for wp-admin and related pahts in isInternalLink
+- 9fa4319: Fix previews handling for multisite with locale
+- 3671143: Fixes an issue where taxonomy archives would support non-starndard WP routes (/category/author/author-name and /category/:year/:month/:day) and adds support for nested taxonomy routes (/parent-category/category).
+- 61231c3: Fix: add css allowlist similar to WordPress wp_kses_post
+
 ## 0.6.1
 
 ### Patch Changes

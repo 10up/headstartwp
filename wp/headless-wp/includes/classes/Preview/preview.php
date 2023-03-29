@@ -22,13 +22,20 @@ $token = PreviewToken::generate(
 	]
 );
 
+$locale = Plugin::get_site_locale();
+
+if ( function_exists( 'pll_get_post_language' ) ) {
+	$locale = pll_get_post_language( $post_id, 'slug' );
+}
+
 $preview_url = sprintf(
-	'%sapi/preview?post_id=%d&post_type=%s&is_revision=%s&token=%s',
-	trailingslashit( Plugin::get_react_url() ),
+	'%sapi/preview?post_id=%d&post_type=%s&is_revision=%s&token=%s&locale=%s',
+	trailingslashit( Plugin::get_non_localized_headless_url() ),
 	$post_id,
 	$post_type,
 	$is_revision ? '1' : '0',
-	$token
+	$token,
+	Plugin::get_site_locale()
 );
 
 wp_redirect( $preview_url );

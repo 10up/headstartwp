@@ -18,8 +18,11 @@ export interface Integration {
 
 export interface YoastSEOIntegration extends Integration {}
 
+export interface PolylangIntegration extends Integration {}
+
 export type Integrations = {
 	yoastSEO?: YoastSEOIntegration;
+	polylang?: PolylangIntegration;
 };
 
 export type HeadlessConfig = {

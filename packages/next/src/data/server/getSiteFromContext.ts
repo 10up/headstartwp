@@ -10,6 +10,7 @@ import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPropsContext) {
 	const currentSite = ctx?.params?.site;
 	const settings = getHeadlessConfig();
+
 	const site =
 		settings.sites &&
 		settings.sites.find(({ host, locale }) => {
@@ -20,5 +21,9 @@ export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPro
 			return host === currentSite;
 		});
 
-	return getSite(site);
+	if (site) {
+		return getSite(site);
+	}
+
+	return settings;
 }

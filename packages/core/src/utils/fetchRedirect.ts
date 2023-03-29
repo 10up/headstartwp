@@ -33,7 +33,7 @@ function shouldSkipRedirect(link: string, redirect: string, sourceUrl: string) {
 	redirectParams.sort();
 
 	return (
-		linkURL.pathname === redirectURL.pathname &&
+		linkURL.pathname.replace(/\/$/, '') === redirectURL.pathname.replace(/\/$/, '') &&
 		linkParams.toString() === redirectParams.toString()
 	);
 }
@@ -54,6 +54,9 @@ export async function fetchRedirect(pathname: string, sourceUrl: string): Promis
 	const response = await fetch(redirectionURL, {
 		method: 'HEAD',
 		redirect: 'manual',
+		headers: {
+			'X-WP-Redirect-Check': '1',
+		},
 	});
 
 	if (

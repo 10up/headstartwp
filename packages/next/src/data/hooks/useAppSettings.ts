@@ -1,5 +1,6 @@
 import { AppEntity, EndpointParams, FetchResponse } from '@10up/headless-core';
 import { useFetchAppSettings, FetchHookOptions } from '@10up/headless-core/react';
+import { usePrepareFetch } from './usePrepareFetch';
 
 /**
  * The useAppSettings hook
@@ -32,8 +33,10 @@ import { useFetchAppSettings, FetchHookOptions } from '@10up/headless-core/react
 export function useAppSettings<
 	T extends AppEntity = AppEntity,
 	P extends EndpointParams = EndpointParams,
->(params: P | {} = {}, options: FetchHookOptions<FetchResponse<T>> = {}) {
-	return useFetchAppSettings<T, P>(params, options);
+>(params: Partial<P> = {}, options: FetchHookOptions<FetchResponse<T>> = {}) {
+	const useFetchArguments = usePrepareFetch(params, options);
+
+	return useFetchAppSettings<T, P>(useFetchArguments.params, useFetchArguments.options);
 }
 
 /**

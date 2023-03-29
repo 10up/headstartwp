@@ -1,5 +1,87 @@
 # @10up/headless-next
 
+## 0.7.0-next.0
+
+### Minor Changes
+
+- 2c62120: Rewriting feed URLs with front-end URLs (except for admin and wp-content upload links)
+- fdde401: Introduces a new feature: The PolyLang Integration. To use simply enable the integration
+
+  ```js title="headless.config.js"
+  module.exports = {
+    // other settings
+    integrations: {
+      yoastSEO: {
+        enable: true,
+      },
+      polylang: {
+        enable: true,
+      },
+    },
+  };
+  ```
+
+  and add the supported locales to next.config.js.
+
+  ```js title="next.config.js"
+  module.exports = {
+    i18n: {
+      // These are all the locales you want to support in
+      // your application
+      locales: ["en", "fr", "nl"],
+      // This is the default locale you want to be used when visiting
+      // a non-locale prefixed path e.g. `/hello`
+      defaultLocale: "en",
+    },
+  };
+  ```
+
+### Patch Changes
+
+- Updated dependencies [fdde401]
+  - @10up/headless-core@0.7.0-next.0
+
+## 0.6.4
+
+### Patch Changes
+
+- Updated dependencies [e827579]
+  - @10up/headless-core@0.6.4
+
+## 0.6.4-next.0
+
+### Patch Changes
+
+- Updated dependencies [e827579]
+  - @10up/headless-core@0.6.4-next.0
+
+## 0.6.3
+
+### Patch Changes
+
+- 664f306: Fix redirects by using resolvedUrl instead of req.url
+- Updated dependencies [664f306]
+  - @10up/headless-core@0.6.3
+
+## 0.6.3-next.0
+
+### Patch Changes
+
+- 664f306: Fix redirects by using resolvedUrl instead of req.url
+- Updated dependencies [664f306]
+  - @10up/headless-core@0.6.3-next.0
+
+## 0.6.2
+
+### Patch Changes
+
+- 9fa4319: Fix previews handling for multisite with locale
+- Updated dependencies [9bf3642]
+- Updated dependencies [9fa4319]
+- Updated dependencies [3671143]
+- Updated dependencies [61231c3]
+  - @10up/headless-core@0.6.2
+
 ## 0.6.1
 
 ### Patch Changes
