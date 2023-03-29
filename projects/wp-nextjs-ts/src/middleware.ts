@@ -1,4 +1,5 @@
 import { AppMiddleware } from '@10up/headless-next/middlewares';
+import { NextRequest } from 'next/server';
 
 export const config = {
 	matcher: [
@@ -13,6 +14,6 @@ export const config = {
 	],
 };
 
-export async function middleware(...args: any[]) {
-	return AppMiddleware(args[0]);
+export async function middleware(req: NextRequest) {
+	return AppMiddleware(req);
 }
