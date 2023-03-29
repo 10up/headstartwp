@@ -20,7 +20,6 @@
         "ts": "tsc -b",
         "dev": "npm run watch:ts",
         "watch:ts": "npm run ts -- --watch",
-        "test": "jest",
         "lint": "eslint src"
     },
     "dependencies": {
