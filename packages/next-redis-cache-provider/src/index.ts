@@ -6,19 +6,25 @@ import {
 import { IncrementalCacheValue } from 'next/dist/server/response-cache';
 import Redis from 'ioredis';
 
-const redisClient = new Redis((process.env.NEXT_REDIS_URL as string) ?? undefined);
+const defaultRedisClient = new Redis((process.env.NEXT_REDIS_URL as string) ?? undefined);
 
 export default class RedisCache implements CacheHandler {
 	private flushToDisk?: boolean;
 
-	private serverDistDir: string | undefined;
-
 	constructor(ctx: CacheHandlerContext) {
 		this.flushToDisk = ctx.flushToDisk;
-		this.serverDistDir = ctx.serverDistDir;
 	}
 
-	public async get(key: string): Promise<CacheHandlerValue | null> {
+	public getRedisClient() {
+		return defaultRedisClient;
+	}
+
+	public async get(key: string, fetchCache?: boolean): Promise<CacheHandlerValue | null> {
+		if (fetchCache) {
+			return null;
+		}
+
+		const redisClient = this.getRedisClient();
 		const value = await redisClient.get(key);
 
 		if (!value) {
@@ -28,9 +34,15 @@ export default class RedisCache implements CacheHandler {
 		return JSON.parse(value) as CacheHandlerValue;
 	}
 
-	public async set(key: string, data: IncrementalCacheValue | null): Promise<void> {
-		if (!this.flushToDisk || !data) return;
+	public async set(
+		key: string,
+		data: IncrementalCacheValue | null,
+		fetchCache?: boolean,
+	): Promise<void> {
+		if (!this.flushToDisk || !data || fetchCache) return;
 
-		redisClient.set(key, JSON.stringify({ lastModified: Date.now(), value: data }));
+		const redisClient = this.getRedisClient();
+
+		await redisClient.set(key, JSON.stringify({ lastModified: Date.now(), value: data }));
 	}
 }
