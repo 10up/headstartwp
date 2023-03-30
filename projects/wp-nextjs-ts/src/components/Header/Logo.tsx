@@ -1,4 +1,5 @@
 import { css } from '@linaria/core';
+import { FC } from 'react';
 
 const logoStyles = css`
 	text-align: center;
@@ -15,7 +16,7 @@ const logoStyles = css`
 	}
 `;
 
-export const Logo = () => {
+export const Logo: FC = () => {
 	return (
 		<div className={logoStyles}>
 			<span>Brand Logo</span>

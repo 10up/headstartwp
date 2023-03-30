@@ -1,14 +1,12 @@
 import Link from 'next/link';
-import { Element } from 'html-react-parser';
-import { ReactNode } from 'react';
 import { removeSourceUrl } from '@10up/headless-core/utils';
-import { useSettings } from '@10up/headless-core/react';
-import { getAttributes, isAnchorTag } from '@10up/headless-core';
+import { IBlock, IBlockAttributes, useBlock, useSettings } from '@10up/headless-core/react';
+import { isAnchorTag } from '@10up/headless-core';
 
-export type LinkBlockProps = {
-	domNode: Element;
-	children?: ReactNode;
-};
+export interface LinkBlockProps extends IBlockAttributes {
+	href: string;
+	rel: string;
+}
 
 /**
  * The Link Block converts a anchor tag node into a next/link component if it's an internal link
@@ -32,18 +30,20 @@ export type LinkBlockProps = {
  *
  * @category React Components
  */
-export function LinkBlock({ domNode, children }: LinkBlockProps) {
-	const { href, rel, className } = getAttributes(domNode.attribs);
+export function LinkBlock({ domNode, children }: Omit<IBlock<LinkBlockProps>, 'component'>) {
+	const { attributes, className } = useBlock<LinkBlockProps>(domNode);
+
 	const settings = useSettings();
 	const link = removeSourceUrl({
-		link: href,
+		link: attributes.href,
 		backendUrl: settings.sourceUrl || '',
 		publicUrl: settings.hostUrl ?? '/',
 	});
+
 	const Component = typeof settings.linkComponent === 'function' ? settings.linkComponent : Link;
 
 	return (
-		<Component href={link} rel={rel} className={className}>
+		<Component href={link} rel={attributes.rel} className={className}>
 			{children}
 		</Component>
 	);

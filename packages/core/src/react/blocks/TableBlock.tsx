@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface TableBlockProps extends IBlockAttributes {
@@ -9,7 +9,12 @@ export interface TableBlockProps extends IBlockAttributes {
 
 export interface ITableBlock extends IBlock<TableBlockProps> {}
 
-export function TableBlock({ domNode: node, children, component: Component, style }: ITableBlock) {
+export function TableBlock({
+	domNode: node = defaultElement,
+	children,
+	component: Component,
+	style,
+}: ITableBlock) {
 	const { name, className, attributes } = useBlock<TableBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 

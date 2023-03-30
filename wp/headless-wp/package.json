@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-wp-plugin",
-  "version": "0.6.0-next.0",
+  "version": "0.6.0-next.1",
   "private": true,
   "description": "10up Headless WordPress Plugin",
   "homepage": "https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/README.md",

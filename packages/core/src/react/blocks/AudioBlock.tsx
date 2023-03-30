@@ -1,7 +1,7 @@
 import type { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 /**
@@ -55,7 +55,12 @@ export interface IAudioBlock extends IBlock<AudioBlockProps> {}
  * @param props Component properties
  *
  */
-export function AudioBlock({ domNode: node, children, component: Component, style }: IAudioBlock) {
+export function AudioBlock({
+	domNode: node = defaultElement,
+	children,
+	component: Component,
+	style,
+}: IAudioBlock) {
 	const { name, className } = useBlock(node);
 	const blockAttributes = useBlockAttributes(node);
 

@@ -1,7 +1,7 @@
 import { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface PullQuoteBlockProps extends IBlockAttributes {
@@ -13,7 +13,7 @@ export interface PullQuoteBlockProps extends IBlockAttributes {
 export interface IPullQuotekBlock extends IBlock<PullQuoteBlockProps> {}
 
 export function PullQuoteBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,

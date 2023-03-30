@@ -1,4 +1,5 @@
 import { Element } from 'html-react-parser';
+import { FrameworkError } from '../../../utils';
 import { useBlockAlign } from './useBlockAlign';
 import { useBlockBorder } from './useBlockBorder';
 import { useBlockColors } from './useBlockColors';
@@ -15,7 +16,11 @@ import { useBlockWidth } from './useBlockWidth';
  *
  * @returns
  */
-export function useBlockAttributes(node: Element) {
+export function useBlockAttributes(node?: Element) {
+	if (typeof node === 'undefined') {
+		throw new FrameworkError('You are using `useBlock` on a undefined node');
+	}
+
 	const align = useBlockAlign(node);
 	const blockStyle = useBlockStyle(node);
 	const border = useBlockBorder(node);

@@ -24,7 +24,8 @@ import { ImageBlockProps } from '@10up/headless-core/react';
  */
 export function ImageComponent({ src, alt, width, height, children, style }: ImageBlockProps) {
 	if (!src) {
-		return children;
+		// eslint-disable-next-line react/jsx-no-useless-fragment
+		return <>{children}</>;
 	}
 
 	if (!width || !height) {

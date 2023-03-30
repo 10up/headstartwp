@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.7.0-next.1
+
+### Patch Changes
+
+- a444791: Fix TS types
+- Updated dependencies [a444791]
+  - @10up/headless-core@0.7.0-next.1
+
 ## 0.7.0-next.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface SpacerBlockProps extends IBlockAttributes {
@@ -10,7 +10,7 @@ export interface SpacerBlockProps extends IBlockAttributes {
 export interface ISpacerBlock extends IBlock<SpacerBlockProps> {}
 
 export function SpacerBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,

@@ -8,19 +8,20 @@ import {
 	useAppSettings,
 	HeadlessGetStaticProps,
 } from '@10up/headless-next';
+import { FC } from 'react';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';
 import { resolveBatch } from '../utils/promises';
 
-const SinglePostsPage = () => {
+const SinglePostsPage: FC = () => {
 	const { loading, error } = usePost(singleParams);
 
 	if (loading) {
-		return 'Loading...';
+		return <>Loading...</>;
 	}
 
 	if (error) {
-		return 'error...';
+		return <>error...</>;
 	}
 
 	return (

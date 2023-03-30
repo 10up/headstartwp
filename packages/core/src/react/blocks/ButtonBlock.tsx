@@ -3,7 +3,7 @@ import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { IBlockAttributes } from './types';
 
-import { useBlock } from './hooks';
+import { defaultElement, useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 
 /**
@@ -60,7 +60,7 @@ export interface IButtonBlock extends IBlock<ButtonBlockProps> {}
  *
  */
 export function ButtonBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,

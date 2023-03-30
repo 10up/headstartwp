@@ -1,6 +1,6 @@
 import { isBlockByName } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface HeadingBlockProps extends IBlockAttributes {
@@ -10,7 +10,7 @@ export interface HeadingBlockProps extends IBlockAttributes {
 export interface IHeadingBlock extends IBlock<HeadingBlockProps> {}
 
 export function HeadingBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,

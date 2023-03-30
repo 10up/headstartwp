@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import { usePost } from '@10up/headless-next';
+import { PostParams } from '@10up/headless-core';
+import { FC, ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 
 const Blocks = dynamic(() => import('./Blocks'));
@@ -9,10 +10,12 @@ const Blocks = dynamic(() => import('./Blocks'));
  * This reduces prop drilling but creates an implicit dependency with its parent. Use this strategy with caution and on components that are tied to a particular route.
  *
  * @param {*} props Props object
+ * @param {PostParams} props.params Params from the homepage.
  *
- * @returns
+ * @returns {ReactElement}
+ *
  */
-export const PageContent = ({ params }) => {
+export const PageContent: FC<{ params: PostParams }> = ({ params }) => {
 	// This won't require a refetch as long as the data has already been fetched at the page level.
 	// additionally, if the request has not been SSR'd, it will be fetched on the client only once, regardless of how many call to usePost (with the same params) you make
 	const { data } = usePost(params);
@@ -23,8 +26,4 @@ export const PageContent = ({ params }) => {
 			<Blocks html={data.post.content.rendered} />
 		</>
 	);
-};
-
-PageContent.propTypes = {
-	params: PropTypes.shape({}).isRequired,
 };

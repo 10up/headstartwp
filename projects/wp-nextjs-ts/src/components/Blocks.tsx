@@ -1,10 +1,9 @@
 import { BlocksRenderer, YoutubeLiteBlock, ImageBlock } from '@10up/headless-core/react';
 import { TwitterBlock, ImageComponent, LinkBlock } from '@10up/headless-next';
-
+import { FC } from 'react';
 import { css } from '@linaria/core';
-import PropTypes from 'prop-types';
 
-export const Blocks = ({ html }) => {
+export const Blocks: FC<{ html: string }> = ({ html }) => {
 	return (
 		<div
 			className={css`
@@ -19,10 +18,6 @@ export const Blocks = ({ html }) => {
 			</BlocksRenderer>
 		</div>
 	);
-};
-
-Blocks.propTypes = {
-	html: PropTypes.string.isRequired,
 };
 
 export default Blocks;

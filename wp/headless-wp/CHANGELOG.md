@@ -1,5 +1,11 @@
 # @10up/headless-wp-plugin
 
+## 0.6.0-next.1
+
+### Patch Changes
+
+- fd2d125: Better app endpoint cache invalidation
+
 ## 0.6.0-next.0
 
 ### Minor Changes
