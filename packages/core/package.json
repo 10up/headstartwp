@@ -5,7 +5,7 @@
   "homepage": "https://github.com/10up/headless/blob/develop/packages/core/README.md",
   "license": "MIT",
   "author": "10up <info@10up.com> (https://10up.com/)",
-  "main": "dist/cjs/index.js",
+  "main": "dist/index.js",
   "source": "src/index.ts",
   "types": "dist/mjs/index.d.ts",
   "typedocMain": "src/docs-entry-point.ts",
@@ -13,33 +13,23 @@
     "access": "public"
   },
   "exports": {
-    ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/mjs/index.js",
-      "types": "./dist/mjs/index.d.ts"
-    },
-    "./utils": {
-      "require": "./dist/cjs/utils/index.js",
-      "import": "./dist/mjs/utils/index.js",
-      "types": "./dist/mjs/utils/index.d.ts"
-    },
-    "./react": {
-      "require": "./dist/cjs/react/index.js",
-      "import": "./dist/mjs/react/index.js",
-      "types": "./dist/mjs/react/index.d.ts"
-    },
+    ".": "./dist/index.js",
     "./test": "./test/server.ts"
   },
   "files": [
-    "dist"
+    "dist",
+    "react.d.ts",
+    "react.js",
+    "test.d.ts",
+    "test",
+    "utils.d.ts",
+    "utils.js"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run ts && npm run ts:cjs",
-    "ts:cjs": "tsc -b tsconfig-cjs.json",
+    "build": "npm run ts",
     "ts": "tsc -b",
-    "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
-    "watch:ts:cjs": "npm run ts:cjs -- --watch",
+    "dev": "npm run watch:ts",
     "watch:ts": "npm run ts -- --watch",
     "test": "jest",
     "lint": "eslint src/"
