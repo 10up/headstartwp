@@ -11,6 +11,8 @@
   "typedocMain": "src/docs-entry-point.ts",
   "exports": {
     ".": "./dist/index",
+    "./middlewares": "./middlewares.js",
+    "./config": "./config.js",
     "./config/loader": "./config-loader.js",
     "./webpack-loader": "./webpack-loader.js"
   },
