@@ -63,6 +63,7 @@ export function Yoast({ seo, useHtml = false }: Props) {
 					const props = attributesToProps(domNode.attribs);
 
 					if (props.rel === 'canonical') {
+						props.name = 'canonical';
 						props.href = convertUrl(props.href, hostUrl, sourceUrl);
 					}
 
@@ -81,7 +82,9 @@ export function Yoast({ seo, useHtml = false }: Props) {
 						);
 					}
 
-					const key = JSON.stringify({ name, ...props });
+					const key =
+						(props.name || props.property) ?? JSON.stringify({ name, ...props });
+
 					if (domNode.children.length > 0) {
 						return createElement(
 							name,
@@ -102,12 +105,17 @@ export function Yoast({ seo, useHtml = false }: Props) {
 
 	return (
 		<Head>
-			{seo?.yoast_head_json?.title && <title>{seo.yoast_head_json.title}</title>}
+			{seo?.yoast_head_json?.title && <title key="title">{seo.yoast_head_json.title}</title>}
 			{seo?.yoast_head_json?.description && (
-				<meta name="description" content={seo.yoast_head_json.description} />
+				<meta
+					key="description"
+					name="description"
+					content={seo.yoast_head_json.description}
+				/>
 			)}
 			{seo?.yoast_head_json?.canonical && (
 				<link
+					key="canonical"
 					rel="canonical"
 					href={convertUrl(seo.yoast_head_json.canonical, hostUrl, sourceUrl)}
 				/>
@@ -115,49 +123,70 @@ export function Yoast({ seo, useHtml = false }: Props) {
 			{seo && seo.yoast_head_json && seo.yoast_head_json.robots && (
 				<>
 					<meta
+						key="robots"
 						name="robots"
 						content={Object.values(seo.yoast_head_json.robots).join(', ')}
 					/>
 					{seo.hide_on_google_news ? (
-						<meta name="Googlebot-News" content="noindex" />
+						<meta key="Googlebot-News" name="Googlebot-News" content="noindex" />
 					) : null}
 				</>
 			)}
 
 			{/* OG Meta Tags */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_locale && (
-				<meta property="og:locale" content={seo.yoast_head_json.og_locale} />
+				<meta
+					key="og:locale"
+					property="og:locale"
+					content={seo.yoast_head_json.og_locale}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_type && (
-				<meta property="og:type" content={seo.yoast_head_json.og_type} />
+				<meta key="og:type" property="og:type" content={seo.yoast_head_json.og_type} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_title && (
-				<meta property="og:title" content={seo.yoast_head_json.og_title} />
+				<meta key="og:title" property="og:title" content={seo.yoast_head_json.og_title} />
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_description && (
-				<meta property="og:description" content={seo.yoast_head_json.og_description} />
+				<meta
+					key="og:description"
+					property="og:description"
+					content={seo.yoast_head_json.og_description}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_url && (
 				<meta
+					key="og:url"
 					property="og:url"
 					content={convertUrl(seo.yoast_head_json.og_url, hostUrl, sourceUrl)}
 				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_site_name && (
-				<meta property="og:site_name" content={seo.yoast_head_json.og_site_name} />
+				<meta
+					key="og:site_name"
+					property="og:site_name"
+					content={seo.yoast_head_json.og_site_name}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.og_image && (
 				<>
-					<meta property="og:image" content={seo.yoast_head_json.og_image[0].url} />
 					<meta
+						key="og:image"
+						property="og:image"
+						content={seo.yoast_head_json.og_image[0].url}
+					/>
+					<meta
+						key="og:image:secure_url"
 						property="og:image:secure_url"
 						content={seo.yoast_head_json.og_image[0].url}
 					/>
 					<meta
+						key="og:image:width"
 						property="og:image:width"
 						content={seo.yoast_head_json.og_image[0].width}
 					/>
 					<meta
+						key="og:image:height"
 						property="og:image:height"
 						content={seo.yoast_head_json.og_image[0].height}
 					/>
@@ -165,6 +194,7 @@ export function Yoast({ seo, useHtml = false }: Props) {
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.article_modified_time && (
 				<meta
+					key="article:modified_time"
 					property="article:modified_time"
 					content={seo.yoast_head_json.article_modified_time}
 				/>
@@ -172,19 +202,32 @@ export function Yoast({ seo, useHtml = false }: Props) {
 
 			{/* Twitter Meta Tags */}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_card && (
-				<meta name="twitter:card" content={seo.yoast_head_json.twitter_card} />
+				<meta
+					key="twitter:card"
+					name="twitter:card"
+					content={seo.yoast_head_json.twitter_card}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_title && (
-				<meta name="twitter:title" content={seo.yoast_head_json.twitter_title} />
+				<meta
+					key="twitter:title"
+					name="twitter:title"
+					content={seo.yoast_head_json.twitter_title}
+				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_description && (
 				<meta
+					key="twitter:description"
 					name="twitter:description"
 					content={seo.yoast_head_json.twitter_description}
 				/>
 			)}
 			{seo && seo.yoast_head_json && seo.yoast_head_json.twitter_image && (
-				<meta name="twitter:image" content={seo.yoast_head_json.twitter_image} />
+				<meta
+					key="twitter:image"
+					name="twitter:image"
+					content={seo.yoast_head_json.twitter_image}
+				/>
 			)}
 			{seo &&
 				seo.yoast_head_json &&
