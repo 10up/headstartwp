@@ -13,6 +13,8 @@
     "@10up/headless-wp-plugin": "0.5.2"
   },
   "changesets": [
+    "late-eggs-attack",
+    "real-jars-travel",
     "tough-moose-retire",
     "tricky-days-camp",
     "wet-olives-work",
