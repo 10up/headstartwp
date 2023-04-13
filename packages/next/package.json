@@ -33,6 +33,10 @@
   },
   "files": [
     "dist",
+    "middleware.d.ts",
+    "middleware.js",
+    "config.d.ts",
+    "config.js",
     "config-loader.js",
     "webpack-loader.js"
   ],
