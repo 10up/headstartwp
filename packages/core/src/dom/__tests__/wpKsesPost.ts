@@ -75,4 +75,55 @@ describe('wp_kses_post', () => {
 
 		expect(wpKsesPost('<div style="-white:#ffffff;" />')).toBe('<div style />');
 	});
+
+	it('allows svg tags when svg is true', () => {
+		expect(
+			wpKsesPost(
+				'<p class="test">Hello, World! <svg><path d="M0 0h24v24H0z" fill="none" /></svg></p>',
+				undefined,
+				{ svg: true },
+			),
+		).toBe(
+			'<p class="test">Hello, World! <svg><path d="M0 0h24v24H0z" fill="none" /></svg></p>',
+		);
+	});
+
+	it('removes svg tags when svg is false', () => {
+		expect(
+			wpKsesPost(
+				'<p class="test">Hello, World! <svg><path d="M0 0h24v24H0z" fill="none" /></svg></p>',
+				undefined,
+				{ svg: false },
+			),
+		).toBe('<p class="test">Hello, World! </p>');
+	});
+
+	it('allows svg tags when svg is not set', () => {
+		expect(
+			wpKsesPost(
+				'<p class="test">Hello, World! <svg><path d="M0 0h24v24H0z" fill="none" /></svg></p>',
+			),
+		).toBe(
+			'<p class="test">Hello, World! <svg><path d="M0 0h24v24H0z" fill="none" /></svg></p>',
+		);
+	});
+
+	it('allows removes insecure use elements from svg tags', () => {
+		expect(
+			wpKsesPost(
+				'<p class="test">Hello, World! <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 25 25"><use xlink:href="#a" x="5" fill="#1A374D"/><circle id="a" cx="5" cy="5" r="5"/><use xlink:href="defs.svg#icon-1"/></svg></p>',
+			),
+		).toBe(
+			'<p class="test">Hello, World! <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 25 25"><use xlink:href="#a" x="5" fill="#1A374D" /><circle id="a" cx="5" cy="5" r="5" /><use /></svg></p>',
+		);
+	});
+
+	it('passes the original onIgnoreTagAttr callback when using the SVG sanitizer', () => {
+		const onIgnoreTagAttr = jest.fn();
+		wpKsesPost('<p class="test" testAttrNotOnList="true">Hello World</p>', undefined, {
+			onIgnoreTagAttr,
+			svg: true,
+		});
+		expect(onIgnoreTagAttr).toHaveBeenCalled();
+	});
 });
