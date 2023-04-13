@@ -1,5 +1,15 @@
 # @10up/headless-core
 
+## 0.7.0-next.2
+
+### Minor Changes
+
+- 1f7e4ff: Added parseSeo utility function
+
+### Patch Changes
+
+- 60af8c8: Improve package compatibility with system that do not support package.json exports
+
 ## 0.7.0-next.1
 
 ### Patch Changes

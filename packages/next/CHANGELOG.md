@@ -1,5 +1,14 @@
 # @10up/headless-next
 
+## 0.7.0-next.2
+
+### Patch Changes
+
+- 60af8c8: Improve package compatibility with system that do not support package.json exports
+- Updated dependencies [60af8c8]
+- Updated dependencies [1f7e4ff]
+  - @10up/headless-core@0.7.0-next.2
+
 ## 0.7.0-next.1
 
 ### Patch Changes
