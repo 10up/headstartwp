@@ -1,5 +1,46 @@
 # @10up/headless-core
 
+## 0.7.0
+
+### Minor Changes
+
+- 1f7e4ff: Added parseSeo utility function
+- fdde401: Introduces a new feature: The PolyLang Integration. To use simply enable the integration
+
+  ```js title="headless.config.js"
+  module.exports = {
+    // other settings
+    integrations: {
+      yoastSEO: {
+        enable: true,
+      },
+      polylang: {
+        enable: true,
+      },
+    },
+  };
+  ```
+
+  and add the supported locales to next.config.js.
+
+  ```js title="next.config.js"
+  module.exports = {
+    i18n: {
+      // These are all the locales you want to support in
+      // your application
+      locales: ["en", "fr", "nl"],
+      // This is the default locale you want to be used when visiting
+      // a non-locale prefixed path e.g. `/hello`
+      defaultLocale: "en",
+    },
+  };
+  ```
+
+### Patch Changes
+
+- 60af8c8: Improve package compatibility with system that do not support package.json exports
+- a444791: Fix TS types
+
 ## 0.7.0-next.2
 
 ### Minor Changes
