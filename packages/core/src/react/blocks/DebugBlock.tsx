@@ -1,7 +1,7 @@
 import { ObjectInspector } from 'react-inspector';
-import { useBlock } from './hooks';
+import { defaultElement, useBlock } from './hooks';
 
-export const DebugBlock = ({ children, domNode: node, ...props }) => {
+export const DebugBlock = ({ children, domNode: node = defaultElement, ...props }) => {
 	const { attributes } = useBlock(node);
 	return (
 		<div

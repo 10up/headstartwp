@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock } from './hooks';
+import { defaultElement, useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes } from './types';
 
@@ -21,7 +21,12 @@ export interface CoverBlockProps extends IBlockAttributes {
 
 export interface ICoverBlock extends IBlock<CoverBlockProps> {}
 
-export function CoverBlock({ domNode: node, children, component: Component, style }: ICoverBlock) {
+export function CoverBlock({
+	domNode: node = defaultElement,
+	children,
+	component: Component,
+	style,
+}: ICoverBlock) {
 	const { name, className, attributes } = useBlock<CoverBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 

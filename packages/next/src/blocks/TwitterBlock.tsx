@@ -1,4 +1,5 @@
 import { isTwitterEmbed } from '@10up/headless-core';
+import { IBlock, IBlockAttributes } from '@10up/headless-core/react';
 import Script from 'next/script';
 
 /**
@@ -21,7 +22,7 @@ import Script from 'next/script';
  *
  * @category React Components
  */
-export function TwitterBlock({ children }) {
+export function TwitterBlock({ children }: Omit<IBlock<IBlockAttributes>, 'component'>) {
 	return (
 		<>
 			<Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />

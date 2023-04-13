@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface SeparatorBlockProps extends IBlockAttributes {}
@@ -8,7 +8,7 @@ export interface SeparatorBlockProps extends IBlockAttributes {}
 export interface ISeparatorBlock extends IBlock<SeparatorBlockProps> {}
 
 export function SeparatorBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,

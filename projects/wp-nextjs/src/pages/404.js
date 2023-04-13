@@ -4,6 +4,7 @@ import { resolveBatch } from '../utils/promises';
 
 const NotFoundPage = () => {
 	const { data } = useAppSettings();
+
 	return (
 		<>
 			<Head>
@@ -20,7 +21,7 @@ export async function getStaticProps(context) {
 		// fetch batch of promises and throws errors selectively
 		// passing `throw:false` will prevent errors from being thrown for that promise
 		const settledPromises = await resolveBatch([
-			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
+			{ func: fetchHookData(useAppSettings.fetcher(), context) },
 		]);
 
 		return addHookData(settledPromises, { revalidate: 60 });
@@ -28,4 +29,5 @@ export async function getStaticProps(context) {
 		return handleError(e, context);
 	}
 }
+
 export default NotFoundPage;

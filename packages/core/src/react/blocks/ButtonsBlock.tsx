@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface ButtonsBlockProps extends IBlockAttributes {}
@@ -26,7 +26,7 @@ export interface IButtonsBlock extends IBlock<ButtonsBlockProps> {}
  * @param props Component properties
  */
 export function ButtonsBlock({
-	domNode: node,
+	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,

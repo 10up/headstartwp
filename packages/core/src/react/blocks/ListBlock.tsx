@@ -1,6 +1,6 @@
 import { isBlockByName } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface ListBlockProps extends IBlockAttributes {
@@ -9,7 +9,12 @@ export interface ListBlockProps extends IBlockAttributes {
 
 export interface IListBlock extends IBlock<ListBlockProps> {}
 
-export function ListBlock({ domNode: node, children, component: Component, style }: IListBlock) {
+export function ListBlock({
+	domNode: node = defaultElement,
+	children,
+	component: Component,
+	style,
+}: IListBlock) {
 	const { name, className, attributes } = useBlock<ListBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 

@@ -678,14 +678,18 @@ export interface AppEntity extends Entity {
 	menus: {
 		[k: string]: MenuItemEntity[];
 	};
+	home: {
+		id?: number;
+		slug?: string;
+	};
 	settings: {
 		site_name: string;
 		site_desc: string;
 		site_wp_url: string;
 		site_rss_url: string;
 		posts_per_page: string;
+		privacy_policy_url: string;
 	};
-	redirects: Redirect[];
 	'theme.json': Record<string, any>;
 }
 

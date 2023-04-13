@@ -1,6 +1,6 @@
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock, useBlockAttributes } from './hooks';
+import { defaultElement, useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface FileBlockProps extends IBlockAttributes {
@@ -11,7 +11,12 @@ export interface FileBlockProps extends IBlockAttributes {
 
 export interface IFileBlock extends IBlock<FileBlockProps> {}
 
-export function FileBlock({ domNode: node, children, component: Component, style }: IFileBlock) {
+export function FileBlock({
+	domNode: node = defaultElement,
+	children,
+	component: Component,
+	style,
+}: IFileBlock) {
 	const { name, className, attributes } = useBlock<FileBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 

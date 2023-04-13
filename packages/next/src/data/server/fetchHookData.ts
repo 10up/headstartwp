@@ -80,8 +80,8 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl } = getSiteFromContext(ctx);
-	const params = options?.params || {};
+	const { sourceUrl, integrations } = getSiteFromContext(ctx);
+	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
@@ -89,6 +89,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 	if (ctx.params) {
 		path = Array.isArray(ctx.params.path) ? ctx.params.path : [ctx.params.path || ''];
+	}
+
+	if (integrations?.polylang?.enable && (ctx.locale || ctx.defaultLocale)) {
+		params.lang = ctx.locale ?? ctx.defaultLocale;
 	}
 
 	const stringPath = convertToPath(path);

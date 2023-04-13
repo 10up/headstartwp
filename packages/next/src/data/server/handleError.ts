@@ -75,6 +75,11 @@ export async function handleError(
 				typeof ctx?.params !== 'undefined' && isStringArray(ctx.params?.path)
 					? `${rootRoute}/${ctx.params.path.join('/')}`
 					: `${rootRoute}/${ctx.params?.path as string}`;
+
+			// if there's a locale and it isn't the default locale append the locale to pathname
+			if (ctx.locale && ctx.defaultLocale && ctx.defaultLocale !== ctx.locale) {
+				pathname = `/${ctx.locale}${pathname}`;
+			}
 		}
 
 		if (redirectStrategy === '404' && pathname) {
