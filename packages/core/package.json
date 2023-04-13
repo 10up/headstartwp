@@ -31,7 +31,12 @@
     "./test": "./test/server.ts"
   },
   "files": [
-    "dist"
+    "dist",
+    "react.d.ts",
+    "react.js",
+    "test.d.ts",
+    "utils.d.ts",
+    "utils.js"
   ],
   "sideEffects": false,
   "scripts": {
