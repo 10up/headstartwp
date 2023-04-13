@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.7.0-next.3
+
+### Patch Changes
+
+- 59c9ff9: Fix duplicate Yoast SEO meta tags
+
 ## 0.7.0-next.2
 
 ### Patch Changes
