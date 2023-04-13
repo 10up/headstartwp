@@ -36,6 +36,7 @@
   };
   ```
 
+
 ### Patch Changes
 
 - fd2d125: Better app endpoint cache invalidation
