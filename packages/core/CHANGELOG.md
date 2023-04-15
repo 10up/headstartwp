@@ -1,5 +1,15 @@
 # @10up/headless-core
 
+## 0.8.0-next.0
+
+### Minor Changes
+
+- bd83dc9: Added SVG support, so they don't get automatically stripped by the sanitizer
+
+### Patch Changes
+
+- 3029765: Updated parseSeo utility function to remove async/await
+
 ## 0.7.0
 
 ### Minor Changes
