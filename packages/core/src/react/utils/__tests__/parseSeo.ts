@@ -1,8 +1,8 @@
 import { parseSeo } from '../parseSeo';
 
 describe('parseSeo', () => {
-	it('parses SEO', async () => {
-		const result = await parseSeo(
+	it('parses SEO', () => {
+		const result = parseSeo(
 			'<title>Title</title><meta name="Name" property="Property" content="Content" /><link rel="Rel" href="Href" hreflang="Hreflang" /><script type="Type" class="Class">{}</script>',
 		);
 		expect(result).toMatchInlineSnapshot(`
