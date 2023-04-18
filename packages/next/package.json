@@ -1,6 +1,6 @@
 {
   "name": "@10up/headless-next",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "`@10up/headless-next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headless/blob/develop/packages/next/README.md",
   "license": "MIT",
@@ -52,7 +52,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@10up/headless-core": "^0.7.0",
+    "@10up/headless-core": "^0.8.0",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
     "schema-utils": "^4.0.0",
