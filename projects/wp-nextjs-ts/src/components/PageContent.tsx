@@ -3,7 +3,8 @@ import { PostParams } from '@10up/headless-core';
 import { FC, ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 
-const Blocks = dynamic(() => import('./Blocks'));
+// @ts-expect-error
+const Blocks = dynamic(() => import('./Blocks').then((mod) => mod.default));
 
 /**
  * This is an example of how an inner component can access the data without explicitly passing the data to it.
