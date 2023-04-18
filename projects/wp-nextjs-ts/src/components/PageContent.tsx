@@ -3,7 +3,8 @@ import { PostParams } from '@10up/headless-core';
 import { FC, ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 
-const Blocks = dynamic(() => import('./Blocks'));
+// eslint-disable-next-line import/no-unresolved
+const Blocks = dynamic(() => import('./Blocks.js').then((mod) => mod.default));
 
 /**
  * This is an example of how an inner component can access the data without explicitly passing the data to it.
