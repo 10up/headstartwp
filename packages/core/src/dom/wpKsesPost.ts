@@ -1,6 +1,11 @@
 /* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
 import sanitize, { getDefaultWhiteList, IFilterXSSOptions } from 'xss';
 import type { IWhiteList } from 'xss';
+import { isHrefValueClean, linkingSVGElements, svgAllowList } from './svg';
+
+interface IWpKsesPostOptions extends IFilterXSSOptions {
+	svg?: boolean;
+}
 
 /**
  * Sanitize HTML content by the wp_kses_post() requirements
@@ -14,7 +19,7 @@ import type { IWhiteList } from 'xss';
  *
  * @param content The content to sanitize.
  * @param allowList Optional. The list of allowed HTML tags and attributes. If not set, the default allow list will be used.
- * @param options Optional. IFilterXSSOptions.
+ * @param options Optional. IWpKsesPostOptions.
  *
  * @see https://codex.wordpress.org/Function_Reference/wp_kses_post
  *
@@ -25,10 +30,46 @@ import type { IWhiteList } from 'xss';
 export const wpKsesPost = (
 	content: string,
 	allowList?: IWhiteList,
-	options?: IFilterXSSOptions,
+	options?: IWpKsesPostOptions,
 ): string => {
 	if (typeof allowList === 'undefined') {
 		allowList = ksesAllowedList;
+	}
+
+	options = options || {};
+	const newOptions: IWpKsesPostOptions = { ...options };
+	const allowSVG = options?.svg ?? true;
+
+	// If we're supporting SVG.
+	if (allowSVG) {
+		// Merge in the allow list for SVG.
+		allowList = {
+			...allowList,
+			...svgAllowList,
+		};
+
+		// Handle the unknown SVG attributes.
+		newOptions.onIgnoreTagAttr = (tag, name, value, isWhiteAttr) => {
+			// Only do this check for allowed SVG elements.
+			if (Object.keys(svgAllowList).includes(tag)) {
+				// If it's a linking attribute, check if it's safe.
+				if (linkingSVGElements.includes(name)) {
+					return isHrefValueClean(value, tag === 'use')
+						? `${name}="${value}"`
+						: undefined;
+				}
+
+				// If it's a xmlns attribute allow it
+				if (name.startsWith('xmlns')) {
+					return `${name}="${value}"`;
+				}
+
+				return undefined;
+			}
+
+			// Pass through to the default handler if one is set and it's not running on an allowed SVG element.
+			return options?.onIgnoreTagAttr?.(tag, name, value, isWhiteAttr);
+		};
 	}
 
 	return sanitize(content, {
@@ -45,7 +86,7 @@ export const wpKsesPost = (
 				return undefined;
 			},
 		},
-		...(options || {}),
+		...newOptions,
 	});
 };
 
