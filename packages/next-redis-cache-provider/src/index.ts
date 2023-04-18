@@ -8,8 +8,6 @@ import Redis from 'ioredis';
 import { CacheFs } from 'next/dist/shared/lib/utils';
 import path from 'path';
 
-const defaultRedisClient = new Redis((process.env.NEXT_REDIS_URL as string) ?? undefined);
-
 export default class RedisCache implements CacheHandler {
 	private flushToDisk?: boolean;
 
@@ -19,14 +17,17 @@ export default class RedisCache implements CacheHandler {
 
 	private serverDistDir?: string;
 
+	private redisClient: Redis;
+
 	constructor(ctx: CacheHandlerContext) {
 		this.flushToDisk = ctx.flushToDisk;
 		this.fs = ctx.fs;
 		this.serverDistDir = ctx.serverDistDir;
+		this.redisClient = this.getRedisClient();
 	}
 
 	public getRedisClient() {
-		return defaultRedisClient;
+		return new Redis((process.env.NEXT_REDIS_URL as string) ?? undefined);
 	}
 
 	public async getBuildId() {
@@ -54,8 +55,7 @@ export default class RedisCache implements CacheHandler {
 		}
 
 		const BUILD_ID = await this.getBuildId();
-		const redisClient = this.getRedisClient();
-		const value = await redisClient.get(`${BUILD_ID}:${key}`);
+		const value = await this.redisClient.get(`${BUILD_ID}:${key}`);
 
 		if (!value) {
 			return null;
@@ -71,10 +71,9 @@ export default class RedisCache implements CacheHandler {
 	): Promise<void> {
 		if (!this.flushToDisk || !data || fetchCache) return;
 
-		const redisClient = this.getRedisClient();
 		const BUILD_ID = await this.getBuildId();
 
-		await redisClient.set(
+		await this.redisClient.set(
 			`${BUILD_ID}:${key}`,
 			JSON.stringify({ lastModified: Date.now(), value: data }),
 		);
