@@ -1,0 +1,29 @@
+name: Deploy to Develop ( headless.10uplabs.com )
+
+on: 
+  push:
+    branches:
+      - develop
+      - feature/dev-deploy-setup # for testing
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      # build application
+      - name: Build Packages
+        run: npm run build:packages
+      - name: Build wp-nextjs
+        run: npm run build -- --filter=./projects/wp-nextjs
+
