@@ -78,4 +78,9 @@ export default class RedisCache implements CacheHandler {
 			JSON.stringify({ lastModified: Date.now(), value: data }),
 		);
 	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async revalidateTag(_tag: string): Promise<void> {
+		// do nothing
+	}
 }
