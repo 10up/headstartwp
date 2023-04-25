@@ -15,6 +15,8 @@ const nextConfig = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+
+	output: 'standalone',
 };
 
 // if you are not using polylang integration you can remove this code
