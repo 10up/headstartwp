@@ -7,4 +7,4 @@ COPY . .
 
 RUN npm install
 RUN npm run build:packages
-RUN npm run build -- filter=./projects/wp-nextjs
+RUN npm run build -- --filter=./projects/wp-nextjs
