@@ -23,6 +23,7 @@ export function getHeadlessConfig() {
 		sites,
 		hostUrl,
 		integrations,
+		debug,
 	} = __10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
@@ -33,6 +34,7 @@ export function getHeadlessConfig() {
 		redirectStrategy: redirectStrategy || 'none',
 		useWordPressPlugin: useWordPressPlugin || false,
 		integrations,
+		debug,
 		sites: (sites || []).map((site) => {
 			// if host is not defined but hostUrl is, infer host from hostUrl
 			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {

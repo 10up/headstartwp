@@ -16,6 +16,10 @@ module.exports = {
     customTaxonomies: [],
     redirectStrategy: '404',
     useWordPressPlugin: true,
+	debug: {
+		redirects: false,
+		requests: false,
+	}
 };
 ```
 
@@ -141,3 +145,7 @@ The code snippet above does not implement pre-fetching, which you probably want 
 This option control how redirects are handled. There are 2 supported methods of handling redirects.
 - 404: If a route 404, the framework will check to see if there's a redirect for that page in WP. If so it performs the redirect. This is the recommended option.
 - always: When this option is set, the framework will **always** check for redirects before rendering any page. Using this option carefully since it will impact performance.
+
+## debug
+
+You can enable log debugging for both requests and redirects. `debug.requests` will enable logging all API requests made by the framework and `debug.redirects` will log all attempts to detect and fetch a redirect from WordPress.
