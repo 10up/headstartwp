@@ -37,7 +37,6 @@ jobs:
           tags: |
             type=ref,enable=true,priority=600,prefix=,suffix,event=branch
           images: |
-            ${{ secrets.IMAGE_NAME }}
             ghcr.io/${{ github.repository }}
 
       # TODO: Login to docker hub
