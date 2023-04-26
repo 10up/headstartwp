@@ -1,4 +1,4 @@
-import { addQueryArgs } from '../../utils';
+import { LOGTYPE, addQueryArgs, getHeadlessConfig, log } from '../../utils';
 
 export const getAuthHeader = () => {
 	return null;
@@ -22,6 +22,12 @@ export const apiPost = async (url: string, args: { [index: string]: any } = {}) 
 		},
 		body: JSON.stringify(args),
 	});
+
+	const config = getHeadlessConfig();
+
+	if (config.debug?.requests) {
+		log(LOGTYPE.DEBUG, 'POST', url, args);
+	}
 
 	return response.json();
 };
@@ -58,6 +64,12 @@ export const apiGet = async (
 				cacheTime: currentMinute,
 		  }
 		: {};
+
+	const config = getHeadlessConfig();
+
+	if (config.debug?.requests) {
+		log(LOGTYPE.DEBUG, 'GET', url, args);
+	}
 
 	const data = await fetch(addQueryArgs(url, queryArgs), args);
 

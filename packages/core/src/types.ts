@@ -36,4 +36,8 @@ export type HeadlessConfig = {
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
 	sites?: HeadlessConfig[];
+	debug?: {
+		requests?: boolean;
+		redirects?: boolean;
+	};
 };

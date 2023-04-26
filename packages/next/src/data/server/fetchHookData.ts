@@ -3,7 +3,9 @@ import {
 	EndpointParams,
 	FetchOptions,
 	FilterDataOptions,
+	LOGTYPE,
 	PostParams,
+	log,
 } from '@10up/headless-core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { unstable_serialize } from 'swr';
@@ -80,7 +82,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl, integrations } = getSiteFromContext(ctx);
+	const { sourceUrl, integrations, debug } = getSiteFromContext(ctx);
 	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
@@ -112,6 +114,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		finalParams.revision = ctx.previewData.revision;
 		finalParams.postType = ctx.previewData.postType;
 		finalParams.authToken = ctx.previewData.authToken;
+
+		if (debug?.requests) {
+			log(LOGTYPE.DEBUG, 'Preview request detected, using preview data', ctx.previewData);
+		}
 	}
 
 	const data = await fetchStrategy.fetcher(
