@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.8.1-next.0
+
+### Patch Changes
+
+- 3cd203c: Add support for logging/debugging.
+
 ## 0.8.0
 
 ### Minor Changes
