@@ -73,7 +73,7 @@ describe('addHookData', () => {
 	});
 
 	it('[array] transforms the data properly and remove extra stuff', () => {
-		const hookStates: HookState<FetchResponse<typeof sampleResult[]>>[] = [
+		const hookStates: HookState<FetchResponse<(typeof sampleResult)[]>>[] = [
 			{
 				key: 'first-key',
 				data: {

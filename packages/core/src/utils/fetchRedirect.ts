@@ -1,3 +1,5 @@
+import { getHeadlessConfig } from './getHeadlessConfig';
+import { LOGTYPE, log } from './log';
 import { removeSourceUrl } from './removeSourceUrl';
 
 export type RedirectData = {
@@ -58,6 +60,15 @@ export async function fetchRedirect(pathname: string, sourceUrl: string): Promis
 			'X-WP-Redirect-Check': '1',
 		},
 	});
+
+	const config = getHeadlessConfig();
+
+	if (config.debug?.redirects) {
+		log(LOGTYPE.DEBUG, 'REDIRECT', redirectionURL, {
+			status: response.status,
+			location: response.headers.get('location') || '',
+		});
+	}
 
 	if (
 		response.status === 301 ||
