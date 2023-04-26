@@ -53,6 +53,7 @@ jobs:
         with:
           file: deploy/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
+          platforms: linux/amd64,linux/arm64
           push: true
           context: .
 
