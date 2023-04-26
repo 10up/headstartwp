@@ -1,5 +1,13 @@
 # @10up/headless-next
 
+## 0.7.2
+
+### Patch Changes
+
+- 3cd203c: Add support for logging/debugging.
+- Updated dependencies [3cd203c]
+  - @10up/headless-core@0.8.1
+
 ## 0.7.1
 
 ### Patch Changes
