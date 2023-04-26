@@ -1,2 +1,7 @@
 **/node_modules
 deploy/*
+**/.next
+.git
+README.md
+.dockerignore
+Dockerfile
