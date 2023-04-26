@@ -1,10 +1,29 @@
-FROM node:16-alpine
+FROM node:16-alpine AS builder
 
 ARG BUILD_TYPE="dev"
 WORKDIR /app
 
 COPY . .
 
+# Install Packages
 RUN npm install
+# Build node modules
 RUN npm run build:packages
+
+# build headless project
 RUN npm run build -- --filter=./projects/wp-nextjs
+
+FROM node:16-alpine AS runner
+
+WORKDIR /app
+
+# Setup node and next user/groups
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder --chown=nextjs:nodejs /app/projects/wp-nextjs/.next/standalone ./
+COPY --from=builder --chown=nexjs:nodejs /app/deploy/entrypoint.sh ./
+
+USER nextjs
+
+CMD ["/bin/sh" , "./entrypoint.sh"]
