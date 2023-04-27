@@ -1,4 +1,4 @@
-import { AppMiddleware } from '@10up/headless-next/middlewares';
+import { AppMiddleware } from '@headstartwp/next/middlewares';
 
 export const config = {
 	matcher: [

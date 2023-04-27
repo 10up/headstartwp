@@ -1,5 +1,5 @@
-import { FetchHookOptions, useFetchMenu } from '@10up/headless-core/react';
-import { AppEntity, FetchResponse } from '@10up/headless-core';
+import { FetchHookOptions, useFetchMenu } from '@headstartwp/core/react';
+import { AppEntity, FetchResponse } from '@headstartwp/core';
 
 /**
  * The useMenu hooks. Returns a Menu object.

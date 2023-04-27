@@ -1,4 +1,4 @@
-import { getHeadlessConfig, removeSourceUrl } from '@10up/headless-core';
+import { getHeadlessConfig, removeSourceUrl } from '@headstartwp/core';
 import {
 	usePost,
 	fetchHookData,
@@ -6,7 +6,7 @@ import {
 	handleError,
 	usePosts,
 	useAppSettings,
-} from '@10up/headless-next';
+} from '@headstartwp/next';
 import { PageContent } from '../../../components/PageContent';
 import { singleParams } from '../../../params';
 import { resolveBatch } from '../../../utils/promises';

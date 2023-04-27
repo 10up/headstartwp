@@ -1,4 +1,4 @@
-import { fetchRedirect } from '@10up/headless-core';
+import { fetchRedirect } from '@headstartwp/core';
 import { GetServerSidePropsResult } from 'next';
 import { HeadlessGetServerSidePropsContext, HeadlessGetStaticPropsPropsContext } from '../types';
 import { getSiteFromContext } from './getSiteFromContext';

@@ -1,4 +1,4 @@
-import { revalidateHandler } from '@10up/headless-next';
+import { revalidateHandler } from '@headstartwp/next';
 
 /**
  * The revalidate endpoint just needs to proxy the default revalidate handler
