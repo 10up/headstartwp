@@ -6,7 +6,7 @@ import {
 	LOGTYPE,
 	PostParams,
 	log,
-} from '@10up/headless-core';
+} from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { unstable_serialize } from 'swr';
 import { PreviewData } from '../../handlers/types';

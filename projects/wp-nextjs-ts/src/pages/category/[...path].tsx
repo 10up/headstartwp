@@ -5,7 +5,7 @@ import {
 	handleError,
 	useAppSettings,
 	HeadlessGetServerSideProps,
-} from '@10up/headless-next';
+} from '@headstartwp/next';
 import { FC } from 'react';
 import { Link } from '../../components/Link';
 import { Pagination } from '../../components/Pagination';

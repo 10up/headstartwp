@@ -1,6 +1,6 @@
 /**
- * @typedef {import('@10up/headless-core').Entity} Entity
- * @typedef {import('@10up/headless-core').FetchResponse} FetchResponse
+ * @typedef {import('@headstartwp/core').Entity} Entity
+ * @typedef {import('@headstartwp/core').FetchResponse} FetchResponse
  *
  * @typedef {Promise<FetchResponse<Entity>>[]} PromiseFunc
  * @typedef {{ throw?: boolean; func: PromiseFunc }} PromiseObject

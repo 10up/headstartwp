@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-	title: '10up - Headless Framework',
+	title: '10up - HeadstartWP',
 	tagline: '',
 	url: 'https://headless.10up.com',
 	baseUrl: '/',
@@ -39,7 +39,7 @@ const config = {
 		[
 			'docusaurus-plugin-typedoc',
 			{
-				name: "10up's Headless Framework (BETA)",
+				name: 'HeadstartWP',
 				out: '.',
 				entryPoints: ['../packages/core', '../packages/next'],
 				entryPointStrategy: 'packages',
@@ -110,7 +110,7 @@ const config = {
 				disableSwitch: true,
 			},
 			navbar: {
-				title: 'Headless Framework',
+				title: 'HeadstartWP',
 				logo: {
 					src: 'img/10up-logo-full.svg',
 				},

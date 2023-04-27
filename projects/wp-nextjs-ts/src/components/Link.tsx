@@ -1,5 +1,5 @@
-import { removeSourceUrl } from '@10up/headless-core';
-import { useSettings } from '@10up/headless-core/react';
+import { removeSourceUrl } from '@headstartwp/core';
+import { useSettings } from '@headstartwp/core/react';
 import NextLink from 'next/link';
 import { FC } from 'react';
 

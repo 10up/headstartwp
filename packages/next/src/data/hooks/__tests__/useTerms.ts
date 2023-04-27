@@ -1,4 +1,4 @@
-import type { TaxonomyArchiveParams, TermEntity } from '@10up/headless-core';
+import type { TaxonomyArchiveParams, TermEntity } from '@headstartwp/core';
 import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { useTerms } from '../useTerms';

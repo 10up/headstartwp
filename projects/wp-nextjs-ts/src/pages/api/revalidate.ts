@@ -1,4 +1,4 @@
-import { revalidateHandler } from '@10up/headless-next';
+import { revalidateHandler } from '@headstartwp/next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 /**

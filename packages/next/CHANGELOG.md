@@ -1,4 +1,4 @@
-# @10up/headless-next
+# @headstartwp/next
 
 ## 0.7.2
 

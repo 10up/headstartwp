@@ -1,4 +1,4 @@
-import type { PostEntity, PostsArchiveParams } from '@10up/headless-core';
+import type { PostEntity, PostsArchiveParams } from '@headstartwp/core';
 import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { useSearch } from '../useSearch';
