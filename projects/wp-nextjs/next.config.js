@@ -31,7 +31,7 @@ if (process.env?.ENABLE_POLYLANG_INTEGRATION === 'true') {
 // if the redis URL is set, configure redis caching system
 if (process.env?.NEXT_REDIS_URL) {
 	nextConfig.experimental = {
-		incrementalCacheHandlerPath: '../../packages/next-redis-cache-provider/dist/index.js',
+		incrementalCacheHandlerPath: require.resolve('@10up/next-redis-cache-provider'),
 	};
 }
 
