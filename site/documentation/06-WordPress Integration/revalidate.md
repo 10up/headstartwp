@@ -42,7 +42,7 @@ If you changed the default value of the endpoint path via the `tenup_headless_is
 
 
 ```javascript title="src/pages/api/revalidate"
-import { revalidateHandler } from '@10up/headless-next';
+import { revalidateHandler } from '@headstartwp/next';
 
 /**
  * The revalidate endpoint just needs to proxy the default revalidate handler

@@ -14,7 +14,7 @@ The `usePost` hook fetches a single WordPress post from a registered post type. 
 The basic usage is pretty simple and it assumes a route named `src/pages/[...path].js` where the `slug` is extracted from the URL.
 
 ```js title=src/pages/[...path].js
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const PostPage = () => {
 	const { loading, error, data } = usePost();
@@ -80,7 +80,7 @@ This might result in URL conflicts, i.e a post or page using the same slug. The 
 
 
 ```js title="src/pages/[...path].js"
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const PostOrPage = () => {
 	const { loading, error, data } = usePost({ postType: ['page', 'post'] });
@@ -106,7 +106,7 @@ const PostOrPage = () => {
 To fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
 
 ```js title="src/pages/book/[...path].js"
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const PostPage = () => {
 	const { loading, error, data } = usePost({ postType: 'book' });

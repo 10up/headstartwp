@@ -50,14 +50,14 @@ jobs:
         with:
           source-directory: wp/headless-wp/
           destination-github-username: '10up'
-          destination-repository-name: 'tenup-headless-wp-plugin'
+          destination-repository-name: 'headstartwp-plugin'
           user-email: bot@10up.com
           commit-message: See ORIGIN_COMMIT from $GITHUB_REF
           target-branch: next
       - name: Checkout the publishing repository
         uses: actions/checkout@v3
         with:
-          repository: 10up/tenup-headless-wp-plugin
+          repository: 10up/headstartwp-plugin
           path: 'repo'
           ref: next
           token: ${{ secrets.API_GITHUB_TOKEN }}

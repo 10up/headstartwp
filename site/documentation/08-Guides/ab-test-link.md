@@ -43,7 +43,7 @@ We’ll leverage Next.js middleware for A/B testing. If you’re unfamiliar with
 The next step is to open `src/middleware.js` and make the following changes:
 
 ```js
-import { AppMiddleware } from '@10up/headless-next/middlewares';
+import { AppMiddleware } from '@headstartwp/next/middlewares';
 import { NextResponse } from 'next/server';
 
 const COOKIE_NAME = 'bucket-navigation';

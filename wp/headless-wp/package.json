@@ -1,5 +1,5 @@
 {
-  "name": "@10up/headless-wp-plugin",
+  "name": "@headstartwp/plugin",
   "version": "0.6.0",
   "private": true,
   "description": "10up Headless WordPress Plugin",

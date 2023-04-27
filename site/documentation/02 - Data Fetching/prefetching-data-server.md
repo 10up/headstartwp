@@ -12,7 +12,7 @@ import {
     fetchHookData, 
     addHookData, 
     handleError
-} from '@10up/headless-next';
+} from '@headstartwp/next';
 
 const params = { postType: ['post', 'page'] };
 
