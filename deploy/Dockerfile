@@ -1,6 +1,14 @@
 FROM node:16-alpine AS builder
 
 ARG BUILD_TYPE="dev"
+
+# disable telemetry data
+ARG NEXT_TELEMETRY_DISABLED=1
+
+ARG HOST_URL
+
+ARG NEXT_PUBLIC_HEADLESS_WP_URL
+
 WORKDIR /app
 
 COPY . .
