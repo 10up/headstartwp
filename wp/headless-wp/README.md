@@ -6,7 +6,7 @@
 
 ## Installation
 
-The only method for installing this plugin is via composer: `composer require headstartwp/plugin`.
+The only method for installing this plugin is via composer: `composer require headstartwp/headstartwp`.
 
 Make sure to set up the path for installing this as a WordPress Plugin:
 
@@ -15,7 +15,7 @@ Make sure to set up the path for installing this as a WordPress Plugin:
   "name": "your-project-name",
   "minimum-stability": "dev",
   "require": {
-    "headstartwp/plugin": "^0.5.0",
+    "headstartwp/headstartwp": "^0.9.1",
   },
   "extra": {
     "installer-paths": {
