@@ -1,5 +1,11 @@
 # @10up/headless-wp-plugin
 
+## 0.9.1
+
+### Patch Changes
+
+- de1f4d7: Fix version mismatch
+
 ## 0.9.0
 
 ### Minor Changes
