@@ -57,3 +57,15 @@ jobs:
           push: true
           context: .
 
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      needs: build_and_push
+      - uses: actions/checkout@v3
+
+      - name: Trigger Pipeline
+        run: curl --request POST --form token=${{ secrets.PIPELINE_TOKEN }} --form ref= "${{ secrets. }}"
+
+
