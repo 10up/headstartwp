@@ -1,5 +1,5 @@
 
-# 10up Headless Framework
+# HeadstartWP
 
 > A framework for building headless WordPress sites.
 
