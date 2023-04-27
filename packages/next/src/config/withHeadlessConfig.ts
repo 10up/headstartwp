@@ -61,9 +61,6 @@ export function withHeadlessConfig(
 		);
 	}
 
-	// @ts-expect-error
-	global.__10up__HEADLESS_CONFIG = headlessConfig;
-
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];
 
 	const sites = headlessConfig.sites || [headlessConfig];
@@ -81,10 +78,6 @@ export function withHeadlessConfig(
 
 	return {
 		...nextConfig,
-		serverRuntimeConfig: {
-			...nextConfig.serverRuntimeConfig,
-			headlessConfig,
-		},
 		images: {
 			...nextConfig.images,
 			domains: imageDomains,
@@ -155,7 +148,13 @@ export function withHeadlessConfig(
 		},
 
 		webpack: (config, options) => {
-			config.module.rules.push({
+			config.plugins.push(
+				new options.webpack.DefinePlugin({
+					__10up__HEADLESS_CONFIG: JSON.stringify(headlessConfig),
+				}),
+			);
+
+			/* config.module.rules.push({
 				test(source) {
 					if (
 						// for the monorepo
@@ -179,7 +178,7 @@ export function withHeadlessConfig(
 						options: { config: headlessConfig },
 					},
 				],
-			});
+			}); */
 
 			if (isPackageInstalled('@linaria/webpack-loader')) {
 				traverse(config.module.rules);

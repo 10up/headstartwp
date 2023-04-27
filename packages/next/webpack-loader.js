@@ -13,7 +13,7 @@ module.exports = function (source) {
 	const options = this.getOptions();
 
 	validate(schema, options, {
-		name: '@10up/headless-webpack-loader',
+		name: '@headstartwp/webpack-loader',
 	});
 
 	const config = options.config || {};
