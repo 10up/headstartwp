@@ -53,8 +53,8 @@ jobs:
         with:
           file: deploy/Dockerfile
           build-args:
-            - HOST_URL: ${{ secrets.HOST_URL }}
-            - NEXT_PUBLIC_HEADLESS_WP_URL: ${{ secrets.NEXT_PUBLIC_HEADLESS_WP_URL }}
+            - HOST_URL=${{ secrets.HOST_URL }}
+            - NEXT_PUBLIC_HEADLESS_WP_URL=${{ secrets.NEXT_PUBLIC_HEADLESS_WP_URL }}
           tags: ${{ steps.meta.outputs.tags }}
           platforms: linux/amd64,linux/arm64
           push: true
