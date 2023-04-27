@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 0.8.1
+
+### Patch Changes
+
+- 7161bd1: Fix config loader
+
 ## 0.8.0
 
 ### Minor Changes
