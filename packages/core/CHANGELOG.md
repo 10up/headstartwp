@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 0.9.0-next.0
+
+### Minor Changes
+
+- da2386e: 10up Headless Framework is now called HeadstartWP
+
 ## 0.8.1
 
 ### Patch Changes

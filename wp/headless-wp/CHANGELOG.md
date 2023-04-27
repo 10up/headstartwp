@@ -1,5 +1,11 @@
 # @10up/headless-wp-plugin
 
+## 0.7.0-next.0
+
+### Minor Changes
+
+- da2386e: 10up Headless Framework is now called HeadstartWP
+
 ## 0.6.0
 
 ### Minor Changes
@@ -35,7 +41,6 @@
     },
   };
   ```
-
 
 ### Patch Changes
 
