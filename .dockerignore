@@ -1,4 +1,5 @@
 **/node_modules
+**/.env*
 deploy/*
 !deploy/entrypoint.sh
 **/.next
