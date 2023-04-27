@@ -1,5 +1,5 @@
-import { usePost } from '@10up/headless-next';
-import { PostParams } from '@10up/headless-core';
+import { usePost } from '@headstartwp/next';
+import { PostParams } from '@headstartwp/core';
 import { FC, ReactElement } from 'react';
 import dynamic from 'next/dynamic';
 

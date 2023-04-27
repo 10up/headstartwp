@@ -1,4 +1,4 @@
-import { previewHandler } from '@10up/headless-next';
+import { previewHandler } from '@headstartwp/next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 /**

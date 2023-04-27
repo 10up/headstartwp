@@ -122,7 +122,7 @@ import {
 	ColumnsBlock,
 	ParagraphBlock,
 	DebugBlock,
-} from '@10up/headless-core/react';
+} from '@headstartwp/core/react';
 
 <BlocksRenderer html={html}>
      { /* .... */ }

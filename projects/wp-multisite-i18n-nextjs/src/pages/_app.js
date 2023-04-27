@@ -1,4 +1,4 @@
-import { HeadlessApp } from '@10up/headless-next';
+import { HeadlessApp } from '@headstartwp/next';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import { Link } from '../components/Link';

@@ -1,7 +1,7 @@
 {
-  "name": "@10up/headless-next",
+  "name": "@headstartwp/next",
   "version": "0.7.2",
-  "description": "`@10up/headless-next` is the Next.js bindings for the headless framework.",
+  "description": "`@headstartwp/next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headless/blob/develop/packages/next/README.md",
   "license": "MIT",
   "author": "10up <info@10up.com> (https://10up.com/)",
@@ -52,7 +52,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@10up/headless-core": "^0.8.1",
+    "@headstartwp/core": "^0.8.1",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
     "schema-utils": "^4.0.0",

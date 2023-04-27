@@ -41,8 +41,8 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  * ## Usage
  *
  * ```tsx
- * import { isAnchorTag } from '@10up/headless-core';
- * import { LinkBlock } from '@10up/headless-next';
+ * import { isAnchorTag } from '@headstartwp/core';
+ * import { LinkBlock } from '@headstartwp/next';
  *
  * <BlocksRenderer html={html}>
  *  	<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true})} />
@@ -52,6 +52,7 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  * @param node The node to test
  * @param options Supported options
  *
+ * @param site
  * @category DOM Helpers
  *
  * @returns Whether it's an anchor tag according to the options passed
@@ -102,8 +103,8 @@ export type isImageTagOptions = {
  * ## Usage
  *
  * ```tsx
- * import { isImageTag, ImageBlock } from '@10up/headless-core';
- * import { ImageComponent } from '@10up/headless-next';
+ * import { isImageTag, ImageBlock } from '@headstartwp/core';
+ * import { ImageComponent } from '@headstartwp/next';
  *
  * <BlocksRenderer html={html}>
  *  	<ImageBlock
@@ -151,7 +152,7 @@ export const youtubeEmbedRegex =
  * ## Usage
  *
  * ```tsx
- * import { isYoutubeEmbed } from '@10up/headless-core';
+ * import { isYoutubeEmbed } from '@headstartwp/core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyYoutubeBlock
@@ -191,7 +192,7 @@ export function isYoutubeEmbed(node: DOMNode) {
  * ## Usage
  *
  * ```tsx
- * import { isTwitterEmbed } from '@10up/headless-core';
+ * import { isTwitterEmbed } from '@headstartwp/core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyTwitterBlock
@@ -241,7 +242,7 @@ export type isBlockOptions = {
  * ## Usage
  *
  * ```tsx
- * import { isBlock } from '@10up/headless-core';
+ * import { isBlock } from '@headstartwp/core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyCustomBlock
@@ -252,6 +253,7 @@ export type isBlockOptions = {
  *
  * @param node The node to test
  *
+ * @param _options
  * @category DOM Helpers
  *
  * @returns true if the node passes the test
@@ -296,7 +298,7 @@ export function isBlock(node: DOMNode, _options: isBlockOptions) {
  * ## Usage
  *
  * ```tsx
- * import { isBlockByName } from '@10up/headless-core';
+ * import { isBlockByName } from '@headstartwp/core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyCustomBlock

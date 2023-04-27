@@ -18,7 +18,8 @@ export default function Home() {
 			<main>
 				<header className={`${styles.heroBanner} home__heroBanner`}>
 					<h1>
-						10up Headless Framework <span className={`${styles.beta}`}>Beta</span>
+						HeadstartWP
+						<span className={`${styles.beta}`}>Beta</span>
 					</h1>
 					<p>A framework for building headless WordPress sites.</p>
 					<SearchBar className={styles.searchBar} />

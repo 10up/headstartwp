@@ -1,5 +1,5 @@
 import { createMocks } from 'node-mocks-http';
-import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '@10up/headless-core/test';
+import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '@headstartwp/core/test';
 import { previewHandler } from '../previewHandler';
 
 describe('previewHandler', () => {
