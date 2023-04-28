@@ -7,7 +7,7 @@ import {
 	handleError,
 	usePost,
 	useAppSettings,
-} from '@headstartwp/next';
+} from '@10up/headless-next';
 import { PageContent } from '../../components/PageContent';
 import { bookParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';

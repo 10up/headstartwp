@@ -4,7 +4,7 @@ import {
 	addHookData,
 	handleError,
 	useAppSettings,
-} from '@headstartwp/next';
+} from '@10up/headless-next';
 import { Link } from '../../../../components/Link';
 import { searchParams } from '../../../../params';
 import { resolveBatch } from '../../../../utils/promises';

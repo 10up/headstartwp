@@ -7,8 +7,8 @@ import {
 	usePosts,
 	useTerms,
 	HeadlessGetStaticProps,
-} from '@headstartwp/next';
-import { FetchResponse, AppEntity, PostEntity } from '@headstartwp/core';
+} from '@10up/headless-next';
+import { FetchResponse, AppEntity, PostEntity } from '@10up/headless-core';
 import { FC } from 'react';
 import { Link } from '../components/Link';
 import { PageContent } from '../components/PageContent';

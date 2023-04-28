@@ -1,7 +1,7 @@
 /**
  * UHeadless Config
  *
- * @type {import('@headstartwp/core').HeadlessConfig}
+ * @type {import('@10up/headless-core').HeadlessConfig}
  */
 module.exports = {
 	/**

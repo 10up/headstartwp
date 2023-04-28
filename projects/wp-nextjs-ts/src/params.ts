@@ -1,4 +1,4 @@
-import type { PostParams, PostsArchiveParams, TaxonomyArchiveParams } from '@headstartwp/core';
+import type { PostParams, PostsArchiveParams, TaxonomyArchiveParams } from '@10up/headless-core';
 
 export const singleParams: PostParams = { postType: ['page', 'post'] };
 

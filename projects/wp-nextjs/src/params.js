@@ -1,20 +1,20 @@
 /**
- * @type {import('@headstartwp/core').PostParams}
+ * @type {import('@10up/headless-core').PostParams}
  */
 export const singleParams = { postType: ['page', 'post'] };
 
 /**
- * @type {import('@headstartwp/core').PostParams}
+ * @type {import('@10up/headless-core').PostParams}
  */
 export const indexParams = { postType: ['page'] };
 
 /**
- * @type {import('@headstartwp/core').PostsArchiveParams}
+ * @type {import('@10up/headless-core').PostsArchiveParams}
  */
 export const searchParams = { postType: 'post' };
 
 /**
- * @type {import('@headstartwp/core').PostsArchiveParams}
+ * @type {import('@10up/headless-core').PostsArchiveParams}
  */
 export const blogParams = {
 	postType: 'post',
@@ -29,16 +29,16 @@ export const blogParams = {
 // remove them if you don't need them
 
 /**
- * @type {import('@headstartwp/core').PostParams}
+ * @type {import('@10up/headless-core').PostParams}
  */
 export const bookParams = { postType: ['book'] };
 
 /**
- * @type {import('@headstartwp/core').PostsArchiveParams}
+ * @type {import('@10up/headless-core').PostsArchiveParams}
  */
 export const booksParams = { postType: 'book' };
 
 /**
- * @type {import('@headstartwp/core').TaxonomyArchiveParams}
+ * @type {import('@10up/headless-core').TaxonomyArchiveParams}
  */
 export const indexTermsParams = { order: 'asc', orderby: 'count' };

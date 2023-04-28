@@ -1,4 +1,4 @@
-import { FetchResponse } from '@headstartwp/core';
+import { FetchResponse } from '@10up/headless-core';
 
 const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfilledResult<T> =>
 	input.status === 'fulfilled';

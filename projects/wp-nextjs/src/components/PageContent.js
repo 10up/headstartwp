@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { usePost } from '@headstartwp/next';
+import { usePost } from '@10up/headless-next';
 import dynamic from 'next/dynamic';
 
 const Blocks = dynamic(() => import('./Blocks'));
