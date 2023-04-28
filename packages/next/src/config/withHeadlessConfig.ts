@@ -163,7 +163,10 @@ export function withHeadlessConfig(
 						/packages\/core/.test(source) ||
 						// for the pubished packaged version
 						/@10up\/headless-next\/config\/loader/.test(source) ||
-						/@10up\/headless-core/.test(source)
+						/@10up\/headless-core/.test(source) ||
+						// for the new name
+						/@headstartwp\/next\/config\/loader/.test(source) ||
+						/@headstartwp\/core/.test(source)
 					) {
 						return true;
 					}
