@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 0.8.2-next.0
+
+### Patch Changes
+
+- 9d2e511: Fix package builds out to npm
+- Updated dependencies [9d2e511]
+  - @headstartwp/core@0.9.1-next.0
+
 ## 0.8.1
 
 ### Patch Changes

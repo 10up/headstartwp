@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 0.9.1-next.0
+
+### Patch Changes
+
+- 9d2e511: Fix package builds out to npm
+
 ## 0.9.0
 
 ### Minor Changes
