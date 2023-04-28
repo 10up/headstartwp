@@ -33,9 +33,9 @@ RUN adduser --system --uid 1001 nextjs
 
 # Copy Next configuration files to runner
 COPY --from=builder --chown=nextjs:nodejs /app/projects/wp-nextjs/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/projects/wp-nextjs/.next/standalone/packages/next-redis-cache-provider ./
 COPY --from=builder --chown=nextjs:nodejs /app/projects/wp-nextjs/.next/server ./projects/wp-nextjs/.next/server
 COPY --from=builder --chown=nextjs:nodejs /app/projects/wp-nextjs/.next/static ./projects/wp-nextjs/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/projects/wp-nextjs/.next/standalone/packages ./node_modules/packages
 
 # Copy entrypoint script
 COPY --from=builder --chown=nexjs:nodejs /app/deploy/entrypoint.sh ./
