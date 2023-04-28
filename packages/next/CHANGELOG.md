@@ -1,35 +1,4 @@
-# @headstartwp/next
-
-## 0.8.2-next.1
-
-### Patch Changes
-
-- 823d520: Remove references to old packages
-
-## 0.8.2-next.0
-
-### Patch Changes
-
-- 9d2e511: Fix package builds out to npm
-- Updated dependencies [9d2e511]
-  - @headstartwp/core@0.9.1-next.0
-
-## 0.8.1
-
-### Patch Changes
-
-- 7161bd1: Fix config loader
-
-## 0.8.0
-
-### Minor Changes
-
-- da2386e: 10up Headless Framework is now called HeadstartWP
-
-### Patch Changes
-
-- Updated dependencies [da2386e]
-  - @headstartwp/core@0.9.0
+# @10up/headless-next
 
 ## 0.7.2
 

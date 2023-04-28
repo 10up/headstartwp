@@ -1,4 +1,4 @@
-import type { AppEntity, EndpointParams } from '@headstartwp/core';
+import type { AppEntity, EndpointParams } from '@10up/headless-core';
 import { expectTypeOf } from 'expect-type';
 import { renderHook } from '@testing-library/react';
 import { useAppSettings } from '../useAppSettings';

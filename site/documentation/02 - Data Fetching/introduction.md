@@ -14,20 +14,20 @@ The data-fetching logic itself is abstracted by [strategies](/api/classes/10up_h
 
 ## React Custom hooks
 
-The `@headstartwp/core/react` package export exposes the react hooks implementation on top of the `useSwr` library. Those hooks are called `useFetch*` e.g: `useFetchPost`, `useFetchPosts` and so on. They can be used outside of Next.js (i.e create-react-app, React Native etc.).
+The `@10up/headless-core/react` package export exposes the react hooks implementation on top of the `useSwr` library. Those hooks are called `useFetch*` e.g: `useFetchPost`, `useFetchPosts` and so on. They can be used outside of Next.js (i.e create-react-app, React Native etc.).
 
 ## Next.js "bindings" 
 
 Next.js is the main meta-framework supported by 10up's Headless Framework, therefore we provide special bindings that make using the framework a breeze.
 
-The Next.js bindings are exposed by the `@headstartwp/next` package.
+The Next.js bindings are exposed by the `@10up/headless-next` package.
 
 The main difference is that the Next.js binding will automatically extract URL segments into request params (i.e extracting post name from the URL automatically) when used in conjunction with the "path" catch-all pattern like `src/page/[...path.js]`.
 
 The following example uses the `useFetchPost` to manually fetch a page with the `about` slug.
 
 ```js
-import { useFetchPost } from '@headstartwp/core/react';
+import { useFetchPost } from '@10up/headless-core/react';
 
 const Page = () => {
     const  { data: { post }, loading } = useFetchPost({ slug: 'about', post_type: 'page' } );
@@ -49,7 +49,7 @@ usePost({ post_type: 'page' }, {}, '/about' );
 By using the Next.js bindings and following the path catch-all route convention, the URL extraction is automatic.
 
 ```js title="src/pages/[...path].js"
-import { usePost } from '@headstartwp/next';
+import { usePost } from '@10up/headless-next';
 
 const Page = () => {
     // slug is automatically injected from the next.js router

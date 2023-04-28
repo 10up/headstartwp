@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-import { server } from '@headstartwp/core/test';
+import { server } from '@10up/headless-core/test';
 
 // @ts-expect-error
 global.__10up__HEADLESS_CONFIG = {};

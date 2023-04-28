@@ -1,4 +1,4 @@
-import { ConfigError, HeadlessConfig } from '@headstartwp/core';
+import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 import { NextConfig } from 'next';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
@@ -162,8 +162,8 @@ export function withHeadlessConfig(
 						/packages\/next\/config\/loader/.test(source) ||
 						/packages\/core/.test(source) ||
 						// for the pubished packaged version
-						/@headstartwp\/next\/config\/loader/.test(source) ||
-						/@headstartwp\/core/.test(source)
+						/@10up\/headless-next\/config\/loader/.test(source) ||
+						/@10up\/headless-core/.test(source)
 					) {
 						return true;
 					}
@@ -172,7 +172,7 @@ export function withHeadlessConfig(
 				},
 				use: [
 					{
-						loader: '@headstartwp/next/webpack-loader',
+						loader: '@10up/headless-next/webpack-loader',
 						options: { config: headlessConfig },
 					},
 				],

@@ -1,16 +1,4 @@
-# @headstartwp/core
-
-## 0.9.1-next.0
-
-### Patch Changes
-
-- 9d2e511: Fix package builds out to npm
-
-## 0.9.0
-
-### Minor Changes
-
-- da2386e: 10up Headless Framework is now called HeadstartWP
+# @10up/headless-core
 
 ## 0.8.1
 

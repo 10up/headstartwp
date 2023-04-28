@@ -41,8 +41,8 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  * ## Usage
  *
  * ```tsx
- * import { isAnchorTag } from '@headstartwp/core';
- * import { LinkBlock } from '@headstartwp/next';
+ * import { isAnchorTag } from '@10up/headless-core';
+ * import { LinkBlock } from '@10up/headless-next';
  *
  * <BlocksRenderer html={html}>
  *  	<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true})} />
@@ -103,8 +103,8 @@ export type isImageTagOptions = {
  * ## Usage
  *
  * ```tsx
- * import { isImageTag, ImageBlock } from '@headstartwp/core';
- * import { ImageComponent } from '@headstartwp/next';
+ * import { isImageTag, ImageBlock } from '@10up/headless-core';
+ * import { ImageComponent } from '@10up/headless-next';
  *
  * <BlocksRenderer html={html}>
  *  	<ImageBlock
@@ -152,7 +152,7 @@ export const youtubeEmbedRegex =
  * ## Usage
  *
  * ```tsx
- * import { isYoutubeEmbed } from '@headstartwp/core';
+ * import { isYoutubeEmbed } from '@10up/headless-core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyYoutubeBlock
@@ -192,7 +192,7 @@ export function isYoutubeEmbed(node: DOMNode) {
  * ## Usage
  *
  * ```tsx
- * import { isTwitterEmbed } from '@headstartwp/core';
+ * import { isTwitterEmbed } from '@10up/headless-core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyTwitterBlock
@@ -242,7 +242,7 @@ export type isBlockOptions = {
  * ## Usage
  *
  * ```tsx
- * import { isBlock } from '@headstartwp/core';
+ * import { isBlock } from '@10up/headless-core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyCustomBlock
@@ -298,7 +298,7 @@ export function isBlock(node: DOMNode, _options: isBlockOptions) {
  * ## Usage
  *
  * ```tsx
- * import { isBlockByName } from '@headstartwp/core';
+ * import { isBlockByName } from '@10up/headless-core';
  *
  * <BlocksRenderer html={html}>
  *  	<MyCustomBlock

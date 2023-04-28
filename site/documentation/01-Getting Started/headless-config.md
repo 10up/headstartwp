@@ -106,7 +106,7 @@ useTerms({ taxonomy: 'genre' } );
 Additionally, if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
 
 ```js title=src/pages/books/[[...path]].js
-import { usePosts} from '@headstartwp/next';
+import { usePosts} from '@10up/headless-next';
 const BooksPage = () => {
 	const { data, error, loading } = usePosts({postType: 'book'});
 

@@ -1,7 +1,7 @@
 {
-  "name": "@headstartwp/core",
-  "version": "0.9.1-next.0",
-  "description": "`@headstartwp/core` is the core package that houses framework-agnostic components and utilities for building headless sites with WordPress.",
+  "name": "@10up/headless-core",
+  "version": "0.8.1",
+  "description": "`@10up/headless-core` is the core package that houses framework-agnostic components and utilities for building headless sites with WordPress.",
   "homepage": "https://github.com/10up/headless/blob/develop/packages/core/README.md",
   "license": "MIT",
   "author": "10up <info@10up.com> (https://10up.com/)",

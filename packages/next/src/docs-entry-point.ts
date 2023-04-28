@@ -1,34 +1,34 @@
 /**
- * The **default** export of the `@headstartwp/next` package.
+ * The **default** export of the `@10up/headless-next` package.
  *
  * ```tsx
- * import { usePosts } from '@headstartwp/next';
+ * import { usePosts } from '@10up/headless-next';
  * ```
  */
 export * from './index';
 
 /**
- * ## @headstartwp/next/middlewares
+ * ## @10up/headless-next/middlewares
  *
- * The middlewwares export of the `@headstartwp/next' package.
+ * The middlewwares export of the `@10up/headless-next' package.
  *
  * ### Usage
  *
  * ```tsx
- * import { appMiddleware } from '@headstartwp/next/middlewares';
+ * import { appMiddleware } from '@10up/headless-next/middlewares';
  * ```
  */
 export * as middlewares from './middlewares';
 
 /**
- * ## @headstartwp/next/config
+ * ## @10up/headless-next/config
  *
- * The config export of the `@headstartwp/next` package.
+ * The config export of the `@10up/headless-next` package.
  *
  * ### Usage
  *
  * ```tsx
- * import { withHeadlessConfig } from '@headstartwp/next/config';
+ * import { withHeadlessConfig } from '@10up/headless-next/config';
  * ```
  */
 export * as config from './config';
