@@ -45,7 +45,7 @@
     "jest": "^29.0.3",
     "jest-environment-jsdom": "^29.0.3",
     "lint-staged": "^11.1.2",
-    "turbo": "^1.2.11"
+    "turbo": "^1.9.3"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",
