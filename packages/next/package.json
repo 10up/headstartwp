@@ -24,7 +24,9 @@
       "require": "./dist/cjs/config/index.js",
       "import": "./dist/mjs/config/index.js",
       "types": "./dist/mjs/config/index.d.ts"
-    }
+    },
+    "./config/loader": "./config-loader.js",
+    "./webpack-loader": "./webpack-loader.js"
   },
   "publishConfig": {
     "access": "public"
@@ -34,7 +36,9 @@
     "middleware.d.ts",
     "middleware.js",
     "config.d.ts",
-    "config.js"
+    "config.js",
+    "config-loader.js",
+    "webpack-loader.js"
   ],
   "sideEffects": false,
   "scripts": {
