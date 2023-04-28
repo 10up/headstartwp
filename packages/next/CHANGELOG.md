@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 0.8.2-next.1
+
+### Patch Changes
+
+- 823d520: Remove references to old packages
+
 ## 0.8.2-next.0
 
 ### Patch Changes
