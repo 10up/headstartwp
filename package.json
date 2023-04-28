@@ -16,7 +16,7 @@
     "build:packages": "turbo run build --filter=./packages/*",
     "test": "npm run build:packages && turbo run test",
     "lint": "eslint .",
-    "wp-env": "npm run wp-env:start -w=@10up/headless-wp-plugin",
+    "wp-env": "npm run wp-env:start -w=wp/headless-wp",
     "nextjs:dev": "turbo run dev --parallel --filter=!./projects/wp-multisite-nextjs --filter=!./projects/wp-multisite-i18n-nextjs --filter=!./projects/wp-nextjs-ts",
     "nextjs:dev-multisite": "turbo run dev --parallel --filter=!./projects/wp-nextjs",
     "dev": "npm run build:packages && npm run wp-env && npm run nextjs:dev",
