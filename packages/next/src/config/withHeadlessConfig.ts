@@ -61,9 +61,6 @@ export function withHeadlessConfig(
 		);
 	}
 
-	// @ts-expect-error
-	global.__10up__HEADLESS_CONFIG = headlessConfig;
-
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];
 
 	const sites = headlessConfig.sites || [headlessConfig];
@@ -81,10 +78,6 @@ export function withHeadlessConfig(
 
 	return {
 		...nextConfig,
-		serverRuntimeConfig: {
-			...nextConfig.serverRuntimeConfig,
-			headlessConfig,
-		},
 		images: {
 			...nextConfig.images,
 			domains: imageDomains,
@@ -155,31 +148,11 @@ export function withHeadlessConfig(
 		},
 
 		webpack: (config, options) => {
-			config.module.rules.push({
-				test(source) {
-					if (
-						// for the monorepo
-						/packages\/next\/config\/loader/.test(source) ||
-						/packages\/core/.test(source) ||
-						// for the pubished packaged version
-						/@10up\/headless-next\/config\/loader/.test(source) ||
-						/@10up\/headless-core/.test(source) ||
-						// for the new name
-						/@headstartwp\/next\/config\/loader/.test(source) ||
-						/@headstartwp\/core/.test(source)
-					) {
-						return true;
-					}
-
-					return false;
-				},
-				use: [
-					{
-						loader: '@headstartwp/next/webpack-loader',
-						options: { config: headlessConfig },
-					},
-				],
-			});
+			config.plugins.push(
+				new options.webpack.DefinePlugin({
+					__10up__HEADLESS_CONFIG: JSON.stringify(headlessConfig),
+				}),
+			);
 
 			if (isPackageInstalled('@linaria/webpack-loader')) {
 				traverse(config.module.rules);
