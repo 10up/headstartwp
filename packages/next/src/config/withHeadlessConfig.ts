@@ -154,32 +154,6 @@ export function withHeadlessConfig(
 				}),
 			);
 
-			/* config.module.rules.push({
-				test(source) {
-					if (
-						// for the monorepo
-						/packages\/next\/config\/loader/.test(source) ||
-						/packages\/core/.test(source) ||
-						// for the pubished packaged version
-						/@10up\/headless-next\/config\/loader/.test(source) ||
-						/@10up\/headless-core/.test(source) ||
-						// for the new name
-						/@headstartwp\/next\/config\/loader/.test(source) ||
-						/@headstartwp\/core/.test(source)
-					) {
-						return true;
-					}
-
-					return false;
-				},
-				use: [
-					{
-						loader: '@headstartwp/next/webpack-loader',
-						options: { config: headlessConfig },
-					},
-				],
-			}); */
-
 			if (isPackageInstalled('@linaria/webpack-loader')) {
 				traverse(config.module.rules);
 				config.module.rules.push({
