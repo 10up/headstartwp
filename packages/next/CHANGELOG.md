@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 0.9.0-next.0
+
+### Minor Changes
+
+- 0b87224: Fix config loading
+
 ## 0.8.1
 
 ### Patch Changes
