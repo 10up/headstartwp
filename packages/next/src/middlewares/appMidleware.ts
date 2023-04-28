@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchRedirect, getHeadlessConfig, getSiteByHost } from '@headstartwp/core/utils';
+import { fetchRedirect, getHeadlessConfig, getSiteByHost } from '@10up/headless-core/utils';
 
 const ALLOWED_STATIC_PATHS = /^\/.*\.(ico|png|jpg|jpeg)$/g;
 

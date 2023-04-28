@@ -1,4 +1,4 @@
-import { getHeadlessConfig } from '@headstartwp/core/utils';
+import { getHeadlessConfig } from '@10up/headless-core/utils';
 import {
 	fetchHookData,
 	useAppSettings,
@@ -6,7 +6,7 @@ import {
 	handleError,
 	usePost,
 	usePosts,
-} from '@headstartwp/next';
+} from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { PageContent } from '../../../components/PageContent';
 import { indexParams } from '../../../params';

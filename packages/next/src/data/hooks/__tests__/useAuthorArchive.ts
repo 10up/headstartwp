@@ -1,4 +1,4 @@
-import type { PostEntity, PostsArchiveParams } from '@headstartwp/core';
+import type { PostEntity, PostsArchiveParams } from '@10up/headless-core';
 import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { useAuthorArchive } from '../useAuthorArchive';

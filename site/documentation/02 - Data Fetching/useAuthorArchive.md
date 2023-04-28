@@ -17,7 +17,7 @@ This example is using the catch-all route `[..path].js` because **we do not want
 :::info
 
 ```js title="src/pages/author/[...path].js"
-import { useAuthorArchive } from '@headstartwp/next';
+import { useAuthorArchive } from '@10up/headless-next';
 
 const ArchivePage = () => {
 	const { loading, error, data } = useAuthorArchive({ per_page: 10 });
@@ -50,7 +50,7 @@ The route will automatically render the latest 10 posts from the current author.
 
 In order to fetch posts from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section. 
 ```js title="src/pages/author/[...path].js"
-import { useAuthorArchive } from '@headstartwp/next';
+import { useAuthorArchive } from '@10up/headless-next';
 
 const ArchivePage = () => {
     // book must be declared in headless.config.js

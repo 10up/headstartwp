@@ -1,4 +1,4 @@
-import { addHookData, fetchHookData, handleError, useAppSettings } from '@headstartwp/next';
+import { addHookData, fetchHookData, handleError, useAppSettings } from '@10up/headless-next';
 import Head from 'next/head';
 import { resolveBatch } from '../utils/promises';
 

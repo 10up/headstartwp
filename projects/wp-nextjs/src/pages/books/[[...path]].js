@@ -7,7 +7,7 @@ import {
 	addHookData,
 	handleError,
 	useAppSettings,
-} from '@headstartwp/next';
+} from '@10up/headless-next';
 import { booksParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 

@@ -18,7 +18,7 @@ This example is using the optional catch-all route `[[..path]].js` because we wa
 :::info
 
 ```js title="src/pages/blog/[[...path]].js"
-import { usePost } from '@headstartwp/next';
+import { usePost } from '@10up/headless-next';
 
 const ArchivePage = () => {
 	const { loading, error, data } = usePosts({ per_page: 10 });
@@ -78,7 +78,7 @@ import {
 	fetchHookData,
 	addHookData,
 	handleError,
-} from '@headstartwp/next';
+} from '@10up/headless-next';
 
 const CategoryPage = () => {
 	const { data } = usePosts({ taxonomy: 'category' });

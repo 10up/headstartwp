@@ -1,4 +1,4 @@
-import { HeadlessApp } from '@headstartwp/next';
+import { HeadlessApp } from '@10up/headless-next';
 import { FC } from 'react';
 import { AppProps } from 'next/app';
 import Router from 'next/router';

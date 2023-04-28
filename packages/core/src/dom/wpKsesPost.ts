@@ -13,7 +13,7 @@ interface IWpKsesPostOptions extends IFilterXSSOptions {
  * ## Usage
  *
  * ```tsx
- * import { wpKsesPost } from '@headstartwp/core';
+ * import { wpKsesPost } from '@10up/headless-core';
  * wpKsesPost(html);
  * ```
  *

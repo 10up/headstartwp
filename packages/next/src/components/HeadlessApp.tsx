@@ -1,11 +1,11 @@
 import { ReactNode, useMemo } from 'react';
-import { SettingsProvider, ThemeSettingsProvider } from '@headstartwp/core/react';
+import { SettingsProvider, ThemeSettingsProvider } from '@10up/headless-core/react';
 import { SWRConfig } from 'swr';
-import type { SettingsContextProps } from '@headstartwp/core/react';
+import type { SettingsContextProps } from '@10up/headless-core/react';
 import type { SWRConfiguration } from 'swr';
 
 import { useRouter } from 'next/router';
-import { getSiteByHost } from '@headstartwp/core';
+import { getSiteByHost } from '@10up/headless-core';
 import { Yoast } from './Yoast';
 
 /**
@@ -55,7 +55,7 @@ export type HeadlessAppProps = {
  * ## Usage
  *
  * ```tsx
- * import { HeadlessApp } from "@headstartwp/next";
+ * import { HeadlessApp } from "@10up/headless-next";
  *
  * const MyApp = ({ Component, pageProps }) => {
  *	const { fallback = {}, themeJson = {}, ...props } = pageProps;

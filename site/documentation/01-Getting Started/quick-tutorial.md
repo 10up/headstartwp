@@ -30,13 +30,13 @@ Now let’s look at how data fetching for this route works. To make things easie
 
 ```js title="src/params.js"
 /**
- * @type {import('@headstartwp/core').PostParams}
+ * @type {import('@10up/headless-core').PostParams}
  */
 export const singleParams = { postType: ['page', 'post'] };
 ```
 
 ```js title="src/pages/[...path].js"
-import { usePost } from '@headstartwp/next';
+import { usePost } from '@10up/headless-next';
 
 const SinglePostsPage = () => {
 	const { loading, error } = usePost(singleParams);
@@ -126,7 +126,7 @@ There’s also the concept of "queried object" which is very similar to [get_que
 Let's take a look at [src/pages/category/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/category/%5B...path%5D.js)
 
 ```js title="src/pages/category/[...path].js"
-import { usePosts } from '@headstartwp/next';
+import { usePosts } from '@10up/headless-next';
 
 const CategoryPage = () => {
 	const { data } = usePosts({ taxonomy: 'category' });

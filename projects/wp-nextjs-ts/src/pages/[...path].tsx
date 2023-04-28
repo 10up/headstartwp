@@ -1,4 +1,4 @@
-import { getWPUrl, removeSourceUrl } from '@headstartwp/core';
+import { getWPUrl, removeSourceUrl } from '@10up/headless-core';
 import {
 	usePost,
 	fetchHookData,
@@ -7,7 +7,7 @@ import {
 	usePosts,
 	useAppSettings,
 	HeadlessGetStaticProps,
-} from '@headstartwp/next';
+} from '@10up/headless-next';
 import { FC } from 'react';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';

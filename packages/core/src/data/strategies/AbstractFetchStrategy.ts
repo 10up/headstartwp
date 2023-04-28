@@ -321,7 +321,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 * ## Usage
 	 *
 	 * ```tsx
-	 * import { PostsArchiveFetchStrategy } from '@headstartwp/core';
+	 * import { PostsArchiveFetchStrategy } from '@10up/headless-core';
 	 *
 	 * new PostsArchiveFetchStrategy('http://my-wp-url.com').get({perPage: 10});
 	 * ```

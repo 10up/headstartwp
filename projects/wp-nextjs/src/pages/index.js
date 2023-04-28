@@ -6,7 +6,7 @@ import {
 	handleError,
 	usePosts,
 	useTerms,
-} from '@headstartwp/next';
+} from '@10up/headless-next';
 import PropTypes from 'prop-types';
 import { Link } from '../components/Link';
 import { PageContent } from '../components/PageContent';

@@ -1,4 +1,4 @@
-import { PostEntity, TermEntity } from '@headstartwp/core';
+import { PostEntity, TermEntity } from '@10up/headless-core';
 import { expectTypeOf } from 'expect-type';
 import { useAuthorArchive } from '../../hooks/useAuthorArchive';
 import { usePosts } from '../../hooks/usePosts';

@@ -34,7 +34,7 @@ export interface IYoutubeLiteBlock extends IBlock<YoutubeLiteBlockProps> {}
 /**
  * Renders Youtube embeds with lite-youtube-embed
  *
- * @param {import('@headstartwp/core').BlockDef} props The Block props
+ * @param {import('@10up/headless-core').BlockDef} props The Block props
  *
  * @returns
  */

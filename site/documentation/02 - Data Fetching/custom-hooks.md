@@ -12,7 +12,7 @@ Sometimes it might be useful to wrap the framework data-fetching hooks into your
 Let's say you have a custom-post type and you want to abstract the parameteres needed to get that custom post type. You can create your own hook and pass in the required paramms.
 
 ```js title=src/hooks/useBook.js
-import { usePost } from '@headstartwp/next';
+import { usePost } from '@10up/headless-next';
 
 const defaultParams = {
 	postType: 'book',
@@ -41,8 +41,8 @@ const bookData = await fetchHookData(useBook.fetcher(), context);
 This is also useful if you're using TypeScript and your custom post type have additional meta fields.
 
 ```js title=src/hooks/useBook.ts
-import { usePost } from '@headstartwp/next';
-import { PostEntity, PostParams } from '@headstartwp/core';
+import { usePost } from '@10up/headless-next';
+import { PostEntity, PostParams } from '@10up/headless-core';
 
 const defaultParams: PostParams = {
 	postType: 'book',
@@ -70,9 +70,9 @@ Then when using the custom hook `isbn` will show up as an property of the return
 If you're using TypeScript and you are extending the framework's app endpoint and including new fields you can create your own custom hook and specify the additional TypeScript types.
 
 ```js title=src/hooks/useMyAppSettings.ts
-import { FetchResponse, AppEntity, AppSettingsStrategy } from '@headstartwp/core';
-import { FetchHookOptions } from '@headstartwp/core/react';
-import { useAppSettings } from '@headstartwp/next';
+import { FetchResponse, AppEntity, AppSettingsStrategy } from '@10up/headless-core';
+import { FetchHookOptions } from '@10up/headless-core/react';
+import { useAppSettings } from '@10up/headless-next';
 
 export interface MyAppSettings extends AppEntity {
     my_custom_setting: string;

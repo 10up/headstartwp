@@ -1,4 +1,4 @@
-import { FetchResponse } from '@headstartwp/core';
+import { FetchResponse } from '@10up/headless-core';
 import { addHookData, HookState } from '../addHookData';
 
 const sampleThemeJson = {

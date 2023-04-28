@@ -1,4 +1,4 @@
-import { getHeadlessConfig, getSite } from '@headstartwp/core';
+import { getHeadlessConfig, getSite } from '@10up/headless-core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 
 /**

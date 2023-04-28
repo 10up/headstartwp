@@ -1,5 +1,5 @@
-import { isTwitterEmbed } from '@headstartwp/core';
-import { IBlock, IBlockAttributes } from '@headstartwp/core/react';
+import { isTwitterEmbed } from '@10up/headless-core';
+import { IBlock, IBlockAttributes } from '@10up/headless-core/react';
 import Script from 'next/script';
 
 /**
@@ -8,8 +8,8 @@ import Script from 'next/script';
  * ## Usage
  *
  * ```tsx
- * import { BlocksRenderer } from "@headstartwp/core/react";
- * import { TwitterBlock } from "@headstartwp/next";
+ * import { BlocksRenderer } from "@10up/headless-core/react";
+ * import { TwitterBlock } from "@10up/headless-next";
  *
  * <BlocksRenderer html={html}>
  * 	<TwitterBlock />

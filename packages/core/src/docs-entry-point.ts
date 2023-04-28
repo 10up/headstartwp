@@ -1,24 +1,24 @@
 /**
- * The default export of the `@headstartwp/core` package.
+ * The default export of the `@10up/headless-core` package.
  *
  * All of the framework-agnostic code is exposed here.
  *
  * ```tsx
- * import { PostsArchiveFetchStrategy } from "@headstartwp/core";
+ * import { PostsArchiveFetchStrategy } from "@10up/headless-core";
  * ```
  */
 export * from './index';
 
 /**
  *
- * ## @headstartwp/core/react
+ * ## @10up/headless-core/react
  *
- * The react export of the `@headstartwp/core` package.
+ * The react export of the `@10up/headless-core` package.
  *
  * ### Usage
  *
  * ```tsx
- * import { BlocksRenderer } from "@headstartwp/core/react";
+ * import { BlocksRenderer } from "@10up/headless-core/react";
  * ```
  *
  */
