@@ -11,10 +11,13 @@
     "@10up/wp-multisite-nextjs": "0.2.0",
     "@10up/wp-nextjs": "0.2.0",
     "@10up/wp-nextjs-ts": "0.2.1-next.2",
-    "@headstartwp/headstartwp": "0.9.1"
+    "@headstartwp/headstartwp": "0.9.1",
+    "@headstartwp/core": "0.8.2-next.0",
+    "@headstartwp/next": "0.7.3-next.1"
   },
   "changesets": [
     "big-phones-teach",
+    "empty-pandas-beg",
     "ninety-boxes-lie"
   ]
 }

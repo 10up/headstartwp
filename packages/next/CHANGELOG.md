@@ -1,5 +1,16 @@
 # @headstartwp/next
 
+## 1.0.0-next.2
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+### Patch Changes
+
+- Updated dependencies [1f4491f]
+  - @headstartwp/core@1.0.0-next.1
+
 ## 0.7.3-next.1
 
 ### Patch Changes
