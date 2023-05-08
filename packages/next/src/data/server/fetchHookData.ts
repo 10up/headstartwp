@@ -105,6 +105,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	// we don't want to include the preview params in the key
 	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
 
+	if (debug?.devMode) {
+		log(LOGTYPE.INFO, `[fetchHookData] key for  ${key.url}`, key);
+	}
+
 	if (
 		isPreviewRequest(finalParams, urlParams) &&
 		typeof ctx.preview !== 'undefined' &&
@@ -125,6 +129,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		finalParams,
 		options.fetchStrategyOptions,
 	);
+
+	if (debug?.devMode) {
+		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
+	}
 
 	return {
 		key: unstable_serialize(key),

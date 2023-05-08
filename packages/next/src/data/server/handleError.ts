@@ -1,4 +1,4 @@
-import { fetchRedirect } from '@headstartwp/core';
+import { LOGTYPE, fetchRedirect, log } from '@headstartwp/core';
 import { GetServerSidePropsResult } from 'next';
 import { HeadlessGetServerSidePropsContext, HeadlessGetStaticPropsPropsContext } from '../types';
 import { getSiteFromContext } from './getSiteFromContext';
@@ -63,7 +63,11 @@ export async function handleError(
 	ctx: HeadlessGetServerSidePropsContext | HeadlessGetStaticPropsPropsContext,
 	rootRoute: string = '',
 ): Promise<GetServerSidePropsResult<{}>> {
-	const { redirectStrategy, sourceUrl } = getSiteFromContext(ctx);
+	const { redirectStrategy, sourceUrl, debug } = getSiteFromContext(ctx);
+
+	if (debug?.devMode) {
+		log(LOGTYPE.INFO, '[handleError] error', error.name, error.message);
+	}
 
 	if (error.name === 'NotFoundError') {
 		let pathname = '';
