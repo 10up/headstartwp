@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@10up/headless-core": "^0.8.1",
+    "modify-source-webpack-plugin": "^4.0.1",
     "html-react-parser": "^1.4.3",
     "loader-utils": "^3.2.0",
     "schema-utils": "^4.0.0",
