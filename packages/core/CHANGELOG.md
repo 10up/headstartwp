@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.0-next.2
+
+### Patch Changes
+
+- af507b7: Updating swr to latest version
+
 ## 1.0.0-next.1
 
 ### Major Changes
