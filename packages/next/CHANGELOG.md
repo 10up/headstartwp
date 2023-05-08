@@ -1,5 +1,11 @@
 # @10up/headless-next
 
+## 0.7.3-next.0
+
+### Patch Changes
+
+- 199baaa: Fix: removing old workaround for config loading
+
 ## 0.7.2
 
 ### Patch Changes
