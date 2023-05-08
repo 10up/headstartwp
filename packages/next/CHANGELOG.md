@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.0.0-next.3
+
+### Patch Changes
+
+- af507b7: Updating swr to latest version
+- Updated dependencies [af507b7]
+  - @headstartwp/core@1.0.0-next.2
+
 ## 1.0.0-next.2
 
 ### Major Changes
