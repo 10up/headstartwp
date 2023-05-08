@@ -14,6 +14,7 @@
     "@headstartwp/headstartwp": "0.9.1"
   },
   "changesets": [
-    "big-phones-teach"
+    "big-phones-teach",
+    "ninety-boxes-lie"
   ]
 }

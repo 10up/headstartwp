@@ -1,5 +1,11 @@
 # @10up/headless-core
 
+## 0.8.2-next.0
+
+### Patch Changes
+
+- 44d5607: New strategy for loaidng config
+
 ## 0.8.1
 
 ### Patch Changes
