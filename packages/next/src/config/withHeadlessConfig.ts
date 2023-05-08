@@ -149,34 +149,21 @@ export function withHeadlessConfig(
 		},
 
 		webpack: (config, options) => {
-			// const importSetHeadlessConfig = `import { setHeadlessConfig } from '@10up/headless-core';`;
+			const importSetHeadlessConfig = `
+				import { setHeadlessConfig } from '@10up/headless-core';
+				setHeadlessConfig(${JSON.stringify(headlessConfig)});
+			`;
 
 			config.plugins.push(
 				new ModifySourcePlugin({
 					rules: [
 						{
 							test: /_app.(tsx|ts|js|mjs|jsx)$/,
-							operations: [
-								new ConcatOperation(
-									'start',
-									`
-								import { setHeadlessConfig } from '@10up/headless-core';
-								setHeadlessConfig(${JSON.stringify(headlessConfig)});
-							`,
-								),
-							],
+							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
 						},
 						{
 							test: /middleware.(tsx|ts|js|mjs|jsx)$/,
-							operations: [
-								new ConcatOperation(
-									'start',
-									`
-								import { setHeadlessConfig } from '@10up/headless-core';
-								setHeadlessConfig(${JSON.stringify(headlessConfig)});
-							`,
-								),
-							],
+							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
 						},
 					],
 				}),
