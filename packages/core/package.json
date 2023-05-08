@@ -66,7 +66,7 @@
     "html-react-parser": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "react-inspector": "^6.0.1",
-    "swr": "^1.3.0",
+    "swr": "^2.1.5",
     "xss": "^1.0.11"
   },
   "peerDependencies": {
