@@ -1,7 +1,11 @@
 import { endpoints } from '../data/utils/endpoints';
 import { HeadlessConfig } from '../types';
 
-declare const __10up__HEADLESS_CONFIG: HeadlessConfig;
+let __10up__HEADLESS_CONFIG: HeadlessConfig = {};
+
+export function setHeadlessConfig(config: HeadlessConfig) {
+	__10up__HEADLESS_CONFIG = { ...config };
+}
 
 /**
  * Returns the contents of headless.config.js

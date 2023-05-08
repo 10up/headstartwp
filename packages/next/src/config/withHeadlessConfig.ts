@@ -1,5 +1,6 @@
 import { ConfigError, HeadlessConfig } from '@10up/headless-core';
 import { NextConfig } from 'next';
+import { ModifySourcePlugin, ConcatOperation } from 'modify-source-webpack-plugin';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -148,28 +149,38 @@ export function withHeadlessConfig(
 		},
 
 		webpack: (config, options) => {
-			config.module.rules.push({
-				test(source) {
-					if (
-						// for the monorepo
-						/packages\/next\/config\/loader/.test(source) ||
-						/packages\/core/.test(source) ||
-						// for the pubished packaged version
-						/@10up\/headless-next\/config\/loader/.test(source) ||
-						/@10up\/headless-core/.test(source)
-					) {
-						return true;
-					}
+			// const importSetHeadlessConfig = `import { setHeadlessConfig } from '@10up/headless-core';`;
 
-					return false;
-				},
-				use: [
-					{
-						loader: '@10up/headless-next/webpack-loader',
-						options: { config: headlessConfig },
-					},
-				],
-			});
+			config.plugins.push(
+				new ModifySourcePlugin({
+					rules: [
+						{
+							test: /_app.(tsx|ts|js|mjs|jsx)$/,
+							operations: [
+								new ConcatOperation(
+									'start',
+									`
+								import { setHeadlessConfig } from '@10up/headless-core';
+								setHeadlessConfig(${JSON.stringify(headlessConfig)});
+							`,
+								),
+							],
+						},
+						{
+							test: /middleware.(tsx|ts|js|mjs|jsx)$/,
+							operations: [
+								new ConcatOperation(
+									'start',
+									`
+								import { setHeadlessConfig } from '@10up/headless-core';
+								setHeadlessConfig(${JSON.stringify(headlessConfig)});
+							`,
+								),
+							],
+						},
+					],
+				}),
+			);
 
 			if (isPackageInstalled('@linaria/webpack-loader')) {
 				traverse(config.module.rules);
