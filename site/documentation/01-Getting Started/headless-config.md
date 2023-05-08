@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # Headless Config
 
-The `headless.config.js` file contains several config options for 10up's headless framework. This file should export an object of type [HeadlessConfig](/api/modules/10up_headless_core/#headlessconfig).
+The `headless.config.js` file contains several config options for 10up's headless framework. This file should export an object of type [HeadlessConfig](/api/modules/headstartwp_core/#headlessconfig).
 
 Here's a sample config file
 
@@ -106,7 +106,7 @@ useTerms({ taxonomy: 'genre' } );
 Additionally, if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
 
 ```js title=src/pages/books/[[...path]].js
-import { usePosts} from '@10up/headless-next';
+import { usePosts} from '@headstartwp/next';
 const BooksPage = () => {
 	const { data, error, loading } = usePosts({postType: 'book'});
 

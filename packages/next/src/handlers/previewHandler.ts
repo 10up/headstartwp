@@ -1,5 +1,5 @@
-import { getSiteByHost, PostEntity } from '@10up/headless-core';
-import { getCustomPostType, getHeadlessConfig } from '@10up/headless-core/utils';
+import { getSiteByHost, PostEntity } from '@headstartwp/core';
+import { getCustomPostType, getHeadlessConfig } from '@headstartwp/core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData, usePost } from '../data';
 import { PreviewData } from './types';
@@ -19,7 +19,7 @@ export type PreviewHandlerOptions = {
 	 *
 	 * ```ts
 	 * // pages/api/preview.js
-	 * import { previewHandler } from '@10up/headless-next';
+	 * import { previewHandler } from '@headstartwp/next';
 	 *
 	 * export default async function handler(req, res) {
 	 * 	return previewHandler(req, res, {
@@ -63,7 +63,7 @@ export type PreviewHandlerOptions = {
  *
  * ```ts
  * // pages/api/preview.js
- * import { previewHandler } from '@10up/headless-next';
+ * import { previewHandler } from '@headstartwp/next';
  *
  * export default async function handler(req, res) {
  * 	return previewHandler(req, res);

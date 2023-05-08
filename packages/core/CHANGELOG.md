@@ -1,4 +1,4 @@
-# @10up/headless-core
+# @headstartwp/core
 
 ## 0.8.2-next.0
 

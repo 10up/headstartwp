@@ -4,7 +4,7 @@ import {
 	handleError,
 	useAppSettings,
 	HeadlessGetStaticProps,
-} from '@10up/headless-next';
+} from '@headstartwp/next';
 import Head from 'next/head';
 import { resolveBatch } from '../utils/promises';
 
