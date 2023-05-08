@@ -45,11 +45,11 @@ Below is a summary of the preview workflow.
 
 ## Usage
 
-The Next.js project **must** expose a `api/preview` endpoint that uses the [previewHandler](/api/modules/10up_headless_next/#previewhandler).
+The Next.js project **must** expose a `api/preview` endpoint that uses the [previewHandler](/api/modules/headstartwp_next/#previewhandler).
 
 ```javascript
 //src/pages/api/preview.js
-import { previewHandler } from '@10up/headless-next';
+import { previewHandler } from '@headstartwp/next';
 
 /**
  * The Preview endpoint just needs to proxy the default preview handler
@@ -95,8 +95,8 @@ When handling redirects yourself, make sure to always append `-preview=true` to 
 :::caution
 
 ```ts
-import { getPostTerms } from '@10up/headless-core';
-import { previewHandler } from '@10up/headless-next';
+import { getPostTerms } from '@headstartwp/core';
+import { previewHandler } from '@headstartwp/next';
 
 export default async function handler(req, res) {
 	return previewHandler(req, res, {

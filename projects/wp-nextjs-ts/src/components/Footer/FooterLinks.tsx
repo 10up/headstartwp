@@ -1,4 +1,4 @@
-import { useAppSettings } from '@10up/headless-next';
+import { useAppSettings } from '@headstartwp/next';
 import { css } from '@linaria/core';
 import { FC } from 'react';
 import { Link } from '../Link';

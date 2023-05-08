@@ -1,4 +1,4 @@
-import { ConfigError, HeadlessConfig } from '@10up/headless-core';
+import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import { ModifySourcePlugin, ConcatOperation } from 'modify-source-webpack-plugin';
 
@@ -150,7 +150,7 @@ export function withHeadlessConfig(
 
 		webpack: (config, options) => {
 			const importSetHeadlessConfig = `
-				import { setHeadstartWPConfig } from '@10up/headless-core';
+				import { setHeadstartWPConfig } from '@headstartwp/core';
 				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
 			`;
 

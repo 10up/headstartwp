@@ -13,7 +13,7 @@ import {
 	addHookData,
 	handleError,
 	useAppSettings,
-} from '@10up/headless-next';
+} from '@headstartwp/next';
 import { Link } from '../../components/Link';
 import { Pagination } from '../../components/Pagination';
 import { blogParams } from '../../params';

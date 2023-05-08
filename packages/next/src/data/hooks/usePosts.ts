@@ -1,5 +1,5 @@
-import { PostEntity, PostsArchiveParams, FetchResponse } from '@10up/headless-core';
-import { FetchHookOptions, useFetchPosts } from '@10up/headless-core/react';
+import { PostEntity, PostsArchiveParams, FetchResponse } from '@headstartwp/core';
+import { FetchHookOptions, useFetchPosts } from '@headstartwp/core/react';
 import { usePrepareFetch } from './usePrepareFetch';
 
 /**

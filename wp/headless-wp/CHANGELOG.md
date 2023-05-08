@@ -1,4 +1,4 @@
-# @10up/headless-wp-plugin
+# @headstartwp/headstartwp
 
 ## 0.9.1
 

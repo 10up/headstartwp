@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # The useAuthorArchive Hook
 
-> The [useAuthorArchive](/api/modules/10up_headless_next#useauthorarchive) hook is the Next.js binding for the [useFetchAuthorArchive](/api/namespaces/10up_headless_core.react#usefetchauthorarchive).
+> The [useAuthorArchive](/api/modules/headstartwp_next#useauthorarchive) hook is the Next.js binding for the [useFetchAuthorArchive](/api/namespaces/headstartwp_core.react#usefetchauthorarchive).
 
 The `useAuthorArchive` hook fetches a collection of WordPress posts from a registered post type filtered by an author.
 
@@ -17,7 +17,7 @@ This example is using the catch-all route `[..path].js` because **we do not want
 :::info
 
 ```js title="src/pages/author/[...path].js"
-import { useAuthorArchive } from '@10up/headless-next';
+import { useAuthorArchive } from '@headstartwp/next';
 
 const ArchivePage = () => {
 	const { loading, error, data } = useAuthorArchive({ per_page: 10 });
@@ -50,7 +50,7 @@ The route will automatically render the latest 10 posts from the current author.
 
 In order to fetch posts from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section. 
 ```js title="src/pages/author/[...path].js"
-import { useAuthorArchive } from '@10up/headless-next';
+import { useAuthorArchive } from '@headstartwp/next';
 
 const ArchivePage = () => {
     // book must be declared in headless.config.js

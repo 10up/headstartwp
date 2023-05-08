@@ -12,7 +12,7 @@ Sometimes it might be useful to wrap the framework data-fetching hooks into your
 Let's say you have a custom-post type and you want to abstract the parameteres needed to get that custom post type. You can create your own hook and pass in the required paramms.
 
 ```js title=src/hooks/useBook.js
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const defaultParams = {
 	postType: 'book',
@@ -41,8 +41,8 @@ const bookData = await fetchHookData(useBook.fetcher(), context);
 This is also useful if you're using TypeScript and your custom post type have additional meta fields.
 
 ```js title=src/hooks/useBook.ts
-import { usePost } from '@10up/headless-next';
-import { PostEntity, PostParams } from '@10up/headless-core';
+import { usePost } from '@headstartwp/next';
+import { PostEntity, PostParams } from '@headstartwp/core';
 
 const defaultParams: PostParams = {
 	postType: 'book',
@@ -70,9 +70,9 @@ Then when using the custom hook `isbn` will show up as an property of the return
 If you're using TypeScript and you are extending the framework's app endpoint and including new fields you can create your own custom hook and specify the additional TypeScript types.
 
 ```js title=src/hooks/useMyAppSettings.ts
-import { FetchResponse, AppEntity, AppSettingsStrategy } from '@10up/headless-core';
-import { FetchHookOptions } from '@10up/headless-core/react';
-import { useAppSettings } from '@10up/headless-next';
+import { FetchResponse, AppEntity, AppSettingsStrategy } from '@headstartwp/core';
+import { FetchHookOptions } from '@headstartwp/core/react';
+import { useAppSettings } from '@headstartwp/next';
 
 export interface MyAppSettings extends AppEntity {
     my_custom_setting: string;
@@ -90,7 +90,7 @@ useMyAppSettings.fetcher = (sourceUrl?: string) =>
 
 ## Custom Strategies
 
-Depending on what you're doing you might need to create a completely custom Fetch Strategy. A Fetch Stragety must extend [AbstractFetchStrategy](/api/classes/10up_headless_core.AbstractFetchStrategy/) and it must contain all of the logic needed to fetch the data.
+Depending on what you're doing you might need to create a completely custom Fetch Strategy. A Fetch Stragety must extend [AbstractFetchStrategy](/api/classes/headstartwp_core.AbstractFetchStrategy/) and it must contain all of the logic needed to fetch the data.
 
 If you feel like to need to create a custom strategy check out the [default Fetch Strategies](https://github.com/10up/headless/tree/develop/packages/core/src/data/strategies) as well as the [hooks](https://github.com/10up/headless/tree/develop/packages/core/src/react/hooks) that implements them.
 
