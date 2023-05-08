@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.0-next.3
+
+### Patch Changes
+
+- 97ac0b0: Add devMode for more debugging data
+
 ## 1.0.0-next.2
 
 ### Patch Changes
