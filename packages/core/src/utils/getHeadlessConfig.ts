@@ -3,9 +3,11 @@ import { HeadlessConfig } from '../types';
 
 let __10up__HEADLESS_CONFIG: HeadlessConfig = {};
 
-export function setHeadlessConfig(config: HeadlessConfig) {
+export function setHeadstartWPConfig(config: HeadlessConfig) {
 	__10up__HEADLESS_CONFIG = { ...config };
 }
+
+export const setHeadlessConfig = setHeadstartWPConfig;
 
 /**
  * Returns the contents of headless.config.js
@@ -17,7 +19,7 @@ export function setHeadlessConfig(config: HeadlessConfig) {
  *
  * @returns The contents of headless.config.js
  */
-export function getHeadlessConfig() {
+export function getHeadstartWPConfig() {
 	const {
 		customPostTypes,
 		redirectStrategy,
@@ -61,6 +63,7 @@ export function getHeadlessConfig() {
 	return headlessConfig;
 }
 
+export const getHeadlessConfig = getHeadstartWPConfig;
 /**
  * Get a config for a specific site
  *

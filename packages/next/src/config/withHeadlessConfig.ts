@@ -150,8 +150,8 @@ export function withHeadlessConfig(
 
 		webpack: (config, options) => {
 			const importSetHeadlessConfig = `
-				import { setHeadlessConfig } from '@10up/headless-core';
-				setHeadlessConfig(${JSON.stringify(headlessConfig)});
+				import { setHeadstartWPConfig } from '@10up/headless-core';
+				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
 			`;
 
 			config.plugins.push(
