@@ -3,16 +3,6 @@
  *
  * @packageDocumentation
  */
-import getConfig from 'next/config';
-
-if (typeof window === 'undefined') {
-	const { serverRuntimeConfig } = getConfig();
-
-	if (serverRuntimeConfig && serverRuntimeConfig.headlessConfig) {
-		// @ts-expect-error
-		global.__10up__HEADLESS_CONFIG = serverRuntimeConfig.headlessConfig;
-	}
-}
 
 export * from './data/index';
 export * from './components/index';

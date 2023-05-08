@@ -61,9 +61,6 @@ export function withHeadlessConfig(
 		);
 	}
 
-	// @ts-expect-error
-	global.__10up__HEADLESS_CONFIG = headlessConfig;
-
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];
 
 	const sites = headlessConfig.sites || [headlessConfig];
@@ -81,10 +78,6 @@ export function withHeadlessConfig(
 
 	return {
 		...nextConfig,
-		serverRuntimeConfig: {
-			...nextConfig.serverRuntimeConfig,
-			headlessConfig,
-		},
 		images: {
 			...nextConfig.images,
 			domains: imageDomains,
