@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.0.0-next.5
+
+### Patch Changes
+
+- 5bdd604: Switching to CJS only
+- Updated dependencies [5bdd604]
+  - @headstartwp/core@1.0.0-next.4
+
 ## 1.0.0-next.4
 
 ### Patch Changes
