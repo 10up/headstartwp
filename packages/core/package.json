@@ -14,16 +14,19 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "default": "./dist/utils/index.js"
+      "require": "./dist/utils/index.js",
+      "import": "./dist/utils/index.js",
+      "types": "./dist/utils/index.d.ts"
     },
     "./react": {
-      "types": "./dist/react/index.d.ts",
-      "default": "./dist/react/index.js"
+      "require": "./dist/react/index.js",
+      "import": "./dist/react/index.js",
+      "types": "./dist/react/index.d.ts"
     },
     "./test": "./test/server.ts"
   },
@@ -39,7 +42,7 @@
   "scripts": {
     "build": "npm run ts",
     "ts": "tsc -b",
-    "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
+    "dev": "npm run watch:ts",
     "watch:ts:cjs": "npm run ts:cjs -- --watch",
     "watch:ts": "npm run ts -- --watch",
     "test": "jest",
