@@ -5,28 +5,25 @@
   "homepage": "https://github.com/10up/headless/blob/develop/packages/core/README.md",
   "license": "MIT",
   "author": "10up <info@10up.com> (https://10up.com/)",
-  "main": "dist/cjs/index.js",
+  "main": "dist/index.js",
   "source": "src/index.ts",
-  "types": "dist/mjs/index.d.ts",
+  "types": "dist/index.d.ts",
   "typedocMain": "src/docs-entry-point.ts",
   "publishConfig": {
     "access": "public"
   },
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/mjs/index.js",
-      "types": "./dist/mjs/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./utils": {
-      "require": "./dist/cjs/utils/index.js",
-      "import": "./dist/mjs/utils/index.js",
-      "types": "./dist/mjs/utils/index.d.ts"
+      "types": "./dist/utils/index.d.ts",
+      "default": "./dist/utils/index.js"
     },
     "./react": {
-      "require": "./dist/cjs/react/index.js",
-      "import": "./dist/mjs/react/index.js",
-      "types": "./dist/mjs/react/index.d.ts"
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
     },
     "./test": "./test/server.ts"
   },
@@ -40,8 +37,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run ts && npm run ts:cjs",
-    "ts:cjs": "tsc -b tsconfig-cjs.json",
+    "build": "npm run ts",
     "ts": "tsc -b",
     "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
     "watch:ts:cjs": "npm run ts:cjs -- --watch",
