@@ -40,7 +40,7 @@ export interface IYoutubeLiteBlock extends IBlock<YoutubeLiteBlockProps> {}
  */
 export function YoutubeLiteBlock({ domNode }: Omit<IYoutubeLiteBlock, 'component'>) {
 	useEffect(() => {
-		import('@justinribeiro/lite-youtube');
+		// import('@justinribeiro/lite-youtube');
 	}, []);
 
 	const { attributes } = useBlock<YoutubeLiteBlockProps>(domNode);
