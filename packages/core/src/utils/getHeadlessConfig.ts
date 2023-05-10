@@ -1,5 +1,5 @@
-import { endpoints } from '../data/utils/endpoints';
-import { HeadlessConfig } from '../types';
+import { endpoints } from './endpoints';
+import type { HeadlessConfig } from '../types';
 
 let __10up__HEADLESS_CONFIG: HeadlessConfig = {};
 
