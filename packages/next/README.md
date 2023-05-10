@@ -10,10 +10,8 @@ In addition to the default export, this packages also exports:
 
 ## Installation
 
-### @next (unstable)
-
 ```
-npm install --save @headstartwp/next@next
+npm install --save @headstartwp/next
 ```
 
 ## Support Level
