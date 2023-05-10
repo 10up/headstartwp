@@ -83,6 +83,10 @@ export function withHeadlessConfig(
 			...nextConfig.images,
 			domains: imageDomains,
 		},
+		serverRuntimeConfig: {
+			...nextConfig.serverRuntimeConfig,
+			headlessConfig,
+		},
 		async rewrites() {
 			const rewrites =
 				typeof nextConfig.rewrites === 'function' ? await nextConfig.rewrites() : [];
