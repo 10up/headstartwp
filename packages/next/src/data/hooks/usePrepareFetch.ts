@@ -1,5 +1,5 @@
 import { EndpointParams, Entity, FetchResponse } from '@headstartwp/core';
-import { FetchHookOptions, useSettings } from '@headstartwp/core/react';
+import { FetchHookOptions, useSettings } from '@headstartwp/react';
 import { useRouter } from 'next/router';
 import { convertToPath } from '../convertToPath';
 

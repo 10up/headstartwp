@@ -1,5 +1,5 @@
 import { AppEntity, EndpointParams, FetchResponse } from '@headstartwp/core';
-import { useFetchAppSettings, FetchHookOptions } from '@headstartwp/core/react';
+import { useFetchAppSettings, FetchHookOptions } from '@headstartwp/react';
 import { usePrepareFetch } from './usePrepareFetch';
 
 /**

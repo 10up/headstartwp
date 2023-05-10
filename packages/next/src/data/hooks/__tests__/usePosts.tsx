@@ -1,5 +1,5 @@
 import type { PostEntity, PostsArchiveParams } from '@headstartwp/core';
-import { SettingsProvider } from '@headstartwp/core/react';
+import { SettingsProvider } from '@headstartwp/react';
 import { renderHook, waitFor } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import * as React from 'react';

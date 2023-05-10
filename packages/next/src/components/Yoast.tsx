@@ -1,6 +1,6 @@
 import { createElement, Fragment } from 'react';
 import { removeSourceUrl } from '@headstartwp/core';
-import { useSettings } from '@headstartwp/core/react';
+import { useSettings } from '@headstartwp/react';
 import Head from 'next/head';
 import parse, {
 	attributesToProps,

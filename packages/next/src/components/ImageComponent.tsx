@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { ImageBlockProps } from '@headstartwp/core/react';
+import { ImageBlockProps } from '@headstartwp/react';
 
 /**
  * An implementation of the ImageBlock (core/image).
@@ -10,7 +10,7 @@ import { ImageBlockProps } from '@headstartwp/core/react';
  * ## Usage
  *
  * ```tsx
- * import { BlocksRenderer, ImageBlock } from "@headstartwp/core/react";
+ * import { BlocksRenderer, ImageBlock } from "@headstartwp/react";
  * import { ImageComponent } from "@headstartwp/next";
  *
  * <BlocksRenderer html={html}>

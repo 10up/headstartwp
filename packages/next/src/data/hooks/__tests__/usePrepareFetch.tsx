@@ -1,4 +1,4 @@
-import { SettingsProvider } from '@headstartwp/core/react';
+import { SettingsProvider } from '@headstartwp/react';
 import { renderHook } from '@testing-library/react';
 import * as React from 'react';
 import { usePrepareFetch } from '../usePrepareFetch';

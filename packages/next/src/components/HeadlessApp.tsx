@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react';
-import { SettingsProvider, ThemeSettingsProvider } from '@headstartwp/core/react';
+import { SettingsProvider, ThemeSettingsProvider } from '@headstartwp/react';
 import { SWRConfig } from 'swr';
-import type { SettingsContextProps } from '@headstartwp/core/react';
+import type { SettingsContextProps } from '@headstartwp/react';
 import type { SWRConfiguration } from 'swr';
 
 import { useRouter } from 'next/router';

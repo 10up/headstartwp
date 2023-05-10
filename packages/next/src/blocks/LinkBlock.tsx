@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { removeSourceUrl } from '@headstartwp/core/utils';
-import { IBlock, IBlockAttributes, useBlock, useSettings } from '@headstartwp/core/react';
+import { IBlock, IBlockAttributes, useBlock, useSettings } from '@headstartwp/react';
 import { isAnchorTag } from '@headstartwp/core';
 
 export interface LinkBlockProps extends IBlockAttributes {
@@ -14,7 +14,7 @@ export interface LinkBlockProps extends IBlockAttributes {
  * ## Usage
  *
  * ```tsx
- * import { BlocksRenderer } from "@headstartwp/core/react";
+ * import { BlocksRenderer } from "@headstartwp/react";
  * import { LinkBlock } from "@headstartwp/next";
  *
  * <BlocksRenderer html={html}>

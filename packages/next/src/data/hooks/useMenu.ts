@@ -1,4 +1,4 @@
-import { FetchHookOptions, useFetchMenu } from '@headstartwp/core/react';
+import { FetchHookOptions, useFetchMenu } from '@headstartwp/react';
 import { AppEntity, FetchResponse } from '@headstartwp/core';
 
 /**
