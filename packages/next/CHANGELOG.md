@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- f20d010: Re-add workaround
+- Updated dependencies [f20d010]
+  - @headstartwp/core@1.0.0-next.6
+
 ## 1.0.0-next.6
 
 ### Patch Changes
