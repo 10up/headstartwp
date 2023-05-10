@@ -1,4 +1,4 @@
-import { PageInfo } from '@headstartwp/core';
+import type { PageInfo } from '@headstartwp/core';
 import { styled } from '@linaria/react';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
