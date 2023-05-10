@@ -8,18 +8,3 @@
  * ```
  */
 export * from './index';
-
-/**
- *
- * ## @headstartwp/core/react
- *
- * The react export of the `@headstartwp/core` package.
- *
- * ### Usage
- *
- * ```tsx
- * import { BlocksRenderer } from "@headstartwp/core/react";
- * ```
- *
- */
-export * as react from './react';
