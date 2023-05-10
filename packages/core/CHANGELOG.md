@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.0-next.6
+
+### Patch Changes
+
+- f20d010: Re-add workaround
+
 ## 1.0.0-next.5
 
 ### Patch Changes
