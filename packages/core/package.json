@@ -53,6 +53,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
+    "html-react-parser": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "xss": "^1.0.11"
   },
