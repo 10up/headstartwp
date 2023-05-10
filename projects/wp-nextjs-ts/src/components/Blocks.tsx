@@ -1,4 +1,4 @@
-import { BlocksRenderer, YoutubeLiteBlock, ImageBlock } from '@headstartwp/core/react';
+import { BlocksRenderer, YoutubeLiteBlock, ImageBlock } from '@headstartwp/react';
 import { TwitterBlock, ImageComponent, LinkBlock } from '@headstartwp/next';
 import { FC } from 'react';
 import { css } from '@linaria/core';

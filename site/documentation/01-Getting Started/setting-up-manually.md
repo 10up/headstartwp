@@ -162,7 +162,7 @@ import {
 	handleError,
 	usePosts
 } from '@headstartwp/next';
-import { BlocksRenderer } from '@headstartwp/core/react';
+import { BlocksRenderer } from '@headstartwp/react';
 
 const params = { postType: ['post', 'page' ] };
 

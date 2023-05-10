@@ -1,4 +1,4 @@
-import { Menu } from '@headstartwp/core/react';
+import { Menu } from '@headstartwp/react';
 import { useMenu } from '@headstartwp/next';
 import { css } from '@linaria/core';
 

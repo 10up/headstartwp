@@ -71,7 +71,7 @@ If you're using TypeScript and you are extending the framework's app endpoint an
 
 ```js title=src/hooks/useMyAppSettings.ts
 import { FetchResponse, AppEntity, AppSettingsStrategy } from '@headstartwp/core';
-import { FetchHookOptions } from '@headstartwp/core/react';
+import { FetchHookOptions } from '@headstartwp/react';
 import { useAppSettings } from '@headstartwp/next';
 
 export interface MyAppSettings extends AppEntity {

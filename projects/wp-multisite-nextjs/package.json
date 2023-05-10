@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@headstartwp/core": "^1.0.0-next.4",
+    "@headstartwp/react": "^0.9.0",
     "@headstartwp/next": "^1.0.0-next.5",
     "@linaria/babel-preset": "^4.3.1",
     "@linaria/core": "^4.2.3",

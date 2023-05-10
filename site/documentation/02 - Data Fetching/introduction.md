@@ -14,7 +14,7 @@ The data-fetching logic itself is abstracted by [strategies](/api/classes/headst
 
 ## React Custom hooks
 
-The `@headstartwp/core/react` package export exposes the react hooks implementation on top of the `useSwr` library. Those hooks are called `useFetch*` e.g: `useFetchPost`, `useFetchPosts` and so on. They can be used outside of Next.js (i.e create-react-app, React Native etc.).
+The `@headstartwp/react` package export exposes the react hooks implementation on top of the `useSwr` library. Those hooks are called `useFetch*` e.g: `useFetchPost`, `useFetchPosts` and so on. They can be used outside of Next.js (i.e create-react-app, React Native etc.).
 
 ## Next.js "bindings" 
 
@@ -27,7 +27,7 @@ The main difference is that the Next.js binding will automatically extract URL s
 The following example uses the `useFetchPost` to manually fetch a page with the `about` slug.
 
 ```js
-import { useFetchPost } from '@headstartwp/core/react';
+import { useFetchPost } from '@headstartwp/react';
 
 const Page = () => {
     const  { data: { post }, loading } = useFetchPost({ slug: 'about', post_type: 'page' } );

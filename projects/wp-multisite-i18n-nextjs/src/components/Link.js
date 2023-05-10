@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { removeSourceUrl } from '@headstartwp/core';
-import { useSettings } from '@headstartwp/core/react';
+import { useSettings } from '@headstartwp/react';
 import NextLink from 'next/link';
 
 export const Link = ({ href, rel, children }) => {
