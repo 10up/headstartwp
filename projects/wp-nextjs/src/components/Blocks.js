@@ -1,4 +1,10 @@
-import { BlocksRenderer, YoutubeLiteBlock, ImageBlock } from '@headstartwp/react';
+import {
+	BlocksRenderer,
+	YoutubeLiteBlock,
+	ImageBlock,
+	ParagraphBlock,
+	DebugBlock,
+} from '@headstartwp/react';
 import { TwitterBlock, ImageComponent, LinkBlock } from '@headstartwp/next';
 
 import { css } from '@linaria/core';
@@ -13,6 +19,7 @@ export const Blocks = ({ html }) => {
 		>
 			<BlocksRenderer html={html}>
 				<ImageBlock component={ImageComponent} />
+				<ParagraphBlock component={DebugBlock} />
 				<LinkBlock />
 				<TwitterBlock />
 				<YoutubeLiteBlock />
