@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.0-next.5
+
+### Patch Changes
+
+- 6ce773e: Reverting CJS only
+
 ## 1.0.0-next.4
 
 ### Patch Changes
