@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "target": "es2020"
+    "module": "CommonJS",
+    "target": "es2021",
   },
   "exclude": ["node_modules", "dist", "*/**/__tests__"],
   "include": ["src"]

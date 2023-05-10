@@ -1,9 +1,5 @@
-import { lazy } from 'react';
+import { ObjectInspector } from 'react-inspector';
 import { defaultElement, useBlock } from './hooks';
-
-const ObjectInspector = lazy(() =>
-	import('react-inspector').then(({ ObjectInspector }) => ({ default: ObjectInspector })),
-);
 
 export const DebugBlock = ({ children, domNode: node = defaultElement, ...props }) => {
 	const { attributes } = useBlock(node);

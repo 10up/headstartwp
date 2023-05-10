@@ -17,9 +17,9 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsup src/index.ts --dts --format cjs --minify",
+    "build": "npm run ts",
     "ts": "tsc -b",
-    "dev": "npm run build -- --watch",
+    "dev": "npm run watch:ts",
     "watch:ts": "npm run ts -- --watch",
     "test": "jest",
     "lint": "eslint src/"
