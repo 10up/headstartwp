@@ -3,4 +3,4 @@
 "@headstartwp/next": patch
 ---
 
-Switching to CJS only
+Reverting CJS only

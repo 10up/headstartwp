@@ -1,10 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist/mjs",
-    "module": "esnext",
-    "target": "esnext"
+    "outDir": "dist/cjs",
   },
   "exclude": ["node_modules", "dist", "*/**/__tests__"],
-  "include": ["src"]
+  "include": ["src", "emotion.d.ts"]
 }

@@ -1,9 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "CommonJS",
-    "target": "es2021",
+    "outDir": "dist/mjs",
+    "module": "esnext",
+    "target": "esnext",
   },
   "exclude": ["node_modules", "dist", "*/**/__tests__"],
   "include": ["src"]

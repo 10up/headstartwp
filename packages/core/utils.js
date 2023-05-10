@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/extensions
-module.exports = require('./dist/utils');
+module.exports = require('./dist/cjs/utils');
