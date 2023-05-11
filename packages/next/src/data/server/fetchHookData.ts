@@ -8,7 +8,7 @@ import {
 	log,
 } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
-import { unstable_serialize } from 'swr';
+import { serializeKey } from '@headstartwp/core/react';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
@@ -135,7 +135,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	}
 
 	return {
-		key: unstable_serialize(key),
+		key: serializeKey(key),
 		data: fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
 		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
 	};

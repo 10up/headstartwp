@@ -1,8 +1,11 @@
 import { ReactNode, useMemo } from 'react';
-import { SettingsProvider, ThemeSettingsProvider } from '@headstartwp/core/react';
-import { SWRConfig } from 'swr';
+import {
+	DataFetchingProviderProps,
+	DataFetchingProvider,
+	SettingsProvider,
+	ThemeSettingsProvider,
+} from '@headstartwp/core/react';
 import type { SettingsContextProps } from '@headstartwp/core/react';
-import type { SWRConfiguration } from 'swr';
 
 import { useRouter } from 'next/router';
 import { getSiteByHost } from '@headstartwp/core';
@@ -24,7 +27,7 @@ export type HeadlessAppProps = {
 	 *
 	 * These settings can be overriden at the hook level.
 	 */
-	swrConfig: SWRConfiguration;
+	swrConfig: DataFetchingProviderProps['swrConfig'];
 
 	/**
 	 * The page props from next.js. It should contain `fallback`, `themeJson` and other props.
@@ -111,15 +114,13 @@ export function HeadlessApp({
 
 	return (
 		<SettingsProvider settings={siteSettings}>
-			<SWRConfig
-				value={{
-					fallback,
-					...swrConfig,
-				}}
+			<DataFetchingProvider
+				swrConfig={swrConfig}
+				data={fallback as DataFetchingProviderProps['swrConfig']['fallback']}
 			>
 				<Yoast seo={seo} useHtml={useYoastHtml} />
 				<ThemeSettingsProvider data={themeJSON}>{children}</ThemeSettingsProvider>
-			</SWRConfig>
+			</DataFetchingProvider>
 		</SettingsProvider>
 	);
 }
