@@ -1,5 +1,12 @@
 # @headstartwp/core
 
+## 1.0.0-next.7
+
+### Patch Changes
+
+- a5c5e52: Fix middlewares do that it doesnt load the whole core library
+- 7ec30e1: Abstract SWRConfig in core package
+
 ## 1.0.0-next.6
 
 ### Patch Changes
