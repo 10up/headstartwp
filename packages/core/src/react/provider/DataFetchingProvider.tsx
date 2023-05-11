@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { SWRConfig, SWRConfiguration } from 'swr';
 
+export { unstable_serialize as serializeKey } from 'swr';
+
 export type DataFetchingProviderProps = {
 	/**
 	 * Pass any configuration to the SWR library. Globally.
