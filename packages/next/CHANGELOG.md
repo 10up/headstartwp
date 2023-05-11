@@ -1,5 +1,14 @@
 # @headstartwp/next
 
+## 1.0.0-next.8
+
+### Patch Changes
+
+- 7ec30e1: Abstract SWRConfig in core package
+- Updated dependencies [a5c5e52]
+- Updated dependencies [7ec30e1]
+  - @headstartwp/core@1.0.0-next.7
+
 ## 1.0.0-next.7
 
 ### Patch Changes
