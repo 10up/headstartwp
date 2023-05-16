@@ -93,7 +93,7 @@ export async function getStaticProps(context) {
 }
 ```
 
-`getStaticProps` is a Next.js method used when you want to pre-render a page on the server at build time or [on-demand via ISR](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration).
+`getStaticProps` is a Next.js method used when you want to pre-render a page on the server at build time or [on-demand via ISR](https://nextjs.org/learn/basic-features/data-fetching/incremental-static-regeneration).
 
 To enable pre-rendering of this route all we need to do is pre-fetch all of the data needed for the framework’s custom hooks. There are two hooks we need to pre-fetch data for, `usePost` and `useAppSettings`. The `useAppSettings` hook is responsible for fetching general settings and menu data. The Nav.js component depends on `useAppSettings` and if we don’t pre-fetch data for it, the menu will be fetched on the client side only.
 

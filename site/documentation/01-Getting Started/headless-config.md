@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # Headless Config
 
-The `headless.config.js` file contains several config options for 10up's headless framework. This file should export an object of type [HeadlessConfig](/api/modules/10up_headless_core/#headlessconfig).
+The `headless.config.js` file contains several config options for 10up's headless framework. This file should export an object of type [HeadlessConfig](/api/modules/headstartwp_core/#headlessconfig).
 
 Here's a sample config file
 
@@ -68,7 +68,7 @@ usePosts({ postType:'book', perPage: 10 });
 
 The `single` option is required for a number of things that includes:
 - properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; In this case, the framework will use the `single` path to redirect the previewed post to the right path/route.
-- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/docs/data-fetching/usepost/#post-path-matching) for more info.
+- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/learn/data-fetching/usepost/#post-path-matching) for more info.
 
 ## customTaxonomies
 
@@ -137,7 +137,7 @@ This route would automatically handle the following URLs:
 - /books/genre/genre-name/page/2 -> paginate books filtered by genre
 
 :::caution
-The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/docs/data-fetching/prefetching) for instructions.
+The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
 :::caution
 
 ## redirectStrategy

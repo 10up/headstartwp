@@ -18,15 +18,14 @@ export default function Home() {
 			<main>
 				<header className={`${styles.heroBanner} home__heroBanner`}>
 					<h1>
-						HeadstartWP
-						<span className={`${styles.beta}`}>Beta</span>
+						HeadstartWP <span className={`${styles.beta}`}>Beta</span>
 					</h1>
 					<p>A framework for building headless WordPress sites.</p>
 					<SearchBar className={styles.searchBar} />
 				</header>
 				<section className={`${styles.grid} content-wrapper`}>
 					<article className={`${styles.gridItem} homeGrid__item`}>
-						<Link to="/docs">
+						<Link to="/learn">
 							<img
 								src={guideSketch}
 								alt="Two hand drawn books with light bulb over them"
@@ -39,7 +38,7 @@ export default function Home() {
 							If you are unsure how to do something with the framework, this is where
 							you should start.
 						</p>
-						<Link className={styles.gridLink} to="/docs/">
+						<Link className={styles.gridLink} to="/learn/">
 							Give me the details
 						</Link>
 					</article>
@@ -76,10 +75,10 @@ export default function Home() {
 						<h2>Framework Principles</h2>
 						<p>
 							If you are curious about why some of decisions behind the framework were
-							made, read the guiding principles for 10up Headless Framework.
+							made, read the guiding principles for HeadstartWP
 						</p>
 						<Link className={styles.gridLink} to="/philosophy">
-							Read
+							Read the philosophy
 						</Link>
 					</article>
 				</section>

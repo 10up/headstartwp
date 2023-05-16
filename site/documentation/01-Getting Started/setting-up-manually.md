@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # Setting up the framework from scratch
 
-The recommended way to get started with the framework is by installing the official starter project. See [Quick Setup](/docs/getting-started/quick-setup/) for more information.
+The recommended way to get started with the framework is by installing the official starter project. See [Quick Setup](/learn/getting-started/quick-setup/) for more information.
 
 This guide will help you set up the framework in a clean Next.js project.
 

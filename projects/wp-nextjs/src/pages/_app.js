@@ -1,6 +1,7 @@
 import { HeadlessApp } from '@headstartwp/next';
 import Router from 'next/router';
 import NProgress from 'nprogress';
+
 import { Link } from '../components/Link';
 import Layout from '../components/Layout';
 

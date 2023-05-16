@@ -42,8 +42,8 @@ export async function getStaticProps(context) {
 }
 ```
 
-- The [fetchHookData](/api/modules/10up_headless_next#fetchhookdata) function receives a [strategy](/api/classes/10up_headless_core.AbstractFetchStrategy/), the Next.js context object and an object containing the params. The `params` must match the params passed to the hook, hence why it's been moved into a variable outside of the `SinglePostsPage` component.
-- The [addHookData](/api/modules/10up_headless_next#addhookdata) receives an array of responses returned by `fetchHookData` and prepares that data to be returned to the page as props. If you need to pass additional props just pass them in the second argument.
-- The [handleError](/api/modules/10up_headless_next#ahandleError) function handles errors such as 404, redirects (when redirects are set to 404) among other things.
+- The [fetchHookData](/api/modules/headstartwp_next#fetchhookdata) function receives a [strategy](/api/classes/headstartwp_core.AbstractFetchStrategy/), the Next.js context object and an object containing the params. The `params` must match the params passed to the hook, hence why it's been moved into a variable outside of the `SinglePostsPage` component.
+- The [addHookData](/api/modules/headstartwp_next#addhookdata) receives an array of responses returned by `fetchHookData` and prepares that data to be returned to the page as props. If you need to pass additional props just pass them in the second argument.
+- The [handleError](/api/modules/headstartwp_next#ahandleError) function handles errors such as 404, redirects (when redirects are set to 404) among other things.
 
 We recommend reviewing the [starter project](https://github.com/10up/headless/tree/develop/projects/wp-nextjs) for more examples of prefetching data on the server.

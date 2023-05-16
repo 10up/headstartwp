@@ -39,5 +39,6 @@ export type HeadlessConfig = {
 	debug?: {
 		requests?: boolean;
 		redirects?: boolean;
+		devMode?: boolean;
 	};
 };

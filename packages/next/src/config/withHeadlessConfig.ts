@@ -1,5 +1,6 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
+import { ModifySourcePlugin, ConcatOperation } from 'modify-source-webpack-plugin';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -61,9 +62,6 @@ export function withHeadlessConfig(
 		);
 	}
 
-	// @ts-expect-error
-	global.__10up__HEADLESS_CONFIG = headlessConfig;
-
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];
 
 	const sites = headlessConfig.sites || [headlessConfig];
@@ -81,10 +79,6 @@ export function withHeadlessConfig(
 
 	return {
 		...nextConfig,
-		serverRuntimeConfig: {
-			...nextConfig.serverRuntimeConfig,
-			headlessConfig,
-		},
 		images: {
 			...nextConfig.images,
 			domains: imageDomains,
@@ -155,31 +149,25 @@ export function withHeadlessConfig(
 		},
 
 		webpack: (config, options) => {
-			config.module.rules.push({
-				test(source) {
-					if (
-						// for the monorepo
-						/packages\/next\/config\/loader/.test(source) ||
-						/packages\/core/.test(source) ||
-						// for the pubished packaged version
-						/@10up\/headless-next\/config\/loader/.test(source) ||
-						/@10up\/headless-core/.test(source) ||
-						// for the new name
-						/@headstartwp\/next\/config\/loader/.test(source) ||
-						/@headstartwp\/core/.test(source)
-					) {
-						return true;
-					}
+			const importSetHeadlessConfig = `
+				import { setHeadstartWPConfig } from '@headstartwp/core';
+				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
+			`;
 
-					return false;
-				},
-				use: [
-					{
-						loader: '@headstartwp/next/webpack-loader',
-						options: { config: headlessConfig },
-					},
-				],
-			});
+			config.plugins.push(
+				new ModifySourcePlugin({
+					rules: [
+						{
+							test: /_app.(tsx|ts|js|mjs|jsx)$/,
+							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
+						},
+						{
+							test: /middleware.(tsx|ts|js|mjs|jsx)$/,
+							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
+						},
+					],
+				}),
+			);
 
 			if (isPackageInstalled('@linaria/webpack-loader')) {
 				traverse(config.module.rules);

@@ -1,6 +1,5 @@
 import type { HeadlessConfig } from '../../types';
-import { getHeadlessConfig, getSiteByHost } from '../getHeadlessConfig';
-import { setHeadlessConfig } from '../../../test/utils';
+import { getHeadlessConfig, getSiteByHost, setHeadlessConfig } from '../getHeadlessConfig';
 
 describe('getHeadlessConfig', () => {
 	const headlessConfig: HeadlessConfig = {

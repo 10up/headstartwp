@@ -4,16 +4,14 @@
 
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Core Package MIT License](https://img.shields.io/badge/core%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/core/LICENSE.md)
 
-In addition to the default export, this packages also exports:
+In addition to the default export, this package also exports:
 - `@headstartwp/core/react`: React Components and Custom Hooks
-- `@headstartwp/core/utils`: An additional export that only include small utilities functions. Useful if you don't want to use the whole framework.
+- `@headstartwp/core/utils`: An additional export that only includes small utility functions. Useful if you don't want to use the whole framework.
 
 ## Installation
 
-### @next (unstable)
-
 ```
-npm install --save @headstartwp/core@next
+npm install --save @headstartwp/core
 ```
 
 ## Support Level

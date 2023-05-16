@@ -1,4 +1,10 @@
-# @10up/headless-wp-plugin
+# @headstartwp/headstartwp
+
+## 1.0.0-next.0
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
 
 ## 0.9.1
 

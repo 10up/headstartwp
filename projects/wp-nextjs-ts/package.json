@@ -14,8 +14,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@headstartwp/core": "0.9.0",
-    "@headstartwp/next": "0.8.1",
+    "@headstartwp/core": "^1.0.0-next.7",
+    "@headstartwp/next": "^1.0.0-next.8",
     "@linaria/babel-preset": "^4.3.1",
     "@linaria/core": "^4.2.3",
     "@linaria/react": "^4.3.1",
@@ -29,7 +29,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@10up/eslint-config": "^2.4.3",
+    "@10up/eslint-config": "^3.1.0",
     "@next/bundle-analyzer": "^12.1.0",
     "eslint-plugin-import": "^2.26.0"
   },

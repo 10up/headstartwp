@@ -58,7 +58,7 @@ const config = {
 			'@docusaurus/plugin-content-docs',
 			{
 				path: 'documentation',
-				routeBasePath: '/docs',
+				routeBasePath: '/learn',
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
@@ -153,7 +153,7 @@ const config = {
 						items: [
 							{
 								label: 'Documentation',
-								to: '/docs',
+								to: '/learn',
 							},
 							/* {
 								label: 'Tutorial',

@@ -8,7 +8,7 @@ sidebar_position: 0
 
 The Headless Framework exposes several customs react hooks that provide a seamless data-fetching experience with WordPress. Those hooks are built to be "isomorphic" i.e can be executed either on the browser or on the server (e.g: Node.js).
 
-The data-fetching logic itself is abstracted by [strategies](/api/classes/10up_headless_core.AbstractFetchStrategy/). The custom React hooks are powered by [useSwr](https://swr.vercel.app/).
+The data-fetching logic itself is abstracted by [strategies](/api/classes/headstartwp_core.AbstractFetchStrategy/). The custom React hooks are powered by [useSwr](https://swr.vercel.app/).
 
 > With Next.js `app` directory support added in Next.js 13, we will be providing special hooks that will work well with Suspense and Streaming. At the moment, we do not recommend using the existing custom hooks in the `app` directory.
 

@@ -1,10 +1,11 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
-import { setHeadlessConfig } from '../../../../test/utils';
+
 import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPosts } from '../useFetchPosts';
+import { setHeadlessConfig } from '../../../utils';
 
 describe('useFetchPosts', () => {
 	const wrapper = ({ children }) => {
