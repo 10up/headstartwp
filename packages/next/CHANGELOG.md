@@ -1,5 +1,25 @@
 # @headstartwp/next
 
+## 1.0.0
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+### Patch Changes
+
+- af507b7: Updating swr to latest version
+- 97ac0b0: Add devMode for more debugging data
+- 7ec30e1: Abstract SWRConfig in core package
+- 6ce773e: Reverting CJS only
+- Updated dependencies [a5c5e52]
+- Updated dependencies [1f4491f]
+- Updated dependencies [af507b7]
+- Updated dependencies [97ac0b0]
+- Updated dependencies [7ec30e1]
+- Updated dependencies [6ce773e]
+  - @headstartwp/core@1.0.0
+
 ## 1.0.0-next.8
 
 ### Patch Changes

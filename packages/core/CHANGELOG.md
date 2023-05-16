@@ -1,5 +1,19 @@
 # @headstartwp/core
 
+## 1.0.0
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+### Patch Changes
+
+- a5c5e52: Fix middlewares do that it doesnt load the whole core library
+- af507b7: Updating swr to latest version
+- 97ac0b0: Add devMode for more debugging data
+- 7ec30e1: Abstract SWRConfig in core package
+- 6ce773e: Reverting CJS only
+
 ## 1.0.0-next.7
 
 ### Patch Changes
