@@ -1,10 +1,8 @@
 {
-  "mode": "exit",
+  "mode": "pre",
   "tag": "next",
   "initialVersions": {
-    "@10up/headless-core": "0.8.1",
     "@10up/react-hooks": "1.2.3",
-    "@10up/headless-next": "0.7.2",
     "@10up/next-redis-cache-provider": "0.1.0",
     "@10up/headless-docs": "1.0.0",
     "@10up/wp-multisite-i18n-nextjs": "0.2.0",
@@ -16,11 +14,9 @@
     "@headstartwp/next": "0.7.3-next.1"
   },
   "changesets": [
-    "big-phones-teach",
     "cyan-insects-serve",
     "empty-pandas-beg",
     "gold-roses-pretend",
-    "ninety-boxes-lie",
     "short-teachers-wonder",
     "shy-bottles-end",
     "stupid-poems-notice"
