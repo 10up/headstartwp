@@ -18,5 +18,5 @@ const {
 ```
 
 :::caution
-You do not need to use `useTerms` if you simply need to access the term object for a taxonomy archive page (e.g category archive). You should use the `queriedObject` from the `usePosts` hook. See [usePosts docs](/docs/data-fetching/useposts/#queried-object) for more details.
+You do not need to use `useTerms` if you simply need to access the term object for a taxonomy archive page (e.g category archive). You should use the `queriedObject` from the `usePosts` hook. See [usePosts docs](/learn/data-fetching/useposts/#queried-object) for more details.
 :::caution
