@@ -24,6 +24,7 @@
     "prepare": "husky install",
     "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
+    "version": "changeset version && ./scripts/version-plugin.sh",
     "publish": "npm run build:packages && npx changeset publish"
   },
   "workspaces": [
