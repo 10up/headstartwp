@@ -6,7 +6,7 @@
  * Version:     0.9.1
  * Author:      10up
  * Author URI:  https://10up.com
- * Text Domain: 10up-headless-wp
+ * Text Domain: headstartwp
  * Domain Path: /languages
  *
  * @package HeadlessWP

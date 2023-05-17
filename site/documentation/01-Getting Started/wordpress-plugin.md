@@ -15,7 +15,7 @@ Make sure to set up the path for installing this as a WordPress Plugin:
 {
   "name": "your-project-name",
   "require": {
-    "headstartwp/headstartwp": "^0.6.0",
+    "headstartwp/headstartwp": "^1.0.0",
   },
   "extra": {
     "installer-paths": {
