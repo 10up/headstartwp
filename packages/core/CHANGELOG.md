@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.1-next.0
+
+### Patch Changes
+
+- f016b00: Re-exporting html-react-parser from core package
+
 ## 1.0.0
 
 ### Major Changes
