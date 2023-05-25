@@ -1,15 +1,16 @@
 import { createElement, Fragment } from 'react';
-import { removeSourceUrl } from '@headstartwp/core';
-import { useSettings } from '@headstartwp/core/react';
-import Head from 'next/head';
-import parse, {
+import {
+	HTMLReactParser as parse,
+	removeSourceUrl,
 	attributesToProps,
 	DOMNode,
 	domToReact,
 	Element,
 	HTMLReactParserOptions,
 	Text,
-} from 'html-react-parser';
+} from '@headstartwp/core';
+import { useSettings } from '@headstartwp/core/react';
+import Head from 'next/head';
 
 function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
