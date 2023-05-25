@@ -23,3 +23,4 @@ export * from './MediaTextBlock';
 export * from './ImageBlock';
 export * from './hooks';
 export * from './types';
+export * from './utils';
