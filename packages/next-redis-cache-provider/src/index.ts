@@ -44,13 +44,18 @@ export default class RedisCache implements CacheHandler {
 	 * @returns Redis client
 	 */
 	public getRedisClient() {
-		let redisUrl = process.env.NEXT_REDIS_URL;
+		const redisUrl = process.env.NEXT_REDIS_URL;
 
 		const endpoint = process.env.VIP_REDIS_PRIMARY;
 		const password = process.env.VIP_REDIS_PASSWORD;
 
 		if (endpoint && password) {
-			redisUrl = `redis://:${password}@${endpoint}`;
+			const [host, port] = endpoint.split(':');
+			return new Redis({
+				host,
+				password,
+				port: parseInt(port, 10),
+			});
 		}
 
 		return redisUrl ? new Redis(redisUrl) : new Redis();
