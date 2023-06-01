@@ -7,7 +7,7 @@ slug: /wordpress-integration/previews
 
 The preview feature requires the 10up's headless WordPress plugin installed. The preview functionality is built on top of [Next.js preview API](https://nextjs.org/docs/advanced-features/preview-mode). It uses a short-lived JWT token generated on the WordPress side that can only be used for previewing, this means it is not necessary to set up a hardcoded secret between WP and Next.js.
 
-For previews to work, make sure the frontend URL is entered in WP settings as per instructions in [Installing WordPress Plugin](/docs/getting-started/installing-wordpress-plugin).
+For previews to work, make sure the frontend URL is entered in WP settings as per instructions in [Installing WordPress Plugin](/learn/getting-started/installing-wordpress-plugin).
 
 The logic for generating the JWT token and redirecting to the preview endpoint can be seen [here](https://github.com/10up/headless/blob/develop/wp/tenup-headless-wp/includes/classes/Preview/preview.php).
 
@@ -45,11 +45,11 @@ Below is a summary of the preview workflow.
 
 ## Usage
 
-The Next.js project **must** expose a `api/preview` endpoint that uses the [previewHandler](/api/modules/10up_headless_next/#previewhandler).
+The Next.js project **must** expose a `api/preview` endpoint that uses the [previewHandler](/api/modules/headstartwp_next/#previewhandler).
 
 ```javascript
 //src/pages/api/preview.js
-import { previewHandler } from '@10up/headless-next';
+import { previewHandler } from '@headstartwp/next';
 
 /**
  * The Preview endpoint just needs to proxy the default preview handler
@@ -95,8 +95,8 @@ When handling redirects yourself, make sure to always append `-preview=true` to 
 :::caution
 
 ```ts
-import { getPostTerms } from '@10up/headless-core';
-import { previewHandler } from '@10up/headless-next';
+import { getPostTerms } from '@headstartwp/core';
+import { previewHandler } from '@headstartwp/next';
 
 export default async function handler(req, res) {
 	return previewHandler(req, res, {
@@ -131,4 +131,4 @@ The JWT token expires after 5 min by default, after this period, open another pr
 
 **I'm unable to preview a custom post type**
 
-Make sure you defined the right `single` property when registering the custom post type. See [headless config docs](/docs/getting-started/headless-config/#customposttypes). The `single` property must match the route prefix for the custom post type.
+Make sure you defined the right `single` property when registering the custom post type. See [headless config docs](/learn/getting-started/headless-config/#customposttypes). The `single` property must match the route prefix for the custom post type.

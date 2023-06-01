@@ -1,4 +1,4 @@
-const { withHeadlessConfig } = require('@10up/headless-next/config');
+const { withHeadlessConfig } = require('@headstartwp/next/config');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE === 'true',

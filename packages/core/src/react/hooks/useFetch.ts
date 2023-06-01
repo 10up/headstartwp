@@ -1,10 +1,10 @@
 import useSWR from 'swr';
 import type { EndpointParams, FetchResponse } from '../../data';
 import { AbstractFetchStrategy } from '../../data';
-import { warn } from '../../utils';
 
 import { useSettings } from '../provider';
 import { FetchHookOptions } from './types';
+import { log, LOGTYPE, warn } from '../../utils';
 
 export interface useFetchOptions {
 	shouldFetch?: () => boolean;
@@ -29,7 +29,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	options: FetchHookOptions<FetchResponse<R>> = {},
 	path = '',
 ) {
-	const { sourceUrl } = useSettings();
+	const { sourceUrl, debug } = useSettings();
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
@@ -54,8 +54,14 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 		options.swr = { ...validSWROptions };
 	}
 
+	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
+
+	if (debug?.devMode) {
+		log(LOGTYPE.INFO, `[useFetch] key for ${key.url}`, key);
+	}
+
 	const result = useSWR<FetchResponse<R>>(
-		{ url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } },
+		key,
 		({ args }) =>
 			fetchStrategy.fetcher(
 				fetchStrategy.buildEndpointURL(args),
@@ -64,6 +70,14 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 			),
 		options.swr,
 	);
+
+	if (debug?.devMode) {
+		log(LOGTYPE.INFO, `[useFetch] result for ${key.url}`, {
+			isLoading: result.isLoading,
+			isValidation: result.isValidating,
+			pageInfo: result.data?.pageInfo,
+		});
+	}
 
 	return { ...result, params: finalParams, isMainQuery };
 }

@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # Headless Config
 
-The `headless.config.js` file contains several config options for 10up's headless framework. This file should export an object of type [HeadlessConfig](/api/modules/10up_headless_core/#headlessconfig).
+The `headless.config.js` file contains several config options for 10up's headless framework. This file should export an object of type [HeadlessConfig](/api/modules/headstartwp_core/#headlessconfig).
 
 Here's a sample config file
 
@@ -16,6 +16,10 @@ module.exports = {
     customTaxonomies: [],
     redirectStrategy: '404',
     useWordPressPlugin: true,
+	debug: {
+		redirects: false,
+		requests: false,
+	}
 };
 ```
 
@@ -64,7 +68,7 @@ usePosts({ postType:'book', perPage: 10 });
 
 The `single` option is required for a number of things that includes:
 - properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; In this case, the framework will use the `single` path to redirect the previewed post to the right path/route.
-- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/docs/data-fetching/usepost/#post-path-matching) for more info.
+- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/learn/data-fetching/usepost/#post-path-matching) for more info.
 
 ## customTaxonomies
 
@@ -102,7 +106,7 @@ useTerms({ taxonomy: 'genre' } );
 Additionally, if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
 
 ```js title=src/pages/books/[[...path]].js
-import { usePosts} from '@10up/headless-next';
+import { usePosts} from '@headstartwp/next';
 const BooksPage = () => {
 	const { data, error, loading } = usePosts({postType: 'book'});
 
@@ -133,7 +137,7 @@ This route would automatically handle the following URLs:
 - /books/genre/genre-name/page/2 -> paginate books filtered by genre
 
 :::caution
-The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/docs/data-fetching/prefetching) for instructions.
+The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
 :::caution
 
 ## redirectStrategy
@@ -141,3 +145,7 @@ The code snippet above does not implement pre-fetching, which you probably want 
 This option control how redirects are handled. There are 2 supported methods of handling redirects.
 - 404: If a route 404, the framework will check to see if there's a redirect for that page in WP. If so it performs the redirect. This is the recommended option.
 - always: When this option is set, the framework will **always** check for redirects before rendering any page. Using this option carefully since it will impact performance.
+
+## debug
+
+You can enable log debugging for both requests and redirects. `debug.requests` will enable logging all API requests made by the framework and `debug.redirects` will log all attempts to detect and fetch a redirect from WordPress.

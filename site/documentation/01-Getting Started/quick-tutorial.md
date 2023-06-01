@@ -30,13 +30,13 @@ Now let’s look at how data fetching for this route works. To make things easie
 
 ```js title="src/params.js"
 /**
- * @type {import('@10up/headless-core').PostParams}
+ * @type {import('@headstartwp/core').PostParams}
  */
 export const singleParams = { postType: ['page', 'post'] };
 ```
 
 ```js title="src/pages/[...path].js"
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const SinglePostsPage = () => {
 	const { loading, error } = usePost(singleParams);
@@ -93,7 +93,7 @@ export async function getStaticProps(context) {
 }
 ```
 
-`getStaticProps` is a Next.js method used when you want to pre-render a page on the server at build time or [on-demand via ISR](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration).
+`getStaticProps` is a Next.js method used when you want to pre-render a page on the server at build time or [on-demand via ISR](https://nextjs.org/learn/basic-features/data-fetching/incremental-static-regeneration).
 
 To enable pre-rendering of this route all we need to do is pre-fetch all of the data needed for the framework’s custom hooks. There are two hooks we need to pre-fetch data for, `usePost` and `useAppSettings`. The `useAppSettings` hook is responsible for fetching general settings and menu data. The Nav.js component depends on `useAppSettings` and if we don’t pre-fetch data for it, the menu will be fetched on the client side only.
 
@@ -126,7 +126,7 @@ There’s also the concept of "queried object" which is very similar to [get_que
 Let's take a look at [src/pages/category/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/category/%5B...path%5D.js)
 
 ```js title="src/pages/category/[...path].js"
-import { usePosts } from '@10up/headless-next';
+import { usePosts } from '@headstartwp/next';
 
 const CategoryPage = () => {
 	const { data } = usePosts({ taxonomy: 'category' });

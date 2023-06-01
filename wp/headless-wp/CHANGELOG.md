@@ -1,4 +1,40 @@
-# @10up/headless-wp-plugin
+# @headstartwp/headstartwp
+
+## 1.0.1
+
+### Patch Changes
+
+- 3f43798: Automate plugin versioning
+
+## 1.0.0
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+## 1.0.0-next.0
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+## 0.9.1
+
+### Patch Changes
+
+- de1f4d7: Fix version mismatch
+
+## 0.9.0
+
+### Minor Changes
+
+- 6d7aaad: Rename plugin name
+
+## 0.7.0
+
+### Minor Changes
+
+- da2386e: 10up Headless Framework is now called HeadstartWP
 
 ## 0.6.0
 
@@ -35,7 +71,6 @@
     },
   };
   ```
-
 
 ### Patch Changes
 

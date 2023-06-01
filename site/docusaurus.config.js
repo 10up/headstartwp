@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-	title: '10up - Headless Framework',
+	title: '10up - HeadstartWP',
 	tagline: '',
 	url: 'https://headless.10up.com',
 	baseUrl: '/',
@@ -39,7 +39,7 @@ const config = {
 		[
 			'docusaurus-plugin-typedoc',
 			{
-				name: "10up's Headless Framework (BETA)",
+				name: 'HeadstartWP',
 				out: '.',
 				entryPoints: ['../packages/core', '../packages/next'],
 				entryPointStrategy: 'packages',
@@ -58,7 +58,7 @@ const config = {
 			'@docusaurus/plugin-content-docs',
 			{
 				path: 'documentation',
-				routeBasePath: '/docs',
+				routeBasePath: '/learn',
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
@@ -110,7 +110,7 @@ const config = {
 				disableSwitch: true,
 			},
 			navbar: {
-				title: 'Headless Framework',
+				title: 'HeadstartWP',
 				logo: {
 					src: 'img/10up-logo-full.svg',
 				},
@@ -153,7 +153,7 @@ const config = {
 						items: [
 							{
 								label: 'Documentation',
-								to: '/docs',
+								to: '/learn',
 							},
 							/* {
 								label: 'Tutorial',

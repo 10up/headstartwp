@@ -1,7 +1,7 @@
 /**
  * UHeadless Config
  *
- * @type {import('@10up/headless-core').HeadlessConfig}
+ * @type {import('@headstartwp/core').HeadlessConfig}
  */
 module.exports = {
 	/**
@@ -39,5 +39,14 @@ module.exports = {
 		polylang: {
 			enable: process.env?.ENABLE_POLYLANG_INTEGRATION === 'true',
 		},
+	},
+
+	debug: {
+		requests: process.env?.ENABLE_REQUEST_DEBUG === 'true',
+		redirects: process.env?.ENABLE_REDIRECT_DEBUG === 'true',
+		/**
+		 * devMode logs additional stuff that can be helpful for debugging
+		 */
+		devMode: process.env?.ENABLE_DEV_MODE === 'true',
 	},
 };

@@ -1,4 +1,79 @@
-# @10up/headless-core
+# @headstartwp/core
+
+## 1.0.1
+
+### Patch Changes
+
+- f016b00: Re-exporting html-react-parser from core package
+
+## 1.0.0
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+### Patch Changes
+
+- a5c5e52: Fix middlewares do that it doesnt load the whole core library
+- af507b7: Updating swr to latest version
+- 97ac0b0: Add devMode for more debugging data
+- 7ec30e1: Abstract SWRConfig in core package
+- 6ce773e: Reverting CJS only
+
+## 1.0.0-next.7
+
+### Patch Changes
+
+- a5c5e52: Fix middlewares do that it doesnt load the whole core library
+- 7ec30e1: Abstract SWRConfig in core package
+
+## 1.0.0-next.6
+
+### Patch Changes
+
+- f20d010: Re-add workaround
+
+## 1.0.0-next.5
+
+### Patch Changes
+
+- 6ce773e: Reverting CJS only
+
+## 1.0.0-next.4
+
+### Patch Changes
+
+- 5bdd604: Switching to CJS only
+
+## 1.0.0-next.3
+
+### Patch Changes
+
+- 97ac0b0: Add devMode for more debugging data
+
+## 1.0.0-next.2
+
+### Patch Changes
+
+- af507b7: Updating swr to latest version
+
+## 1.0.0-next.1
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+## 0.8.2-next.0
+
+### Patch Changes
+
+- 44d5607: New strategy for loaidng config
+
+## 0.8.1
+
+### Patch Changes
+
+- 3cd203c: Add support for logging/debugging.
 
 ## 0.8.0
 

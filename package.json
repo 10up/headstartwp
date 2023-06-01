@@ -16,7 +16,7 @@
     "build:packages": "turbo run build --filter=./packages/*",
     "test": "npm run build:packages && turbo run test",
     "lint": "eslint .",
-    "wp-env": "npm run wp-env:start -w=@10up/headless-wp-plugin",
+    "wp-env": "npm run wp-env:start -w=wp/headless-wp",
     "nextjs:dev": "turbo run dev --parallel --filter=!./projects/wp-multisite-nextjs --filter=!./projects/wp-multisite-i18n-nextjs --filter=!./projects/wp-nextjs-ts",
     "nextjs:dev-multisite": "turbo run dev --parallel --filter=!./projects/wp-nextjs",
     "dev": "npm run build:packages && npm run wp-env && npm run nextjs:dev",
@@ -24,6 +24,7 @@
     "prepare": "husky install",
     "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
+    "version": "changeset version && ./scripts/version-plugin.sh",
     "publish": "npm run build:packages && npx changeset publish"
   },
   "workspaces": [
@@ -32,7 +33,7 @@
     "wp/*"
   ],
   "devDependencies": {
-    "@10up/eslint-config": "^2.3.7",
+    "@10up/eslint-config": "^3.1.0",
     "@changesets/cli": "^2.22.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
@@ -40,12 +41,11 @@
     "@typescript-eslint/parser": "^5.45.0",
     "concurrently": "^6.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-plugin-jest": "^25.2.4",
     "husky": "^7.0.2",
     "jest": "^29.0.3",
     "jest-environment-jsdom": "^29.0.3",
     "lint-staged": "^11.1.2",
-    "turbo": "^1.2.11"
+    "turbo": "^1.9.3"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",

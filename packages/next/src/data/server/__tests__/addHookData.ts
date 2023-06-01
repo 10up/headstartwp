@@ -1,4 +1,4 @@
-import { FetchResponse } from '@10up/headless-core';
+import { FetchResponse } from '@headstartwp/core';
 import { addHookData, HookState } from '../addHookData';
 
 const sampleThemeJson = {
@@ -73,7 +73,7 @@ describe('addHookData', () => {
 	});
 
 	it('[array] transforms the data properly and remove extra stuff', () => {
-		const hookStates: HookState<FetchResponse<typeof sampleResult[]>>[] = [
+		const hookStates: HookState<FetchResponse<(typeof sampleResult)[]>>[] = [
 			{
 				key: 'first-key',
 				data: {

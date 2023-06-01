@@ -5,3 +5,4 @@ export * from './useSettings';
 export * from './useThemeSetting';
 export * from './useThemeSettings';
 export * from './useThemeStyles';
+export * from './DataFetchingProvider';

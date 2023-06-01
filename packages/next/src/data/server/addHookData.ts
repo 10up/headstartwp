@@ -1,4 +1,4 @@
-import { AppEntity, Entity, FetchResponse, PostEntity } from '@10up/headless-core';
+import { AppEntity, Entity, FetchResponse, PostEntity } from '@headstartwp/core';
 import type { Redirect } from 'next';
 
 export type HookState<T> = {

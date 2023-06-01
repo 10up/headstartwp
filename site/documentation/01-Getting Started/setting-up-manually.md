@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # Setting up the framework from scratch
 
-The recommended way to get started with the framework is by installing the official starter project. See [Quick Setup](/docs/getting-started/quick-setup/) for more information.
+The recommended way to get started with the framework is by installing the official starter project. See [Quick Setup](/learn/getting-started/quick-setup/) for more information.
 
 This guide will help you set up the framework in a clean Next.js project.
 
@@ -19,7 +19,7 @@ npx create-next-app@latest --use-npm
 and install the following packages
 
 ```
-npm install --save @10up/headless-core @10up/headless-next
+npm install --save @headstartwp/core @headstartwp/next
 ```
 
 ### headless.config.js
@@ -30,7 +30,7 @@ Create a `headless.config.js` file at the root of your Next.js project.
 /**
  * Headless Config
  *
- * @type {import('@10up/headless-core').HeadlessConfig}
+ * @type {import('@headstartwp/core').HeadlessConfig}
  */
 module.exports = {
 	sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
@@ -56,7 +56,7 @@ If you're developing locally and your WordPress instance uses https but does not
 Create a `next.config.js` file with the following contents:
 
 ```js title=next.config.js
-const { withHeadlessConfig } = require('@10up/headless-next/config');
+const { withHeadlessConfig } = require('@headstartwp/next/config');
 const headlessConfig = require('./headless.config');
 
 /**
@@ -74,7 +74,7 @@ module.exports = withHeadlessConfig(nextConfig, headlessConfig);
 Create a custom `_app.js` to wrap the application with `HeadlessApp` component.
 
 ```js title=src/pages/_app.js
-import { HeadlessApp } from '@10up/headless-next';
+import { HeadlessApp } from '@headstartwp/next';
 import Link from 'next/link';
 import Router from 'next/router';
 
@@ -109,7 +109,7 @@ The WordPress plugin expects the preview endpoint to be located at `/api/preview
 To enable support for previews, create a `src/pages/api/preview.js` with the following contents:
 
 ```js title=src/pages/api/preview.js
-import { previewHandler } from '@10up/headless-next';
+import { previewHandler } from '@headstartwp/next';
 
 /**
  * The Preview endpoint just needs to proxy the default preview handler
@@ -133,7 +133,7 @@ The framework supports ISR revalidation triggered by WordPress. To enable ISR re
 Then add the `revalidateHandler` to `src/pages/api/revalidate.js`
 
 ```js title=src/pages/api/revalidate.js
-import { revalidateHandler } from '@10up/headless-next';
+import { revalidateHandler } from '@headstartwp/next';
 
 /**
  * The revalidate endpoint just needs to proxy the default revalidate handler
@@ -161,8 +161,8 @@ import {
 	addHookData,
 	handleError,
 	usePosts
-} from '@10up/headless-next';
-import { BlocksRenderer } from '@10up/headless-core/react';
+} from '@headstartwp/next';
+import { BlocksRenderer } from '@headstartwp/core/react';
 
 const params = { postType: ['post', 'page' ] };
 

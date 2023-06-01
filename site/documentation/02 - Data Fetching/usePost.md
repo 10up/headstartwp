@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # The usePost hook
 
-> The [usePost](/api/modules/10up_headless_next#usepost) hook is the Next.js binding for the [useFetchPost](/api/namespaces/10up_headless_core.react#usefetchpost).
+> The [usePost](/api/modules/headstartwp_next#usepost) hook is the Next.js binding for the [useFetchPost](/api/namespaces/headstartwp_core.react#usefetchpost).
 
 The `usePost` hook fetches a single WordPress post from a registered post type. Its basic usage is very simple.
 
@@ -14,7 +14,7 @@ The `usePost` hook fetches a single WordPress post from a registered post type. 
 The basic usage is pretty simple and it assumes a route named `src/pages/[...path].js` where the `slug` is extracted from the URL.
 
 ```js title=src/pages/[...path].js
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const PostPage = () => {
 	const { loading, error, data } = usePost();
@@ -67,7 +67,7 @@ Example where path does not match but is redirected to the right one:
 - User visits URL `/post-name`
 - The post with the `post-name` slug contains a `http://backend.com/2022/10/30/post-name` url
 - Since the URL and the path of `post.link` do not match, a NotFound error is thrown
-- If prefetching is setup following [pre-fetching](/docs/data-fetching/prefetching) and `redirectStrategy` is set to "404" or "always" in `headless.config.js`, `handleError` will then look if there's a redirect avaliable and since WordPress redirects `/post-name` to `/2022/10/30/post-name`, the framework will also perform the redirect.
+- If prefetching is setup following [pre-fetching](/learn/data-fetching/prefetching) and `redirectStrategy` is set to "404" or "always" in `headless.config.js`, `handleError` will then look if there's a redirect avaliable and since WordPress redirects `/post-name` to `/2022/10/30/post-name`, the framework will also perform the redirect.
 
 
 ### Fetching from multiple post types
@@ -80,7 +80,7 @@ This might result in URL conflicts, i.e a post or page using the same slug. The 
 
 
 ```js title="src/pages/[...path].js"
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const PostOrPage = () => {
 	const { loading, error, data } = usePost({ postType: ['page', 'post'] });
@@ -103,10 +103,10 @@ const PostOrPage = () => {
 
 ## Fetching from a custom post type
 
-To fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/docs/getting-started/headless-config#custom-post-types) section.
+To fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/learn/getting-started/headless-config#custom-post-types) section.
 
 ```js title="src/pages/book/[...path].js"
-import { usePost } from '@10up/headless-next';
+import { usePost } from '@headstartwp/next';
 
 const PostPage = () => {
 	const { loading, error, data } = usePost({ postType: 'book' });

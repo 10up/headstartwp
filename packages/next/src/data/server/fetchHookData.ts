@@ -3,10 +3,12 @@ import {
 	EndpointParams,
 	FetchOptions,
 	FilterDataOptions,
+	LOGTYPE,
 	PostParams,
-} from '@10up/headless-core';
+	log,
+} from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
-import { unstable_serialize } from 'swr';
+import { serializeKey } from '@headstartwp/core/react';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
@@ -80,7 +82,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl, integrations } = getSiteFromContext(ctx);
+	const { sourceUrl, integrations, debug } = getSiteFromContext(ctx);
 	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
@@ -103,6 +105,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	// we don't want to include the preview params in the key
 	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
 
+	if (debug?.devMode) {
+		log(LOGTYPE.INFO, `[fetchHookData] key for  ${key.url}`, key);
+	}
+
 	if (
 		isPreviewRequest(finalParams, urlParams) &&
 		typeof ctx.preview !== 'undefined' &&
@@ -112,6 +118,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		finalParams.revision = ctx.previewData.revision;
 		finalParams.postType = ctx.previewData.postType;
 		finalParams.authToken = ctx.previewData.authToken;
+
+		if (debug?.requests) {
+			log(LOGTYPE.DEBUG, 'Preview request detected, using preview data', ctx.previewData);
+		}
 	}
 
 	const data = await fetchStrategy.fetcher(
@@ -120,8 +130,12 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		options.fetchStrategyOptions,
 	);
 
+	if (debug?.devMode) {
+		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
+	}
+
 	return {
-		key: unstable_serialize(key),
+		key: serializeKey(key),
 		data: fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
 		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
 	};

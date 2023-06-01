@@ -4,7 +4,7 @@ on:
     # this is the branch where you develop your site
     # as discussed in the publishing sources section
     # this can change if you are using an user/organization repo
-    branches: [ develop ]
+    branches: [ trunk ]
 jobs:
   build:
     runs-on: ubuntu-latest

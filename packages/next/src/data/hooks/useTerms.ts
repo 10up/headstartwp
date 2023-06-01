@@ -1,5 +1,5 @@
-import { TermEntity, FetchResponse, TaxonomyArchiveParams } from '@10up/headless-core';
-import { FetchHookOptions, useFetchTerms } from '@10up/headless-core/react';
+import { TermEntity, FetchResponse, TaxonomyArchiveParams } from '@headstartwp/core';
+import { FetchHookOptions, useFetchTerms } from '@headstartwp/core/react';
 import { usePrepareFetch } from './usePrepareFetch';
 
 /**

@@ -23,7 +23,7 @@ The first step is to declare all of your sites in `headless.config.js`. In the e
 /**
  * Headless Config
  *
- * @type {import('@10up/headless-core').HeadlessConfig}
+ * @type {import('@headstartwp/core').HeadlessConfig}
  */
 module.exports = {
     redirectStrategy: '404',
@@ -55,7 +55,7 @@ If you're using [Next.js i18n](https://nextjs.org/docs/advanced-features/i18n-ro
 /**
  * Headless Config
  *
- * @type {import('@10up/headless-core').HeadlessConfig}
+ * @type {import('@headstartwp/core').HeadlessConfig}
  */
 module.exports = {
     redirectStrategy: '404',
@@ -78,7 +78,7 @@ module.exports = {
 
 The above config means that `http://site1.localhost:3001/en` will match the first site config and `http://site1.localhost:3001/es` will match the second site config.
 
-**Note**: You must declare those locales in Next.js config. See [Next.js documentation](https://nextjs.org/docs/advanced-features/i18n-routing) for more information.
+**Note**: You must declare those locales in Next.js config. See [Next.js documentation](https://nextjs.org/learn/advanced-features/i18n-routing) for more information.
 
 When using locales make sure to add the locale to `Settings -> General -> Headless Multisite Locale (optional)`. This is required for previews and the revalidate handler to work properly since API routes are not localized in Next.js.
 
@@ -92,7 +92,7 @@ As an example, the first site config in the example above would need the followi
 Make sure you have the framework's middleware setup at `src/middleware.js`.
 
 ```javascript
-import { AppMiddleware } from '@10up/headless-next/middlewares';
+import { AppMiddleware } from '@headstartwp/next/middlewares';
 
 export const config = {
 	matcher: [
@@ -155,7 +155,7 @@ At the moment, there's a limitation in Next.js that doesn't allow the `404.js` a
 If you need to fetch data in `404.js` or `500.js` there's one workaround but it relies on client-side data-fetching. In `_app.js` do the following:
 
 ```javascript
-import { getSiteByHost } from '@10up/headless-core';
+import { getSiteByHost } from '@headstartwp/core';
 
 //grab the current site
 const currentSite = useMemo(() => {

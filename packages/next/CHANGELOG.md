@@ -1,4 +1,114 @@
-# @10up/headless-next
+# @headstartwp/next
+
+## 1.0.1
+
+### Patch Changes
+
+- f016b00: Re-exporting html-react-parser from core package
+- Updated dependencies [f016b00]
+  - @headstartwp/core@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+### Patch Changes
+
+- af507b7: Updating swr to latest version
+- 97ac0b0: Add devMode for more debugging data
+- 7ec30e1: Abstract SWRConfig in core package
+- 6ce773e: Reverting CJS only
+- Updated dependencies [a5c5e52]
+- Updated dependencies [1f4491f]
+- Updated dependencies [af507b7]
+- Updated dependencies [97ac0b0]
+- Updated dependencies [7ec30e1]
+- Updated dependencies [6ce773e]
+  - @headstartwp/core@1.0.0
+
+## 1.0.0-next.8
+
+### Patch Changes
+
+- 7ec30e1: Abstract SWRConfig in core package
+- Updated dependencies [a5c5e52]
+- Updated dependencies [7ec30e1]
+  - @headstartwp/core@1.0.0-next.7
+
+## 1.0.0-next.7
+
+### Patch Changes
+
+- f20d010: Re-add workaround
+- Updated dependencies [f20d010]
+  - @headstartwp/core@1.0.0-next.6
+
+## 1.0.0-next.6
+
+### Patch Changes
+
+- 6ce773e: Reverting CJS only
+- Updated dependencies [6ce773e]
+  - @headstartwp/core@1.0.0-next.5
+
+## 1.0.0-next.5
+
+### Patch Changes
+
+- 5bdd604: Switching to CJS only
+- Updated dependencies [5bdd604]
+  - @headstartwp/core@1.0.0-next.4
+
+## 1.0.0-next.4
+
+### Patch Changes
+
+- 97ac0b0: Add devMode for more debugging data
+- Updated dependencies [97ac0b0]
+  - @headstartwp/core@1.0.0-next.3
+
+## 1.0.0-next.3
+
+### Patch Changes
+
+- af507b7: Updating swr to latest version
+- Updated dependencies [af507b7]
+  - @headstartwp/core@1.0.0-next.2
+
+## 1.0.0-next.2
+
+### Major Changes
+
+- 1f4491f: Renaming to HeadstartWP
+
+### Patch Changes
+
+- Updated dependencies [1f4491f]
+  - @headstartwp/core@1.0.0-next.1
+
+## 0.7.3-next.1
+
+### Patch Changes
+
+- 44d5607: New strategy for loaidng config
+- Updated dependencies [44d5607]
+  - @10up/headless-core@0.8.2-next.0
+
+## 0.7.3-next.0
+
+### Patch Changes
+
+- 199baaa: Fix: removing old workaround for config loading
+
+## 0.7.2
+
+### Patch Changes
+
+- 3cd203c: Add support for logging/debugging.
+- Updated dependencies [3cd203c]
+  - @10up/headless-core@0.8.1
 
 ## 0.7.1
 

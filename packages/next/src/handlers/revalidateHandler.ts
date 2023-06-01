@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getHeadlessConfig, getSiteByHost, VerifyTokenFetchStrategy } from '@10up/headless-core';
+import { getHeadlessConfig, getSiteByHost, VerifyTokenFetchStrategy } from '@headstartwp/core';
 import { fetchHookData } from '../data';
 
 /**
@@ -13,7 +13,7 @@ import { fetchHookData } from '../data';
  *
  * ```ts
  * // pages/api/revalidate.js
- * import { revalidateHandler } from '@10up/headless-next';
+ * import { revalidateHandler } from '@headstartwp/next';
  *
  * export default async function handler(req, res) {
  * 	return revalidateHandler(req, res);
