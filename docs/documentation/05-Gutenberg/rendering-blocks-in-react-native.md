@@ -9,9 +9,9 @@ slug: /gutenberg/rendering-blocks-in-react-native
 
 The BlocksRenderer component can also be used to render Gutenberg blocks in React Native, by rendering blocks to native components without using a webview.
 
-The examples in this section are part of a demo react native expo hosted on the [headless-expo](https://github.com/nicholasio/headless-expo) repo. This Demo app uses expo and the headless framework to fetch a page and render Gutenberg blocks as react-native components.
+The examples in this section are part of a demo react native expo hosted on the [headless-expo](https://github.com/nicholasio/headless-expo) repo. This Demo app uses expo and the HeadstartWP to fetch a page and render Gutenberg blocks as react-native components.
 
-All of the code for this demo app lives in [App.js](https://github.com/nicholasio/headless-expo/blob/trunk/App.js). Since the demo app is using the data-fetching hooks from the core headless framework package, we first need to wrap the App with the SettingsProvider component.
+All of the code for this demo app lives in [App.js](https://github.com/nicholasio/headless-expo/blob/trunk/App.js). Since the demo app is using the data-fetching hooks from the core package, we first need to wrap the App with the SettingsProvider component.
 
 ```js
 export default function App() {

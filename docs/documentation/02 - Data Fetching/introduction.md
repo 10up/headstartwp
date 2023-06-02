@@ -6,7 +6,7 @@ sidebar_position: 0
 
 # Introduction
 
-The Headless Framework exposes several customs react hooks that provide a seamless data-fetching experience with WordPress. Those hooks are built to be "isomorphic" i.e can be executed either on the browser or on the server (e.g: Node.js).
+HeadstartWP exposes several customs react hooks that provide a seamless data-fetching experience with WordPress. Those hooks are built to be "isomorphic" i.e can be executed either on the browser or on the server (e.g: Node.js).
 
 The data-fetching logic itself is abstracted by [strategies](/api/classes/headstartwp_core.AbstractFetchStrategy/). The custom React hooks are powered by [useSwr](https://swr.vercel.app/).
 
@@ -18,7 +18,7 @@ The `@headstartwp/core/react` package export exposes the react hooks implementat
 
 ## Next.js "bindings" 
 
-Next.js is the main meta-framework supported by 10up's Headless Framework, therefore we provide special bindings that make using the framework a breeze.
+Next.js is the main meta-framework supported by HeadstartWP, therefore we provide special bindings that make using the framework a breeze.
 
 The Next.js bindings are exposed by the `@headstartwp/next` package.
 

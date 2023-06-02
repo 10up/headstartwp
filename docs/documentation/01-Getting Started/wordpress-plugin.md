@@ -7,7 +7,7 @@ sidebar_position: 4
 
 ## Composer Installation (Recommended)
 
-The only method for installing this plugin is via composer: `composer require headstartwp/headstartwp`.
+The recommended method for installing this plugin is via composer: `composer require headstartwp/headstartwp`.
 
 Make sure to set up the path for installing this as a WordPress Plugin:
 

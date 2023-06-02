@@ -5,7 +5,7 @@ slug: /wordpress-integration/multisite
 
 # Multisite
 
-10up's headless framework has built-in support for WordPress multisite via the `sites` property in the `headless.config.js` file. This transforms the Next.js app into a multi-tenant app.
+HeadstartWP has built-in support for WordPress multisite via the `sites` property in the `headless.config.js` file. This transforms the Next.js app into a multi-tenant app.
 
 The `sites` option allows specifying as many sites you want to connect to your app. Each site must have a `sourceUrl` and a `hostUrl`. The `hostUrl` will be used to match the current site and `sourceUrl` indicates where content should be sourced from.
 
