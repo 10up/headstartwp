@@ -16,10 +16,10 @@ Visit [headstartwp.10up.com/docs](https://headstartwp.10up.com/docs) for the ful
 
 ### Running docs site locally
 
-The docs site lives in the `site` directory. It is currently not part of the monorepo/workspace setup so `npm install` must be executed in the `site` dir. To run the docs site locally run the following commands:
+The docs site lives in the `docs` directory. It is currently not part of the monorepo/workspace setup so `npm install` must be executed in the `docs` dir. To run the docs site locally run the following commands:
 
 ```bash
-cd site
+cd docs
 npm install
 npm run start
 ```
