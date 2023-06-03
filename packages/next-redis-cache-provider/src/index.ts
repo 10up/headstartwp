@@ -49,7 +49,7 @@ export default class RedisCache implements CacheHandler {
 		const endpoint = process.env.VIP_REDIS_PRIMARY;
 		const password = process.env.VIP_REDIS_PASSWORD;
 
-		if (endpoint && password) {
+		if (typeof endpoint !== 'undefined' && typeof password !== 'undefined') {
 			const [host, port] = endpoint.split(':');
 			return new Redis({
 				host,
