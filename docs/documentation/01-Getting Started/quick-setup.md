@@ -16,10 +16,10 @@ If you're new to Next.js, we recommend reviewing [Next.js docs](https://nextjs.o
 
 ## Installation
 
-The easiest way to get started with 10up's headless framework is by using `create-next-app` with the official starter project.
+The easiest way to get started with HeadstartWP is by using `create-next-app` with the official starter project.
 
 ```bash
-npx create-next-app --use-npm -e https://github.com/10up/headless-docs/tree/projects-develop/wp-nextjs
+npx create-next-app --use-npm -e https://github.com/10up/headstartwp/tree/trunk/projects/wp-nextjs
 ```
 Then run `npm run dev` and open http://localhost:3000 in your browser.
 
@@ -37,4 +37,4 @@ NODE_TLS_REJECT_UNAUTHORIZED=0
 
 ## Something Missing?
 
-If something is missing in the documentation or if you found some part confusing, please file an [issue](https://github.com/10up/headless/issues) for the documentation repository with your suggestions for improvement.
+If something is missing in the documentation or if you found some part confusing, please file an [issue](https://github.com/10up/headstartwp/issues) for the documentation repository with your suggestions for improvement.

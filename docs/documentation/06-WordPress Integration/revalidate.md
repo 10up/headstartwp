@@ -15,7 +15,7 @@ It is preferred to have the CMS ask the Next.js app to revalidate those pages wh
 
 ### Plugin setup
 
-10up Headless Framework supports On-Demand Revalidation and it requires installing the WordPress Plugin. On-Demand Revalidation is opt-in and must be manually enabled in the plugin's settings (Settings -> General).
+HeadstartWP supports On-Demand Revalidation and it requires installing the WordPress Plugin. On-Demand Revalidation is opt-in and must be manually enabled in the plugin's settings (Settings -> General).
 ![Plugin settings](../../static/img/documentation/getting-started/plugin-settings.png)
 
 The plugin expects the revalidate endpoint to live at  `/api/revalidate`. It is possible to customize this endpoint via the `tenup_headless_isr_revalidate_endpoint`.
