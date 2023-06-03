@@ -1,5 +1,11 @@
 # @10up/next-redis-cache-provider
 
+## 0.1.3-next.0
+
+### Patch Changes
+
+- 94076db: Fix how VIP env vars are checked
+
 ## 0.1.2
 
 ### Patch Changes
