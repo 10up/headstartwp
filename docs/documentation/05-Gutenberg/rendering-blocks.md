@@ -33,7 +33,7 @@ In this approach, blocks are parsed on the Frontend.
 
 ### Which approach should you use?
 
-The Headless Framework supports all of these approaches. However, it does not ship with a “blocks-to-rest” plugin. But nothing is stopping you from shipping your own.
+The framework supports all of these approaches. However, it does not ship with a “blocks-to-rest” plugin. But nothing is stopping you from shipping your own.
 
 Instead, it provides a React API for selectively choosing blocks to be replaced with React components and as we’ll show in this article this approach works well for most content-focused websites and can even be implemented in React Native apps to power App screens fully curated by Gutenberg.
 

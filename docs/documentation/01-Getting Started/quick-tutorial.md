@@ -9,13 +9,13 @@ slug: /getting-started/quick-tutorial
 
 If you’re familiar with Next.js you probably already know that it has a file-system-based router. The routes are declared under the `src/pages` folder. To learn more about Next.js routing, read the [official docs](https://nextjs.org/docs/routing/introduction).
 
-> the `app` folder is currently not supported in 10up's headless framework. Support for new Next.js 13 features are underway.
+> the `app` folder is currently not supported by HeadstartWP. Support for new Next.js 13 features, including the app directory, are underway.
 
-The headless framework takes advantage of Next.js routing by leveraging a feature called “catch-all routes” which allows the framework to automatically map URL segments to WordPress routes and the proper REST API parameters necessary to fetch the appropriate data. It does so by adopting a convention of using a “catch-all” route named `[...path].js` or `[[...path]].js`.
+HeadstartWP takes advantage of Next.js routing by leveraging a feature called “catch-all routes” which allows the framework to automatically map URL segments to WordPress routes and the proper REST API parameters necessary to fetch the appropriate data. It does so by adopting a convention of using a “catch-all” route named `[...path].js` or `[[...path]].js`.
 
 ## How Routing Works
 
-To understand how routing works in the headless framework, let’s take a look at the route in the starter project ([src/pages/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/%5B...path%5D.js)) that corresponds to a single post/page template (single.php) in WordPress.
+To understand how routing works in the framework, let’s take a look at the route in the starter project ([src/pages/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/%5B...path%5D.js)) that corresponds to a single post/page template (single.php) in WordPress.
 
 First, note that it is using single brackets and not double brackets. That is because we only want to “catch” that route if no other top-level route is matched (such as `index.js`). Therefore, any route in the form of /post-name or /2022/10/1 will match `src/[...path].js`. You can confirm this by opening any post by either the /post-name route or the date route depending on how your permalinks settings are set up in WordPress E.g:
 
