@@ -1,0 +1,9 @@
+**/node_modules
+**/.env*
+deploy/*
+!deploy/entrypoint.sh
+**/.next
+.git
+README.md
+.dockerignore
+Dockerfile

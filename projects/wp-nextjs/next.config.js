@@ -15,6 +15,8 @@ const nextConfig = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+
+	output: 'standalone',
 };
 
 // if you are not using polylang integration you can remove this code
@@ -23,6 +25,13 @@ if (process.env?.ENABLE_POLYLANG_INTEGRATION === 'true') {
 	nextConfig.i18n = {
 		locales: ['en', 'pt'],
 		defaultLocale: 'en',
+	};
+}
+
+// if the redis URL is set, configure redis caching system
+if (process.env?.NEXT_REDIS_URL) {
+	nextConfig.experimental = {
+		incrementalCacheHandlerPath: require.resolve('@10up/next-redis-cache-provider'),
 	};
 }
 
