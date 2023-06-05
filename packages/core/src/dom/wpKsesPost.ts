@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
 import sanitize, { getDefaultWhiteList, IFilterXSSOptions } from 'xss';
 import type { IWhiteList } from 'xss';
-import { isHrefValueClean, linkingSVGElements, svgAllowList } from './svg';
+import { isHrefValueClean, linkingSVGElements, svgAllowList, svgHtmlAllowList } from './svg';
 
 interface IWpKsesPostOptions extends IFilterXSSOptions {
 	svg?: boolean;
@@ -33,7 +33,7 @@ export const wpKsesPost = (
 	options?: IWpKsesPostOptions,
 ): string => {
 	if (typeof allowList === 'undefined') {
-		allowList = ksesAllowedList;
+		allowList = { ...ksesAllowedList };
 	}
 
 	options = options || {};
@@ -47,6 +47,14 @@ export const wpKsesPost = (
 			...allowList,
 			...svgAllowList,
 		};
+
+		// merge svg html allow list with allowList
+		Object.keys(svgHtmlAllowList).forEach((tag) => {
+			if (typeof allowList === 'undefined') {
+				return;
+			}
+			allowList[tag] = [...(allowList[tag] ?? []), ...(svgHtmlAllowList[tag] ?? [])];
+		});
 
 		// Handle the unknown SVG attributes.
 		newOptions.onIgnoreTagAttr = (tag, name, value, isWhiteAttr) => {
@@ -73,7 +81,7 @@ export const wpKsesPost = (
 	}
 
 	return sanitize(content, {
-		whiteList: allowList,
+		allowList,
 		stripIgnoreTag: true,
 		stripIgnoreTagBody: true,
 		css: {
@@ -244,10 +252,10 @@ const defaultAllowList = getDefaultWhiteList();
 
 for (const tag of Object.keys(defaultAllowList)) {
 	if (typeof defaultAllowList[tag] !== 'undefined' && Array.isArray(defaultAllowList[tag])) {
-		// @ts-expect-error
-		defaultAllowList[tag] = [...defaultAllowList[tag], ...commonAttributes];
+		defaultAllowList[tag] = [...(defaultAllowList[tag] ?? []), ...commonAttributes];
 	}
 }
+
 /**
  * Default Allowed HTML Attributes
  *
@@ -257,6 +265,7 @@ for (const tag of Object.keys(defaultAllowList)) {
  */
 export const ksesAllowedList: IWhiteList = {
 	...defaultAllowList,
+	a: [...(defaultAllowList.a ?? []), 'download', 'hreflang', 'referrerpolicy', 'rel', 'target'],
 	iframe: [
 		...commonAttributes,
 		'allow',
