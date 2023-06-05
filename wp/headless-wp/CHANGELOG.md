@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.2-next.0
+
+### Patch Changes
+
+- 5062f08: Fixes several bugs related to Next ISR support
+
 ## 1.0.1
 
 ### Patch Changes

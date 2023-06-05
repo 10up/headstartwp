@@ -1,5 +1,14 @@
 # @headstartwp/next
 
+## 1.0.2-next.0
+
+### Patch Changes
+
+- e068bff: Fix config injection for api endpoints
+- f00955b: Fix: Update the LinkBlock component to use raw attributes instead of block attributes
+- Updated dependencies [b26210d]
+  - @headstartwp/core@1.0.2-next.0
+
 ## 1.0.1
 
 ### Patch Changes
