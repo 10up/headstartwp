@@ -55,10 +55,13 @@ export default class RedisCache implements CacheHandler {
 				host,
 				password,
 				port: parseInt(port, 10),
+				lazyConnect: true,
 			});
 		}
 
-		return redisUrl ? new Redis(redisUrl) : new Redis();
+		return redisUrl
+			? new Redis(redisUrl, { lazyConnect: true })
+			: new Redis({ lazyConnect: true });
 	}
 
 	/**
@@ -90,8 +93,11 @@ export default class RedisCache implements CacheHandler {
 			return null;
 		}
 
-		const BUILD_ID = await this.getBuildId();
+		// get build id and connect to redis
+		const [BUILD_ID] = await Promise.all([this.getBuildId(), this.redisClient.connect()]);
 		const value = await this.redisClient.get(`${BUILD_ID}:${key}`);
+
+		this.redisClient.disconnect();
 
 		if (!value) {
 			return null;
@@ -107,12 +113,15 @@ export default class RedisCache implements CacheHandler {
 	): Promise<void> {
 		if (!this.flushToDisk || !data || fetchCache) return;
 
-		const BUILD_ID = await this.getBuildId();
+		// get build id and connect to redis
+		const [BUILD_ID] = await Promise.all([this.getBuildId(), this.redisClient.connect()]);
 
 		await this.redisClient.set(
 			`${BUILD_ID}:${key}`,
 			JSON.stringify({ lastModified: Date.now(), value: data }),
 		);
+
+		this.redisClient.disconnect();
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

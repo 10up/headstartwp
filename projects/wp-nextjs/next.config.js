@@ -15,6 +15,9 @@ const nextConfig = {
 	eslint: {
 		ignoreDuringBuilds: true,
 	},
+	experimental: {
+		incrementalCacheHandlerPath: require.resolve('@10up/next-redis-cache-provider'),
+	},
 };
 
 // if you are not using polylang integration you can remove this code

@@ -43,11 +43,14 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 	}
 
 	const host = req.headers.host ?? '';
+	console.log('HOST', host);
 	const site = getSiteByHost(host, typeof locale === 'string' ? locale : undefined);
+	console.log('SITE', site);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
-
+	console.log('isMultisiteRequest', isMultisiteRequest);
 	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
-
+	console.log('source', sourceUrl);
+	console.log('getHeadlessConfig', getHeadlessConfig());
 	// call WordPress API to check token
 	try {
 		const { data } = await fetchHookData(
@@ -87,6 +90,7 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 		await res.revalidate(pathToRevalidate);
 		return res.status(200).json({ message: 'success', path: pathToRevalidate });
 	} catch (err) {
+		console.error(err);
 		let errorMessage = 'Error verifying the token';
 		if (err instanceof Error) {
 			errorMessage = err.message;
