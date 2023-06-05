@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { removeSourceUrl } from '@headstartwp/core/utils';
-import { IBlock, IBlockAttributes, useBlock, useSettings } from '@headstartwp/core/react';
-import { isAnchorTag } from '@headstartwp/core';
+import { IBlock, IBlockAttributes, useSettings } from '@headstartwp/core/react';
+import { getAttributes, isAnchorTag } from '@headstartwp/core';
 
 export interface LinkBlockProps extends IBlockAttributes {
 	href: string;
@@ -31,11 +31,12 @@ export interface LinkBlockProps extends IBlockAttributes {
  * @category React Components
  */
 export function LinkBlock({ domNode, children }: Omit<IBlock<LinkBlockProps>, 'component'>) {
-	const { attributes, className } = useBlock<LinkBlockProps>(domNode);
+	// Links might not always be an actual block since it can be just regular links
+	const { href, rel, className } = getAttributes(domNode?.attribs ?? {});
 
 	const settings = useSettings();
 	const link = removeSourceUrl({
-		link: attributes.href,
+		link: href,
 		backendUrl: settings.sourceUrl || '',
 		publicUrl: settings.hostUrl ?? '/',
 	});
@@ -43,7 +44,7 @@ export function LinkBlock({ domNode, children }: Omit<IBlock<LinkBlockProps>, 'c
 	const Component = typeof settings.linkComponent === 'function' ? settings.linkComponent : Link;
 
 	return (
-		<Component href={link} rel={attributes.rel} className={className}>
+		<Component href={link} rel={rel} className={className}>
 			{children}
 		</Component>
 	);
