@@ -23,9 +23,23 @@ class CacheFlushToken extends BaseToken {
 	 * @return array
 	 */
 	public static function generateForPost( \WP_Post $post, $override_path = false ): array {
-		$parsed_url = wp_parse_url( get_permalink( $post ) );
-		$path       = false !== $parsed_url ? untrailingslashit( $parsed_url['path'] ) : '';
+		$permalink  = get_permalink( $post );
+		$path       = untrailingslashit( str_replace( home_url(), '', $permalink ) );
 		$path       = false !== $override_path ? $override_path : $path;
+
+		/**
+		 * Filter the path for the cache flush token
+		 * 
+		 * @param string $path the path to be revalidated
+		 * @param \WP_Post $post the post object
+		 * @param string|false $override_path the override path
+		 */
+		$path = apply_filters(
+			'headless_wp_generate_token_for_post_revalidate',
+			$path,
+			$post,
+			$override_path
+		);
 
 		$token = self::generate(
 			[
