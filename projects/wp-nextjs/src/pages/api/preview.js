@@ -1,4 +1,5 @@
 import { previewHandler } from '@headstartwp/next';
+
 /**
  * The Preview endpoint just needs to proxy the default preview handler
  *

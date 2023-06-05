@@ -50,11 +50,13 @@ function traverse(rules) {
  *
  * @param {object} nextConfig The nextjs config object
  * @param {object} headlessConfig The headless config
+ * @param withHeadlessConfigOptions
  * @returns
  */
 export function withHeadlessConfig(
 	nextConfig: NextConfig = {},
 	headlessConfig: HeadlessConfig = {},
+	withHeadlessConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ): NextConfig {
 	if (!headlessConfig.sourceUrl && !headlessConfig.sites) {
 		throw new ConfigError(
@@ -158,11 +160,28 @@ export function withHeadlessConfig(
 				new ModifySourcePlugin({
 					rules: [
 						{
-							test: /_app.(tsx|ts|js|mjs|jsx)$/,
-							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
-						},
-						{
-							test: /middleware.(tsx|ts|js|mjs|jsx)$/,
+							test: (normalModule) => {
+								if (!withHeadlessConfigOptions.injectConfig) {
+									return false;
+								}
+								const userRequest = normalModule.userRequest || '';
+
+								const startIndex =
+									userRequest.lastIndexOf('!') === -1
+										? 0
+										: userRequest.lastIndexOf('!') + 1;
+
+								const moduleRequest = userRequest
+									.substring(startIndex)
+									.replace(/\\/g, '/');
+
+								const matched =
+									/_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
+									/middleware.(ts|js|mjs)$/.test(moduleRequest) ||
+									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest);
+
+								return matched;
+							},
 							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
 						},
 					],
