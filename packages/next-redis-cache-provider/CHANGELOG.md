@@ -1,5 +1,17 @@
 # @10up/next-redis-cache-provider
 
+## 0.1.4
+
+### Patch Changes
+
+- 5062f08: Fixes several bugs related to Next ISR support
+
+## 0.1.3
+
+### Patch Changes
+
+- 94076db: Fix how VIP env vars are checked
+
 ## 0.1.2
 
 ### Patch Changes
