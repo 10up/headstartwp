@@ -8,6 +8,29 @@ import Redis from 'ioredis';
 import { CacheFs } from 'next/dist/shared/lib/utils';
 import path from 'path';
 
+export function getRedisClient(lazyConnect = false) {
+	const redisUrl = process.env.NEXT_REDIS_URL;
+
+	const endpoint = process.env.VIP_REDIS_PRIMARY;
+	const password = process.env.VIP_REDIS_PASSWORD;
+
+	if (typeof endpoint !== 'undefined' && typeof password !== 'undefined') {
+		const [host, port] = endpoint.split(':');
+		return new Redis({
+			host,
+			password,
+			port: parseInt(port, 10),
+			lazyConnect,
+		});
+	}
+
+	return redisUrl ? new Redis(redisUrl, { lazyConnect }) : new Redis({ lazyConnect });
+}
+
+export function initRedisClient() {
+	globalThis._nextRedisProviderRedisClient = getRedisClient();
+}
+
 export default class RedisCache implements CacheHandler {
 	private flushToDisk?: boolean;
 
@@ -28,6 +51,8 @@ export default class RedisCache implements CacheHandler {
 	 */
 	private redisClient: Redis;
 
+	private lazyConnect: boolean = false;
+
 	constructor(ctx: CacheHandlerContext) {
 		this.flushToDisk = ctx.flushToDisk;
 		this.fs = ctx.fs;
@@ -44,24 +69,13 @@ export default class RedisCache implements CacheHandler {
 	 * @returns Redis client
 	 */
 	public getRedisClient() {
-		const redisUrl = process.env.NEXT_REDIS_URL;
-
-		const endpoint = process.env.VIP_REDIS_PRIMARY;
-		const password = process.env.VIP_REDIS_PASSWORD;
-
-		if (typeof endpoint !== 'undefined' && typeof password !== 'undefined') {
-			const [host, port] = endpoint.split(':');
-			return new Redis({
-				host,
-				password,
-				port: parseInt(port, 10),
-				lazyConnect: true,
-			});
+		if (typeof globalThis._nextRedisProviderRedisClient !== 'undefined') {
+			this.lazyConnect = false;
+			return globalThis._nextRedisProviderRedisClient;
 		}
 
-		return redisUrl
-			? new Redis(redisUrl, { lazyConnect: true })
-			: new Redis({ lazyConnect: true });
+		this.lazyConnect = true;
+		return getRedisClient(this.lazyConnect);
 	}
 
 	/**
@@ -94,10 +108,15 @@ export default class RedisCache implements CacheHandler {
 		}
 
 		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([this.getBuildId(), this.redisClient.connect()]);
+		const [BUILD_ID] = await Promise.all([
+			this.getBuildId(),
+			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
+		]);
 		const value = await this.redisClient.get(`${BUILD_ID}:${key}`);
 
-		this.redisClient.disconnect();
+		if (this.lazyConnect) {
+			this.redisClient.disconnect();
+		}
 
 		if (!value) {
 			return null;
@@ -114,14 +133,19 @@ export default class RedisCache implements CacheHandler {
 		if (!this.flushToDisk || !data || fetchCache) return;
 
 		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([this.getBuildId(), this.redisClient.connect()]);
+		const [BUILD_ID] = await Promise.all([
+			this.getBuildId(),
+			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
+		]);
 
 		await this.redisClient.set(
 			`${BUILD_ID}:${key}`,
 			JSON.stringify({ lastModified: Date.now(), value: data }),
 		);
 
-		this.redisClient.disconnect();
+		if (this.lazyConnect) {
+			this.redisClient.disconnect();
+		}
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
