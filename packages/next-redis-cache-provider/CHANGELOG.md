@@ -1,5 +1,11 @@
 # @10up/next-redis-cache-provider
 
+## 0.1.5
+
+### Patch Changes
+
+- e69b92c: Add ability to use a persisted client
+
 ## 0.1.4
 
 ### Patch Changes
