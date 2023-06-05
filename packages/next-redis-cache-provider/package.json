@@ -1,6 +1,6 @@
 {
     "name": "@10up/next-redis-cache-provider",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "Redis cache provider for Next.js",
     "homepage": "https://github.com/10up/headless/blob/develop/packages/next-redis-cache-provider/README.md",
     "license": "MIT",

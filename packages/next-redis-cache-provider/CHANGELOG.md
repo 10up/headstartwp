@@ -1,5 +1,11 @@
 # @10up/next-redis-cache-provider
 
+## 0.1.4
+
+### Patch Changes
+
+- 5062f08: Fixes several bugs related to Next ISR support
+
 ## 0.1.3
 
 ### Patch Changes

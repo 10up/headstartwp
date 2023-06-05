@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.2
+
+### Patch Changes
+
+- b26210d: Fix: anchor attributes being stripped by wpKsesPost
+
 ## 1.0.1
 
 ### Patch Changes
