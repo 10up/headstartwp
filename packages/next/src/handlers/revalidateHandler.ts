@@ -45,9 +45,7 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 	const host = req.headers.host ?? '';
 	const site = getSiteByHost(host, typeof locale === 'string' ? locale : undefined);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
-
 	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
-
 	// call WordPress API to check token
 	try {
 		const { data } = await fetchHookData(
