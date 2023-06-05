@@ -187,19 +187,19 @@ const allowedSVGAttributes = [
 	'zoomandpan',
 ];
 
+export const svgHtmlAllowList: IWhiteList = {
+	a: allowedSVGAttributes,
+	font: allowedSVGAttributes,
+	image: allowedSVGAttributes,
+	style: allowedSVGAttributes,
+};
+
 /**
  * Default Allowed SVG elements and attributes
  *
  * @returns Array of allowed elements and attributes for SVG tags.
  */
 export const svgAllowList: IWhiteList = {
-	// HTML
-	a: allowedSVGAttributes,
-	font: allowedSVGAttributes,
-	image: allowedSVGAttributes,
-	style: allowedSVGAttributes,
-
-	// SVG
 	svg: allowedSVGAttributes,
 	altglyph: allowedSVGAttributes,
 	altglyphdef: allowedSVGAttributes,

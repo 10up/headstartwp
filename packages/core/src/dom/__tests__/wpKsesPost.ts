@@ -126,4 +126,15 @@ describe('wp_kses_post', () => {
 		});
 		expect(onIgnoreTagAttr).toHaveBeenCalled();
 	});
+
+	// https://github.com/10up/headstartwp/issues/459
+	it('supports anchor tags target and rel', () => {
+		expect(
+			wpKsesPost(
+				'<a href="https://example.com" target="_blank" rel="noreferrer noopener nofollow">Hello World</a>',
+			),
+		).toBe(
+			'<a href="https://example.com" target="_blank" rel="noreferrer noopener nofollow">Hello World</a>',
+		);
+	});
 });

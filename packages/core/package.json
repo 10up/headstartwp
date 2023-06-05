@@ -67,7 +67,7 @@
     "path-to-regexp": "^6.2.0",
     "react-inspector": "^6.0.1",
     "swr": "^2.1.5",
-    "xss": "^1.0.11"
+    "xss": "^1.0.14"
   },
   "peerDependencies": {
     "react": ">= 17.0.2"
