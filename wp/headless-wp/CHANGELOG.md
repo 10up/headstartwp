@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.3
+
+### Patch Changes
+
+- 3c3a2729: Add support to automatically flushing the cache for the front-end of the site on VIP
+
 ## 1.0.2
 
 ### Patch Changes
