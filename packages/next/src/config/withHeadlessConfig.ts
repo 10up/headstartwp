@@ -152,7 +152,7 @@ export function withHeadlessConfig(
 
 		webpack: (config, options) => {
 			const importSetHeadlessConfig = `
-				import { setHeadstartWPConfig } from '@headstartwp/core';
+				import { setHeadstartWPConfig } from '@headstartwp/core/utils';
 				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
 			`;
 
@@ -200,6 +200,9 @@ export function withHeadlessConfig(
 								sourceMap: process.env.NODE_ENV !== 'production',
 								...(nextConfig.linaria || {}),
 								extension: LINARIA_EXTENSION,
+								babelOptions: {
+									presets: ['next/babel', '@linaria'],
+								},
 							},
 						},
 					],
