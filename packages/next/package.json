@@ -1,6 +1,6 @@
 {
   "name": "@headstartwp/next",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "`@headstartwp/next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headless/blob/develop/packages/next/README.md",
   "license": "MIT",

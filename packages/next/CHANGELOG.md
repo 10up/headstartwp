@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.0.3
+
+### Patch Changes
+
+- 629a77c8: Fix compilation issue on latest next.js version
+
 ## 1.0.2
 
 ### Patch Changes
