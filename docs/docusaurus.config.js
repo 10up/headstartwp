@@ -10,7 +10,7 @@ const config = {
 	title: '10up - HeadstartWP',
 	tagline: '',
 	url: 'https://headless.10up.com',
-	baseUrl: '/headstartwp',
+	baseUrl: '/docs',
 	onBrokenLinks: 'throw',
 	onBrokenMarkdownLinks: 'warn',
 	favicon: 'img/favicon.ico',
