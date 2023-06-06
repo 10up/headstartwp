@@ -18,7 +18,6 @@ class CacheFlush {
 
 	const LAST_FLUSH_KEY = 'tenup-headless-last-cache-flush';
 
-
 	/**
 	 * Register the
 	 *
@@ -67,6 +66,10 @@ class CacheFlush {
 
 			$status_code = wp_remote_retrieve_response_code( $response );
 			$body        = json_decode( wp_remote_retrieve_body( $response ) );
+
+			if ( 200 === (int) $status_code && function_exists( 'wpcom_vip_purge_edge_cache_for_url' ) ) {
+				wpcom_vip_purge_edge_cache_for_url( untrailingslashit( Plugin::get_react_url() ) . $payload['path'] );
+			}
 
 			update_post_meta(
 				$post_id,

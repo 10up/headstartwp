@@ -23,13 +23,13 @@ class CacheFlushToken extends BaseToken {
 	 * @return array
 	 */
 	public static function generateForPost( \WP_Post $post, $override_path = false ): array {
-		$permalink  = get_permalink( $post );
-		$path       = untrailingslashit( str_replace( home_url(), '', $permalink ) );
-		$path       = false !== $override_path ? $override_path : $path;
+		$permalink = get_permalink( $post );
+		$path      = untrailingslashit( str_replace( home_url(), '', $permalink ) );
+		$path      = false !== $override_path ? $override_path : $path;
 
 		/**
 		 * Filter the path for the cache flush token
-		 * 
+		 *
 		 * @param string $path the path to be revalidated
 		 * @param \WP_Post $post the post object
 		 * @param string|false $override_path the override path

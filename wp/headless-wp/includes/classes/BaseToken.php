@@ -64,12 +64,12 @@ abstract class BaseToken {
 	protected static function get_payload_from_token() {
 		// Get HTTP Authorization Header.
 		$header = isset( $_SERVER['HTTP_AUTHORIZATION'] )
-		? sanitize_text_field( $_SERVER['HTTP_AUTHORIZATION'] )
+		? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) )
 		: false;
 
 		// Check for alternative header.
 		if ( ! $header && isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) {
-			$header = sanitize_text_field( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] );
+			$header = sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) );
 		}
 
 		// No Authorization Header is present.

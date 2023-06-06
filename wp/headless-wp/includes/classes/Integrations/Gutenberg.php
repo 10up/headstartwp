@@ -64,7 +64,7 @@ class Gutenberg {
 		 * @param array $block The Block's schema
 		 * @param \WP_Block $block_instance The block's instance
 		 */
-		$attrs->value      = apply_filters(
+		$attrs->value = apply_filters(
 			'tenup_headless_wp_render_blocks_attrs_serialized',
 			esc_attr( wp_json_encode( $block_attrs ) ),
 			$block_attrs,
