@@ -112,9 +112,10 @@ class Links {
 	 */
 	public function maybe_redirect_frontend() {
 		// if request method is HEAD then the headless site is making a HEAD request to figure out redirects, so don't mess with redirects or home_url
-		$request_method = $_SERVER['REQUEST_METHOD'];
-
-		if ( 'HEAD' === $request_method ) {
+		if (
+			isset( $_SERVER['REQUEST_METHOD'] ) &&
+			'HEAD' === sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) )
+		) {
 			return;
 		}
 
