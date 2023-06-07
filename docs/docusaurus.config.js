@@ -62,7 +62,7 @@ const config = {
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
-				editUrl: 'https://github.com/10up/headless/tree/trunk/site',
+				editUrl: 'https://github.com/10up/headstartwp/tree/trunk/site',
 				sidebarCollapsed: false,
 			},
 		],
@@ -75,7 +75,7 @@ const config = {
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
-				editUrl: 'https://github.com/10up/headless/tree/trunk/site',
+				editUrl: 'https://github.com/10up/headstartwp/tree/trunk/site',
 				sidebarCollapsed: false,
 			},
 		], */
@@ -87,7 +87,7 @@ const config = {
 				sidebarPath: require.resolve('./sidebars.js'),
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
-				editUrl: 'https://github.com/10up/headless/tree/trunk/site',
+				editUrl: 'https://github.com/10up/headstartwp/tree/trunk/site',
 				sidebarCollapsed: false,
 			},
 		],
@@ -140,7 +140,7 @@ const config = {
 			announcementBar: {
 				id: 'support_us',
 				content:
-					'Have any questions or suggestions? Just open a discussion in <a target="_blank" rel="noopener noreferrer" href="https://github.com/10up/headless/discussions/new">this GitHub Repository</a>',
+					'Have any questions or suggestions? Just open a discussion in <a target="_blank" rel="noopener noreferrer" href="https://github.com/10up/headstartwp/discussions/new">this GitHub Repository</a>',
 				backgroundColor: '#fafbfc',
 				textColor: '#091E42',
 				isCloseable: false,
@@ -170,7 +170,7 @@ const config = {
 						items: [
 							{
 								label: 'GitHub Discussions',
-								href: 'https://github.com/10up/headless/discussions/',
+								href: 'https://github.com/10up/headstartwp/discussions/',
 							},
 						],
 					},

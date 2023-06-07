@@ -2,7 +2,7 @@
 
 > `@headstartwp/next` is the Next.js bindings for HeadstartWP.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/next/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/next/LICENSE.md)
 
 In addition to the default export, this package also exports:
 - `@headstartwp/next/config`: For using with `next.config.js` or `next.config.mjs`

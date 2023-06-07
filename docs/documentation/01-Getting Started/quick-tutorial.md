@@ -15,7 +15,7 @@ HeadstartWP takes advantage of Next.js routing by leveraging a feature called �
 
 ## How Routing Works
 
-To understand how routing works in the framework, let’s take a look at the route in the starter project ([src/pages/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/%5B...path%5D.js)) that corresponds to a single post/page template (single.php) in WordPress.
+To understand how routing works in the framework, let’s take a look at the route in the starter project ([src/pages/[...path].js](https://github.com/10up/headstartwp/blob/develop/projects/wp-nextjs/src/pages/%5B...path%5D.js)) that corresponds to a single post/page template (single.php) in WordPress.
 
 First, note that it is using single brackets and not double brackets. That is because we only want to “catch” that route if no other top-level route is matched (such as `index.js`). Therefore, any route in the form of /post-name or /2022/10/1 will match `src/[...path].js`. You can confirm this by opening any post by either the /post-name route or the date route depending on how your permalinks settings are set up in WordPress E.g:
 
@@ -123,7 +123,7 @@ For instance, you might want to display an array of related posts at the bottom 
 
 There’s also the concept of "queried object" which is very similar to [get_queried_object()](https://developer.wordpress.org/reference/functions/get_queried_object/) function in WP. It returns the resource that is being "queried for". For instance, in a category archive page, the queried object represents the category that's being queried for.
 
-Let's take a look at [src/pages/category/[...path].js](https://github.com/10up/headless/blob/develop/projects/wp-nextjs/src/pages/category/%5B...path%5D.js)
+Let's take a look at [src/pages/category/[...path].js](https://github.com/10up/headstartwp/blob/develop/projects/wp-nextjs/src/pages/category/%5B...path%5D.js)
 
 ```js title="src/pages/category/[...path].js"
 import { usePosts } from '@headstartwp/next';
