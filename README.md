@@ -10,7 +10,7 @@
 
 ## Documentation
 
-See our [Getting Started](https://headstartwp.10up.com/docs/getting-started/quick-setup/) guide.
+See our [Getting Started](https://headstartwp.10up.com/docs/learn/getting-started/quick-setup/) guide.
 
 Visit [headstartwp.10up.com/docs](https://headstartwp.10up.com/docs) for the full documentation.
 
