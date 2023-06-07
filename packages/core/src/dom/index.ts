@@ -42,7 +42,7 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  *
  * ```tsx
  * import { isAnchorTag } from '@headstartwp/core';
- * import { LinkBlock } from '@10up/headless-next';
+ * import { LinkBlock } from '@headstartwp/next';
  *
  * <BlocksRenderer html={html}>
  *  	<LinkBlock test={(node) => isAnchorTag(node, { isInternalLink: true})} />
@@ -104,7 +104,7 @@ export type isImageTagOptions = {
  *
  * ```tsx
  * import { isImageTag, ImageBlock } from '@headstartwp/core';
- * import { ImageComponent } from '@10up/headless-next';
+ * import { ImageComponent } from '@headstartwp/next';
  *
  * <BlocksRenderer html={html}>
  *  	<ImageBlock
