@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cache Flush handling
  *
@@ -70,7 +69,7 @@ class CacheFlush {
 		 *
 		 * @param boolean $run_in_cron Whether it should run in a cron job or not.
 		 */
-		$run_in_cron = apply_filters( 'tenup_headless_wp_revalidate_on_cron', true );
+		$run_in_cron = apply_filters( 'tenup_headless_wp_revalidate_on_cron', false );
 
 		if ( ! $run_in_cron ) {
 			$this->revalidate( $post->ID );
