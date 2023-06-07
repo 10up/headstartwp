@@ -32,12 +32,12 @@ class CacheFlush {
 	/**
 	 * Run the cron job
 	 *
-	 * @param int $post_id The post id
+	 * @param int    $post_id The post id
 	 * @param string $modified_date The post modified date
 	 * @return void
 	 */
 	public function run_job( $post_id, $modified_date ) {
-		return $this->revalidate( $post_id );
+		$this->revalidate( $post_id );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class CacheFlush {
 		}
 
 		// no need to revalidate new posts
-		if ( ! $update )  {
+		if ( ! $update ) {
 			return;
 		}
 
@@ -92,9 +92,16 @@ class CacheFlush {
 		}
 	}
 
+	/**
+	 * Runs the revalidation logic
+	 *
+	 * @param int $post_id The Post id
+	 *
+	 * @return void
+	 */
 	public function revalidate( $post_id ) {
 		try {
-			$post = get_post( $post_id );
+			$post    = get_post( $post_id );
 			$payload = CacheFlushToken::generateForPost( $post );
 
 			$response = $this->revalidate_request( $payload['post_id'], $payload['path'], $payload['token'] );
