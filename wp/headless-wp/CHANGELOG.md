@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.4-next.0
+
+### Patch Changes
+
+- d7fad023: Improved revalidation logic
+
 ## 1.0.3
 
 ### Patch Changes
