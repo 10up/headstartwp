@@ -2,7 +2,7 @@
 
 > `@headstartwp/core` is the core package that houses framework-agnostic components and utilities for building headless sites with WordPress.
 
-[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Core Package MIT License](https://img.shields.io/badge/core%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/core/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Core Package MIT License](https://img.shields.io/badge/core%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/core/LICENSE.md)
 
 In addition to the default export, this package also exports:
 - `@headstartwp/core/react`: React Components and Custom Hooks

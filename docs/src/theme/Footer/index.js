@@ -69,7 +69,7 @@ export default function FooterWrapper(props) {
 							</svg>
 						</a>
 						<a
-							href="https://github.com/10up/headless"
+							href="https://github.com/10up/headstartwp"
 							aria-hidden="true"
 							title="10up on GitHub"
 						>

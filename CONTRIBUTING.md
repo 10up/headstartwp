@@ -10,11 +10,11 @@ Contributing isn't just writing code - it's anything that improves the project. 
 
 ### Reporting bugs
 
-If you're running into an issue, please take a look through [existing issues](https://github.com/10up/headless/issues) and [open a new one](https://github.com/10up/headless/issues/new) if needed.  If you're able, include steps to reproduce, environment information, and screenshots/screencasts as relevant.
+If you're running into an issue, please take a look through [existing issues](https://github.com/10up/headstartwp/issues) and [open a new one](https://github.com/10up/headstartwp/issues/new) if needed.  If you're able, include steps to reproduce, environment information, and screenshots/screencasts as relevant.
 
 ### Suggesting enhancements
 
-New features and enhancements are also managed via [issues](https://github.com/10up/headless/issues).
+New features and enhancements are also managed via [issues](https://github.com/10up/headstartwp/issues).
 
 ### Pull requests
 

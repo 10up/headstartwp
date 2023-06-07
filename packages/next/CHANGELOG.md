@@ -376,7 +376,7 @@
 
 ### Patch Changes
 
-- d039566: [#318](https://github.com/10up/headless/pull/318) feat: add an official yoast seo integration.
+- d039566: [#318](https://github.com/10up/headstartwp/pull/318) feat: add an official yoast seo integration.
 - Updated dependencies [d039566]
   - @10up/headless-core@0.5.2
 
@@ -384,7 +384,7 @@
 
 ### Patch Changes
 
-- e7f94b9: [#313](https://github.com/10up/headless/pull/313) feat: add support for yoast sitemaps.
+- e7f94b9: [#313](https://github.com/10up/headstartwp/pull/313) feat: add support for yoast sitemaps.
 
 ## 0.5.2
 
@@ -396,7 +396,7 @@
 
 ### Patch Changes
 
-- 1de925a: Fix [#294](https://github.com/10up/headless/issues/294): use the full path for multisite revalidation. PR [#296](https://github.com/10up/headless/pull/296).
+- 1de925a: Fix [#294](https://github.com/10up/headstartwp/issues/294): use the full path for multisite revalidation. PR [#296](https://github.com/10up/headstartwp/pull/296).
 
 ## 0.5.0
 
@@ -409,7 +409,7 @@
 
   Also updates block components to pass style down as a prop to the provided components.
 
-  Closes [#240](https://github.com/10up/headless/issues/240)
+  Closes [#240](https://github.com/10up/headstartwp/issues/240)
 
 - 33592ea: Add React 18 and Next.js 13 support.
 
@@ -475,7 +475,7 @@
 
   Also updates block components to pass style down as a prop to the provided components.
 
-  Closes [#240](https://github.com/10up/headless/issues/240)
+  Closes [#240](https://github.com/10up/headstartwp/issues/240)
 
 - 7e3a45e: Add React 18 and Next.js 13 support.
 
@@ -508,7 +508,7 @@
 
 - ae8739d: Optimize next.js props
 - ec25cdd: Fix queried object detection, account for querying by id as well
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headstartwp/issues/185)
 - 7923590: Fix: do not include preview params in swr key
 - 9141bb3: Convert back-end urls in seo metadata to front-end urls
 - b3d2216: Further optimize next.js props
@@ -555,7 +555,7 @@
 
 ### Patch Changes
 
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headstartwp/issues/185)
 - 7923590: Fix: do not include preview params in swr key
 - Updated dependencies [dc7edb1]
   - @10up/headless-core@0.4.3-next.0
@@ -564,7 +564,7 @@
 
 ### Patch Changes
 
-- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 82ac782: Fix [#210](https://github.com/10up/headstartwp/issues/210) - Some params are not taken into account by buildEndpointUrl
 - 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
 - 18e408f: Introduce `swr` and `fetchStrategyOptions` namespaces in the fetch options. This allow fetchOptions to be passed directly to the fetch strategy.
 - Updated dependencies [82ac782]
@@ -586,7 +586,7 @@
 
 ### Patch Changes
 
-- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 82ac782: Fix [#210](https://github.com/10up/headstartwp/issues/210) - Some params are not taken into account by buildEndpointUrl
 - Updated dependencies [82ac782]
 - Updated dependencies [5fb3696]
   - @10up/headless-core@0.4.2-next.1
@@ -611,7 +611,7 @@
 ### Minor Changes
 
 - 730d47e: Stop using `instanceof` since cjs builds does not work with instanceof. Instead check the error name property.
-- 75d2adb: Introduces on-demand isr revalidation from the WordPress plugin. [#184](https://github.com/10up/headless/pull/184)
+- 75d2adb: Introduces on-demand isr revalidation from the WordPress plugin. [#184](https://github.com/10up/headstartwp/pull/184)
 
 ### Patch Changes
 
