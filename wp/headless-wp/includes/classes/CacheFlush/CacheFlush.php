@@ -61,7 +61,7 @@ class CacheFlush {
 		}
 
 		// no need to revalidate new posts
-		if ( ! $update)  {
+		if ( ! $update )  {
 			return;
 		}
 
