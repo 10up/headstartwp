@@ -17,10 +17,8 @@ export default function Home() {
 		<Layout title={`${siteConfig.title}`}>
 			<main>
 				<header className={`${styles.heroBanner} home__heroBanner`}>
-					<h1>
-						HeadstartWP <span className={`${styles.beta}`}>Beta</span>
-					</h1>
-					<p>A framework for building headless WordPress sites.</p>
+					<h1>HeadstartWP</h1>
+					<p>Next.js Framework for WordPress</p>
 					<SearchBar className={styles.searchBar} />
 				</header>
 				<section className={`${styles.grid} content-wrapper`}>

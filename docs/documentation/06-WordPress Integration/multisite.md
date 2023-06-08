@@ -11,7 +11,7 @@ The `sites` option allows specifying as many sites you want to connect to your a
 
 This feature does not require that all sites belong to the same multisite, you're free to connect the Next.js app to a completely separate WordPress instance, as long as that instance implements what your Next.js app needs.
 
-Take a look at the [multisite demo project](https://github.com/10up/headless/tree/develop/projects/wp-multisite-nextjs) to familiarize yourself with the set-up.
+Take a look at the [multisite demo project](https://github.com/10up/headstartwp/tree/develop/projects/wp-multisite-nextjs) to familiarize yourself with the set-up.
 
 ## Usage
 

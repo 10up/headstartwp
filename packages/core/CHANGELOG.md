@@ -288,15 +288,15 @@
 
 ### Patch Changes
 
-- d039566: [#318](https://github.com/10up/headless/pull/318) feat: add an official yoast seo integration.
+- d039566: [#318](https://github.com/10up/headstartwp/pull/318) feat: add an official yoast seo integration.
 
 ## 0.5.1
 
 ### Patch Changes
 
-- 1bff95c: [#305](https://github.com/10up/headless/issues/305)]. Fix post path mapping for custom post types.
+- 1bff95c: [#305](https://github.com/10up/headstartwp/issues/305)]. Fix post path mapping for custom post types.
 
-  Since the introduction of [#286](https://github.com/10up/headless/pull/286) fetching single custom post types would always yield a 404. This PR fixes the issue by properly matching the current path with the custom post permalinks.
+  Since the introduction of [#286](https://github.com/10up/headstartwp/pull/286) fetching single custom post types would always yield a 404. This PR fixes the issue by properly matching the current path with the custom post permalinks.
 
   This requires that the `single` property is set in `headless.config.js`.
 
@@ -316,7 +316,7 @@
 
   This PR builds on top of the philosophy that the WordPress permalink structure should match the front-end permalink structure, meaning that your front-end routes should match the permalink structure set in WordPress.
 
-- 1bff95c: [#304](https://github.com/10up/headless/pull/304) fix: post path mapping for ut8encoded slugs.
+- 1bff95c: [#304](https://github.com/10up/headstartwp/pull/304) fix: post path mapping for ut8encoded slugs.
 
   Previously the code that would match the path of the current page with post's links would always fails for any URLs that contains encoded UTF-8 characters. This patch fixes the issue.
 
@@ -330,14 +330,14 @@
 
   Also updates block components to pass style down as a prop to the provided components.
 
-  Closes [#240](https://github.com/10up/headless/issues/240)
+  Closes [#240](https://github.com/10up/headstartwp/issues/240)
 
 - 33592ea: Add React 18 and Next.js 13 support.
 
 ### Patch Changes
 
 - 33592ea: warn if `removeSourceUrl` is used without valid `link` or `backendUrl` values.
-- 33592ea: fix: removeSourceUrl should not add a / to the beginning of the link if it's a hash link. [#267](https://github.com/10up/headless/issues/267)
+- 33592ea: fix: removeSourceUrl should not add a / to the beginning of the link if it's a hash link. [#267](https://github.com/10up/headstartwp/issues/267)
 - 33592ea: Export block-related hooks
 - 33592ea: Fix: check if current path matches the returned post in the SinglePostFetch strategy
 - 33592ea: Improve redirect handling in `fetchRedirect`.
@@ -393,7 +393,7 @@
 
 ### Patch Changes
 
-- f393ac9: fix: removeSourceUrl should not add a / to the beginning of the link if it's a hash link. [#267](https://github.com/10up/headless/issues/267)
+- f393ac9: fix: removeSourceUrl should not add a / to the beginning of the link if it's a hash link. [#267](https://github.com/10up/headstartwp/issues/267)
 
 ## 0.5.0-next.5
 
@@ -415,7 +415,7 @@
 
   Also updates block components to pass style down as a prop to the provided components.
 
-  Closes [#240](https://github.com/10up/headless/issues/240)
+  Closes [#240](https://github.com/10up/headstartwp/issues/240)
 
 - 7e3a45e: Add React 18 and Next.js 13 support.
 
@@ -481,7 +481,7 @@
 
 - ae8739d: Optimize next.js props
 - ec25cdd: Fix queried object detection, account for querying by id as well
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headstartwp/issues/185)
 - 9141bb3: Convert back-end urls in seo metadata to front-end urls
 - b3d2216: Further optimize next.js props
 
@@ -513,13 +513,13 @@
 
 ### Patch Changes
 
-- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headless/issues/185)
+- dc7edb1: Improve seo handling. The framework now assumes the main query is the one that draws params from the URL. The main query can also be manually set. Fixes [#185](https://github.com/10up/headstartwp/issues/185)
 
 ## 0.4.2
 
 ### Patch Changes
 
-- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 82ac782: Fix [#210](https://github.com/10up/headstartwp/issues/210) - Some params are not taken into account by buildEndpointUrl
 - 5df4762: Fix queriedObject: don't assume the first post term/author is the queried object. Moves queried object logic to fetch strategy.
 - 18e408f: Introduce `swr` and `fetchStrategyOptions` namespaces in the fetch options. This allow fetchOptions to be passed directly to the fetch strategy.
 - b9cece0: Add `type` field to the appropriate post type when previewing post/revisions
@@ -535,7 +535,7 @@
 
 ### Patch Changes
 
-- 82ac782: Fix [#210](https://github.com/10up/headless/issues/210) - Some params are not taken into account by buildEndpointUrl
+- 82ac782: Fix [#210](https://github.com/10up/headstartwp/issues/210) - Some params are not taken into account by buildEndpointUrl
 - 5fb3696: Fix: Better handle queried object detection for utf8 encoded strings.
 
 ## 0.4.2-next.0
@@ -555,7 +555,7 @@
 
 ### Minor Changes
 
-- 75d2adb: Introduces on-demand isr revalidation from the WordPress plugin. [#184](https://github.com/10up/headless/pull/184)
+- 75d2adb: Introduces on-demand isr revalidation from the WordPress plugin. [#184](https://github.com/10up/headstartwp/pull/184)
 
 ## 0.3.2
 

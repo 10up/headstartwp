@@ -2,7 +2,7 @@
 
 > Battle tested hooks that can be reused and are safe to use within SSR environments.
 
-[![Hooks Package MIT License](https://img.shields.io/badge/hooks%20package-MIT-green)](https://github.com/10up/headless/blob/develop/packages/hooks/LICENSE.md)
+[![Hooks Package MIT License](https://img.shields.io/badge/hooks%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/hooks/LICENSE.md)
 
 ## List
 

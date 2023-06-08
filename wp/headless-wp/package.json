@@ -3,7 +3,7 @@
   "version": "1.0.4",
   "private": true,
   "description": "10up Headless WordPress Plugin",
-  "homepage": "https://github.com/10up/headless/blob/develop/wp/headless-wp/README.md",
+  "homepage": "https://github.com/10up/headstartwp/blob/develop/wp/headless-wp/README.md",
   "license": "GPL-2.0-or-later",
   "author": "10up <info@10up.com> (https://10up.com/)",
   "engines": {
