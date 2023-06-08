@@ -7,9 +7,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-	title: '10up - HeadstartWP',
+	title: 'HeadstartWP Docs - Next.js Framework for WordPress',
 	tagline: '',
-	url: 'https://headless.10up.com',
+	url: 'https://headstartwp.10up.com',
 	baseUrl: '/docs',
 	onBrokenLinks: 'throw',
 	onBrokenMarkdownLinks: 'warn',
@@ -112,7 +112,7 @@ const config = {
 			navbar: {
 				title: 'HeadstartWP',
 				logo: {
-					src: 'img/10up-logo-full.svg',
+					src: 'img/headstart-logo.svg',
 				},
 				items: [
 					{
