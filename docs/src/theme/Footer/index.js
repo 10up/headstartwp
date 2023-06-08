@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Footer from '@theme-original/Footer';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function FooterWrapper(props) {
 	return (
@@ -31,7 +32,12 @@ export default function FooterWrapper(props) {
 			<footer className="footer-10up">
 				<div className="wrap">
 					<a className="tenup-logo" href="https://10up.com" title="10up">
-						<img src="/img/10up-logo-full.svg" alt="10up logo" width="75" height="75" />
+						<img
+							src={useBaseUrl('/img/10up-logo-full.svg')}
+							alt="10up logo"
+							width="75"
+							height="75"
+						/>
 					</a>
 					<p>
 						Finely crafted by 10up, ©2023.
