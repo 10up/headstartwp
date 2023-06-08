@@ -137,4 +137,20 @@ describe('wp_kses_post', () => {
 			'<a href="https://example.com" target="_blank" rel="noreferrer noopener nofollow">Hello World</a>',
 		);
 	});
+
+	// https://github.com/10up/headstartwp/issues/496
+	it('supports start attribute for ol tags', () => {
+		expect(wpKsesPost('<ol start="50"></ol>')).toBe('<ol start="50"></ol>');
+	});
+
+	// https://github.com/10up/headstartwp/issues/496
+	it('supports img attributes', () => {
+		expect(
+			wpKsesPost(
+				`<img srcset="elva-fairy-480w.jpg 480w, elva-fairy-800w.jpg 800w" sizes="(max-width: 600px) 480px, 800px" src="/elva-fairy-800w.jpg" alt="Elva dressed as a fairy" />`,
+			),
+		).toBe(
+			`<img srcset="elva-fairy-480w.jpg 480w, elva-fairy-800w.jpg 800w" sizes="(max-width: 600px) 480px, 800px" src="/elva-fairy-800w.jpg" alt="Elva dressed as a fairy" />`,
+		);
+	});
 });

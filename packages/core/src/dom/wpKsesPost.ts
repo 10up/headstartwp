@@ -266,6 +266,8 @@ for (const tag of Object.keys(defaultAllowList)) {
 export const ksesAllowedList: IWhiteList = {
 	...defaultAllowList,
 	a: [...(defaultAllowList.a ?? []), 'download', 'hreflang', 'referrerpolicy', 'rel', 'target'],
+	ol: [...(defaultAllowList.ol ?? []), 'start'],
+	img: [...(defaultAllowList.img ?? []), 'srcset', 'sizes', 'loading'],
 	iframe: [
 		...commonAttributes,
 		'allow',
