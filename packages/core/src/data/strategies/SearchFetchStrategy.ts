@@ -5,6 +5,7 @@ import { endpoints } from '../utils';
 import { apiGet } from '../api';
 import { addQueryArgs, getWPUrl } from '../../utils';
 import { PostEntity, QueriedObject } from '../types';
+import { FetchOptions } from './AbstractFetchStrategy';
 
 /**
  * The SearchFetchStrategy extends the {@link PostsArchiveFetchStrategy} and does not make use of the
@@ -40,8 +41,10 @@ export class SearchFetchStrategy<
 	 *
 	 * @param url The url to parse
 	 * @param params The params to build the endpoint with
+	 * @param options FetchOptions
 	 */
-	async fetcher(url: string, params: Partial<P>) {
+	async fetcher(url: string, params: Partial<P>, options: Partial<FetchOptions> = {}) {
+		const { burstCache = false } = options;
 		let seo_json: Record<string, any> = {};
 		let seo: string = '';
 
@@ -50,6 +53,8 @@ export class SearchFetchStrategy<
 				addQueryArgs(`${getWPUrl()}${endpoints.yoast}`, {
 					url: `${getWPUrl()}/?s=${params.search}`,
 				}),
+				{},
+				burstCache,
 			);
 
 			seo = result.json.html;
@@ -70,7 +75,7 @@ export class SearchFetchStrategy<
 			},
 		};
 
-		const response = await super.fetcher(url, params, { throwIfNotFound: false });
+		const response = await super.fetcher(url, params, { ...options, throwIfNotFound: false });
 
 		return {
 			...response,

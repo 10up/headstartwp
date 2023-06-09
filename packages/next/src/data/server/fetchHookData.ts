@@ -127,7 +127,12 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	const data = await fetchStrategy.fetcher(
 		fetchStrategy.buildEndpointURL(finalParams),
 		finalParams,
-		options.fetchStrategyOptions,
+		{
+			// burst cache to skip REST API cache when the request is being made under getStaticProps
+			// if .req is not avaliable then this is a GetStaticPropsContext
+			burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
+			...options.fetchStrategyOptions,
+		},
 	);
 
 	if (debug?.devMode) {
