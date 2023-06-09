@@ -4,8 +4,9 @@ import { fetchHookData } from '../data';
 
 interface RevalidateHandlerQuery {
 	post_id?: string;
-	terms_ids?: string;
-	paths?: string;
+	term_ids?: string;
+	post_paths?: string;
+	term_paths?: string;
 	total_pages?: string;
 	token?: string;
 	locale?: string;
@@ -13,8 +14,9 @@ interface RevalidateHandlerQuery {
 
 interface TokenPayload {
 	post_id?: string;
-	terms_ids?: string;
-	paths?: string;
+	term_ids?: string;
+	post_paths?: string;
+	term_paths?: string;
 }
 
 /**
@@ -22,23 +24,23 @@ interface TokenPayload {
  *
  * @param id The id.
  *
- * @returns An id as a number or null.
+ * @returns An id as a number.
  */
 const parseId = (id?: string | number) => {
 	if (id) {
 		if (typeof id === 'number') return id;
-		if (typeof id === 'string') return parseInt(id, 10);
+		if (typeof id === 'string') return parseInt(id, 10) || null;
 	}
 
 	return null;
 };
 
 /**
- * Parses and validates an array of ids as a string.
+ * Parses and validates a string of ids.
  *
- * @param ids The array of ids.
+ * @param ids The string of ids.
  *
- * @returns An array of ids as numbers or null.
+ * @returns An array of ids as numbers.
  */
 const parseIds = (ids?: string) => {
 	if (ids && typeof ids === 'string') {
@@ -127,9 +129,9 @@ const verifyIds = (ids: number[], tokenIds: number[] | null) => {
  *
  * @returns A boolean.
  */
-const verifyPaths = (paths: string[], tokenPaths: string[] | null) => {
-	return !!tokenPaths && JSON.stringify(paths) === JSON.stringify(tokenPaths);
-};
+// const verifyPaths = (paths: string[], tokenPaths: string[] | null) => {
+// 	return !!tokenPaths && JSON.stringify(paths) === JSON.stringify(tokenPaths);
+// };
 
 /**
  * Sends a request to WP to verify the token, and receives the token payload.
@@ -189,8 +191,9 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 	const query = req.query as RevalidateHandlerQuery;
 	const { locale, token } = query;
 	const post_id = parseId(query.post_id);
-	const terms_ids = parseIds(query.terms_ids);
-	const paths = parsePaths(query.paths);
+	const term_ids = parseIds(query.term_ids);
+	const post_paths = parsePaths(query.post_paths);
+	const term_paths = parsePaths(query.term_paths);
 	const total_pages = parseTotalPages(query.total_pages);
 
 	// If the request method is different than GET return error.
@@ -205,16 +208,27 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
 
 	try {
-		if (post_id && paths && token) {
+		if (token) {
 			const { data } = await fetchTokenData(sourceUrl, host, locale, token);
 
 			const result = data.result as TokenPayload;
 
 			const tokenPostId = parseId(result.post_id);
-			const tokenPaths = parsePaths(result.paths);
+			const tokenTermIds = parseIds(result.term_ids);
+			// const tokenPostPaths = parsePaths(result.post_paths);
+			// const tokenTermPaths = parsePaths(result.term_paths);
 
-			if (verifyId(post_id, tokenPostId) && verifyPaths(paths, tokenPaths)) {
-				const pathsToRevalidate = paths.map((path) => {
+			if (
+				post_id &&
+				verifyId(post_id, tokenPostId) &&
+				term_ids &&
+				verifyIds(term_ids, tokenTermIds) &&
+				post_paths &&
+				// verifyPaths(post_paths, tokenPostPaths) &&
+				term_paths
+				// verifyPaths(term_paths, tokenTermPaths)
+			) {
+				const postPathsToRevalidate = post_paths.map((path) => {
 					let pathToRevalidate = path;
 
 					if (isMultisiteRequest) {
@@ -227,56 +241,48 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 					return pathToRevalidate;
 				});
 
-				const pathsRevalidations = pathsToRevalidate.map((path) => res.revalidate(path));
-
-				await Promise.all(pathsRevalidations);
-
-				return res.status(200).json({ message: 'success', paths: pathsToRevalidate });
-			}
-
-			throw new Error('Token mismatch');
-		}
-
-		if (terms_ids && paths && total_pages && token) {
-			const { data } = await fetchTokenData(sourceUrl, host, locale, token);
-
-			const result = data.result as TokenPayload;
-
-			const tokenTermsIds = parseIds(result.terms_ids);
-			const tokenPaths = parsePaths(result.paths);
-
-			if (verifyIds(terms_ids, tokenTermsIds) && verifyPaths(paths, tokenPaths)) {
-				const pathsToRevalidate = paths
+				const termPathsToRevalidate = term_paths
 					.map((path) => {
 						// Create an array with the numbers of total pages to revalidate.
+						const pages = Array.from(Array(total_pages), (_, i) => i + 1);
+
 						// If the page number is greater than 1, add the page sufix to the path.
-						let tempPaths = Array.from({ length: total_pages }, (_, i) => i + 1).map(
-							(page: number) => {
-								return page > 1 ? `${path}/page/${page}` : path;
-							},
-						);
+						const pagedPaths = pages.map((page) => {
+							return page > 1 ? `${path}/page/${page}` : path;
+						});
+
+						let pathsToRevalidate: string[] = [];
 
 						if (isMultisiteRequest) {
 							if (locale) {
-								tempPaths = pathsToRevalidate.map(
+								pathsToRevalidate = pagedPaths.map(
 									(path) => `/_sites/${host}/${locale}${path}`,
 								);
 							} else {
-								tempPaths = pathsToRevalidate.map(
+								pathsToRevalidate = pagedPaths.map(
 									(path) => `/_sites/${host}${path}`,
 								);
 							}
 						}
 
-						return tempPaths;
+						return pathsToRevalidate;
 					})
 					.flat();
 
-				const pathsRevalidations = pathsToRevalidate.map((path) => res.revalidate(path));
+				const postPathsRevalidations = postPathsToRevalidate.map((path) =>
+					res.revalidate(path),
+				);
+				const termPathsRevalidations = termPathsToRevalidate.map((path) =>
+					res.revalidate(path),
+				);
 
-				await Promise.all(pathsRevalidations);
+				await Promise.all(postPathsRevalidations.concat(termPathsRevalidations));
 
-				return res.status(200).json({ message: 'success', paths: pathsToRevalidate });
+				return res.status(200).json({
+					message: 'success',
+					post_paths: postPathsToRevalidate,
+					term_paths: termPathsToRevalidate,
+				});
 			}
 
 			throw new Error('Token mismatch');

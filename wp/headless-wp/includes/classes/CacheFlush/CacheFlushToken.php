@@ -13,75 +13,28 @@ use HeadlessWP\BaseToken;
  * The CacheFlushToken class
  */
 class CacheFlushToken extends BaseToken {
-
 	/**
-	 * Generates a cache flush token for the given post
+	 * Generates a cache flush token
 	 *
-	 * @param \WP_Post $post The post object
-	 * @param string   $frontpage_path If passed will be added to the paths.
+	 * @param int 		$post_id The id of the post.
+	 * @param int[]		$term_ids The The ids of the terms related to the post.
+	 * @param string[]  $post_paths The paths of the post that need to be flushed.
+	 * @param string[]  $temr_paths The paaths of the terms that need to be flushed.
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public static function generateForPost( \WP_Post $post, $frontpage_path = false ): array {
-		$parsed_url = wp_parse_url( get_permalink( $post ) );
-		$paths = [];
-
-		if ( false !== $parsed_url ) {
-			array_push( $paths, untrailingslashit( $parsed_url['path'] ) );
-		}
-
-		if ( false !== $frontpage_path ) {
-			array_push( $paths, untrailingslashit( $frontpage_path ));
-		}
-
+	public static function generate_cache_flush_token( $post_id, $term_ids, $post_paths, $term_paths ) {
 		$token = self::generate(
 			[
-				'post_id' => $post->ID,
-				'paths'   => $paths,
+				'post_id' => $post_id,
+				'term_ids' => $term_ids,
+				// 'post_paths'   => $post_paths,
+				// 'term_paths' => $term_paths,
 				'type'    => 'isr-revalidate',
 			]
 		);
 
-		return [
-			'post_id' => $post->ID,
-			'paths'   => $paths,
-			'token'   => $token,
-		];
-	}
-
-	/**
-	 * Generates a cache flush token for the given terms.
-	 * 
-	 * @param \WP_Term[] $terms The terms objects.
-	 * 
-	 * @return array 
-	 */
-	public static function generateForTerms( array $terms ): array {
-		$terms_ids = [];
-		$paths = [];
-
-		foreach ( $terms as $term ) {
-			$parsed_url = wp_parse_url( get_term_link( $term ) );
-
-			if ( false !== $parsed_url ) {
-				array_push( $paths, untrailingslashit( $parsed_url['path'] ) );
-				array_push( $terms_ids, $term->term_id );
-			}
-		}
-
-		$token = self::generate(
-			[
-				'terms_ids' => $terms_ids,
-				'paths'		=> $paths,
-				'type'		=> 'isr-revalidate',
-			]
-		);
-
-		return [
-			'terms_ids' => $terms_ids,
-			'paths' 	=> $paths,
-			'token'		=> $token,
-		];
+		return $token;
 	}
 
 	/**
