@@ -134,7 +134,12 @@ describe('SinglePostFetchStrategy', () => {
 		let params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
-		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			false,
+		);
 		expect(results).toMatchObject({
 			result: samplePost,
 			pageInfo: {
@@ -146,12 +151,17 @@ describe('SinglePostFetchStrategy', () => {
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			false,
+		);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const paramsWithId = { ...params, id: 10 };
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(paramsWithId), paramsWithId);
-		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts/10', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts/10', {}, false);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const paramsWithPostType = { ...params, postType: 'book' };
@@ -159,7 +169,12 @@ describe('SinglePostFetchStrategy', () => {
 			fetchStrategy.buildEndpointURL(paramsWithPostType),
 			paramsWithPostType,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(4, '/wp-json/wp/v2/book?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			4,
+			'/wp-json/wp/v2/book?slug=post-name',
+			{},
+			false,
+		);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const paramsWithPostTypeAndId = { ...params, postType: 'book', id: 10 };
@@ -167,7 +182,7 @@ describe('SinglePostFetchStrategy', () => {
 			fetchStrategy.buildEndpointURL(paramsWithPostTypeAndId),
 			paramsWithPostTypeAndId,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(5, '/wp-json/wp/v2/book/10', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(5, '/wp-json/wp/v2/book/10', {}, false);
 
 		apiGetMock.mockReset();
 		apiGetMock.mockClear();
@@ -190,8 +205,18 @@ describe('SinglePostFetchStrategy', () => {
 			fetchStrategy.buildEndpointURL(paramsWithPostTypes),
 			paramsWithPostTypes,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/book?slug=post-name', {});
-		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/book?slug=post-name',
+			{},
+			false,
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			false,
+		);
 	});
 
 	it('handle revisions', async () => {
@@ -217,10 +242,16 @@ describe('SinglePostFetchStrategy', () => {
 			{
 				headers: { Authorization: 'Bearer test token' },
 			},
+			false,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts/1', {
-			headers: { Authorization: 'Bearer test token' },
-		});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts/1',
+			{
+				headers: { Authorization: 'Bearer test token' },
+			},
+			false,
+		);
 	});
 
 	it('handle draft posts', async () => {
@@ -240,9 +271,14 @@ describe('SinglePostFetchStrategy', () => {
 
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(draftParams), draftParams);
 
-		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts/10', {
-			headers: { Authorization: 'Bearer test token' },
-		});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts/10',
+			{
+				headers: { Authorization: 'Bearer test token' },
+			},
+			false,
+		);
 	});
 
 	it('throws errors with bad arguments', async () => {
@@ -594,5 +630,30 @@ describe('SinglePostFetchStrategy', () => {
 		const defaultParams = { postType: 'book' };
 		const fetcher = new SinglePostFetchStrategy('http://sourceurl.com', defaultParams);
 		expect(fetcher.getDefaultParams()).toMatchObject(defaultParams);
+	});
+
+	it('appends timestap when passing burstCache flag', async () => {
+		const samplePost = { title: 'test', id: 1, link: '/2021/10/post-name' };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePost],
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+			burstCache: true,
+		});
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			true,
+		);
 	});
 });

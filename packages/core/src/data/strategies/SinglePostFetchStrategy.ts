@@ -267,6 +267,8 @@ export class SinglePostFetchStrategy<
 	 * @param options FetchOptions
 	 */
 	async fetcher(url: string, params: P, options: Partial<FetchOptions> = {}) {
+		const { burstCache = false } = options;
+
 		if (params.authToken) {
 			options.bearerToken = params.authToken;
 		}
@@ -281,6 +283,7 @@ export class SinglePostFetchStrategy<
 							Authorization: `Bearer ${options.bearerToken}`,
 						},
 					},
+					burstCache,
 				);
 
 				if (Array.isArray(response.json) && response.json.length > 0) {

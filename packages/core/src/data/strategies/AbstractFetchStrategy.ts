@@ -64,6 +64,11 @@ export interface FetchOptions {
 	 * The authentication token to use for the request.
 	 */
 	bearerToken?: string;
+
+	/**
+	 * Whether to burst cache by appending a timestamp to the query
+	 */
+	burstCache?: boolean;
 }
 
 export interface FilterDataOptions<T> {
@@ -231,13 +236,15 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		params: Partial<Params>,
 		options: Partial<FetchOptions> = {},
 	): Promise<FetchResponse<R>> {
+		const { burstCache = false } = options;
+
 		const args = {};
 		if (options.bearerToken) {
 			// @ts-expect-error
 			args.headers = { Authorization: `Bearer ${options.bearerToken}` };
 		}
 
-		const result = await apiGet(`${this.baseURL}${url}`, args);
+		const result = await apiGet(`${this.baseURL}${url}`, args, burstCache);
 		const { data } = result.json;
 
 		// if there's an error code and it's not a 4xx status code
