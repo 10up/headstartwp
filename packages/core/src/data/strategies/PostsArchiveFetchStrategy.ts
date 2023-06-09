@@ -317,6 +317,7 @@ export class PostsArchiveFetchStrategy<
 	 * @param options FetchOptions
 	 */
 	async fetcher(url: string, params: Partial<P>, options: Partial<FetchOptions> = {}) {
+		const { burstCache = false } = options;
 		let finalUrl = url;
 		const settings = getSiteBySourceUrl(this.baseURL);
 
@@ -336,6 +337,8 @@ export class PostsArchiveFetchStrategy<
 				} else {
 					const terms = await apiGet(
 						`${this.baseURL}${taxonomy.endpoint}?slug=${params[paramSlug]}`,
+						{},
+						burstCache,
 					);
 
 					if (terms.json.length > 0) {
@@ -356,7 +359,11 @@ export class PostsArchiveFetchStrategy<
 		// 1 - params.author is a string
 		// 2 - We're not using the WP Plugin
 		if (params.author && typeof params.author === 'string' && !settings.useWordPressPlugin) {
-			const authors = await apiGet(`${this.baseURL}${authorsEndpoint}?slug=${params.author}`);
+			const authors = await apiGet(
+				`${this.baseURL}${authorsEndpoint}?slug=${params.author}`,
+				{},
+				burstCache,
+			);
 
 			if (authors.json.length > 0) {
 				finalUrl = addQueryArgs(finalUrl, {
