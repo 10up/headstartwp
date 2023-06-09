@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.0.4-next.0
+
+### Patch Changes
+
+- ba952037: Fix: fetch calls made under getStaticProps now always includes a timestamp in the query to ensure it always get latest content from the api
+- Updated dependencies [ba952037]
+  - @headstartwp/core@1.0.3-next.0
+
 ## 1.0.3
 
 ### Patch Changes
