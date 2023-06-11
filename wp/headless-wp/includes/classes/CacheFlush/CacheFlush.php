@@ -101,26 +101,58 @@ class CacheFlush {
 	 */
 	public function revalidate( $post_id ) {
 		try {
+			$react_url = untrailingslashit( Plugin::get_react_url() );
+
+			/**
+			 * Post revalidation
+			 */
 			$post    = get_post( $post_id );
 			$payload = CacheFlushToken::generateForPost( $post );
 
-			$response = $this->revalidate_request( $payload['post_id'], $payload['path'], $payload['token'] );
+			$response = $this->revalidate_post_request( $payload['post_id'], $payload['path'], $payload['token'] );
 
 			$frontpage_id = get_option( 'page_on_front' );
 
 			if ( intval( $frontpage_id ) === intval( $post->ID ) ) {
 				// revalidate front page as well
 				$payload  = CacheFlushToken::generateForPost( $post, '/' );
-				$response = $this->revalidate_request( $payload['post_id'], '/', $payload['token'] );
+				$response = $this->revalidate_post_request( $payload['post_id'], '/', $payload['token'] );
 			}
 
 			$status_code = wp_remote_retrieve_response_code( $response );
 			$body        = json_decode( wp_remote_retrieve_body( $response ) );
 
-			$headless_post_url = untrailingslashit( Plugin::get_react_url() ) . $payload['path'];
+			$headless_post_url = $react_url . $payload['path'];
 
 			if ( 200 === (int) $status_code && function_exists( 'wpcom_vip_purge_edge_cache_for_url' ) ) {
 				wpcom_vip_purge_edge_cache_for_url( $headless_post_url );
+			}
+
+			/**
+			 * Terms revalidation
+			 */
+			$taxonomies  = get_taxonomies();
+			$terms       = wp_get_post_terms( $post_id, $taxonomies );
+			$total_pages = apply_filters( 'tenup_headless_isr_revalidate_terms_total_pages', 1 );
+
+			if ( ! empty( $terms ) ) {
+				$payload = CacheFlushToken::generateForTerms( $terms );
+
+				$response = $this->revalidate_terms_request( $payload['terms_ids'], $payload['paths'], $total_pages, $payload['token'] );
+
+				$status_code = wp_remote_retrieve_response_code( $response );
+				$body        = json_decode( wp_remote_retrieve_body( $response ) );
+
+				$headless_terms_urls = [];
+
+				foreach ( $payload['paths'] as $path ) {
+					$headless_term_url = $react_url . $path;
+					array_push( $headless_terms_urls, $headless_term_url );
+
+					if ( 200 === (int) $status_code && function_exists( 'wpcom_vip_purge_edge_cache_for_url' ) ) {
+						wpcom_vip_purge_edge_cache_for_url( $headless_term_url );
+					}
+				}
 			}
 
 			/**
@@ -130,8 +162,9 @@ class CacheFlush {
 			 *
 			 * @param \WP_Post $post The Post object
 			 * @param string $headless_post_url the headless post url
+			 * @param string[] $headless_term_urls the headless terms urls
 			 */
-			do_action( 'tenup_headless_wp_revalidate', $post, $headless_post_url );
+			do_action( 'tenup_headless_wp_revalidate', $post, $headless_post_url, $headless_terms_urls );
 
 			update_post_meta(
 				$post->ID,
@@ -143,6 +176,22 @@ class CacheFlush {
 					'path'        => isset( $body->path ) ? $body->path : '',
 				]
 			);
+
+			foreach ( $terms as $term ) {
+				$term_path = wp_parse_url( get_term_link( $term ) )['path'];
+				$path      = isset( $body->paths ) && in_array( $term_path, $body->paths, true ) ? $term_path : '';
+
+				update_term_meta(
+					$term->term_id,
+					self::LAST_FLUSH_KEY,
+					[
+						'time'        => time(),
+						'status_code' => $status_code,
+						'message'     => isset( $body->message ) ? $body->message : '',
+						'path'        => $path,
+					]
+				);
+			};
 		} catch ( \Exception $e ) {
 			// do nothing
 		}
@@ -157,7 +206,7 @@ class CacheFlush {
 	 *
 	 * @return array|\WP_Error
 	 */
-	public function revalidate_request( $post_id, $path, $token ) {
+	public function revalidate_post_request( $post_id, $path, $token ) {
 		/**
 		 * Filters the revalidate endpoint.
 		 *
@@ -177,6 +226,45 @@ class CacheFlush {
 				'token'   => $token,
 				'path'    => $path,
 				'locale'  => $locale,
+			],
+			$revalidate_endpoint
+		);
+
+		return wp_remote_get(
+			$revalidate_url,
+			[
+				'timeout' => 5,
+			]
+		);
+	}
+
+	/**
+	 * Makes a revalidate request for the terms paths.
+	 *
+	 * @param int[]    $terms_ids The terms ids.
+	 * @param string[] $paths The paths of the terms to revalidate.
+	 * @param int      $total_pages The number of pages to revalidate.
+	 * @param string   $token The jwt token.
+	 *
+	 * @return array|\WP_Error
+	 */
+	public function revalidate_terms_request( $terms_ids, $paths, $total_pages, $token ) {
+		/**
+		 * Filters the revalidate endpoint.
+		 *
+		 * @param string $revalidate_endpoint The revalidate endpoint.
+		 */
+		$revalidate_endpoint = apply_filters( 'tenup_headless_isr_revalidate_endpoint', trailingslashit( Plugin::get_react_url() ) . 'api/revalidate' );
+
+		$locale = Plugin::get_site_locale();
+
+		$revalidate_url = add_query_arg(
+			[
+				'terms_ids'   => implode( ',', $terms_ids ),
+				'paths'       => implode( ',', $paths ),
+				'total_pages' => $total_pages,
+				'locale'      => $locale,
+				'token'       => $token,
 			],
 			$revalidate_endpoint
 		);
