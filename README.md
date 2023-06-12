@@ -1,7 +1,7 @@
 
 # HeadstartWP
 
-> A framework for building headless WordPress sites.
+> A modern headless WordPress solution.
 
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![eslint](https://github.com/10up/headstartwp/actions/workflows/eslint.yml/badge.svg)](https://github.com/10up/headstartwp/actions/workflows/eslint.yml) [![PHPCS check](https://github.com/10up/headstartwp/actions/workflows/phpcs.yml/badge.svg)](https://github.com/10up/headstartwp/actions/workflows/phpcs.yml) [![unit tests](https://github.com/10up/headstartwp/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/10up/headstartwp/actions/workflows/unit-tests.yml)
 [![Core Package MIT License](https://img.shields.io/badge/core%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/core/LICENSE.md) [![Hooks Package MIT License](https://img.shields.io/badge/hooks%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/hooks/LICENSE.md) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/next/LICENSE.md)
