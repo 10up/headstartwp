@@ -1,5 +1,13 @@
 # @headstartwp/core
 
+## 1.0.4-next.0
+
+### Patch Changes
+
+- c3de4f3d: Fix: avoid instanceof to prevent weird bugs
+- 2cbaec01: Fix: add attributes that should not be stripped by wpKsesPost to the allowlist
+- 1beed833: fix: youtube lite embeds
+
 ## 1.0.3
 
 ### Patch Changes
