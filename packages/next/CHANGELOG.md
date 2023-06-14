@@ -1,5 +1,16 @@
 # @headstartwp/next
 
+## 1.0.4-next.0
+
+### Patch Changes
+
+- 5e63a790: Adding a custom vip image loader for VIP Node.js hosting
+- c3de4f3d: Fix: avoid instanceof to prevent weird bugs
+- ba952037: Fix: fetch calls made under getStaticProps now always includes a timestamp in the query to ensure it always get latest content from the api
+- Updated dependencies [c3de4f3d]
+- Updated dependencies [ba952037]
+  - @headstartwp/core@1.0.3-next.0
+
 ## 1.0.3
 
 ### Patch Changes
