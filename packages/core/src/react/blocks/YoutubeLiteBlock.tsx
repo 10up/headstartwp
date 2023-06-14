@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { domToReact } from 'html-react-parser';
 import { isYoutubeEmbed, youtubeEmbedRegex } from '../../dom';
 import { IBlock } from '../components';
-import { useBlock } from './hooks';
 import { IBlockAttributes } from './types';
 
 interface LiteYoutube {
@@ -43,9 +43,19 @@ export function YoutubeLiteBlock({ domNode }: Omit<IYoutubeLiteBlock, 'component
 		import('@justinribeiro/lite-youtube');
 	}, []);
 
-	const { attributes } = useBlock<YoutubeLiteBlockProps>(domNode);
+	if (typeof domNode === 'undefined') {
+		return <span>There was an error loading the youtube video</span>;
+	}
 
-	const { src, title } = attributes;
+	const { attribs = {} } = domNode;
+
+	if (typeof attribs?.src === 'undefined' || typeof attribs?.title === 'undefined') {
+		if (typeof domNode !== 'undefined') {
+			return <>{domToReact([domNode])}</>;
+		}
+	}
+
+	const { src, title } = attribs;
 
 	const videoId = src.match(youtubeEmbedRegex)?.[7];
 
