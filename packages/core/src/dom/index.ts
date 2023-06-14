@@ -12,6 +12,23 @@ export type isAnchorTagOptions = {
 };
 
 /**
+ * Checks if the node is an Element.
+ *
+ * We rely on this function to avoid issues with instanceof.
+ *
+ * @see https://github.com/10up/headstartwp/issues/504
+ *
+ * @param node The dom node
+ *
+ * @returns Whether the node is of type element or not
+ */
+export function isElement(node: DOMNode): node is Element {
+	const isTagType = node.type === 'tag' || node.type === 'script' || node.type === 'style';
+
+	return node instanceof Element || (typeof (node as Element).name !== 'undefined' && isTagType);
+}
+
+/**
  * A small helper function that should probably be removed
  *
  * @param attribs The attributes of the element
@@ -62,7 +79,7 @@ export function isAnchorTag(
 	options: isAnchorTagOptions = {},
 	site: HeadlessConfig | undefined = undefined,
 ): node is Element {
-	if (!(node instanceof Element)) {
+	if (!isElement(node)) {
 		return false;
 	}
 
@@ -122,7 +139,7 @@ export type isImageTagOptions = {
  * @returns Whether it's an image tag or not according to the options passed
  */
 export function isImageTag(node: DOMNode, options: isImageTagOptions = {}) {
-	if (!(node instanceof Element)) {
+	if (!isElement(node)) {
 		return false;
 	}
 
@@ -168,7 +185,7 @@ export const youtubeEmbedRegex =
  * @returns true if the node is a youtube embed
  */
 export function isYoutubeEmbed(node: DOMNode) {
-	if (!(node instanceof Element)) {
+	if (!isElement(node)) {
 		return false;
 	}
 
@@ -208,7 +225,7 @@ export function isYoutubeEmbed(node: DOMNode) {
  * @returns true if the node is a twitter embed
  */
 export function isTwitterEmbed(node: DOMNode) {
-	if (!(node instanceof Element)) {
+	if (!isElement(node)) {
 		return false;
 	}
 
@@ -259,7 +276,7 @@ export type isBlockOptions = {
  * @returns true if the node passes the test
  */
 export function isBlock(node: DOMNode, _options: isBlockOptions) {
-	if (!(node instanceof Element)) {
+	if (!isElement(node)) {
 		return false;
 	}
 
@@ -315,7 +332,7 @@ export function isBlock(node: DOMNode, _options: isBlockOptions) {
  * @returns true if the node passes the test
  */
 export function isBlockByName(node: DOMNode, name: string) {
-	if (!(node instanceof Element)) {
+	if (!isElement(node)) {
 		return false;
 	}
 
