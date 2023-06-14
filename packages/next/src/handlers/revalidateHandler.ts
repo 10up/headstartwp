@@ -158,13 +158,18 @@ async function revalidateTerms(req: NextApiRequest, res: NextApiResponse) {
 			})
 			.flat();
 
-		const pathsRevalidations = pathsToRevalidate.map((path) =>
-			res.revalidate(path, { unstable_onlyGenerated: true }),
+		const revalidateResults = await Promise.all(
+			pathsToRevalidate.map((path) =>
+				res
+					.revalidate(path)
+					.then(() => path)
+					.catch(() => null),
+			),
 		);
 
-		await Promise.all(pathsRevalidations);
+		const pathsRevalidated = revalidateResults.filter(Boolean);
 
-		return res.status(200).json({ message: 'success', paths: pathsToRevalidate });
+		return res.status(200).json({ message: 'success', paths: pathsRevalidated });
 	} catch (err) {
 		let errorMessage = 'Error verifying the token';
 		if (err instanceof Error) {
