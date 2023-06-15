@@ -137,4 +137,22 @@ describe('wp_kses_post', () => {
 			'<a href="https://example.com" target="_blank" rel="noreferrer noopener nofollow">Hello World</a>',
 		);
 	});
+
+	// https://github.com/10up/headstartwp/issues/496
+	it('supports ol start attribute', () => {
+		expect(wpKsesPost('<ol start="2"><li>2</li><li>3</li></ol>')).toBe(
+			'<ol start="2"><li>2</li><li>3</li></ol>',
+		);
+	});
+
+	// https://github.com/10up/headstartwp/issues/496
+	it('supports srcsrc, loading and sizes for img', () => {
+		expect(
+			wpKsesPost(
+				'<img loading src="/imagem-alta-qualidade.png" sizes="(max-width: 320px) 340px, (max-width: 1024px) 1080px, 2400px" srcset="/magem-baixa-qualidade.png 340w, imagem-media-qualidade.png 1080w, imagem-alta-qualidade.png 2400w" alt="Descrição da imagem">',
+			),
+		).toBe(
+			'<img loading src="/imagem-alta-qualidade.png" sizes="(max-width: 320px) 340px, (max-width: 1024px) 1080px, 2400px" srcset="/magem-baixa-qualidade.png 340w, imagem-media-qualidade.png 1080w, imagem-alta-qualidade.png 2400w" alt="Descrição da imagem">',
+		);
+	});
 });

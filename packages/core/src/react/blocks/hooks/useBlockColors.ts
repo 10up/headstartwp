@@ -34,7 +34,7 @@ export function useBlockColors(node: Element) {
 	const colors = Array.isArray(colorsSettings) ? colorsSettings : colorsSettings?.theme;
 	const gradients = Array.isArray(grandientsSettings)
 		? grandientsSettings
-		: grandientsSettings?.theme;
+		: grandientsSettings?.theme ?? [];
 
 	const allGradients = [...defaultGradientsSettings, ...gradients];
 	const allColors = [...defaultColorsSettings, ...colors];

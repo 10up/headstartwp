@@ -5,9 +5,9 @@ import {
 	attributesToProps,
 	DOMNode,
 	domToReact,
-	Element,
 	HTMLReactParserOptions,
 	Text,
+	isElement,
 } from '@headstartwp/core';
 import { useSettings } from '@headstartwp/core/react';
 import Head from 'next/head';
@@ -59,7 +59,7 @@ export function Yoast({ seo, useHtml = false }: Props) {
 			trim: true,
 			// eslint-disable-next-line react/no-unstable-nested-components
 			replace: (domNode) => {
-				if (domNode instanceof Element) {
+				if (isElement(domNode)) {
 					const { name } = domNode;
 					const props = attributesToProps(domNode.attribs);
 
