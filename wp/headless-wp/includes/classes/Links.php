@@ -141,10 +141,7 @@ class Links {
 				$url_request = $wp->request;
 
 				// do not redirect for (missing) assets
-				if (
-					str_starts_with( $url_request, '/wp-content') ||
-					str_ends_with( $url_request, '.css' ) ||
-					str_ends_with( $url_request, '.js') ) {
+				if ( str_starts_with( $url_request, '/wp-content') || str_ends_with( $url_request, '.css' ) || str_ends_with( $url_request, '.js') ) {
 					return;
 				}
 
