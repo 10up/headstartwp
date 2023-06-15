@@ -140,6 +140,14 @@ class Links {
 		if ( $should_redirect ) {
 				$url_request = $wp->request;
 
+				// do not redirect for (missing) assets
+				if (
+					str_starts_with( $url_request, '/wp-content') ||
+					str_ends_with( $url_request, '.css' ) ||
+					str_ends_with( $url_request, '.js') ) {
+					return;
+				}
+
 				// Redirect the frontend WordPress request to the React website URL.
 				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
 				exit;
