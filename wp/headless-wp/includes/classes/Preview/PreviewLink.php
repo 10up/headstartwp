@@ -23,7 +23,7 @@ class PreviewLink {
 	/**
 	 * Method for handling preview
 	 *
-	 * @param string $template The templat path
+	 * @param string $template The template path
 	 * @return string
 	 */
 	public function handle_preview( $template ) {

@@ -16,20 +16,20 @@ interface BlockTypographyAttributes extends IBlockAttributes {
 }
 
 /**
- * Returns the block style (if avaliable)
+ * Returns the block style (if available)
  *
  * @param node DomNode
  * @returns
  */
 export function useBlockTypography(node: Element): Typography {
 	const { name, attributes } = useBlock<BlockTypographyAttributes>(node);
-	const defaultfFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
+	const defaultFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
 	const fontSizesSettings = useThemeSetting('typography.fontSizes', name, []);
 	const supportsCustomFontSize = !!useThemeSetting('typography.customFontSize', name);
 	const supportsFontStyle = !!useThemeSetting('typography.fontStyle', name);
 	const supportsFontWeight = !!useThemeSetting('typography.fontWeight', name);
 	const supportsLetterSpacing = !!useThemeSetting('typography.letterSpacing', name);
-	const supportsLineHight = !!useThemeSetting('typography.lineHeight', name);
+	const supportsLineHeight = !!useThemeSetting('typography.lineHeight', name);
 	const supportsTextDecoration = !!useThemeSetting('typography.textDecoration', name);
 	const supportsTextTransform = !!useThemeSetting('typography.textTransform', name);
 
@@ -38,7 +38,7 @@ export function useBlockTypography(node: Element): Typography {
 		? fontSizesSettings
 		: fontSizesSettings?.theme;
 
-	const allFontSizes = [...defaultfFontSizesSettings, ...fontSizes];
+	const allFontSizes = [...defaultFontSizesSettings, ...fontSizes];
 
 	const fontSizePreset = attributes?.fontSize;
 
@@ -54,7 +54,7 @@ export function useBlockTypography(node: Element): Typography {
 			supportsCustomFontSize,
 			supportsFontWeight,
 			supportsLetterSpacing,
-			supportsLineHight,
+			supportsLineHeight: supportsLineHeight,
 			supportsTextDecoration,
 			supportsTextTransform,
 			lineHeight: attributes?.styleConfig?.typography?.lineHeight,
@@ -72,7 +72,7 @@ export function useBlockTypography(node: Element): Typography {
 		supportsCustomFontSize,
 		supportsFontWeight,
 		supportsLetterSpacing,
-		supportsLineHight,
+		supportsLineHeight: supportsLineHeight,
 		supportsTextDecoration,
 		supportsTextTransform,
 		lineHeight: '',

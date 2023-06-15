@@ -141,7 +141,7 @@ const handlers = [
 			ctx.json({
 				html: '',
 				json: {
-					title: 'mocked yoast respose',
+					title: 'mocked yoast response',
 				},
 			}),
 		);
@@ -163,7 +163,7 @@ const handlers = [
 			results = results.filter((post) => post.id === id);
 		}
 
-		// harcode 57 as a draft post
+		// hardcode 57 as a draft post
 		if (id === DRAFT_POST_ID) {
 			if (
 				req.headers.has('Authorization') &&

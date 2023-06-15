@@ -11,7 +11,7 @@ describe('useFetchPost', () => {
 		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
 	};
 
-	it('throwns errors if accessing data before fetch', async () => {
+	it('throws errors if accessing data before fetch', async () => {
 		const { result } = renderHook(
 			() => useFetchPost({ slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' }),
 			{ wrapper },

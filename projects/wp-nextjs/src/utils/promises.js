@@ -8,7 +8,7 @@
  */
 
 /**
- * The fetchBatch function recieves an array of PromiseObject and
+ * The fetchBatch function receives an array of PromiseObject and
  * optionally skips throwing exceptions for the ones passed with `throw: false`.
  *
  * @param {FetchBashPromises} promises Array of PromiseObject to be resolved.

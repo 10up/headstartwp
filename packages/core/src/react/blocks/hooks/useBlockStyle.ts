@@ -2,7 +2,7 @@ import { Element } from 'html-react-parser';
 import { getBlockStyle } from '../utils';
 
 /**
- * Returns the block style (if avaliable)
+ * Returns the block style (if available)
  *
  * @param node DomNode
  * @returns

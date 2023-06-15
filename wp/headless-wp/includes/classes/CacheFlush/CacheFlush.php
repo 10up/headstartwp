@@ -65,7 +65,7 @@ class CacheFlush {
 		}
 
 		/**
-		 * Checks wheter the revalidation should run in a cron job.
+		 * Checks whether the revalidation should run in a cron job.
 		 *
 		 * @param boolean $run_in_cron Whether it should run in a cron job or not.
 		 */

@@ -84,7 +84,7 @@ export default async function handler(req, res) {
 }
 ```
 
-`name` would now be avaliable in the context object of `getServerSideProps` and `getStaticProps` (`ctx.previewData`);
+`name` would now be available in the context object of `getServerSideProps` and `getStaticProps` (`ctx.previewData`);
 
 #### `onRedirect`
 

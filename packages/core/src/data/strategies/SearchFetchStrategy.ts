@@ -34,10 +34,10 @@ export class SearchFetchStrategy<
 	}
 
 	/**
-	 * The fetcher function is overriden to disable throwing if not found
+	 * The fetcher function is overridden to disable throwing if not found
 	 *
 	 * If a search request returns not found we do not want to redirect to a 404 page,
-	 * instead the user should be informated that no posts were found
+	 * instead the user should be informed that no posts were found
 	 *
 	 * @param url The url to parse
 	 * @param params The params to build the endpoint with

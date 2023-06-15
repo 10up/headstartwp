@@ -100,7 +100,7 @@ export class TaxonomyTermsStrategy<
 	T extends TermEntity = TermEntity,
 	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
 > extends AbstractFetchStrategy<T[], P> {
-	defaultTaxonmy = 'category';
+	defaultTaxonomy = 'category';
 
 	getDefaultEndpoint(): string {
 		return endpoints.category;
@@ -120,13 +120,13 @@ export class TaxonomyTermsStrategy<
 	}
 
 	buildEndpointURL(params: Partial<P>) {
-		const { taxonomy = this.defaultTaxonmy, ...endpointParams } = params;
+		const { taxonomy = this.defaultTaxonomy, ...endpointParams } = params;
 
 		const taxonomyObj = getCustomTaxonomy(taxonomy, this.baseURL);
 
 		if (!taxonomyObj) {
 			throw new ConfigError(
-				'Unkown taxonomy, did you forget to add it to headless.config.js?',
+				'Unknown taxonomy, did you forget to add it to headless.config.js?',
 			);
 		}
 

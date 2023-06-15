@@ -10,7 +10,7 @@ export * from './index';
 /**
  * ## @headstartwp/next/middlewares
  *
- * The middlewwares export of the `@headstartwp/next' package.
+ * The middlewares export of the `@headstartwp/next' package.
  *
  * ### Usage
  *

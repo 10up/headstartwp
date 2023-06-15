@@ -137,7 +137,7 @@
 
 ### Patch Changes
 
-- 44d5607: New strategy for loaidng config
+- 44d5607: New strategy for loading config
 - Updated dependencies [44d5607]
   - @10up/headless-core@0.8.2-next.0
 

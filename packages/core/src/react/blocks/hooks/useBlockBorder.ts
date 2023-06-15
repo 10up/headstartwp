@@ -9,7 +9,7 @@ interface BlockBorderAttributes extends IBlockAttributes {
 }
 
 /**
- * Returns the block style (if avaliable)
+ * Returns the block style (if available)
  *
  * @param node DomNode
  * @returns

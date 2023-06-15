@@ -28,7 +28,7 @@ export interface FetchHookDataOptions<P = unknown, T = unknown> {
 	filterData?: FilterDataOptions<T>;
 
 	/**
-	 * Optional. If set, will fowardh fetch options to the fetch strategy
+	 * Optional. If set, will forward fetch options to the fetch strategy
 	 */
 	fetchStrategyOptions?: FetchOptions;
 }
@@ -49,10 +49,10 @@ function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams 
 }
 
 /**
- * A function that implementeds data fetching on the server. This should be used in `getServerSideProps`
+ * A function that implements data fetching on the server. This should be used in `getServerSideProps`
  * or `getStaticProps`.
  *
- * Data fetching will be perfomed by the specified strategy and URL params will be automatically extracted
+ * Data fetching will be performed by the specified strategy and URL params will be automatically extracted
  * from `context
  *
  * ## Usage
@@ -129,7 +129,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		finalParams,
 		{
 			// burst cache to skip REST API cache when the request is being made under getStaticProps
-			// if .req is not avaliable then this is a GetStaticPropsContext
+			// if .req is not available then this is a GetStaticPropsContext
 			burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
 			...options.fetchStrategyOptions,
 		},

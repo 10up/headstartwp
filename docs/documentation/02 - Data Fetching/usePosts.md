@@ -41,7 +41,7 @@ const ArchivePage = () => {
 };
 ```
 
-The route will automatically render the latest 10 posts and you get pagination, category, tags and custom taxonomies filtering for free as the following paths will automatically map URL segements into REST API requests:
+The route will automatically render the latest 10 posts and you get pagination, category, tags and custom taxonomies filtering for free as the following paths will automatically map URL segments into REST API requests:
 
 - /blog/page/2
 - /blog/category/category-name
@@ -52,7 +52,7 @@ The route will automatically render the latest 10 posts and you get pagination, 
 
 The `usePosts` hook exposes a `queriedObject`. It's similar to WordPress [get_queried_object()](https://developer.wordpress.org/reference/functions/get_queried_object/) function.
 
-It essentially returned the what's being queried for, e.g: author or category. If the current page is querying posts within a certain author, then that author object will be populated in `data.queriedObject.author`. Similarly, if the current page is quering posts from a given category `data.queriedObject.term` will be populated with that category.
+It essentially returned the what's being queried for, e.g: author or category. If the current page is querying posts within a certain author, then that author object will be populated in `data.queriedObject.author`. Similarly, if the current page is querying posts from a given category `data.queriedObject.term` will be populated with that category.
 
 Example: 
 ```javascript

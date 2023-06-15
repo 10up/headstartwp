@@ -109,7 +109,7 @@ export function addHookData<P = { [key: string]: any }>(
 		const foundSeoJson = Object.keys(seo_json).length > 0;
 		const foundSeo = seo.length > 0;
 
-		// we want to keep only one yoast_head_json object and remove everyhing else to reduce
+		// we want to keep only one yoast_head_json object and remove everything else to reduce
 		// hydration costs
 		if (Array.isArray(data.result) && data.result.length > 0) {
 			data.result.forEach((post) => {

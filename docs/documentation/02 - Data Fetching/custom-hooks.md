@@ -3,7 +3,7 @@ slug: /data-fetching/creating-your-own-custom-hooks
 sidebar_label: Creating your own custom hooks
 ---
 
-# Custom hoooks
+# Custom hooks
 
 Sometimes it might be useful to wrap the framework data-fetching hooks into your own hooks.
 
