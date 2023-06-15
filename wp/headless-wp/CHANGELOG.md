@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.5-next.0
+
+### Patch Changes
+
+- 417d9e00: Fix: do not redirect for missing assets
+
 ## 1.0.4
 
 ### Patch Changes
