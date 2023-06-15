@@ -140,7 +140,7 @@ const config = {
 			announcementBar: {
 				id: 'support_us',
 				content:
-					'Have any questions or suggestions? Just open a discussion in <a target="_blank" rel="noopener noreferrer" href="https://github.com/10up/headstartwp/discussions/new">this GitHub Repository</a>',
+					'Have any questions or suggestions? Just open a discussion in <a target="_blank" rel="noopener noreferrer" href="https://github.com/10up/headstartwp/">this GitHub Repository</a>',
 				backgroundColor: '#fafbfc',
 				textColor: '#091E42',
 				isCloseable: false,
