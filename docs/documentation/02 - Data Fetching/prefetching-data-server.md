@@ -19,7 +19,7 @@ const params = { postType: ['post', 'page'] };
 const SinglePostsPage = () => {
 	const { data } = usePost(params);
 
-	// when doing ssr/ssg data will always be avaliable so handling loading/error state is optional
+	// when doing ssr/ssg data will always be available so handling loading/error state is optional
 
 	return (
 		<div>

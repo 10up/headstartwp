@@ -19,7 +19,7 @@ describe('useFetchPost', () => {
 
 		// should throw before we have any actual results
 		expect(() => result.current.data?.post.title).toThrow(
-			'You are trying to access "post.title" but it is not avaliable yet. Did you forget to fetch data on the server? Otherwise, handle the loading and error states accordingly',
+			'You are trying to access "post.title" but it is not available yet. Did you forget to fetch data on the server? Otherwise, handle the loading and error states accordingly',
 		);
 		expect(result.current.loading).toBe(true);
 
