@@ -9,8 +9,6 @@
 
 namespace HeadlessWP;
 
-use WP_Post;
-
 /**
  * Links Class
  * Defines functionality specific to rewriting URLs used in the site.
@@ -138,16 +136,16 @@ class Links {
 		$should_redirect = apply_filters( 'tenup_headless_wp_frontend_should_redirect', $should_redirect );
 
 		if ( $should_redirect ) {
-				$url_request = $wp->request;
+			$url_request = $wp->request;
 
-				// do not redirect for (missing) assets
-				if ( str_starts_with( $url_request, '/wp-content') || str_ends_with( $url_request, '.css' ) || str_ends_with( $url_request, '.js' ) ) {
-					return;
-				}
+			// do not redirect for (missing) assets
+			if ( str_starts_with( $url_request, '/wp-content' ) || str_ends_with( $url_request, '.css' ) || str_ends_with( $url_request, '.js' ) ) {
+				return;
+			}
 
-				// Redirect the frontend WordPress request to the React website URL.
-				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
-				exit;
+			// Redirect the frontend WordPress request to the React website URL.
+			\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
+			exit;
 		}
 	}
 }
