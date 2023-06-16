@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.0.6-next.0
+
+### Patch Changes
+
+- 62ac6b36: Fixing typos.
+- Updated dependencies [62ac6b36]
+  - @headstartwp/core@1.0.5-next.0
+
 ## 1.0.5
 
 ### Patch Changes

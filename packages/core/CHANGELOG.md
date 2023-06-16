@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.5-next.0
+
+### Patch Changes
+
+- 62ac6b36: Fixing typos.
+
 ## 1.0.4
 
 ### Patch Changes
