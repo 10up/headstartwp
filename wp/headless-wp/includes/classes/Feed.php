@@ -21,7 +21,6 @@ class Feed {
 		add_filter( 'the_content_feed', [ $this, 'filter_url' ], 999 );
 		add_filter( 'the_excerpt_rss', [ $this, 'filter_url' ], 999 );
 		add_filter( 'comments_link_feed', [ $this, 'filter_url' ], 999 );
-		add_filter( 'comment_link', [ $this, 'filter_url' ], 999 );
 		add_filter( 'get_bloginfo_rss', [ $this, 'filter_rss_url' ], 999, 2 );
 	}
 
