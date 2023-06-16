@@ -30,6 +30,11 @@ class Gutenberg {
 	 * @return string
 	 */
 	public function render_block( $html, $block, $block_instance ) {
+		// do not process blocks without a blockName
+		if ( empty( $block['blockName'] ) ) {
+			return $html;
+		}
+
 		if ( ! trim( $html ) ) {
 			return $html;
 		}
