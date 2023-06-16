@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useCallback } from 'react';
+import React, { FC, useState, useEffect, useCallback, ReactElement } from 'react';
 import { css } from '@linaria/core';
 import { Link } from './Link';
 
@@ -89,7 +89,7 @@ const CookieElement = React.memo<CookieElementProps>(
 export interface CookieProps {
 	name: string;
 	label: string;
-	description: string;
+	description: string | ReactElement;
 	isChecked: boolean;
 	isDisabled?: boolean;
 }
@@ -124,7 +124,12 @@ export const CookieDialog: FC<{
 		{
 			name: 'essential',
 			label: 'Essential cookies',
-			description: `These cookies allow core website functionality. The website won't work without them.`,
+			description: (
+				<>
+					By continuing to use our site, you accept our use of cookies as described in our{' '}
+					<Link href="/">Privacy Policy</Link>.
+				</>
+			),
 			isChecked: false,
 		},
 	],
@@ -132,8 +137,8 @@ export const CookieDialog: FC<{
 	onReject = () => {},
 }) => {
 	const [isDialogVisible, setDialogVisible] = useState(false);
-	const [acceptedCookies, setAcceptedCookies] = useState(
-		cookies.reduce((acc, cookie) => {
+	const [acceptedCookies, setAcceptedCookies] = useState<{ [key: string]: boolean }>(
+		cookies.reduce((acc: { [key: string]: boolean }, cookie: CookieProps) => {
 			acc[cookie.name] = cookie.isChecked;
 			return acc;
 		}, {}),
