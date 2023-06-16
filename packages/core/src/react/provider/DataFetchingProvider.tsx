@@ -7,7 +7,7 @@ export type DataFetchingProviderProps = {
 	/**
 	 * Pass any configuration to the SWR library. Globally.
 	 *
-	 * These settings can be overriden at the hook level.
+	 * These settings can be overridden at the hook level.
 	 */
 	swrConfig: SWRConfiguration;
 

@@ -43,7 +43,7 @@ describe('SinglePostFetchStrategy', () => {
 		});
 	});
 
-	it('bulds the endpoint url properly', () => {
+	it('builds the endpoint url properly', () => {
 		expect(fetchStrategy.buildEndpointURL({ slug: 'post-name' })).toBe(
 			'/wp-json/wp/v2/posts?slug=post-name',
 		);
@@ -102,12 +102,12 @@ describe('SinglePostFetchStrategy', () => {
 			}),
 		).toBe('/wp-json/wp/v2/book/10');
 
-		// ensure it thows an error if post type is not defined
+		// ensure it throws an error if post type is not defined
 		expect(() =>
 			fetchStrategy.buildEndpointURL({
 				postType: 'custom-post-type',
 			}),
-		).toThrow('Unkown post type, did you forget to add it to headless.config.js?');
+		).toThrow('Unknown post type, did you forget to add it to headless.config.js?');
 	});
 
 	it('fetches content properly', async () => {
@@ -189,9 +189,9 @@ describe('SinglePostFetchStrategy', () => {
 
 		apiGetMock.mockImplementation(async (url) => {
 			const isBookEndpoint = url.includes('/wp/v2/book');
-			const ispagesEndpoint = url.includes('/wp/v2/pages');
+			const isPagesEndpoint = url.includes('/wp/v2/pages');
 
-			if (isBookEndpoint || ispagesEndpoint) {
+			if (isBookEndpoint || isPagesEndpoint) {
 				return Promise.resolve({ headers: {}, json: [] });
 			}
 
@@ -303,20 +303,20 @@ describe('SinglePostFetchStrategy', () => {
 		});
 
 		let params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
-		let paramsWithPostTypes = { ...params, postType: ['book', 'unkown-post-type'] };
+		let paramsWithPostTypes = { ...params, postType: ['book', 'unknown-post-type'] };
 		let fetchPromise = fetchStrategy.fetcher(
 			fetchStrategy.buildEndpointURL(paramsWithPostTypes),
 			paramsWithPostTypes,
 		);
 
 		await expect(fetchPromise).rejects.toThrow(
-			'Unkown post type, did you forget to add it to headless.config.js?',
+			'Unknown post type, did you forget to add it to headless.config.js?',
 		);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		paramsWithPostTypes = {
 			...params,
-			postType: ['book', 'unkown-post-type-1', 'unkown-post-type-2'],
+			postType: ['book', 'unknown-post-type-1', 'unknown-post-type-2'],
 		};
 		fetchPromise = fetchStrategy.fetcher(
 			fetchStrategy.buildEndpointURL(paramsWithPostTypes),
@@ -324,7 +324,7 @@ describe('SinglePostFetchStrategy', () => {
 		);
 
 		await expect(fetchPromise).rejects.toThrow(
-			'Unkown post type, did you forget to add it to headless.config.js?',
+			'Unknown post type, did you forget to add it to headless.config.js?',
 		);
 	});
 
@@ -632,7 +632,7 @@ describe('SinglePostFetchStrategy', () => {
 		expect(fetcher.getDefaultParams()).toMatchObject(defaultParams);
 	});
 
-	it('appends timestap when passing burstCache flag', async () => {
+	it('appends timestamp when passing burstCache flag', async () => {
 		const samplePost = { title: 'test', id: 1, link: '/2021/10/post-name' };
 		const sampleHeaders = {
 			'x-wp-totalpages': 1,

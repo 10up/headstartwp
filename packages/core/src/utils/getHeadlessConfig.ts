@@ -140,7 +140,7 @@ export function getSiteBySourceUrl(sourceUrl: string) {
 }
 
 /**
- * Returns the avaliable taxonomy slugs
+ * Returns the available taxonomy slugs
  *
  * @param sourceUrl
  */
@@ -155,7 +155,7 @@ export function getCustomTaxonomySlugs(sourceUrl?: string) {
 }
 
 /**
- * Returns the avaliable taxonomies
+ * Returns the available taxonomies
  *
  * @param sourceUrl
  */
@@ -201,7 +201,7 @@ export function getCustomTaxonomy(slug: string, sourceUrl?: string) {
 }
 
 /**
- * Returns the avaliable post type slugs
+ * Returns the available post type slugs
  *
  * @param sourceUrl
  */
@@ -216,7 +216,7 @@ export function getCustomPostTypesSlugs(sourceUrl?: string) {
 }
 
 /**
- * Returns the avaliable post types
+ * Returns the available post types
  *
  * @param sourceUrl
  */

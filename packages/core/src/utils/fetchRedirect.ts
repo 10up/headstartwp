@@ -4,14 +4,14 @@ import { removeSourceUrl } from './removeSourceUrl';
 
 export type RedirectData = {
 	/**
-	 * The redirect new locaton
+	 * The redirect new location
 	 *
 	 * will be null if no redirect is found
 	 */
 	location: string | undefined | null;
 
 	/**
-	 * The status number of the redorect
+	 * The status number of the redirect
 	 *
 	 * Will be 0 if the redirect is not found
 	 */

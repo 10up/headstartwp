@@ -16,7 +16,7 @@ describe('useFetchPosts', () => {
 		useWordPressPlugin: true,
 	});
 
-	it('throwns errors if accessing data before fetch', async () => {
+	it('throws errors if accessing data before fetch', async () => {
 		const { result } = renderHook(() => useFetchPosts(), { wrapper });
 
 		// should throw before we have any actual results

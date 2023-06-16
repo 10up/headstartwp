@@ -69,7 +69,7 @@ class PreviewToken extends BaseToken {
 		$post_id   = $payload['post_id'];
 		$post_type = $payload['post_type'];
 
-		// Allowed capabilites when the token is type 'preview'. You also need to
+		// Allowed capabilities when the token is type 'preview'. You also need to
 		// have permission to 'edit_post' or 'delete_post' for preview posts.
 		$capabilities = array(
 			'read_post'   => $post_id,

@@ -13,7 +13,7 @@ export function getPostAuthor(post: PostEntity) {
 }
 
 /**
- * Returns the terms assoiacted with the post
+ * Returns the terms associated with the post
  *
  * @param post The Post object
  *

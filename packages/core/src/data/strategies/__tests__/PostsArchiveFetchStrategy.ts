@@ -83,7 +83,7 @@ describe('PostsArchiveFetchStrategy', () => {
 		});
 	});
 
-	it('parses the url properly when taxonopmy is set', () => {
+	it('parses the url properly when taxonomy is set', () => {
 		expect(fetchStrategy.getParamsFromURL('/category-name', { taxonomy: 'category' })).toEqual({
 			category: 'category-name',
 		});
@@ -171,13 +171,13 @@ describe('PostsArchiveFetchStrategy', () => {
 		});
 	});
 
-	it('throws exceptions when taxonomy is unkonwn', () => {
+	it('throws exceptions when taxonomy is unknown', () => {
 		expect(() => fetchStrategy.getParamsFromURL('/term-name', { taxonomy: 'genre' })).toThrow(
 			'Taxonomy "genre" not found',
 		);
 	});
 
-	it('bulds the endpoint url properly', () => {
+	it('builds the endpoint url properly', () => {
 		// category should not be included directly in the url
 		expect(fetchStrategy.buildEndpointURL({ category: 'cat-test' })).toBe(
 			'/wp-json/wp/v2/posts',
@@ -201,9 +201,9 @@ describe('PostsArchiveFetchStrategy', () => {
 
 		// testing that a custom post type changes the endpoint
 
-		// first test that it throws if it's an unkown post type
+		// first test that it throws if it's an unknown post type
 		expect(() => fetchStrategy.buildEndpointURL({ postType: 'book' })).toThrow(
-			'Unkown post type, did you forget to add it to headless.config.js?',
+			'Unknown post type, did you forget to add it to headless.config.js?',
 		);
 
 		setHeadlessConfig({
