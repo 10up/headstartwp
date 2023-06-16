@@ -8,7 +8,7 @@ interface BlockAlignAttributes extends IBlockAttributes {
 }
 
 /**
- * Returns the block align style (if avaliable)
+ * Returns the block align style (if available)
  *
  * @param node DomNode
  * @returns

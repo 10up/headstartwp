@@ -13,7 +13,7 @@ describe('VIPImageLoader', () => {
 		);
 	});
 
-	it('maitains the aspect ratio', () => {
+	it('maintains the aspect ratio', () => {
 		expect(
 			VIPImageLoader({
 				src: 'http://wp.com/wp-content/uploads/2022/20/img.jpg',
@@ -37,7 +37,7 @@ describe('ImageComponent', () => {
 		);
 	});
 
-	it('renders with a cusotm loader', () => {
+	it('renders with a custom loader', () => {
 		const src = 'http://wp.com/wp-content/uploads/2022/20/img.jpg';
 		const alt = 'image';
 

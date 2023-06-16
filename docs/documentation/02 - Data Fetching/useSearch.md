@@ -50,7 +50,7 @@ The route will automatically render the latest 10 posts if no search term is pro
 
 The `useSearch` hook also exposes a `queriedObject`. See [usePosts docs](/learn/data-fetching/useposts/#queried-object) for more info.
 
-The queried object for for this hook is an object of type [SearchEnrity](/api/interfaces/headstartwp_core.SearchEntity/).
+The queried object for for this hook is an object of type [SearchEntity](/api/interfaces/headstartwp_core.SearchEntity/).
 
 ## Known limitations
 

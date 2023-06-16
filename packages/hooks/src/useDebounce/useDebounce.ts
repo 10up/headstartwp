@@ -5,7 +5,7 @@ import { useDebouncedCallback } from '../useDebouncedCallback/useDebouncedCallba
  * Debounces a value change so it doesn't create as many re renders.
  *
  * @param {*}       value - Value to be debounced
- * @param {?number} delay - Amount of miliseconds to delay the change
+ * @param {?number} delay - Amount of milliseconds to delay the change
  * @returns {*} Debounced value
  */
 export function useDebounce(value: any, delay: number) {

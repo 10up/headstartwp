@@ -209,13 +209,13 @@
 
 ### Patch Changes
 
-- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skipping redirect to the front-end url
 
 ## 0.6.4-next.0
 
 ### Patch Changes
 
-- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skipping redirect to the front-end url
 
 ## 0.6.3
 
@@ -233,9 +233,9 @@
 
 ### Patch Changes
 
-- 9bf3642: Check for wp-admin and related pahts in isInternalLink
+- 9bf3642: Check for wp-admin and related paths in isInternalLink
 - 9fa4319: Fix previews handling for multisite with locale
-- 3671143: Fixes an issue where taxonomy archives would support non-starndard WP routes (/category/author/author-name and /category/:year/:month/:day) and adds support for nested taxonomy routes (/parent-category/category).
+- 3671143: Fixes an issue where taxonomy archives would support non-standard WP routes (/category/author/author-name and /category/:year/:month/:day) and adds support for nested taxonomy routes (/parent-category/category).
 - 61231c3: Fix: add css allowlist similar to WordPress wp_kses_post
 
 ## 0.6.1
@@ -364,9 +364,9 @@
 - 33592ea: Fix: check if current path matches the returned post in the SinglePostFetch strategy
 - 33592ea: Improve redirect handling in `fetchRedirect`.
 
-  It nows detects redirects that might cause infinite loop and ignore redirects for `wp-login.php`, `wp-register.php` and `wp-admin`.
+  It now detects redirects that might cause infinite loop and ignore redirects for `wp-login.php`, `wp-register.php` and `wp-admin`.
 
-- 33592ea: add js-xss options param to wpKsesPost and expposing sanitizeFn function to BlocksRenderer
+- 33592ea: add js-xss options param to wpKsesPost and exposing sanitizeFn function to BlocksRenderer
 
   ## wpKsesPost
 
@@ -398,7 +398,7 @@
   </BLocksRenderer>
   ```
 
-- 33592ea: Fix child pages with same slugs but different parent. Takes the link propety in account to properly match the right page.
+- 33592ea: Fix child pages with same slugs but different parent. Takes the link property in account to properly match the right page.
 
 ## 0.5.0-next.7
 

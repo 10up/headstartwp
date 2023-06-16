@@ -88,7 +88,7 @@ export class SinglePostFetchStrategy<
 
 	locale: string = '';
 
-	shoudCheckCurrentPathAgainstPostLink: boolean = true;
+	shouldCheckCurrentPathAgainstPostLink: boolean = true;
 
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
@@ -111,8 +111,8 @@ export class SinglePostFetchStrategy<
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
 
-		// if slug is passed, it is being manually overriden then don't check current path
-		this.shoudCheckCurrentPathAgainstPostLink =
+		// if slug is passed, it is being manually overridden then don't check current path
+		this.shouldCheckCurrentPathAgainstPostLink =
 			nonUrlParams.matchCurrentPath ?? typeof nonUrlParams.slug === 'undefined';
 
 		// TODO: figure typings for this
@@ -139,7 +139,7 @@ export class SinglePostFetchStrategy<
 
 			if (!postType) {
 				throw new ConfigError(
-					'Unkown post type, did you forget to add it to headless.config.js?',
+					'Unknown post type, did you forget to add it to headless.config.js?',
 				);
 			}
 			this.postType = postType.slug;
@@ -235,7 +235,7 @@ export class SinglePostFetchStrategy<
 			const shouldCheckCurrentPath =
 				this.path.length > 0 &&
 				this.path !== '/' &&
-				this.shoudCheckCurrentPathAgainstPostLink;
+				this.shouldCheckCurrentPathAgainstPostLink;
 
 			const post = shouldCheckCurrentPath
 				? this.getPostThatMatchesCurrentPath(result, params)
@@ -307,7 +307,7 @@ export class SinglePostFetchStrategy<
 			throw error;
 		}
 
-		// skip first post type as it has already been feteched
+		// skip first post type as it has already been fetched
 		const [, ...postTypes] = params.postType;
 
 		for await (const postType of postTypes) {

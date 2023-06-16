@@ -146,7 +146,7 @@ export async function previewHandler(
 			const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
 
 			if (!postTypeDef) {
-				return res.end('Cannot preview an unkown post type');
+				return res.end('Cannot preview an unknown post type');
 			}
 
 			const defaultRedirect: PreviewHandlerOptions['onRedirect'] = (req, res) => {

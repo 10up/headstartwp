@@ -12,7 +12,7 @@ export function makeErrorCatchProxy<T extends Record<string, any>>(objectName = 
 			throw new FrameworkError(
 				`You are trying to access "${objectName}.${String(
 					prop,
-				)}" but it is not avaliable yet. Did you forget to fetch data on the server? Otherwise, handle the loading and error states accordingly`,
+				)}" but it is not available yet. Did you forget to fetch data on the server? Otherwise, handle the loading and error states accordingly`,
 			);
 		},
 	});
