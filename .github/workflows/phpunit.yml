@@ -1,10 +1,10 @@
-name: PHPCS check
+name: PHPUnit tests
 
 on: pull_request
 
 jobs:
-  phpcs:
-    name: phpcs
+  phpunit:
+    name: phpunit
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -13,6 +13,8 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: "8.0"
+    - name: npm install
+      run: npm install
     - name: composer install
       run: cd ./wp/headless-wp && composer install --ignore-platform-reqs
     - name: Run tests
