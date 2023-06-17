@@ -87,11 +87,11 @@ MARKUP;
 	 * @return void
 	 */
 	public function test_render_tag_api() {
-		apply_filters( 'headstartwp_render_block_use_tag_processor', '__return_true' );
+		apply_filters( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 
 		$this->test_render();
 
-		remove_filter( 'headstartwp_render_block_use_tag_processor', '__return_true' );
+		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 	}
 
 	/**
@@ -121,10 +121,10 @@ RESULT;
 	 * @return void
 	 */
 	public function test_render_classic_block_tag_api() {
-		apply_filters( 'headstartwp_render_block_use_tag_processor', '__return_true' );
+		apply_filters( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 
 		$this->test_render_classic_block();
 
-		remove_filter( 'headstartwp_render_block_use_tag_processor', '__return_true' );
+		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 	}
 }

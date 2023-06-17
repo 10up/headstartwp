@@ -61,7 +61,7 @@ class Gutenberg {
 	}
 
 	/**
-	 * Process the block with the WP_HTML_Tag_Processor
+	 * Process the block with the DOMDocument api
 	 *
 	 * @param string    $html The Block's Markup
 	 * @param string    $block_name The name of the block
@@ -161,7 +161,7 @@ class Gutenberg {
 		 *
 		 * @param boolean $enable Whether enable the new api. Defaults to false
 		 */
-		$parser_api = apply_filters( 'headstartwp_render_block_use_tag_processor', false );
+		$parser_api = apply_filters( 'tenup_headless_wp_render_block_use_tag_processor', false );
 
 		if ( class_exists( '\WP_HTML_Tag_Processor' ) && $parser_api ) {
 			return $this->process_block_with_html_tag_api(
