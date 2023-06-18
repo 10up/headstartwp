@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/php/bootstrap.php" backupGlobals="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true">
+	<coverage>
+		<include>
+			<directory suffix=".php">
+				./includes
+			</directory>
+		</include>
+	</coverage>
+	<php>
+		<ini name="error_reporting" value="24575" />
+        <env name="WP_TESTS_DIR" value="/wordpress-phpunit" />
+	</php>
+	<testsuites>
+		<testsuite name="headstartwp">
+			<directory prefix="Test" suffix=".php">
+				./tests/php/
+			</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

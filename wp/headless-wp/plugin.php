@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: HeadstartWP
- * Plugin URI:  false
+ * Plugin URI:  https://github.com/10up/headstartwp-plugin
  * Description: Adds functionality to the WordPress admin and REST API for 10up's headless framework.
  * Version: 1.0.6
  * Author:      10up

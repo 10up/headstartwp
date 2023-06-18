@@ -95,7 +95,7 @@ The isBlock function matches a DOM node by its tagName and optionally CSS classe
 
 ### Matching Blocks with isBlockByName
 
-The isBlockByName matches a DOM node by its Gutenberg block name. This function requires the Headless WP plugin to be installed. The Headless WP plugin appends two special attributes to every block: data-wp-block-name and data-wp-block-attrs.
+The isBlockByName matches a DOM node by its Gutenberg block name. This function requires the HeadstartWP plugin. The  plugin appends two special attributes to every block: `data-wp-block-name` and `data-wp-block-attrs`.
 
 This is a very handy function as it makes it very easy to match any registered Gutenberg block.
 

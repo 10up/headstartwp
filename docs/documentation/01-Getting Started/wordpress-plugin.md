@@ -13,17 +13,21 @@ Make sure to set up the path for installing this as a WordPress Plugin:
 
 ```json
 {
-  "name": "your-project-name",
-  "require": {
-    "headstartwp/headstartwp": "^1.0.0",
-  },
-  "extra": {
-    "installer-paths": {
-      "plugins/{$name}/": [
-        "type:wordpress-plugin"
-      ]
-    }
-  }
+	"name": "your-vendor-name/your-project-name",
+	"require": {
+		"composer/installers": "^1.0",
+		"headstartwp/headstartwp": "^1.0.0"
+	},
+	"extra": {
+		"installer-paths": {
+			"plugins/{$name}/": ["type:wordpress-plugin"]
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true
+		}
+	}
 }
 ```
 
