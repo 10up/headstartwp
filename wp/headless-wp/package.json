@@ -11,7 +11,8 @@
   },
   "scripts": {
     "wp-env": "wp-env",
-    "wp-env:start": "npm run wp-env -- start --xdebug"
+    "wp-env:start": "npm run wp-env -- start --xdebug",
+    "test:php": "npm run wp-env:start && wp-env run tests-wordpress /var/www/html/wp-content/plugins/headless-wp/vendor/bin/phpunit -c /var/www/html/wp-content/plugins/headless-wp/phpunit.xml.dist --verbose"
   },
   "devDependencies": {
     "@wordpress/env": "^5.14.0"
