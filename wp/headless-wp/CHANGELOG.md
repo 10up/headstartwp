@@ -1,5 +1,12 @@
 # @headstartwp/headstartwp
 
+## 1.0.7
+
+### Patch Changes
+
+- f7bc6b8b: Fix: do not try to parse blocks without a blockName (i.e classic block).
+- 4495ffec: Introducing a filter `tenup_headless_wp_render_block_use_tag_processor` to let users to opt into the new `WP_HTML_Tag_Processor` API instead of DomDocument
+
 ## 1.0.6
 
 ### Patch Changes
