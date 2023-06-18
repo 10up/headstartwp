@@ -79,6 +79,30 @@ MARKUP;
 			trim( $enhanced_block ),
 			trim( $result )
 		);
+
+		$markup = <<<MARKUP
+		<!-- wp:media-text {"mediaId":28,"mediaLink":"http://localhost:8888/blocks-test/screenshot-2023-06-16-at-11-09-21/","mediaType":"image"} -->
+		<div class="wp-block-media-text alignwide is-stacked-on-mobile">
+			<figure class="wp-block-media-text__media">
+				<img src="http://localhost:8888/wp-content/uploads/2023/06/Screenshot-2023-06-16-at-11.09.21-1024x725.png" alt="" class="wp-image-28 size-full"/>
+			</figure>
+			<div class="wp-block-media-text__content">
+			<!-- wp:paragraph {"placeholder":"Content…"} -->
+				<p>Text</p>
+			<!-- /wp:paragraph -->
+			</div>
+		</div>
+		<!-- /wp:media-text -->
+MARKUP;
+
+		$block          = $this->render_from_block_markup( trim( $markup ) );
+		$enhanced_block = $this->parser->render_block( $block['html'], $block['parsed_block'], $block['instance'] );
+
+		$enhanced_block_doc = new \WP_HTML_Tag_Processor( $enhanced_block );
+
+		$this->assertTrue( $enhanced_block_doc->next_tag() );
+		$this->assertEquals( $enhanced_block_doc->get_attribute( 'data-wp-block-name' ), 'core/media-text' );
+		$this->assertArrayHasKey( 'mediaId', json_decode( $enhanced_block_doc->get_attribute( 'data-wp-block' ), true ) );
 	}
 
 	/**
@@ -100,7 +124,6 @@ MARKUP;
 	 * @return void
 	 */
 	public function test_render_classic_block() {
-
 		$block          = $this->render_from_block_markup( '<h1><span style="font-weight: 400;">Introduction</span></h1><span style="font-weight: 400;">If you have read our previous article, </span>' );
 		$enhanced_block = $this->parser->render_block( $block['html'], $block['parsed_block'], $block['instance'] );
 
