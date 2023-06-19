@@ -656,4 +656,29 @@ describe('SinglePostFetchStrategy', () => {
 			true,
 		);
 	});
+
+	it('does not thrown error for path not matching if there are no posts and throwIfNotFound is set to false', async () => {
+		const sampleHeaders = {
+			'x-wp-totalpages': 0,
+			'x-wp-total': 0,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [],
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
+		const promise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+			throwIfNotFound: false,
+		});
+
+		// if there aren't any posts there's nothing to match for so this should not happen
+		// it should just resolve to an empty array
+		await expect(promise).resolves.toMatchObject({
+			pageInfo: { page: 1, totalItems: 0, totalPages: 0 },
+			queriedObject: {},
+			result: {},
+		});
+	});
 });
