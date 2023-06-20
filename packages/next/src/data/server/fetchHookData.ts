@@ -147,6 +147,10 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	return {
 		key: serializeKey(key),
 		data: fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
-		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
+		isMainQuery: fetchStrategy.isMainQuery(
+			stringPath,
+			params,
+			isGetServerSideProps ? (ctx as GetServerSidePropsContext).query : {},
+		),
 	};
 }
