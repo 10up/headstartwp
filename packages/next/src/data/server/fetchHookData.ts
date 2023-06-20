@@ -82,6 +82,8 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
+	// if .req is not available then this is a GetStaticPropsContext
+	const isGetServerSideProps = typeof (ctx as GetServerSidePropsContext).req !== 'undefined';
 	const { sourceUrl, integrations, debug } = getSiteFromContext(ctx);
 	const params: Partial<P> = options?.params || {};
 
@@ -99,7 +101,11 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 	const stringPath = convertToPath(path);
 	const defaultParams = fetchStrategy.getDefaultParams();
-	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
+	const urlParams = fetchStrategy.getParamsFromURL(
+		stringPath,
+		params,
+		isGetServerSideProps ? (ctx as GetServerSidePropsContext).query : {},
+	);
 	const finalParams = { ...defaultParams, ...urlParams, ...params };
 
 	// we don't want to include the preview params in the key
@@ -129,8 +135,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		finalParams,
 		{
 			// burst cache to skip REST API cache when the request is being made under getStaticProps
-			// if .req is not available then this is a GetStaticPropsContext
-			burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
+			burstCache: !isGetServerSideProps,
 			...options.fetchStrategyOptions,
 		},
 	);

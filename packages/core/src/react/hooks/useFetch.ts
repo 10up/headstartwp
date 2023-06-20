@@ -19,6 +19,7 @@ export interface useFetchOptions {
  * @param fetchStrategy The fetch strategy.
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
+ * @param queryParams The URL query params
  *
  * @category Data Fetching Hooks
  *
@@ -28,14 +29,15 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	fetchStrategy: AbstractFetchStrategy<E, Params, R>,
 	options: FetchHookOptions<FetchResponse<R>> = {},
 	path = '',
+	queryParams: Record<string, any> = {},
 ) {
 	const { sourceUrl, debug } = useSettings();
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
 	const defaultParams = fetchStrategy.getDefaultParams();
-	const urlParams = fetchStrategy.getParamsFromURL(path, params);
-	const isMainQuery = fetchStrategy.isMainQuery(path, params);
+	const urlParams = fetchStrategy.getParamsFromURL(path, params, queryParams);
+	const isMainQuery = fetchStrategy.isMainQuery(path, params, queryParams);
 
 	const finalParams = { ...defaultParams, ...urlParams, ...params };
 

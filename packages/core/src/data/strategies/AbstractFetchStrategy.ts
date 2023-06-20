@@ -174,17 +174,22 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	 *
 	 * @returns params extracted from the URL
 	 */
-	abstract getParamsFromURL(path: string, nonUrlParams: Partial<Params>): Partial<Params>;
+	abstract getParamsFromURL(
+		path: string,
+		nonUrlParams: Partial<Params>,
+		queryParams: Record<string, any>,
+	): Partial<Params>;
 
 	/**
 	 * Checks if this is the main query for a page
 	 *
 	 * @param path The page name
 	 * @param nonUrlParams The non-url params
+	 * @param queryParams The URL query params
 	 */
-	isMainQuery(path: string, nonUrlParams: Partial<Params>) {
+	isMainQuery(path: string, nonUrlParams: Partial<Params>, queryParams: Record<string, any>) {
 		return (
-			Object.keys(this.getParamsFromURL(path, nonUrlParams)).filter(
+			Object.keys(this.getParamsFromURL(path, nonUrlParams, queryParams)).filter(
 				(param) => param !== '_embed',
 			).length > 0
 		);
