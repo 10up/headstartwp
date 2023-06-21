@@ -232,6 +232,12 @@ export class SinglePostFetchStrategy<
 		// if result is an array, prioritize the result where the
 		// link property matches with the current route
 		if (Array.isArray(result)) {
+			if (result.length === 0) {
+				return {
+					...response,
+					result: {} as T,
+				};
+			}
 			const shouldCheckCurrentPath =
 				this.path.length > 0 &&
 				this.path !== '/' &&
