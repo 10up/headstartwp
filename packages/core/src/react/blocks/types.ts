@@ -29,7 +29,7 @@ export interface Typography {
 	supportsCustomFontSize: boolean;
 	supportsFontWeight: boolean;
 	supportsLetterSpacing: boolean;
-	supportsLineHight: boolean;
+	supportsLineHeight: boolean;
 	supportsTextDecoration: boolean;
 	supportsTextTransform: boolean;
 	lineHeight?: string;

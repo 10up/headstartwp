@@ -29,12 +29,12 @@ export function useBlockColors(node: Element) {
 	const defaultGradientsSettings = useThemeSetting('color.palette.default', null, []);
 
 	const colorsSettings = useThemeSetting('color.palette', name, []);
-	const grandientsSettings = useThemeSetting('color.gradients', name, []);
+	const gradientsSettings = useThemeSetting('color.gradients', name, []);
 
 	const colors = Array.isArray(colorsSettings) ? colorsSettings : colorsSettings?.theme;
-	const gradients = Array.isArray(grandientsSettings)
-		? grandientsSettings
-		: grandientsSettings?.theme;
+	const gradients = Array.isArray(gradientsSettings)
+		? gradientsSettings
+		: gradientsSettings?.theme ?? [];
 
 	const allGradients = [...defaultGradientsSettings, ...gradients];
 	const allColors = [...defaultColorsSettings, ...colors];

@@ -208,7 +208,7 @@ export class PostsArchiveFetchStrategy<
 	}
 
 	/**
-	 * This strategy automatically extracts taxonomy filters, date filters and paginations params from the URL
+	 * This strategy automatically extracts taxonomy filters, date filters and pagination params from the URL
 	 *
 	 * It also takes into account the custom taxonomies specified in `headless.config.js`
 	 *
@@ -271,7 +271,7 @@ export class PostsArchiveFetchStrategy<
 	buildEndpointURL(params: Partial<P>) {
 		const settings = getSiteBySourceUrl(this.baseURL);
 
-		// these params should be disregarded whne building out the endpoint
+		// these params should be disregarded when building out the endpoint
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { category, tag, postType, taxonomy, ...endpointParams } = params;
 
@@ -289,7 +289,7 @@ export class PostsArchiveFetchStrategy<
 
 			if (!postType) {
 				throw new ConfigError(
-					'Unkown post type, did you forget to add it to headless.config.js?',
+					'Unknown post type, did you forget to add it to headless.config.js?',
 				);
 			}
 
@@ -309,7 +309,7 @@ export class PostsArchiveFetchStrategy<
 	/**
 	 * Before fetching posts, we need handle taxonomy and authors.
 	 *
-	 * If the headless plugin is not being used, then additioinal requests needs to be made to get
+	 * If the headless plugin is not being used, then additional requests needs to be made to get
 	 * authors and terms ids
 	 *
 	 * @param url The URL to parse
@@ -317,6 +317,7 @@ export class PostsArchiveFetchStrategy<
 	 * @param options FetchOptions
 	 */
 	async fetcher(url: string, params: Partial<P>, options: Partial<FetchOptions> = {}) {
+		const { burstCache = false } = options;
 		let finalUrl = url;
 		const settings = getSiteBySourceUrl(this.baseURL);
 
@@ -336,6 +337,8 @@ export class PostsArchiveFetchStrategy<
 				} else {
 					const terms = await apiGet(
 						`${this.baseURL}${taxonomy.endpoint}?slug=${params[paramSlug]}`,
+						{},
+						burstCache,
 					);
 
 					if (terms.json.length > 0) {
@@ -356,7 +359,11 @@ export class PostsArchiveFetchStrategy<
 		// 1 - params.author is a string
 		// 2 - We're not using the WP Plugin
 		if (params.author && typeof params.author === 'string' && !settings.useWordPressPlugin) {
-			const authors = await apiGet(`${this.baseURL}${authorsEndpoint}?slug=${params.author}`);
+			const authors = await apiGet(
+				`${this.baseURL}${authorsEndpoint}?slug=${params.author}`,
+				{},
+				burstCache,
+			);
 
 			if (authors.json.length > 0) {
 				finalUrl = addQueryArgs(finalUrl, {

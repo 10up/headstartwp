@@ -10,11 +10,29 @@
     }
   ],
   "require": {
-    "php": ">=7.3"
+    "php": ">=8"
   },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "wordpress/wordpress-develop",
+        "version": "dev-trunk",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/WordPress/wordpress-develop",
+          "reference": "trunk"
+        }
+      }
+    }
+  ],
   "require-dev": {
     "10up/phpcs-composer": "dev-master",
-    "giacocorsiglia/wordpress-stubs": "^5.1"
+    "giacocorsiglia/wordpress-stubs": "^5.1",
+    "yoast/wp-test-utils": "^1.1",
+    "php-stubs/wordpress-stubs": "^6.1",
+    "php-stubs/wordpress-tests-stubs": "^6.1",
+    "wordpress/wordpress-develop": "dev-trunk"
   },
   "autoload": {
     "psr-4": {
@@ -23,7 +41,10 @@
   },
   "scripts": {
     "lint": "phpcs .",
-    "lint-fix": "phpcbf ."
+    "lint-fix": "phpcbf .",
+    "post-install-cmd": [
+      "php -r \"copy('vendor/wordpress/wordpress-develop/wp-tests-config-sample.php', 'vendor/wordpress/wordpress-develop/wp-tests-config.php');\""
+    ]
   },
   "config": {
     "allow-plugins": {

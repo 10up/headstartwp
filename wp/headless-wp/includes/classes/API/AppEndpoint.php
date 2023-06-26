@@ -195,22 +195,22 @@ class AppEndpoint {
 		$filtered_menu = [];
 
 		foreach ( $menu as $menu_item ) {
-			$fitered_menu_item = new stdClass();
+			$filtered_menu_item = new stdClass();
 
-			$fitered_menu_item->ID               = $menu_item->ID;
-			$fitered_menu_item->title            = html_entity_decode( $menu_item->title );
-			$fitered_menu_item->slug             = basename( get_permalink( $menu_item->object_id ) ) === basename( get_home_url() ) ? '' : basename( get_permalink( $menu_item->object_id ) );
-			$fitered_menu_item->post_parent      = $menu_item->menu_item_parent;
-			$fitered_menu_item->guid             = $menu_item->guid;
-			$fitered_menu_item->menu_item_parent = $menu_item->menu_item_parent;
-			$fitered_menu_item->object_id        = $menu_item->object;
-			$fitered_menu_item->url              = $menu_item->url;
-			$fitered_menu_item->target           = $menu_item->target;
-			$fitered_menu_item->attr_title       = $menu_item->attr_title;
-			$fitered_menu_item->description      = $menu_item->description;
-			$fitered_menu_item->classes          = $menu_item->classes;
+			$filtered_menu_item->ID               = $menu_item->ID;
+			$filtered_menu_item->title            = html_entity_decode( $menu_item->title );
+			$filtered_menu_item->slug             = basename( get_permalink( $menu_item->object_id ) ) === basename( get_home_url() ) ? '' : basename( get_permalink( $menu_item->object_id ) );
+			$filtered_menu_item->post_parent      = $menu_item->menu_item_parent;
+			$filtered_menu_item->guid             = $menu_item->guid;
+			$filtered_menu_item->menu_item_parent = $menu_item->menu_item_parent;
+			$filtered_menu_item->object_id        = $menu_item->object;
+			$filtered_menu_item->url              = $menu_item->url;
+			$filtered_menu_item->target           = $menu_item->target;
+			$filtered_menu_item->attr_title       = $menu_item->attr_title;
+			$filtered_menu_item->description      = $menu_item->description;
+			$filtered_menu_item->classes          = $menu_item->classes;
 
-			$filtered_menu[] = $fitered_menu_item;
+			$filtered_menu[] = $filtered_menu_item;
 		}
 
 		return $filtered_menu;

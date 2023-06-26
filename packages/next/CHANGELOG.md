@@ -1,5 +1,43 @@
 # @headstartwp/next
 
+## 1.0.6
+
+### Patch Changes
+
+- 62ac6b36: Fixing typos.
+- Updated dependencies [62ac6b36]
+  - @headstartwp/core@1.0.5
+
+## 1.0.5
+
+### Patch Changes
+
+- 5e63a790: Adding a custom vip image loader for VIP Node.js hosting
+- c3de4f3d: Fix: avoid instanceof to prevent weird bugs
+- Updated dependencies [c3de4f3d]
+- Updated dependencies [2cbaec01]
+- Updated dependencies [1beed833]
+  - @headstartwp/core@1.0.4
+
+## 1.0.5-next.0
+
+### Patch Changes
+
+- 5e63a790: Adding a custom vip image loader for VIP Node.js hosting
+- c3de4f3d: Fix: avoid instanceof to prevent weird bugs
+- Updated dependencies [c3de4f3d]
+- Updated dependencies [2cbaec01]
+- Updated dependencies [1beed833]
+  - @headstartwp/core@1.0.4-next.0
+
+## 1.0.4
+
+### Patch Changes
+
+- ba952037: Fix: fetch calls made under getStaticProps now always includes a timestamp in the query to ensure it always get latest content from the api
+- Updated dependencies [ba952037]
+  - @headstartwp/core@1.0.3
+
 ## 1.0.3
 
 ### Patch Changes
@@ -107,7 +145,7 @@
 
 ### Patch Changes
 
-- 44d5607: New strategy for loaidng config
+- 44d5607: New strategy for loading config
 - Updated dependencies [44d5607]
   - @10up/headless-core@0.8.2-next.0
 

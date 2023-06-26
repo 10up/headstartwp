@@ -1,5 +1,30 @@
 # @headstartwp/headstartwp
 
+## 1.0.7
+
+### Patch Changes
+
+- f7bc6b8b: Fix: do not try to parse blocks without a blockName (i.e classic block).
+- 4495ffec: Introducing a filter `tenup_headless_wp_render_block_use_tag_processor` to let users to opt into the new `WP_HTML_Tag_Processor` API instead of DomDocument
+
+## 1.0.6
+
+### Patch Changes
+
+- 62ac6b36: Fixing typos.
+
+## 1.0.5
+
+### Patch Changes
+
+- 417d9e00: Fix: do not redirect for missing assets
+
+## 1.0.5-next.0
+
+### Patch Changes
+
+- 417d9e00: Fix: do not redirect for missing assets
+
 ## 1.0.4
 
 ### Patch Changes
@@ -140,13 +165,13 @@
 
 ### Patch Changes
 
-- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skipping redirect to the front-end url
 
 ## 0.5.2-next.0
 
 ### Patch Changes
 
-- e827579: Instead of only checking for HEAD requests, check for a custom header for skiping redirect to the front-end url
+- e827579: Instead of only checking for HEAD requests, check for a custom header for skipping redirect to the front-end url
 
 ## 0.5.1
 

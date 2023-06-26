@@ -83,7 +83,7 @@ describe('PostsArchiveFetchStrategy', () => {
 		});
 	});
 
-	it('parses the url properly when taxonopmy is set', () => {
+	it('parses the url properly when taxonomy is set', () => {
 		expect(fetchStrategy.getParamsFromURL('/category-name', { taxonomy: 'category' })).toEqual({
 			category: 'category-name',
 		});
@@ -171,13 +171,13 @@ describe('PostsArchiveFetchStrategy', () => {
 		});
 	});
 
-	it('throws exceptions when taxonomy is unkonwn', () => {
+	it('throws exceptions when taxonomy is unknown', () => {
 		expect(() => fetchStrategy.getParamsFromURL('/term-name', { taxonomy: 'genre' })).toThrow(
 			'Taxonomy "genre" not found',
 		);
 	});
 
-	it('bulds the endpoint url properly', () => {
+	it('builds the endpoint url properly', () => {
 		// category should not be included directly in the url
 		expect(fetchStrategy.buildEndpointURL({ category: 'cat-test' })).toBe(
 			'/wp-json/wp/v2/posts',
@@ -201,9 +201,9 @@ describe('PostsArchiveFetchStrategy', () => {
 
 		// testing that a custom post type changes the endpoint
 
-		// first test that it throws if it's an unkown post type
+		// first test that it throws if it's an unknown post type
 		expect(() => fetchStrategy.buildEndpointURL({ postType: 'book' })).toThrow(
-			'Unkown post type, did you forget to add it to headless.config.js?',
+			'Unknown post type, did you forget to add it to headless.config.js?',
 		);
 
 		setHeadlessConfig({
@@ -248,40 +248,68 @@ describe('PostsArchiveFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts?year=2021&month=10&day=30',
 			{},
+			false,
 		);
 
 		params = fetchStrategy.getParamsFromURL('/2021/');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?year=2021', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?year=2021', {}, false);
 
 		params = fetchStrategy.getParamsFromURL('/author/author-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
-		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/users?slug=author-test');
-		expect(apiGetMock).toHaveBeenNthCalledWith(4, '/wp-json/wp/v2/posts?author=1', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			3,
+			'/wp-json/wp/v2/users?slug=author-test',
+			{},
+			false,
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(4, '/wp-json/wp/v2/posts?author=1', {}, false);
 
 		params = fetchStrategy.getParamsFromURL('/category/category-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 		expect(apiGetMock).toHaveBeenNthCalledWith(
 			5,
 			'/wp-json/wp/v2/categories?slug=category-test',
+			{},
+			false,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(6, '/wp-json/wp/v2/posts?categories=1', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			6,
+			'/wp-json/wp/v2/posts?categories=1',
+			{},
+			false,
+		);
 
 		params = fetchStrategy.getParamsFromURL('/tag/tag-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(7, '/wp-json/wp/v2/tags?slug=tag-test');
-		expect(apiGetMock).toHaveBeenNthCalledWith(8, '/wp-json/wp/v2/posts?tags=1', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			7,
+			'/wp-json/wp/v2/tags?slug=tag-test',
+			{},
+			false,
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(8, '/wp-json/wp/v2/posts?tags=1', {}, false);
 
 		params = fetchStrategy.getParamsFromURL('/genre/action');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(9, '/wp-json/wp/v2/genre?slug=action');
-		expect(apiGetMock).toHaveBeenNthCalledWith(10, '/wp-json/wp/v2/posts?genre=1', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			9,
+			'/wp-json/wp/v2/genre?slug=action',
+			{},
+			false,
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(10, '/wp-json/wp/v2/posts?genre=1', {}, false);
 
 		params = fetchStrategy.getParamsFromURL('/type/type-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(11, '/wp-json/wp/v2/types?slug=type-test');
-		expect(apiGetMock).toHaveBeenNthCalledWith(12, '/wp-json/wp/v2/posts?type=1', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			11,
+			'/wp-json/wp/v2/types?slug=type-test',
+			{},
+			false,
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(12, '/wp-json/wp/v2/posts?type=1', {}, false);
 
 		// with a custom post type
 		params = fetchStrategy.getParamsFromURL('/genre/action/page/2');
@@ -291,8 +319,18 @@ describe('PostsArchiveFetchStrategy', () => {
 			paramsWithPostType,
 		);
 
-		expect(apiGetMock).toHaveBeenNthCalledWith(13, '/wp-json/wp/v2/genre?slug=action');
-		expect(apiGetMock).toHaveBeenNthCalledWith(14, '/wp-json/wp/v2/book?page=2&genre=1', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			13,
+			'/wp-json/wp/v2/genre?slug=action',
+			{},
+			false,
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			14,
+			'/wp-json/wp/v2/book?page=2&genre=1',
+			{},
+			false,
+		);
 	});
 
 	it('throws exceptions when content is not found (without wordpress plugin)', async () => {
@@ -370,6 +408,7 @@ describe('PostsArchiveFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts?author=author-test',
 			{},
+			false,
 		);
 
 		params = fetchStrategy.getParamsFromURL('/category/category-test');
@@ -378,19 +417,35 @@ describe('PostsArchiveFetchStrategy', () => {
 			2,
 			'/wp-json/wp/v2/posts?categories=category-test',
 			{},
+			false,
 		);
 
 		params = fetchStrategy.getParamsFromURL('/tag/tag-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts?tags=tag-test', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			3,
+			'/wp-json/wp/v2/posts?tags=tag-test',
+			{},
+			false,
+		);
 
 		params = fetchStrategy.getParamsFromURL('/genre/action');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(4, '/wp-json/wp/v2/posts?genre=action', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			4,
+			'/wp-json/wp/v2/posts?genre=action',
+			{},
+			false,
+		);
 
 		params = fetchStrategy.getParamsFromURL('/type/type-test');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(5, '/wp-json/wp/v2/posts?type=type-test', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			5,
+			'/wp-json/wp/v2/posts?type=type-test',
+			{},
+			false,
+		);
 
 		// with a custom post type
 		params = fetchStrategy.getParamsFromURL('/genre/action/page/2');
@@ -404,6 +459,7 @@ describe('PostsArchiveFetchStrategy', () => {
 			6,
 			'/wp-json/wp/v2/book?page=2&genre=action',
 			{},
+			false,
 		);
 	});
 
@@ -429,6 +485,7 @@ describe('PostsArchiveFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts?genre-rest-param=genre-name',
 			{},
+			false,
 		);
 
 		params = fetchStrategy.getParamsFromURL('/genre-name/page/2', { taxonomy: 'genre' });
@@ -437,6 +494,7 @@ describe('PostsArchiveFetchStrategy', () => {
 			2,
 			'/wp-json/wp/v2/posts?page=2&genre-rest-param=genre-name',
 			{},
+			false,
 		);
 	});
 

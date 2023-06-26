@@ -10,14 +10,14 @@ export interface PullQuoteBlockProps extends IBlockAttributes {
 	borderColor?: string;
 }
 
-export interface IPullQuotekBlock extends IBlock<PullQuoteBlockProps> {}
+export interface IPullQuoteBlock extends IBlock<PullQuoteBlockProps> {}
 
 export function PullQuoteBlock({
 	domNode: node = defaultElement,
 	children,
 	component: Component,
 	style,
-}: IPullQuotekBlock) {
+}: IPullQuoteBlock) {
 	const { name, className, attributes } = useBlock<PullQuoteBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 

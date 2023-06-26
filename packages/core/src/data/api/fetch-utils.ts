@@ -37,7 +37,7 @@ export const apiPost = async (url: string, args: { [index: string]: any } = {}) 
  *
  * @param url The URL where to make the request to
  * @param args The arguments
- * @param withMinute Whether it should burst cahcing on every minute
+ * @param burstCache Whether it should burst cache
  *
  * @category Data Fetching
  *
@@ -46,7 +46,7 @@ export const apiPost = async (url: string, args: { [index: string]: any } = {}) 
 export const apiGet = async (
 	url: string,
 	args: { [index: string]: any } = {},
-	withMinute = false,
+	burstCache = false,
 ) => {
 	const headers = getAuthHeader();
 
@@ -54,24 +54,21 @@ export const apiGet = async (
 		args.headers = headers;
 	}
 
-	const coeff = 1000 * 60;
-	const date = new Date();
-	const currentMinute = new Date(Math.round(date.getTime() / coeff) * coeff).toISOString();
-
-	const queryArgs = withMinute
+	const queryArgs = burstCache
 		? {
-				// Busts cache every minute.
-				cacheTime: currentMinute,
+				cacheTime: new Date().getTime(),
 		  }
 		: {};
 
 	const config = getHeadlessConfig();
 
+	const fetchUrl = addQueryArgs(url, queryArgs);
+
 	if (config.debug?.requests) {
-		log(LOGTYPE.DEBUG, 'GET', url, args);
+		log(LOGTYPE.DEBUG, 'GET', fetchUrl, args);
 	}
 
-	const data = await fetch(addQueryArgs(url, queryArgs), args);
+	const data = await fetch(fetchUrl, args);
 
 	const receivedHeaders: { [index: string]: any } = [
 		...Array.from(data.headers.entries()),

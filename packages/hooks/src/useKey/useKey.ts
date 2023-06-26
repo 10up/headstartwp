@@ -6,7 +6,7 @@ import { useEventListener } from '../useEventListener/useEventListener';
  *
  * @param {string|Function|*} key -
  * The key being evaluated which can be of different types for flexibility:
- * - If it's a string it will be compared against the event's key property to see if it maches.
+ * - If it's a string it will be compared against the event's key property to see if it matches.
  * - If it's a function it will be run with the event for the hook's usage to decide.
  * - If it's any other type it'll evaluate falsy / truthy to decide.
  * @returns {(function(*): boolean)} Returns a function that determines if the event is applicable or not

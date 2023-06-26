@@ -46,7 +46,7 @@ class TokenEndpoint {
 	 * Checks whether the current request validates the token or not
 	 *
 	 * @param WP_REST_Request $request The current request.
-	 * @return boolean|WP_Error True if permisson is granted; error otherwise.
+	 * @return boolean|WP_Error True if permission is granted; error otherwise.
 	 *
 	 * @throws \Exception If payload is invalid.
 	 */

@@ -25,15 +25,15 @@ describe('TaxonomyTermsStrategy', () => {
 		expect(fetchStrategy.getParamsFromURL('/category/cat-test/tag/tag-test')).toEqual({});
 	});
 
-	it('bulds the endpoint url properly', () => {
+	it('builds the endpoint url properly', () => {
 		// category should not be included directly in the url
 		expect(fetchStrategy.buildEndpointURL({ taxonomy: 'category' })).toBe(
 			'/wp-json/wp/v2/categories',
 		);
 
-		// first test that it throws if it's an unkown taxonomy
+		// first test that it throws if it's an unknown taxonomy
 		expect(() => fetchStrategy.buildEndpointURL({ taxonomy: 'book' })).toThrow(
-			'Unkown taxonomy, did you forget to add it to headless.config.js?',
+			'Unknown taxonomy, did you forget to add it to headless.config.js?',
 		);
 
 		setHeadlessConfig({

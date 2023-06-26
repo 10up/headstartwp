@@ -43,7 +43,7 @@ describe('SinglePostFetchStrategy', () => {
 		});
 	});
 
-	it('bulds the endpoint url properly', () => {
+	it('builds the endpoint url properly', () => {
 		expect(fetchStrategy.buildEndpointURL({ slug: 'post-name' })).toBe(
 			'/wp-json/wp/v2/posts?slug=post-name',
 		);
@@ -102,12 +102,12 @@ describe('SinglePostFetchStrategy', () => {
 			}),
 		).toBe('/wp-json/wp/v2/book/10');
 
-		// ensure it thows an error if post type is not defined
+		// ensure it throws an error if post type is not defined
 		expect(() =>
 			fetchStrategy.buildEndpointURL({
 				postType: 'custom-post-type',
 			}),
-		).toThrow('Unkown post type, did you forget to add it to headless.config.js?');
+		).toThrow('Unknown post type, did you forget to add it to headless.config.js?');
 	});
 
 	it('fetches content properly', async () => {
@@ -134,7 +134,12 @@ describe('SinglePostFetchStrategy', () => {
 		let params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
 
-		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			false,
+		);
 		expect(results).toMatchObject({
 			result: samplePost,
 			pageInfo: {
@@ -146,12 +151,17 @@ describe('SinglePostFetchStrategy', () => {
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
-		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			false,
+		);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const paramsWithId = { ...params, id: 10 };
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(paramsWithId), paramsWithId);
-		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts/10', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(3, '/wp-json/wp/v2/posts/10', {}, false);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const paramsWithPostType = { ...params, postType: 'book' };
@@ -159,7 +169,12 @@ describe('SinglePostFetchStrategy', () => {
 			fetchStrategy.buildEndpointURL(paramsWithPostType),
 			paramsWithPostType,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(4, '/wp-json/wp/v2/book?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			4,
+			'/wp-json/wp/v2/book?slug=post-name',
+			{},
+			false,
+		);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		const paramsWithPostTypeAndId = { ...params, postType: 'book', id: 10 };
@@ -167,16 +182,16 @@ describe('SinglePostFetchStrategy', () => {
 			fetchStrategy.buildEndpointURL(paramsWithPostTypeAndId),
 			paramsWithPostTypeAndId,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(5, '/wp-json/wp/v2/book/10', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(5, '/wp-json/wp/v2/book/10', {}, false);
 
 		apiGetMock.mockReset();
 		apiGetMock.mockClear();
 
 		apiGetMock.mockImplementation(async (url) => {
 			const isBookEndpoint = url.includes('/wp/v2/book');
-			const ispagesEndpoint = url.includes('/wp/v2/pages');
+			const isPagesEndpoint = url.includes('/wp/v2/pages');
 
-			if (isBookEndpoint || ispagesEndpoint) {
+			if (isBookEndpoint || isPagesEndpoint) {
 				return Promise.resolve({ headers: {}, json: [] });
 			}
 
@@ -190,8 +205,18 @@ describe('SinglePostFetchStrategy', () => {
 			fetchStrategy.buildEndpointURL(paramsWithPostTypes),
 			paramsWithPostTypes,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/book?slug=post-name', {});
-		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts?slug=post-name', {});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/book?slug=post-name',
+			{},
+			false,
+		);
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			false,
+		);
 	});
 
 	it('handle revisions', async () => {
@@ -217,10 +242,16 @@ describe('SinglePostFetchStrategy', () => {
 			{
 				headers: { Authorization: 'Bearer test token' },
 			},
+			false,
 		);
-		expect(apiGetMock).toHaveBeenNthCalledWith(2, '/wp-json/wp/v2/posts/1', {
-			headers: { Authorization: 'Bearer test token' },
-		});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts/1',
+			{
+				headers: { Authorization: 'Bearer test token' },
+			},
+			false,
+		);
 	});
 
 	it('handle draft posts', async () => {
@@ -240,9 +271,14 @@ describe('SinglePostFetchStrategy', () => {
 
 		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(draftParams), draftParams);
 
-		expect(apiGetMock).toHaveBeenNthCalledWith(1, '/wp-json/wp/v2/posts/10', {
-			headers: { Authorization: 'Bearer test token' },
-		});
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts/10',
+			{
+				headers: { Authorization: 'Bearer test token' },
+			},
+			false,
+		);
 	});
 
 	it('throws errors with bad arguments', async () => {
@@ -267,20 +303,20 @@ describe('SinglePostFetchStrategy', () => {
 		});
 
 		let params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
-		let paramsWithPostTypes = { ...params, postType: ['book', 'unkown-post-type'] };
+		let paramsWithPostTypes = { ...params, postType: ['book', 'unknown-post-type'] };
 		let fetchPromise = fetchStrategy.fetcher(
 			fetchStrategy.buildEndpointURL(paramsWithPostTypes),
 			paramsWithPostTypes,
 		);
 
 		await expect(fetchPromise).rejects.toThrow(
-			'Unkown post type, did you forget to add it to headless.config.js?',
+			'Unknown post type, did you forget to add it to headless.config.js?',
 		);
 
 		params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
 		paramsWithPostTypes = {
 			...params,
-			postType: ['book', 'unkown-post-type-1', 'unkown-post-type-2'],
+			postType: ['book', 'unknown-post-type-1', 'unknown-post-type-2'],
 		};
 		fetchPromise = fetchStrategy.fetcher(
 			fetchStrategy.buildEndpointURL(paramsWithPostTypes),
@@ -288,7 +324,7 @@ describe('SinglePostFetchStrategy', () => {
 		);
 
 		await expect(fetchPromise).rejects.toThrow(
-			'Unkown post type, did you forget to add it to headless.config.js?',
+			'Unknown post type, did you forget to add it to headless.config.js?',
 		);
 	});
 
@@ -594,5 +630,55 @@ describe('SinglePostFetchStrategy', () => {
 		const defaultParams = { postType: 'book' };
 		const fetcher = new SinglePostFetchStrategy('http://sourceurl.com', defaultParams);
 		expect(fetcher.getDefaultParams()).toMatchObject(defaultParams);
+	});
+
+	it('appends timestamp when passing burstCache flag', async () => {
+		const samplePost = { title: 'test', id: 1, link: '/2021/10/post-name' };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePost],
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+			burstCache: true,
+		});
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{},
+			true,
+		);
+	});
+
+	it('does not thrown error for path not matching if there are no posts and throwIfNotFound is set to false', async () => {
+		const sampleHeaders = {
+			'x-wp-totalpages': 0,
+			'x-wp-total': 0,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [],
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
+		const promise = fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+			throwIfNotFound: false,
+		});
+
+		// if there aren't any posts there's nothing to match for so this should not happen
+		// it should just resolve to an empty array
+		await expect(promise).resolves.toMatchObject({
+			pageInfo: { page: 1, totalItems: 0, totalPages: 0 },
+			queriedObject: {},
+			result: {},
+		});
 	});
 });

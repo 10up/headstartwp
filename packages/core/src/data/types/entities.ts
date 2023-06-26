@@ -702,7 +702,7 @@ export interface PageInfo {
 /**
  * The QueriedObject represents the object that the current requests is subjected to.
  *
- * Quering by taxonomy and/or author will set the queried object.
+ * Querying by taxonomy and/or author will set the queried object.
  */
 export type QueriedObject = {
 	/**
@@ -711,12 +711,12 @@ export type QueriedObject = {
 	author?: AuthorEntity;
 
 	/**
-	 * If the request is an term query, this will be populated with the term object
+	 * If the request is a term query, this will be populated with the term object
 	 */
 	term?: TermEntity;
 
 	/**
-	 * If the request is an search query, this will be populated with the search entiry object
+	 * If the request is a search query, this will be populated with the search entity object
 	 */
 	search?: SearchEntity;
 };
