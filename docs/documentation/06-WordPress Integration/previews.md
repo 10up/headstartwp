@@ -9,8 +9,7 @@ The preview feature requires the 10up's headless WordPress plugin installed. The
 
 For previews to work, make sure the frontend URL is entered in WP settings as per instructions in [Installing WordPress Plugin](/learn/getting-started/installing-wordpress-plugin).
 
-The logic for generating the JWT token and redirecting to the preview endpoint can be seen [here](https://github.com/10up/headstartwp/blob/develop/wp/tenup-headless-wp/includes/classes/Preview/preview.php).
-
+The logic for generating the JWT token and redirecting to the preview endpoint can be seen [here](https://github.com/10up/headstartwp/blob/develop/wp/headless-wp/includes/classes/Preview/preview.php).
 ```php
 $token = PreviewToken::generate(
 	[

@@ -33,7 +33,7 @@ Make sure to set up the path for installing this as a WordPress Plugin:
 
 ## Manual install
 
-[Download the plugin's zip file](https://github.com/10up/tenup-headless-wp-plugin/archive/refs/heads/trunk.zip), manually move it to `wp-content/plugins` and activate the plugin.
+[Download the plugin's zip file](https://github.com/10up/headstartwp-plugin/archive/refs/heads/trunk.zip), manually move it to `wp-content/plugins` and activate the plugin.
 
 ## Enter the front-end site URL.
 
