@@ -43,10 +43,10 @@ export async function revalidatePost(req: NextApiRequest, res: NextApiResponse) 
 
 		const result = data.result as any;
 		const verifiedPath = result.path ?? '';
-		const verifitedPostId = result.post_id ?? 0;
+		const verifiedPostId = result.post_id ?? 0;
 
 		// make sure the path and post_id matches with what was encoded in the token
-		if (verifiedPath !== path || Number(verifitedPostId) !== Number(post_id)) {
+		if (verifiedPath !== path || Number(verifiedPostId) !== Number(post_id)) {
 			throw new Error(ERROR_MESSAGE.INVALID_TOKEN);
 		}
 
