@@ -133,7 +133,7 @@ class CacheFlush {
 			 */
 			$taxonomies  = get_taxonomies();
 			$terms       = wp_get_post_terms( $post_id, $taxonomies );
-			$total_pages = apply_filters( 'tenup_headless_isr_revalidate_terms_total_pages', 1 );
+			$total_pages = apply_filters( 'tenup_headless_isr_revalidate_terms_total_pages', 2 );
 
 			if ( ! empty( $terms ) ) {
 				$payload = CacheFlushToken::generateForTerms( $terms );
