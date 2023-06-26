@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getHeadlessConfig, getSiteByHost, VerifyTokenFetchStrategy } from '@headstartwp/core';
 import { fetchHookData } from '../../data';
+import { ERROR_MESSAGE } from './constants';
 
 /**
  * This handler is used by `revalidateHandler` when the query includes the
@@ -21,7 +22,7 @@ export async function revalidateTerms(req: NextApiRequest, res: NextApiResponse)
 		isNaN(total_pages) ||
 		typeof token !== 'string'
 	) {
-		return res.status(401).json({ message: 'Invalid params' });
+		return res.status(401).json({ message: ERROR_MESSAGE.INVALID_PARAMS });
 	}
 
 	const terms_ids = req.query.terms_ids.split(',').map((id) => parseInt(id, 10));
@@ -58,7 +59,7 @@ export async function revalidateTerms(req: NextApiRequest, res: NextApiResponse)
 			JSON.stringify(verifiedPaths) !== JSON.stringify(paths) ||
 			JSON.stringify(verifiedTermsIds) !== JSON.stringify(terms_ids)
 		) {
-			throw new Error('Token mismatch');
+			throw new Error(ERROR_MESSAGE.INVALID_TOKEN);
 		}
 
 		const pathsToRevalidate = paths
@@ -95,11 +96,15 @@ export async function revalidateTerms(req: NextApiRequest, res: NextApiResponse)
 		const pathsRevalidated = revalidateResults.filter(Boolean);
 
 		return res.status(200).json({ message: 'success', paths: pathsRevalidated });
-	} catch (err) {
-		let errorMessage = 'Error verifying the token';
-		if (err instanceof Error) {
-			errorMessage = err.message;
+	} catch (error) {
+		if (error instanceof Error) {
+			if (error.message === ERROR_MESSAGE.INVALID_TOKEN) {
+				return res.status(401).json({ message: error.message });
+			}
+
+			return res.status(500).json({ message: error.message });
 		}
-		return res.status(500).json({ message: errorMessage });
+
+		return res.status(500).json({ message: ERROR_MESSAGE.GENERIC_SERVER_ERROR });
 	}
 }

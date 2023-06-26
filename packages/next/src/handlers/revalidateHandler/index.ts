@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { revalidatePost } from './revalidatePost';
 import { revalidateTerms } from './revalidateTerms';
+import { ERROR_MESSAGE } from './constants';
 
 /**
  * The RevalidateHandler is responsible for handling revalidate requests.
@@ -31,7 +32,7 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 	const { post_id, path, terms_ids, paths, total_pages, token } = req.query;
 
 	if (req.method !== 'GET') {
-		return res.status(401).json({ message: 'Invalid method' });
+		return res.status(401).json({ message: ERROR_MESSAGE.INVALID_METHOD });
 	}
 
 	if (post_id && path && token) {
@@ -42,5 +43,5 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 		return revalidateTerms(req, res);
 	}
 
-	return res.status(401).json({ message: 'Missing required params' });
+	return res.status(401).json({ message: ERROR_MESSAGE.MISSING_PARAMS });
 }

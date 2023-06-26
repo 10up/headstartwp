@@ -239,7 +239,7 @@ describe('revalidatePost', () => {
 		});
 	});
 
-	it('should return a 500 response when token mismatch', async () => {
+	it('should return a 401 response when token mismatch', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 			query: {
@@ -264,8 +264,39 @@ describe('revalidatePost', () => {
 
 		expect(mockedFetchHookData).toHaveBeenCalledTimes(1);
 		expect(res.revalidate).not.toHaveBeenCalled();
-		expect(res._getStatusCode()).toBe(500);
+		expect(res._getStatusCode()).toBe(401);
 		expect(JSON.parse(res._getData())).toMatchObject({ message: 'Token mismatch' });
+	});
+
+	it('should return a 500 response when error', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {
+				post_id: '1',
+				path: '/post',
+				token: 'sometoken',
+			},
+		});
+
+		mockedFetchHookData.mockReturnValueOnce({
+			data: {
+				result: {
+					post_id: '1',
+					path: '/post',
+				},
+			},
+		});
+
+		res.revalidate = jest.fn(() => {
+			throw new Error('Revalidate error');
+		});
+
+		await revalidatePost(req, res);
+
+		expect(mockedFetchHookData).toHaveBeenCalledTimes(1);
+		expect(res.revalidate).toHaveBeenCalledTimes(1);
+		expect(res._getStatusCode()).toBe(500);
+		expect(JSON.parse(res._getData())).toMatchObject({ message: 'Revalidate error' });
 	});
 });
 
@@ -326,5 +357,179 @@ describe('revalidateTerms', () => {
 			message: 'success',
 			paths: ['/category/test', '/tag/test'],
 		});
+	});
+
+	it('should revalidate the existing terms paths for a multisite request', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {
+				terms_ids: '1,2',
+				paths: '/category/test,/tag/test',
+				total_pages: '2',
+				token: 'sometoken',
+			},
+			headers: {
+				host: 'site1.localhost:3001',
+			},
+		});
+
+		mockedGetSiteByHost.mockReturnValueOnce({
+			hostUrl: 'http://site1.localhost:3001',
+			host: 'site1.localhost:3301',
+			sourceUrl: 'https://js1.10up.com',
+		});
+
+		mockedFetchHookData.mockReturnValueOnce({
+			data: {
+				result: {
+					terms_ids: [1, 2],
+					paths: ['/category/test', '/tag/test'],
+				},
+			},
+		});
+
+		res.revalidate = jest.fn((path) => Promise.resolve(path));
+
+		await revalidateTerms(req, res);
+
+		expect(res.revalidate).toHaveBeenCalledTimes(4);
+		expect(res.revalidate).toHaveBeenNthCalledWith(
+			1,
+			'/_sites/site1.localhost:3001/category/test',
+		);
+		expect(res.revalidate).toHaveBeenNthCalledWith(
+			2,
+			'/_sites/site1.localhost:3001/category/test/page/2',
+		);
+		expect(res.revalidate).toHaveBeenNthCalledWith(3, '/_sites/site1.localhost:3001/tag/test');
+		expect(res.revalidate).toHaveBeenNthCalledWith(
+			4,
+			'/_sites/site1.localhost:3001/tag/test/page/2',
+		);
+		expect(res._getStatusCode()).toBe(200);
+		expect(JSON.parse(res._getData())).toMatchObject({
+			message: 'success',
+			paths: [
+				'/_sites/site1.localhost:3001/category/test',
+				'/_sites/site1.localhost:3001/category/test/page/2',
+				'/_sites/site1.localhost:3001/tag/test',
+				'/_sites/site1.localhost:3001/tag/test/page/2',
+			],
+		});
+	});
+
+	it('should revalidate the existing terms paths for a multisite request with locale', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {
+				terms_ids: '1,2',
+				paths: '/category/test,/tag/test',
+				total_pages: '2',
+				locale: 'es',
+				token: 'sometoken',
+			},
+			headers: {
+				host: 'site1.localhost:3001',
+			},
+		});
+
+		mockedGetSiteByHost.mockReturnValueOnce({
+			hostUrl: 'http://site1.localhost:3001',
+			host: 'site1.localhost:3301',
+			sourceUrl: 'https://js1.10up.com',
+		});
+
+		mockedFetchHookData.mockReturnValueOnce({
+			data: {
+				result: {
+					terms_ids: [1, 2],
+					paths: ['/category/test', '/tag/test'],
+				},
+			},
+		});
+
+		res.revalidate = jest.fn((path) => Promise.resolve(path));
+
+		await revalidateTerms(req, res);
+
+		expect(res.revalidate).toHaveBeenCalledTimes(4);
+		expect(res.revalidate).toHaveBeenNthCalledWith(
+			1,
+			'/_sites/site1.localhost:3001/es/category/test',
+		);
+		expect(res.revalidate).toHaveBeenNthCalledWith(
+			2,
+			'/_sites/site1.localhost:3001/es/category/test/page/2',
+		);
+		expect(res.revalidate).toHaveBeenNthCalledWith(
+			3,
+			'/_sites/site1.localhost:3001/es/tag/test',
+		);
+		expect(res.revalidate).toHaveBeenNthCalledWith(
+			4,
+			'/_sites/site1.localhost:3001/es/tag/test/page/2',
+		);
+		expect(res._getStatusCode()).toBe(200);
+		expect(JSON.parse(res._getData())).toMatchObject({
+			message: 'success',
+			paths: [
+				'/_sites/site1.localhost:3001/es/category/test',
+				'/_sites/site1.localhost:3001/es/category/test/page/2',
+				'/_sites/site1.localhost:3001/es/tag/test',
+				'/_sites/site1.localhost:3001/es/tag/test/page/2',
+			],
+		});
+	});
+
+	it('should return a 401 response when token mismatch', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {
+				terms_ids: '1,2',
+				paths: '/category/test,/tag/test',
+				total_pages: '2',
+				token: 'invalidtoken',
+			},
+		});
+
+		mockedFetchHookData.mockReturnValueOnce({
+			data: {
+				result: {
+					terms_ids: [1, 3],
+					paths: ['/category/test', '/tag/test'],
+				},
+			},
+		});
+
+		res.revalidate = jest.fn();
+
+		await revalidateTerms(req, res);
+
+		expect(mockedFetchHookData).toHaveBeenCalledTimes(1);
+		expect(res.revalidate).not.toHaveBeenCalled();
+		expect(res._getStatusCode()).toBe(401);
+		expect(JSON.parse(res._getData())).toMatchObject({ message: 'Token mismatch' });
+	});
+
+	it('should return a 500 response when error', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {
+				terms_ids: '1,2',
+				paths: '/category/test,/tag/test',
+				total_pages: '2',
+				token: 'sometoken',
+			},
+		});
+
+		mockedFetchHookData.mockImplementationOnce(() => {
+			throw new Error('Error on fetch');
+		});
+
+		await revalidateTerms(req, res);
+
+		expect(mockedFetchHookData).toHaveBeenCalledTimes(1);
+		expect(res._getStatusCode()).toBe(500);
+		expect(JSON.parse(res._getData())).toMatchObject({ message: 'Error on fetch' });
 	});
 });
