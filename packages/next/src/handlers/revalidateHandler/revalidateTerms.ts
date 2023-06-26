@@ -84,7 +84,7 @@ export async function revalidateTerms(req: NextApiRequest, res: NextApiResponse)
 			.flat();
 
 		const revalidateResults = await Promise.all(
-			pathsToRevalidate.map((path) =>
+			pathsToRevalidate.map(async (path) =>
 				res
 					.revalidate(path)
 					.then(() => path)

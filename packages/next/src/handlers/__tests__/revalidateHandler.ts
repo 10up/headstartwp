@@ -63,8 +63,8 @@ describe('revalidateHandler', () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 			query: {
-				post_id: 1,
-				path: '/post/',
+				post_id: '1',
+				path: '/post',
 				token: 'sometoken',
 			},
 		});
@@ -81,8 +81,8 @@ describe('revalidateHandler', () => {
 			method: 'GET',
 			query: {
 				terms_ids: '1,2',
-				paths: '/category/test/,/tag/test/',
-				total_pages: 2,
+				paths: '/category/test,/tag/test',
+				total_pages: '2',
 				token: 'sometoken',
 			},
 		});
@@ -125,29 +125,34 @@ describe('revalidatePost', () => {
 	});
 
 	it('should revalidate the post path', async () => {
-		const query = {
-			post_id: '1',
-			path: '/post/',
-			token: 'sometoken',
-		};
-
 		const { req, res } = createMocks({
 			method: 'GET',
-			query,
+			query: {
+				post_id: '1',
+				path: '/post',
+				token: 'sometoken',
+			},
 		});
 
-		mockedFetchHookData.mockReturnValueOnce({ data: { result: query } });
+		mockedFetchHookData.mockReturnValueOnce({
+			data: {
+				result: {
+					post_id: '1',
+					path: '/post',
+				},
+			},
+		});
 
 		res.revalidate = jest.fn();
 
 		await revalidatePost(req, res);
 
 		expect(fetchHookData).toHaveBeenCalledTimes(1);
-		expect(res.revalidate).toHaveBeenCalledWith('/post/');
+		expect(res.revalidate).toHaveBeenCalledWith('/post');
 		expect(res._getStatusCode()).toBe(200);
 		expect(JSON.parse(res._getData())).toMatchObject({
 			message: 'success',
-			path: '/post/',
+			path: '/post',
 		});
 	});
 
@@ -156,7 +161,7 @@ describe('revalidatePost', () => {
 			method: 'GET',
 			query: {
 				post_id: '1',
-				path: '/post/',
+				path: '/post',
 				token: 'sometoken',
 			},
 			headers: {
@@ -164,7 +169,7 @@ describe('revalidatePost', () => {
 			},
 		});
 
-		mockedGetSiteByHost.mockReturnValue({
+		mockedGetSiteByHost.mockReturnValueOnce({
 			hostUrl: 'http://site1.localhost:3001',
 			host: 'site1.localhost:3301',
 			sourceUrl: 'https://js1.10up.com',
@@ -174,7 +179,7 @@ describe('revalidatePost', () => {
 			data: {
 				result: {
 					post_id: '1',
-					path: '/post/',
+					path: '/post',
 				},
 			},
 		});
@@ -184,11 +189,11 @@ describe('revalidatePost', () => {
 		await revalidatePost(req, res);
 
 		expect(fetchHookData).toHaveBeenCalledTimes(1);
-		expect(res.revalidate).toHaveBeenCalledWith('/_sites/site1.localhost:3001/post/');
+		expect(res.revalidate).toHaveBeenCalledWith('/_sites/site1.localhost:3001/post');
 		expect(res._getStatusCode()).toBe(200);
 		expect(JSON.parse(res._getData())).toMatchObject({
 			message: 'success',
-			path: '/_sites/site1.localhost:3001/post/',
+			path: '/_sites/site1.localhost:3001/post',
 		});
 	});
 
@@ -197,7 +202,7 @@ describe('revalidatePost', () => {
 			method: 'GET',
 			query: {
 				post_id: '1',
-				path: '/post/',
+				path: '/post',
 				locale: 'es',
 				token: 'sometoken',
 			},
@@ -206,7 +211,7 @@ describe('revalidatePost', () => {
 			},
 		});
 
-		mockedGetSiteByHost.mockReturnValue({
+		mockedGetSiteByHost.mockReturnValueOnce({
 			hostUrl: 'http://site1.localhost:3001',
 			host: 'site1.localhost:3301',
 			sourceUrl: 'https://js1.10up.com',
@@ -216,7 +221,7 @@ describe('revalidatePost', () => {
 			data: {
 				result: {
 					post_id: '1',
-					path: '/post/',
+					path: '/post',
 				},
 			},
 		});
@@ -226,11 +231,11 @@ describe('revalidatePost', () => {
 		await revalidatePost(req, res);
 
 		expect(fetchHookData).toHaveBeenCalledTimes(1);
-		expect(res.revalidate).toHaveBeenCalledWith('/_sites/site1.localhost:3001/es/post/');
+		expect(res.revalidate).toHaveBeenCalledWith('/_sites/site1.localhost:3001/es/post');
 		expect(res._getStatusCode()).toBe(200);
 		expect(JSON.parse(res._getData())).toMatchObject({
 			message: 'success',
-			path: '/_sites/site1.localhost:3001/es/post/',
+			path: '/_sites/site1.localhost:3001/es/post',
 		});
 	});
 
@@ -239,7 +244,7 @@ describe('revalidatePost', () => {
 			method: 'GET',
 			query: {
 				post_id: '1',
-				path: '/post/',
+				path: '/post',
 				token: 'invalidtoken',
 			},
 		});
@@ -248,7 +253,7 @@ describe('revalidatePost', () => {
 			data: {
 				result: {
 					post_id: '2',
-					path: '/post/',
+					path: '/post',
 				},
 			},
 		});
@@ -261,5 +266,65 @@ describe('revalidatePost', () => {
 		expect(res.revalidate).not.toHaveBeenCalled();
 		expect(res._getStatusCode()).toBe(500);
 		expect(JSON.parse(res._getData())).toMatchObject({ message: 'Token mismatch' });
+	});
+});
+
+describe('revalidateTerms', () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+	});
+
+	it('should return 401 if invalid params', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {},
+		});
+
+		await revalidateTerms(req, res);
+
+		expect(res._getStatusCode()).toBe(401);
+		expect(JSON.parse(res._getData())).toMatchObject({ message: 'Invalid params' });
+	});
+
+	it('should revalidate the existing terms paths', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {
+				terms_ids: '1,2',
+				paths: '/category/test,/tag/test',
+				total_pages: '2',
+				token: 'sometoken',
+			},
+		});
+
+		mockedFetchHookData.mockReturnValueOnce({
+			data: {
+				result: {
+					terms_ids: [1, 2],
+					paths: ['/category/test', '/tag/test'],
+				},
+			},
+		});
+
+		res.revalidate = jest.fn(
+			(path) =>
+				new Promise((resolve, reject) => {
+					if (path.endsWith('/page/2')) reject();
+					resolve(path);
+				}),
+		);
+
+		await revalidateTerms(req, res);
+
+		expect(res.revalidate).toHaveBeenCalledTimes(4);
+		expect(res.revalidate).toHaveBeenNthCalledWith(1, '/category/test');
+		expect(res.revalidate).toHaveBeenNthCalledWith(2, '/category/test/page/2');
+		expect(res.revalidate).toHaveBeenNthCalledWith(3, '/tag/test');
+		expect(res.revalidate).toHaveBeenNthCalledWith(4, '/tag/test/page/2');
+		expect(res._getStatusCode()).toBe(200);
+		expect(JSON.parse(res._getData())).toMatchObject({
+			message: 'success',
+			paths: ['/category/test', '/tag/test'],
+		});
 	});
 });
