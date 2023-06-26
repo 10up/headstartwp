@@ -100,7 +100,7 @@ After adding a custom taxonomy to the config, you will be able to filter posts b
 ```js
 usePost({ postType: ['book'], genre: 'action' });
 usePosts({ postType:'book', genre: 'action' perPage: 10 });
-useTerms({ taxonomy: 'genre' } );
+useTerms({ taxonomy: 'genre' });
 ```
 
 Additionally, if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
