@@ -57,6 +57,36 @@ class CacheFlushToken extends BaseToken {
 	}
 
 	/**
+	 * Generates a cache flush token for the given archive.
+	 *
+	 * @param \WP_Post $post The post object.
+	 * @param string   $path The archive path.
+	 *
+	 * @return array
+	 */
+	public static function generateForArchive( $post, string $path ) {
+		$path = apply_filters(
+			'headless_wp_generate_token_for_archive_revalidate',
+			$path,
+			$post
+		);
+
+		$token = self::generate(
+			[
+				'post_type' => $post->post_type,
+				'path'      => $path,
+				'type'      => 'isr-revalidate',
+			]
+		);
+
+		return [
+			'token'     => $token,
+			'path'      => $path,
+			'post_type' => $post->post_type,
+		];
+	}
+
+	/**
 	 * Generates a cache flush token for the given terms.
 	 *
 	 * @param \WP_Term[] $terms The terms objects.

@@ -106,9 +106,9 @@ class CacheFlush {
 			/**
 			 * Post revalidation
 			 */
-			$post    = get_post( $post_id );
-			$payload = CacheFlushToken::generateForPost( $post );
+			$post = get_post( $post_id );
 
+			$payload  = CacheFlushToken::generateForPost( $post );
 			$response = $this->revalidate_post_request( $payload['post_id'], $payload['path'], $payload['token'] );
 
 			$frontpage_id = get_option( 'page_on_front' );
@@ -129,21 +129,43 @@ class CacheFlush {
 			}
 
 			/**
-			 * Terms revalidation
+			 * Archive revalidation.
 			 */
-			$taxonomies  = get_taxonomies();
-			$terms       = wp_get_post_terms( $post_id, $taxonomies );
-			$total_pages = apply_filters( 'tenup_headless_isr_revalidate_terms_total_pages', 2 );
+			$archive_link = get_post_type_archive_link( $post->post_type );
 
-			if ( ! empty( $terms ) ) {
-				$payload = CacheFlushToken::generateForTerms( $terms );
+			if ( false !== $archive_link ) {
+				$archive_path        = str_replace( home_url(), '', $archive_link );
+				$archive_path        = (bool) $archive_path ? untrailingslashit( $archive_path ) : '/';
+				$archive_total_pages = apply_filters( 'tenup_headless_isr_revalidate_archive_total_pages', 2 );
 
-				$response = $this->revalidate_terms_request( $payload['terms_ids'], $payload['paths'], $total_pages, $payload['token'] );
+				$payload  = CacheFlushToken::generateForArchive( $post, $archive_path );
+				$response = $this->revalidate_archive_request( $payload['post_type'], $payload['path'], $archive_total_pages, $payload['token'] );
 
 				$status_code = wp_remote_retrieve_response_code( $response );
 				$body        = json_decode( wp_remote_retrieve_body( $response ) );
 
-				$headless_terms_urls = [];
+				$headless_archive_url = $react_url . $payload['path'];
+
+				if ( 200 === (int) $status_code && function_exists( 'wpcom_vip_purge_edge_cache_for_url' ) ) {
+					wpcom_vip_purge_edge_cache_for_url( $headless_archive_url );
+				}
+			}
+
+			/**
+			 * Terms revalidation
+			 */
+			$taxonomies        = get_taxonomies();
+			$terms             = wp_get_post_terms( $post_id, $taxonomies );
+			$terms_total_pages = apply_filters( 'tenup_headless_isr_revalidate_terms_total_pages', 2 );
+
+			$headless_terms_urls = [];
+
+			if ( ! empty( $terms ) ) {
+				$payload  = CacheFlushToken::generateForTerms( $terms );
+				$response = $this->revalidate_terms_request( $payload['terms_ids'], $payload['paths'], $terms_total_pages, $payload['token'] );
+
+				$status_code = wp_remote_retrieve_response_code( $response );
+				$body        = json_decode( wp_remote_retrieve_body( $response ) );
 
 				foreach ( $payload['paths'] as $path ) {
 					$headless_term_url = $react_url . $path;
@@ -239,16 +261,53 @@ class CacheFlush {
 	}
 
 	/**
+	 * Makes a revalidate request for an archive path.
+	 *
+	 * @param string $post_type The post type.
+	 * @param string $path The path of the archive to revalidate.
+	 * @param int    $total_pages The number of pages to revalidate.
+	 * @param string $token The jwt token.
+	 *
+	 * @return array|\WP_Error
+	 */
+	public function revalidate_archive_request( $post_type, $path, $total_pages, $token ) {
+		/**
+		 * Filters the revalidate endpoint.
+		 *
+		 * @param string $revalidate_endpoint The revalidate endpoint.
+		 */
+		$revalidate_endpoint = apply_filters( 'tenup_headless_isr_revalidate_endpoint', trailingslashit( Plugin::get_react_url() ) . 'api/revalidate' );
+
+		$locale = Plugin::get_site_locale();
+
+		$revalidate_url = add_query_arg(
+			[
+				'post_type'   => $post_type,
+				'path'        => $path,
+				'total_pages' => $total_pages,
+				'token'       => $token,
+			]
+		);
+
+		return wp_remote_get(
+			$revalidate_url,
+			[
+				'timeout' => 5,
+			]
+		);
+	}
+
+	/**
 	 * Makes a revalidate request for the terms paths.
 	 *
 	 * @param int[]    $terms_ids The terms ids.
 	 * @param string[] $paths The paths of the terms to revalidate.
-	 * @param int      $total_pages The number of pages to revalidate.
+	 * @param int      $terms_total_pages The number of pages to revalidate.
 	 * @param string   $token The jwt token.
 	 *
 	 * @return array|\WP_Error
 	 */
-	public function revalidate_terms_request( $terms_ids, $paths, $total_pages, $token ) {
+	public function revalidate_terms_request( $terms_ids, $paths, $terms_total_pages, $token ) {
 		/**
 		 * Filters the revalidate endpoint.
 		 *
@@ -262,7 +321,7 @@ class CacheFlush {
 			[
 				'terms_ids'   => implode( ',', $terms_ids ),
 				'paths'       => implode( ',', $paths ),
-				'total_pages' => $total_pages,
+				'total_pages' => $terms_total_pages,
 				'locale'      => $locale,
 				'token'       => $token,
 			],
