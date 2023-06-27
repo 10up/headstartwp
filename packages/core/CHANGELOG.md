@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.0.6-next.0
+
+### Patch Changes
+
+- 225724d8: Fix an issue where an empty result would still yield a "matching slug error" when thrownIfNotFound was set to false
+
 ## 1.0.5
 
 ### Patch Changes

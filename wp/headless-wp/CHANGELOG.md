@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.8-next.0
+
+### Patch Changes
+
+- d887d837: Adds the filter `tenup_headless_wp_previews_enabled`that can disable preview handling
+
 ## 1.0.7
 
 ### Patch Changes
