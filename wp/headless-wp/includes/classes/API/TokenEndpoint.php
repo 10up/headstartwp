@@ -67,6 +67,7 @@ class TokenEndpoint {
 
 		return false;
 	}
+
 	/**
 	 * Returns the token payload.
 	 *
@@ -81,6 +82,15 @@ class TokenEndpoint {
 				[
 					'post_id' => $payload['post_id'],
 					'path'    => $payload['path'],
+				]
+			);
+		}
+
+		if ( isset( $payload['post_type'] ) ) {
+			return rest_ensure_response(
+				[
+					'post_type' => $payload['post_type'],
+					'path'      => $payload['path'],
 				]
 			);
 		}
