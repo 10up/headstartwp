@@ -15,8 +15,9 @@ if ( ! defined( 'WP_TESTS_CONFIG_FILE_PATH' ) && false !== getenv( 'WP_PHPUNIT__
 	define( 'WP_TESTS_CONFIG_FILE_PATH', getenv( 'WP_PHPUNIT__TESTS_CONFIG' ) );
 }
 
-require_once PROJECT_ROOT . '/vendor/autoload.php';
+require_once PROJECT_ROOT . '/vendor/antecedent/patchwork/Patchwork.php';
 require_once PROJECT_ROOT . '/vendor/yoast/wp-test-utils/src/WPIntegration/bootstrap-functions.php';
+require_once PROJECT_ROOT . '/vendor/autoload.php';
 
 $_tests_dir = WPIntegration\get_path_to_wp_test_dir();
 
