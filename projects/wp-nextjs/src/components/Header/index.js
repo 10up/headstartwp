@@ -11,7 +11,6 @@ const headerStyles = css`
 	height: 75px;
 	background-color: #fff;
 	border-bottom: 1px solid #e0e0e0;
-	font-family: Roboto;
 	padding: 0 20px;
 
 	> div,
