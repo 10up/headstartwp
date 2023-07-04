@@ -1,3 +1,4 @@
+import { useAppSettings } from '@headstartwp/next';
 import { css } from '@linaria/core';
 
 const logoStyles = css`
@@ -16,9 +17,15 @@ const logoStyles = css`
 `;
 
 export const Logo = () => {
+	const { data, loading } = useAppSettings();
+
+	if (loading) {
+		return null;
+	}
+
 	return (
 		<div className={logoStyles}>
-			<span>Brand Logo</span>
+			<span>{data?.settings?.site_name || 'Brand Logo'}</span>
 		</div>
 	);
 };
