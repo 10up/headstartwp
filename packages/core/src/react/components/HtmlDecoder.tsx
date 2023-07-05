@@ -7,9 +7,7 @@ export interface HtmlDecodeProps {
 	 * The string with html entities to decode
 	 *
 	 * ```jsx
-	 * <HtmlDecoder
-	 *		value="Hello world! &#8211; foo bar &#8211;"
-	 * />,
+	 * <HtmlDecoder value="Hello world! &#8211; foo bar &#8211;" />
 	 * ```
 	 */
 	html: string;
@@ -23,9 +21,7 @@ export interface HtmlDecodeProps {
  * ## Usage
  *
  * ```jsx
- * <HtmlDecoder
- *		html="Hello world! &#8211; foo bar &#8211;"
- * />,
+ * <HtmlDecoder html="Hello world! &#8211; foo bar &#8211;" />
  * ```
  *
  * @param props Component properties

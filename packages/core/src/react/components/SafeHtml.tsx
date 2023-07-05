@@ -8,9 +8,7 @@ export interface SafeHtmlProps {
 	 * The HTML string to be rendered.
 	 *
 	 * ```jsx
-	 * <SafeHtml
-	 *		html="<div><p>hello world</p> div content</div>"
-	 * />,
+	 * <SafeHtml html="<div><p>hello world</p> div content</div>" />
 	 * ```
 	 */
 	html: string;
@@ -19,10 +17,10 @@ export interface SafeHtmlProps {
 	 * The allow list for the parser
 	 *
 	 * ```jsx
-	 * <BlocksRenderer
+	 * <SafeHtml
 	 *		html="<div><p>hello world</p> div content</div>"
 	 *		ksesAllowList={{ div: [] }}
-	 * />,
+	 * />
 	 * ```
 	 */
 	ksesAllowList?: IWhiteList;
@@ -36,9 +34,7 @@ export interface SafeHtmlProps {
  * ## Usage
  *
  * ```jsx
- * <SafeHtml
- *		html="<div><p>hello world</p> div content</div>"
- * />,
+ * <SafeHtml html="<div><p>hello world</p> div content</div>" />
  * ```
  *
  * @param props Component properties
