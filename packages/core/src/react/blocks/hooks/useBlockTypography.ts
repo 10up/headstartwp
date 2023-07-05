@@ -24,7 +24,10 @@ interface BlockTypographyAttributes extends IBlockAttributes {
 export function useBlockTypography(node: Element): Typography {
 	const { name, attributes } = useBlock<BlockTypographyAttributes>(node);
 	const defaultFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
-	const fontSizesSettings = useThemeSetting('typography.fontSizes', name, []);
+	const themeFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
+	const userFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
+	const blockFontSizesSettings = useThemeSetting('typography.fontSizes', name, [], false);
+
 	const supportsCustomFontSize = !!useThemeSetting('typography.customFontSize', name);
 	const supportsFontStyle = !!useThemeSetting('typography.fontStyle', name);
 	const supportsFontWeight = !!useThemeSetting('typography.fontWeight', name);
@@ -33,12 +36,12 @@ export function useBlockTypography(node: Element): Typography {
 	const supportsTextDecoration = !!useThemeSetting('typography.textDecoration', name);
 	const supportsTextTransform = !!useThemeSetting('typography.textTransform', name);
 
-	// either use the block settings or try the theme or default one
-	const fontSizes = Array.isArray(fontSizesSettings)
-		? fontSizesSettings
-		: fontSizesSettings?.theme;
-
-	const allFontSizes = [...defaultFontSizesSettings, ...fontSizes];
+	const allFontSizes = [
+		...blockFontSizesSettings,
+		...userFontSizesSettings,
+		...themeFontSizesSettings,
+		...defaultFontSizesSettings,
+	];
 
 	const fontSizePreset = attributes?.fontSize;
 
