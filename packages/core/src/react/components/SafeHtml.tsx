@@ -29,7 +29,7 @@ export interface SafeHtmlProps {
 }
 
 /**
- * The `SafeHtml` components provides an easy way to safely render HTMl
+ * The `SafeHtml` component provides an easy way to safely render HTML
  *
  * The html prop is sanitized through {@link wpKsesPost} so it's safe for rendering arbitrary html markup.
  *

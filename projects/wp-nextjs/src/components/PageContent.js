@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { usePost } from '@headstartwp/next';
 import dynamic from 'next/dynamic';
-import { SafeHtml } from '@headstartwp/core/react';
+import { HtmlDecoder } from '@headstartwp/core/react';
 
 const Blocks = dynamic(() => import('./Blocks'));
 
@@ -21,7 +21,7 @@ export const PageContent = ({ params }) => {
 	return (
 		<>
 			<h1>
-				<SafeHtml html={data.post.title.rendered} />
+				<HtmlDecoder html={data.post.title.rendered} />
 			</h1>
 			<Blocks html={data.post.content.rendered} />
 		</>

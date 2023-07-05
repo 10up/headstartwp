@@ -13,7 +13,7 @@ describe('SafeHtml', () => {
 		);
 	});
 
-	it('renders arbitraty markup', () => {
+	it('renders arbitrary markup', () => {
 		const { container } = render(<SafeHtml html="This is a <span>title</span>" />);
 		expect(container).toMatchInlineSnapshot(`
       <div>
