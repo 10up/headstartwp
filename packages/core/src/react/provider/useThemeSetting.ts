@@ -15,6 +15,8 @@ const get = (obj, path, defaultValue: any = undefined) => {
  *
  * @param path - The path to the setting
  * @param blockName - The block name
+ * @param defaultValue the default value to return
+ *
  * @returns
  */
 export function useThemeSetting(

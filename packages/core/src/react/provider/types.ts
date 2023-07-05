@@ -29,6 +29,51 @@ export type StylesPropertiesAndElementsComplete = StylesProperties & {
 	elements?: StylesElementsPropertiesComplete;
 };
 
+export type SettingsColorPreset = {
+	/**
+	 * Name of the color preset, translatable.
+	 */
+	name: string;
+	/**
+	 * Kebab-case unique identifier for the color preset.
+	 */
+	slug: string;
+	/**
+	 * CSS hex or rgb(a) string.
+	 */
+	color: string;
+};
+
+export type SettingsGradientPreset = {
+	/**
+	 * Name of the gradient preset, translatable.
+	 */
+	name: string;
+	/**
+	 * Kebab-case unique identifier for the gradient preset.
+	 */
+	slug: string;
+	/**
+	 * CSS gradient string.
+	 */
+	gradient: string;
+};
+
+export type SettingsDuotonePreset = {
+	/**
+	 * Name of the duotone preset, translatable.
+	 */
+	name: string;
+	/**
+	 * Kebab-case unique identifier for the duotone preset.
+	 */
+	slug: string;
+	/**
+	 * List of colors from dark to light.
+	 */
+	colors: string[];
+};
+
 export interface WpThemeJSON {
 	/**
 	 * JSON schema URI for theme.json.
@@ -43,7 +88,7 @@ export interface WpThemeJSON {
 	 * - Which customization options should be available to the user.
 	 * - The default colors, font sizes... available to the user.
 	 * - CSS custom properties and class names used in styles.
-	 * - And the default layout of the editor (widths and available alignments).
+	 * - And the default layout of the editor (widths and available alignments).x
 	 */
 	settings?: SettingsProperties & {
 		color?: SettingsProperties['color'];
@@ -346,38 +391,12 @@ export interface SettingsProperties {
 		 * Duotone presets for the duotone picker.
 		 * Doesn't generate classes or properties.
 		 */
-		duotone?: {
-			/**
-			 * Name of the duotone preset, translatable.
-			 */
-			name: string;
-			/**
-			 * Kebab-case unique identifier for the duotone preset.
-			 */
-			slug: string;
-			/**
-			 * List of colors from dark to light.
-			 */
-			colors: string[];
-		}[];
+		duotone?: SettingsDuotonePreset[];
 		/**
 		 * Gradient presets for the gradient picker.
 		 * Generates a single class (`.has-{slug}-background`) and custom property (`--wp--preset--gradient--{slug}`) per preset value.
 		 */
-		gradients?: {
-			/**
-			 * Name of the gradient preset, translatable.
-			 */
-			name: string;
-			/**
-			 * Kebab-case unique identifier for the gradient preset.
-			 */
-			slug: string;
-			/**
-			 * CSS gradient string.
-			 */
-			gradient: string;
-		}[];
+		gradients?: SettingsGradientPreset[];
 		/**
 		 * Allow users to set link colors.
 		 */
@@ -386,20 +405,7 @@ export interface SettingsProperties {
 		 * Color palette presets for the color picker.
 		 * Generates three classes (`.has-{slug}-color`, `.has-{slug}-background-color`, and `.has-{slug}-border-color`) and a single custom property (`--wp--preset--color--{slug}`) per preset value.
 		 */
-		palette?: {
-			/**
-			 * Name of the color preset, translatable.
-			 */
-			name: string;
-			/**
-			 * Kebab-case unique identifier for the color preset.
-			 */
-			slug: string;
-			/**
-			 * CSS hex or rgb(a) string.
-			 */
-			color: string;
-		}[];
+		palette?: SettingsColorPreset[];
 		/**
 		 * Allow users to set text colors.
 		 */
