@@ -1,11 +1,11 @@
 /**
- * Decodes HTML entities
+ * Decodes HTML special chars entities
  *
  * @param text The text we want to decode
  *
  * @returns text with decoded html entities
  */
-export function decodeHtmlEntities(text: string) {
+export function decodeHtmlSpeciaChars(text: string) {
 	if (!text) {
 		return '';
 	}
@@ -18,5 +18,7 @@ export function decodeHtmlEntities(text: string) {
 		.replace(/&#8211;/g, '–')
 		.replace(/&#8230;/g, '…')
 		.replace(/&quot;/g, '"')
-		.replace(/&amp;/g, '&');
+		.replace(/&amp;/g, '&')
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>');
 }
