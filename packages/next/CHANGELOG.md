@@ -1,5 +1,23 @@
 # @headstartwp/next
 
+## 1.1.0-next.0
+
+### Minor Changes
+
+- 569662b6: Improves the Next.js preview cookie handling and fixes a bug where the locale was not properly being passed from WP when previewing.
+
+  First of all, it sets the preview cookie to expire within 5 minutes which aligns with the JWT token expiration.
+
+  Secondly, it will narrow the cookie to the post path being previewed so that `context.preview` is not true for other paths and thus avoiding bypassing getStaticProps until the cookies are cleared (either expires or the browser closes).
+
+### Patch Changes
+
+- Updated dependencies [24f8a99f]
+- Updated dependencies [569662b6]
+- Updated dependencies [df3e65ce]
+- Updated dependencies [d3ec9d83]
+  - @headstartwp/core@1.1.0-next.0
+
 ## 1.0.6
 
 ### Patch Changes
