@@ -35,7 +35,7 @@ $preview_url = sprintf(
 	$post_type,
 	$is_revision ? '1' : '0',
 	$token,
-	Plugin::get_site_locale()
+	$locale
 );
 
 wp_redirect( $preview_url );
