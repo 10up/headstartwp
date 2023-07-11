@@ -30,7 +30,7 @@ The following example uses the `useFetchPost` to manually fetch a page with the 
 import { useFetchPost } from '@headstartwp/core/react';
 
 const Page = () => {
-    const  { data: { post }, loading } = useFetchPost({ slug: 'about', post_type: 'page' } );
+    const  { data: { post }, loading } = useFetchPost({ slug: 'about', post_type: 'page' });
 
     if (loading) {
         return 'Loading...';
@@ -43,7 +43,7 @@ const Page = () => {
 You could omit the `slug` param by specifying the current path of the page and it will parse the path and extract matched params following the WordPress pretty permalinks convention.
 
 ```js
-usePost({ post_type: 'page' }, {}, '/about' );
+usePost({ post_type: 'page' }, {}, '/about');
 ```
 
 By using the Next.js bindings and following the path catch-all route convention, the URL extraction is automatic.
@@ -54,7 +54,7 @@ import { usePost } from '@headstartwp/next';
 const Page = () => {
     // slug is automatically injected from the next.js router
     // if you pass a slug it will override what's coming from the URL
-	const { loading, error, data } = usePost( { post_type: 'page' });
+	const { loading, error, data } = usePost({ post_type: 'page' });
 
 	if (loading) {
 		return 'Loading...';

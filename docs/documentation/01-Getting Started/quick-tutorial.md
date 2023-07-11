@@ -26,7 +26,7 @@ The great thing about this is that you don’t need multiple Next.js routes to h
 
 ### Basic Data Fetching
 
-Now let’s look at how data fetching for this route works. To make things easier to understand, let’s disregard `getStaticPaths` and `getStaticProps`functions.
+Now let’s look at how data fetching for this route works. To make things easier to understand, let’s disregard `getStaticPaths` and `getStaticProps` functions.
 
 ```js title="src/params.js"
 /**

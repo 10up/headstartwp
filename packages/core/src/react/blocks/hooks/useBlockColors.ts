@@ -27,17 +27,26 @@ export function useBlockColors(node: Element) {
 
 	const defaultColorsSettings = useThemeSetting('color.palette.default', null, []);
 	const defaultGradientsSettings = useThemeSetting('color.palette.default', null, []);
+	const themeColorsSettings = useThemeSetting('color.palette.theme', null, []);
+	const themeGradientsSettings = useThemeSetting('color.palette.theme', null, []);
+	const userColorsSettings = useThemeSetting('color.palette.user', null, []);
+	const userGradientsSettings = useThemeSetting('color.palette.user', null, []);
 
-	const colorsSettings = useThemeSetting('color.palette', name, []);
-	const gradientsSettings = useThemeSetting('color.gradients', name, []);
+	const blockColorsSettings = useThemeSetting('color.palette', name, [], false);
+	const blockGradientsSettings = useThemeSetting('color.gradients', name, [], false);
 
-	const colors = Array.isArray(colorsSettings) ? colorsSettings : colorsSettings?.theme;
-	const gradients = Array.isArray(gradientsSettings)
-		? gradientsSettings
-		: gradientsSettings?.theme ?? [];
-
-	const allGradients = [...defaultGradientsSettings, ...gradients];
-	const allColors = [...defaultColorsSettings, ...colors];
+	const allGradients = [
+		...blockGradientsSettings,
+		...userGradientsSettings,
+		...themeGradientsSettings,
+		...defaultGradientsSettings,
+	];
+	const allColors = [
+		...blockColorsSettings,
+		...userColorsSettings,
+		...themeColorsSettings,
+		...defaultColorsSettings,
+	];
 
 	const color: Colors = {
 		backgroundColorSlug: '',

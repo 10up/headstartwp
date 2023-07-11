@@ -1,5 +1,30 @@
 # @headstartwp/core
 
+## 1.1.0-next.0
+
+### Minor Changes
+
+- df3e65ce: Introduces `SafeHtml` and `HtmlDecoder` components.
+- d3ec9d83: Introduces the `decodeHtmlSpecialChars` function.
+
+### Patch Changes
+
+- 24f8a99f: Fix theme.json handling in `useBlockColors` and `useBlockTypography`.
+
+  Thanks @riccardodicurti @dhamibirendra for [the bug report](https://github.com/10up/headstartwp/issues/541).
+
+- 569662b6: Improves the Next.js preview cookie handling and fixes a bug where the locale was not properly being passed from WP when previewing.
+
+  First of all, it sets the preview cookie to expire within 5 minutes which aligns with the JWT token expiration.
+
+  Secondly, it will narrow the cookie to the post path being previewed so that `context.preview` is not true for other paths and thus avoiding bypassing getStaticProps until the cookies are cleared (either expires or the browser closes).
+
+## 1.0.6
+
+### Patch Changes
+
+- 225724d8: Fix an issue where an empty result would still yield a "matching slug error" when thrownIfNotFound was set to false
+
 ## 1.0.5
 
 ### Patch Changes
