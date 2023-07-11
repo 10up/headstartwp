@@ -55,3 +55,12 @@ import { SafeHtml } from '@headstartwp/core/react';
 <SafeHtml html="<div><p>hello world</p> div content</div>">
 ```
 
+## decodeHtmlSpeciaChars
+
+This function will decode a pre-defined set of html special chars.
+
+```js
+import { decodeHtmlSpeciaChars } from '@headstartwp/core';
+
+decodeHtmlSpeciaChars('Hello world! &#8211; foo bar &#8211');
+```
