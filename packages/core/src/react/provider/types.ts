@@ -88,7 +88,7 @@ export interface WpThemeJSON {
 	 * - Which customization options should be available to the user.
 	 * - The default colors, font sizes... available to the user.
 	 * - CSS custom properties and class names used in styles.
-	 * - And the default layout of the editor (widths and available alignments).x
+	 * - And the default layout of the editor (widths and available alignments).
 	 */
 	settings?: SettingsProperties & {
 		color?: SettingsProperties['color'];
