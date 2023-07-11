@@ -52,14 +52,14 @@ export type PreviewHandlerOptions = {
 	 * **Important**: You should not need to override this but if you do, uou must append `-preview=true` to the end of the redirecte path.
 	 *
 	 * @param defaultRedirectPath the default redirect path
-	 * @param result PostEntity
+	 * @param post PostEntity
 	 * @param postTypeDef The object describing a post type
 	 *
 	 * @returns the new redirect path
 	 */
 	getRedirectPath?: (
 		defaultRedirectPath: string,
-		result: any,
+		post: any,
 		postTypeDef: CustomPostType,
 	) => string;
 
@@ -223,7 +223,7 @@ export async function previewHandler(
 			});
 
 			const defaultRedirect: PreviewHandlerOptions['onRedirect'] = (req, res) => {
-				return res.redirect(getDefaultRedirectPath());
+				return res.redirect(redirectPath);
 			};
 
 			if (options?.onRedirect) {

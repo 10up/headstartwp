@@ -40,8 +40,6 @@ Below is a summary of the preview workflow.
 - The token is sent alongside the post_type, post_id and a boolean indicating whether the post being previewed is a revision or not. 
 - The token is verified against the parameters and the token is used to fetch the post's draft/revision content.
 
-
-
 ## Usage
 
 The Next.js project **must** expose a `api/preview` endpoint that uses the [previewHandler](/api/modules/headstartwp_next/#previewhandler).
@@ -85,9 +83,49 @@ export default async function handler(req, res) {
 
 `name` would now be available in the context object of `getServerSideProps` and `getStaticProps` (`ctx.previewData`);
 
+#### `getRedirectPath`
+
+:::info
+This option was added in `@headstartwp/next@1.1.0`.
+:::info
+
+The `getRedirectPath` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts are `/%category%/%postname%/` you could create a `/src/pages/[category]/[...path.js]` route to handle single post. However, once you do that the `previewHandler` doesn't know how to redirect to that URL and as such you will have to provide your own redirect handling.
+
+The framework will also use this value to restrict the preview cookie to the post being previewed to avoid bypassing `getStaticProps` until the cookie expires or the browser is closed. See the [Next.js docs](https://nextjs.org/docs/pages/building-your-application/configuring/preview-mode#specify-the-preview-mode-duration) for more info.
+
+```ts
+import { getPostTerms } from '@headstartwp/core';
+import { previewHandler } from '@headstartwp/next';
+
+export default async function handler(req, res) {
+	return previewHandler(req, res, {
+		getRedirectPath(defaultRedirectPath, post) {
+			const { type, id, slug } = post;
+
+			if (type === 'post') {
+				const terms = getPostTerms(post);
+				
+				if (Array.isArray(terms?.category) && terms.category.length > 0) {
+					const [category] = terms.category;
+
+					return `/${categorySlug}/${id}/${slug || id}`;
+				}
+			}
+
+			return defaultRedirectPath
+		},
+	});
+}
+```
+
 #### `onRedirect`
 
-The `onRedirect` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts are `/%category%/%postname%/` you could create a `src/pages/[category]/[...path.js]` route to handle single post. However once you do that the `previewHandler` doesn't know how to redirect to that URL and as such you will have to provide your own redirect handling.
+:::caution
+Instead of implementing `onRedirect` we recommend implementing `getRedirectPath` instead as that will only enable the preview cookie for 
+the post being previewed.
+:::caution
+
+The `onRedirect` gives you full access to the `req` and `res` objects. If you do need implement this function we recommend also implementing `getRedirectPath`.
 
 :::caution
 When handling redirects yourself, make sure to always append `-preview=true` to the end of the redirected URL.
@@ -99,24 +137,8 @@ import { previewHandler } from '@headstartwp/next';
 
 export default async function handler(req, res) {
 	return previewHandler(req, res, {
-		// add categorySlug and post slug to preview data
-		preparePreviewData(req, res, post, previewData) {
-			const terms = getPostTerms(post);
-			if (Array.isArray(terms?.category) && terms.category.length > 0) {
-				const [category] = terms.category;
-
-				return { ...previewData, categorySlug: category.slug, slug: post.slug };
-			}
-			return { ...previewData };
-		},
-		onRedirect(req, res, previewData, defaultRedirect) {
-			const { postType, id, slug, categorySlug } = previewData;
-
-			if (postType === 'post' && typeof categorySlug === 'string') {
-				return res.redirect(`/${categorySlug}/${id}/${slug || id}-preview=true`);
-			}
-
-			return defaultRedirect(req, res, previewData);
+		onRedirect(req, res, previewData) {
+			return res.redirect('/custom-path-preview-true');
 		},
 	});
 }
@@ -126,7 +148,7 @@ export default async function handler(req, res) {
 
 **After a while, the preview URL stops working**
 
-The JWT token expires after 5 min by default, after this period, open another preview window from WordPress to preview the post.
+The JWT token expires after 5 min by default, after this period, open another preview window from WordPress to preview the post. The Next.js preview cookie also last for only 5 minutes.
 
 **I'm unable to preview a custom post type**
 
