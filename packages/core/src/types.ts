@@ -1,16 +1,22 @@
-export type CustomPostTypes = Array<{
+export type CustomPostType = {
 	slug: string;
 	endpoint: string;
 	single?: string;
 	archive?: string;
-}>;
+};
+
+export type CustomPostTypes = Array<CustomPostType>;
+
 export type RedirectStrategy = '404' | 'none' | 'always';
-export type CustomTaxonomies = Array<{
+
+export type CustomTaxonomy = {
 	slug: string;
 	endpoint: string;
 	rewrite?: string;
 	restParam?: string;
-}>;
+};
+
+export type CustomTaxonomies = Array<CustomTaxonomy>;
 
 export interface Integration {
 	enable: boolean;

@@ -1,4 +1,4 @@
-import { getSiteByHost, PostEntity } from '@headstartwp/core';
+import { CustomPostType, getSiteByHost, PostEntity } from '@headstartwp/core';
 import { getCustomPostType, getHeadlessConfig } from '@headstartwp/core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData, usePost } from '../data';
@@ -9,7 +9,9 @@ import { PreviewData } from './types';
  */
 export type PreviewHandlerOptions = {
 	/**
-	 * If passed will override the behavior of redirecting to the previewed post.
+	 * If passed will override the behavior of redirecting to the previewed post. We recommend implementing `getRedirectPath` instead. If you
+	 * absolutely need to implement a custom redirect handler, we also suggest you implement `getRedirectPath` so that the preview cookie only
+	 * applies to the specific path.
 	 *
 	 * If set you should handle the redirect yourself by calling `res.redirect`.
 	 *
@@ -29,13 +31,37 @@ export type PreviewHandlerOptions = {
 	 * 	});
 	 * }
 	 * ```
+	 *
+	 * @param req The NextApiRequest object
+	 * @param res The NextApiResponse object
+	 * @param previewData The previewData object
+	 * @param defaultRedirect The default redirect function
+	 * @param redirectPath The default redirect path or the one implemented in {@link PreviewHandlerOptions['getRedirectPath']}
 	 */
 	onRedirect?: (
 		req: NextApiRequest,
 		res: NextApiResponse,
 		previewData: PreviewData,
 		defaultRedirect?: PreviewHandlerOptions['onRedirect'],
+		redirectpath?: string,
 	) => NextApiResponse;
+
+	/**
+	 * If passed will override the default redirect path
+	 *
+	 * **Important**: You should not need to override this but if you do, uou must append `-preview=true` to the end of the redirecte path.
+	 *
+	 * @param defaultRedirectPath the default redirect path
+	 * @param result PostEntity
+	 * @param postTypeDef The object describing a post type
+	 *
+	 * @returns the new redirect path
+	 */
+	getRedirectPath?: (
+		defaultRedirectPath: string,
+		result: any,
+		postTypeDef: CustomPostType,
+	) => string;
 
 	/**
 	 * If passed, this function will be called when the preview data is fetched and allows
@@ -51,6 +77,18 @@ export type PreviewHandlerOptions = {
 		previewData: PreviewData,
 	) => PreviewData;
 };
+
+function withPreviewSuffix(path: string) {
+	const suffix = '-preview=true';
+	// remove trailing slash
+	const normalizePath = path.replace(/\/+$/, '');
+
+	if (normalizePath.endsWith(suffix)) {
+		return normalizePath;
+	}
+
+	return `${[normalizePath]}${suffix}`;
+}
 
 /**
  * The PreviewHandler is responsible for handling preview requests.
@@ -141,28 +179,55 @@ export async function previewHandler(
 				previewData = options.preparePreviewData(req, res, result, previewData);
 			}
 
-			res.setPreviewData(previewData);
-
 			const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
 
 			if (!postTypeDef) {
 				return res.end('Cannot preview an unknown post type');
 			}
 
-			const defaultRedirect: PreviewHandlerOptions['onRedirect'] = (req, res) => {
+			/**
+			 * Builds the default redirect path
+			 *
+			 * @returns the default redirec tpath
+			 */
+			const getDefaultRedirectPath = () => {
 				const singleRoute = postTypeDef.single || '/';
 				const prefixRoute = singleRoute === '/' ? '' : singleRoute;
 				const slugOrId = revision ? post_id : slug || post_id;
 
 				if (locale) {
-					return res.redirect(`/${locale}/${prefixRoute}/${slugOrId}-preview=true`);
+					return `/${locale}/${prefixRoute}/${slugOrId}`;
 				}
 
-				return res.redirect(`${prefixRoute}/${slugOrId}-preview=true`);
+				return `${prefixRoute}/${slugOrId}`;
+			};
+
+			const redirectPath =
+				typeof options.getRedirectPath === 'function'
+					? withPreviewSuffix(
+							options.getRedirectPath(getDefaultRedirectPath(), result, postTypeDef),
+					  )
+					: withPreviewSuffix(getDefaultRedirectPath());
+
+			// we should set the path cookie if onRedirect is undefined (i.e we're just using default behasvior)
+			// or if user has supplied getRedirectPath from which we can get the actual path
+			const shouldSetPathInCookie =
+				typeof options.onRedirect === 'undefined' ||
+				typeof options.getRedirectPath === 'function';
+
+			res.setPreviewData(previewData, {
+				maxAge: 5 * 60,
+				// we can only safely narrow the cookei to a path if getRedirectPath is implemented or
+				// it's using the default behavior without a custom onRedirect
+				path: shouldSetPathInCookie ? redirectPath : '/',
+			});
+
+			const defaultRedirect: PreviewHandlerOptions['onRedirect'] = (req, res) => {
+				return res.redirect(getDefaultRedirectPath());
 			};
 
 			if (options?.onRedirect) {
-				return options.onRedirect(req, res, previewData, defaultRedirect);
+				return options.onRedirect(req, res, previewData, defaultRedirect, redirectPath);
 			}
 
 			return defaultRedirect(req, res, previewData);
