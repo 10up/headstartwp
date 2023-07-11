@@ -2,4 +2,6 @@
 "@headstartwp/core": patch
 ---
 
-Fix themejson handling in `useBlockColors` and `useBlockTypography`
+Fix theme.json handling in `useBlockColors` and `useBlockTypography`.
+
+Thanks @riccardodicurti @dhamibirendra for [the bug report](https://github.com/10up/headstartwp/issues/541).
