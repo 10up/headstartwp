@@ -11,6 +11,26 @@ const sampleYoast = {
 };
 const sampleResult = {
 	id: 0,
+	_embedded: {
+		author: [
+			{
+				id: 1,
+				yoast_head: 'this should be removed',
+				yoast_head_json: sampleYoast,
+			},
+		],
+		'wp:featuredmedia': [
+			{
+				id: 2,
+				yoast_head: 'this should be removed',
+				yoast_head_json: sampleYoast,
+			},
+		],
+		'wp:term': [
+			[{ id: 3, yoast_head: 'this should be removed', yoast_head_json: sampleYoast }],
+			[{ id: 4, yoast_head: 'this should be removed', yoast_head_json: sampleYoast }],
+		],
+	},
 	yoast_head: 'this should be removed',
 	yoast_head_json: sampleYoast,
 };
@@ -56,6 +76,15 @@ describe('addHookData', () => {
 					'first-key': {
 						result: {
 							id: 0,
+							_embedded: {
+								author: [
+									{
+										id: 1,
+									},
+								],
+								'wp:featuredmedia': [{ id: 2 }],
+								'wp:term': [[{ id: 3 }], [{ id: 4 }]],
+							},
 						},
 						queriedObject: {},
 						pageInfo: samplePageInfo,
@@ -88,12 +117,35 @@ describe('addHookData', () => {
 			},
 		];
 
+		const expectedPostEmbeddedResult = {
+			author: [
+				{
+					id: 1,
+				},
+			],
+			'wp:featuredmedia': [{ id: 2 }],
+			'wp:term': [[{ id: 3 }], [{ id: 4 }]],
+		};
+
 		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
 				fallback: {
 					'first-key': {
 						queriedObject: {},
-						result: [{ id: 0 }, { id: 0 }, { id: 0 }],
+						result: [
+							{
+								id: 0,
+								_embedded: expectedPostEmbeddedResult,
+							},
+							{
+								id: 0,
+								_embedded: expectedPostEmbeddedResult,
+							},
+							{
+								id: 0,
+								_embedded: expectedPostEmbeddedResult,
+							},
+						],
 						pageInfo: samplePageInfo,
 					},
 				},
