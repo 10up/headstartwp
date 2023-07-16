@@ -50,21 +50,24 @@ describe('addHookData', () => {
 				isMainQuery: false,
 			},
 		];
-		expect(addHookData(hookStates, {})).toMatchObject({
+		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
 				fallback: {
 					'first-key': {
 						result: {
-							yoast_head: null,
-							yoast_head_json: null,
+							id: 0,
 						},
+						queriedObject: {},
 						pageInfo: samplePageInfo,
 					},
 					'second-key': {
+						queriedObject: {},
+						pageInfo: samplePageInfo,
 						result: { ...appSettingsResult, 'theme.json': null },
 					},
 				},
 				seo: {
+					yoast_head: sampleResult.yoast_head,
 					yoast_head_json: sampleYoast,
 				},
 				themeJSON: { ...sampleThemeJson },
@@ -85,30 +88,20 @@ describe('addHookData', () => {
 			},
 		];
 
-		expect(addHookData(hookStates, {})).toMatchObject({
+		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
 				fallback: {
 					'first-key': {
-						result: [
-							{
-								yoast_head: null,
-								yoast_head_json: null,
-							},
-							{
-								yoast_head: null,
-								yoast_head_json: null,
-							},
-							{
-								yoast_head: null,
-								yoast_head_json: null,
-							},
-						],
+						queriedObject: {},
+						result: [{ id: 0 }, { id: 0 }, { id: 0 }],
 						pageInfo: samplePageInfo,
 					},
 				},
 				seo: {
+					yoast_head: sampleResult.yoast_head,
 					yoast_head_json: sampleYoast,
 				},
+				themeJSON: {},
 			},
 		});
 	});

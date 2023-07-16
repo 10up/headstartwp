@@ -150,7 +150,7 @@ export function addHookData<P = { [key: string]: any }>(
 						seo = post.yoast_head;
 					}
 
-					delete cleanedUpPost.yoast_head_json;
+					delete cleanedUpPost.yoast_head;
 				}
 
 				return cleanedUpPost;
@@ -160,7 +160,7 @@ export function addHookData<P = { [key: string]: any }>(
 				if (!foundSeoJson) {
 					seo_json = { ...data.result.yoast_head_json };
 				}
-				data.result.yoast_head_json = null;
+				delete data.result.yoast_head_json;
 			}
 
 			if (data.result?.yoast_head) {
@@ -168,7 +168,7 @@ export function addHookData<P = { [key: string]: any }>(
 					seo = data.result.yoast_head;
 				}
 
-				data.result.yoast_head = null;
+				delete data.result.yoast_head;
 			}
 
 			if (data.result?.['theme.json']) {
