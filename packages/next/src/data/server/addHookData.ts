@@ -130,7 +130,6 @@ export function addHookData<P = { [key: string]: any }>(
 				let cleanedUpPost = { ...post };
 
 				if (post?._embedded) {
-					// eslint-disable-next-line
 					cleanedUpPost = removeFieldsFromPostRelatedData(
 						['yoast_head_json', 'yoast_head'],
 						post as PostEntity,
