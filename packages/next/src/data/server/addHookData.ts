@@ -1,4 +1,10 @@
-import { AppEntity, Entity, FetchResponse, PostEntity } from '@headstartwp/core';
+import {
+	AppEntity,
+	Entity,
+	FetchResponse,
+	PostEntity,
+	removeFieldsFromPostRelatedData,
+} from '@headstartwp/core';
 import type { Redirect } from 'next';
 
 export type HookState<T> = {
@@ -68,23 +74,31 @@ export function addHookData<P = { [key: string]: any }>(
 	if (mainQuery) {
 		if (mainQuery.data.queriedObject.search?.yoast_head_json) {
 			seo_json = { ...mainQuery.data.queriedObject.search?.yoast_head_json };
+			delete mainQuery.data.queriedObject.search?.yoast_head_json;
 		} else if (mainQuery.data.queriedObject.author?.yoast_head_json) {
 			seo_json = { ...mainQuery.data.queriedObject.author?.yoast_head_json };
+			delete mainQuery.data.queriedObject.author?.yoast_head_json;
 		} else if (mainQuery.data.queriedObject.term?.yoast_head_json) {
 			seo_json = { ...mainQuery.data.queriedObject.term?.yoast_head_json };
+			delete mainQuery.data.queriedObject.term?.yoast_head_json;
 		} else if (Array.isArray(mainQuery.data.result) && mainQuery.data.result.length > 0) {
 			if (mainQuery.data.result[0]?.yoast_head_json) {
 				seo_json = { ...mainQuery.data.result[0].yoast_head_json };
+				delete mainQuery.data.result[0].yoast_head_json;
 			}
 		} else if (!Array.isArray(mainQuery.data.result) && hasYoastTags(mainQuery.data.result)) {
 			seo_json = { ...mainQuery.data.result.yoast_head_json };
+			delete mainQuery.data.result.yoast_head_json;
 		}
 		if (mainQuery.data.queriedObject.search?.yoast_head) {
 			seo = mainQuery.data.queriedObject.search?.yoast_head;
+			delete mainQuery.data.queriedObject.search?.yoast_head;
 		} else if (mainQuery.data.queriedObject.author?.yoast_head) {
 			seo = mainQuery.data.queriedObject.author?.yoast_head;
+			delete mainQuery.data.queriedObject.author?.yoast_head;
 		} else if (mainQuery.data.queriedObject.term?.yoast_head) {
 			seo = mainQuery.data.queriedObject.term?.yoast_head;
+			delete mainQuery.data.queriedObject.term?.yoast_head;
 		} else if (
 			Array.isArray(mainQuery.data.result) &&
 			mainQuery.data.result.length > 0 &&
@@ -112,13 +126,23 @@ export function addHookData<P = { [key: string]: any }>(
 		// we want to keep only one yoast_head_json object and remove everything else to reduce
 		// hydration costs
 		if (Array.isArray(data.result) && data.result.length > 0) {
-			data.result.forEach((post) => {
+			data.result = data.result.map((post) => {
+				let cleanedUpPost = { ...post };
+
+				if (post?._embedded) {
+					// eslint-disable-next-line
+					cleanedUpPost = removeFieldsFromPostRelatedData(
+						['yoast_head_json', 'yoast_head'],
+						post as PostEntity,
+					);
+				}
+
 				if (post?.yoast_head_json) {
 					if (!foundSeoJson) {
 						seo_json = { ...post.yoast_head_json };
 					}
 
-					post.yoast_head_json = null;
+					delete cleanedUpPost.yoast_head_json;
 				}
 
 				if (post?.yoast_head) {
@@ -126,8 +150,10 @@ export function addHookData<P = { [key: string]: any }>(
 						seo = post.yoast_head;
 					}
 
-					post.yoast_head = null;
+					delete cleanedUpPost.yoast_head_json;
 				}
+
+				return cleanedUpPost;
 			});
 		} else if (!Array.isArray(data.result)) {
 			if (data.result?.yoast_head_json) {
@@ -147,6 +173,13 @@ export function addHookData<P = { [key: string]: any }>(
 
 			if (data.result?.['theme.json']) {
 				data.result['theme.json'] = null;
+			}
+
+			if (data.result?._embedded) {
+				data.result = removeFieldsFromPostRelatedData(
+					['yoast_head_json', 'yoast_head'],
+					data.result as PostEntity,
+				);
 			}
 		}
 

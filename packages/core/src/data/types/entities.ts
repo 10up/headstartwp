@@ -18,7 +18,7 @@ export interface Entity {
 /**
  * Cover some cases of objects with `rendered` property.
  */
-interface Rendered {
+export interface Rendered {
 	/**
 	 * Property of the object, transformed for display.
 	 */
@@ -110,8 +110,8 @@ export interface PostTypeEntity extends Entity {
 	 */
 	ping_status: 'open' | 'closed';
 
-	yoast_head_json: Record<string, any> | null;
-	yoast_head: string | null;
+	yoast_head_json?: Record<string, any> | null;
+	yoast_head?: string | null;
 }
 
 /**
@@ -475,8 +475,8 @@ export interface TermEntity extends Entity {
 	 */
 	meta: Record<string, unknown>;
 
-	yoast_head_json: Record<string, any> | null;
-	yoast_head: string | null;
+	yoast_head_json?: Record<string, any> | null;
+	yoast_head?: string | null;
 }
 
 /**
@@ -544,8 +544,8 @@ export interface AuthorEntity extends Entity {
 	 */
 	meta: Record<string, unknown>;
 
-	yoast_head_json: Record<string, any> | null;
-	yoast_head: string | null;
+	yoast_head_json?: Record<string, any> | null;
+	yoast_head?: string | null;
 }
 
 /**

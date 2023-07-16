@@ -1,4 +1,4 @@
-import { AuthorEntity, PostEntity, TermEntity } from '../types';
+import { AttachmentEntity, AuthorEntity, PostEntity, TermEntity } from '../types';
 import { removeFields } from './dataFilter';
 
 /**
@@ -53,6 +53,11 @@ export function removeFieldsFromPostRelatedData(
 			...post,
 			_embedded: {
 				...post._embedded,
+				'wp:featuredmedia': post._embedded?.['wp:featuredmedia']
+					? post._embedded?.['wp:featuredmedia']?.map((attachments) =>
+							removeFields(fieldsToRemove, attachments as AttachmentEntity[]),
+					  )
+					: [],
 				author: post._embedded.author
 					? (removeFields(fieldsToRemove, post._embedded.author) as AuthorEntity[])
 					: [],
