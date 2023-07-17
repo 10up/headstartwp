@@ -11,6 +11,26 @@ const sampleYoast = {
 };
 const sampleResult = {
 	id: 0,
+	_embedded: {
+		author: [
+			{
+				id: 1,
+				yoast_head: 'this should be removed',
+				yoast_head_json: sampleYoast,
+			},
+		],
+		'wp:featuredmedia': [
+			{
+				id: 2,
+				yoast_head: 'this should be removed',
+				yoast_head_json: sampleYoast,
+			},
+		],
+		'wp:term': [
+			[{ id: 3, yoast_head: 'this should be removed', yoast_head_json: sampleYoast }],
+			[{ id: 4, yoast_head: 'this should be removed', yoast_head_json: sampleYoast }],
+		],
+	},
 	yoast_head: 'this should be removed',
 	yoast_head_json: sampleYoast,
 };
@@ -50,21 +70,33 @@ describe('addHookData', () => {
 				isMainQuery: false,
 			},
 		];
-		expect(addHookData(hookStates, {})).toMatchObject({
+		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
 				fallback: {
 					'first-key': {
 						result: {
-							yoast_head: null,
-							yoast_head_json: null,
+							id: 0,
+							_embedded: {
+								author: [
+									{
+										id: 1,
+									},
+								],
+								'wp:featuredmedia': [{ id: 2 }],
+								'wp:term': [[{ id: 3 }], [{ id: 4 }]],
+							},
 						},
+						queriedObject: {},
 						pageInfo: samplePageInfo,
 					},
 					'second-key': {
+						queriedObject: {},
+						pageInfo: samplePageInfo,
 						result: { ...appSettingsResult, 'theme.json': null },
 					},
 				},
 				seo: {
+					yoast_head: sampleResult.yoast_head,
 					yoast_head_json: sampleYoast,
 				},
 				themeJSON: { ...sampleThemeJson },
@@ -85,30 +117,43 @@ describe('addHookData', () => {
 			},
 		];
 
-		expect(addHookData(hookStates, {})).toMatchObject({
+		const expectedPostEmbeddedResult = {
+			author: [
+				{
+					id: 1,
+				},
+			],
+			'wp:featuredmedia': [{ id: 2 }],
+			'wp:term': [[{ id: 3 }], [{ id: 4 }]],
+		};
+
+		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
 				fallback: {
 					'first-key': {
+						queriedObject: {},
 						result: [
 							{
-								yoast_head: null,
-								yoast_head_json: null,
+								id: 0,
+								_embedded: expectedPostEmbeddedResult,
 							},
 							{
-								yoast_head: null,
-								yoast_head_json: null,
+								id: 0,
+								_embedded: expectedPostEmbeddedResult,
 							},
 							{
-								yoast_head: null,
-								yoast_head_json: null,
+								id: 0,
+								_embedded: expectedPostEmbeddedResult,
 							},
 						],
 						pageInfo: samplePageInfo,
 					},
 				},
 				seo: {
+					yoast_head: sampleResult.yoast_head,
 					yoast_head_json: sampleYoast,
 				},
+				themeJSON: {},
 			},
 		});
 	});
