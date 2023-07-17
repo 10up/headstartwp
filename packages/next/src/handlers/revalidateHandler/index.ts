@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { revalidatePost } from './revalidatePost';
+import { revalidateArchive } from './revalidateArchive';
 import { revalidateTerms } from './revalidateTerms';
 import { ERROR_MESSAGE } from './constants';
 
@@ -29,7 +30,7 @@ import { ERROR_MESSAGE } from './constants';
  * @category API handlers
  */
 export async function revalidateHandler(req: NextApiRequest, res: NextApiResponse) {
-	const { post_id, path, terms_ids, paths, total_pages, token } = req.query;
+	const { post_id, post_type, path, terms_ids, paths, total_pages, token } = req.query;
 
 	if (req.method !== 'GET') {
 		return res.status(401).json({ message: ERROR_MESSAGE.INVALID_METHOD });
@@ -37,6 +38,10 @@ export async function revalidateHandler(req: NextApiRequest, res: NextApiRespons
 
 	if (post_id && path && token) {
 		return revalidatePost(req, res);
+	}
+
+	if (post_type && path && total_pages && token) {
+		return revalidateArchive(req, res);
 	}
 
 	if (terms_ids && paths && total_pages && token) {
