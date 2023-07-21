@@ -86,6 +86,7 @@ export class PostOrPostsFetchStrategy<
 					} as R,
 				};
 			} catch (e) {
+				console.log(e);
 				// do nothing
 			}
 
@@ -123,6 +124,7 @@ export class PostOrPostsFetchStrategy<
 				} as R,
 			};
 		} catch (e) {
+			console.log('archive not found', e);
 			// do nothing
 		}
 

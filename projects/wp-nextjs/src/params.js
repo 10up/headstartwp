@@ -19,10 +19,6 @@ export const searchParams = { postType: 'post' };
 export const blogParams = {
 	single: {
 		postType: 'post',
-		/**
-		 * Specifying the _fields param reduces the amount of data queried and returned by the API.
-		 */
-		_fields: ['id', 'title', 'link'],
 	},
 	archive: {
 		postType: 'post',
@@ -31,7 +27,7 @@ export const blogParams = {
 		 */
 		_fields: ['id', 'title', 'link'],
 	},
-	priority: 'archive',
+	priority: 'single',
 };
 
 // The params below are just for the custom post type routes example
