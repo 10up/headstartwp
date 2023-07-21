@@ -8,33 +8,47 @@
  *
  */
 import {
-	usePosts,
 	fetchHookData,
 	addHookData,
 	handleError,
 	useAppSettings,
+	usePostOrPosts,
 } from '@headstartwp/next';
+import { BlocksRenderer } from '@headstartwp/core/react';
 import { Link } from '../../components/Link';
-import { Pagination } from '../../components/Pagination';
 import { blogParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 
-const BlogPage = () => {
-	const { data } = usePosts(blogParams);
+const SinglePost = () => {
+	const { data } = usePostOrPosts(blogParams);
 
 	return (
 		<>
-			<h1>Blog Page</h1>
-			<ul>
-				{data.posts.map((post) => (
-					<li key={post.id}>
-						<Link href={post.link}>{post.title.rendered}</Link>
-					</li>
-				))}
-			</ul>
-			<Pagination pageInfo={data.pageInfo} />
+			<h1>{data.post.title.rendered}</h1>
+			<BlocksRenderer html={data.post.content.rendered} />
 		</>
 	);
+};
+
+const BlogPage = () => {
+	const { data, isArchive } = usePostOrPosts(blogParams);
+
+	if (isArchive) {
+		return (
+			<>
+				<h1>Blog Page</h1>
+				<ul>
+					{data.posts.map((post) => (
+						<li key={post.id}>
+							<Link href={post.link}>{post.title.rendered}</Link>
+						</li>
+					))}
+				</ul>
+			</>
+		);
+	}
+
+	return <SinglePost />;
 };
 
 export default BlogPage;
@@ -43,7 +57,7 @@ export async function getServerSideProps(context) {
 	try {
 		const settledPromises = await resolveBatch([
 			{
-				func: fetchHookData(usePosts.fetcher(), context, { params: blogParams }),
+				func: fetchHookData(usePostOrPosts.fetcher(), context, { params: blogParams }),
 			},
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);

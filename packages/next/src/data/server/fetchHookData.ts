@@ -9,6 +9,7 @@ import {
 } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { serializeKey } from '@headstartwp/core/react';
+import deepmerge from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
@@ -100,7 +101,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	const stringPath = convertToPath(path);
 	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
-	const finalParams = { ...defaultParams, ...urlParams, ...params };
+	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<P>;
 
 	// we don't want to include the preview params in the key
 	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };

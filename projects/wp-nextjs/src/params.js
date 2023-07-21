@@ -14,15 +14,24 @@ export const indexParams = { postType: ['page'] };
 export const searchParams = { postType: 'post' };
 
 /**
- * @type {import('@headstartwp/core').PostsArchiveParams}
+ * @type {import('@headstartwp/core').PostOrPostsParams}
  */
 export const blogParams = {
-	postType: 'post',
-
-	/**
-	 * Specifying the _fields param reduces the amount of data queried and returned by the API.
-	 */
-	_fields: ['id', 'title', 'link'],
+	single: {
+		postType: 'post',
+		/**
+		 * Specifying the _fields param reduces the amount of data queried and returned by the API.
+		 */
+		_fields: ['id', 'title', 'link'],
+	},
+	archive: {
+		postType: 'post',
+		/**
+		 * Specifying the _fields param reduces the amount of data queried and returned by the API.
+		 */
+		_fields: ['id', 'title', 'link'],
+	},
+	priority: 'archive',
 };
 
 // The params below are just for the custom post type routes example

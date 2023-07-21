@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import deepmerge from 'deepmerge';
 import type { EndpointParams, FetchResponse } from '../../data';
 import { AbstractFetchStrategy } from '../../data';
 
@@ -37,7 +38,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	const urlParams = fetchStrategy.getParamsFromURL(path, params);
 	const isMainQuery = fetchStrategy.isMainQuery(path, params);
 
-	const finalParams = { ...defaultParams, ...urlParams, ...params };
+	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<Params>;
 
 	const { fetchStrategyOptions, ...validSWROptions } = options;
 

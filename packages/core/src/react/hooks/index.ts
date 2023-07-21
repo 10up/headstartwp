@@ -7,3 +7,4 @@ export * from './useFetchTerms';
 export * from './useFetchAuthorArchive';
 export * from './useFetchAppSettings';
 export * from './useFetchMenu';
+export * from './useFetchPostOrPosts';
