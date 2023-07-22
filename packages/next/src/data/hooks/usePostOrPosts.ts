@@ -23,7 +23,6 @@ export function usePostOrPosts<
 ) {
 	const useFetchArguments = usePrepareFetch(params, options);
 
-	console.log('usePostOrPosts', useFetchArguments);
 	return useFetchPostOrPosts<T, P>(
 		useFetchArguments.params,
 		useFetchArguments.options,

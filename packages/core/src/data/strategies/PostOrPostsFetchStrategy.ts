@@ -44,6 +44,8 @@ export class PostOrPostsFetchStrategy<
 	P extends PostOrPostsParams,
 	R extends PostOrPostsFetchStrategyResult<T>,
 > extends AbstractFetchStrategy<T[], P, R> {
+	urlParams: Partial<P> = {};
+
 	postStrategy: SinglePostFetchStrategy = new SinglePostFetchStrategy(this.baseURL);
 
 	postsStrategy: PostsArchiveFetchStrategy = new PostsArchiveFetchStrategy(this.baseURL);
@@ -53,15 +55,12 @@ export class PostOrPostsFetchStrategy<
 	}
 
 	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
-		console.log(
-			'PostsOrPosts - path',
-			path,
-			this.postStrategy.getParamsFromURL(path, params.single),
-		);
-		return {
+		this.urlParams = {
 			single: this.postStrategy.getParamsFromURL(path, params.single),
 			archive: this.postsStrategy.getParamsFromURL(path, params.archive),
 		} as P;
+
+		return this.urlParams;
 	}
 
 	async fetcher(
@@ -69,25 +68,29 @@ export class PostOrPostsFetchStrategy<
 		params: Partial<P>,
 		options?: Partial<FetchOptions>,
 	): Promise<FetchResponse<R>> {
-		if (params.priority === 'single') {
-			try {
-				const results = await this.postStrategy.fetcher(
-					this.postStrategy.buildEndpointURL(params.single ?? {}),
-					params.single ?? {},
-					options,
-				);
+		const didMatchSingle = Object.keys(this.urlParams?.single ?? {}).length > 0;
+		const didMatchArchive = Object.keys(this.urlParams?.archive ?? {}).length > 0;
 
-				return {
-					...results,
-					result: {
-						isArchive: false,
-						isSingle: true,
-						data: results.result,
-					} as R,
-				};
-			} catch (e) {
-				console.log(e);
-				// do nothing
+		if (params.priority === 'single') {
+			if (didMatchSingle) {
+				try {
+					const results = await this.postStrategy.fetcher(
+						this.postStrategy.buildEndpointURL(params.single ?? {}),
+						params.single ?? {},
+						options,
+					);
+
+					return {
+						...results,
+						result: {
+							isArchive: false,
+							isSingle: true,
+							data: results.result,
+						} as R,
+					};
+				} catch (e) {
+					// do nothing
+				}
 			}
 
 			// TODO: capture potentiall error and throw a better error message
@@ -108,24 +111,25 @@ export class PostOrPostsFetchStrategy<
 			};
 		}
 
-		try {
-			const results = await this.postsStrategy.fetcher(
-				this.postsStrategy.buildEndpointURL(params.archive ?? {}),
-				params.archive ?? {},
-				options,
-			);
+		if (didMatchArchive) {
+			try {
+				const results = await this.postsStrategy.fetcher(
+					this.postsStrategy.buildEndpointURL(params.archive ?? {}),
+					params.archive ?? {},
+					options,
+				);
 
-			return {
-				...results,
-				result: {
-					isArchive: true,
-					isSingle: false,
-					data: results.result,
-				} as R,
-			};
-		} catch (e) {
-			console.log('archive not found', e);
-			// do nothing
+				return {
+					...results,
+					result: {
+						isArchive: true,
+						isSingle: false,
+						data: results.result,
+					} as R,
+				};
+			} catch (e) {
+				// do nothing
+			}
 		}
 
 		const results = await this.postStrategy.fetcher(
