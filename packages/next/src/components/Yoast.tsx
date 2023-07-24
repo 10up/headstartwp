@@ -12,8 +12,11 @@ import {
 import { useSettings } from '@headstartwp/core/react';
 import Head from 'next/head';
 
-function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
-	return `${hostUrl}${removeSourceUrl({ link: url, backendUrl: sourceUrl })}`;
+export function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
+	return `${hostUrl}${removeSourceUrl({
+		link: url.replace(/\/?$/, '/'),
+		backendUrl: sourceUrl,
+	})}`;
 }
 
 type Props = {
