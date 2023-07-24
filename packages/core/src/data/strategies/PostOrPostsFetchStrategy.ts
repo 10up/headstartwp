@@ -26,6 +26,15 @@ export interface PostOrPostsParams extends EndpointParams {
 	 * The priority indicates which strategy should execute first.
 	 */
 	priority: 'single' | 'archive';
+
+	/**
+	 * How to handle route matching strategy, the possible values are:
+	 *
+	 * - `single` will only trigger the single strategy if there's a url match for the single strategy
+	 * - `archive` will only trigger the archive strategy if there's a url match for the archive strategy
+	 * - `both` requires a route match for both single and archive
+	 */
+	routeMatchStrategy: 'single' | 'archive' | 'both';
 }
 
 export type PostOrPostsFetchStrategyResult<T> = {
@@ -68,11 +77,19 @@ export class PostOrPostsFetchStrategy<
 		params: Partial<P>,
 		options?: Partial<FetchOptions>,
 	): Promise<FetchResponse<R>> {
+		const routeMatchStrategy = params.routeMatchStrategy ?? 'single';
+
 		const didMatchSingle = Object.keys(this.urlParams?.single ?? {}).length > 0;
 		const didMatchArchive = Object.keys(this.urlParams?.archive ?? {}).length > 0;
 
+		const hasToMatchSingle = routeMatchStrategy === 'single' || routeMatchStrategy === 'both';
+		const hasToMatchArchive = routeMatchStrategy === 'archive' || routeMatchStrategy === 'both';
+
+		const shouldFetchSingle = (hasToMatchSingle && didMatchSingle) || !hasToMatchSingle;
+		const shouldFetchArchive = (hasToMatchArchive && didMatchArchive) || !hasToMatchArchive;
+
 		if (params.priority === 'single') {
-			if (didMatchSingle) {
+			if (shouldFetchSingle) {
 				try {
 					const results = await this.postStrategy.fetcher(
 						this.postStrategy.buildEndpointURL(params.single ?? {}),
@@ -94,24 +111,27 @@ export class PostOrPostsFetchStrategy<
 			}
 
 			// TODO: capture potentiall error and throw a better error message
+			if (shouldFetchArchive) {
+				const results = await this.postsStrategy.fetcher(
+					this.postsStrategy.buildEndpointURL(params.archive ?? {}),
+					params.archive ?? {},
+					options,
+				);
 
-			const results = await this.postsStrategy.fetcher(
-				this.postsStrategy.buildEndpointURL(params.archive ?? {}),
-				params.archive ?? {},
-				options,
-			);
+				return {
+					...results,
+					result: {
+						isArchive: true,
+						isSingle: false,
+						data: results.result,
+					} as R,
+				};
+			}
 
-			return {
-				...results,
-				result: {
-					isArchive: true,
-					isSingle: false,
-					data: results.result,
-				} as R,
-			};
+			throw new Error('Unmatched route');
 		}
 
-		if (didMatchArchive) {
+		if (shouldFetchArchive) {
 			try {
 				const results = await this.postsStrategy.fetcher(
 					this.postsStrategy.buildEndpointURL(params.archive ?? {}),
@@ -132,19 +152,23 @@ export class PostOrPostsFetchStrategy<
 			}
 		}
 
-		const results = await this.postStrategy.fetcher(
-			this.postStrategy.buildEndpointURL(params.single ?? {}),
-			params.single ?? {},
-			options,
-		);
+		if (shouldFetchSingle) {
+			const results = await this.postStrategy.fetcher(
+				this.postStrategy.buildEndpointURL(params.single ?? {}),
+				params.single ?? {},
+				options,
+			);
 
-		return {
-			...results,
-			result: {
-				isArchive: false,
-				isSingle: true,
-				data: results.result,
-			} as R,
-		};
+			return {
+				...results,
+				result: {
+					isArchive: false,
+					isSingle: true,
+					data: results.result,
+				} as R,
+			};
+		}
+
+		throw new Error('Unmatched route');
 	}
 }

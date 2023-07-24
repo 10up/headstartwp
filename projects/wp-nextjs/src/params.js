@@ -28,6 +28,7 @@ export const blogParams = {
 		_fields: ['id', 'title', 'link'],
 	},
 	priority: 'single',
+	routeMatchStrategy: 'single',
 };
 
 // The params below are just for the custom post type routes example
