@@ -80,6 +80,12 @@ export interface FilterDataOptions<T> {
 	fields: (keyof T)[];
 }
 
+export type NormalizedDataForCache<T, P> = {
+	key: Partial<P>;
+	data: FetchResponse<T>;
+	additionalCacheObjects?: NormalizedDataForCache<T, P>;
+};
+
 /**
  * Abstract class that lays out a strategy for fetching data
  *
@@ -320,6 +326,22 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		}
 
 		return data;
+	}
+
+	/**
+	 * Normalize data for cache
+	 *
+	 * @param data
+	 * @param params
+	 */
+	normalizeForCache(
+		data: FetchResponse<R>,
+		params: Partial<Params>,
+	): NormalizedDataForCache<R, Params> {
+		return {
+			key: params,
+			data,
+		};
 	}
 
 	/**

@@ -49,9 +49,9 @@ export type PostOrPostsFetchStrategyResult<T> = {
  * @category Data Fetching
  */
 export class PostOrPostsFetchStrategy<
-	T extends PostEntity,
-	P extends PostOrPostsParams,
-	R extends PostOrPostsFetchStrategyResult<T>,
+	T extends PostEntity = PostEntity,
+	P extends PostOrPostsParams = PostOrPostsParams,
+	R extends PostOrPostsFetchStrategyResult<T> = PostOrPostsFetchStrategyResult<T>,
 > extends AbstractFetchStrategy<T[], P, R> {
 	urlParams: Partial<P> = {};
 
@@ -60,7 +60,7 @@ export class PostOrPostsFetchStrategy<
 	postsStrategy: PostsArchiveFetchStrategy = new PostsArchiveFetchStrategy(this.baseURL);
 
 	getDefaultEndpoint(): string {
-		return '/@postOrPosts';
+		return '@postOrPosts';
 	}
 
 	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
@@ -88,11 +88,22 @@ export class PostOrPostsFetchStrategy<
 		const shouldFetchSingle = (hasToMatchSingle && didMatchSingle) || !hasToMatchSingle;
 		const shouldFetchArchive = (hasToMatchArchive && didMatchArchive) || !hasToMatchArchive;
 
+		const archiveParams = {
+			...params.archive,
+			...this.postsStrategy.getDefaultParams(),
+		};
+		const singleParams = { ...(params.single ?? {}), ...this.postStrategy.getDefaultParams() };
+
+		const archiveURL = this.postsStrategy.buildEndpointURL(archiveParams);
+		const singleURL = this.postStrategy.buildEndpointURL(singleParams);
+
+		let error;
+
 		if (params.priority === 'single') {
 			if (shouldFetchSingle) {
 				try {
 					const results = await this.postStrategy.fetcher(
-						this.postStrategy.buildEndpointURL(params.single ?? {}),
+						singleURL,
 						params.single ?? {},
 						options,
 					);
@@ -106,26 +117,36 @@ export class PostOrPostsFetchStrategy<
 						} as R,
 					};
 				} catch (e) {
+					error = e;
 					// do nothing
 				}
 			}
 
 			// TODO: capture potentiall error and throw a better error message
 			if (shouldFetchArchive) {
-				const results = await this.postsStrategy.fetcher(
-					this.postsStrategy.buildEndpointURL(params.archive ?? {}),
-					params.archive ?? {},
-					options,
-				);
+				try {
+					const results = await this.postsStrategy.fetcher(
+						archiveURL,
+						params.archive ?? {},
+						options,
+					);
 
-				return {
-					...results,
-					result: {
-						isArchive: true,
-						isSingle: false,
-						data: results.result,
-					} as R,
-				};
+					return {
+						...results,
+						result: {
+							isArchive: true,
+							isSingle: false,
+							data: results.result,
+						} as R,
+					};
+				} catch (e) {
+					if (e instanceof Error) {
+						throw new AggregateError(
+							[error, e],
+							`Neither single or archive returned data: ${error.message}, ${e.message}`,
+						);
+					}
+				}
 			}
 
 			throw new Error('Unmatched route');
@@ -134,7 +155,7 @@ export class PostOrPostsFetchStrategy<
 		if (shouldFetchArchive) {
 			try {
 				const results = await this.postsStrategy.fetcher(
-					this.postsStrategy.buildEndpointURL(params.archive ?? {}),
+					archiveURL,
 					params.archive ?? {},
 					options,
 				);
@@ -148,25 +169,34 @@ export class PostOrPostsFetchStrategy<
 					} as R,
 				};
 			} catch (e) {
-				// do nothing
+				error = e;
 			}
 		}
 
 		if (shouldFetchSingle) {
-			const results = await this.postStrategy.fetcher(
-				this.postStrategy.buildEndpointURL(params.single ?? {}),
-				params.single ?? {},
-				options,
-			);
+			try {
+				const results = await this.postStrategy.fetcher(
+					singleURL,
+					params.single ?? {},
+					options,
+				);
 
-			return {
-				...results,
-				result: {
-					isArchive: false,
-					isSingle: true,
-					data: results.result,
-				} as R,
-			};
+				return {
+					...results,
+					result: {
+						isArchive: false,
+						isSingle: true,
+						data: results.result,
+					} as R,
+				};
+			} catch (e) {
+				if (e instanceof Error) {
+					throw new AggregateError(
+						[error, e],
+						`Neither single or archive returned data: ${error.message}, ${e.message}`,
+					);
+				}
+			}
 		}
 
 		throw new Error('Unmatched route');

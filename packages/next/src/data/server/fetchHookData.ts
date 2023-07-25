@@ -141,6 +141,12 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const dataObjects = fetchStrategy.normalizeForCache(
+		fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
+		finalParams,
+	);
+
 	return {
 		key: serializeKey(key),
 		data: fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
