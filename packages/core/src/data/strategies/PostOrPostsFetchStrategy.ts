@@ -34,7 +34,7 @@ export interface PostOrPostsParams extends EndpointParams {
 	 * - `archive` will only trigger the archive strategy if there's a url match for the archive strategy
 	 * - `both` requires a route match for both single and archive
 	 */
-	routeMatchStrategy: 'single' | 'archive' | 'both';
+	routeMatchStrategy: 'none' | 'single' | 'archive' | 'both';
 }
 
 export type PostOrPostsFetchStrategyResult<T> = {
