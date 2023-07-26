@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import deepmerge from 'deepmerge';
 import type { EndpointParams, FetchResponse } from '../../data';
 import { AbstractFetchStrategy } from '../../data';
@@ -31,6 +31,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	path = '',
 ) {
 	const { sourceUrl, debug } = useSettings();
+	const { mutate } = useSWRConfig();
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
@@ -40,7 +41,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 
 	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<Params>;
 
-	const { fetchStrategyOptions, ...validSWROptions } = options;
+	const { fetchStrategyOptions, shouldFetch = true, ...validSWROptions } = options;
 
 	// for backwards compat ensure options.swr exists
 	// this would make code that's not namespacing the swr options under `{ swr }` still work.
@@ -63,8 +64,28 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	}
 
 	const result = useSWR<FetchResponse<R>>(
-		key,
-		() => fetchStrategy.fetcher(endpointUrl, finalParams, fetchStrategyOptions),
+		shouldFetch ? key : null,
+		async () => {
+			const fetchData = await fetchStrategy.fetcher(
+				endpointUrl,
+				finalParams,
+				fetchStrategyOptions,
+			);
+
+			const { data, additionalCacheObjects } = fetchStrategy.normalizeForCache(
+				fetchData,
+				finalParams,
+			);
+
+			// mutate additiional cache objects
+			if (additionalCacheObjects) {
+				additionalCacheObjects.forEach(({ key, data }) => {
+					mutate(key, data);
+				});
+			}
+
+			return data;
+		},
 		options.swr,
 	);
 

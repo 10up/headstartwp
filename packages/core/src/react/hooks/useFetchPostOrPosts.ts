@@ -44,9 +44,20 @@ export function useFetchPostOrPosts<
 		path,
 	);
 
-	// TODO: should fetch
-	const { data: postData } = useFetchPost<T>(params.single, undefined, path);
-	const { data: postsData } = useFetchPosts<T>(params.archive, undefined, path);
+	const { data: postData } = useFetchPost<T>(
+		params.single,
+		{
+			shouldFetch: data?.result.isSingle ?? false,
+		},
+		path,
+	);
+	const { data: postsData } = useFetchPosts<T>(
+		params.archive,
+		{
+			shouldFetch: data?.result.isArchive ?? false,
+		},
+		path,
+	);
 
 	if (error || !data) {
 		const fakeData = {

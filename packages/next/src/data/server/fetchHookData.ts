@@ -152,7 +152,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		additionalCacheObjects = normalizedData.additionalCacheObjects.map((cacheObject) => ({
 			...cacheObject,
 			key: serializeKey(cacheObject.key),
-			isMainQuerty: fetchStrategy.isMainQuery(stringPath, params),
+			isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
 		}));
 	}
 
@@ -162,10 +162,4 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
 		additionalCacheObjects: additionalCacheObjects || null,
 	};
-
-	/* return {
-		key: serializeKey(key),
-		data: fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
-		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
-	}; */
 }

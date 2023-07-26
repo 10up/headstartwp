@@ -160,7 +160,7 @@ export class PostOrPostsFetchStrategy<
 				try {
 					const results = await this.postStrategy.fetcher(
 						singleURL,
-						params.single ?? {},
+						singleParams,
 						options,
 					);
 
@@ -182,7 +182,7 @@ export class PostOrPostsFetchStrategy<
 				try {
 					const results = await this.postsStrategy.fetcher(
 						archiveURL,
-						params.archive ?? {},
+						archiveParams,
 						options,
 					);
 
@@ -211,7 +211,7 @@ export class PostOrPostsFetchStrategy<
 			try {
 				const results = await this.postsStrategy.fetcher(
 					archiveURL,
-					params.archive ?? {},
+					archiveParams,
 					options,
 				);
 
@@ -230,11 +230,7 @@ export class PostOrPostsFetchStrategy<
 
 		if (shouldFetchSingle) {
 			try {
-				const results = await this.postStrategy.fetcher(
-					singleURL,
-					params.single ?? {},
-					options,
-				);
+				const results = await this.postStrategy.fetcher(singleURL, singleParams, options);
 
 				return {
 					...results,

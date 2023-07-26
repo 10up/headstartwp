@@ -329,20 +329,21 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	}
 
 	/**
-	 * Returns the cache key
+	 * Returns the cache key with both the endpoint and the sourceUrl to distinguish between multiple sites
 	 *
-	 * @param params
-	 * @returns
+	 * @param params The request params
+	 *
+	 * @returns The cache key object
 	 */
 	getCacheKey(params: Partial<Params>) {
 		return { url: this.getDefaultEndpoint(), args: { ...params, sourceUrl: this.baseURL } };
 	}
 
 	/**
-	 * Normalize data for cache
+	 * Normalize data for cache.
 	 *
-	 * @param data
-	 * @param params
+	 * @param data The fetch response data
+	 * @param params The request params
 	 */
 	normalizeForCache(
 		data: FetchResponse<R>,

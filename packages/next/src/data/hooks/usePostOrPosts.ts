@@ -8,6 +8,7 @@ import { FetchHookOptions, useFetchPostOrPosts } from '@headstartwp/core/react';
 import { usePrepareFetch } from './usePrepareFetch';
 
 /**
+ * The usePostOrPosts hook
  *
  * @param params The parameters accepted by the hook
  * @param options Options for the SWR configuration
