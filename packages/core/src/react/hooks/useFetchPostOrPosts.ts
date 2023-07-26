@@ -8,6 +8,8 @@ import {
 	PostOrPostsParams,
 	PostOrPostsFetchStrategyResult,
 } from '../../data/strategies/PostOrPostsFetchStrategy';
+import { useFetchPost } from './useFetchPost';
+import { useFetchPosts } from './useFetchPosts';
 
 export interface usePostOrPostResponse<T extends PostEntity = PostEntity> extends HookResponse {
 	data?: { post?: T; posts?: T[] };
@@ -31,7 +33,7 @@ export function useFetchPostOrPosts<
 	T extends PostEntity = PostEntity,
 	P extends PostOrPostsParams = PostOrPostsParams,
 >(
-	params: P | {} = {},
+	params: Partial<P> = {},
 	options: FetchHookOptions<FetchResponse<PostOrPostsFetchStrategyResult<T>>> = {},
 	path = '',
 ): usePostOrPostResponse<T> {
@@ -41,6 +43,10 @@ export function useFetchPostOrPosts<
 		options,
 		path,
 	);
+
+	// TODO: should fetch
+	const { data: postData } = useFetchPost<T>(params.single, undefined, path);
+	const { data: postsData } = useFetchPosts<T>(params.archive, undefined, path);
 
 	if (error || !data) {
 		const fakeData = {
@@ -58,9 +64,9 @@ export function useFetchPostOrPosts<
 		};
 	}
 
-	if (data.result.isSingle && !Array.isArray(data.result.data)) {
+	if (data.result.isSingle) {
 		return {
-			data: { post: data.result.data },
+			data: postData,
 			loading: false,
 			isMainQuery,
 			isSingle: data.result.isSingle,
@@ -69,7 +75,7 @@ export function useFetchPostOrPosts<
 	}
 
 	return {
-		data: { posts: data.result.data as T[] },
+		data: postsData,
 		loading: false,
 		isMainQuery,
 		isSingle: data.result.isSingle,

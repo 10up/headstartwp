@@ -18,7 +18,7 @@ export function usePostOrPosts<
 	T extends PostEntity = PostEntity,
 	P extends PostOrPostsParams = PostOrPostsParams,
 >(
-	params: P | {} = {},
+	params: Partial<P> = {},
 	options: FetchHookOptions<FetchResponse<PostOrPostsFetchStrategyResult<T>>> = {},
 ) {
 	const useFetchArguments = usePrepareFetch(params, options);
