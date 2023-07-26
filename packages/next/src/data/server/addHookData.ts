@@ -11,6 +11,7 @@ export type HookState<T> = {
 	key: string;
 	data: T;
 	isMainQuery: boolean;
+	additionalCacheObjects?: HookState<T>[];
 };
 
 export type NextJSProps<P> = {
@@ -50,14 +51,25 @@ function isAppEntity(data: Entity): data is AppEntity {
  * ```
  *
  * @param hookStates An array of resolved promises from {@link fetchHookData}
+ * @param _hookStates
  * @param nextProps Any additional props to pass to Next.js page routes.
  *
  * @category Next.js Data Fetching Utilities
  */
 export function addHookData<P = { [key: string]: any }>(
-	hookStates: HookState<FetchResponse<Entity | Entity[]>>[],
+	_hookStates: HookState<FetchResponse<Entity | Entity[]>>[],
 	nextProps: NextJSProps<P>,
 ) {
+	const hookStates: HookState<FetchResponse<Entity | Entity[]>>[] = [];
+	_hookStates.forEach((hookState) => {
+		if (Array.isArray(hookState.additionalCacheObjects)) {
+			hookStates.push(...hookState.additionalCacheObjects);
+			delete hookState.additionalCacheObjects;
+		}
+
+		hookStates.push(hookState);
+	});
+
 	const { props = {}, ...rest } = nextProps;
 	const fallback = {};
 	let seo_json = {};

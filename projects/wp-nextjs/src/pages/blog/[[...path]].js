@@ -13,42 +13,39 @@ import {
 	handleError,
 	useAppSettings,
 	usePostOrPosts,
+	usePosts,
 } from '@headstartwp/next';
-import { BlocksRenderer } from '@headstartwp/core/react';
+
 import { Link } from '../../components/Link';
 import { blogParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
+import { PageContent } from '../../components/PageContent';
 
-const SinglePost = () => {
-	const { data } = usePostOrPosts(blogParams);
+const Archive = () => {
+	const { data } = usePosts(blogParams.archive);
 
 	return (
 		<>
-			<h1>{data.post.title.rendered}</h1>
-			<BlocksRenderer html={data.post.content.rendered} />
+			<h1>Blog Page</h1>
+			<ul>
+				{data.posts.map((post) => (
+					<li key={post.id}>
+						<Link href={post.link}>{post.title.rendered}</Link>
+					</li>
+				))}
+			</ul>
 		</>
 	);
 };
 
 const BlogPage = () => {
-	const { data, isArchive } = usePostOrPosts(blogParams);
+	const { isArchive } = usePostOrPosts(blogParams);
 
 	if (isArchive) {
-		return (
-			<>
-				<h1>Blog Page</h1>
-				<ul>
-					{data.posts.map((post) => (
-						<li key={post.id}>
-							<Link href={post.link}>{post.title.rendered}</Link>
-						</li>
-					))}
-				</ul>
-			</>
-		);
+		return <Archive />;
 	}
 
-	return <SinglePost />;
+	return <PageContent params={blogParams.single} />;
 };
 
 export default BlogPage;

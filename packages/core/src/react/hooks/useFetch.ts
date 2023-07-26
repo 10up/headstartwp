@@ -55,7 +55,8 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 		options.swr = { ...validSWROptions };
 	}
 
-	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
+	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
+	const key = fetchStrategy.getCacheKey(finalParams);
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[useFetch] key for ${key.url}`, key);
@@ -63,12 +64,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 
 	const result = useSWR<FetchResponse<R>>(
 		key,
-		({ args }) =>
-			fetchStrategy.fetcher(
-				fetchStrategy.buildEndpointURL(args),
-				finalParams,
-				fetchStrategyOptions,
-			),
+		() => fetchStrategy.fetcher(endpointUrl, finalParams, fetchStrategyOptions),
 		options.swr,
 	);
 

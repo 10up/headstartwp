@@ -105,7 +105,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<P>;
 
 	// we don't want to include the preview params in the key
-	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
+	const key = fetchStrategy.getCacheKey(finalParams);
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[fetchHookData] key for  ${key.url}`, key);
@@ -141,15 +141,31 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const dataObjects = fetchStrategy.normalizeForCache(
+	const normalizedData = fetchStrategy.normalizeForCache(
 		fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
 		finalParams,
 	);
 
+	let additionalCacheObjects;
+
+	if (normalizedData.additionalCacheObjects) {
+		additionalCacheObjects = normalizedData.additionalCacheObjects.map((cacheObject) => ({
+			...cacheObject,
+			key: serializeKey(cacheObject.key),
+			isMainQuerty: fetchStrategy.isMainQuery(stringPath, params),
+		}));
+	}
+
 	return {
+		...normalizedData,
+		key: serializeKey(normalizedData.key),
+		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
+		additionalCacheObjects: additionalCacheObjects || null,
+	};
+
+	/* return {
 		key: serializeKey(key),
 		data: fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
 		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
-	};
+	}; */
 }

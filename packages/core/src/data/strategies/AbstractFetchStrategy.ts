@@ -81,9 +81,9 @@ export interface FilterDataOptions<T> {
 }
 
 export type NormalizedDataForCache<T, P> = {
-	key: Partial<P>;
+	key: { url: string; args: Partial<P> };
 	data: FetchResponse<T>;
-	additionalCacheObjects?: NormalizedDataForCache<T, P>;
+	additionalCacheObjects?: NormalizedDataForCache<T, P>[];
 };
 
 /**
@@ -329,6 +329,16 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	}
 
 	/**
+	 * Returns the cache key
+	 *
+	 * @param params
+	 * @returns
+	 */
+	getCacheKey(params: Partial<Params>) {
+		return { url: this.getDefaultEndpoint(), args: { ...params, sourceUrl: this.baseURL } };
+	}
+
+	/**
 	 * Normalize data for cache
 	 *
 	 * @param data
@@ -339,7 +349,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		params: Partial<Params>,
 	): NormalizedDataForCache<R, Params> {
 		return {
-			key: params,
+			key: this.getCacheKey(params),
 			data,
 		};
 	}

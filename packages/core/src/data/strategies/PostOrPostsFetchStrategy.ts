@@ -4,6 +4,7 @@ import {
 	EndpointParams,
 	FetchOptions,
 	FetchResponse,
+	NormalizedDataForCache,
 } from './AbstractFetchStrategy';
 import { PostParams, SinglePostFetchStrategy } from './SinglePostFetchStrategy';
 import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
@@ -72,6 +73,61 @@ export class PostOrPostsFetchStrategy<
 		return this.urlParams;
 	}
 
+	normalizeForCache(data: FetchResponse<R>, params: Partial<P>): NormalizedDataForCache<R, P> {
+		const additionalCacheObjects: NormalizedDataForCache<R, P>[] = [];
+
+		if (
+			data.result.isArchive &&
+			Array.isArray(data.result.data) &&
+			typeof params.archive !== 'undefined'
+		) {
+			const archiveParams = {
+				...this.postsStrategy.getDefaultParams(),
+				...params.archive,
+			};
+
+			additionalCacheObjects.push({
+				// @ts-expect-error
+				key: this.postsStrategy.getCacheKey(archiveParams),
+				data: {
+					pageInfo: data.pageInfo,
+					queriedObject: data.queriedObject,
+					// @ts-expect-error
+					result: data.result.data,
+				},
+			});
+		}
+
+		if (
+			data.result.isSingle &&
+			!Array.isArray(data.result.data) &&
+			typeof params.single !== 'undefined'
+		) {
+			const singleParams = { ...this.postStrategy.getDefaultParams(), ...params.single };
+			additionalCacheObjects.push({
+				// @ts-expect-error
+				key: this.postStrategy.getCacheKey(singleParams),
+				data: {
+					pageInfo: data.pageInfo,
+					queriedObject: data.queriedObject,
+					// @ts-expect-error
+					result: data.result.data,
+				},
+			});
+		}
+		return {
+			key: this.getCacheKey(params),
+			data: {
+				...data,
+				result: {
+					isSingle: data.result.isSingle,
+					isArchive: data.result.isArchive,
+				} as R,
+			},
+			additionalCacheObjects,
+		};
+	}
+
 	async fetcher(
 		url: string,
 		params: Partial<P>,
@@ -89,10 +145,10 @@ export class PostOrPostsFetchStrategy<
 		const shouldFetchArchive = (hasToMatchArchive && didMatchArchive) || !hasToMatchArchive;
 
 		const archiveParams = {
-			...params.archive,
 			...this.postsStrategy.getDefaultParams(),
+			...params.archive,
 		};
-		const singleParams = { ...(params.single ?? {}), ...this.postStrategy.getDefaultParams() };
+		const singleParams = { ...this.postStrategy.getDefaultParams(), ...params.single };
 
 		const archiveURL = this.postsStrategy.buildEndpointURL(archiveParams);
 		const singleURL = this.postStrategy.buildEndpointURL(singleParams);
@@ -122,7 +178,6 @@ export class PostOrPostsFetchStrategy<
 				}
 			}
 
-			// TODO: capture potentiall error and throw a better error message
 			if (shouldFetchArchive) {
 				try {
 					const results = await this.postsStrategy.fetcher(
