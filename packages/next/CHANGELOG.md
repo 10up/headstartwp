@@ -1,5 +1,14 @@
 # @headstartwp/next
 
+## 1.1.0-next.1
+
+### Patch Changes
+
+- 232f4e68: Fix: only convertUrls if url starts with sourceUrl
+- 1494a332: Further Optimize next.js props by removing yoast seo bloat.
+- Updated dependencies [1494a332]
+  - @headstartwp/core@1.1.0-next.1
+
 ## 1.1.0-next.0
 
 ### Minor Changes
