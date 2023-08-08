@@ -97,7 +97,7 @@ describe('PostOrPostsFetchStrategy', () => {
 		});
 	});
 
-	it('fetches the proper resource with archive priority and routeMatchStrategy set to archive', async () => {
+	it('fetches the proper resource with `archive` priority and routeMatchStrategy set to `archive`', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: '',
 			useWordPressPlugin: true,
@@ -204,6 +204,37 @@ describe('PostOrPostsFetchStrategy', () => {
 		expect((response.result.data as PostEntity).slug).toBe(
 			'distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 		);
+	});
+
+	it('does not match an archive if `routeMatchStrategy` is set to `archive` and url does not match archive', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: '',
+			useWordPressPlugin: true,
+		});
+
+		let params = fetchStrategy.getParamsFromURL('/');
+		let response = await fetchStrategy.fetcher(
+			'',
+			merge(params, { priority: 'single', routeMatchStrategy: 'archive' }),
+		);
+		expect(response.result.isArchive).toBeFalsy();
+
+		params = fetchStrategy.getParamsFromURL('/');
+		response = await fetchStrategy.fetcher(
+			'',
+			merge(params, { priority: 'archive', routeMatchStrategy: 'archive' }),
+		);
+		expect(response.result.isArchive).toBeFalsy();
+
+		// this will cause a tentative request to fest a post with the random-post-name slug
+		// which should throw
+		params = fetchStrategy.getParamsFromURL('/random-post-name');
+		await expect(
+			fetchStrategy.fetcher(
+				'',
+				merge(params, { priority: 'archive', routeMatchStrategy: 'archive' }),
+			),
+		).rejects.toThrow();
 	});
 
 	it('fetches the proper resource with single priority', async () => {

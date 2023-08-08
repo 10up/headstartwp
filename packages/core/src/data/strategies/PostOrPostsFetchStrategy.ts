@@ -198,7 +198,7 @@ export class PostOrPostsFetchStrategy<
 					if (e instanceof Error) {
 						throw new AggregateError(
 							[error, e],
-							`Neither single or archive returned data: ${error.message}, ${e.message}`,
+							`Neither single or archive returned data: ${error?.message}, ${e.message}`,
 						);
 					}
 				}
@@ -244,7 +244,7 @@ export class PostOrPostsFetchStrategy<
 				if (e instanceof Error) {
 					throw new AggregateError(
 						[error, e],
-						`Neither single or archive returned data: ${error.message}, ${e.message}`,
+						`Neither single or archive returned data: ${error?.message}, ${e.message}`,
 					);
 				}
 			}
