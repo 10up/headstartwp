@@ -97,7 +97,7 @@ describe('PostOrPostsFetchStrategy', () => {
 		});
 	});
 
-	it('fetches the proper resource with `archive` priority and `routeMatchStrategy` set to `archive`', async () => {
+	it('fetches the proper resource', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: '',
 			useWordPressPlugin: true,
@@ -344,29 +344,38 @@ describe('PostOrPostsFetchStrategy', () => {
 		);
 	});
 
-	it('fetches the proper resource with `single` priority and `routeMatchStrategy` set to `single`', async () => {
-		setHeadstartWPConfig({
-			sourceUrl: '',
-			useWordPressPlugin: true,
-		});
-
-		const params = fetchStrategy.getParamsFromURL('/');
-		const response = await fetchStrategy.fetcher('', merge(params, { priority: 'single' }));
-		expect(response.result.isArchive).toBeTruthy();
-	});
-
 	it('normalizes data for caching', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: '',
 			useWordPressPlugin: true,
 		});
 
-		const params = merge(fetchStrategy.getParamsFromURL('/'), { priority: 'single' });
-		const response = await fetchStrategy.fetcher('', params);
+		let params = merge(fetchStrategy.getParamsFromURL('/'), { priority: 'single' });
+		let response = await fetchStrategy.fetcher('', params);
 
-		const normalizedResponse = fetchStrategy.normalizeForCache(response, params);
+		let normalizedResponse = fetchStrategy.normalizeForCache(response, params);
 		expect(normalizedResponse.additionalCacheObjects?.[0].key).toStrictEqual({
 			args: { _embed: true, sourceUrl: '' },
+			url: '/wp-json/wp/v2/posts',
+		});
+
+		params = merge(
+			fetchStrategy.getParamsFromURL(
+				'/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+				{ single: { matchCurrentPath: false } },
+			),
+			{
+				single: { matchCurrentPath: false },
+				priority: 'single',
+			},
+		);
+
+		response = await fetchStrategy.fetcher('', params);
+
+		normalizedResponse = fetchStrategy.normalizeForCache(response, params);
+
+		expect(normalizedResponse.additionalCacheObjects?.[0].key).toStrictEqual({
+			args: { _embed: true, ...params.single, sourceUrl: '' },
 			url: '/wp-json/wp/v2/posts',
 		});
 	});
