@@ -1,5 +1,5 @@
 import merge from 'deepmerge';
-import { setHeadstartWPConfig } from '../../../utils';
+import { NotFoundError, setHeadstartWPConfig } from '../../../utils';
 import { PostOrPostsFetchStrategy, PostOrPostsParams } from '../PostOrPostsFetchStrategy';
 import { PostEntity } from '../../types';
 
@@ -97,7 +97,7 @@ describe('PostOrPostsFetchStrategy', () => {
 		});
 	});
 
-	it('fetches the proper resource with `archive` priority and routeMatchStrategy set to `archive`', async () => {
+	it('fetches the proper resource with `archive` priority and `routeMatchStrategy` set to `archive`', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: '',
 			useWordPressPlugin: true,
@@ -316,9 +316,9 @@ describe('PostOrPostsFetchStrategy', () => {
 			useWordPressPlugin: true,
 		});
 
-		const params = fetchStrategy.getParamsFromURL(
-			'/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
-		);
+		// this one should actually throw a 404 since only single would match
+		// and it the single strategy should return a NotFoundError
+		let params = fetchStrategy.getParamsFromURL('/2020/05/07/not-found-post');
 
 		await expect(
 			fetchStrategy.fetcher(
@@ -328,10 +328,23 @@ describe('PostOrPostsFetchStrategy', () => {
 					routeMatchStrategy: 'both',
 				}),
 			),
-		).rejects.toThrow('Unmatched route');
+		).rejects.toThrow(NotFoundError);
+
+		params = fetchStrategy.getParamsFromURL('/');
+
+		await expect(
+			fetchStrategy.fetcher(
+				'',
+				merge(params, {
+					routeMatchStrategy: 'both',
+				}),
+			),
+		).rejects.toThrow(
+			"Unmatched route with routeMatchStrategy 'both': Unable to match a route for either single or archive",
+		);
 	});
 
-	it('fetches the proper resource with single priority', async () => {
+	it('fetches the proper resource with `single` priority and `routeMatchStrategy` set to `single`', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: '',
 			useWordPressPlugin: true,
@@ -340,5 +353,21 @@ describe('PostOrPostsFetchStrategy', () => {
 		const params = fetchStrategy.getParamsFromURL('/');
 		const response = await fetchStrategy.fetcher('', merge(params, { priority: 'single' }));
 		expect(response.result.isArchive).toBeTruthy();
+	});
+
+	it('normalizes data for caching', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: '',
+			useWordPressPlugin: true,
+		});
+
+		const params = merge(fetchStrategy.getParamsFromURL('/'), { priority: 'single' });
+		const response = await fetchStrategy.fetcher('', params);
+
+		const normalizedResponse = fetchStrategy.normalizeForCache(response, params);
+		expect(normalizedResponse.additionalCacheObjects?.[0].key).toStrictEqual({
+			args: { _embed: true, sourceUrl: '' },
+			url: '/wp-json/wp/v2/posts',
+		});
 	});
 });

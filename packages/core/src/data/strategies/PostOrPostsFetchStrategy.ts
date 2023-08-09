@@ -8,6 +8,7 @@ import {
 } from './AbstractFetchStrategy';
 import { PostParams, SinglePostFetchStrategy } from './SinglePostFetchStrategy';
 import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import { FrameworkError, NotFoundError } from '../../utils';
 
 /**
  * The params supported by {@link PostOrPostsFetchStrategy}
@@ -134,6 +135,7 @@ export class PostOrPostsFetchStrategy<
 		options?: Partial<FetchOptions>,
 	): Promise<FetchResponse<R>> {
 		const routeMatchStrategy = params.routeMatchStrategy ?? 'single';
+		const unmatchedRouteErrorMsg = `Unmatched route with routeMatchStrategy '${routeMatchStrategy}': Unable to match a route for either single or archive`;
 
 		const didMatchSingle = Object.keys(this.urlParams?.single ?? {}).length > 0;
 		const didMatchArchive = Object.keys(this.urlParams?.archive ?? {}).length > 0;
@@ -205,7 +207,12 @@ export class PostOrPostsFetchStrategy<
 				}
 			}
 
-			throw new Error('Unmatched route');
+			// if something was fetched and it threw a NotFoundError
+			if (error instanceof NotFoundError) {
+				throw error;
+			}
+
+			throw new FrameworkError(unmatchedRouteErrorMsg);
 		}
 
 		if (shouldFetchArchive) {
@@ -251,6 +258,11 @@ export class PostOrPostsFetchStrategy<
 			}
 		}
 
-		throw new Error('Unmatched route');
+		// if something was fetched and it threw a NotFoundError
+		if (error instanceof NotFoundError) {
+			throw error;
+		}
+
+		throw new FrameworkError(unmatchedRouteErrorMsg);
 	}
 }
