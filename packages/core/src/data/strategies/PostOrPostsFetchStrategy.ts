@@ -129,6 +129,32 @@ export class PostOrPostsFetchStrategy<
 		};
 	}
 
+	async fetchSingle(url: string, params: PostParams, options?: Partial<FetchOptions>) {
+		const results = await this.postStrategy.fetcher(url, params, options);
+
+		return {
+			...results,
+			result: {
+				isArchive: false,
+				isSingle: true,
+				data: results.result,
+			} as R,
+		};
+	}
+
+	async fetchArchive(url: string, params: PostsArchiveParams, options?: Partial<FetchOptions>) {
+		const results = await this.postsStrategy.fetcher(url, params, options);
+
+		return {
+			...results,
+			result: {
+				isArchive: true,
+				isSingle: false,
+				data: results.result,
+			} as R,
+		};
+	}
+
 	async fetcher(
 		url: string,
 		params: Partial<P>,
@@ -161,20 +187,7 @@ export class PostOrPostsFetchStrategy<
 		if (params.priority === 'single') {
 			if (shouldFetchSingle) {
 				try {
-					const results = await this.postStrategy.fetcher(
-						singleURL,
-						singleParams,
-						options,
-					);
-
-					return {
-						...results,
-						result: {
-							isArchive: false,
-							isSingle: true,
-							data: results.result,
-						} as R,
-					};
+					return await this.fetchSingle(singleURL, singleParams, options);
 				} catch (e) {
 					error = e;
 					// do nothing
@@ -183,20 +196,7 @@ export class PostOrPostsFetchStrategy<
 
 			if (shouldFetchArchive) {
 				try {
-					const results = await this.postsStrategy.fetcher(
-						archiveURL,
-						archiveParams,
-						options,
-					);
-
-					return {
-						...results,
-						result: {
-							isArchive: true,
-							isSingle: false,
-							data: results.result,
-						} as R,
-					};
+					return await this.fetchArchive(archiveURL, archiveParams, options);
 				} catch (e) {
 					if (e instanceof Error) {
 						throw new AggregateError(
@@ -217,20 +217,7 @@ export class PostOrPostsFetchStrategy<
 
 		if (shouldFetchArchive) {
 			try {
-				const results = await this.postsStrategy.fetcher(
-					archiveURL,
-					archiveParams,
-					options,
-				);
-
-				return {
-					...results,
-					result: {
-						isArchive: true,
-						isSingle: false,
-						data: results.result,
-					} as R,
-				};
+				return await this.fetchArchive(archiveURL, archiveParams, options);
 			} catch (e) {
 				error = e;
 			}
@@ -238,16 +225,7 @@ export class PostOrPostsFetchStrategy<
 
 		if (shouldFetchSingle) {
 			try {
-				const results = await this.postStrategy.fetcher(singleURL, singleParams, options);
-
-				return {
-					...results,
-					result: {
-						isArchive: false,
-						isSingle: true,
-						data: results.result,
-					} as R,
-				};
+				return await this.fetchSingle(singleURL, singleParams, options);
 			} catch (e) {
 				if (e instanceof Error) {
 					throw new AggregateError(
