@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.1.0-next.1
+
+### Patch Changes
+
+- 1494a332: Further Optimize next.js props by removing yoast seo bloat.
+
 ## 1.1.0-next.0
 
 ### Minor Changes
