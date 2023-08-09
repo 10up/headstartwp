@@ -142,6 +142,7 @@ export class PostOrPostsFetchStrategy<
 		const hasToMatchArchive = routeMatchStrategy === 'archive' || routeMatchStrategy === 'both';
 
 		const shouldFetchSingle = (hasToMatchSingle && didMatchSingle) || !hasToMatchSingle;
+
 		const shouldFetchArchive = (hasToMatchArchive && didMatchArchive) || !hasToMatchArchive;
 
 		const archiveParams = {

@@ -187,7 +187,7 @@ describe('PostOrPostsFetchStrategy', () => {
 		);
 
 		// now make it work by faking full path
-		// this simulates the post url returnied by wp matching the front-end url
+		// this simulates the post url returned by wp matching the front-end url
 		p.single.fullPath =
 			'https://js1.10up.com/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam/';
 
@@ -235,6 +235,100 @@ describe('PostOrPostsFetchStrategy', () => {
 				merge(params, { priority: 'archive', routeMatchStrategy: 'archive' }),
 			),
 		).rejects.toThrow();
+	});
+
+	it('matches an archive if `routeMatchStrategy` is set to `archive` and url matches archive', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: '',
+			useWordPressPlugin: true,
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/page/2');
+		const response = await fetchStrategy.fetcher(
+			'',
+			merge(params, { priority: 'single', routeMatchStrategy: 'archive' }),
+		);
+		expect(response.result.isArchive).toBeTruthy();
+	});
+
+	it('does not match a single if `routeMatchStrategy` is set to `single` and url does not match a single', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: '',
+			useWordPressPlugin: true,
+		});
+
+		let params = fetchStrategy.getParamsFromURL('/page/2');
+		let response = await fetchStrategy.fetcher(
+			'',
+			merge(params, { priority: 'single', routeMatchStrategy: 'single' }),
+		);
+		expect(response.result.isSingle).toBeFalsy();
+		expect(response.result.isArchive).toBeTruthy();
+
+		params = fetchStrategy.getParamsFromURL('/page/2');
+		response = await fetchStrategy.fetcher(
+			'',
+			merge(params, { priority: 'archive', routeMatchStrategy: 'single' }),
+		);
+		expect(response.result.isSingle).toBeFalsy();
+		expect(response.result.isArchive).toBeTruthy();
+
+		// this one is matches a single but returns no date so it should fallback to archive
+		params = fetchStrategy.getParamsFromURL('/single-post-name');
+		response = await fetchStrategy.fetcher(
+			'',
+			merge(params, { priority: 'archive', routeMatchStrategy: 'single' }),
+		);
+		expect(response.result.isSingle).toBeFalsy();
+		expect(response.result.isArchive).toBeTruthy();
+	});
+
+	it('matches a single if `routeMatchStrategy` is set to `single` and url matches a single', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: '',
+			useWordPressPlugin: true,
+		});
+
+		const params = { single: { matchCurrentPath: false } };
+		const urlParams = fetchStrategy.getParamsFromURL(
+			'/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+			params,
+		);
+
+		const response = await fetchStrategy.fetcher(
+			'',
+			merge(urlParams, {
+				priority: 'single',
+				routeMatchStrategy: 'single',
+			}),
+		);
+
+		expect(response.result.isSingle).toBeTruthy();
+		expect(response.result.isArchive).toBeFalsy();
+		expect((response.result.data as PostEntity).slug).toBe(
+			'distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+		);
+	});
+
+	it('throws unmatched route error when unable to match any route', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: '',
+			useWordPressPlugin: true,
+		});
+
+		const params = fetchStrategy.getParamsFromURL(
+			'/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+		);
+
+		await expect(
+			fetchStrategy.fetcher(
+				'',
+				merge(params, {
+					priority: 'single',
+					routeMatchStrategy: 'both',
+				}),
+			),
+		).rejects.toThrow('Unmatched route');
 	});
 
 	it('fetches the proper resource with single priority', async () => {
