@@ -46,7 +46,7 @@ const handlers = [
 		const query = req.url.searchParams;
 		const search = query.get('search');
 		const slug = query.get('slug');
-		const perPage = Number(query.get('per_page'));
+		const perPage = Number(query.get('per_page') || 10);
 		const category = query.get('categories');
 		const author = query.get('author');
 		const embed = query.get('_embed');
@@ -105,11 +105,19 @@ const handlers = [
 			});
 		}
 
+		const totalResults = results.length;
+
 		if (perPage) {
 			results = results.slice(0, perPage);
 		}
 
-		return res(ctx.json(results));
+		return res(
+			ctx.set({
+				'x-wp-totalpages': Math.ceil(totalResults / perPage).toString(),
+				'x-wp-total': results.length.toString(),
+			}),
+			ctx.json(results),
+		);
 	}),
 
 	rest.get('/wp-json/wp/v2/posts/:id/revisions', (req, res, ctx) => {
