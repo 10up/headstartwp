@@ -31,8 +31,8 @@
   },
   "files": [
     "dist",
-    "middleware.d.ts",
-    "middleware.js",
+    "middlewares.d.ts",
+    "middlewares.js",
     "config.d.ts",
     "config.js"
   ],
