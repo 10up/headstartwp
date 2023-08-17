@@ -1,6 +1,8 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import { ModifySourcePlugin, ConcatOperation } from 'modify-source-webpack-plugin';
+import path from 'path';
+import fs from 'fs';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -156,6 +158,19 @@ export function withHeadlessConfig(
 				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
 			`;
 
+			if (Array.isArray(config.cache.buildDependencies.config)) {
+				const [nextConfigPath] = config.cache.buildDependencies.config;
+
+				const headlessConfigPath = path.resolve(nextConfigPath, '../headless.config.js');
+
+				if (fs.existsSync(headlessConfigPath)) {
+					config.cache.buildDependencies.config.push(headlessConfigPath);
+					config.cache.buildDependencies.config.push(
+						path.resolve(nextConfigPath, '../.env.local'),
+					);
+				}
+			}
+
 			config.plugins.push(
 				new ModifySourcePlugin({
 					rules: [
@@ -164,6 +179,7 @@ export function withHeadlessConfig(
 								if (!withHeadlessConfigOptions.injectConfig) {
 									return false;
 								}
+
 								const userRequest = normalModule.userRequest || '';
 
 								const startIndex =
@@ -175,11 +191,19 @@ export function withHeadlessConfig(
 									.substring(startIndex)
 									.replace(/\\/g, '/');
 
+								// skip next/dist/pages/_app.js
+								if (/next\/dist\/pages\/_app.js/.test(moduleRequest)) {
+									return false;
+								}
+
 								const matched =
 									/_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
 									/middleware.(ts|js|mjs)$/.test(moduleRequest) ||
 									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest);
 
+								if (matched) {
+									console.log('matched', moduleRequest);
+								}
 								return matched;
 							},
 							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
