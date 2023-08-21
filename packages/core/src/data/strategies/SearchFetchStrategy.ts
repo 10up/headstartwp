@@ -48,6 +48,7 @@ export class SearchFetchStrategy<
 		let seo_json: Record<string, any> = {};
 		let seo: string = '';
 
+		// Request SEO data.
 		try {
 			const result = await apiGet(
 				addQueryArgs(`${getWPUrl()}${endpoints.yoast}`, {
@@ -57,7 +58,7 @@ export class SearchFetchStrategy<
 				burstCache,
 			);
 
-			seo = result.json.html;
+			seo = result.json.html ?? null;
 			seo_json = { ...result.json.json };
 		} catch (e) {
 			// do nothing
