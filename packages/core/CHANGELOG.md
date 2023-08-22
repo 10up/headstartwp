@@ -1,5 +1,12 @@
 # @headstartwp/core
 
+## 1.1.0-next.2
+
+### Patch Changes
+
+- e6a0c231: Lower compilation target
+- bb39a603: Fixes useSearch error when Yoast SEO plugin is deactivated.
+
 ## 1.1.0-next.1
 
 ### Patch Changes
