@@ -2,6 +2,7 @@ import { Element } from 'html-react-parser';
 import { useThemeSetting } from '../../provider';
 import { IBlockAttributes, Typography } from '../types';
 import { useBlock } from './useBlock';
+import { safeArraySpread } from '../utils';
 
 interface BlockTypographyAttributes extends IBlockAttributes {
 	fontSize?: string;
@@ -24,9 +25,9 @@ interface BlockTypographyAttributes extends IBlockAttributes {
 export function useBlockTypography(node: Element): Typography {
 	const { name, attributes } = useBlock<BlockTypographyAttributes>(node);
 	const defaultFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
-	const themeFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
-	const userFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
-	const blockFontSizesSettings = useThemeSetting('typography.fontSizes', name, [], false);
+	const themeFontSizesSettings = useThemeSetting('typography.fontSizes.theme', null, []);
+	const userFontSizesSettings = useThemeSetting('typography.fontSizes.user', null, []);
+	const blockFontSizesSettings = useThemeSetting('typography.fontSizes.theme', name, [], false);
 
 	const supportsCustomFontSize = !!useThemeSetting('typography.customFontSize', name);
 	const supportsFontStyle = !!useThemeSetting('typography.fontStyle', name);
@@ -37,10 +38,10 @@ export function useBlockTypography(node: Element): Typography {
 	const supportsTextTransform = !!useThemeSetting('typography.textTransform', name);
 
 	const allFontSizes = [
-		...blockFontSizesSettings,
-		...userFontSizesSettings,
-		...themeFontSizesSettings,
-		...defaultFontSizesSettings,
+		...safeArraySpread(blockFontSizesSettings),
+		...safeArraySpread(userFontSizesSettings),
+		...safeArraySpread(themeFontSizesSettings),
+		...safeArraySpread(defaultFontSizesSettings),
 	];
 
 	const fontSizePreset = attributes?.fontSize;

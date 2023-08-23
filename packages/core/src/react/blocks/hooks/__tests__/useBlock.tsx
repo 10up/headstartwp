@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { renderHook } from '@testing-library/react';
 import { Element } from 'html-react-parser';
 import { SettingsProvider } from '../../../provider';

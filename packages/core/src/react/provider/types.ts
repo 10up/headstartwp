@@ -44,6 +44,12 @@ export type SettingsColorPreset = {
 	color: string;
 };
 
+export type SettingsColorPalette = {
+	theme?: SettingsColorPreset[];
+	default?: SettingsColorPreset[];
+	user?: SettingsColorPreset[];
+};
+
 export type SettingsGradientPreset = {
 	/**
 	 * Name of the gradient preset, translatable.
@@ -59,6 +65,12 @@ export type SettingsGradientPreset = {
 	gradient: string;
 };
 
+export type SettingsGradient = {
+	theme?: SettingsGradientPreset[];
+	default?: SettingsGradientPreset[];
+	user?: SettingsGradientPreset[];
+};
+
 export type SettingsDuotonePreset = {
 	/**
 	 * Name of the duotone preset, translatable.
@@ -72,6 +84,12 @@ export type SettingsDuotonePreset = {
 	 * List of colors from dark to light.
 	 */
 	colors: string[];
+};
+
+export type SettingsDuotone = {
+	theme?: SettingsDuotonePreset[];
+	default?: SettingsDuotonePreset[];
+	user?: SettingsDuotonePreset[];
 };
 
 export interface WpThemeJSON {
@@ -391,12 +409,12 @@ export interface SettingsProperties {
 		 * Duotone presets for the duotone picker.
 		 * Doesn't generate classes or properties.
 		 */
-		duotone?: SettingsDuotonePreset[];
+		duotone?: SettingsDuotone;
 		/**
 		 * Gradient presets for the gradient picker.
 		 * Generates a single class (`.has-{slug}-background`) and custom property (`--wp--preset--gradient--{slug}`) per preset value.
 		 */
-		gradients?: SettingsGradientPreset[];
+		gradients?: SettingsGradient;
 		/**
 		 * Allow users to set link colors.
 		 */
@@ -405,7 +423,7 @@ export interface SettingsProperties {
 		 * Color palette presets for the color picker.
 		 * Generates three classes (`.has-{slug}-color`, `.has-{slug}-background-color`, and `.has-{slug}-border-color`) and a single custom property (`--wp--preset--color--{slug}`) per preset value.
 		 */
-		palette?: SettingsColorPreset[];
+		palette?: SettingsColorPalette;
 		/**
 		 * Allow users to set text colors.
 		 */
