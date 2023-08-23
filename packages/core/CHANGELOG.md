@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.1.0-next.3
+
+### Patch Changes
+
+- 56ddf9be: Fix theme.json handling for block settings
+
 ## 1.1.0-next.2
 
 ### Patch Changes
