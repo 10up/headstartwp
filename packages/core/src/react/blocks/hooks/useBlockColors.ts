@@ -1,7 +1,7 @@
 import { Element } from 'html-react-parser';
 import { useThemeSetting } from '../../provider';
 import { Colors, IBlockAttributes } from '../types';
-import { getColorStyles } from '../utils';
+import { getColorStyles, safeArraySpread } from '../utils';
 import { useBlock } from './useBlock';
 
 interface ColorBlockAttributes extends IBlockAttributes, Colors {
@@ -32,20 +32,20 @@ export function useBlockColors(node: Element) {
 	const userColorsSettings = useThemeSetting('color.palette.user', null, []);
 	const userGradientsSettings = useThemeSetting('color.palette.user', null, []);
 
-	const blockColorsSettings = useThemeSetting('color.palette', name, [], false);
-	const blockGradientsSettings = useThemeSetting('color.gradients', name, [], false);
+	const blockColorsSettings = useThemeSetting('color.palette.theme', name, [], false);
+	const blockGradientsSettings = useThemeSetting('color.gradients.theme', name, [], false);
 
 	const allGradients = [
-		...blockGradientsSettings,
-		...userGradientsSettings,
-		...themeGradientsSettings,
-		...defaultGradientsSettings,
+		...safeArraySpread(blockGradientsSettings),
+		...safeArraySpread(userGradientsSettings),
+		...safeArraySpread(themeGradientsSettings),
+		...safeArraySpread(defaultGradientsSettings),
 	];
 	const allColors = [
-		...blockColorsSettings,
-		...userColorsSettings,
-		...themeColorsSettings,
-		...defaultColorsSettings,
+		...safeArraySpread(blockColorsSettings),
+		...safeArraySpread(userColorsSettings),
+		...safeArraySpread(themeColorsSettings),
+		...safeArraySpread(defaultColorsSettings),
 	];
 
 	const color: Colors = {

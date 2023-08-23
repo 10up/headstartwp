@@ -216,3 +216,7 @@ export function getTypographyStyles(domNode: Element) {
 
 	return typography;
 }
+
+export function safeArraySpread(array: any) {
+	return Array.isArray(array) ? array : [];
+}
