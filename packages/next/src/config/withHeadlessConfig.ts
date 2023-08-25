@@ -214,9 +214,6 @@ export function withHeadlessConfig(
 									/middleware.(ts|js|mjs)$/.test(moduleRequest) ||
 									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest);
 
-								if (matched) {
-									console.log('matched', moduleRequest);
-								}
 								return matched;
 							},
 							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
