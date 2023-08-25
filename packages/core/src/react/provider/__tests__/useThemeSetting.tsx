@@ -69,8 +69,6 @@ describe('useThemeSetting', () => {
 					settings: {
 						color: {
 							palette: {
-								// TODO: fix theme json ts types
-								// @ts-expect-error
 								default: defaultPallete,
 							},
 						},
@@ -78,7 +76,9 @@ describe('useThemeSetting', () => {
 						blocks: {
 							'core/button': {
 								color: {
-									palette: blockPallete,
+									palette: {
+										theme: blockPallete,
+									},
 								},
 							},
 						},
@@ -98,7 +98,7 @@ describe('useThemeSetting', () => {
 		expect(result1.current).toMatchObject(defaultPallete);
 
 		const { result: result2 } = renderHook(
-			() => useThemeSetting('color.palette', 'core/button', []),
+			() => useThemeSetting('color.palette.theme', 'core/button', []),
 			{
 				wrapper,
 			},

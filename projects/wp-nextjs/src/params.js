@@ -14,29 +14,22 @@ export const indexParams = { postType: ['page'] };
 export const searchParams = { postType: 'post' };
 
 /**
- * @type {import('@headstartwp/core').PostsArchiveParams}
+ * @type {import('@headstartwp/core').PostOrPostsParams}
  */
 export const blogParams = {
-	postType: 'post',
-
-	/**
-	 * Specifying the _fields param reduces the amount of data queried and returned by the API.
-	 */
-	_fields: ['id', 'title', 'link'],
+	single: {
+		postType: 'post',
+	},
+	archive: {
+		postType: 'post',
+		/**
+		 * Specifying the _fields param reduces the amount of data queried and returned by the API.
+		 */
+		_fields: ['id', 'title', 'link'],
+	},
+	priority: 'single',
+	routeMatchStrategy: 'single',
 };
-
-// The params below are just for the custom post type routes example
-// remove them if you don't need them
-
-/**
- * @type {import('@headstartwp/core').PostParams}
- */
-export const bookParams = { postType: ['book'] };
-
-/**
- * @type {import('@headstartwp/core').PostsArchiveParams}
- */
-export const booksParams = { postType: 'book' };
 
 /**
  * @type {import('@headstartwp/core').TaxonomyArchiveParams}

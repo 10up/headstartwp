@@ -14,10 +14,14 @@
     "@headstartwp/headstartwp": "1.0.8"
   },
   "changesets": [
+    "bright-bees-press",
     "bright-jokes-learn",
     "curly-apricots-stare",
+    "gentle-clouds-taste",
+    "good-papayas-laugh",
     "lovely-chicken-sparkle",
     "mighty-stingrays-pay",
+    "proud-dryers-repeat",
     "silent-kiwis-compare",
     "two-cats-vanish"
   ]

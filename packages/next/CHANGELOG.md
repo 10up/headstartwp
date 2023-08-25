@@ -1,5 +1,15 @@
 # @headstartwp/next
 
+## 1.1.0-next.2
+
+### Patch Changes
+
+- e6a0c231: Lower compilation target
+- 90d5fa3c: Fix typo in files to be published to npm
+- Updated dependencies [e6a0c231]
+- Updated dependencies [bb39a603]
+  - @headstartwp/core@1.1.0-next.2
+
 ## 1.1.0-next.1
 
 ### Patch Changes

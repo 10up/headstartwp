@@ -5,4 +5,5 @@ module.exports = {
 	},
 	testEnvironment: 'jsdom',
 	testPathIgnorePatterns: ['dist'],
+	collectCoverage: true,
 };
