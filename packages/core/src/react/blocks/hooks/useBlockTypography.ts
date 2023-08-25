@@ -2,6 +2,7 @@ import { Element } from 'html-react-parser';
 import { useThemeSetting } from '../../provider';
 import { IBlockAttributes, Typography } from '../types';
 import { useBlock } from './useBlock';
+import { safeArraySpread } from '../utils';
 
 interface BlockTypographyAttributes extends IBlockAttributes {
 	fontSize?: string;
@@ -24,7 +25,10 @@ interface BlockTypographyAttributes extends IBlockAttributes {
 export function useBlockTypography(node: Element): Typography {
 	const { name, attributes } = useBlock<BlockTypographyAttributes>(node);
 	const defaultFontSizesSettings = useThemeSetting('typography.fontSizes.default', null, []);
-	const fontSizesSettings = useThemeSetting('typography.fontSizes', name, []);
+	const themeFontSizesSettings = useThemeSetting('typography.fontSizes.theme', null, []);
+	const userFontSizesSettings = useThemeSetting('typography.fontSizes.user', null, []);
+	const blockFontSizesSettings = useThemeSetting('typography.fontSizes.theme', name, [], false);
+
 	const supportsCustomFontSize = !!useThemeSetting('typography.customFontSize', name);
 	const supportsFontStyle = !!useThemeSetting('typography.fontStyle', name);
 	const supportsFontWeight = !!useThemeSetting('typography.fontWeight', name);
@@ -33,12 +37,12 @@ export function useBlockTypography(node: Element): Typography {
 	const supportsTextDecoration = !!useThemeSetting('typography.textDecoration', name);
 	const supportsTextTransform = !!useThemeSetting('typography.textTransform', name);
 
-	// either use the block settings or try the theme or default one
-	const fontSizes = Array.isArray(fontSizesSettings)
-		? fontSizesSettings
-		: fontSizesSettings?.theme;
-
-	const allFontSizes = [...defaultFontSizesSettings, ...fontSizes];
+	const allFontSizes = [
+		...safeArraySpread(blockFontSizesSettings),
+		...safeArraySpread(userFontSizesSettings),
+		...safeArraySpread(themeFontSizesSettings),
+		...safeArraySpread(defaultFontSizesSettings),
+	];
 
 	const fontSizePreset = attributes?.fontSize;
 

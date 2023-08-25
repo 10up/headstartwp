@@ -1,5 +1,55 @@
 # @headstartwp/core
 
+## 1.1.0-next.5
+
+### Minor Changes
+
+- e9064d69: Introducing the `useSeo` hook.
+
+## 1.1.0-next.4
+
+### Minor Changes
+
+- 4275962b: Introducing `usePostOrPosts`.
+
+## 1.1.0-next.3
+
+### Patch Changes
+
+- 56ddf9be: Fix theme.json handling for block settings
+
+## 1.1.0-next.2
+
+### Patch Changes
+
+- e6a0c231: Lower compilation target
+- bb39a603: Fixes useSearch error when Yoast SEO plugin is deactivated.
+
+## 1.1.0-next.1
+
+### Patch Changes
+
+- 1494a332: Further Optimize next.js props by removing yoast seo bloat.
+
+## 1.1.0-next.0
+
+### Minor Changes
+
+- df3e65ce: Introduces `SafeHtml` and `HtmlDecoder` components.
+- d3ec9d83: Introduces the `decodeHtmlSpecialChars` function.
+
+### Patch Changes
+
+- 24f8a99f: Fix theme.json handling in `useBlockColors` and `useBlockTypography`.
+
+  Thanks @riccardodicurti @dhamibirendra for [the bug report](https://github.com/10up/headstartwp/issues/541).
+
+- 569662b6: Improves the Next.js preview cookie handling and fixes a bug where the locale was not properly being passed from WP when previewing.
+
+  First of all, it sets the preview cookie to expire within 5 minutes which aligns with the JWT token expiration.
+
+  Secondly, it will narrow the cookie to the post path being previewed so that `context.preview` is not true for other paths and thus avoiding bypassing getStaticProps until the cookies are cleared (either expires or the browser closes).
+
 ## 1.0.6
 
 ### Patch Changes

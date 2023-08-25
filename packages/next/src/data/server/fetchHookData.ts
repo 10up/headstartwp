@@ -9,6 +9,7 @@ import {
 } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { serializeKey } from '@headstartwp/core/react';
+import deepmerge from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
@@ -100,10 +101,11 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	const stringPath = convertToPath(path);
 	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
-	const finalParams = { ...defaultParams, ...urlParams, ...params };
+
+	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<P>;
 
 	// we don't want to include the preview params in the key
-	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
+	const key = fetchStrategy.getCacheKey(finalParams);
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[fetchHookData] key for  ${key.url}`, key);
@@ -139,9 +141,25 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
 	}
 
+	const normalizedData = fetchStrategy.normalizeForCache(
+		fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
+		finalParams,
+	);
+
+	let additionalCacheObjects;
+
+	if (normalizedData.additionalCacheObjects) {
+		additionalCacheObjects = normalizedData.additionalCacheObjects.map((cacheObject) => ({
+			...cacheObject,
+			key: serializeKey(cacheObject.key),
+			isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
+		}));
+	}
+
 	return {
-		key: serializeKey(key),
-		data: fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
+		...normalizedData,
+		key: serializeKey(normalizedData.key),
 		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
+		additionalCacheObjects: additionalCacheObjects || null,
 	};
 }

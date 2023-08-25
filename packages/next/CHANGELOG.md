@@ -1,5 +1,54 @@
 # @headstartwp/next
 
+## 1.1.0-next.3
+
+### Minor Changes
+
+- 4275962b: Introducing `usePostOrPosts`.
+
+### Patch Changes
+
+- 866551f2: Fix an annoying bug that would require deleting the .next/cache folder after changing headless.config.js or .env files. Now you only need to restart the next.js server after changing those files.
+- Updated dependencies [4275962b]
+  - @headstartwp/core@1.1.0-next.4
+
+## 1.1.0-next.2
+
+### Patch Changes
+
+- e6a0c231: Lower compilation target
+- 90d5fa3c: Fix typo in files to be published to npm
+- Updated dependencies [e6a0c231]
+- Updated dependencies [bb39a603]
+  - @headstartwp/core@1.1.0-next.2
+
+## 1.1.0-next.1
+
+### Patch Changes
+
+- 232f4e68: Fix: only convertUrls if url starts with sourceUrl
+- 1494a332: Further Optimize next.js props by removing yoast seo bloat.
+- Updated dependencies [1494a332]
+  - @headstartwp/core@1.1.0-next.1
+
+## 1.1.0-next.0
+
+### Minor Changes
+
+- 569662b6: Improves the Next.js preview cookie handling and fixes a bug where the locale was not properly being passed from WP when previewing.
+
+  First of all, it sets the preview cookie to expire within 5 minutes which aligns with the JWT token expiration.
+
+  Secondly, it will narrow the cookie to the post path being previewed so that `context.preview` is not true for other paths and thus avoiding bypassing getStaticProps until the cookies are cleared (either expires or the browser closes).
+
+### Patch Changes
+
+- Updated dependencies [24f8a99f]
+- Updated dependencies [569662b6]
+- Updated dependencies [df3e65ce]
+- Updated dependencies [d3ec9d83]
+  - @headstartwp/core@1.1.0-next.0
+
 ## 1.0.6
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 import { Element } from 'html-react-parser';
 import { useThemeSetting } from '../../provider';
 import { Colors, IBlockAttributes } from '../types';
-import { getColorStyles } from '../utils';
+import { getColorStyles, safeArraySpread } from '../utils';
 import { useBlock } from './useBlock';
 
 interface ColorBlockAttributes extends IBlockAttributes, Colors {
@@ -27,17 +27,26 @@ export function useBlockColors(node: Element) {
 
 	const defaultColorsSettings = useThemeSetting('color.palette.default', null, []);
 	const defaultGradientsSettings = useThemeSetting('color.palette.default', null, []);
+	const themeColorsSettings = useThemeSetting('color.palette.theme', null, []);
+	const themeGradientsSettings = useThemeSetting('color.palette.theme', null, []);
+	const userColorsSettings = useThemeSetting('color.palette.user', null, []);
+	const userGradientsSettings = useThemeSetting('color.palette.user', null, []);
 
-	const colorsSettings = useThemeSetting('color.palette', name, []);
-	const gradientsSettings = useThemeSetting('color.gradients', name, []);
+	const blockColorsSettings = useThemeSetting('color.palette.theme', name, [], false);
+	const blockGradientsSettings = useThemeSetting('color.gradients.theme', name, [], false);
 
-	const colors = Array.isArray(colorsSettings) ? colorsSettings : colorsSettings?.theme;
-	const gradients = Array.isArray(gradientsSettings)
-		? gradientsSettings
-		: gradientsSettings?.theme ?? [];
-
-	const allGradients = [...defaultGradientsSettings, ...gradients];
-	const allColors = [...defaultColorsSettings, ...colors];
+	const allGradients = [
+		...safeArraySpread(blockGradientsSettings),
+		...safeArraySpread(userGradientsSettings),
+		...safeArraySpread(themeGradientsSettings),
+		...safeArraySpread(defaultGradientsSettings),
+	];
+	const allColors = [
+		...safeArraySpread(blockColorsSettings),
+		...safeArraySpread(userColorsSettings),
+		...safeArraySpread(themeColorsSettings),
+		...safeArraySpread(defaultColorsSettings),
+	];
 
 	const color: Colors = {
 		backgroundColorSlug: '',

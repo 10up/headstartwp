@@ -6,3 +6,5 @@ export * from './useMenu';
 export * from './useTerms';
 export * from './useAuthorArchive';
 export * from './usePrepareFetch';
+export * from './usePostOrPosts';
+export * from './useSeo';

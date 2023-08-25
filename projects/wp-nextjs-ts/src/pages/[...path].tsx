@@ -40,36 +40,47 @@ export default SinglePostsPage;
  * @returns {Promise<*>}
  */
 export async function getStaticPaths() {
-	const postsData = await usePosts.fetcher().get({ postType: 'post', per_page: 50 });
+	let postsPath = [];
 
-	const postsPath = postsData.result.map(({ link }) => {
-		return {
-			// path is the catch all route, so it must be array with url segments
-			// if you don't want to support date urls just remove the date from the path
-			params: {
-				path: removeSourceUrl({ link, backendUrl: getWPUrl() }).substring(1).split('/'),
-			},
-		};
-	});
-
-	const pagesData = await usePosts.fetcher().get({ postType: 'page', per_page: 50 });
-
-	const pagePaths = pagesData.result
-		.map(({ link }) => {
-			const normalizedLink = removeSourceUrl({ link, backendUrl: getWPUrl() });
-
-			if (normalizedLink === '/') {
-				return false;
-			}
-
+	try {
+		const postsData = await usePosts.fetcher().get({ postType: 'post', per_page: 50 });
+		postsPath = postsData.result.map(({ link }) => {
 			return {
 				// path is the catch all route, so it must be array with url segments
+				// if you don't want to support date urls just remove the date from the path
 				params: {
-					path: normalizedLink.substring(1).split('/'),
+					path: removeSourceUrl({ link, backendUrl: getWPUrl() }).substring(1).split('/'),
 				},
 			};
-		})
-		.filter(Boolean);
+		});
+	} catch (e) {
+		// no posts found
+	}
+
+	let pagePaths = [];
+
+	try {
+		const pagesData = await usePosts.fetcher().get({ postType: 'page', per_page: 50 });
+
+		pagePaths = pagesData.result
+			.map(({ link }) => {
+				const normalizedLink = removeSourceUrl({ link, backendUrl: getWPUrl() });
+
+				if (normalizedLink === '/') {
+					return false;
+				}
+
+				return {
+					// path is the catch all route, so it must be array with url segments
+					params: {
+						path: normalizedLink.substring(1).split('/'),
+					},
+				};
+			})
+			.filter(Boolean);
+	} catch (e) {
+		// no pages found
+	}
 
 	return {
 		paths: [...postsPath, ...pagePaths],
