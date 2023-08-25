@@ -22,11 +22,7 @@ import { resolveBatch } from '../../utils/promises';
 import { PageContent } from '../../components/PageContent';
 
 const Archive = () => {
-	const { data, loading } = usePosts(blogParams.archive);
-
-	if (loading) {
-		return 'loading usePosts';
-	}
+	const { data } = usePosts(blogParams.archive);
 
 	return (
 		<>
@@ -43,11 +39,7 @@ const Archive = () => {
 };
 
 const BlogPage = () => {
-	const { isArchive, loading } = usePostOrPosts(blogParams);
-
-	if (loading) {
-		return 'Loading usePostOrPosts';
-	}
+	const { isArchive } = usePostOrPosts(blogParams);
 
 	if (isArchive) {
 		return <Archive />;

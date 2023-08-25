@@ -31,19 +31,6 @@ export const blogParams = {
 	routeMatchStrategy: 'single',
 };
 
-// The params below are just for the custom post type routes example
-// remove them if you don't need them
-
-/**
- * @type {import('@headstartwp/core').PostParams}
- */
-export const bookParams = { postType: ['book'] };
-
-/**
- * @type {import('@headstartwp/core').PostsArchiveParams}
- */
-export const booksParams = { postType: 'book' };
-
 /**
  * @type {import('@headstartwp/core').TaxonomyArchiveParams}
  */
