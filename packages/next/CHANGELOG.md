@@ -1,5 +1,17 @@
 # @headstartwp/next
 
+## 1.1.0-next.3
+
+### Minor Changes
+
+- 4275962b: Introducing `usePostOrPosts`.
+
+### Patch Changes
+
+- 866551f2: Fix an annoying bug that would require deleting the .next/cache folder after changing headless.config.js or .env files. Now you only need to restart the next.js server after changing those files.
+- Updated dependencies [4275962b]
+  - @headstartwp/core@1.1.0-next.4
+
 ## 1.1.0-next.2
 
 ### Patch Changes

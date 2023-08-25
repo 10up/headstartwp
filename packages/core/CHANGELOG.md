@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.1.0-next.4
+
+### Minor Changes
+
+- 4275962b: Introducing `usePostOrPosts`.
+
 ## 1.1.0-next.3
 
 ### Patch Changes
