@@ -1,6 +1,8 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import { ModifySourcePlugin, ConcatOperation } from 'modify-source-webpack-plugin';
+import path from 'path';
+import fs from 'fs';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -156,6 +158,32 @@ export function withHeadlessConfig(
 				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
 			`;
 
+			// clear webpack cache whenever headless.config.js changes or one of the env files
+			if (Array.isArray(config.cache.buildDependencies.config)) {
+				const [nextConfigPath] = config.cache.buildDependencies.config;
+
+				const headlessConfigPath = path.resolve(nextConfigPath, '../headless.config.js');
+				const envLocalPath = path.resolve(nextConfigPath, '../.env.local');
+				const envPath = path.resolve(nextConfigPath, '../.env');
+				const envDevPath = path.resolve(nextConfigPath, '../.env.development');
+
+				if (fs.existsSync(headlessConfigPath)) {
+					config.cache.buildDependencies.config.push(headlessConfigPath);
+				}
+
+				if (fs.existsSync(envLocalPath)) {
+					config.cache.buildDependencies.config.push(envLocalPath);
+				}
+
+				if (fs.existsSync(envPath)) {
+					config.cache.buildDependencies.config.push(envPath);
+				}
+
+				if (fs.existsSync(envDevPath)) {
+					config.cache.buildDependencies.config.push(envDevPath);
+				}
+			}
+
 			config.plugins.push(
 				new ModifySourcePlugin({
 					rules: [
@@ -164,6 +192,7 @@ export function withHeadlessConfig(
 								if (!withHeadlessConfigOptions.injectConfig) {
 									return false;
 								}
+
 								const userRequest = normalModule.userRequest || '';
 
 								const startIndex =
@@ -174,6 +203,11 @@ export function withHeadlessConfig(
 								const moduleRequest = userRequest
 									.substring(startIndex)
 									.replace(/\\/g, '/');
+
+								// skip next/dist/pages/_app.js
+								if (/next\/dist\/pages\/_app.js/.test(moduleRequest)) {
+									return false;
+								}
 
 								const matched =
 									/_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
