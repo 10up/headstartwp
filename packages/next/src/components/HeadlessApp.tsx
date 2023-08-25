@@ -10,6 +10,7 @@ import type { SettingsContextProps } from '@headstartwp/core/react';
 import { useRouter } from 'next/router';
 import { getSiteByHost } from '@headstartwp/core';
 import { Yoast } from './Yoast';
+import { seoKey } from '../data/hooks/useSeo';
 
 /**
  * The props supported by {@link HeadlessApp}.
@@ -46,6 +47,13 @@ export type HeadlessAppProps = {
 	 * `yoast_head` is the default and preferable option.
 	 */
 	useYoastHtml?: boolean;
+
+	/**
+	 * If true, will automatically load yoast seo metadata into the head
+	 *
+	 * @default true
+	 */
+	handleYoast?: boolean;
 
 	children?: ReactNode;
 };
@@ -91,6 +99,7 @@ export function HeadlessApp({
 	pageProps,
 	swrConfig = {},
 	useYoastHtml = false,
+	handleYoast = true,
 }: HeadlessAppProps) {
 	const { fallback = {}, seo = {}, themeJSON = { settings: {}, styles: {} } } = pageProps;
 	const router = useRouter();
@@ -100,6 +109,10 @@ export function HeadlessApp({
 		swrConfig.revalidateOnFocus = false;
 		swrConfig.revalidateOnReconnect = false;
 		swrConfig.revalidateOnMount = false;
+	}
+
+	if (typeof seo?.yoast_head_json !== 'undefined' || typeof seo?.yoast_head !== 'undefined') {
+		fallback[seoKey] = seo;
 	}
 
 	const currentSite = useMemo(() => {
@@ -118,7 +131,7 @@ export function HeadlessApp({
 				swrConfig={swrConfig}
 				data={fallback as DataFetchingProviderProps['swrConfig']['fallback']}
 			>
-				<Yoast seo={seo} useHtml={useYoastHtml} />
+				{handleYoast ? <Yoast seo={seo} useHtml={useYoastHtml} /> : null}
 				<ThemeSettingsProvider data={themeJSON}>{children}</ThemeSettingsProvider>
 			</DataFetchingProvider>
 		</SettingsProvider>

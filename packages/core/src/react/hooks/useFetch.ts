@@ -11,6 +11,9 @@ export interface useFetchOptions {
 	shouldFetch?: () => boolean;
 }
 
+// re-export useSWR
+export { useSWR, useSWRConfig };
+
 /**
  * The use Fetch Hook is the foundation for most hooks in the headless framework. It is a wrapper around
  * `useSWR` and provides a consistent API for fetching data from the API. It requires a fetch strategy which implements
