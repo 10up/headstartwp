@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.1.0-next.5
+
+### Minor Changes
+
+- e9064d69: Introducing the `useSeo` hook.
+
 ## 1.1.0-next.4
 
 ### Minor Changes
