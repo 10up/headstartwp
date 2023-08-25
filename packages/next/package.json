@@ -48,6 +48,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "deepmerge": "^4.3.1",
     "@headstartwp/core": "^1.1.0-next.2",
     "modify-source-webpack-plugin": "^4.1.0",
     "loader-utils": "^3.2.0",

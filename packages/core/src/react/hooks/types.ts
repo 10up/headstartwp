@@ -11,4 +11,5 @@ export interface HookResponse {
 export interface FetchHookOptions<T> {
 	fetchStrategyOptions?: Partial<FetchOptions>;
 	swr?: SWRConfiguration<T>;
+	shouldFetch?: boolean;
 }

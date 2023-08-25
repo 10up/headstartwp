@@ -80,6 +80,12 @@ export interface FilterDataOptions<T> {
 	fields: (keyof T)[];
 }
 
+export type NormalizedDataForCache<T, P> = {
+	key: { url: string; args: Partial<P> };
+	data: FetchResponse<T>;
+	additionalCacheObjects?: NormalizedDataForCache<T, P>[];
+};
+
 /**
  * Abstract class that lays out a strategy for fetching data
  *
@@ -320,6 +326,33 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		}
 
 		return data;
+	}
+
+	/**
+	 * Returns the cache key with both the endpoint and the sourceUrl to distinguish between multiple sites
+	 *
+	 * @param params The request params
+	 *
+	 * @returns The cache key object
+	 */
+	getCacheKey(params: Partial<Params>) {
+		return { url: this.getDefaultEndpoint(), args: { ...params, sourceUrl: this.baseURL } };
+	}
+
+	/**
+	 * Normalize data for cache.
+	 *
+	 * @param data The fetch response data
+	 * @param params The request params
+	 */
+	normalizeForCache(
+		data: FetchResponse<R>,
+		params: Partial<Params>,
+	): NormalizedDataForCache<R, Params> {
+		return {
+			key: this.getCacheKey(params),
+			data,
+		};
 	}
 
 	/**

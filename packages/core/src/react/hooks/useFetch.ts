@@ -1,4 +1,5 @@
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
+import deepmerge from 'deepmerge';
 import type { EndpointParams, FetchResponse } from '../../data';
 import { AbstractFetchStrategy } from '../../data';
 
@@ -30,6 +31,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	path = '',
 ) {
 	const { sourceUrl, debug } = useSettings();
+	const { mutate } = useSWRConfig();
 
 	fetchStrategy.setBaseURL(sourceUrl);
 
@@ -37,9 +39,9 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	const urlParams = fetchStrategy.getParamsFromURL(path, params);
 	const isMainQuery = fetchStrategy.isMainQuery(path, params);
 
-	const finalParams = { ...defaultParams, ...urlParams, ...params };
+	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<Params>;
 
-	const { fetchStrategyOptions, ...validSWROptions } = options;
+	const { fetchStrategyOptions, shouldFetch = true, ...validSWROptions } = options;
 
 	// for backwards compat ensure options.swr exists
 	// this would make code that's not namespacing the swr options under `{ swr }` still work.
@@ -54,20 +56,36 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 		options.swr = { ...validSWROptions };
 	}
 
-	const key = { url: fetchStrategy.getEndpoint(), args: { ...finalParams, sourceUrl } };
+	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
+	const key = fetchStrategy.getCacheKey(finalParams);
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[useFetch] key for ${key.url}`, key);
 	}
 
 	const result = useSWR<FetchResponse<R>>(
-		key,
-		({ args }) =>
-			fetchStrategy.fetcher(
-				fetchStrategy.buildEndpointURL(args),
+		shouldFetch ? key : null,
+		async () => {
+			const fetchData = await fetchStrategy.fetcher(
+				endpointUrl,
 				finalParams,
 				fetchStrategyOptions,
-			),
+			);
+
+			const { data, additionalCacheObjects } = fetchStrategy.normalizeForCache(
+				fetchData,
+				finalParams,
+			);
+
+			// mutate additiional cache objects
+			if (additionalCacheObjects) {
+				additionalCacheObjects.forEach(({ key, data }) => {
+					mutate(key, data);
+				});
+			}
+
+			return data;
+		},
 		options.swr,
 	);
 

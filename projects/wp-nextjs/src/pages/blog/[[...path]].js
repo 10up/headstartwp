@@ -8,19 +8,21 @@
  *
  */
 import {
-	usePosts,
 	fetchHookData,
 	addHookData,
 	handleError,
 	useAppSettings,
+	usePostOrPosts,
+	usePosts,
 } from '@headstartwp/next';
+
 import { Link } from '../../components/Link';
-import { Pagination } from '../../components/Pagination';
 import { blogParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
+import { PageContent } from '../../components/PageContent';
 
-const BlogPage = () => {
-	const { data } = usePosts(blogParams);
+const Archive = () => {
+	const { data } = usePosts(blogParams.archive);
 
 	return (
 		<>
@@ -32,9 +34,18 @@ const BlogPage = () => {
 					</li>
 				))}
 			</ul>
-			<Pagination pageInfo={data.pageInfo} />
 		</>
 	);
+};
+
+const BlogPage = () => {
+	const { isArchive } = usePostOrPosts(blogParams);
+
+	if (isArchive) {
+		return <Archive />;
+	}
+
+	return <PageContent params={blogParams.single} />;
 };
 
 export default BlogPage;
@@ -43,7 +54,7 @@ export async function getServerSideProps(context) {
 	try {
 		const settledPromises = await resolveBatch([
 			{
-				func: fetchHookData(usePosts.fetcher(), context, { params: blogParams }),
+				func: fetchHookData(usePostOrPosts.fetcher(), context, { params: blogParams }),
 			},
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);

@@ -6,3 +6,4 @@ export * from './AppSettingsStrategy';
 export * from './TaxonomyTermsStrategy';
 export * from './AuthorArchiveFetchStrategy';
 export * from './VerifyTokenFetchStrategy';
+export * from './PostOrPostsFetchStrategy';
