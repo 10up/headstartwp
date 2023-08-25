@@ -158,16 +158,29 @@ export function withHeadlessConfig(
 				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
 			`;
 
+			// clear webpack cache whenever headless.config.js changes or one of the env files
 			if (Array.isArray(config.cache.buildDependencies.config)) {
 				const [nextConfigPath] = config.cache.buildDependencies.config;
 
 				const headlessConfigPath = path.resolve(nextConfigPath, '../headless.config.js');
+				const envLocalPath = path.resolve(nextConfigPath, '../.env.local');
+				const envPath = path.resolve(nextConfigPath, '../.env');
+				const envDevPath = path.resolve(nextConfigPath, '../.env.development');
 
 				if (fs.existsSync(headlessConfigPath)) {
 					config.cache.buildDependencies.config.push(headlessConfigPath);
-					config.cache.buildDependencies.config.push(
-						path.resolve(nextConfigPath, '../.env.local'),
-					);
+				}
+
+				if (fs.existsSync(envLocalPath)) {
+					config.cache.buildDependencies.config.push(envLocalPath);
+				}
+
+				if (fs.existsSync(envPath)) {
+					config.cache.buildDependencies.config.push(envPath);
+				}
+
+				if (fs.existsSync(envDevPath)) {
+					config.cache.buildDependencies.config.push(envDevPath);
 				}
 			}
 
