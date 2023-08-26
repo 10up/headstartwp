@@ -13,9 +13,9 @@ export function getRedisClient(lazyConnect = false) {
 	const host = vipHost || process.env.NEXT_REDIS_URL || process.env.NEXT_REDIS_HOST || "localhost";
 	const port = parseInt(vipPort || process.env.NEXT_REDIS_PORT || process.env.REDIS_SERVICE_PORT_TCP_SENTINEL || process.env.REDIS_SERVICE_PORT_TCP_REDIS || "6379");
 	const password = process.env.VIP_REDIS_PASSWORD || process.env.NEXT_REDIS_PASS || null;
-	const enableSentinel = (process.env.REDIS_SENTINEL_NAME) ? true : false;
-	const sentinelName = process.env.REDIS_SENTINEL_NAME || null;
-	const sentinelPassword = process.env.SENTINEL_PASSWORD || null;
+	const enableSentinel = (process.env.NEXT_REDIS_SENTINEL_NAME) ? true : false;
+	const sentinelName = process.env.NEXT_REDIS_SENTINEL_NAME || null;
+	const sentinelPassword = process.env.NEXT_REDIS_SENTINEL_PASSWORD || null;
 
 	let connectionParams = {};
 
