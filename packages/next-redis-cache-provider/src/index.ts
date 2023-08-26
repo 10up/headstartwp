@@ -9,18 +9,26 @@ import { CacheFs } from 'next/dist/shared/lib/utils';
 import path from 'path';
 
 export function getRedisClient(lazyConnect = false) {
-	const [vipHost, vipPort] = process.env.VIP_REDIS_PRIMARY?.split(':') || [ undefined, undefined ];
-	const host = vipHost || process.env.NEXT_REDIS_URL || process.env.NEXT_REDIS_HOST || "localhost";
-	const port = parseInt(vipPort || process.env.NEXT_REDIS_PORT || process.env.REDIS_SERVICE_PORT_TCP_SENTINEL || process.env.REDIS_SERVICE_PORT_TCP_REDIS || "6379");
+	const [vipHost, vipPort] = process.env.VIP_REDIS_PRIMARY?.split(':') || [undefined, undefined];
+	const host =
+		vipHost || process.env.NEXT_REDIS_URL || process.env.NEXT_REDIS_HOST || 'localhost';
+	const port = parseInt(
+		vipPort ||
+			process.env.NEXT_REDIS_PORT ||
+			process.env.REDIS_SERVICE_PORT_TCP_SENTINEL ||
+			process.env.REDIS_SERVICE_PORT_TCP_REDIS ||
+			'6379',
+		10,
+	);
 	const password = process.env.VIP_REDIS_PASSWORD || process.env.NEXT_REDIS_PASS || null;
-	const enableSentinel = (process.env.NEXT_REDIS_SENTINEL_NAME) ? true : false;
+	const enableSentinel = !!process.env.NEXT_REDIS_SENTINEL_NAME;
 	const sentinelName = process.env.NEXT_REDIS_SENTINEL_NAME || null;
 	const sentinelPassword = process.env.NEXT_REDIS_SENTINEL_PASSWORD || null;
 
 	let connectionParams = {};
 
 	// Connection was passed in as a URL
-	if (host.indexOf('redis') == 0) {
+	if (host.indexOf('redis') === 0) {
 		return new Redis(host, { lazyConnect });
 	}
 
@@ -28,17 +36,17 @@ export function getRedisClient(lazyConnect = false) {
 	if (enableSentinel) {
 		connectionParams = {
 			sentinels: [{ host, port }],
-			sentinelPassword: sentinelPassword,
+			sentinelPassword,
 			name: sentinelName,
-			lazyConnect
+			lazyConnect,
 		};
-	// Normal connections
-	}	else {
+		// Normal connections
+	} else {
 		connectionParams = {
 			host,
 			port,
 			password,
-			lazyConnect
+			lazyConnect,
 		};
 	}
 
