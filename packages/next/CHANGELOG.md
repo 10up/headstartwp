@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.1.1
+
+### Patch Changes
+
+- de501ff7: Fix an issue for images without width or height
+- Updated dependencies [de501ff7]
+  - @headstartwp/core@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
