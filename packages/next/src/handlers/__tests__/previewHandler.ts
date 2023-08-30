@@ -73,6 +73,35 @@ describe('previewHandler', () => {
 		expect(res._getStatusCode()).toBe(302);
 	});
 
+	it('sets preview cookie path with locale', async () => {
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: {
+				post_id: DRAFT_POST_ID,
+				token: VALID_AUTH_TOKEN,
+				post_type: 'post',
+				locale: 'es',
+			},
+		});
+
+		res.setPreviewData = jest.fn();
+		await previewHandler(req, res);
+
+		expect(res.setPreviewData).toHaveBeenCalledWith(
+			{
+				authToken: 'this is a valid auth',
+				id: 57,
+				postType: 'post',
+				revision: false,
+			},
+			{
+				maxAge: 300,
+				path: '/es/modi-qui-dignissimos-sed-assumenda-sint-iusto-preview=true',
+			},
+		);
+		expect(res._getStatusCode()).toBe(302);
+	});
+
 	it('set preview cookie path to all paths if onRedirect is passed without getRedirectPath', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',

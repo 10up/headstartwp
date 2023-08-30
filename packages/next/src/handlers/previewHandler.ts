@@ -194,12 +194,8 @@ export async function previewHandler(
 				const singleRoute = postTypeDef.single || '/';
 				const prefixRoute = singleRoute === '/' ? '' : singleRoute;
 				const slugOrId = revision ? post_id : slug || post_id;
-
-				if (locale) {
-					return `/${locale}/${prefixRoute}/${slugOrId}`;
-				}
-
-				return `${prefixRoute}/${slugOrId}`;
+				const path = [locale, prefixRoute, slugOrId].filter((n) => n).join('/');
+				return `/${path}`;
 			};
 
 			const redirectPath =
