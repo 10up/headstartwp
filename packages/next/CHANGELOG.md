@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.1.3
+
+### Patch Changes
+
+- b07d4f8e: Fix previews
+
 ## 1.1.2
 
 ### Patch Changes
