@@ -99,7 +99,7 @@ After adding a custom taxonomy to the config, you will be able to filter posts b
 
 ```js
 usePost({ postType: ['book'], genre: 'action' });
-usePosts({ postType:'book', genre: 'action' perPage: 10 });
+usePosts({ postType:'book', genre: 'action', perPage: 10 });
 useTerms({ taxonomy: 'genre' });
 ```
 
