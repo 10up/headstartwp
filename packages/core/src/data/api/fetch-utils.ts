@@ -1,4 +1,4 @@
-import { LOGTYPE, addQueryArgs, getHeadlessConfig, log } from '../../utils';
+import { LOGTYPE, addQueryArgs, getHeadstartWPConfig, log } from '../../utils';
 
 export const getAuthHeader = () => {
 	return null;
@@ -15,15 +15,26 @@ export const getAuthHeader = () => {
  * @returns {object}
  */
 export const apiPost = async (url: string, args: { [index: string]: any } = {}) => {
-	const response = await fetch(url, {
+	const config = getHeadstartWPConfig();
+
+	const fetchArgs = {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(args),
-	});
+	};
 
-	const config = getHeadlessConfig();
+	const { url: filteredUrl, args: filteredArgs } = config.filters?.fetch?.(
+		'POST',
+		url,
+		fetchArgs,
+	) ?? {
+		url,
+		fetchArgs,
+	};
+
+	const response = await fetch(filteredUrl, filteredArgs);
 
 	if (config.debug?.requests) {
 		log(LOGTYPE.DEBUG, 'POST', url, args);
@@ -60,7 +71,7 @@ export const apiGet = async (
 		  }
 		: {};
 
-	const config = getHeadlessConfig();
+	const config = getHeadstartWPConfig();
 
 	const fetchUrl = addQueryArgs(url, queryArgs);
 
@@ -68,7 +79,14 @@ export const apiGet = async (
 		log(LOGTYPE.DEBUG, 'GET', fetchUrl, args);
 	}
 
-	const data = await fetch(fetchUrl, args);
+	const { url: filteredUrl, args: filteredArgs } = config.filters?.fetch?.(
+		'GET',
+		fetchUrl,
+		args,
+		burstCache,
+	) ?? { url: fetchUrl, args };
+
+	const data = await fetch(filteredUrl, filteredArgs);
 
 	const receivedHeaders: { [index: string]: any } = [
 		...Array.from(data.headers.entries()),

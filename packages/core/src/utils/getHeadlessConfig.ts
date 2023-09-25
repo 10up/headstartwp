@@ -30,6 +30,7 @@ export function getHeadstartWPConfig() {
 		hostUrl,
 		integrations,
 		debug,
+		filters,
 	} = __10up__HEADLESS_CONFIG;
 
 	const headlessConfig: HeadlessConfig = {
@@ -41,6 +42,7 @@ export function getHeadstartWPConfig() {
 		useWordPressPlugin: useWordPressPlugin || false,
 		integrations,
 		debug,
+		filters,
 		sites: (sites || []).map((site) => {
 			// if host is not defined but hostUrl is, infer host from hostUrl
 			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {

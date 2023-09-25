@@ -17,6 +17,34 @@ const isPackageInstalled = (packageName: string): boolean => {
 
 	return false;
 };
+
+/**
+ * Stringify an object, including functions
+ *
+ * @param obj A JavaScript object
+ *
+ * @returns
+ */
+export function toStringWithFunctions(obj: Record<string, any>) {
+	const placeholder = '____HEADSTARTWP_FUNCTION_PLACEHOLDER____';
+	const fns: Array<any> = [];
+	let json = JSON.stringify(
+		obj,
+		function (key, value) {
+			if (typeof value === 'function') {
+				fns.push(value);
+				return placeholder;
+			}
+			return value;
+		},
+		2,
+	);
+	json = json.replace(new RegExp(`"${placeholder}"`, 'g'), function () {
+		return fns.shift();
+	});
+	return json;
+}
+
 function traverse(rules) {
 	for (const rule of rules) {
 		if (typeof rule.loader === 'string' && rule.loader.includes('css-loader')) {
@@ -155,7 +183,7 @@ export function withHeadlessConfig(
 		webpack: (config, options) => {
 			const importSetHeadlessConfig = `
 				import { setHeadstartWPConfig } from '@headstartwp/core/utils';
-				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
+				setHeadstartWPConfig(${toStringWithFunctions(headlessConfig)});
 			`;
 
 			// clear webpack cache whenever headless.config.js changes or one of the env files

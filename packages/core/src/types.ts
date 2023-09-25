@@ -47,4 +47,15 @@ export type HeadlessConfig = {
 		redirects?: boolean;
 		devMode?: boolean;
 	};
+	filters?: {
+		fetch?: (
+			method: 'POST' | 'GET',
+			url: string,
+			args: Record<string, any>,
+			burstCache?: boolean,
+		) => {
+			url: string;
+			args: Record<string, any>;
+		};
+	};
 };

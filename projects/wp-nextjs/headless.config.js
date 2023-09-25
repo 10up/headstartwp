@@ -49,4 +49,12 @@ module.exports = {
 		 */
 		devMode: process.env?.ENABLE_DEV_MODE === 'true',
 	},
+	filters: {
+		fetch: (method, url, args) => {
+			return {
+				url,
+				args,
+			};
+		},
+	},
 };
