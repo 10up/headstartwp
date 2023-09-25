@@ -1,5 +1,25 @@
 # @headstartwp/next
 
+## 1.1.3
+
+### Patch Changes
+
+- b07d4f8e: Fix previews
+
+## 1.1.2
+
+### Patch Changes
+
+- 1922ffbd: Fix bug where previews were not working with locales as the redirect path for the preview cookie was incorrect.
+
+## 1.1.1
+
+### Patch Changes
+
+- de501ff7: Fix an issue for images without width or height
+- Updated dependencies [de501ff7]
+  - @headstartwp/core@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
