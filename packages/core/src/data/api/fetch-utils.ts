@@ -48,12 +48,6 @@ export const apiGet = async (
 	args: { [index: string]: any } = {},
 	burstCache = false,
 ) => {
-	const headers = getAuthHeader();
-
-	if (headers) {
-		args.headers = headers;
-	}
-
 	const queryArgs = burstCache
 		? {
 				cacheTime: new Date().getTime(),
