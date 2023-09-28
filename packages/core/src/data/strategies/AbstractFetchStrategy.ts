@@ -303,9 +303,15 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 			throw new NotFoundError(`The request to ${url} returned no data`);
 		}
 
+		let resultData = result.json;
+		// if this didn't cause an error, default to an empty result set as this is the same as handling a NotFoundError without throwing
+		if (result.json.code === 'rest_post_invalid_page_number') {
+			resultData = [];
+		}
+
 		const page = Number(params.page) || 1;
 		const response: FetchResponse<E> = {
-			result: result.json,
+			result: resultData,
 			pageInfo: {
 				totalPages: Number(result.headers['x-wp-totalpages']) || 0,
 				totalItems: Number(result.headers['x-wp-total']) || 0,
