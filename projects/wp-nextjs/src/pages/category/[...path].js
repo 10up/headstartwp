@@ -34,9 +34,6 @@ export async function getServerSideProps(context) {
 		const settledPromises = await resolveBatch([
 			{
 				func: fetchHookData(usePosts.fetcher(), context, {
-					fetchStrategyOptions: {
-						throwIfNotFound: false,
-					},
 					params: { taxonomy: 'category' },
 				}),
 			},
