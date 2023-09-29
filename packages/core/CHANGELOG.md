@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.1.2-next.1
+
+### Patch Changes
+
+- 772c5f1c: Fix: fetchHookData with usePosts and throwIfNotFound set to false will crash the application if no results are found
+
 ## 1.1.2-next.0
 
 ### Patch Changes
