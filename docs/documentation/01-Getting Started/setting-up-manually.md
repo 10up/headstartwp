@@ -199,11 +199,13 @@ With the example above, you might have noticed that the data is only being fetch
 Add this to the `pages/[...path].js` file
 
 ```js title="src/pages/[...path].js"
+import { singleParams } from '../params';
+
 // or export async function getServerSideProps(context)
 export async function getStaticProps(context) {
 	try {
         // make sure to pass the same params to fetchHookData and usePost
-        const usePostData = await fetchHookData(usePost.fetcher(), context, { params });
+        const usePostData = await fetchHookData(usePost.fetcher(), context, { params: singleParams });
 
 		return addHookData([usePostData], {});
 	} catch (e) {
