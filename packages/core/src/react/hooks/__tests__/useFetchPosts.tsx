@@ -189,6 +189,52 @@ describe('useFetchPosts', () => {
 		});
 	});
 
+	it('does not crash when not found but throwIfNotFound is set to false', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPosts(
+					{ taxonomy: 'category' },
+					{
+						fetchStrategyOptions: {
+							throwIfNotFound: false,
+						},
+					},
+					'/i-do-not-exist',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.posts.length).toBe(0);
+		});
+	});
+
+	it('does not crash when invalid page param when throwIfNotFound is set to false', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPosts(
+					{ taxonomy: 'category' },
+					{
+						fetchStrategyOptions: {
+							throwIfNotFound: false,
+						},
+					},
+					'/news/page/10',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.posts.length).toBe(0);
+		});
+	});
+
 	describe('useFetchPosts types', () => {
 		it('allows overriding types', () => {
 			interface Book extends PostEntity {

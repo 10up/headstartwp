@@ -279,6 +279,8 @@ export class SinglePostFetchStrategy<
 			options.bearerToken = params.authToken;
 		}
 
+		const authHeader = this.getAuthHeader(options);
+
 		let error;
 		if (params.revision && params.id) {
 			try {
@@ -286,7 +288,7 @@ export class SinglePostFetchStrategy<
 					`${this.baseURL}${this.getEndpoint()}/revisions?per_page=1`,
 					{
 						headers: {
-							Authorization: `Bearer ${options.bearerToken}`,
+							Authorization: authHeader,
 						},
 					},
 					burstCache,

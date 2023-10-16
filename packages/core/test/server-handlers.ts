@@ -47,6 +47,7 @@ const handlers = [
 		const search = query.get('search');
 		const slug = query.get('slug');
 		const perPage = Number(query.get('per_page') || 10);
+		const page = Number(query.get('page') || 1);
 		const category = query.get('categories');
 		const author = query.get('author');
 		const embed = query.get('_embed');
@@ -107,8 +108,21 @@ const handlers = [
 
 		const totalResults = results.length;
 
+		if ((page - 1) * perPage > totalResults) {
+			return res(
+				ctx.json({
+					code: 'rest_post_invalid_page_number',
+					message:
+						'The page number requested is larger than the number of pages available.',
+					data: {
+						status: 400,
+					},
+				}),
+			);
+		}
+
 		if (perPage) {
-			results = results.slice(0, perPage);
+			results = results.slice((page - 1) * perPage, perPage);
 		}
 
 		return res(

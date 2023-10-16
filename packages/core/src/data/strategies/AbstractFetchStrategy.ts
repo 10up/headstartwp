@@ -224,6 +224,27 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		};
 	}
 
+	getAuthHeader(options: Partial<FetchOptions> = {}) {
+		let bearerAuthHeader = '';
+		if (options.bearerToken) {
+			bearerAuthHeader = `Bearer ${options.bearerToken}`;
+		}
+
+		const basicAuthUsername =
+			process.env.WP_BASIC_AUTH_USERNAME ?? process.env.NEXT_PUBLIC_WP_BASIC_AUTH_USERNAME;
+		const basicAuthPassword =
+			process.env.WP_BASIC_AUTH_PASSWORD ?? process.env.NEXT_PUBLIC_WP_BASIC_AUTH_PASSWORD;
+
+		if (basicAuthUsername && basicAuthPassword) {
+			const basicAuth = `Basic ${btoa(`${basicAuthUsername}:${basicAuthPassword}`)}`;
+			if (bearerAuthHeader) {
+				return `${basicAuth}, ${bearerAuthHeader}`;
+			}
+			return basicAuth;
+		}
+		return bearerAuthHeader;
+	}
+
 	/**
 	 * The default fetcher function
 	 *
@@ -245,9 +266,13 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		const { burstCache = false } = options;
 
 		const args = {};
-		if (options.bearerToken) {
+
+		const authHeader = this.getAuthHeader(options);
+		if (authHeader) {
 			// @ts-expect-error
-			args.headers = { Authorization: `Bearer ${options.bearerToken}` };
+			args.headers = {
+				Authorization: authHeader,
+			};
 		}
 
 		const result = await apiGet(`${this.baseURL}${url}`, args, burstCache);
@@ -278,9 +303,15 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 			throw new NotFoundError(`The request to ${url} returned no data`);
 		}
 
+		let resultData = result.json;
+		// if this didn't cause an error, default to an empty result set as this is the same as handling a NotFoundError without throwing
+		if (result.json.code === 'rest_post_invalid_page_number') {
+			resultData = [];
+		}
+
 		const page = Number(params.page) || 1;
 		const response: FetchResponse<E> = {
-			result: result.json,
+			result: resultData,
 			pageInfo: {
 				totalPages: Number(result.headers['x-wp-totalpages']) || 0,
 				totalItems: Number(result.headers['x-wp-total']) || 0,
