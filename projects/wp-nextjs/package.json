@@ -10,9 +10,10 @@
     "dev": "next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
+		"build:ci": "env-cmd -f .env.ci next build",
     "start": "next start",
     "lint": "eslint .",
-		"test:e2e": "npx cypress run"
+    "test:e2e": "npx cypress run"
   },
   "dependencies": {
     "@10up/next-redis-cache-provider": "^0.1.5",
@@ -35,6 +36,7 @@
     "@next/bundle-analyzer": "^12.1.0",
     "@testing-library/cypress": "^10.0.1",
     "cypress": "^13.3.0",
+    "env-cmd": "^10.1.0",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-import": "^2.26.0"
   },

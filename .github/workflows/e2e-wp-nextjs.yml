@@ -22,4 +22,6 @@ jobs:
       - name: Install WP Next JS deps
         run: (cd projects/wp-nextjs && npm install)
       - name: Build WP Next JS
-        run: (cd projects/wp-nextjs && npm run build)
+        run: (cd projects/wp-nextjs && npm run build:ci)
+      - name: Start and e2e test WP Next JS
+        run: (cd projects/wp-nextjs && npm start & npm run test:e2e)
