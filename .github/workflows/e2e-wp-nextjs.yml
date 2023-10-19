@@ -16,6 +16,10 @@ jobs:
           node-version: 18
           cache: npm
       - name: Install dependencies
+        run: npm install
+      - name: Build Packages
+        run: npm run build:packages
+      - name: Install WP Next JS deps
         run: (cd projects/wp-nextjs && npm install)
-      - name: Build project
+      - name: Build WP Next JS
         run: (cd projects/wp-nextjs && npm run build)
