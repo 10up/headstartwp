@@ -20,8 +20,13 @@ jobs:
       - name: Build Packages
         run: npm run build:packages
       - name: Install WP Next JS deps
-        run: (cd projects/wp-nextjs && npm install)
+        working-directory: ./projects/wp-nextjs
+        run: npm install
       - name: Build WP Next JS
-        run: (cd projects/wp-nextjs && npm run build:ci)
+        working-directory: ./projects/wp-nextjs
+        run: npm run build:ci
       - name: Start and e2e test WP Next JS
-        run: (cd projects/wp-nextjs && npm start & cd projects/wp-nextjs npm run test:e2e)
+        working-directory: ./projects/wp-nextjs
+        run: |
+          npm start &
+          npm run test:e2e
