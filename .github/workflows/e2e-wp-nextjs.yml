@@ -24,4 +24,4 @@ jobs:
       - name: Build WP Next JS
         run: (cd projects/wp-nextjs && npm run build:ci)
       - name: Start and e2e test WP Next JS
-        run: (cd projects/wp-nextjs && npm start & npm run test:e2e)
+        run: (cd projects/wp-nextjs && npm start & cd projects/wp-nextjs npm run test:e2e)
