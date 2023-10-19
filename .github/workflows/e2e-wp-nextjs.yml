@@ -1,0 +1,21 @@
+name: e2e WP Next JS
+
+on:
+  push:
+    branches:
+      - feature/implement-e2e-tests
+
+jobs:
+  deploy:
+    name: e2e WP Next JS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install dependencies
+        run: (cd projects/wp-nextjs && npm install)
+      - name: Build project
+        run: (cd projects/wp-nextjs && npm run build)
