@@ -1,5 +1,5 @@
-import dts from 'rollup-plugin-dts';
-import esbuild from 'rollup-plugin-esbuild';
+const dts = require('rollup-plugin-dts');
+const esbuild = require('rollup-plugin-esbuild');
 
 const name = require('./package.json').main.replace(/\.js$/, '');
 
@@ -9,9 +9,9 @@ const bundle = (config) => ({
 	external: (id) => !/^[./]/.test(id),
 });
 
-export default [
+module.exports = [
 	bundle({
-		plugins: [esbuild()],
+		plugins: [esbuild.default()],
 		output: [
 			{
 				file: `${name}.js`,
@@ -26,7 +26,7 @@ export default [
 		],
 	}),
 	bundle({
-		plugins: [dts()],
+		plugins: [dts.default()],
 		output: {
 			file: `${name}.d.ts`,
 			format: 'es',
