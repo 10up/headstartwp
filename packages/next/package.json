@@ -39,7 +39,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
-    "postbuild": "node ../../scripts/package.js",
+    "postbuild": "fix-esm-import-path dist/mjs && node ../../scripts/package.js",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
     "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
@@ -66,7 +66,8 @@
     "node-mocks-http": "^1.11.0",
     "ts-jest": "^29.0.1",
     "typescript": "^5.0.4",
-    "whatwg-fetch": "^3.6.2"
+    "whatwg-fetch": "^3.6.2",
+    "fix-esm-import-path": "^1.4.0"
   },
   "peerDependencies": {
     "next": ">= 12.0.0",
