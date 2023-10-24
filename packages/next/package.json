@@ -39,7 +39,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
-    "postbuild": "tsc-esm-fix && node ../../scripts/package.js",
+    "postbuild": "tsc-esm-fix --target dist/mjs && node ../../scripts/package.js",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
     "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",

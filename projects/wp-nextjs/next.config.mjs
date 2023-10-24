@@ -1,10 +1,12 @@
-const { withHeadlessConfig } = require('@headstartwp/next/config');
+import { withHeadlessConfig } from '@headstartwp/next/config';
+import BundleAnalyzer from '@next/bundle-analyzer';
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+// eslint-disable-next-line
+import headlessConfig from './headless.config.js';
+
+const withBundleAnalyzer = BundleAnalyzer({
 	enabled: process.env.ANALYZE === 'true',
 });
-
-const headlessConfig = require('./headless.config');
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -30,12 +32,12 @@ if (process.env?.ENABLE_POLYLANG_INTEGRATION === 'true') {
  * You only need this if you want to use Next.js ISR outside of hosting platforms
  * that do not natively support Next.js ISR.
  */
-if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
+/* if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
 	// eslint-disable-next-line global-require
 	const { initRedisClient } = require('@10up/next-redis-cache-provider');
 	initRedisClient();
 	nextConfig.experimental = {
 		incrementalCacheHandlerPath: require.resolve('@10up/next-redis-cache-provider'),
 	};
-}
-module.exports = withBundleAnalyzer(withHeadlessConfig(nextConfig, headlessConfig));
+} */
+export default withBundleAnalyzer(withHeadlessConfig(nextConfig, headlessConfig));
