@@ -41,7 +41,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "npm run ts && npm run ts:cjs",
-    "postbuild": "fix-esm-import-path dist/mjs && node ../../scripts/package.js",
+    "postbuild": "tsc-esm-fix --target dist/mjs && node ../../scripts/package.js",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
     "dev": "concurrently \"npm run watch:ts:cjs\" \"npm run watch:ts\"",
@@ -61,7 +61,7 @@
     "ts-jest": "^29.0.3",
     "typescript": "^5.0.4",
     "whatwg-fetch": "^3.6.2",
-    "fix-esm-import-path": "^1.4.0"
+    "tsc-esm-fix": "^2.20.17"
   },
   "dependencies": {
     "@justinribeiro/lite-youtube": "^1.3.1",
