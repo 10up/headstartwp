@@ -48,6 +48,14 @@
     "lint-staged": "^11.1.2",
     "turbo": "^1.9.3"
   },
+  "optionalDependencies": {
+    "turbo-darwin-64": "^1.9.3",
+    "turbo-darwin-arm64": "^1.9.3",
+    "turbo-linux-64": "^1.9.3",
+    "turbo-linux-arm64": "^1.9.3",
+    "turbo-windows-64": "^1.9.3",
+    "turbo-windows-arm64": "^1.9.3"
+  },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",
     "budget": 148480,
