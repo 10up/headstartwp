@@ -7,7 +7,6 @@ import { SettingsProvider } from '../../provider';
 import { useFetchSearch } from '../useFetchSearch';
 import { setHeadlessConfig } from '../../../utils';
 import * as useFetchModule from '../useFetch';
-import * as utils from '../util';
 
 describe('useFetchSearch', () => {
 	const wrapper = ({ children }) => {
@@ -41,27 +40,22 @@ describe('useFetchSearch', () => {
 			isLoading: false,
 			isValidating: false,
 		});
-		const spyMakeErrorCatchProxy = jest.spyOn(utils, 'makeErrorCatchProxy').mockReturnValue({});
 		const { result } = renderHook(() => useFetchSearch({}), {
 			wrapper,
 		});
 
 		await waitFor(() => {
 			expect(spyUseFetch).toHaveBeenCalledTimes(1);
-			expect(spyMakeErrorCatchProxy).toHaveBeenCalledTimes(3);
 			expect(result.current.error).toBe('Not found');
-			expect(result.current.loading).toBe(false);
+			expect(result.current.loading).toBe(true);
 			expect(() => result.current.data).not.toThrow();
-			expect(result.current.data).toStrictEqual({
-				posts: {},
-				pageInfo: {},
-				queriedObject: {},
-			});
+			expect(() => result.current.data?.posts[0].title).toThrow();
+			expect(() => result.current.data?.pageInfo[0].title).toThrow();
+			expect(() => result.current.data?.queriedObject[0].title).toThrow();
 			expect(result.current.isMainQuery).toBe(true);
 		});
 
 		spyUseFetch.mockRestore();
-		spyMakeErrorCatchProxy.mockRestore();
 	});
 
 	it('fetches data properly', async () => {
