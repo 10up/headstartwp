@@ -6,8 +6,10 @@ import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearch } from '../useFetchSearch';
 import { setHeadlessConfig } from '../../../utils';
+import * as useFetchModule from '../useFetch';
+import * as utils from '../util';
 
-describe('useFetchPosts', () => {
+describe('useFetchSearch', () => {
 	const wrapper = ({ children }) => {
 		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
 	};
@@ -27,6 +29,39 @@ describe('useFetchPosts', () => {
 			expect(() => result.current.data).not.toThrow();
 			expect(result.current.data?.posts.length).toBe(0);
 		});
+	});
+
+	it('handles response if has error or there is no data', async () => {
+		const spyUseFetch = jest.spyOn(useFetchModule, 'useFetch').mockReturnValueOnce({
+			error: 'Not found',
+			params: {},
+			data: undefined,
+			isMainQuery: true,
+			mutate: jest.fn(),
+			isLoading: false,
+			isValidating: false,
+		});
+		const spyMakeErrorCatchProxy = jest.spyOn(utils, 'makeErrorCatchProxy').mockReturnValue({});
+		const { result } = renderHook(() => useFetchSearch({}), {
+			wrapper,
+		});
+
+		await waitFor(() => {
+			expect(spyUseFetch).toHaveBeenCalledTimes(1);
+			expect(spyMakeErrorCatchProxy).toHaveBeenCalledTimes(3);
+			expect(result.current.error).toBe('Not found');
+			expect(result.current.loading).toBe(false);
+			expect(() => result.current.data).not.toThrow();
+			expect(result.current.data).toStrictEqual({
+				posts: {},
+				pageInfo: {},
+				queriedObject: {},
+			});
+			expect(result.current.isMainQuery).toBe(true);
+		});
+
+		spyUseFetch.mockRestore();
+		spyMakeErrorCatchProxy.mockRestore();
 	});
 
 	it('fetches data properly', async () => {

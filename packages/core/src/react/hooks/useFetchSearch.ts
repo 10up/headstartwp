@@ -50,7 +50,7 @@ export function useFetchSearch<
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
-		return { error, loading: !data, data: fakeData, isMainQuery };
+		return { error, loading: false, data: fakeData, isMainQuery };
 	}
 
 	const { result, pageInfo, queriedObject } = data;
