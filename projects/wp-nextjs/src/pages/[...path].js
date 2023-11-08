@@ -7,12 +7,18 @@ import {
 	usePosts,
 	useAppSettings,
 } from '@headstartwp/next';
+import { useEffect, useState } from 'react';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';
 import { resolveBatch } from '../utils/promises';
 
-const SinglePostsPage = () => {
+const SinglePostsPage = ({ isProtectedRoute }) => {
 	const { loading, error } = usePost(singleParams);
+	const [pw, setPw] = useState('');
+
+	useEffect(() => {
+		setPw(document.location.search.pw);
+	}, []);
 
 	if (loading) {
 		return 'Loading...';
@@ -22,9 +28,15 @@ const SinglePostsPage = () => {
 		return 'error...';
 	}
 
+	if (isProtectedRoute) {
+		return 'Loading Protected Route';
+	}
+
 	return (
 		<div>
-			<PageContent params={singleParams} />
+			<PageContent
+				params={isProtectedRoute && pw ? { ...singleParams, password: pw } : singleParams}
+			/>
 		</div>
 	);
 };
@@ -100,6 +112,17 @@ export async function getStaticProps(context) {
 			},
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
+
+		const [post] = settledPromises;
+
+		if (post.data.result.content.protected) {
+			return addHookData(settledPromises, {
+				revalidate: 5 * 60,
+				props: {
+					isProtectedRoute: true,
+				},
+			});
+		}
 
 		return addHookData(settledPromises, { revalidate: 5 * 60 });
 	} catch (e) {

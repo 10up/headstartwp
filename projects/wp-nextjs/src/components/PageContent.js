@@ -16,7 +16,11 @@ const Blocks = dynamic(() => import('./Blocks'));
 export const PageContent = ({ params }) => {
 	// This won't require a refetch as long as the data has already been fetched at the page level.
 	// additionally, if the request has not been SSR'd, it will be fetched on the client only once, regardless of how many call to usePost (with the same params) you make
-	const { data, loading } = usePost(params);
+	const { data, loading } = usePost(params, {
+		swr: {
+			revalidateOnMount: typeof params.password !== 'undefined',
+		},
+	});
 
 	if (loading) {
 		return 'loading';
