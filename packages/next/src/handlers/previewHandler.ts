@@ -142,6 +142,16 @@ export async function previewHandler(
 	const revision = is_revision === '1';
 
 	try {
+		const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
+
+		if (!postTypeDef) {
+			return res
+				.status(401)
+				.end(
+					'Cannot preview an unknown post type, did you forget to add it to headless.config.js?',
+				);
+		}
+
 		const { data } = await fetchHookData(
 			usePost.fetcher(sourceUrl),
 			{
@@ -179,12 +189,6 @@ export async function previewHandler(
 				previewData = options.preparePreviewData(req, res, result, previewData);
 			}
 
-			const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
-
-			if (!postTypeDef) {
-				return res.end('Cannot preview an unknown post type');
-			}
-
 			/**
 			 * Builds the default redirect path
 			 *
@@ -192,7 +196,8 @@ export async function previewHandler(
 			 */
 			const getDefaultRedirectPath = () => {
 				const singleRoute = postTypeDef.single || '/';
-				const prefixRoute = singleRoute === '/' ? '' : singleRoute;
+				// remove leading slashes
+				const prefixRoute = singleRoute.replace(/^\/+/, '');
 				const slugOrId = revision ? post_id : slug || post_id;
 				const path = [locale, prefixRoute, slugOrId].filter((n) => n).join('/');
 				return `/${path}`;
@@ -234,5 +239,5 @@ export async function previewHandler(
 		}
 	}
 
-	return res.status(401).end('Unable to set preview mode');
+	return res.status(401).end('There was an error setting up preview');
 }
