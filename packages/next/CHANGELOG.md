@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.1.5
+
+### Patch Changes
+
+- 556aba2b: Fix previews for custom post types
+
 ## 1.1.4
 
 ### Patch Changes
