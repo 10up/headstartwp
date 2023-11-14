@@ -5,6 +5,8 @@ import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
 import { PostEntity, PostParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
+import * as useFetchModule from '../useFetch';
+import { mockUseFetchErrorResponse } from '../mocks';
 
 describe('useFetchPost', () => {
 	const wrapper = ({ children }) => {
@@ -41,6 +43,26 @@ describe('useFetchPost', () => {
 				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
 			),
 		);
+	});
+
+	it('handles response if has error or there is no data', async () => {
+		const spyUseFetch = jest
+			.spyOn(useFetchModule, 'useFetch')
+			.mockReturnValueOnce(mockUseFetchErrorResponse);
+		const { result } = renderHook(() => useFetchPost({}), {
+			wrapper,
+		});
+
+		await waitFor(() => {
+			expect(spyUseFetch).toHaveBeenCalledTimes(1);
+			expect(result.current.error).toBe('Not found');
+			expect(result.current.loading).toBe(false);
+			expect(() => result.current.data).not.toThrow();
+			expect(() => result.current.data?.post.title).toThrow();
+			expect(result.current.isMainQuery).toBe(true);
+		});
+
+		spyUseFetch.mockRestore();
 	});
 
 	it('fetch by id', async () => {
