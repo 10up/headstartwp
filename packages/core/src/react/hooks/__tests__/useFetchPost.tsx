@@ -53,7 +53,12 @@ describe('useFetchPost', () => {
 			wrapper,
 		});
 
+		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery'];
+		const returnedKeys = Object.keys(result.current);
+		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
+
 		await waitFor(() => {
+			expect(missingKeys).toHaveLength(0);
 			expect(spyUseFetch).toHaveBeenCalledTimes(1);
 			expect(result.current.error).toBe('Not found');
 			expect(result.current.loading).toBe(false);
