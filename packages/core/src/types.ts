@@ -3,19 +3,6 @@ export type CustomPostType = {
 	endpoint: string;
 	single?: string;
 	archive?: string;
-
-	/**
-	 * Whether this custom post type should match the archive path
-	 *
-	 * If set to true, then when querying a post type archive page such as `/[post-type]/[post-name]` the
-	 * `post.link` property should match the current path. This will avoid matching nested posts/pages that doesn't exist for instance:
-	 * `/[post-type]/fake-parent-page/[post-name]` will not match if this option is set to true even though `post-name` exists.
-	 *
-	 * It is strongly recommended to set this option to true, otherwise hierarchical post types (such as pages) will not work properly.
-	 *
-	 * @default true
-	 */
-	matchSinglePath?: boolean;
 };
 
 export type CustomPostTypes = Array<CustomPostType>;
@@ -27,17 +14,6 @@ export type CustomTaxonomy = {
 	endpoint: string;
 	rewrite?: string;
 	restParam?: string;
-
-	/**
-	 * Whether this custom taxonomy should match the archive path
-	 *
-	 * If set to true, then when querying a taxonomy archive page such as `/[taxonmy-slug]/[term-slug]` the
-	 * `term.link` property should match the current path. This will avoid matching nested categories that doesn't exist for instance:
-	 * `/[taxonmy-slug]/fake-parent-term/[term-slug]` will not match if this option is set to true even though `term-slug` exists.
-	 *
-	 * @default false
-	 */
-	matchArchivePath?: boolean;
 };
 
 export type CustomTaxonomies = Array<CustomTaxonomy>;
