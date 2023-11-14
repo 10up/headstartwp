@@ -183,9 +183,11 @@ export interface PostsArchiveParams extends EndpointParams {
 	sticky?: boolean;
 
 	/**
-	 * Whether queriedObject.link should be checked against current path
+	 * Overrides the value set in {@link CustomTaxonomy#matchArchivePath}
+	 *
+	 * @default false
 	 */
-	matchCurrentPath?: boolean;
+	matchArchivePath?: boolean;
 }
 
 /**
@@ -327,7 +329,8 @@ export class PostsArchiveFetchStrategy<
 
 		const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
 		let queriedObjectPath = '';
-		let type = '';
+		let taxonomySlug = '';
+
 		if (queriedObject?.term?.link) {
 			// if term is set then it should match the url
 			queriedObjectPath = decodeURIComponent(
@@ -336,23 +339,15 @@ export class PostsArchiveFetchStrategy<
 					backendUrl: this.baseURL,
 				}),
 			)?.replace(/\/?$/, '/');
-			type = queriedObject.term.taxonomy;
+			taxonomySlug = queriedObject.term.taxonomy;
 		}
 
-		if (queriedObject?.author?.link) {
-			// if author is set then it should match the url
-			queriedObjectPath = decodeURIComponent(
-				removeSourceUrl({
-					link: queriedObject.author.link,
-					backendUrl: this.baseURL,
-				}),
-			)?.replace(/\/?$/, '/');
-		}
-
-		if (queriedObjectPath && type) {
-			const taxonomyObj = getCustomTaxonomy(type, this.baseURL);
+		if (queriedObjectPath && taxonomySlug) {
+			const taxonomyObj = getCustomTaxonomy(taxonomySlug, this.baseURL);
+			const shouldMatchArchivePath = taxonomyObj?.matchArchivePath || params.matchCurrentPath;
 
 			if (
+				shouldMatchArchivePath &&
 				queriedObjectPath !== currentPath &&
 				// using rewrite as prefix
 				queriedObjectPath !== `/${this.locale}${currentPath}` &&
