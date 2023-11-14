@@ -7,6 +7,7 @@ import {
 	NotFoundError,
 	addQueryArgs,
 	getCustomTaxonomy,
+	removeSourceUrl,
 } from '../../utils';
 import { endpoints, getPostAuthor, getPostTerms, removeFieldsFromPostRelatedData } from '../utils';
 import { apiGet } from '../api';
@@ -180,6 +181,11 @@ export interface PostsArchiveParams extends EndpointParams {
 	 * Limit result set to items that are sticky.
 	 */
 	sticky?: boolean;
+
+	/**
+	 * Whether queriedObject.link should be checked against current path
+	 */
+	matchCurrentPath?: boolean;
 }
 
 /**
@@ -199,6 +205,10 @@ export class PostsArchiveFetchStrategy<
 	T extends PostEntity = PostEntity,
 	P extends PostsArchiveParams = PostsArchiveParams,
 > extends AbstractFetchStrategy<T[], P> {
+	path: string = '';
+
+	locale: string = '';
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -216,6 +226,12 @@ export class PostsArchiveFetchStrategy<
 	 * @param params
 	 */
 	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
+		const config = getSiteBySourceUrl(this.baseURL);
+
+		// this is required for post path mapping
+		this.locale = config.integrations?.polylang?.enable && params.lang ? params.lang : '';
+		this.path = path;
+
 		const matchers = [...postsMatchers];
 
 		if (typeof params.taxonomy === 'string') {
@@ -304,6 +320,62 @@ export class PostsArchiveFetchStrategy<
 		}
 
 		return super.buildEndpointURL(endpointParams as P);
+	}
+
+	prepareResponse(response: FetchResponse<T[]>, params: Partial<P>): FetchResponse<T[]> {
+		const queriedObject = this.getQueriedObject(response, params);
+
+		const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
+		let queriedObjectPath = '';
+		let type = '';
+		if (queriedObject?.term?.link) {
+			// if term is set then it should match the url
+			queriedObjectPath = decodeURIComponent(
+				removeSourceUrl({
+					link: queriedObject.term.link,
+					backendUrl: this.baseURL,
+				}),
+			)?.replace(/\/?$/, '/');
+			type = queriedObject.term.taxonomy;
+		}
+
+		if (queriedObject?.author?.link) {
+			// if author is set then it should match the url
+			queriedObjectPath = decodeURIComponent(
+				removeSourceUrl({
+					link: queriedObject.author.link,
+					backendUrl: this.baseURL,
+				}),
+			)?.replace(/\/?$/, '/');
+		}
+
+		if (queriedObjectPath && type) {
+			const taxonomyObj = getCustomTaxonomy(type, this.baseURL);
+
+			if (
+				queriedObjectPath !== currentPath &&
+				// using rewrite as prefix
+				queriedObjectPath !== `/${this.locale}${currentPath}` &&
+				queriedObjectPath !== `/${taxonomyObj?.rewrite}${currentPath}}` &&
+				// using rest param as prefix
+				queriedObjectPath !== `/${this.locale}/${taxonomyObj?.rewrite}${currentPath}` &&
+				queriedObjectPath !== `/${taxonomyObj?.restParam}/${currentPath}` &&
+				queriedObjectPath !== `/${this.locale}/${taxonomyObj?.restParam}${currentPath}` &&
+				// using slug as prefix
+				queriedObjectPath !== `/${taxonomyObj?.slug}${currentPath}` &&
+				queriedObjectPath !== `/${this.locale}/${taxonomyObj?.slug}${currentPath}`
+			) {
+				throw new NotFoundError(
+					`Posts were found but did not match current path: "${this.path}""`,
+				);
+			}
+		}
+
+		return {
+			...response,
+			queriedObject,
+			result: response.result as unknown as T[],
+		};
 	}
 
 	/**
