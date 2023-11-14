@@ -154,11 +154,16 @@ export function withHeadlessConfig(
 
 		webpack: (config, options) => {
 			const headlessConfigPath = `${process.cwd()}/headless.config.js`;
+			const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
+
+			const configPath = fs.existsSync(headstartWpConfigPath)
+				? headstartWpConfigPath
+				: headlessConfigPath;
 
 			const importSetHeadlessConfig = `
 				import { setHeadstartWPConfig as __setHeadstartWPConfig } from '@headstartwp/core/utils';
-				import headlessConfig from '${headlessConfigPath}';
-				__setHeadstartWPConfig(headlessConfig);
+				import __headlessConfig from '${configPath}';
+				__setHeadstartWPConfig(__headlessConfig);
 			`;
 
 			// clear webpack cache whenever headless.config.js changes or one of the env files
