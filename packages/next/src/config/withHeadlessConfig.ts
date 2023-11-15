@@ -1,8 +1,8 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
-import { ModifySourcePlugin, ConcatOperation } from 'modify-source-webpack-plugin';
 import path from 'path';
 import fs from 'fs';
+import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -153,9 +153,17 @@ export function withHeadlessConfig(
 		},
 
 		webpack: (config, options) => {
+			const headlessConfigPath = `${process.cwd()}/headless.config.js`;
+			const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
+
+			const configPath = fs.existsSync(headstartWpConfigPath)
+				? headstartWpConfigPath
+				: headlessConfigPath;
+
 			const importSetHeadlessConfig = `
-				import { setHeadstartWPConfig } from '@headstartwp/core/utils';
-				setHeadstartWPConfig(${JSON.stringify(headlessConfig)});
+				import { setHeadstartWPConfig as __setHeadstartWPConfig } from '@headstartwp/core/utils';
+				import __headlessConfig from '${configPath}';
+				__setHeadstartWPConfig(__headlessConfig);
 			`;
 
 			// clear webpack cache whenever headless.config.js changes or one of the env files
