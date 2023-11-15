@@ -1,5 +1,5 @@
 import { endpoints } from './endpoints';
-import type { HeadlessConfig } from '../types';
+import type { CustomPostTypes, CustomTaxonomies, HeadlessConfig } from '../types';
 
 let __10up__HEADLESS_CONFIG: HeadlessConfig = {};
 
@@ -32,11 +32,49 @@ export function getHeadstartWPConfig() {
 		debug,
 	} = __10up__HEADLESS_CONFIG;
 
-	const headlessConfig: HeadlessConfig = {
+	const defaultTaxonomies = [
+		{
+			slug: 'category',
+			endpoint: endpoints.category,
+			restParam: 'categories',
+		},
+		{
+			slug: 'post_tag',
+			endpoint: endpoints.tags,
+			rewrite: 'tag',
+			restParam: 'tags',
+		},
+	];
+
+	const taxonomies =
+		typeof customTaxonomies === 'function'
+			? customTaxonomies(defaultTaxonomies)
+			: [...(customTaxonomies || []), ...defaultTaxonomies];
+
+	const defaultPostTypes = [
+		{
+			slug: 'page',
+			endpoint: '/wp-json/wp/v2/pages',
+			single: '/',
+		},
+		{
+			slug: 'post',
+			endpoint: '/wp-json/wp/v2/posts',
+			single: '/',
+			archive: '/blog',
+		},
+	];
+
+	const postTypes =
+		typeof customPostTypes === 'function'
+			? customPostTypes(defaultTaxonomies)
+			: [...(customPostTypes || []), ...defaultPostTypes];
+
+	const headlessConfig = {
 		sourceUrl,
 		hostUrl: hostUrl || '',
-		customPostTypes,
-		customTaxonomies,
+		customPostTypes: postTypes,
+		customTaxonomies: taxonomies,
 		redirectStrategy: redirectStrategy || 'none',
 		useWordPressPlugin: useWordPressPlugin || false,
 		integrations,
@@ -140,21 +178,6 @@ export function getSiteBySourceUrl(sourceUrl: string) {
 }
 
 /**
- * Returns the available taxonomy slugs
- *
- * @param sourceUrl
- */
-export function getCustomTaxonomySlugs(sourceUrl?: string) {
-	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
-
-	if (!customTaxonomies) {
-		return [];
-	}
-
-	return customTaxonomies.map(({ slug }) => slug);
-}
-
-/**
  * Returns the available taxonomies
  *
  * @param sourceUrl
@@ -162,29 +185,23 @@ export function getCustomTaxonomySlugs(sourceUrl?: string) {
 export function getCustomTaxonomies(sourceUrl?: string) {
 	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
 
-	const taxonomies = customTaxonomies || [];
+	// at this point this is always an array
+	return customTaxonomies as CustomTaxonomies;
+}
 
-	const hasCategory = taxonomies.find(({ slug }) => slug === 'category');
-	const hasTag = taxonomies.find(({ slug }) => slug === 'post_tag');
+/**
+ * Returns the available taxonomy slugs
+ *
+ * @param sourceUrl
+ */
+export function getCustomTaxonomySlugs(sourceUrl?: string) {
+	const customTaxonomies = getCustomTaxonomies(sourceUrl);
 
-	if (!hasCategory) {
-		taxonomies.push({
-			slug: 'category',
-			endpoint: endpoints.category,
-			restParam: 'categories',
-		});
+	if (!customTaxonomies) {
+		return [];
 	}
 
-	if (!hasTag) {
-		taxonomies.push({
-			slug: 'post_tag',
-			endpoint: endpoints.tags,
-			rewrite: 'tag',
-			restParam: 'tags',
-		});
-	}
-
-	return taxonomies;
+	return customTaxonomies.map(({ slug }) => slug);
 }
 
 /**
@@ -201,21 +218,6 @@ export function getCustomTaxonomy(slug: string, sourceUrl?: string) {
 }
 
 /**
- * Returns the available post type slugs
- *
- * @param sourceUrl
- */
-export function getCustomPostTypesSlugs(sourceUrl?: string) {
-	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
-
-	if (!customPostTypes) {
-		return [];
-	}
-
-	return customPostTypes.map(({ slug }) => slug);
-}
-
-/**
  * Returns the available post types
  *
  * @param sourceUrl
@@ -223,29 +225,18 @@ export function getCustomPostTypesSlugs(sourceUrl?: string) {
 export function getCustomPostTypes(sourceUrl?: string) {
 	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
 
-	const postTypes = customPostTypes || [];
+	return customPostTypes as CustomPostTypes;
+}
 
-	const hasPost = postTypes.find(({ slug }) => slug === 'post');
-	const hasPage = postTypes.find(({ slug }) => slug === 'page');
+/**
+ * Returns the available post type slugs
+ *
+ * @param sourceUrl
+ */
+export function getCustomPostTypesSlugs(sourceUrl?: string) {
+	const customPostTypes = getCustomPostTypes(sourceUrl);
 
-	if (!hasPage) {
-		postTypes.push({
-			slug: 'page',
-			endpoint: '/wp-json/wp/v2/pages',
-			single: '/',
-		});
-	}
-
-	if (!hasPost) {
-		postTypes.push({
-			slug: 'post',
-			endpoint: '/wp-json/wp/v2/posts',
-			single: '/',
-			archive: '/blog',
-		});
-	}
-
-	return postTypes;
+	return customPostTypes.map(({ slug }) => slug);
 }
 
 /**

@@ -484,7 +484,7 @@ export class PostsArchiveFetchStrategy<
 			}
 		}
 
-		const taxonomies = getCustomTaxonomies();
+		const taxonomies = getCustomTaxonomies(this.baseURL);
 
 		taxonomies.forEach((taxonomy) => {
 			const termSlug = taxonomy.slug;

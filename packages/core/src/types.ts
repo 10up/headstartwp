@@ -60,8 +60,10 @@ export type HeadlessConfig = {
 	locale?: string;
 	sourceUrl?: string;
 	hostUrl?: string;
-	customPostTypes?: CustomPostTypes;
-	customTaxonomies?: CustomTaxonomies;
+	customPostTypes?: CustomPostTypes | ((defaultPostTypes: CustomPostTypes) => CustomPostTypes);
+	customTaxonomies?:
+		| CustomTaxonomies
+		| ((defaultTaxonomies: CustomTaxonomies) => CustomTaxonomies);
 	redirectStrategy?: RedirectStrategy;
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
