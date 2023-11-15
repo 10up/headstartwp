@@ -32,7 +32,7 @@ export function getHeadstartWPConfig() {
 		debug,
 	} = __10up__HEADLESS_CONFIG;
 
-	const defaultTaxonomies = [
+	const defaultTaxonomies: CustomTaxonomies = [
 		{
 			slug: 'category',
 			endpoint: endpoints.category,
@@ -51,7 +51,7 @@ export function getHeadstartWPConfig() {
 			? customTaxonomies(defaultTaxonomies)
 			: [...(customTaxonomies || []), ...defaultTaxonomies];
 
-	const defaultPostTypes = [
+	const defaultPostTypes: CustomPostTypes = [
 		{
 			slug: 'page',
 			endpoint: '/wp-json/wp/v2/pages',
@@ -255,7 +255,7 @@ export function getCustomPostType(slug: string, sourceUrl?: string) {
  * Returns the WP URL based on the headless config
  */
 export function getWPUrl() {
-	const { sourceUrl } = getHeadlessConfig();
+	const { sourceUrl } = getHeadstartWPConfig();
 	return sourceUrl || '';
 }
 
@@ -263,6 +263,6 @@ export function getWPUrl() {
  * Returns the WP URL based on the headless config
  */
 export function getHostUrl() {
-	const { hostUrl } = getHeadlessConfig();
+	const { hostUrl } = getHeadstartWPConfig();
 	return hostUrl || '';
 }

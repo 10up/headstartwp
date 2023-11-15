@@ -1,7 +1,7 @@
 import { isInternalLink } from '..';
 import { HeadlessConfig } from '../../types';
 
-jest.mock('../getHeadlessConfig', () => {
+jest.mock('../config', () => {
 	return {
 		getWPUrl: () => 'https://backendurl.com',
 	};

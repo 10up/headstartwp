@@ -1,7 +1,13 @@
 import type { HeadlessConfig } from '../../types';
-import { getHeadlessConfig, getSiteByHost, setHeadlessConfig } from '../config';
+import {
+	getCustomPostTypes,
+	getCustomTaxonomies,
+	getHeadstartWPConfig,
+	getSiteByHost,
+	setHeadstartWPConfig,
+} from '../config';
 
-describe('getHeadlessConfig', () => {
+describe('getHeadstartWPConfig', () => {
 	const headlessConfig: HeadlessConfig = {
 		sourceUrl: 'https://sourceurl.com',
 		hostUrl: 'https://publicurl.com',
@@ -14,15 +20,119 @@ describe('getHeadlessConfig', () => {
 	};
 
 	beforeAll(() => {
-		setHeadlessConfig(headlessConfig);
+		setHeadstartWPConfig(headlessConfig);
 	});
 
 	it('returns the headless config', () => {
-		expect(getHeadlessConfig()).toMatchObject(headlessConfig);
+		expect(getHeadstartWPConfig()).toMatchObject(headlessConfig);
 	});
 
 	it('sets host for sites if host is not set and hostUrl is', () => {
-		expect(getHeadlessConfig()?.sites?.[0]?.host).toBe('site1.com');
+		expect(getHeadstartWPConfig()?.sites?.[0]?.host).toBe('site1.com');
+	});
+
+	it('returns the default customTaxonomies', () => {
+		expect(getCustomTaxonomies()).toStrictEqual([
+			{ endpoint: '/wp-json/wp/v2/categories', restParam: 'categories', slug: 'category' },
+			{
+				endpoint: '/wp-json/wp/v2/tags',
+				restParam: 'tags',
+				rewrite: 'tag',
+				slug: 'post_tag',
+			},
+		]);
+	});
+
+	it('returns the default customPostTypes', () => {
+		expect(getCustomPostTypes()).toStrictEqual([
+			{ endpoint: '/wp-json/wp/v2/pages', single: '/', slug: 'page' },
+			{ archive: '/blog', endpoint: '/wp-json/wp/v2/posts', single: '/', slug: 'post' },
+		]);
+	});
+
+	it('accepts an array for customTaxonomies', () => {
+		setHeadstartWPConfig({
+			...headlessConfig,
+			customTaxonomies: [
+				{
+					slug: 'genre',
+					endpoint: '/wp-json/wp/v2/genre',
+				},
+			],
+		});
+
+		expect(getCustomTaxonomies()).toStrictEqual([
+			{
+				slug: 'genre',
+				endpoint: '/wp-json/wp/v2/genre',
+			},
+			{ endpoint: '/wp-json/wp/v2/categories', restParam: 'categories', slug: 'category' },
+			{
+				endpoint: '/wp-json/wp/v2/tags',
+				restParam: 'tags',
+				rewrite: 'tag',
+				slug: 'post_tag',
+			},
+		]);
+	});
+
+	it('accepts an array for customPostTypes', () => {
+		setHeadstartWPConfig({
+			...headlessConfig,
+			customPostTypes: [
+				{
+					slug: 'book',
+					endpoint: '/wp-json/wp/v2/book',
+					single: '/book',
+					archive: '/books',
+				},
+			],
+		});
+
+		expect(getCustomPostTypes()).toStrictEqual([
+			{
+				slug: 'book',
+				endpoint: '/wp-json/wp/v2/book',
+				single: '/book',
+				archive: '/books',
+			},
+			{ endpoint: '/wp-json/wp/v2/pages', single: '/', slug: 'page' },
+			{ archive: '/blog', endpoint: '/wp-json/wp/v2/posts', single: '/', slug: 'post' },
+		]);
+	});
+
+	it('accepts a function for customTaxonomies', () => {
+		setHeadstartWPConfig({
+			...headlessConfig,
+			customTaxonomies: (defaultTaxonomies) => {
+				return [
+					...defaultTaxonomies.map((taxonomy) => ({
+						...taxonomy,
+						matchArchivePath: true,
+					})),
+				];
+			},
+		});
+
+		expect(getHeadstartWPConfig().customTaxonomies.at(0)?.matchArchivePath).toBe(true);
+		expect(getHeadstartWPConfig().customTaxonomies.at(1)?.matchArchivePath).toBe(true);
+	});
+
+	it('accepts a function for customPostTypes', () => {
+		setHeadstartWPConfig({
+			...headlessConfig,
+			customPostTypes: (defaultPostTypes) => {
+				return [
+					...defaultPostTypes.map((postType) => ({
+						...postType,
+						matchSinglePath: false,
+					})),
+				];
+			},
+		});
+
+		expect(getHeadstartWPConfig().customPostTypes.at(0)?.matchSinglePath).toBe(false);
+		expect(getHeadstartWPConfig().customPostTypes.at(1)?.matchSinglePath).toBe(false);
 	});
 });
 
@@ -46,7 +156,7 @@ describe('getSiteByHost', () => {
 	};
 
 	beforeAll(() => {
-		setHeadlessConfig(headlessConfig);
+		setHeadstartWPConfig(headlessConfig);
 	});
 
 	it('finds sites by host even if host is not set but hostUrl is', () => {
