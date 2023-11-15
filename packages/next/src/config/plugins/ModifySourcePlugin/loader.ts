@@ -30,7 +30,7 @@ interface LoaderOptions {
 }
 
 interface modifyModuleSourceLoader {
-	getOptions?: () => LoaderOptions;
+	getOptions: () => LoaderOptions;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -38,9 +38,7 @@ export default function modifyModuleSourceLoader(
 	this: modifyModuleSourceLoader,
 	source: string,
 ): string {
-	const options: LoaderOptions = this.getOptions
-		? this.getOptions()
-		: require('loader-utils-webpack-v4').getOptions(this); // eslint-disable-line global-require
+	const options: LoaderOptions = this.getOptions();
 
 	validate(schema, options, {
 		name: 'ModifySourcePlugin webpack loader',
