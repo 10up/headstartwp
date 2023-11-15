@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.1.6-next.0
+
+### Patch Changes
+
+- 5bf90ccd: Fix loading of the headless.config.js file to prevent injecting it twice.
+
 ## 1.1.5
 
 ### Patch Changes
