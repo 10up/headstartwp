@@ -346,23 +346,29 @@ export class PostsArchiveFetchStrategy<
 			const taxonomyObj = getCustomTaxonomy(taxonomySlug, this.baseURL);
 			const shouldMatchArchivePath = taxonomyObj?.matchArchivePath || params.matchCurrentPath;
 
-			if (
-				shouldMatchArchivePath &&
-				queriedObjectPath !== currentPath &&
-				// using rewrite as prefix
-				queriedObjectPath !== `/${this.locale}${currentPath}` &&
-				queriedObjectPath !== `/${taxonomyObj?.rewrite}${currentPath}}` &&
-				// using rest param as prefix
-				queriedObjectPath !== `/${this.locale}/${taxonomyObj?.rewrite}${currentPath}` &&
-				queriedObjectPath !== `/${taxonomyObj?.restParam}/${currentPath}` &&
-				queriedObjectPath !== `/${this.locale}/${taxonomyObj?.restParam}${currentPath}` &&
-				// using slug as prefix
-				queriedObjectPath !== `/${taxonomyObj?.slug}${currentPath}` &&
-				queriedObjectPath !== `/${this.locale}/${taxonomyObj?.slug}${currentPath}`
-			) {
-				throw new NotFoundError(
-					`Posts were found but did not match current path: "${this.path}""`,
-				);
+			const prefixes = [
+				'',
+				`/${taxonomyObj?.rewrite}`,
+				`/${taxonomyObj?.restParam}`,
+				`/${taxonomyObj?.slug}`,
+			];
+
+			if (shouldMatchArchivePath) {
+				let matched = false;
+				for (const prefix of prefixes) {
+					if (
+						queriedObjectPath === `${prefix}${currentPath}` ||
+						queriedObjectPath === `/${this.locale}${prefix}${currentPath}`
+					) {
+						matched = true;
+						break;
+					}
+				}
+				if (!matched) {
+					throw new NotFoundError(
+						`Posts were found but did not match current path: "${this.path}""`,
+					);
+				}
 			}
 		}
 
