@@ -344,7 +344,8 @@ export class PostsArchiveFetchStrategy<
 
 		if (queriedObjectPath && taxonomySlug) {
 			const taxonomyObj = getCustomTaxonomy(taxonomySlug, this.baseURL);
-			const shouldMatchArchivePath = taxonomyObj?.matchArchivePath || params.matchCurrentPath;
+			const shouldMatchArchivePath =
+				taxonomyObj?.matchArchivePath || params.matchArchivePath || false;
 
 			const prefixes = [
 				'',
@@ -366,7 +367,7 @@ export class PostsArchiveFetchStrategy<
 				}
 				if (!matched) {
 					throw new NotFoundError(
-						`Posts were found but did not match current path: "${this.path}""`,
+						`Posts were found but did not match current path: "${this.path}"`,
 					);
 				}
 			}
