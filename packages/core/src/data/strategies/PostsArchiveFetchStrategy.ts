@@ -349,10 +349,10 @@ export class PostsArchiveFetchStrategy<
 
 			const prefixes = [
 				'',
-				`/${taxonomyObj?.rewrite}`,
-				`/${taxonomyObj?.restParam}`,
-				`/${taxonomyObj?.slug}`,
-			];
+				taxonomyObj?.rewrite ? `/${taxonomyObj?.rewrite}` : null,
+				taxonomyObj?.restParam ? `/${taxonomyObj?.restParam}` : null,
+				taxonomyObj?.slug ? `/${taxonomyObj?.slug}` : null,
+			].filter((p) => p !== null);
 
 			if (shouldMatchArchivePath) {
 				let matched = false;

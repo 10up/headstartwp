@@ -294,7 +294,7 @@ describe('useFetchPosts', () => {
 		});
 	});
 
-	it('does not throws matchArchivepath config option is true and path matches', async () => {
+	it('does not throws when matchArchivepath config option is true and path matches', async () => {
 		setHeadlessConfig({
 			useWordPressPlugin: true,
 			customTaxonomies: (defaultTaxonomies) => {
