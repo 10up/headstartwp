@@ -247,7 +247,7 @@ describe('useFetchPosts', () => {
 						matchArchivePath: true,
 					},
 					{},
-					'/category/asdasd/uncategorized',
+					'https://js1.10up.com/category/asdasd/uncategorized',
 				),
 			{
 				wrapper,
@@ -256,7 +256,7 @@ describe('useFetchPosts', () => {
 
 		await waitFor(() => {
 			expect(result.current.error?.toString()).toBe(
-				`NotFoundError: Posts were found but did not match current path: "/category/asdasd/uncategorized"`,
+				`NotFoundError: Posts were found but did not match current path: "https://js1.10up.com/category/asdasd/uncategorized"`,
 			);
 		});
 	});
@@ -280,7 +280,7 @@ describe('useFetchPosts', () => {
 						per_page: 2,
 					},
 					{},
-					'/category/asdasd/uncategorized',
+					'https://js1.10up.com/category/asdasd/uncategorized',
 				),
 			{
 				wrapper,
@@ -289,7 +289,7 @@ describe('useFetchPosts', () => {
 
 		await waitFor(() => {
 			expect(result.current.error?.toString()).toBe(
-				`NotFoundError: Posts were found but did not match current path: "/category/asdasd/uncategorized"`,
+				`NotFoundError: Posts were found but did not match current path: "https://js1.10up.com/category/asdasd/uncategorized"`,
 			);
 		});
 	});
