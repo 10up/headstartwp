@@ -66,9 +66,22 @@ usePost({ postType: ['book'] });
 usePosts({ postType:'book', perPage: 10 });
 ```
 
-The `single` option is required for a number of things that includes:
+The `single` option is required for several things including:
 - properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; In this case, the framework will use the `single` path to redirect the previewed post to the right path/route.
 - Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/learn/data-fetching/usepost/#post-path-matching) for more info.
+
+It is also possible to pass a function, when doing so the default post types (post and pages) will be passed to the function. The code snipped below will disable [post path mapping](/learn/data-fetching/usepost/#post-path-matching) to the default post types.
+
+```js title="headless.config.js"
+module.exports = {
+    sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
+    hostUrl: process.env.HOST_URL,
+    customPostTypes: (defaultPostTypes) => {
+		// disable post path mapping for default post types
+		return defaultPostTypes.map((postType) => ({...postType, matchSinglePath: false}));
+	}
+}
+```
 
 ## customTaxonomies
 
@@ -139,6 +152,25 @@ This route would automatically handle the following URLs:
 :::caution
 The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
 :::caution
+
+It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable category path matching.
+
+```js title="headless.config.js"
+module.exports = {
+    customPostTypes: [
+        {
+            slug: 'book',
+            endpoint: '/wp-json/wp/v2/book',
+            // these should match your file-system routing
+			single: '/book',
+			archive: '/books',
+        },
+    ],
+    customTaxonomies: (defaultTaxonomies) => {
+		return defaultTaxonomies.map((taxonomy) => ({ ...taxonomy, matchArchivePath: true })),
+	},
+}
+```
 
 ## redirectStrategy
 
