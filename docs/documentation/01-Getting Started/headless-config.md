@@ -153,7 +153,7 @@ This route would automatically handle the following URLs:
 The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
 :::caution
 
-It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable category path matching.
+It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable archive path matching.
 
 ```js title="headless.config.js"
 module.exports = {

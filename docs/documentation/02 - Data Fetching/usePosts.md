@@ -52,7 +52,7 @@ The route will automatically render the latest 10 posts and you get pagination, 
 
 The `usePosts` hook exposes a `queriedObject`. It's similar to WordPress [get_queried_object()](https://developer.wordpress.org/reference/functions/get_queried_object/) function.
 
-It essentially returned the what's being queried for, e.g: author or category. If the current page is querying posts within a certain author, then that author object will be populated in `data.queriedObject.author`. Similarly, if the current page is querying posts from a given category `data.queriedObject.term` will be populated with that category.
+It essentially returns what's being queried for, e.g., author or category. If the current page is querying posts within a certain author, then that author object will be populated in `data.queriedObject.author`. Similarly, if the current page is querying posts from a given category `data.queriedObject.term` will be populated with that category.
 
 Example: 
 ```javascript
@@ -97,8 +97,31 @@ const CategoryPage = () => {
 		</>
 	);
 };
-
 ```
+
+## Archive Path Matching
+
+When using `usePosts` to create archive pages (e.g. a category archive) you can optionally enable "archive path matching" to ensure that your archive routes match the expected permalink dictated by WordPress. Without "archive path matching", your archive routes would match as long as the last segment of the url is a valid term slug. 
+
+For instance, let's take the  `/category/[...path].js` route above. It will match URLs like:
+- /category/cat-name
+- /category/parent-cat-name/cat-name
+
+The framework, however, does not check if `parent-cat-name` is the de facto parent of cat-name, and even worse, it has no way to know (without additional rest api calls) if `parent-cat-name` is even a valid category.
+
+To address this, you can pass `matchArchivePath` to `usePosts` to tell the framework to check the `link` property of the `queriedObject`, i.e if the `link` property of `cat-name` returned by the [WordPress REST API](https://developer.wordpress.org/rest-api/reference/categories/#schema) matches the front-end path.
+
+This setting can also be enabled in `headless.config.js` globally.
+
+```js title="headless.config.js"
+module.exports = {
+	// enable archive path mapping for all default taxonomies
+    customTaxonomies: (defaultTaxonomies) => {
+		return defaultTaxonomies.map((taxonomy) => ({ ...taxonomy, matchArchivePath: true })),
+	},
+}
+```
+
 ## Known limitations
 
 - It is not possible to fetch posts from more than one post type.
