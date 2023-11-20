@@ -2,9 +2,29 @@
 slug: /getting-started/headless-config
 sidebar_position: 3
 ---
-# Headless Config
+# Configuring the Framework
 
-The `headless.config.js` file contains several config options for HeadstartWP. This file should export an object of type [HeadlessConfig](/api/modules/headstartwp_core/#headlessconfig).
+The `headstartwp.config.js` (previously, `headless.config.js`) file contains several config options for HeadstartWP. This file should export an object of type [HeadlessConfig](/api/modules/headstartwp_core/#headlessconfig).
+
+## Usage with Next.js
+
+The file **must be named** either `headstartwp.config.js` or `headless.config.js`. When `injectConfig` param of `withHeadstartWPConfig` (previously `withHeadlessConfig`) is set to true, the framework will look for these two files to be injected and loaded in the runtime bundle of the Next.js App.
+
+```js title=next.config.js
+const { withHeadstartWPConfig } = require('@headstartwp/next/config');
+const headstartWPConfig = require('./headstartwp.config.js');
+
+/**
+ * Update whatever you need within the nextConfig object.
+ *
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = {};
+
+module.exports = withHeadstartWPConfig(nextConfig, headstartWPConfig);
+```
+
+Note that you need to import and pass the headstartWPConfig to `withHeadstartWPConfig` but it will also dynamically inject the necessary import statements to your final bundle to load the config properly.
 
 Here's a sample config file
 
@@ -103,6 +123,8 @@ module.exports = {
 			slug: 'genre',
 			endpoint: '/wp-json/wp/v2/genre',
 			postType: ['book'],
+			rewrite: 'genre',
+			restParam: 'genre'
 		},
 	],
 }
@@ -153,7 +175,7 @@ This route would automatically handle the following URLs:
 The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
 :::caution
 
-It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable archive path matching.
+It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable [archive path matching](/learn/data-fetching/useposts#archive-path-matching).
 
 ```js title="headless.config.js"
 module.exports = {
@@ -171,6 +193,14 @@ module.exports = {
 	},
 }
 ```
+### restParam
+
+This option shouldn't be necessary most of the time, but this is used to map a custom taxonomy to its REST API parameter. Most of the times the slug is equal to the restParam but in some cases it differs. For instance, the default post tag taxonomy has a slug of `post_tag` but a `restParam` of `tags` (i.e., to filter posts by `tags` in the REST API, we must use `tags=<tag-id>`).
+
+
+### rewrite
+
+This option controls the expected prefix the taxonomy must use in front-end urls. This generally should match `rewrite.slug` of the [register_taxonomy](https://developer.wordpress.org/reference/functions/register_taxonomy/) function.
 
 ## redirectStrategy
 
