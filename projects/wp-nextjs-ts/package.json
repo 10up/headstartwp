@@ -14,8 +14,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@headstartwp/core": "^1.1.0-next.5",
-    "@headstartwp/next": "^1.1.0-next.3",
+    "@headstartwp/core": "^1.1.2",
+    "@headstartwp/next": "^1.1.6",
     "@linaria/babel-preset": "^4.4.5",
     "@linaria/core": "^4.2.10",
     "@linaria/react": "^4.3.8",
@@ -35,7 +35,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }

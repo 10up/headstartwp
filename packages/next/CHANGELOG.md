@@ -1,5 +1,88 @@
 # @headstartwp/next
 
+## 1.1.6
+
+### Patch Changes
+
+- 5bf90ccd: Fix loading of the headless.config.js file to prevent injecting it twice.
+
+## 1.1.6-next.0
+
+### Patch Changes
+
+- 5bf90ccd: Fix loading of the headless.config.js file to prevent injecting it twice.
+
+## 1.1.5
+
+### Patch Changes
+
+- 556aba2b: Fix previews for custom post types
+
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [15189a03]
+- Updated dependencies [772c5f1c]
+  - @headstartwp/core@1.1.2
+
+## 1.1.4-next.0
+
+### Patch Changes
+
+- Updated dependencies [15189a03]
+  - @headstartwp/core@1.1.2-next.0
+
+## 1.1.3
+
+### Patch Changes
+
+- b07d4f8e: Fix previews
+
+## 1.1.2
+
+### Patch Changes
+
+- 1922ffbd: Fix bug where previews were not working with locales as the redirect path for the preview cookie was incorrect.
+
+## 1.1.1
+
+### Patch Changes
+
+- de501ff7: Fix an issue for images without width or height
+- Updated dependencies [de501ff7]
+  - @headstartwp/core@1.1.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 4275962b: Introducing `usePostOrPosts`.
+- 569662b6: Improves the Next.js preview cookie handling and fixes a bug where the locale was not properly being passed from WP when previewing.
+
+  First of all, it sets the preview cookie to expire within 5 minutes which aligns with the JWT token expiration.
+
+  Secondly, it will narrow the cookie to the post path being previewed so that `context.preview` is not true for other paths and thus avoiding bypassing getStaticProps until the cookies are cleared (either expires or the browser closes).
+
+### Patch Changes
+
+- e6a0c231: Lower compilation target
+- 232f4e68: Fix: only convertUrls if url starts with sourceUrl
+- 90d5fa3c: Fix typo in files to be published to npm
+- 1494a332: Further Optimize next.js props by removing yoast seo bloat.
+- 866551f2: Fix an annoying bug that would require deleting the .next/cache folder after changing headless.config.js or .env files. Now you only need to restart the next.js server after changing those files.
+- Updated dependencies [e6a0c231]
+- Updated dependencies [24f8a99f]
+- Updated dependencies [bb39a603]
+- Updated dependencies [4275962b]
+- Updated dependencies [569662b6]
+- Updated dependencies [df3e65ce]
+- Updated dependencies [e9064d69]
+- Updated dependencies [56ddf9be]
+- Updated dependencies [1494a332]
+- Updated dependencies [d3ec9d83]
+  - @headstartwp/core@1.1.0
+
 ## 1.1.0-next.3
 
 ### Minor Changes

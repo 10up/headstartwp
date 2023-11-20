@@ -21,7 +21,6 @@ class Gutenberg {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
 	}
 
-
 	/**
 	 * Process the block with the WP_HTML_Tag_Processor
 	 *
@@ -75,7 +74,7 @@ class Gutenberg {
 		try {
 			libxml_use_internal_errors( true );
 			$doc = new DomDocument( '1.0', 'UTF-8' );
-			$doc->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NODEFDTD | LIBXML_HTML_NOIMPLIED );
+			$doc->loadHTML( htmlspecialchars_decode( htmlentities( $html ) ), LIBXML_HTML_NODEFDTD | LIBXML_HTML_NOIMPLIED );
 
 			$root_node = $doc->documentElement; // phpcs:ignore
 

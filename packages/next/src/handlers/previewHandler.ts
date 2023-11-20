@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { CustomPostType, getSiteByHost, PostEntity } from '@headstartwp/core';
 import { getCustomPostType, getHeadlessConfig } from '@headstartwp/core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -44,7 +45,7 @@ export type PreviewHandlerOptions = {
 		previewData: PreviewData,
 		defaultRedirect?: PreviewHandlerOptions['onRedirect'],
 		redirectpath?: string,
-	) => NextApiResponse;
+	) => void;
 
 	/**
 	 * If passed will override the default redirect path
@@ -120,7 +121,7 @@ export async function previewHandler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 	options: PreviewHandlerOptions = {},
-) {
+): Promise<void> {
 	const { post_id, post_type, is_revision, token, locale } = req.query;
 
 	if (req.method !== 'GET') {
@@ -142,6 +143,15 @@ export async function previewHandler(
 	const revision = is_revision === '1';
 
 	try {
+		const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
+
+		if (!postTypeDef) {
+			res.status(401).end(
+				'Cannot preview an unknown post type, did you forget to add it to headless.config.js?',
+			);
+			return;
+		}
+
 		const { data } = await fetchHookData(
 			usePost.fetcher(sourceUrl),
 			{
@@ -179,12 +189,6 @@ export async function previewHandler(
 				previewData = options.preparePreviewData(req, res, result, previewData);
 			}
 
-			const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
-
-			if (!postTypeDef) {
-				return res.end('Cannot preview an unknown post type');
-			}
-
 			/**
 			 * Builds the default redirect path
 			 *
@@ -192,14 +196,11 @@ export async function previewHandler(
 			 */
 			const getDefaultRedirectPath = () => {
 				const singleRoute = postTypeDef.single || '/';
-				const prefixRoute = singleRoute === '/' ? '' : singleRoute;
+				// remove leading slashes
+				const prefixRoute = singleRoute.replace(/^\/+/, '');
 				const slugOrId = revision ? post_id : slug || post_id;
-
-				if (locale) {
-					return `/${locale}/${prefixRoute}/${slugOrId}`;
-				}
-
-				return `${prefixRoute}/${slugOrId}`;
+				const path = [locale, prefixRoute, slugOrId].filter((n) => n).join('/');
+				return `/${path}`;
 			};
 
 			const redirectPath =
@@ -223,7 +224,7 @@ export async function previewHandler(
 			});
 
 			const defaultRedirect: PreviewHandlerOptions['onRedirect'] = (req, res) => {
-				return res.redirect(redirectPath);
+				res.redirect(redirectPath);
 			};
 
 			if (options?.onRedirect) {
@@ -234,9 +235,9 @@ export async function previewHandler(
 		}
 	} catch (e) {
 		if (e instanceof Error) {
-			return res.status(401).end(e.message);
+			res.status(401).end(e.message);
 		}
 	}
 
-	return res.status(401).end('Unable to set preview mode');
+	res.status(401).end('There was an error setting up preview');
 }

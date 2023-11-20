@@ -102,7 +102,7 @@ export function ImageComponent({ src, alt, width, height, children, style, loade
 	}
 
 	if (!width || !height) {
-		<Image src={src} alt={alt || ''} fill style={style} loader={loader} />;
+		return <Image src={src} alt={alt || ''} fill style={style} loader={loader} />;
 	}
 
 	return (
