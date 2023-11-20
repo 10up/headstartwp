@@ -28,7 +28,7 @@ export function getRedisClient(lazyConnect = false) {
 	let connectionParams = {};
 
 	// Connection was passed in as a URL
-	if (host.indexOf('redis') === 0) {
+	if (host.indexOf('redis://') === 0) {
 		return new Redis(host, { lazyConnect });
 	}
 
@@ -37,6 +37,7 @@ export function getRedisClient(lazyConnect = false) {
 		connectionParams = {
 			sentinels: [{ host, port }],
 			sentinelPassword,
+			password,
 			name: sentinelName,
 			lazyConnect,
 		};
