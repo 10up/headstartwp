@@ -12,7 +12,6 @@ The file **must be named** either `headstartwp.config.js` or `headless.config.js
 
 ```js title=next.config.js
 const { withHeadstartWPConfig } = require('@headstartwp/next/config');
-const headstartWPConfig = require('./headstartwp.config.js');
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -21,10 +20,11 @@ const headstartWPConfig = require('./headstartwp.config.js');
  */
 const nextConfig = {};
 
-module.exports = withHeadstartWPConfig(nextConfig, headstartWPConfig);
+module.exports = withHeadstartWPConfig(nextConfig);
 ```
-
-Note that you need to import and pass the headstartWPConfig to `withHeadstartWPConfig` but it will also dynamically inject the necessary import statements to your final bundle to load the config properly.
+:::caution
+Since `@headstartwp/next@1.2.0` you do not need to import `headstartwp.config.js` in `next.config.js` anymore, the framework will dynamically load the config.
+:::caution
 
 Here's a sample config file
 
