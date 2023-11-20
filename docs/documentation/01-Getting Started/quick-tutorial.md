@@ -107,7 +107,7 @@ The `resolveBatch` function is just a utility function that lets you run multipl
 
 Next, we have the `addHookData` function which expects an array of "hook data" (i.e pre-fetched data for the custom hooks returned by `fetchHookData`). The `addHookData` will simply put the results on the cache and hydrate the custom hook with pre-fetched data. The second param is an object that represents the Next.js props you can return from `getStaticProps` or `getServerSideProps`.
 
-If anything fails, we call the `handleError` function which provides standard error handling such as rendering a 404 page if a page is not found and optionally handling redirects (if the redirect strategy is set to 404 in headless.config.js).
+If anything fails, we call the `handleError` function which provides standard error handling such as rendering a 404 page if a page is not found and optionally handling redirects (if the redirect strategy is set to 404 in headstartwp.config.js).
 
 Lastly, the `getStaticPaths` will return an array of paths that should be pre-rendered at build time. This should only be used in conjunction with getStaticProps. Note that the framework doesn’t force getStaticProps you can use getServerSideProps (especially if your hosting doesn’t provide good support for ISR).
 

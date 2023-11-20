@@ -14,8 +14,10 @@ describe('useFetchPosts', () => {
 		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
 	};
 
-	setHeadlessConfig({
-		useWordPressPlugin: true,
+	beforeEach(() => {
+		setHeadlessConfig({
+			useWordPressPlugin: true,
+		});
 	});
 
 	it('throws errors if accessing data before fetch', async () => {
@@ -264,24 +266,114 @@ describe('useFetchPosts', () => {
 		});
 	});
 
-	describe('useFetchPosts types', () => {
-		it('allows overriding types', () => {
-			interface Book extends PostEntity {
-				isbn: string;
-			}
+	it('throws params.matchArchivepath is true and path does not match', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPosts(
+					{
+						category: 'uncategorized',
+						per_page: 1,
+						matchArchivePath: true,
+					},
+					{},
+					'https://js1.10up.com/category/asdasd/uncategorized',
+				),
+			{
+				wrapper,
+			},
+		);
 
-			interface BookParams extends PostsArchiveParams {
-				isbn: string;
-			}
-
-			const { result } = renderHook(() => useFetchPosts<Book, BookParams>({ isbn: 'sdasd' }));
-
-			expectTypeOf(result.current.data?.posts).toMatchTypeOf<
-				| Array<{
-						isbn: string;
-				  }>
-				| undefined
-			>();
+		await waitFor(() => {
+			expect(result.current.error?.toString()).toBe(
+				`NotFoundError: Posts were found but did not match current path: "https://js1.10up.com/category/asdasd/uncategorized"`,
+			);
 		});
+	});
+
+	it('throws matchArchivepath config option is true and path does not match', async () => {
+		setHeadlessConfig({
+			useWordPressPlugin: true,
+			customTaxonomies: (defaultTaxonomies) => {
+				return defaultTaxonomies.map((taxonomy) => ({
+					...taxonomy,
+					matchArchivePath: true,
+				}));
+			},
+		});
+
+		const { result } = renderHook(
+			() =>
+				useFetchPosts(
+					{
+						category: 'uncategorized',
+						per_page: 2,
+					},
+					{},
+					'https://js1.10up.com/category/asdasd/uncategorized',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error?.toString()).toBe(
+				`NotFoundError: Posts were found but did not match current path: "https://js1.10up.com/category/asdasd/uncategorized"`,
+			);
+		});
+	});
+
+	it('does not throws when matchArchivepath config option is true and path matches', async () => {
+		setHeadlessConfig({
+			useWordPressPlugin: true,
+			customTaxonomies: (defaultTaxonomies) => {
+				return defaultTaxonomies.map((taxonomy) => ({
+					...taxonomy,
+					matchArchivePath: true,
+				}));
+			},
+		});
+
+		const { result } = renderHook(
+			() =>
+				useFetchPosts(
+					{
+						randomArgument: 10, // bypass swr cache
+						category: 'uncategorized',
+						per_page: 1,
+					},
+					{},
+					// Need this bc source url removal is not working in the tests
+					'https://js1.10up.com/category/uncategorized',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.data?.queriedObject.term?.slug).toBe('uncategorized');
+		});
+	});
+});
+
+describe('useFetchPosts types', () => {
+	it('allows overriding types', () => {
+		interface Book extends PostEntity {
+			isbn: string;
+		}
+
+		interface BookParams extends PostsArchiveParams {
+			isbn: string;
+		}
+
+		const { result } = renderHook(() => useFetchPosts<Book, BookParams>({ isbn: 'sdasd' }));
+
+		expectTypeOf(result.current.data?.posts).toMatchTypeOf<
+			| Array<{
+					isbn: string;
+			  }>
+			| undefined
+		>();
 	});
 });

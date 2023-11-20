@@ -8,9 +8,9 @@ slug: /wordpress-integration/polylang
 Polylang Pro is required since only Polylang Pro offers the [REST API integration](https://polylang.pro/doc/rest-api/).
 :::caution
 
-It is possible to integrate with Polylang by enabling the integration in `headless.config.js` and adding the supported locales to [Next.js config](https://nextjs.org/docs/advanced-features/i18n-routing).
+It is possible to integrate with Polylang by enabling the integration in `headstartwp.config.js` and adding the supported locales to [Next.js config](https://nextjs.org/docs/advanced-features/i18n-routing).
 
-```js title="headless.config.js"
+```js title="headstartwp.config.js"
 module.exports = {
 	// other settings
 	integrations: {
