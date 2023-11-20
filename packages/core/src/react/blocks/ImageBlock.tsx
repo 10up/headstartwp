@@ -41,6 +41,8 @@ export function ImageBlock({
 	}
 
 	const { src, alt, width: imgNodeWidth, height: imgNodeHeight } = imgNode.attribs;
+	const imageWidth = width ?? imgNodeWidth;
+	const imageHeight = height ?? imgNodeHeight;
 
 	return (
 		<Component
@@ -50,8 +52,8 @@ export function ImageBlock({
 			src={src}
 			alt={alt}
 			attributes={blockAttributes}
-			width={width || Number(imgNodeWidth)}
-			height={height || Number(imgNodeHeight)}
+			width={imageWidth ? Number(imageWidth) : undefined}
+			height={imageHeight ? Number(imageHeight) : undefined}
 			style={style}
 		>
 			{children}

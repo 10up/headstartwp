@@ -158,7 +158,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 	return {
 		...normalizedData,
-		key: serializeKey(normalizedData.key),
+		key: serializeKey(key),
 		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
 		additionalCacheObjects: additionalCacheObjects || null,
 	};

@@ -1,5 +1,56 @@
 # @headstartwp/core
 
+## 1.1.2
+
+### Patch Changes
+
+- 15189a03: Adding support for basic auth
+- 772c5f1c: Fix: fetchHookData with usePosts and throwIfNotFound set to false will crash the application if no results are found
+
+## 1.1.2-next.1
+
+### Patch Changes
+
+- 772c5f1c: Fix: fetchHookData with usePosts and throwIfNotFound set to false will crash the application if no results are found
+
+## 1.1.2-next.0
+
+### Patch Changes
+
+- 15189a03: Adding support for basic auth
+
+## 1.1.1
+
+### Patch Changes
+
+- de501ff7: Fix an issue for images without width or height
+
+## 1.1.0
+
+### Minor Changes
+
+- 4275962b: Introducing `usePostOrPosts`.
+- df3e65ce: Introduces `SafeHtml` and `HtmlDecoder` components.
+- e9064d69: Introducing the `useSeo` hook.
+- d3ec9d83: Introduces the `decodeHtmlSpecialChars` function.
+
+### Patch Changes
+
+- e6a0c231: Lower compilation target
+- 24f8a99f: Fix theme.json handling in `useBlockColors` and `useBlockTypography`.
+
+  Thanks @riccardodicurti @dhamibirendra for [the bug report](https://github.com/10up/headstartwp/issues/541).
+
+- bb39a603: Fixes useSearch error when Yoast SEO plugin is deactivated.
+- 569662b6: Improves the Next.js preview cookie handling and fixes a bug where the locale was not properly being passed from WP when previewing.
+
+  First of all, it sets the preview cookie to expire within 5 minutes which aligns with the JWT token expiration.
+
+  Secondly, it will narrow the cookie to the post path being previewed so that `context.preview` is not true for other paths and thus avoiding bypassing getStaticProps until the cookies are cleared (either expires or the browser closes).
+
+- 56ddf9be: Fix theme.json handling for block settings
+- 1494a332: Further Optimize next.js props by removing yoast seo bloat.
+
 ## 1.1.0-next.5
 
 ### Minor Changes

@@ -6,6 +6,8 @@ import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPosts } from '../useFetchPosts';
 import { setHeadlessConfig } from '../../../utils';
+import * as useFetchModule from '../useFetch';
+import { mockUseFetchErrorResponse } from '../mocks';
 
 describe('useFetchPosts', () => {
 	const wrapper = ({ children }) => {
@@ -38,6 +40,33 @@ describe('useFetchPosts', () => {
 		await waitFor(() => {
 			expect(result.current.data?.posts.length).toBe(2);
 		});
+	});
+
+	it('handles response if has error or there is no data', async () => {
+		const spyUseFetch = jest
+			.spyOn(useFetchModule, 'useFetch')
+			.mockReturnValueOnce(mockUseFetchErrorResponse);
+		const { result } = renderHook(() => useFetchPosts({}), {
+			wrapper,
+		});
+
+		const expectedKeys = ['error', 'loading', 'pageType', 'data', 'isMainQuery'];
+		const returnedKeys = Object.keys(result.current);
+		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
+
+		await waitFor(() => {
+			expect(missingKeys).toHaveLength(0);
+			expect(spyUseFetch).toHaveBeenCalledTimes(1);
+			expect(result.current.error).toBe('Not found');
+			expect(result.current.loading).toBe(true);
+			expect(() => result.current.data).not.toThrow();
+			expect(() => result.current.data?.posts[0].title).toThrow();
+			expect(() => result.current.data?.pageInfo[0].title).toThrow();
+			expect(() => result.current.data?.queriedObject[0].title).toThrow();
+			expect(result.current.isMainQuery).toBe(true);
+		});
+
+		spyUseFetch.mockRestore();
 	});
 
 	it('returns queried object for category archives', async () => {
@@ -186,6 +215,52 @@ describe('useFetchPosts', () => {
 			expect(result.current.error).toBeFalsy();
 			expect(result.current.data?.queriedObject.term?.slug).toBe('news');
 			expect(result.current.isMainQuery).toBe(true);
+		});
+	});
+
+	it('does not crash when not found but throwIfNotFound is set to false', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPosts(
+					{ taxonomy: 'category' },
+					{
+						fetchStrategyOptions: {
+							throwIfNotFound: false,
+						},
+					},
+					'/i-do-not-exist',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.posts.length).toBe(0);
+		});
+	});
+
+	it('does not crash when invalid page param when throwIfNotFound is set to false', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPosts(
+					{ taxonomy: 'category' },
+					{
+						fetchStrategyOptions: {
+							throwIfNotFound: false,
+						},
+					},
+					'/news/page/10',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.posts.length).toBe(0);
 		});
 	});
 

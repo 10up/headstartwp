@@ -243,7 +243,7 @@ describe('PostOrPostsFetchStrategy', () => {
 			useWordPressPlugin: true,
 		});
 
-		const params = fetchStrategy.getParamsFromURL('/page/2');
+		const params = fetchStrategy.getParamsFromURL('/page/1');
 		const response = await fetchStrategy.fetcher(
 			'',
 			merge(params, { priority: 'single', routeMatchStrategy: 'archive' }),
@@ -257,7 +257,7 @@ describe('PostOrPostsFetchStrategy', () => {
 			useWordPressPlugin: true,
 		});
 
-		let params = fetchStrategy.getParamsFromURL('/page/2');
+		let params = fetchStrategy.getParamsFromURL('/page/1');
 		let response = await fetchStrategy.fetcher(
 			'',
 			merge(params, { priority: 'single', routeMatchStrategy: 'single' }),
@@ -265,7 +265,7 @@ describe('PostOrPostsFetchStrategy', () => {
 		expect(response.result.isSingle).toBeFalsy();
 		expect(response.result.isArchive).toBeTruthy();
 
-		params = fetchStrategy.getParamsFromURL('/page/2');
+		params = fetchStrategy.getParamsFromURL('/page/1');
 		response = await fetchStrategy.fetcher(
 			'',
 			merge(params, { priority: 'archive', routeMatchStrategy: 'single' }),
