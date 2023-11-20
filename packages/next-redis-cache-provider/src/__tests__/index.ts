@@ -66,6 +66,7 @@ describe('getRedisClient', () => {
 		process.env.NEXT_REDIS_PORT = '6380';
 		process.env.NEXT_REDIS_SENTINEL_NAME = 'sentinel';
 		process.env.NEXT_REDIS_SENTINEL_PASSWORD = 'sentinel-password';
+		process.env.NEXT_REDIS_PASS = 'authpassword';
 
 		const redisClient = getRedisClient();
 
@@ -74,6 +75,7 @@ describe('getRedisClient', () => {
 				{ host: process.env.NEXT_REDIS_HOST, port: Number(process.env.NEXT_REDIS_PORT) },
 			],
 			sentinelPassword: process.env.NEXT_REDIS_SENTINEL_PASSWORD,
+			password: process.env.NEXT_REDIS_PASS,
 			name: process.env.NEXT_REDIS_SENTINEL_NAME,
 		});
 	});
