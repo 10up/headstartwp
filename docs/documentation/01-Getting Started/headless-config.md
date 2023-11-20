@@ -28,7 +28,7 @@ Since `@headstartwp/next@1.2.0` you do not need to import `headstartwp.config.js
 
 Here's a sample config file
 
-```javascript title="headless.config.js"
+```javascript title="headstartwp.config.js"
 module.exports = {
     sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
     hostUrl: process.env.HOST_URL,
@@ -61,9 +61,9 @@ The `host` option is automatically inferred if `hostUrl` is set. You probably do
 
 ## customPostTypes
 
-To add support for custom post types, add your custom post type to the `customPostTypes` setting in `headless.config.js`.
+To add support for custom post types, add your custom post type to the `customPostTypes` setting in `headstartwp.config.js`.
 
-```js title="headless.config.js"
+```js title="headstartwp.config.js"
 module.exports = {
     sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
     hostUrl: process.env.HOST_URL,
@@ -92,7 +92,7 @@ The `single` option is required for several things including:
 
 It is also possible to pass a function, when doing so the default post types (post and pages) will be passed to the function. The code snipped below will disable [post path mapping](/learn/data-fetching/usepost/#post-path-matching) to the default post types.
 
-```js title="headless.config.js"
+```js title="headstartwp.config.js"
 module.exports = {
     sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
     hostUrl: process.env.HOST_URL,
@@ -105,9 +105,9 @@ module.exports = {
 
 ## customTaxonomies
 
-To add support for custom taxonomies, add your custom taxonomy to the `customTaxonomies` setting in `headless.config.js`.
+To add support for custom taxonomies, add your custom taxonomy to the `customTaxonomies` setting in `headstartwp.config.js`.
 
-```js title="headless.config.js"
+```js title="headstartwp.config.js"
 module.exports = {
     customPostTypes: [
         {
@@ -177,7 +177,7 @@ The code snippet above does not implement pre-fetching, which you probably want 
 
 It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable [archive path matching](/learn/data-fetching/useposts#archive-path-matching).
 
-```js title="headless.config.js"
+```js title="headstartwp.config.js"
 module.exports = {
     customPostTypes: [
         {

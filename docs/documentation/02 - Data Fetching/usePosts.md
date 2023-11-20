@@ -111,9 +111,9 @@ The framework, however, does not check if `parent-cat-name` is the de facto pare
 
 To address this, you can pass `matchArchivePath` to `usePosts` to tell the framework to check the `link` property of the `queriedObject`, i.e if the `link` property of `cat-name` returned by the [WordPress REST API](https://developer.wordpress.org/rest-api/reference/categories/#schema) matches the front-end path.
 
-This setting can also be enabled in `headless.config.js` globally.
+This setting can also be enabled in `headstartwp.config.js` globally.
 
-```js title="headless.config.js"
+```js title="headstartwp.config.js"
 module.exports = {
 	// enable archive path mapping for all default taxonomies
     customTaxonomies: (defaultTaxonomies) => {
