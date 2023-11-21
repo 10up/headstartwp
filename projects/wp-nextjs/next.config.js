@@ -1,4 +1,4 @@
-const { withHeadstarWPConfig } = require('@headstartwp/next/config');
+const { withHeadstartWPConfig } = require('@headstartwp/next/config');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE === 'true',
@@ -36,4 +36,4 @@ if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
 		incrementalCacheHandlerPath: require.resolve('@10up/next-redis-cache-provider'),
 	};
 }
-module.exports = withBundleAnalyzer(withHeadstarWPConfig(nextConfig));
+module.exports = withBundleAnalyzer(withHeadstartWPConfig(nextConfig));

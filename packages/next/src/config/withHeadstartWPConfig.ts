@@ -55,7 +55,7 @@ function traverse(rules) {
  * @param withHeadstarWPConfigOptions
  * @returns
  */
-export function withHeadstarWPConfig(
+export function withHeadstartWPConfig(
 	nextConfig: NextConfig = {},
 	headlessConfig: HeadlessConfig = {},
 	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
@@ -270,5 +270,5 @@ export function withHeadlessConfig(
 	headlessConfig: HeadlessConfig = {},
 	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ) {
-	return withHeadstarWPConfig(nextConfig, headlessConfig, withHeadstarWPConfigOptions);
+	return withHeadstartWPConfig(nextConfig, headlessConfig, withHeadstarWPConfigOptions);
 }
