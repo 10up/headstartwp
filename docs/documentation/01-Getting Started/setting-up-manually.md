@@ -56,8 +56,7 @@ If you're developing locally and your WordPress instance uses https but does not
 Create a `next.config.js` file with the following contents:
 
 ```js title=next.config.js
-const { withHeadlessConfig } = require('@headstartwp/next/config');
-const headlessConfig = require('./headless.config');
+const { withHeadstartWPConfig } = require('@headstartwp/next/config');
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -66,7 +65,7 @@ const headlessConfig = require('./headless.config');
  */
 const nextConfig = {};
 
-module.exports = withHeadlessConfig(nextConfig, headlessConfig);
+module.exports = withHeadstartWPConfig(nextConfig);
 ```
 
 ### pages/_app.js
