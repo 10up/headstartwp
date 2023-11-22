@@ -65,6 +65,7 @@ export type HeadlessConfig = {
 		| CustomTaxonomies
 		| ((defaultTaxonomies: CustomTaxonomies) => CustomTaxonomies);
 	redirectStrategy?: RedirectStrategy;
+	redirectWww?: boolean;
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
 	sites?: HeadlessConfig[];
@@ -73,4 +74,17 @@ export type HeadlessConfig = {
 		redirects?: boolean;
 		devMode?: boolean;
 	};
+};
+
+type RouteHas =
+	| { type: 'header' | 'query' | 'cookie'; key: string; value?: string }
+	| { type: 'host'; key?: undefined; value: string };
+export type ConfigRedirect = {
+	source: string;
+	destination: string;
+	basePath?: false;
+	locale?: false;
+	has?: RouteHas[];
+	missing?: RouteHas[];
+	permanent: boolean;
 };

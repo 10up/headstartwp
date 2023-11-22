@@ -1,5 +1,6 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
+import type { ConfigRedirect } from '@headstartwp/core';
 import path from 'path';
 import fs from 'fs';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
@@ -98,6 +99,49 @@ export function withHeadstartWPConfig(
 		images: {
 			...nextConfig.images,
 			domains: imageDomains,
+		},
+		async redirects() {
+			const redirects =
+				typeof nextConfig.redirects === 'function' ? await nextConfig.redirects() : [];
+			if (!headlessConfig.redirectWww) {
+				return redirects;
+			}
+			if (typeof headlessConfig.hostUrl === 'undefined') {
+				return redirects;
+			}
+			const otherRedirects: ConfigRedirect[] = [];
+			const url = new URL(headlessConfig.hostUrl as string);
+			otherRedirects.push({
+				source: '/:path*',
+				has: [
+					{
+						type: 'header',
+						key: 'host',
+						value: `www.${url.host.replace(/^www./, '')}`,
+					},
+				],
+				destination: `${url.host.replace(/^www./, '')}/:path`,
+				permanent: true,
+			});
+			sites.forEach((site) => {
+				const siteUrl = new URL(site.hostUrl as string);
+				otherRedirects.push({
+					source: '/:path*',
+					has: [
+						{
+							type: 'header',
+							key: 'host',
+							value: siteUrl.host,
+						},
+					],
+					destination: `${siteUrl.host.replace(/^www./, '')}/:path`,
+					permanent: true,
+				});
+			});
+			if (Array.isArray(redirects)) {
+				redirects.push(...otherRedirects);
+			}
+			return redirects;
 		},
 		async rewrites() {
 			const rewrites =
