@@ -65,7 +65,7 @@ The default implementation will revalidate any post or page upon saving in WordP
 
 ## Supporting Next.js ISR outside of Vercel
 
-If your host does not support Next.js ISR natively (e.g. VIP, WPEngine etc), ISR won't work well. If your hosting is serving your app via a traditional non-serverless setup using docker/Kubernetis you most likely will run into issues trying to leverage Next.js ISR.
+If your host does not support Next.js ISR natively (e.g. WordPress VIP, WPEngine etc), ISR won't work well. If your hosting is serving your app via a traditional non-serverless setup using docker/Kubernetis you most likely will run into issues trying to leverage Next.js ISR.
 
 First off, if multiple docker containers are running to serve the requests to your website, a call to revalidate a particular page will only ever hit one of the docker containers that are running. This will lead to users being served by the docker containers that weren't hit by the WP call to still serve the old page. Even worse, the same user might be served by different containers and get both old and new responses for a page (e.g. the initial HTML is updated but the JSON associated with the page isn't).
 
@@ -81,7 +81,7 @@ Our solution to this problem has been to replace the filesystem cache with a red
 
 ![Plugin settings](../../static/img/documentation/wordpress-integration/next-redis-cache-provider.png)
 
-To set `@10up/next-redis-cache-provider` first install it via npm:
+To set up `@10up/next-redis-cache-provider` first install it via npm:
 
 ```bash
 npm install --save @10up/next-redis-cache-provider
@@ -117,7 +117,7 @@ module.exports = withHeadstartWPConfig(nextConfig);
 ```
 
 :::info
-The HeadstartWP scaffold already includes the code above, so if you want to use this package you only need to set the environment variables.
+The HeadstartWP [scaffold](https://github.com/10up/headstartwp/tree/develop/projects/wp-nextjs) already includes the code above
 :::info
 
 The code above checks for `NEXT_REDIS_URL` and `VIP_REDIS_PRIMARY` (which is specific for WordPress VIP hosting), however there are several other env variables you can use to configure your redis connection.
@@ -129,7 +129,7 @@ The code above checks for `NEXT_REDIS_URL` and `VIP_REDIS_PRIMARY` (which is spe
 
 ### Purging the CDN Cache
 
-Another thing you want to consider is flushing the CDN cache AFTER you revalidate the page in Next.js. This can be done on the WordPress side by hooking up to the `tenup_headless_wp_revalidate` action. This action is fired off after Next.js has finished revalidating the page.
+Another thing you want to consider is flushing the CDN cache **after** you revalidate the page in Next.js. This can be done on the WordPress side by hooking up to the `tenup_headless_wp_revalidate` action. This action is fired off after Next.js has finished revalidating the page.
 
 ```php
 add_filter( 'tenup_headless_wp_revalidate', function( $post, $front_end_post_url ) {
@@ -155,4 +155,4 @@ If you prefer to run the revalidation logic in the background, you can tell the 
 add_filter( 'tenup_headless_wp_revalidate_on_cron', '___return_true' );
 ```
 
-This can be useful when the revalidation or the CDN cache purge is slow and it can speed up the post saving process.
+This can be useful when the revalidation or the CDN cache purge is slow sp this can be used to speed up the post saving process.
