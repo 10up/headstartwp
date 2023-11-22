@@ -131,7 +131,7 @@ export function withHeadstartWPConfig(
 						{
 							type: 'header',
 							key: 'host',
-							value: siteUrl.host,
+							value: `www.${siteUrl.host.replace(/^www./, '')}`,
 						},
 					],
 					destination: `${siteUrl.host.replace(/^www./, '')}/:path`,
