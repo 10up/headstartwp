@@ -48,12 +48,12 @@ The route will automatically render the latest 10 posts from the current author.
 
 ## Author Archive for Custom Post Type
 
-In order to fetch posts from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/learn/getting-started/headless-config#custom-post-types) section. 
+In order to fetch posts from a custom post type, first declare the custom post type in `headstartwp.config.js` as explained in the [headstartwp.config.js](/learn/getting-started/headless-config#custom-post-types) section. 
 ```js title="src/pages/author/[...path].js"
 import { useAuthorArchive } from '@headstartwp/next';
 
 const ArchivePage = () => {
-    // book must be declared in headless.config.js
+    // book must be declared in headstartwp.config.js
 	const { loading, error, data } = useAuthorArchive({ postType: ['book'] });
 
 	if (loading) {

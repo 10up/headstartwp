@@ -11,7 +11,7 @@ import {
 	PostsArchiveParams,
 	QueriedObject,
 } from '../../data';
-import { getCustomTaxonomies } from '../../utils/getHeadlessConfig';
+import { getCustomTaxonomies } from '../../utils/config';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 import { useSettings } from '../provider';

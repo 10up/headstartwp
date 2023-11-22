@@ -19,14 +19,20 @@ module.exports = {
 			archive: '/books',
 		},
 	],
-	customTaxonomies: [
-		// this is just an example
-		{
-			slug: 'genre',
-			endpoint: '/wp-json/wp/v2/genre',
-		},
-	],
+	customTaxonomies: (defaultTaxonomies) => {
+		return [
+			// turn on matchArchivePath for default taxonomies
+			...defaultTaxonomies.map((taxonomy) => ({ ...taxonomy, matchArchivePath: true })),
+			// this is just an example
+			{
+				slug: 'genre',
+				endpoint: '/wp-json/wp/v2/genre',
+			},
+		];
+	},
+
 	redirectStrategy: '404',
+
 	/**
 	 * Using 10up's headless plugin is recommended
 	 */

@@ -1,5 +1,5 @@
 import { isExternalUrl } from './isExternalUrl';
-import { getWPUrl } from './getHeadlessConfig';
+import { getWPUrl } from './config';
 import { removeSourceUrl } from './removeSourceUrl';
 import { HeadlessConfig } from '../types';
 
