@@ -65,9 +65,9 @@ The default implementation will revalidate any post or page upon saving in WordP
 
 ## Supporting Next.js ISR outside of Vercel
 
-If your host does not support Next.js ISR natively (e.g. WordPress VIP, WPEngine etc), ISR won't work well. If your hosting is serving your app via a traditional non-serverless setup using docker/Kubernetis you most likely will run into issues trying to leverage Next.js ISR.
+If your host does not support Next.js ISR natively (e.g. WordPress VIP, WPEngine etc), ISR won't work well. If your hosting is serving your app via a traditional non-serverless setup using docker/kubernetes you most likely will run into issues trying to leverage Next.js ISR.
 
-First off, if multiple docker containers are running to serve the requests to your website, a call to revalidate a particular page will only ever hit one of the docker containers that are running. This will lead to users being served by the docker containers that weren't hit by the WP call to still serve the old page. Even worse, the same user might be served by different containers and get both old and new responses for a page (e.g. the initial HTML is updated but the JSON associated with the page isn't).
+First off, if multiple containers are running to serve the requests to your website, a call to revalidate a particular page will only ever hit one of the containers that are running. This will lead to users being served by the containers that weren't hit by the WP call to still serve the old page. Even worse, the same user might be served by different containers and get both old and new responses for a page (e.g. the initial HTML is updated but the JSON associated with the page isn't).
 
 Officially, Next.js [recommends](https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration#self-hosting-isr) sharing a writable volume across all the containers but that has some performance implications and some hosts simply don't support this setup.
 
