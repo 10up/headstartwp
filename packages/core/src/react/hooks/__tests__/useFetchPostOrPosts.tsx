@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
+import { SWRConfig } from 'swr';
 import { SettingsProvider } from '../../provider';
 import { setHeadstartWPConfig } from '../../../utils';
 import { useFetchPostOrPosts } from '../useFetchPostOrPosts';
@@ -11,6 +12,14 @@ import { mockUseFetchErrorResponse } from '../mocks';
 
 describe('useFetchPostOrPosts', () => {
 	const wrapper = ({ children }) => {
+		return (
+			<SWRConfig value={{ provider: () => new Map() }}>
+				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+			</SWRConfig>
+		);
+	};
+
+	const wrapperWithCache = ({ children }) => {
 		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
 	};
 
@@ -120,7 +129,7 @@ describe('useFetchPostOrPosts', () => {
 					'/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 				),
 			{
-				wrapper,
+				wrapper: wrapperWithCache,
 			},
 		);
 
@@ -138,7 +147,7 @@ describe('useFetchPostOrPosts', () => {
 					'/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 				),
 			{
-				wrapper,
+				wrapper: wrapperWithCache,
 			},
 		);
 
@@ -161,7 +170,7 @@ describe('useFetchPostOrPosts', () => {
 		};
 
 		const { result } = renderHook(() => useFetchPostOrPosts(p, undefined, '/uncategorized'), {
-			wrapper,
+			wrapper: wrapperWithCache,
 		});
 
 		await waitFor(() => {
@@ -171,7 +180,7 @@ describe('useFetchPostOrPosts', () => {
 		const { result: result2 } = renderHook(
 			() => useFetchPosts(p.archive, undefined, '/uncategorized'),
 			{
-				wrapper,
+				wrapper: wrapperWithCache,
 			},
 		);
 

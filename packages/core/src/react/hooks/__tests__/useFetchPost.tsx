@@ -1,6 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import * as React from 'react';
 import { expectTypeOf } from 'expect-type';
+import { SWRConfig } from 'swr';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
 import { PostEntity, PostParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
@@ -10,7 +11,11 @@ import { mockUseFetchErrorResponse } from '../mocks';
 
 describe('useFetchPost', () => {
 	const wrapper = ({ children }) => {
-		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
+		return (
+			<SWRConfig value={{ provider: () => new Map() }}>
+				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+			</SWRConfig>
+		);
 	};
 
 	it('throws errors if accessing data before fetch', async () => {
@@ -185,7 +190,15 @@ describe('useFetchPost', () => {
 
 	it('reads param from the url and sets isMainQuery flag', async () => {
 		const { result } = renderHook(
-			() => useFetchPost({}, {}, '/modi-qui-dignissimos-sed-assumenda-sint-iusto'),
+			() =>
+				useFetchPost(
+					{
+						fullPath:
+							'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
+					},
+					{},
+					'/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
+				),
 			{
 				wrapper,
 			},
@@ -200,7 +213,7 @@ describe('useFetchPost', () => {
 		});
 
 		const { result: secondResult } = renderHook(
-			() => useFetchPost({ slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' }),
+			() => useFetchPost({ slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' }, {}),
 			{
 				wrapper,
 			},

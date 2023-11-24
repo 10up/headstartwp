@@ -2,6 +2,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
 
+import { SWRConfig } from 'swr';
 import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPosts } from '../useFetchPosts';
@@ -11,7 +12,11 @@ import { mockUseFetchErrorResponse } from '../mocks';
 
 describe('useFetchPosts', () => {
 	const wrapper = ({ children }) => {
-		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
+		return (
+			<SWRConfig value={{ provider: () => new Map() }}>
+				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+			</SWRConfig>
+		);
 	};
 
 	beforeEach(() => {
@@ -338,7 +343,7 @@ describe('useFetchPosts', () => {
 			() =>
 				useFetchPosts(
 					{
-						randomArgument: 10, // bypass swr cache
+						// randomArgument: 10, // bypass swr cache
 						category: 'uncategorized',
 						per_page: 1,
 					},
