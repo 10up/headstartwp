@@ -249,7 +249,7 @@ export class SinglePostFetchStrategy<
 
 			if (!post) {
 				throw new NotFoundError(
-					`Post was found but did not match current path: "${this.path}""`,
+					`Post #${result[0].id} - "${result[0].link}" was found but did not match current path: "${this.path}""`,
 				);
 			}
 
