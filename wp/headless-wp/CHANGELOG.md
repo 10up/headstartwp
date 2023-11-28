@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.10
+
+### Patch Changes
+
+- b54c688e: Fix PHP 8.2 deprecation warnings
+
 ## 1.0.9
 
 ### Patch Changes

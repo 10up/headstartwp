@@ -1,5 +1,27 @@
 # @10up/next-redis-cache-provider
 
+## 0.2.0
+
+### Minor Changes
+
+- 3e73ab7a: Add suport for redis sentinel
+
+### Patch Changes
+
+- 1a24e7f8: Fix sentinel connection params
+
+## 0.2.0-next.1
+
+### Patch Changes
+
+- 1a24e7f8: Fix sentinel connection params
+
+## 0.2.0-next.0
+
+### Minor Changes
+
+- 3e73ab7a: Add suport for redis sentinel
+
 ## 0.1.5
 
 ### Patch Changes

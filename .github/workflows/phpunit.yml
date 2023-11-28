@@ -6,13 +6,16 @@ jobs:
   phpunit:
     name: phpunit
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0', '8.2']
     steps:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Set PHP version
       uses: shivammathur/setup-php@v2
       with:
-        php-version: "8.0"
+        php-version: ${{ matrix.php-version }}
     - name: npm install
       run: npm install
     - name: composer install

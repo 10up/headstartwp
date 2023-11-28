@@ -2,14 +2,21 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
 
+import { SWRConfig } from 'swr';
 import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearch } from '../useFetchSearch';
 import { setHeadlessConfig } from '../../../utils';
+import * as useFetchModule from '../useFetch';
+import { mockUseFetchErrorResponse } from '../mocks';
 
-describe('useFetchPosts', () => {
+describe('useFetchSearch', () => {
 	const wrapper = ({ children }) => {
-		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
+		return (
+			<SWRConfig value={{ provider: () => new Map() }}>
+				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+			</SWRConfig>
+		);
 	};
 
 	setHeadlessConfig({
@@ -27,6 +34,33 @@ describe('useFetchPosts', () => {
 			expect(() => result.current.data).not.toThrow();
 			expect(result.current.data?.posts.length).toBe(0);
 		});
+	});
+
+	it('handles response if has error or there is no data', async () => {
+		const spyUseFetch = jest
+			.spyOn(useFetchModule, 'useFetch')
+			.mockReturnValueOnce(mockUseFetchErrorResponse);
+		const { result } = renderHook(() => useFetchSearch({}), {
+			wrapper,
+		});
+
+		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery'];
+		const returnedKeys = Object.keys(result.current);
+		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
+
+		await waitFor(() => {
+			expect(missingKeys).toHaveLength(0);
+			expect(spyUseFetch).toHaveBeenCalledTimes(1);
+			expect(result.current.error).toBe('Not found');
+			expect(result.current.loading).toBe(true);
+			expect(() => result.current.data).not.toThrow();
+			expect(() => result.current.data?.posts[0].title).toThrow();
+			expect(() => result.current.data?.pageInfo[0].title).toThrow();
+			expect(() => result.current.data?.queriedObject[0].title).toThrow();
+			expect(result.current.isMainQuery).toBe(true);
+		});
+
+		spyUseFetch.mockRestore();
 	});
 
 	it('fetches data properly', async () => {

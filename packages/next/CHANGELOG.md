@@ -1,5 +1,51 @@
 # @headstartwp/next
 
+## 1.2.0
+
+### Minor Changes
+
+- 6dc435f7: Add support for archive path matching `matchArchivePath`.
+  Add support for passing a function to `customPostTypes` and `customTaxonomies` option in `headstartwp.config.js`.
+  Rename `headless.config.js` to `headstartwp.config.js` but keep backward compatibility.
+  Automatically load `headstartwp.config.js` or `headless.config.js` in `next.config.js`.
+
+### Patch Changes
+
+- Updated dependencies [6dc435f7]
+  - @headstartwp/core@1.2.0
+
+## 1.2.0-next.0
+
+### Minor Changes
+
+- 6dc435f7: Add support for archive path matching `matchArchivePath`.
+  Add support for passing a function to `customPostTypes` and `customTaxonomies` option in `headstartwp.config.js`.
+  Rename `headless.config.js` to `headstartwp.config.js` but keep backward compatibility.
+  Automatically load `headstartwp.config.js` or `headless.config.js` in `next.config.js`.
+
+### Patch Changes
+
+- Updated dependencies [6dc435f7]
+  - @headstartwp/core@1.2.0-next.0
+
+## 1.1.6
+
+### Patch Changes
+
+- 5bf90ccd: Fix loading of the headless.config.js file to prevent injecting it twice.
+
+## 1.1.6-next.0
+
+### Patch Changes
+
+- 5bf90ccd: Fix loading of the headless.config.js file to prevent injecting it twice.
+
+## 1.1.5
+
+### Patch Changes
+
+- 556aba2b: Fix previews for custom post types
+
 ## 1.1.4
 
 ### Patch Changes

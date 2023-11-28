@@ -67,7 +67,7 @@ Example where path does not match but is redirected to the right one:
 - User visits URL `/post-name`
 - The post with the `post-name` slug contains a `http://backend.com/2022/10/30/post-name` url
 - Since the URL and the path of `post.link` do not match, a NotFound error is thrown
-- If prefetching is setup following [pre-fetching](/learn/data-fetching/prefetching) and `redirectStrategy` is set to "404" or "always" in `headless.config.js`, `handleError` will then look if there's a redirect available and since WordPress redirects `/post-name` to `/2022/10/30/post-name`, the framework will also perform the redirect.
+- If prefetching is setup following [pre-fetching](/learn/data-fetching/prefetching) and `redirectStrategy` is set to "404" or "always" in `headstartwp.config.js`, `handleError` will then look if there's a redirect available and since WordPress redirects `/post-name` to `/2022/10/30/post-name`, the framework will also perform the redirect.
 
 
 ### Fetching from multiple post types
@@ -103,7 +103,7 @@ const PostOrPage = () => {
 
 ## Fetching from a custom post type
 
-To fetch a single from a custom post type, first declare the custom post type in `headless.config.js` as explained in the [headless.config.js](/learn/getting-started/headless-config#custom-post-types) section.
+To fetch a single from a custom post type, first declare the custom post type in `headstartwp.config.js` as explained in the [headstartwp.config.js](/learn/getting-started/headless-config#custom-post-types) section.
 
 ```js title="src/pages/book/[...path].js"
 import { usePost } from '@headstartwp/next';

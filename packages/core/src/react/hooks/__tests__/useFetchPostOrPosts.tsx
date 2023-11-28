@@ -1,14 +1,25 @@
 import * as React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
+import { SWRConfig } from 'swr';
 import { SettingsProvider } from '../../provider';
 import { setHeadstartWPConfig } from '../../../utils';
 import { useFetchPostOrPosts } from '../useFetchPostOrPosts';
 import { PostEntity, PostOrPostsParams } from '../../../data';
 import { useFetchPost } from '../useFetchPost';
 import { useFetchPosts } from '../useFetchPosts';
+import * as useFetchModule from '../useFetch';
+import { mockUseFetchErrorResponse } from '../mocks';
 
 describe('useFetchPostOrPosts', () => {
 	const wrapper = ({ children }) => {
+		return (
+			<SWRConfig value={{ provider: () => new Map() }}>
+				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+			</SWRConfig>
+		);
+	};
+
+	const wrapperWithCache = ({ children }) => {
 		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
 	};
 
@@ -75,6 +86,33 @@ describe('useFetchPostOrPosts', () => {
 		});
 	});
 
+	it('handles response if has error or there is no data', async () => {
+		const spyUseFetch = jest
+			.spyOn(useFetchModule, 'useFetch')
+			.mockReturnValueOnce(mockUseFetchErrorResponse);
+		const { result } = renderHook(() => useFetchPostOrPosts({}), {
+			wrapper,
+		});
+		const expectedKeys = ['error', 'loading', 'isArchive', 'isSingle', 'data', 'isMainQuery'];
+		const returnedKeys = Object.keys(result.current);
+		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
+
+		await waitFor(() => {
+			expect(missingKeys).toHaveLength(0);
+			expect(spyUseFetch).toHaveBeenCalledTimes(3); // #1 useFetch, #2 useFetchPost, #3 useFetchPosts
+			expect(result.current.error).toBe('Not found');
+			expect(result.current.loading).toBe(false);
+			expect(result.current.isArchive).toBe(false);
+			expect(result.current.isSingle).toBe(false);
+			expect(() => result.current.data).not.toThrow();
+			expect(() => result.current.data?.post!.title).toThrow();
+			expect(() => result.current.data?.posts![0].title).toThrow();
+			expect(result.current.isMainQuery).toBe(true);
+		});
+
+		spyUseFetch.mockRestore();
+	});
+
 	it('populates internal swr cache (single)', async () => {
 		const p: PostOrPostsParams = {
 			archive: { taxonomy: 'category' },
@@ -91,7 +129,7 @@ describe('useFetchPostOrPosts', () => {
 					'/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 				),
 			{
-				wrapper,
+				wrapper: wrapperWithCache,
 			},
 		);
 
@@ -109,7 +147,7 @@ describe('useFetchPostOrPosts', () => {
 					'/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 				),
 			{
-				wrapper,
+				wrapper: wrapperWithCache,
 			},
 		);
 
@@ -132,7 +170,7 @@ describe('useFetchPostOrPosts', () => {
 		};
 
 		const { result } = renderHook(() => useFetchPostOrPosts(p, undefined, '/uncategorized'), {
-			wrapper,
+			wrapper: wrapperWithCache,
 		});
 
 		await waitFor(() => {
@@ -142,7 +180,7 @@ describe('useFetchPostOrPosts', () => {
 		const { result: result2 } = renderHook(
 			() => useFetchPosts(p.archive, undefined, '/uncategorized'),
 			{
-				wrapper,
+				wrapper: wrapperWithCache,
 			},
 		);
 

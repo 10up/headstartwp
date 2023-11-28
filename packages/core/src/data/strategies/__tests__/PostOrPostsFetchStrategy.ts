@@ -183,7 +183,7 @@ describe('PostOrPostsFetchStrategy', () => {
 		);
 
 		await expect(() => fetchStrategy.fetcher('', params)).rejects.toThrow(
-			'Neither single or archive returned data: The request to /wp-json/wp/v2/posts?_embed=true&categories=distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam returned no data, Post was found but did not match current path: "/uncategorized/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam"',
+			'Neither single or archive returned data: The request to /wp-json/wp/v2/posts?_embed=true&categories=distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam returned no data, Post #54 - "https://js1.10up.com/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam/" was found but did not match current path: "/uncategorized/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam"',
 		);
 
 		// now make it work by faking full path

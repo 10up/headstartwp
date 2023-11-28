@@ -9,22 +9,49 @@ import { CacheFs } from 'next/dist/shared/lib/utils';
 import path from 'path';
 
 export function getRedisClient(lazyConnect = false) {
-	const redisUrl = process.env.NEXT_REDIS_URL;
+	const [vipHost, vipPort] = process.env.VIP_REDIS_PRIMARY?.split(':') || [undefined, undefined];
+	const host =
+		vipHost || process.env.NEXT_REDIS_URL || process.env.NEXT_REDIS_HOST || 'localhost';
+	const port = parseInt(
+		vipPort ||
+			process.env.NEXT_REDIS_PORT ||
+			process.env.REDIS_SERVICE_PORT_TCP_SENTINEL ||
+			process.env.REDIS_SERVICE_PORT_TCP_REDIS ||
+			'6379',
+		10,
+	);
+	const password = process.env.VIP_REDIS_PASSWORD || process.env.NEXT_REDIS_PASS || null;
+	const enableSentinel = !!process.env.NEXT_REDIS_SENTINEL_NAME;
+	const sentinelName = process.env.NEXT_REDIS_SENTINEL_NAME || null;
+	const sentinelPassword = process.env.NEXT_REDIS_SENTINEL_PASSWORD || null;
 
-	const endpoint = process.env.VIP_REDIS_PRIMARY;
-	const password = process.env.VIP_REDIS_PASSWORD;
+	let connectionParams = {};
 
-	if (typeof endpoint !== 'undefined' && typeof password !== 'undefined') {
-		const [host, port] = endpoint.split(':');
-		return new Redis({
-			host,
-			password,
-			port: parseInt(port, 10),
-			lazyConnect,
-		});
+	// Connection was passed in as a URL
+	if (host.indexOf('redis://') === 0) {
+		return new Redis(host, { lazyConnect });
 	}
 
-	return redisUrl ? new Redis(redisUrl, { lazyConnect }) : new Redis({ lazyConnect });
+	// We are using Redis Sentinel
+	if (enableSentinel) {
+		connectionParams = {
+			sentinels: [{ host, port }],
+			sentinelPassword,
+			password,
+			name: sentinelName,
+			lazyConnect,
+		};
+		// Normal connections
+	} else {
+		connectionParams = {
+			host,
+			port,
+			password,
+			lazyConnect,
+		};
+	}
+
+	return new Redis(connectionParams);
 }
 
 export function initRedisClient() {

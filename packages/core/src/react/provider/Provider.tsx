@@ -1,5 +1,5 @@
 import { FC, createContext, useMemo } from 'react';
-import { getHeadlessConfig } from '../../utils/getHeadlessConfig';
+import { getHeadlessConfig } from '../../utils/config';
 import { SettingsContextProps } from './types';
 
 export const SettingsContext = createContext<Partial<SettingsContextProps>>({});

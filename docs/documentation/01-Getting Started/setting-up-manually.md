@@ -22,11 +22,11 @@ and install the following packages
 npm install --save @headstartwp/core @headstartwp/next
 ```
 
-### headless.config.js
+### headstartwp.config.js
 
-Create a `headless.config.js` file at the root of your Next.js project.
+Create a `headstartwp.config.js` file at the root of your Next.js project.
 
-```js title="headless.config.js"
+```js title="headstartwp.config.js"
 /**
  * Headless Config
  *
@@ -47,7 +47,7 @@ Then create a `.env` (or `.env.local`) with the following contents:
 NEXT_PUBLIC_HEADLESS_WP_URL=https://my-wordpress.test
 ```
 
-You can call the env variable anything you want, just make sure to update `headless.config.js` accordingly.
+You can call the env variable anything you want, just make sure to update `headstartwp.config.js` accordingly.
 
 If you're developing locally and your WordPress instance uses https but does not have a valid cert, add `NODE_TLS_REJECT_UNAUTHORIZED=0` to your env variables.
 
@@ -56,8 +56,7 @@ If you're developing locally and your WordPress instance uses https but does not
 Create a `next.config.js` file with the following contents:
 
 ```js title=next.config.js
-const { withHeadlessConfig } = require('@headstartwp/next/config');
-const headlessConfig = require('./headless.config');
+const { withHeadstartWPConfig } = require('@headstartwp/next/config');
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -66,7 +65,7 @@ const headlessConfig = require('./headless.config');
  */
 const nextConfig = {};
 
-module.exports = withHeadlessConfig(nextConfig, headlessConfig);
+module.exports = withHeadstartWPConfig(nextConfig);
 ```
 
 ### pages/_app.js

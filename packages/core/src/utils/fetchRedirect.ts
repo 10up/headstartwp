@@ -1,4 +1,4 @@
-import { getHeadlessConfig } from './getHeadlessConfig';
+import { getHeadlessConfig } from './config';
 import { LOGTYPE, log } from './log';
 import { removeSourceUrl } from './removeSourceUrl';
 
