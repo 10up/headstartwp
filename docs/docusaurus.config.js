@@ -95,8 +95,8 @@ const config = {
 			require.resolve('@easyops-cn/docusaurus-search-local'),
 			{
 				indexDocs: true,
-				docsRouteBasePath: ['reference', 'docs'],
-				docsDir: ['default', 'docs'],
+				docsRouteBasePath: ['api', 'learn'],
+				docsDir: ['documentation', 'docs'],
 				hashed: true,
 			},
 		],
