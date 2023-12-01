@@ -1,8 +1,7 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
-import { ModifySourcePlugin, ConcatOperation } from 'modify-source-webpack-plugin';
-import path from 'path';
 import fs from 'fs';
+import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -17,33 +16,6 @@ const isPackageInstalled = (packageName: string): boolean => {
 
 	return false;
 };
-
-/**
- * Stringify an object, including functions
- *
- * @param obj A JavaScript object
- *
- * @returns
- */
-export function toStringWithFunctions(obj: Record<string, any>) {
-	const placeholder = '____HEADSTARTWP_FUNCTION_PLACEHOLDER____';
-	const fns: Array<any> = [];
-	let json = JSON.stringify(
-		obj,
-		function (key, value) {
-			if (typeof value === 'function') {
-				fns.push(value);
-				return placeholder;
-			}
-			return value;
-		},
-		2,
-	);
-	json = json.replace(new RegExp(`"${placeholder}"`, 'g'), function () {
-		return fns.shift();
-	});
-	return json;
-}
 
 function traverse(rules) {
 	for (const rule of rules) {
@@ -80,17 +52,29 @@ function traverse(rules) {
  *
  * @param {object} nextConfig The nextjs config object
  * @param {object} headlessConfig The headless config
- * @param withHeadlessConfigOptions
+ * @param withHeadstarWPConfigOptions
  * @returns
  */
-export function withHeadlessConfig(
+export function withHeadstartWPConfig(
 	nextConfig: NextConfig = {},
 	headlessConfig: HeadlessConfig = {},
-	withHeadlessConfigOptions: { injectConfig: boolean } = { injectConfig: true },
+	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ): NextConfig {
+	const headlessConfigPath = `${process.cwd()}/headless.config.js`;
+	const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
+
+	const configPath = fs.existsSync(headstartWpConfigPath)
+		? headstartWpConfigPath
+		: headlessConfigPath;
+
+	if (Object.keys(headlessConfig).length === 0) {
+		// eslint-disable-next-line
+		headlessConfig = require(configPath);
+	}
+
 	if (!headlessConfig.sourceUrl && !headlessConfig.sites) {
 		throw new ConfigError(
-			'Missing sourceUrl in headless.config.js. Please add it to your headless.config.js file.',
+			'Missing sourceUrl in headstartwp.config.js (or headless.config.js). Please add it to your config file.',
 		);
 	}
 
@@ -182,42 +166,17 @@ export function withHeadlessConfig(
 
 		webpack: (config, options) => {
 			const importSetHeadlessConfig = `
-				import { setHeadstartWPConfig } from '@headstartwp/core/utils';
-				setHeadstartWPConfig(${toStringWithFunctions(headlessConfig)});
+				import { setHeadstartWPConfig as __setHeadstartWPConfig } from '@headstartwp/core/utils';
+				import __headlessConfig from '${configPath}';
+				__setHeadstartWPConfig(__headlessConfig);
 			`;
-
-			// clear webpack cache whenever headless.config.js changes or one of the env files
-			if (Array.isArray(config.cache.buildDependencies.config)) {
-				const [nextConfigPath] = config.cache.buildDependencies.config;
-
-				const headlessConfigPath = path.resolve(nextConfigPath, '../headless.config.js');
-				const envLocalPath = path.resolve(nextConfigPath, '../.env.local');
-				const envPath = path.resolve(nextConfigPath, '../.env');
-				const envDevPath = path.resolve(nextConfigPath, '../.env.development');
-
-				if (fs.existsSync(headlessConfigPath)) {
-					config.cache.buildDependencies.config.push(headlessConfigPath);
-				}
-
-				if (fs.existsSync(envLocalPath)) {
-					config.cache.buildDependencies.config.push(envLocalPath);
-				}
-
-				if (fs.existsSync(envPath)) {
-					config.cache.buildDependencies.config.push(envPath);
-				}
-
-				if (fs.existsSync(envDevPath)) {
-					config.cache.buildDependencies.config.push(envDevPath);
-				}
-			}
 
 			config.plugins.push(
 				new ModifySourcePlugin({
 					rules: [
 						{
 							test: (normalModule) => {
-								if (!withHeadlessConfigOptions.injectConfig) {
+								if (!withHeadstarWPConfigOptions.injectConfig) {
 									return false;
 								}
 
@@ -278,4 +237,12 @@ export function withHeadlessConfig(
 			return config;
 		},
 	};
+}
+
+export function withHeadlessConfig(
+	nextConfig: NextConfig = {},
+	headlessConfig: HeadlessConfig = {},
+	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
+) {
+	return withHeadstartWPConfig(nextConfig, headlessConfig, withHeadstarWPConfigOptions);
 }

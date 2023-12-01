@@ -681,4 +681,66 @@ describe('SinglePostFetchStrategy', () => {
 			result: {},
 		});
 	});
+
+	it('handles basic auth', async () => {
+		const samplePost = { title: 'test', id: 1, link: '/2021/10/post-name' };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePost],
+		});
+
+		process.env.WP_BASIC_AUTH_PASSWORD = 'test';
+		process.env.WP_BASIC_AUTH_USERNAME = 'admin';
+
+		const params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{
+				headers: {
+					Authorization: 'Basic YWRtaW46dGVzdA==',
+				},
+			},
+			false,
+		);
+	});
+
+	it('handles basic auth and bearer token', async () => {
+		const samplePost = { title: 'test', id: 1, link: '/2021/10/post-name' };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePost],
+		});
+
+		process.env.WP_BASIC_AUTH_PASSWORD = 'test';
+		process.env.WP_BASIC_AUTH_USERNAME = 'admin';
+
+		const params = fetchStrategy.getParamsFromURL('/2021/10/post-name');
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+			bearerToken: 'bearer token',
+		});
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts?slug=post-name',
+			{
+				headers: {
+					Authorization: 'Basic YWRtaW46dGVzdA==, Bearer bearer token',
+				},
+			},
+			false,
+		);
+	});
 });

@@ -1,1 +1,1 @@
-export * from './withHeadlessConfig';
+export * from './withHeadstartWPConfig';
