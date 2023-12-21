@@ -64,6 +64,12 @@ class CacheFlush {
 			return;
 		}
 
+		// check if we should revalidate isr for this post particularly
+		$should_revalidate_isr = apply_filters( 'tenup_headless_wp_revalidate_isr_for_post', true, $post_id, $post );
+		if ( ! $should_revalidate_isr ) {
+			return;
+		}
+
 		/**
 		 * Checks whether the revalidation should run in a cron job.
 		 *
