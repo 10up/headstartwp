@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.11-next.0
+
+### Patch Changes
+
+- 18d09388: Added - New filter available tenup_headless_wp_revalidate_isr_for_post
+
 ## 1.0.10
 
 ### Patch Changes
