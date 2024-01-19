@@ -174,21 +174,21 @@ class YoastSEO {
 	 *
 	 * @return boolean|array False if it's not a yoast search rest api request. Search $query_vars if otherwise.
 	 */
-	public function get_yoast_get_head_search_query_vars() {
+	public function get_yoast_search_query_vars() {
 
-		if ( ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ! class_exists( 'WPSEO_Utils' ) ) {
+		if ( ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 			return false;
 		}
 
-		$request_uri = \WPSEO_Utils::sanitize_url( $_SERVER['REQUEST_URI'] );
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
 		if ( false === strpos( $request_uri, '/yoast/v1/get_head' ) ) {
 			return false;
 		}
 
-		$url_param = \WPSEO_Utils::sanitize_url( $_GET['url'] );
+		$url_param = isset( $_GET['url'] ) ? sanitize_url( wp_unslash( $_GET['url'] ) ) : '';
 
-		if ( ! empty( $url_param ) ) {
+		if ( filter_var( $url_param, FILTER_VALIDATE_URL ) !== false ) {
 			$query = wp_parse_url( $url_param, PHP_URL_QUERY );
 			parse_str( $query, $query_vars );
 
@@ -217,10 +217,10 @@ class YoastSEO {
 		$str_replace_mapping = apply_filters(
 			'tenup_headless_wp_search_title_variables_replacments',
 			array(
-				'%%sitename%%' => get_bloginfo( 'name' ),
+				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				' %%page%%' => '',
-				'%%sep%%' => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
+				' %%page%%'        => '',
+				'%%sep%%'          => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
 			)
 		);
 
@@ -235,7 +235,7 @@ class YoastSEO {
 	 */
 	public function override_search_title( $title ) {
 
-		$search_request_query_vars = $this->get_yoast_get_head_search_query_vars();
+		$search_request_query_vars = $this->get_yoast_search_query_vars();
 
 		if ( ! $search_request_query_vars ) {
 			return $title;
@@ -271,7 +271,7 @@ class YoastSEO {
 	 * @return string
 	 */
 	public function override_search_canonical( $canonical ) {
-		if ( $this->get_yoast_get_head_search_query_vars() ) {
+		if ( $this->get_yoast_search_query_vars() ) {
 				$canonical .= apply_filters( 'tenup_headless_wp_search_route', 'search' );
 		}
 		return $canonical;
