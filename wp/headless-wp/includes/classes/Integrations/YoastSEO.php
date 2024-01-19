@@ -263,8 +263,8 @@ class YoastSEO {
 	}
 
 	/**
-	 * Yoast doesn't typically have a canonical for search and returns URL as the homepage URL. Generally https://gus.test/?s=test
-	 * But with headstartwp nextjs app tipically there is a route for search page.
+	 * Yoast doesn't  have a canonical for search and returns URL as the homepage URL. Generally https://gus.test/?s=test
+	 * But with headstartwp nextjs app usually there is a route for search page.
 	 * Default is 'search'.
 	 *
 	 * @param string $canonical The canonical URL.
@@ -272,8 +272,10 @@ class YoastSEO {
 	 */
 	public function override_search_canonical( $canonical ) {
 		if ( $this->get_yoast_search_query_vars() ) {
-				$canonical .= apply_filters( 'tenup_headless_wp_search_route', 'search' );
+			$search_route = apply_filters( 'tenup_headless_wp_search_route', 'search' );
+			$canonical = rtrim( $canonical, '/' ) . '/' . $search_route;
 		}
+
 		return $canonical;
 	}
 }
