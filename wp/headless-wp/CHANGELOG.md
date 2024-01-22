@@ -1,5 +1,17 @@
 # @headstartwp/headstartwp
 
+## 1.0.12
+
+### Patch Changes
+
+- f18be490: Ensure htmlspecialchars receives an empty string instead of null to fix deprecation warnings.
+
+## 1.0.11
+
+### Patch Changes
+
+- 18d09388: Added - New filter available tenup_headless_wp_revalidate_isr_for_post
+
 ## 1.0.10
 
 ### Patch Changes
