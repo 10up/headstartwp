@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.12
+
+### Patch Changes
+
+- f18be490: Ensure htmlspecialchars receives an empty string instead of null to fix deprecation warnings.
+
 ## 1.0.11
 
 ### Patch Changes
