@@ -1,12 +1,7 @@
-import {
-	CacheHandler,
-	CacheHandlerContext,
-	CacheHandlerValue,
-} from 'next/dist/server/lib/incremental-cache';
-import { IncrementalCacheValue } from 'next/dist/server/response-cache';
-import Redis from 'ioredis';
-import { CacheFs } from 'next/dist/shared/lib/utils';
-import path from 'path';
+import { createClient } from 'redis';
+import { IncrementalCache } from '@neshca/cache-handler';
+import createRedisCache from '@neshca/cache-handler/redis-strings';
+import createLruCache from '@neshca/cache-handler/local-lru';
 
 export function getRedisClient(lazyConnect = false) {
 	const [vipHost, vipPort] = process.env.VIP_REDIS_PRIMARY?.split(':') || [undefined, undefined];
@@ -28,8 +23,8 @@ export function getRedisClient(lazyConnect = false) {
 	let connectionParams = {};
 
 	// Connection was passed in as a URL
-	if (host.indexOf('redis://') === 0) {
-		return new Redis(host, { lazyConnect });
+	if (host.indexOf('redis://') === 0 || host.indexOf('rediss://') === 0) {
+		return createClient({ url: host });
 	}
 
 	// We are using Redis Sentinel
@@ -51,132 +46,37 @@ export function getRedisClient(lazyConnect = false) {
 		};
 	}
 
-	return new Redis(connectionParams);
+	return createClient(connectionParams);
 }
 
-export function initRedisClient() {
-	globalThis._nextRedisProviderRedisClient = getRedisClient();
-}
+const client = getRedisClient();
 
-export default class RedisCache implements CacheHandler {
-	private flushToDisk?: boolean;
+client.on('error', (error) => {
+	console.error('Redis error:', error);
+});
 
-	private fs?: CacheFs;
+IncrementalCache.onCreation(async () => {
+	// read more about TTL limitations https://caching-tools.github.io/next-shared-cache/configuration/ttl
+	const useTtl = false;
 
-	/**
-	 * The build ID of the current build
-	 */
-	private BUILD_ID?: string;
+	await client.connect();
 
-	/**
-	 * The server dist directory
-	 */
-	private serverDistDir?: string;
+	const redisCache = await createRedisCache({
+		client,
+		useTtl,
+		// timeout for the Redis client operations like `get` and `set`
+		// afeter this timeout, the operation will be considered failed and the `localCache` will be used
+		timeoutMs: 5000,
+	});
 
-	/**
-	 * The Redis client
-	 */
-	private redisClient: Redis;
+	const localCache = createLruCache({
+		useTtl,
+	});
 
-	private lazyConnect: boolean = false;
+	return {
+		cache: [redisCache, localCache],
+		useFileSystem: !useTtl,
+	};
+});
 
-	constructor(ctx: CacheHandlerContext) {
-		this.flushToDisk = ctx.flushToDisk;
-		this.fs = ctx.fs;
-		this.serverDistDir = ctx.serverDistDir;
-		this.redisClient = this.getRedisClient();
-	}
-
-	/**
-	 * Builds a Redis Client based on the environment variables
-	 *
-	 * If VIP_REDIS_PRIMARY and VIP_REDIS_PASSWORD are set, it will use those, otherwise
-	 * it will use NEXT_REDIS_URL
-	 *
-	 * @returns Redis client
-	 */
-	public getRedisClient() {
-		if (typeof globalThis._nextRedisProviderRedisClient !== 'undefined') {
-			this.lazyConnect = false;
-			return globalThis._nextRedisProviderRedisClient;
-		}
-
-		this.lazyConnect = true;
-		return getRedisClient(this.lazyConnect);
-	}
-
-	/**
-	 * Gets an unique build id from the BUILD_ID file
-	 *
-	 * @returns The build ID from the BUILD_ID file
-	 */
-	public async getBuildId() {
-		if (!this.fs || !this.serverDistDir) {
-			return '';
-		}
-
-		if (this.BUILD_ID) {
-			return this.BUILD_ID;
-		}
-
-		try {
-			const BUILD_ID = await this.fs.readFile(
-				path.join(path.dirname(this.serverDistDir), 'BUILD_ID'),
-			);
-			return BUILD_ID;
-		} catch (e) {
-			return '';
-		}
-	}
-
-	public async get(key: string, fetchCache?: boolean): Promise<CacheHandlerValue | null> {
-		if (fetchCache) {
-			return null;
-		}
-
-		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([
-			this.getBuildId(),
-			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
-		]);
-		const value = await this.redisClient.get(`${BUILD_ID}:${key}`);
-
-		if (this.lazyConnect) {
-			this.redisClient.disconnect();
-		}
-
-		if (!value) {
-			return null;
-		}
-
-		return JSON.parse(value) as CacheHandlerValue;
-	}
-
-	public async set(
-		key: string,
-		data: IncrementalCacheValue | null,
-		fetchCache?: boolean,
-	): Promise<void> {
-		if (!this.flushToDisk || !data || fetchCache) return;
-
-		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([
-			this.getBuildId(),
-			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
-		]);
-
-		await this.redisClient.set(
-			`${BUILD_ID}:${key}`,
-			JSON.stringify({ lastModified: Date.now(), value: data }),
-		);
-
-		if (this.lazyConnect) {
-			this.redisClient.disconnect();
-		}
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async revalidateTag(_tag: string): Promise<void> {
-		// do nothing
-	}
-}
+export default IncrementalCache;
