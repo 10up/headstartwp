@@ -135,7 +135,7 @@ export default class RedisCache implements CacheHandler {
 		...args: Parameters<IncrementalCache['get']>
 	): Promise<CacheHandlerValue | null> {
 		const [key, ctx] = args;
-		if (ctx?.fetchIdx || ctx?.fetchIdx) {
+		if (ctx?.fetchIdx || ctx?.fetchUrl) {
 			return null;
 		}
 
