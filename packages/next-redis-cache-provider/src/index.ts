@@ -2,8 +2,8 @@ import {
 	CacheHandler,
 	CacheHandlerContext,
 	CacheHandlerValue,
+	IncrementalCache,
 } from 'next/dist/server/lib/incremental-cache';
-import { IncrementalCacheValue } from 'next/dist/server/response-cache';
 import Redis from 'ioredis';
 import { CacheFs } from 'next/dist/shared/lib/utils';
 import path from 'path';
@@ -87,6 +87,8 @@ export default class RedisCache implements CacheHandler {
 		this.redisClient = this.getRedisClient();
 	}
 
+	resetRequestCache(): void {}
+
 	/**
 	 * Builds a Redis Client based on the environment variables
 	 *
@@ -129,8 +131,11 @@ export default class RedisCache implements CacheHandler {
 		}
 	}
 
-	public async get(key: string, fetchCache?: boolean): Promise<CacheHandlerValue | null> {
-		if (fetchCache) {
+	public async get(
+		...args: Parameters<IncrementalCache['get']>
+	): Promise<CacheHandlerValue | null> {
+		const [key, ctx] = args;
+		if (ctx?.fetchIdx || ctx?.fetchIdx) {
 			return null;
 		}
 
@@ -152,12 +157,10 @@ export default class RedisCache implements CacheHandler {
 		return JSON.parse(value) as CacheHandlerValue;
 	}
 
-	public async set(
-		key: string,
-		data: IncrementalCacheValue | null,
-		fetchCache?: boolean,
-	): Promise<void> {
-		if (!this.flushToDisk || !data || fetchCache) return;
+	public async set(...args: Parameters<IncrementalCache['set']>): Promise<void> {
+		const [key, data, ctx] = args;
+
+		if (!this.flushToDisk || !data || ctx.fetchCache) return;
 
 		// get build id and connect to redis
 		const [BUILD_ID] = await Promise.all([

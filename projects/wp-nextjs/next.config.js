@@ -32,8 +32,6 @@ if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
 	// eslint-disable-next-line global-require
 	const { initRedisClient } = require('@10up/next-redis-cache-provider');
 	initRedisClient();
-	nextConfig.experimental = {
-		incrementalCacheHandlerPath: require.resolve('@10up/next-redis-cache-provider'),
-	};
+	nextConfig.cacheHandler = require.resolve('@10up/next-redis-cache-provider');
 }
 module.exports = withBundleAnalyzer(withHeadstartWPConfig(nextConfig));
