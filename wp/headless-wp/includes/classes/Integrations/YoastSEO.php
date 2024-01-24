@@ -180,13 +180,14 @@ class YoastSEO {
 			return false;
 		}
 
-		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
 		if ( false === strpos( $request_uri, '/yoast/v1/get_head' ) ) {
 			return false;
 		}
 
-		$url_param = isset( $_GET['url'] ) ? sanitize_url( wp_unslash( $_GET['url'] ) ) : '';
+		$url_param = isset( $_GET['url'] ) ? esc_url( wp_unslash( $_GET['url'] ) ) : '';
+
 
 		if ( filter_var( $url_param, FILTER_VALIDATE_URL ) !== false ) {
 			$query = wp_parse_url( $url_param, PHP_URL_QUERY );
@@ -194,6 +195,12 @@ class YoastSEO {
 
 			// Return query vars if search request.
 			if ( isset( $query_vars['s'] ) ) {
+				// Get page number into the query vars to build the title.
+				preg_match( '/\/page\/(\d+)/', $url_param, $matches );
+				if ( ! empty( $matches ) ) {
+					$query_vars['page'] = (int) $matches[1] ;
+				}
+
 				return apply_filters( 'tenup_headless_wp_search_request_query_vars', $query_vars );
 			}
 		}
@@ -204,8 +211,6 @@ class YoastSEO {
 	/**
 	 * Custom helper to replace Yoast search title placeholders.
 	 * Assuming only some of the basic variables.
-	 *
-	 * @todo Support for page number.
 	 *
 	 * @param string $title The search SEO title
 	 * @param array  $query_vars The search query vars.
@@ -219,7 +224,7 @@ class YoastSEO {
 			array(
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				' %%page%%'        => '',
+				' %%page%%'        => ! empty( $query_vars['page'] ) ? sprintf(' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
 				'%%sep%%'          => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
 			)
 		);
