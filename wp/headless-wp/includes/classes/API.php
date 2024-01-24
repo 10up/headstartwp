@@ -98,7 +98,7 @@ class API {
 			return $args;
 		}
 
-		$author = htmlspecialchars( filter_input( INPUT_GET, 'author' ) );
+		$author = htmlspecialchars( filter_input( INPUT_GET, 'author' ) ?? '' );
 
 		if ( ! empty( $author ) && ! is_numeric( $author ) ) {
 			unset( $args['author__in'] );
@@ -108,10 +108,10 @@ class API {
 		$taxonomies = wp_list_filter( get_object_taxonomies( $args['post_type'], 'objects' ), [ 'show_in_rest' => true ] );
 
 		foreach ( $taxonomies as $taxonomy ) {
-			$term = htmlspecialchars( filter_input( INPUT_GET, $taxonomy->name ) );
+			$term = htmlspecialchars( filter_input( INPUT_GET, $taxonomy->name ) ?? '' );
 
 			if ( ! $term ) {
-				$term = htmlspecialchars( filter_input( INPUT_GET, $taxonomy->rest_base ) );
+				$term = htmlspecialchars( filter_input( INPUT_GET, $taxonomy->rest_base ) ?? '' );
 			}
 
 			if ( ! empty( $term ) && ! is_numeric( $term ) ) {
