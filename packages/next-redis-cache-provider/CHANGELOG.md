@@ -1,5 +1,11 @@
 # @10up/next-redis-cache-provider
 
+## 1.0.0
+
+### Major Changes
+
+- 6956fbb8: Suport for >= Next.js 13.5
+
 ## 1.0.0-next.0
 
 ### Major Changes
