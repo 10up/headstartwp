@@ -24,7 +24,8 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 		$links = parent::prepare_item_links( $id );
 
 		// Add author link
-		if ( isset( $post->post_author ) ) {
+		if ( ( in_array( $post->post_type, array( 'post', 'page' ), true ) || post_type_supports( $post->post_type, 'author' ) )
+			&& ! empty( $post->post_author ) ) {
 			$links['author'] = array(
 				array(
 					'href'       => rest_url( 'wp/v2/users/' . $post->post_author ),
@@ -34,27 +35,41 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 		}
 
 		// Add terms link (wp:term)
-		$taxonomies = get_object_taxonomies( $post->post_type, 'objects' );
-		foreach ( $taxonomies as $taxonomy ) {
-			$terms = wp_get_post_terms( $post->ID, $taxonomy->name );
+		$taxonomies = get_object_taxonomies( $post->post_type );
 
-			if ( ! empty( $terms ) ) {
-				$links['wp:term'][] = array(
-					'href'       => add_query_arg( 'post', $post->ID, rest_url( 'wp/v2/' . $taxonomy->rest_base ) ),
-					'taxonomy'   => $taxonomy->rest_base,
+		if ( ! empty( $taxonomies ) ) {
+			$links['https://api.w.org/term'] = array();
+
+			foreach ( $taxonomies as $tax ) {
+				$taxonomy_route = rest_get_route_for_taxonomy_items( $tax );
+
+				// Skip taxonomies that are not public.
+				if ( empty( $taxonomy_route ) ) {
+					continue;
+				}
+
+				$terms_url = add_query_arg(
+					'post',
+					$post->ID,
+					rest_url( $taxonomy_route )
+				);
+
+				$links['https://api.w.org/term'][] = array(
+					'href'       => $terms_url,
+					'taxonomy'   => $tax,
 					'embeddable' => true,
 				);
 			}
 		}
 
 		// Add wp:featuredmedia link
-		$featured_media_id = get_post_thumbnail_id( $post->ID );
-		if ( ! empty( $featured_media_id ) ) {
-			$links['wp:featuredmedia'] = array(
-				array(
-					'href'       => rest_url( 'wp/v2/media/' . $featured_media_id ),
-					'embeddable' => true,
-				),
+		$featured_media = get_post_thumbnail_id( $post->ID );
+		if ( $featured_media ) {
+			$image_url = rest_url( rest_get_route_for_post( $featured_media ) );
+
+			$links['https://api.w.org/featuredmedia'] = array(
+				'href'       => $image_url,
+				'embeddable' => true,
 			);
 		}
 

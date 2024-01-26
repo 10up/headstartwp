@@ -30,6 +30,10 @@ export function getPostTerms(post: PostEntity): Record<string, TermEntity[]> {
 	}
 
 	post._embedded['wp:term'].forEach((taxonomy) => {
+		if (!Array.isArray(taxonomy)) {
+			return;
+		}
+
 		taxonomy.forEach((term) => {
 			const taxonomySlug = term.taxonomy;
 

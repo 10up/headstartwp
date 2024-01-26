@@ -1,5 +1,5 @@
 import {
-	useSearch,
+	useSearchNative,
 	fetchHookData,
 	addHookData,
 	handleError,
@@ -10,7 +10,7 @@ import { searchParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 
 const SearchPage = () => {
-	const { data } = useSearch(searchParams);
+	const { data } = useSearchNative(searchParams);
 
 	if (data.pageInfo.totalItems === 0) {
 		return 'Nothing found';
@@ -22,8 +22,8 @@ const SearchPage = () => {
 			<ul>
 				{data.posts.map((item) => (
 					<li key={item.id}>
-						<Link href={item.link}>
-							{item.id} - {item.title.rendered}
+						<Link href={item.url}>
+							{item.id} - {item.title}
 						</Link>
 					</li>
 				))}
@@ -38,7 +38,7 @@ export async function getServerSideProps(context) {
 	try {
 		const settledPromises = await resolveBatch([
 			{
-				func: fetchHookData(useSearch.fetcher(), context, { params: searchParams }),
+				func: fetchHookData(useSearchNative.fetcher(), context, { params: searchParams }),
 			},
 			{
 				func: fetchHookData(useAppSettings.fetcher(), context),
