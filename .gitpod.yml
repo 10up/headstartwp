@@ -1,6 +1,15 @@
 image:
   file: .gitpod.Dockerfile
 tasks:
+  - name: Start Redis Stack
+    init: |
+     docker-compose pull
+    command: |
+     alias redis-cli="docker exec -it redis-stack redis-cli" 
+     echo "Use redis-cli to interact with Redis here."
+     docker-compose up -d
+     gp sync-done finished
+    openMode: split-left
   - name: Start dev server
     init: npm install
     command: npm run dev
