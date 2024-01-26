@@ -14,6 +14,7 @@
     "@headstartwp/headstartwp": "1.0.12"
   },
   "changesets": [
+    "serious-feet-kick",
     "wicked-bats-lay"
   ]
 }
