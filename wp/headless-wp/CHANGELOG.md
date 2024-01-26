@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.0.13
+
+### Patch Changes
+
+- d33ffc48: Override Yoast head values to fix seo data for search results page.
+
 ## 1.0.12
 
 ### Patch Changes
