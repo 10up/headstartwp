@@ -115,7 +115,7 @@ class API {
 			if ( ! empty( $term ) && ! is_numeric( $term ) ) {
 				if ( isset( $args['tax_query'] ) ) {
 					$args['tax_query'][0]['field'] = 'slug';
-					$args['tax_query']             = array_map(
+					$args['tax_query']             = array_map( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						function ( $tax_query ) use ( $taxonomy ) {
 							if ( $tax_query['taxonomy'] === $taxonomy->name ) {
 								$tax_query['field'] = 'slug';
