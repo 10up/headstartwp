@@ -275,9 +275,12 @@ class Plugin {
 			return;
 		}
 
-		$setting_url = admin_url( 'options-general.php#site_react_url' );
-		$message     = sprintf( __( '<strong>Notice:</strong> Headless Site Address Setting Not Entered. | <a href="%s">Fix setting</a>', 'headless-wp' ), esc_url( $setting_url ) );
-
-		printf( '<div class="notice notice-warning"><p>%1$s</p></div>', wp_kses_post( $message ) );
+		printf(
+			'<div class="notice notice-warning"><p><strong>%s:</strong> %s <a href="%s">%s</a></p></div>',
+			esc_html__( 'Notice', 'headless-wp' ),
+			esc_html__( 'Headless Site Address is not entered.', 'headless-wp' ),
+			esc_url( admin_url( 'options-general.php#site_react_url' ) ),
+			esc_html__( 'Fix the setting.', 'headless-wp' )
+		);
 	}
 }
