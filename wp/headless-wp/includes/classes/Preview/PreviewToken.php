@@ -57,7 +57,7 @@ class PreviewToken extends BaseToken {
 		}
 		// Prevent using the token for requests that are GET, but use the
 		// `_method` query to override the method.
-		if ( isset( $_GET['_method'] ) && 'GET' !== $_GET['_method'] ) {
+		if ( isset( $_GET['_method'] ) && 'GET' !== $_GET['_method'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return false;
 		}
 		// Prevent using the token for requests that are GET, but use the
