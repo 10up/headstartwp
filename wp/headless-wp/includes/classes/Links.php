@@ -89,7 +89,7 @@ class Links {
 	 * @param string $orig_scheme The orig scheme
 	 * @return string
 	 */
-	public function filter_home_url( $home_url, $path, $orig_scheme ) {
+	public function filter_home_url( $home_url, $path, $orig_scheme ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 		$url = Plugin::get_react_url();
 
 		if ( empty( $url ) ) {
