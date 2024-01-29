@@ -55,7 +55,6 @@ class API {
 			add_filter( "rest_{$post_type}_query", array( $this, 'modify_rest_params' ), 10, 2 );
 			add_filter( "rest_{$post_type}_collection_params", [ $this, 'modify_rest_params_schema' ], 10, 2 );
 		}
-
 	}
 
 	/**
@@ -118,7 +117,7 @@ class API {
 				if ( isset( $args['tax_query'] ) ) {
 					$args['tax_query'][0]['field'] = 'slug';
 					$args['tax_query']             = array_map(
-						function( $tax_query ) use ( $taxonomy ) {
+						function ( $tax_query ) use ( $taxonomy ) {
 							if ( $tax_query['taxonomy'] === $taxonomy->name ) {
 								$tax_query['field'] = 'slug';
 								return $tax_query;
@@ -140,5 +139,4 @@ class API {
 
 		return $args;
 	}
-
 }

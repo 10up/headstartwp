@@ -96,7 +96,7 @@ class Plugin {
 		add_settings_field(
 			'site_react_url',
 			esc_html__( 'Headless Frontend URL', 'headless-wp' ),
-			function() { ?>
+			function () { ?>
 				<input
 					type = "url"
 					placeholder = "https://"
@@ -120,7 +120,7 @@ class Plugin {
 		add_settings_field(
 			'headless_site_locale',
 			esc_html__( 'Headless Multisite Locale (optional)', 'headless-wp' ),
-			function() {
+			function () {
 				?>
 				<input
 					type="text"
@@ -280,5 +280,4 @@ class Plugin {
 
 		printf( '<div class="notice notice-warning"><p>%1$s</p></div>', wp_kses_post( $message ) );
 	}
-
 }

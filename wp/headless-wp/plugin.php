@@ -40,7 +40,7 @@ if ( file_exists( HEADLESS_WP_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
 	require_once HEADLESS_WP_PLUGIN_PATH . 'vendor/autoload.php';
 } else {
 	spl_autoload_register(
-		function( $class ) {
+		function ( $class ) {
 				// Project-specific namespace prefix.
 				$prefix = 'HeadlessWP\\';
 				// Base directory for the namespace prefix.
@@ -66,7 +66,7 @@ $plugin->register();
 
 add_action(
 	'rest_api_init',
-	function() {
+	function () {
 		PreviewToken::setup();
 	}
 );

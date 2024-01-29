@@ -180,5 +180,4 @@ class Gutenberg {
 			$block_instance
 		);
 	}
-
 }

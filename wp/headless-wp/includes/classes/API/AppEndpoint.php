@@ -39,7 +39,6 @@ class AppEndpoint {
 		// Clear the cache for this endpoint when posts and options are saved
 		add_action( 'save_post', [ $this, 'invalidate_cache' ] );
 		add_action( 'update_option', [ $this, 'maybe_invalidate_cache' ] );
-
 	}
 
 	/**
@@ -214,7 +213,6 @@ class AppEndpoint {
 		}
 
 		return $filtered_menu;
-
 	}
 
 	/**

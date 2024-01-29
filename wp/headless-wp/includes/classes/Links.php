@@ -39,7 +39,7 @@ class Links {
 	public function create_taxonomy_rewrites( $array ) {
 
 		// When set_taxonomy_rewrites_disabled true, bypasses these custom endpoint rewrite rules
-		if ( true === apply_filters( __function__ . '_disabled', false ) ) {
+		if ( true === apply_filters( __FUNCTION__ . '_disabled', false ) ) {
 			return $array;
 		}
 

@@ -74,13 +74,13 @@ class YoastSEO {
 	 * @param  array $links Array of links to be shown in sitemap.
 	 * @return array        Modified array of links to be shown in sitemap.
 	 */
-	public function maybe_override_sitemap_index_links( array $links ) : array {
+	public function maybe_override_sitemap_index_links( array $links ): array {
 		if ( ! $this->should_rewrite_urls() ) {
 			return $links;
 		}
 
 		return array_map(
-			function( $link ) {
+			function ( $link ) {
 				// Bail, if we don't have loc.
 				if ( empty( $link['loc'] ) ) {
 					return $link;
@@ -106,7 +106,7 @@ class YoastSEO {
 	 * @param  array  $link Link for which the url xml markup is rendered.
 	 * @return string       Modified XML markup for url for the given link in sitemap.
 	 */
-	public function maybe_override_sitemap_url( string $xml, array $link ) : string {
+	public function maybe_override_sitemap_url( string $xml, array $link ): string {
 		if ( ! $this->should_rewrite_urls() ) {
 			return $xml;
 		}
@@ -277,7 +277,7 @@ class YoastSEO {
 	public function override_search_canonical( $canonical ) {
 		if ( $this->get_yoast_search_query_vars() ) {
 			$search_route = apply_filters( 'tenup_headless_wp_search_route', 'search' );
-			$canonical = rtrim( $canonical, '/' ) . '/' . $search_route;
+			$canonical    = rtrim( $canonical, '/' ) . '/' . $search_route;
 		}
 
 		return $canonical;
