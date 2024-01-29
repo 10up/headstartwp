@@ -52,10 +52,14 @@ abstract class BaseToken {
 		// No secure auth key found. Throw an error.
 		$error = new \WP_Error(
 			'no-secure-auth-key',
-			'Please define either SECURE_AUTH_KEY or TENUP_HEADLESS_JWT_AUTH_KEY in your wp-config.php file.'
+			__( 'Please define either SECURE_AUTH_KEY or TENUP_HEADLESS_JWT_AUTH_KEY in your wp-config.php file.', 'headless-wp' )
 		);
 
-		throw new \Exception( $error->get_error_message() );
+		throw new \Exception(
+			wp_kses_post(
+				$error->get_error_message()
+			)
+		);
 	}
 
 	/**
