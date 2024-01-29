@@ -52,7 +52,7 @@ class API {
 		);
 
 		foreach ( $post_types as $post_type ) {
-			add_filter( "rest_{$post_type}_query", array( $this, 'modify_rest_params' ), 10, 2 );
+			add_filter( "rest_{$post_type}_query", array( $this, 'modify_rest_params' ), 10, 1 );
 			add_filter( "rest_{$post_type}_collection_params", [ $this, 'modify_rest_params_schema' ], 10, 2 );
 		}
 	}
@@ -89,10 +89,9 @@ class API {
 	 * This is passed via the URL via ?<taxonomy>=term, eg ?category=category-slug
 	 *
 	 * @param array  - $args The Rest Args
-	 * @param object - $request The Request Object
 	 * @return array - array of args
 	 */
-	public function modify_rest_params( $args, $request ) {
+	public function modify_rest_params( $args ) {
 		if ( empty( $args['post_type'] ) ) {
 			return $args;
 		}
