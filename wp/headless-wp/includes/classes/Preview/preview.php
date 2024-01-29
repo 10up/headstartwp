@@ -38,5 +38,5 @@ $preview_url = sprintf(
 	$locale
 );
 
-wp_redirect( $preview_url );
+wp_safe_redirect( $preview_url );
 die();
