@@ -101,7 +101,7 @@ class PreviewToken extends BaseToken {
 
 		// If it is a global capability, check if it is included as value.
 		list( $cap ) = $args;
-		return in_array( $cap, $capabilities );
+		return in_array( $cap, $capabilities, true );
 	}
 
 	/**
