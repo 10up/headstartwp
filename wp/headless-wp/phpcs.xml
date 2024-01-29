@@ -1,7 +1,30 @@
 <?xml version="1.0"?>
 <ruleset name="10up PHPCS">
-	<description>10up PHPCS extended.</description>
+	<!-- How to scan -->
+	<rule ref="10up-Default" />
+
+	<!-- What to scan -->
+	<file>.</file>
+
+	<!-- What to ignore -->
 	<ini name="error_reporting" value="E_ALL &#38; ~E_DEPRECATED" />
 
-	<rule ref="10up-Default" />
+	<!-- Options -->
+	<arg value="sp"/>
+	<arg name="colors"/>
+	<arg name="basepath" value="."/>
+
+	<!-- Disallowed functions -->
+	<rule ref="Generic.PHP.ForbiddenFunctions">
+	<properties>
+		<property name="forbiddenFunctions" type="array">
+			<element key="eval" value="null"/>
+			<element key="dd" value="null"/>
+			<element key="var_dump" value="null"/>
+			<element key="write_log" value="null"/>
+			<element key="error_log" value="null"/>
+			<element key="create_function" value="null"/>
+		</property>
+		</properties>
+	</rule>
 </ruleset>
