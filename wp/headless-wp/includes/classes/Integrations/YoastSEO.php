@@ -24,7 +24,7 @@ class YoastSEO {
 		add_filter( 'wpseo_sitemap_index_links', array( $this, 'maybe_override_sitemap_index_links' ) );
 
 		// Override url in sitemap for posts, pages, taxonomy archives, authors etc.
-		add_filter( 'wpseo_sitemap_url', array( $this, 'maybe_override_sitemap_url' ), 10, 2 );
+		add_filter( 'wpseo_sitemap_url', array( $this, 'maybe_override_sitemap_url' ), 10, 1 );
 
 		add_filter( 'robots_txt', array( $this, 'maybe_override_sitemap_robots_url' ), 999999 );
 
@@ -103,10 +103,9 @@ class YoastSEO {
 	 * Override base url for sitemap links with NextJS app url in sitemap.
 	 *
 	 * @param  string $xml  XML markup for url for the given link in sitemap.
-	 * @param  array  $link Link for which the url xml markup is rendered.
 	 * @return string       Modified XML markup for url for the given link in sitemap.
 	 */
-	public function maybe_override_sitemap_url( string $xml, array $link ): string {
+	public function maybe_override_sitemap_url( string $xml ): string {
 		if ( ! $this->should_rewrite_urls() ) {
 			return $xml;
 		}
