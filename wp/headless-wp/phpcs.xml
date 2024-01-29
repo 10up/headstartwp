@@ -6,9 +6,6 @@
 	<!-- What to scan -->
 	<file>.</file>
 
-	<!-- What to ignore -->
-	<ini name="error_reporting" value="E_ALL &#38; ~E_DEPRECATED" />
-
 	<!-- Options -->
 	<arg value="sp"/>
 	<arg name="colors"/>
