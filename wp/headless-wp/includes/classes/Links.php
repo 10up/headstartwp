@@ -20,27 +20,27 @@ class Links {
 	 */
 	public function register() {
 		add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
-
 		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
 	}
 
 	/**
 	 * Create Taxonomy Rewrites
 	 *
-	 * @param array $array - array of rewrite rules.
+	 * @param array $rules Rewrite rules.
+	 *
 	 * @return array
 	 *
-	 * * /posts/category/category-slug
+	 * /posts/category/category-slug
 	 * /events/category/category-slug
 	 *
 	 * This is to allow taxonomy archive pages to exist that aren't specific to the 'post' post type by default and make more usable across other post types by
 	 * creating default rewrite rules for taxonomy endpoints for post types for the front-end site to resolve to in the format /<CPT>/<taxonomy>/<slug>.
 	 */
-	public function create_taxonomy_rewrites( $array ) {
+	public function create_taxonomy_rewrites( $rules ) {
 
 		// When set_taxonomy_rewrites_disabled true, bypasses these custom endpoint rewrite rules
 		if ( true === apply_filters( __FUNCTION__ . '_disabled', false ) ) {
-			return $array;
+			return $rules;
 		}
 
 		$post_types = get_post_types(
@@ -72,13 +72,13 @@ class Links {
 					continue;
 				}
 
-				$array[ "$post_slug/$rewrite_slug/(.+?)/?$" ]                   = "index.php?$rewrite_query_var=$1&post_type=$post_type";
-				$array[ "$post_slug/$rewrite_slug/(.+?)/page/?([0-9]{1,})/?$" ] = "index.php?$rewrite_query_var=$1&paged=$2&post_type=$post_type";
+				$rules[ "$post_slug/$rewrite_slug/(.+?)/?$" ]                   = "index.php?$rewrite_query_var=$1&post_type=$post_type";
+				$rules[ "$post_slug/$rewrite_slug/(.+?)/page/?([0-9]{1,})/?$" ] = "index.php?$rewrite_query_var=$1&paged=$2&post_type=$post_type";
 
 			}
 		}
 
-		return $array;
+		return $rules;
 	}
 
 	/**
