@@ -93,7 +93,7 @@ export async function handleError(
 				return {
 					redirect: {
 						destination: redirect.location,
-						permanent: false,
+						permanent: redirect.status === 301 || redirect.status === 308,
 					},
 				};
 			}
