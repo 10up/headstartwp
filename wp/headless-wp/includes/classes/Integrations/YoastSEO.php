@@ -224,7 +224,7 @@ class YoastSEO {
 			array(
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				' %%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( ' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
+				'%%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
 				'%%sep%%'          => $separator ?? ' ',
 			)
 		);
@@ -235,7 +235,7 @@ class YoastSEO {
 		$escaped_sep = preg_quote( $separator, '/' );
 		$pattern     = '/\s*' . $escaped_sep . '\s*' . $escaped_sep . '+/';
 
-		return preg_replace( $pattern, $separator, $title );
+		return preg_replace( $pattern, ' ' . $separator, $title );
 	}
 
 	/**
