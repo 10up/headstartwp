@@ -117,12 +117,12 @@ export class SearchNativeFetchStrategy<
 		// Request SEO data.
 		try {
 			const wpUrl = getWPUrl().replace(/\/$/, ''); // Ensure no double slash in url param
-			const localeParam = this.locale ? `/${this.locale}` : '';
+			const localeParam = this.locale ? `&lang=${this.locale}` : '';
 			const pageParam = params.page ? `/page/${params.page}` : '';
 
 			const result = await apiGet(
 				addQueryArgs(`${wpUrl}${endpoints.yoast}`, {
-					url: `${wpUrl}${localeParam}${pageParam}/?s=${params.search ?? ''}`,
+					url: `${wpUrl}${pageParam}/?s=${params.search ?? ''}${localeParam}`,
 				}),
 				{},
 				burstCache,
