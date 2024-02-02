@@ -1,19 +1,25 @@
 import { useFetch } from './useFetch';
 
-import type { FetchHookOptions } from './types';
+import type { FetchHookOptions, HookResponse } from './types';
 import {
 	FetchResponse,
 	getPostAuthor,
 	getPostTerms,
 	PageInfo,
-	PostEntity,
+	PostSearchEntity,
+	TermSearchEntity,
 	SearchParams,
 	QueriedObject,
 	SearchNativeFetchStrategy,
 } from '../../data';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
-import { useSearchResponse } from './useFetchSearch';
+
+export interface useSearchNativeResponse<
+	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
+> extends HookResponse {
+	data?: { posts: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
+}
 
 /**
  * The useFetchSearchNative hook. Returns a collection of search entities retrieved through the WP native search endpoint
@@ -27,13 +33,13 @@ import { useSearchResponse } from './useFetchSearch';
  * @category Data Fetching Hooks
  */
 export function useFetchSearchNative<
-	T extends PostEntity = PostEntity,
+	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 	P extends SearchParams = SearchParams,
 >(
 	params: P | {} = {},
 	options: FetchHookOptions<FetchResponse<T[]>> = {},
 	path = '',
-): useSearchResponse<T> {
+): useSearchNativeResponse<T> {
 	const { data, error, isMainQuery } = useFetch<T[], P>(
 		params,
 		useFetchSearchNative.fetcher<T, P>(),
@@ -53,8 +59,11 @@ export function useFetchSearchNative<
 	const { result, pageInfo, queriedObject } = data;
 
 	const posts = result.map((post) => {
-		post.author = getPostAuthor(post);
-		post.terms = getPostTerms(post);
+		if ('subtype' in post) {
+			const postSearchEntity = post as PostSearchEntity;
+			post.author = getPostAuthor(postSearchEntity);
+			post.terms = getPostTerms(postSearchEntity);
+		}
 
 		return post;
 	});
@@ -68,7 +77,7 @@ export function useFetchSearchNative<
 // eslint-disable-next-line no-redeclare
 export namespace useFetchSearchNative {
 	export const fetcher = <
-		T extends PostEntity = PostEntity,
+		T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 		P extends SearchParams = SearchParams,
 	>(
 		sourceUrl?: string,

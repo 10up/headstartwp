@@ -1,4 +1,4 @@
-import { PostEntity, SearchParams, FetchResponse } from '@headstartwp/core';
+import { PostSearchEntity, TermSearchEntity, SearchParams, FetchResponse } from '@headstartwp/core';
 import { FetchHookOptions, useFetchSearchNative } from '@headstartwp/core/react';
 import { usePrepareFetch } from './usePrepareFetch';
 
@@ -16,7 +16,7 @@ import { usePrepareFetch } from './usePrepareFetch';
  * @category Data Fetching Hooks
  */
 export function useSearchNative<
-	T extends PostEntity = PostEntity,
+	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 	P extends SearchParams = SearchParams,
 >(params: Partial<P> = {}, options: FetchHookOptions<FetchResponse<T[]>> = {}) {
 	const useFetchArguments = usePrepareFetch(params, options);

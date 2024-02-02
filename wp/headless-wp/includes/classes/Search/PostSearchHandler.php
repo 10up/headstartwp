@@ -23,6 +23,10 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 		$post  = get_post( $id );
 		$links = parent::prepare_item_links( $id );
 
+		if ( ! $post instanceof \WP_Post ) {
+			return $links;
+		}
+
 		// Add author link
 		if ( ( in_array( $post->post_type, array( 'post', 'page' ), true ) || post_type_supports( $post->post_type, 'author' ) )
 			&& ! empty( $post->post_author ) ) {
@@ -73,11 +77,6 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 			);
 		}
 
-		// Reduce the search response size.
-		if ( ! empty( $links['self'] ) ) {
-			$links['self']['embeddable'] = false;
-		}
-
-		return apply_filters( 'tenup_headless_wp_rest_search_item_embedable_links', $links, $post );
+		return apply_filters( 'tenup_headless_wp_rest_search_post_embedable_links', $links, $post );
 	}
 }

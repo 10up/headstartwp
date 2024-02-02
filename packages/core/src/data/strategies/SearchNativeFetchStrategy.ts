@@ -1,7 +1,7 @@
 import { getSiteBySourceUrl, addQueryArgs, getWPUrl } from '../../utils';
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
-import { PostEntity, QueriedObject } from '../types';
+import { PostSearchEntity, TermSearchEntity, QueriedObject } from '../types';
 import { searchMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
@@ -67,7 +67,7 @@ export interface SearchParams extends EndpointParams {
  * @category Data Fetching
  */
 export class SearchNativeFetchStrategy<
-	T extends PostEntity = PostEntity,
+	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 	P extends SearchParams = SearchParams,
 > extends AbstractFetchStrategy<T[], P> {
 	path: string = '';
@@ -136,8 +136,8 @@ export class SearchNativeFetchStrategy<
 		const queriedObject: QueriedObject = {
 			search: {
 				searchedValue: params.search ?? '',
-				type: 'post',
-				subtype: (params.postType as string) ?? 'post',
+				type: params.type ?? 'post',
+				subtype: params.subtype ?? 'post',
 				yoast_head: seo,
 				yoast_head_json: {
 					...seo_json,
