@@ -53,7 +53,7 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 		$is_homepage  = false;
 		$term         = null;
 
-		$paged = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT  );
+		$paged = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
 
 		// Don't output anything on paged archives: see https://wordpress.org/support/topic/hreflang-on-page2
 		// Don't output anything on paged pages and paged posts
@@ -66,12 +66,11 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 			$term = Rest\is_taxonomy_rest_request();
 			if ( $term instanceof \WP_term && pll_is_translated_taxonomy( $term->taxonomy ) ) {
 				$translations = pll_get_term_translations( $term->term_id );
-				$is_taxonomy = true;
+				$is_taxonomy  = true;
 			}
 		} else {
 			$translations = pll_get_post_translations( $post_id );
 		}
-
 
 		if ( empty( $translations ) ) {
 			return '';
@@ -98,7 +97,7 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 
 				// Prevent homepage page slug from being added to hreflang tags.
 				if ( in_array( $translated_id, $homepages, true ) ) {
-					$is_homepage       = true;
+					$is_homepage                 = true;
 					$hreflangs_urls[ $language ] = home_url( $default_lang === $language ? '' : $language );
 					continue;
 				}
@@ -125,7 +124,6 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 
 		/**
 		 * Filters the list of rel hreflang attributes
-		 *
 		 *
 		 * @param array $hreflangs_urls Array of urls with language codes as keys
 		 */
