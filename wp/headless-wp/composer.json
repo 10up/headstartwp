@@ -37,7 +37,11 @@
   "autoload": {
     "psr-4": {
       "HeadlessWP\\": "includes/classes/"
-    }
+    },
+    "files": [
+      "includes/utils/langs.php",
+      "includes/utils/rest.php"
+    ]
   },
   "scripts": {
     "lint": "phpcs .",
