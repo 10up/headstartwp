@@ -21,10 +21,12 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 	 * Output the hreflang tags if they exist.
 	 */
 	public function present() {
-		$hreflangs = $this->get();
+		if ( function_exists( 'pll_languages_list' ) ) {
+			$hreflangs = $this->get();
 
-		if ( ! function_exists( 'pll_languages_list' ) || ! empty( $hreflangs ) ) {
-			return $hreflangs;
+			if ( ! empty( $hreflangs ) ) {
+				return $hreflangs;
+			}
 		}
 
 		return '';

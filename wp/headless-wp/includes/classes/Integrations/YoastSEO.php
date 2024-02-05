@@ -299,7 +299,7 @@ class YoastSEO {
 
 		$enable_hreflang = apply_filters( 'tenup_headless_wp_enable_hreflangs', true );
 
-		if ( ! $enable_hreflang || ! function_exists( 'pll_languages_list' ) ) {
+		if ( ! $enable_hreflang ) {
 			return;
 		}
 
