@@ -57,6 +57,52 @@ class CacheFlushToken extends BaseToken {
 	}
 
 	/**
+	 * Generates a cache flush token for the given terms.
+	 *
+	 * @param \WP_Term[] $terms The terms objects.
+	 *
+	 * @return array
+	 */
+	public static function generateForTerms( array $terms ): array {
+		$terms_ids = [];
+		$paths     = [];
+
+		foreach ( $terms as $term ) {
+			$permalink = get_term_link( $term );
+			$path      = untrailingslashit( str_replace( home_url(), '', $permalink ) );
+
+			array_push( $paths, untrailingslashit( $path ) );
+			array_push( $terms_ids, $term->term_id );
+		}
+
+		/**
+		 * Filter the path for the cache flush token
+		 *
+		 * @param string[] $paths the paths to be revalidated
+		 * @param \WP_Term[] $terms the terms objects
+		 */
+		$paths = apply_filters(
+			'headless_wp_generate_token_for_terms_revalidate',
+			$paths,
+			$terms,
+		);
+
+		$token = self::generate(
+			[
+				'terms_ids' => $terms_ids,
+				'paths'     => $paths,
+				'type'      => 'isr-revalidate',
+			]
+		);
+
+		return [
+			'token'     => $token,
+			'paths'     => $paths,
+			'terms_ids' => $terms_ids,
+		];
+	}
+
+	/**
 	 * Gets the token payload
 	 *
 	 * @return array
