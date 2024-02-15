@@ -18,7 +18,7 @@ class Links {
 	/**
 	 * Set up any hooks
 	 */
-	public function register() {
+	public function register(): void {
 		add_action( 'template_redirect', [ $this, 'maybe_redirect_frontend' ] );
 		add_filter( 'rewrite_rules_array', [ $this, 'create_taxonomy_rewrites' ] );
 	}
@@ -26,17 +26,15 @@ class Links {
 	/**
 	 * Create Taxonomy Rewrites
 	 *
-	 * @param array $rules Rewrite rules.
-	 *
-	 * @return array
-	 *
 	 * /posts/category/category-slug
 	 * /events/category/category-slug
 	 *
 	 * This is to allow taxonomy archive pages to exist that aren't specific to the 'post' post type by default and make more usable across other post types by
 	 * creating default rewrite rules for taxonomy endpoints for post types for the front-end site to resolve to in the format /<CPT>/<taxonomy>/<slug>.
+	 *
+	 * @param array $rules Rewrite rules.
 	 */
-	public function create_taxonomy_rewrites( $rules ) {
+	public function create_taxonomy_rewrites( array $rules ): array {
 
 		// When set_taxonomy_rewrites_disabled true, bypasses these custom endpoint rewrite rules
 		if ( true === apply_filters( __FUNCTION__ . '_disabled', false ) ) {
@@ -67,13 +65,15 @@ class Links {
 
 				$rewrite_slug      = $taxonomy->rewrite['slug'];
 				$rewrite_query_var = $taxonomy->query_var;
-
-				if ( empty( $rewrite_slug ) || empty( $rewrite_query_var ) ) {
+				if ( empty( $rewrite_slug ) ) {
+					continue;
+				}
+				if ( empty( $rewrite_query_var ) ) {
 					continue;
 				}
 
-				$rules[ "$post_slug/$rewrite_slug/(.+?)/?$" ]                   = "index.php?$rewrite_query_var=$1&post_type=$post_type";
-				$rules[ "$post_slug/$rewrite_slug/(.+?)/page/?([0-9]{1,})/?$" ] = "index.php?$rewrite_query_var=$1&paged=$2&post_type=$post_type";
+				$rules[ sprintf( '%s/%s/(.+?)/?$', $post_slug, $rewrite_slug ) ]                   = sprintf( 'index.php?%s=$1&post_type=%s', $rewrite_query_var, $post_type );
+				$rules[ sprintf( '%s/%s/(.+?)/page/?([0-9]{1,})/?$', $post_slug, $rewrite_slug ) ] = sprintf( 'index.php?%s=$1&paged=$2&post_type=%s', $rewrite_query_var, $post_type );
 
 			}
 		}
@@ -87,9 +87,8 @@ class Links {
 	 * @param string $home_url The home url
 	 * @param string $path The path
 	 * @param string $orig_scheme The orig scheme
-	 * @return string
 	 */
-	public function filter_home_url( $home_url, $path, $orig_scheme ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+	public function filter_home_url( string $home_url, string $path, string $orig_scheme ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 		$url = Plugin::get_react_url();
 
 		if ( empty( $url ) ) {
@@ -100,15 +99,13 @@ class Links {
 			$url = trailingslashit( $url ) . ltrim( $path, '/' );
 		}
 
-		$url = set_url_scheme( $url );
-
-		return $url;
+		return set_url_scheme( $url );
 	}
 
 	/**
 	 * Redirect the WordPress frontend if the React website URL has been filled in and the user has selected to redirect the frontend
 	 */
-	public function maybe_redirect_frontend() {
+	public function maybe_redirect_frontend(): void {
 		// if request method is HEAD then the headless site is making a HEAD request to figure out redirects, so don't mess with redirects or home_url
 		if (
 			isset( $_SERVER['REQUEST_METHOD'] ) &&
@@ -126,7 +123,7 @@ class Links {
 		$site_url = \get_option( 'site_react_url' );
 
 		$should_redirect = ! is_admin() && ! is_preview() && ! is_robots() && ! is_feed() && ! empty( $site_url );
-		$should_redirect = $should_redirect && true === Plugin::should_frontend_redirect();
+		$should_redirect = $should_redirect && Plugin::should_frontend_redirect();
 
 		/**
 		 * Filter's whether the frontend should redirect to the react url
@@ -139,7 +136,7 @@ class Links {
 			$url_request = $wp->request;
 
 			// do not redirect for (missing) assets
-			if ( str_starts_with( $url_request, '/wp-content' ) || str_ends_with( $url_request, '.css' ) || str_ends_with( $url_request, '.js' ) ) {
+			if ( str_starts_with( (string) $url_request, '/wp-content' ) || str_ends_with( (string) $url_request, '.css' ) || str_ends_with( (string) $url_request, '.js' ) ) {
 				return;
 			}
 

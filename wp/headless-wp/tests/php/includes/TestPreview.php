@@ -24,19 +24,15 @@ class TestPreview extends TestCase {
 
 	/**
 	 * Sets up the Test class
-	 *
-	 * @return void
 	 */
-	public function set_up() {
+	protected function set_up(): void {
 		$this->preview = new PreviewLink();
 	}
 
 	/**
-	 * Tests if previwes handling can be disable
-	 *
-	 * @return void
+	 * Tests if previews handling can be disable
 	 */
-	public function test_should_handle_preview() {
+	public function test_should_handle_preview(): void {
 		$this->assertTrue( $this->preview->should_handle_preview() );
 
 		add_filter( 'tenup_headless_wp_previews_enabled', '__return_false' );
@@ -48,10 +44,8 @@ class TestPreview extends TestCase {
 
 	/**
 	 * Tests handle_preview
-	 *
-	 * @return void
 	 */
-	public function test_handle_review() {
+	public function test_handle_review(): void {
 		// it should not change the template if not in preview context
 		$this->assertEquals( $this->preview->handle_preview( 'index.php' ), 'index.php' );
 

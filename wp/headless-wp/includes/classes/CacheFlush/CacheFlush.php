@@ -8,6 +8,9 @@
 namespace HeadlessWP\CacheFlush;
 
 use HeadlessWP\Plugin;
+use WP_Post;
+use WP_Error;
+use Exception;
 
 /**
  * The Cache Flush class
@@ -15,16 +18,25 @@ use HeadlessWP\Plugin;
  * Handles triggering cache flush requests
  */
 class CacheFlush {
-	const LAST_FLUSH_KEY = 'tenup-headless-last-cache-flush';
-
-	const CRON_JOB_NAME = 'tenup-headless-trigger-cache-flush';
 
 	/**
-	 * Register the
+	 * Last flush key
 	 *
-	 * @return void
+	 * @var string
 	 */
-	public function register() {
+	public const LAST_FLUSH_KEY = 'tenup-headless-last-cache-flush';
+
+	/**
+	 * Cache flush trigger key
+	 *
+	 * @var string
+	 */
+	public const CRON_JOB_NAME = 'tenup-headless-trigger-cache-flush';
+
+	/**
+	 * Register
+	 */
+	public function register(): void {
 		add_action( 'save_post', [ $this, 'trigger_cache_for_post' ], 99999999, 3 );
 		add_action( self::CRON_JOB_NAME, [ $this, 'run_job' ], 10, 1 );
 	}
@@ -32,23 +44,20 @@ class CacheFlush {
 	/**
 	 * Run the cron job
 	 *
-	 * @param int $post_id The post id
-	 * @return void
+	 * @param int $post_id Post ID.
 	 */
-	public function run_job( $post_id ) {
+	public function run_job( int $post_id ): void {
 		$this->revalidate( $post_id );
 	}
 
 	/**
 	 * Triggers a cache flush operation
 	 *
-	 * @param number   $post_id The Post id.
-	 * @param \WP_Post $post The post object.
-	 * @param bool     $update Whether this is a new post or update
-	 *
-	 * @return void
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post Post object.
+	 * @param bool    $update Whether this is a new post or update.
 	 */
-	public function trigger_cache_for_post( $post_id, \WP_Post $post, $update ) {
+	public function trigger_cache_for_post( int $post_id, WP_Post $post, bool $update ): void {
 		if ( ! Plugin::should_revalidate_isr() ) {
 			return;
 		}
@@ -100,11 +109,9 @@ class CacheFlush {
 	/**
 	 * Runs the revalidation logic
 	 *
-	 * @param int $post_id The Post id
-	 *
-	 * @return void
+	 * @param int $post_id Post ID.
 	 */
-	public function revalidate( $post_id ) {
+	public function revalidate( int $post_id ): void {
 		try {
 			$post    = get_post( $post_id );
 			$payload = CacheFlushToken::generateForPost( $post );
@@ -113,7 +120,7 @@ class CacheFlush {
 
 			$frontpage_id = get_option( 'page_on_front' );
 
-			if ( intval( $frontpage_id ) === intval( $post->ID ) ) {
+			if ( (int) $frontpage_id === (int) $post->ID ) {
 				// revalidate front page as well
 				$payload  = CacheFlushToken::generateForPost( $post, '/' );
 				$response = $this->revalidate_request( $payload['post_id'], '/', $payload['token'] );
@@ -133,7 +140,7 @@ class CacheFlush {
 			 *
 			 * This can be used to run custom revalidation logic such as flushing the CDN cache.
 			 *
-			 * @param \WP_Post $post The Post object
+			 * @param WP_Post $post The Post object
 			 * @param string $headless_post_url the headless post url
 			 */
 			do_action( 'tenup_headless_wp_revalidate', $post, $headless_post_url );
@@ -144,11 +151,11 @@ class CacheFlush {
 				[
 					'time'        => time(),
 					'status_code' => $status_code,
-					'message'     => isset( $body->message ) ? $body->message : '',
-					'path'        => isset( $body->path ) ? $body->path : '',
+					'message'     => $body->message ?? '',
+					'path'        => $body->path ?? '',
 				]
 			);
-		} catch ( \Exception $e ) {
+		} catch ( Exception ) {
 			// do nothing
 		}
 	}
@@ -156,13 +163,13 @@ class CacheFlush {
 	/**
 	 * Makes a revalidate request for a given path
 	 *
-	 * @param number $post_id The Post id
-	 * @param string $path The Path to revalidate
-	 * @param string $token The jwt token
+	 * @param int    $post_id Post ID.
+	 * @param string $path Path to revalidate.
+	 * @param string $token JWT token.
 	 *
-	 * @return array|\WP_Error
+	 * @return array|WP_Error
 	 */
-	public function revalidate_request( $post_id, $path, $token ) {
+	public function revalidate_request( int $post_id, string $path, string $token ) {
 		/**
 		 * Filters the revalidate endpoint.
 		 *

@@ -10,6 +10,8 @@ namespace HeadlessWP\API;
 
 use HeadlessWP;
 use stdClass;
+use WP_REST_Request;
+use WP_Rest_Response;
 
 /**
  * AppEndpoint class
@@ -21,19 +23,19 @@ class AppEndpoint {
 	 *
 	 * @var string
 	 */
-	public static $cache_key = 'headless_wp_api_app';
+	public static string $cache_key = 'headless_wp_api_app';
 
 	/**
 	 * Key for storing the cache keys
 	 *
 	 * @var string
 	 */
-	private static $cache_key_store = 'headless_wp_api_app_cache_key_store';
+	private static string $cache_key_store = 'headless_wp_api_app_cache_key_store';
 
 	/**
 	 * Registers all actions and hooks
 	 */
-	public function register() {
+	public function register(): void {
 		add_action( 'rest_api_init', [ $this, 'register_endpoints' ] );
 
 		// Clear the cache for this endpoint when posts and options are saved
@@ -44,31 +46,25 @@ class AppEndpoint {
 	/**
 	 * Generates a dynamic key given params
 	 *
-	 * @param array $params The request params
-	 *
-	 * @return string
+	 * @param array $params Parameters.
 	 */
-	public function get_cache_key( $params ) {
-		return sprintf( '%s_%s', self::$cache_key, md5( wp_json_encode( $params ) ) );
+	public function get_cache_key( array $params ): string {
+		return sprintf( '%s_%s', self::$cache_key, md5( (string) wp_json_encode( $params ) ) );
 	}
 
 	/**
 	 * Returns all stored cache keys
-	 *
-	 * @return array
 	 */
-	public function get_cache_keys() {
+	public function get_cache_keys(): array {
 		return get_option( self::$cache_key_store, [] );
 	}
 
 	/**
 	 * Stores the cache key for later invalidation
 	 *
-	 * @param string $cache_key The cache key to store
-	 *
-	 * @return void
+	 * @param string $cache_key Cache key.
 	 */
-	public function store_cache_key( $cache_key ) {
+	public function store_cache_key( string $cache_key ): void {
 		$cache_keys = $this->get_cache_keys();
 
 		// storing as a dict for faster access
@@ -80,7 +76,7 @@ class AppEndpoint {
 	/**
 	 * Register custom endpoints
 	 */
-	public function register_endpoints() {
+	public function register_endpoints(): void {
 
 		$args = [
 			'methods'             => 'GET',
@@ -101,11 +97,9 @@ class AppEndpoint {
 	 * This endpoint is checked on every request to include common site information site as menu data, homepage information, etc to kick off the
 	 * front-end website. The data that is returned can be customized through filters to meet the unique needs of your website
 	 *
-	 * @param \WP_REST_Request $request The Rest Request
-	 *
-	 * @return \WP_Rest_Response
+	 * @param WP_REST_Request $request REST Request.
 	 */
-	public function handle_api_endpoint( \WP_REST_Request $request ) {
+	public function handle_api_endpoint( WP_REST_Request $request ): WP_Rest_Response {
 		$cache_key = $this->get_cache_key( $request->get_params() );
 		$response  = wp_cache_get( $cache_key );
 
@@ -183,10 +177,8 @@ class AppEndpoint {
 	 * Prepare the menu data that will be returned via the REST API
 	 *
 	 * @param array $menu Menu object
-	 *
-	 * @return array
 	 */
-	public function prepare_menus( $menu ) {
+	public function prepare_menus( array $menu ): array {
 		if ( ! is_array( $menu ) ) {
 			return $menu;
 		}
@@ -197,7 +189,7 @@ class AppEndpoint {
 			$filtered_menu_item = new stdClass();
 
 			$filtered_menu_item->ID               = $menu_item->ID;
-			$filtered_menu_item->title            = html_entity_decode( $menu_item->title );
+			$filtered_menu_item->title            = html_entity_decode( (string) $menu_item->title );
 			$filtered_menu_item->slug             = basename( get_permalink( $menu_item->object_id ) ) === basename( get_home_url() ) ? '' : basename( get_permalink( $menu_item->object_id ) );
 			$filtered_menu_item->post_parent      = $menu_item->menu_item_parent;
 			$filtered_menu_item->guid             = $menu_item->guid;
@@ -218,11 +210,9 @@ class AppEndpoint {
 	/**
 	 * Maybe invalidate cache when updating options
 	 *
-	 * @param string $option_name The option name
-	 *
-	 * @return void
+	 * @param string $option_name Option key.
 	 */
-	public function maybe_invalidate_cache( $option_name ) {
+	public function maybe_invalidate_cache( string $option_name ): void {
 		if ( self::$cache_key_store !== $option_name ) {
 			$this->invalidate_cache();
 		}
@@ -231,11 +221,11 @@ class AppEndpoint {
 	/**
 	 * Invalidates the cache for this endpoint
 	 */
-	public function invalidate_cache() {
+	public function invalidate_cache(): void {
 		$cache_keys = $this->get_cache_keys();
 
 		// cache keys is a dict, and the key is the cache_key
-		foreach ( $cache_keys as $cache_key => $val ) {
+		foreach ( array_keys( $cache_keys ) as $cache_key ) {
 			wp_cache_delete( $cache_key );
 		}
 

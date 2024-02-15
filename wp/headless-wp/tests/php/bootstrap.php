@@ -7,9 +7,9 @@
 
 use Yoast\WPTestUtils\WPIntegration;
 
-define( 'TESTS_PLUGIN_DIR', dirname( dirname( __DIR__ ) ) );
+define( 'TESTS_PLUGIN_DIR', dirname( __DIR__, 2 ) );
 
-define( 'PROJECT_ROOT', dirname( dirname( __DIR__ ) ) );
+define( 'PROJECT_ROOT', dirname( __DIR__, 2 ) );
 
 if ( ! defined( 'WP_TESTS_CONFIG_FILE_PATH' ) && false !== getenv( 'WP_PHPUNIT__TESTS_CONFIG' ) ) {
 	define( 'WP_TESTS_CONFIG_FILE_PATH', getenv( 'WP_PHPUNIT__TESTS_CONFIG' ) );
@@ -27,9 +27,8 @@ if ( ! function_exists( 'tests_add_filter' ) ) {
 	 * Dummy function to test if everything was loaded properly
 	 *
 	 * @param mixed ...$args Arguments
-	 * @return void
 	 */
-	function tests_add_filter( ...$args ) {}
+	function tests_add_filter( mixed ...$args ): void {}
 
 	throw new Exception( 'Unable to load the WP test suite.' );
 }
@@ -37,7 +36,7 @@ if ( ! function_exists( 'tests_add_filter' ) ) {
 /**
  * Manually load the plugin being tested.
  */
-function _manually_load_plugin() {
+function _manually_load_plugin(): void {
 	require_once dirname( __DIR__, 2 ) . '/plugin.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );

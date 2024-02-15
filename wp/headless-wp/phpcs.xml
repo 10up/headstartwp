@@ -8,6 +8,7 @@
 
 	<!-- What not to scan -->
 	<exclude-pattern>rector.php</exclude-pattern>
+	<exclude-pattern>jwt</exclude-pattern>
 
 	<!-- Options -->
 	<arg value="sp"/>

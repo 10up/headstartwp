@@ -3,6 +3,8 @@
  * Rector Rules
  *
  * @see https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
+ *
+ * @package HeadlessWP
  */
 
 declare(strict_types=1);
@@ -23,7 +25,6 @@ use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\DeadCode\Rector\If_\RemoveUnusedNonEmptyArrayBeforeForeachRector;
 use Rector\CodingStyle\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector;
-use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
@@ -44,6 +45,7 @@ return static function ( RectorConfig $rectorConfig ): void {
 			__DIR__ . '/dist',
 			__DIR__ . '/node_modules',
 			__DIR__ . '/vendor',
+			__DIR__ . '/php-jwt',
 			DisallowedEmptyRuleFixerRector::class,
 			SimplifyEmptyArrayCheckRector::class,
 			SimplifyEmptyCheckOnEmptyArrayRector::class,
@@ -56,14 +58,13 @@ return static function ( RectorConfig $rectorConfig ): void {
 			FirstClassCallableRector::class,
 			RemoveUnusedNonEmptyArrayBeforeForeachRector::class,
 			ArraySpreadInsteadOfArrayMergeRector::class,
-			RemoveUselessReturnTagRector::class,
 			RenamePropertyToMatchTypeRector::class,
 			ExplicitBoolCompareRector::class,
 			BooleanInIfConditionRuleFixerRector::class,
 			BooleanInBooleanNotRuleFixerRector::class,
-			RemoveUselessVarTagRector::class,
 			RenameVariableToMatchNewTypeRector::class,
 			CallableThisArrayToAnonymousFunctionRector::class,
+			RemoveUselessVarTagRector::class,
 		]
 	);
 

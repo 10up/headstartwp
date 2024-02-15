@@ -8,6 +8,7 @@
 namespace HeadlessWP\CacheFlush;
 
 use HeadlessWP\BaseToken;
+use WP_Post;
 
 /**
  * The CacheFlushToken class
@@ -17,12 +18,10 @@ class CacheFlushToken extends BaseToken {
 	/**
 	 * Generates a cache flush token for the given post
 	 *
-	 * @param \WP_Post $post The post object
-	 * @param string   $override_path If passed will override the default path
-	 *
-	 * @return array
+	 * @param WP_Post     $post The post object
+	 * @param string|bool $override_path If passed will override the default path
 	 */
-	public static function generateForPost( \WP_Post $post, $override_path = false ): array {
+	public static function generateForPost( WP_Post $post, $override_path = false ): array {
 		$permalink = get_permalink( $post );
 		$path      = untrailingslashit( str_replace( home_url(), '', $permalink ) );
 		$path      = false !== $override_path ? $override_path : $path;
@@ -58,10 +57,8 @@ class CacheFlushToken extends BaseToken {
 
 	/**
 	 * Gets the token payload
-	 *
-	 * @return array
 	 */
-	public static function getToken() {
+	public static function getToken(): array {
 		return (array) parent::get_payload_from_token();
 	}
 }

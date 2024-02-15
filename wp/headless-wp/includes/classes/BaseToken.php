@@ -8,17 +8,20 @@
 namespace HeadlessWP;
 
 use HeadlessWP\JWT\JWT;
+use WP_Error;
+use Exception;
 
 /**
  * Class with static methods to generate and parse capability tokens.
  */
 abstract class BaseToken {
+
 	/**
 	 * Generate token using the given payload.
 	 *
 	 * @param array $payload The payload to use for the token.
 	 */
-	public static function generate( $payload ) {
+	public static function generate( array $payload ): string {
 		// Get the current time to compute issue and expiration time.
 		$issued_at = time();
 
@@ -38,7 +41,9 @@ abstract class BaseToken {
 	/**
 	 * Return the private key used to encode and decode tokens.
 	 *
-	 * @throws \Exception If the private key is not found.
+	 * @throws Exception If the private key is not found.
+	 *
+	 * @return string
 	 */
 	private static function get_private_key() {
 		if ( defined( 'TENUP_HEADLESS_JWT_AUTH_KEY' ) ) {
@@ -50,12 +55,12 @@ abstract class BaseToken {
 		}
 
 		// No secure auth key found. Throw an error.
-		$error = new \WP_Error(
+		$error = new WP_Error(
 			'no-secure-auth-key',
 			__( 'Please define either SECURE_AUTH_KEY or TENUP_HEADLESS_JWT_AUTH_KEY in your wp-config.php file.', 'headless-wp' )
 		);
 
-		throw new \Exception(
+		throw new Exception(
 			wp_kses_post(
 				$error->get_error_message()
 			)
@@ -64,6 +69,8 @@ abstract class BaseToken {
 
 	/**
 	 * Decode capability tokens if present.
+	 *
+	 * @return object
 	 */
 	protected static function get_payload_from_token() {
 		// Get HTTP Authorization Header.
@@ -83,7 +90,7 @@ abstract class BaseToken {
 
 		// Get and parse the token.
 		try {
-			list( $token ) = sscanf( $header, 'Bearer %s' );
+			[$token] = sscanf( $header, 'Bearer %s' );
 
 			if ( empty( $token ) ) {
 				return null;
@@ -93,7 +100,7 @@ abstract class BaseToken {
 				self::get_private_key(),
 				[ 'HS256' ]
 			);
-		} catch ( \Exception $e ) {
+		} catch ( Exception ) {
 			// Token is not valid.
 			return null;
 		}

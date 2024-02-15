@@ -19,7 +19,7 @@ class Plugin {
 	/**
 	 * Set up any hooks
 	 */
-	public function register() {
+	public function register(): void {
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
 		add_action( 'admin_notices', [ $this, 'maybe_output_setting_notification' ] );
 		add_action( 'admin_menu', [ $this, 'clean_up_menus' ] );
@@ -55,14 +55,14 @@ class Plugin {
 	 *
 	 * @param object $wp_admin_bar Admin bar object
 	 */
-	public function clean_up_toolbar( $wp_admin_bar ) {
+	public function clean_up_toolbar( $wp_admin_bar ): void {
 		$wp_admin_bar->remove_node( 'comments' );
 	}
 
 	/**
 	 * Clean up admin menus
 	 */
-	public function clean_up_menus() {
+	public function clean_up_menus(): void {
 		remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 		remove_submenu_page( 'themes.php', 'customize.php?return=%2Fwp-admin%2Foptions-reading.php' );
 		remove_menu_page( 'edit-comments.php' );
@@ -70,10 +70,8 @@ class Plugin {
 
 	/**
 	 * Registers the default textdomain.
-	 *
-	 * @return void
 	 */
-	public function i18n() {
+	public function i18n(): void {
 		$locale = apply_filters( 'plugin_locale', get_locale(), 'headless-wp' );
 		load_textdomain( 'headless-wp', WP_LANG_DIR . '/headless-wp/headless-wp-' . $locale . '.mo' );
 		load_plugin_textdomain( 'headless-wp', false, plugin_basename( HEADLESS_WP_PLUGIN_PATH ) . '/languages/' );
@@ -83,7 +81,7 @@ class Plugin {
 	/**
 	 * Registers settings fields
 	 */
-	public function register_settings() {
+	public function register_settings(): void {
 
 		// Headless frontend site URL
 		register_setting(
@@ -96,14 +94,14 @@ class Plugin {
 		add_settings_field(
 			'site_react_url',
 			esc_html__( 'Headless Frontend URL', 'headless-wp' ),
-			function () { ?>
+			function (): void { ?>
 				<input
 					type = "url"
 					placeholder = "https://"
 					name = "site_react_url"
 					id = "site_react_url"
 					class = "regular-text"
-					value = "<?php echo esc_url( $this->get_react_url() ); ?>"
+					value = "<?php echo esc_url( static::get_react_url() ); ?>"
 				>
 				<p class="description"><?php esc_html_e( 'Enter the URL for the headless front-end. All links will point to this address.', 'headless-wp' ); ?></p>
 				<?php
@@ -120,14 +118,14 @@ class Plugin {
 		add_settings_field(
 			'headless_site_locale',
 			esc_html__( 'Headless Multisite Locale (optional)', 'headless-wp' ),
-			function () {
+			function (): void {
 				?>
 				<input
 					type="text"
 					name="headless_site_locale"
 					id="headless_site_locale"
 					class="regular-text"
-					value="<?php echo esc_attr( $this->get_site_locale() ); ?>"
+					value="<?php echo esc_attr( static::get_site_locale() ); ?>"
 				>
 				<p class="description"><?php esc_html_e( 'Set the site locale if this site is using Multisite with locale.', 'headless-wp' ); ?></p>
 				<?php
@@ -146,14 +144,14 @@ class Plugin {
 		add_settings_field(
 			'site_react_redirect',
 			esc_html__( 'Redirect to Headless Site?', 'headless-wp' ),
-			function () {
+			function (): void {
 				?>
 				<input
 					type="checkbox"
 					name="site_react_redirect"
 					id="site_react_redirect"
 					value="1"
-					<?php checked( $this->should_frontend_redirect(), 1, true ); ?>
+					<?php checked( static::should_frontend_redirect(), 1, true ); ?>
 				>
 				<p class="description">
 					<?php esc_html_e( 'Should the front-end of the website automatically redirect to the React website?', 'headless-wp' ); ?><br />
@@ -173,14 +171,14 @@ class Plugin {
 		add_settings_field(
 			'headless_isr_revalidate',
 			esc_html__( 'Revalidate Static Pages?', 'headless-wp' ),
-			function () {
+			function (): void {
 				?>
 				<input
 					type="checkbox"
 					name="headless_isr_revalidate"
 					id="headless_isr_revalidate"
 					value="1"
-					<?php checked( $this->should_revalidate_isr(), 1, true ); ?>
+					<?php checked( static::should_revalidate_isr(), 1, true ); ?>
 				>
 				<p class="description">
 					<?php esc_html_e( 'Should the WordPress automatically revalidate static pages?', 'headless-wp' ); ?><br />
@@ -196,7 +194,7 @@ class Plugin {
 	 *
 	 * This is toggled 'on' by default, so only a value of 0 will indicate a redirect. Otherwise, empty is to redirect
 	 */
-	public static function should_frontend_redirect() {
+	public static function should_frontend_redirect(): bool {
 		$value = get_option( 'site_react_redirect' );
 
 		return '0' !== $value;
@@ -207,7 +205,7 @@ class Plugin {
 	 *
 	 * This is toggled 'on' by default, so only a value of 0 will indicate a redirect. Otherwise, empty is to redirect
 	 */
-	public static function should_revalidate_isr() {
+	public static function should_revalidate_isr(): bool {
 		$value = get_option( 'headless_isr_revalidate', '0' );
 
 		return '0' !== $value;
@@ -216,32 +214,28 @@ class Plugin {
 	/**
 	 * Retrieves the site React URL
 	 */
-	public static function get_react_url() {
-		return get_option( 'site_react_url' );
+	public static function get_react_url(): string {
+		return get_option( 'site_react_url', '' );
 	}
 
 	/**
 	 * Retrieves the site React URL
 	 */
-	public static function get_site_locale() {
-		return get_option( 'headless_site_locale' );
+	public static function get_site_locale(): string {
+		return get_option( 'headless_site_locale', '' );
 	}
 
 	/**
 	 * Returns the non-localized site url.
-	 *
-	 * @return string
 	 */
-	public static function get_non_localized_headless_url() {
+	public static function get_non_localized_headless_url(): string {
 		$site_url = untrailingslashit( self::get_react_url() );
 		$locale   = self::get_site_locale();
 
-		if ( $locale && str_ends_with( $site_url, $locale ) ) {
+		if ( $locale && str_ends_with( (string) $site_url, $locale ) ) {
 			$parsed_url = wp_parse_url( $site_url );
-			$path       = explode( '/', $parsed_url['path'] );
-			if ( is_array( $path ) && count( $path ) > 0 ) {
-				unset( $path[ count( $path ) - 1 ] );
-			}
+			$path       = explode( '/', (string) $parsed_url['path'] );
+			unset( $path[ count( $path ) - 1 ] );
 
 			$base_url = sprintf(
 				'%s://%s',
@@ -268,7 +262,7 @@ class Plugin {
 	/**
 	 * Checks to see if the front-end react URL setting has been set and if not, prompt the user to fill it in
 	 */
-	public function maybe_output_setting_notification() {
+	public function maybe_output_setting_notification(): void {
 		$react_url = self::get_react_url();
 
 		if ( ! empty( trim( $react_url ) ) ) {

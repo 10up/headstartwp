@@ -24,20 +24,17 @@ class TestGutenbergIntegration extends TestCase {
 
 	/**
 	 * Sets up the Test class
-	 *
-	 * @return void
 	 */
-	public function set_up() {
+	protected function set_up(): void {
 		$this->parser = new Gutenberg();
 	}
 
 	/**
 	 * Renders a block from block markup
 	 *
-	 * @param string $markup The block markup
-	 * @return array
+	 * @param string $markup HTML markup.
 	 */
-	protected function render_from_block_markup( $markup ) {
+	protected function render_from_block_markup( string $markup ): array {
 		$blocks = parse_blocks( $markup );
 		$block  = $blocks[0];
 
@@ -50,10 +47,8 @@ class TestGutenbergIntegration extends TestCase {
 
 	/**
 	 * Tests block's rendering
-	 *
-	 * @return void
 	 */
-	public function test_render() {
+	public function test_render(): void {
 		$block          = $this->render_from_block_markup( '<!-- wp:heading {"level":3} --> <h3 id="hello-world">Hello world</h3><!-- /wp:heading -->' );
 		$enhanced_block = $this->parser->render_block( $block['html'], $block['parsed_block'], $block['instance'] );
 
@@ -102,15 +97,13 @@ MARKUP;
 
 		$this->assertTrue( $enhanced_block_doc->next_tag() );
 		$this->assertEquals( $enhanced_block_doc->get_attribute( 'data-wp-block-name' ), 'core/media-text' );
-		$this->assertArrayHasKey( 'mediaId', json_decode( $enhanced_block_doc->get_attribute( 'data-wp-block' ), true ) );
+		$this->assertArrayHasKey( 'mediaId', json_decode( (string) $enhanced_block_doc->get_attribute( 'data-wp-block' ), true ) );
 	}
 
 	/**
 	 * Tests block's rendering with tag api
-	 *
-	 * @return void
 	 */
-	public function test_render_tag_api() {
+	public function test_render_tag_api(): void {
 		apply_filters( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 
 		$this->test_render();
@@ -120,10 +113,8 @@ MARKUP;
 
 	/**
 	 * Tests rendering classic block
-	 *
-	 * @return void
 	 */
-	public function test_render_classic_block() {
+	public function test_render_classic_block(): void {
 		$block          = $this->render_from_block_markup( '<h1><span style="font-weight: 400;">Introduction</span></h1><span style="font-weight: 400;">If you have read our previous article, </span>' );
 		$enhanced_block = $this->parser->render_block( $block['html'], $block['parsed_block'], $block['instance'] );
 
@@ -140,10 +131,8 @@ RESULT;
 
 	/**
 	 * Tests rendering classic block with tag api
-	 *
-	 * @return void
 	 */
-	public function test_render_classic_block_tag_api() {
+	public function test_render_classic_block_tag_api(): void {
 		apply_filters( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 
 		$this->test_render_classic_block();

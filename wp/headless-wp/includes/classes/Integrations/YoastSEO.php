@@ -13,10 +13,11 @@ use HeadlessWP\Plugin;
  * The YoastSEO integration class
  */
 class YoastSEO {
+
 	/**
 	 * Register Hooks
 	 */
-	public function register() {
+	public function register(): void {
 		// Override sitemap stylesheet.
 		add_filter( 'wpseo_stylesheet_url', [ $this, 'override_wpseo_stylesheet_url' ] );
 
@@ -37,10 +38,8 @@ class YoastSEO {
 
 	/**
 	 * Checks if Yoast SEO Urls should be rewritten
-	 *
-	 * @return boolean
 	 */
-	protected function should_rewrite_urls() {
+	protected function should_rewrite_urls(): bool {
 		if ( ! Plugin::get_react_url() ) {
 			return false;
 		}
@@ -54,10 +53,8 @@ class YoastSEO {
 	 * Replace host domain for sitemap stylesheet url.
 	 *
 	 * @param string $stylesheet the stylesheet markup
-	 *
-	 * @return string  Modified sitemap stylesheet xml markup.
 	 */
-	public function override_wpseo_stylesheet_url( $stylesheet ) {
+	public function override_wpseo_stylesheet_url( string $stylesheet ): string {
 		if ( $this->should_rewrite_urls() ) {
 			return sprintf(
 				'<?xml-stylesheet type="text/xsl" href="%s/wp-content/plugins/wordpress-seo/css/main-sitemap.xsl"?>',
@@ -72,7 +69,6 @@ class YoastSEO {
 	 * Override base url for sitemap links with NextJS app url in sitemap.
 	 *
 	 * @param  array $links Array of links to be shown in sitemap.
-	 * @return array        Modified array of links to be shown in sitemap.
 	 */
 	public function maybe_override_sitemap_index_links( array $links ): array {
 		if ( ! $this->should_rewrite_urls() ) {
@@ -80,7 +76,7 @@ class YoastSEO {
 		}
 
 		return array_map(
-			function ( $link ) {
+			function ( array $link ) {
 				// Bail, if we don't have loc.
 				if ( empty( $link['loc'] ) ) {
 					return $link;
@@ -90,7 +86,7 @@ class YoastSEO {
 				$link['loc'] = str_replace(
 					untrailingslashit( home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ) ),
 					untrailingslashit( Plugin::get_react_url() ),
-					$link['loc']
+					(string) $link['loc']
 				);
 
 				return $link;
@@ -102,8 +98,7 @@ class YoastSEO {
 	/**
 	 * Override base url for sitemap links with NextJS app url in sitemap.
 	 *
-	 * @param  string $xml  XML markup for url for the given link in sitemap.
-	 * @return string       Modified XML markup for url for the given link in sitemap.
+	 * @param string $xml XML markup for url for the given link in sitemap.
 	 */
 	public function maybe_override_sitemap_url( string $xml ): string {
 		if ( ! $this->should_rewrite_urls() ) {
@@ -126,7 +121,7 @@ class YoastSEO {
 				str_replace(
 					untrailingslashit( home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ) ),
 					untrailingslashit( Plugin::get_react_url() ),
-					$loc->nodeValue // phpcs:ignore WordPress.NamingConventions.ValidVariableName
+					(string) $loc->nodeValue // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 				)
 			);
 
@@ -152,11 +147,9 @@ class YoastSEO {
 	/**
 	 * Overrides the sitemap url with the front-end url
 	 *
-	 * @param string $output the robots.txt output
-	 *
-	 * @return string
+	 * @param string $output The robots.txt output.
 	 */
-	public function maybe_override_sitemap_robots_url( $output ) {
+	public function maybe_override_sitemap_robots_url( string $output ): string {
 		if ( $this->should_rewrite_urls() ) {
 			return str_replace(
 				untrailingslashit( home_url( '', wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) ) ),
@@ -181,7 +174,7 @@ class YoastSEO {
 
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; // phpcs:ignore
 
-		if ( false === strpos( $request_uri, '/yoast/v1/get_head' ) ) {
+		if ( ! str_contains( $request_uri, '/yoast/v1/get_head' ) ) {
 			return false;
 		}
 
@@ -189,7 +182,7 @@ class YoastSEO {
 
 		if ( filter_var( $url_param, FILTER_VALIDATE_URL ) !== false ) {
 			$query = wp_parse_url( $url_param, PHP_URL_QUERY );
-			parse_str( $query, $query_vars );
+			parse_str( (string) $query, $query_vars );
 
 			// Return query vars if search request.
 			if ( isset( $query_vars['s'] ) ) {
@@ -208,21 +201,20 @@ class YoastSEO {
 
 	/**
 	 * Custom helper to replace Yoast search title placeholders.
+	 *
 	 * Assuming only some of the basic variables.
 	 *
 	 * @param string $title The search SEO title
 	 * @param array  $query_vars The search query vars.
-	 *
-	 * @return string
 	 */
-	public function replace_yoast_search_title_placeholders( $title, $query_vars ) {
+	public function replace_yoast_search_title_placeholders( string $title, array $query_vars ): string {
 
 		$str_replace_mapping = apply_filters(
 			'tenup_headless_wp_search_title_variables_replacments',
 			[
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				' %%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( ' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
+				' %%page%%'        => empty( $query_vars['page'] ) ? '' : sprintf( ' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ),
 				'%%sep%%'          => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
 			]
 		);
@@ -234,9 +226,8 @@ class YoastSEO {
 	 * Set the missing Yoast Search title.
 	 *
 	 * @param string $title The title.
-	 * @return string
 	 */
-	public function override_search_title( $title ) {
+	public function override_search_title( string $title ): string {
 
 		$search_request_query_vars = $this->get_yoast_search_query_vars();
 
@@ -271,9 +262,8 @@ class YoastSEO {
 	 * Default is 'search'.
 	 *
 	 * @param string $canonical The canonical URL.
-	 * @return string
 	 */
-	public function override_search_canonical( $canonical ) {
+	public function override_search_canonical( string $canonical ): string {
 		if ( $this->get_yoast_search_query_vars() ) {
 			$search_route = apply_filters( 'tenup_headless_wp_search_route', 'search' );
 			$canonical    = rtrim( $canonical, '/' ) . '/' . $search_route;

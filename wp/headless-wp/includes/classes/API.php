@@ -9,7 +9,7 @@
 
 namespace HeadlessWP;
 
-use WP_REST_Request;
+use WP_Post_Type;
 
 /**
  * Class for API REST Endpoint
@@ -21,12 +21,12 @@ class API {
 	 *
 	 * @var string
 	 */
-	public static $namespace = 'headless-wp/v1';
+	public static string $namespace = 'headless-wp/v1';
 
 	/**
 	 * Initializes the API class and register actions and filters
 	 */
-	public function register() {
+	public function register(): void {
 
 		// Register the 'app' endpoint that serves the default data needed for every request in the headless website
 		$app_endpoint = new API\AppEndpoint();
@@ -42,7 +42,7 @@ class API {
 	 * Add a filter for all queryable post types to be able to be filtered by taxonomy term slug instead of ID.
 	 * The main purpose of this is to prevent an extra REST API request to get the taxonomy information to get the slug
 	 */
-	public function register_post_type_taxonomy_params() {
+	public function register_post_type_taxonomy_params(): void {
 
 		$post_types = get_post_types(
 			[
@@ -52,8 +52,8 @@ class API {
 		);
 
 		foreach ( $post_types as $post_type ) {
-			add_filter( "rest_{$post_type}_query", [ $this, 'modify_rest_params' ], 10, 1 );
-			add_filter( "rest_{$post_type}_collection_params", [ $this, 'modify_rest_params_schema' ], 10, 2 );
+			add_filter( sprintf( 'rest_%s_query', $post_type ), [ $this, 'modify_rest_params' ], 10, 1 );
+			add_filter( sprintf( 'rest_%s_collection_params', $post_type ), [ $this, 'modify_rest_params_schema' ], 10, 2 );
 		}
 	}
 
@@ -62,9 +62,8 @@ class API {
 	 *
 	 * @param array        $query_params JSON Schema-formatted collection parameters.
 	 * @param WP_Post_Type $post_type    Post type object.
-	 * @return array
 	 */
-	public function modify_rest_params_schema( $query_params, $post_type ) {
+	public function modify_rest_params_schema( array $query_params, WP_Post_Type $post_type ): array {
 		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), [ 'show_in_rest' => true ] );
 
 		if ( ! $taxonomies ) {
@@ -72,7 +71,7 @@ class API {
 		}
 
 		foreach ( $taxonomies as $taxonomy ) {
-			$base         = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+			$base         = empty( $taxonomy->rest_base ) ? $taxonomy->name : $taxonomy->rest_base;
 			$base_exclude = $base . '_exclude';
 
 			$query_params[ $base ]['oneOf'][0]['items']['type']         = [ 'integer', 'string' ];
@@ -88,10 +87,9 @@ class API {
 	 * Modifies the REST API query parameters to check for a taxonomy term slug instead of ID, which is the default
 	 * This is passed via the URL via ?<taxonomy>=term, eg ?category=category-slug
 	 *
-	 * @param array  - $args The Rest Args
-	 * @return array - array of args
+	 * @param array $args REST arguments.
 	 */
-	public function modify_rest_params( $args ) {
+	public function modify_rest_params( array $args ): array {
 		if ( empty( $args['post_type'] ) ) {
 			return $args;
 		}
@@ -111,12 +109,16 @@ class API {
 			if ( ! $term ) {
 				$term = htmlspecialchars( filter_input( INPUT_GET, $taxonomy->rest_base ) ?? '' );
 			}
-
-			if ( ! empty( $term ) && ! is_numeric( $term ) ) {
-				if ( isset( $args['tax_query'] ) ) {
+			if ( empty( $term ) ) {
+				continue;
+			}
+			if ( is_numeric( $term ) ) {
+				continue;
+			}
+			if ( isset( $args['tax_query'] ) ) {
 					$args['tax_query'][0]['field'] = 'slug';
 					$args['tax_query']             = array_map( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-						function ( $tax_query ) use ( $taxonomy ) {
+						function ( array $tax_query ) use ( $taxonomy ) {
 							if ( $tax_query['taxonomy'] === $taxonomy->name ) {
 								$tax_query['field'] = 'slug';
 								return $tax_query;
@@ -125,14 +127,13 @@ class API {
 						},
 						$args['tax_query']
 					);
-				} else {
-					$args['tax_query'][] = [
-						'taxonomy'         => $taxonomy->name,
-						'field'            => 'slug',
-						'terms'            => sanitize_text_field( $term ),
-						'include_children' => false,
-					];
-				}
+			} else {
+				$args['tax_query'][] = [
+					'taxonomy'         => $taxonomy->name,
+					'field'            => 'slug',
+					'terms'            => sanitize_text_field( $term ),
+					'include_children' => false,
+				];
 			}
 		}
 
