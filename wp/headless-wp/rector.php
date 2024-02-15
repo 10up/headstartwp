@@ -30,11 +30,12 @@ use Rector\Strict\Rector\If_\BooleanInIfConditionRuleFixerRector;
 use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
 use Rector\Naming\Rector\ClassMethod\RenameVariableToMatchNewTypeRector;
+use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 
 return static function ( RectorConfig $rectorConfig ): void {
 	$rectorConfig->paths(
 		[
-			__DIR__
+			__DIR__,
 		]
 	);
 
@@ -62,6 +63,7 @@ return static function ( RectorConfig $rectorConfig ): void {
 			BooleanInBooleanNotRuleFixerRector::class,
 			RemoveUselessVarTagRector::class,
 			RenameVariableToMatchNewTypeRector::class,
+			CallableThisArrayToAnonymousFunctionRector::class,
 		]
 	);
 

@@ -19,7 +19,7 @@ class TokenEndpoint {
 	 * Registers hooks.
 	 */
 	public function register() {
-		add_action( 'rest_api_init', array( $this, 'register_rest_route' ) );
+		add_action( 'rest_api_init', [ $this, 'register_rest_route' ] );
 	}
 
 	/**
@@ -34,8 +34,8 @@ class TokenEndpoint {
 			[
 				[
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_item' ),
-					'permission_callback' => array( $this, 'get_item_permissions_check' ),
+					'callback'            => [ $this, 'get_item' ],
+					'permission_callback' => [ $this, 'get_item_permissions_check' ],
 				],
 			]
 		);
