@@ -71,11 +71,11 @@ class PreviewToken extends BaseToken {
 
 		// Allowed capabilities when the token is type 'preview'. You also need to
 		// have permission to 'edit_post' or 'delete_post' for preview posts.
-		$capabilities = array(
+		$capabilities = [
 			'read_post'   => $post_id,
 			'edit_post'   => $post_id,
 			'delete_post' => $post_id,
-		);
+		];
 
 		// Prior to WordPress 5.5.1, capabilities should be specified with `page`
 		// for pages, so we are adding them as well to support older versions of
@@ -83,11 +83,11 @@ class PreviewToken extends BaseToken {
 		if ( 'page' === $post_type ) {
 			$capabilities = array_merge(
 				$capabilities,
-				array(
+				[
 					'read_page'   => $post_id,
 					'edit_page'   => $post_id,
 					'delete_page' => $post_id,
-				)
+				]
 			);
 		}
 

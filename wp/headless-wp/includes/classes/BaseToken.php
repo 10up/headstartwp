@@ -91,7 +91,7 @@ abstract class BaseToken {
 			$payload = JWT::decode(
 				$token,
 				self::get_private_key(),
-				array( 'HS256' )
+				[ 'HS256' ]
 			);
 		} catch ( \Exception $e ) {
 			// Token is not valid.

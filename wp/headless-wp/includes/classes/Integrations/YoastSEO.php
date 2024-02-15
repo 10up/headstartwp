@@ -18,21 +18,21 @@ class YoastSEO {
 	 */
 	public function register() {
 		// Override sitemap stylesheet.
-		add_filter( 'wpseo_stylesheet_url', array( $this, 'override_wpseo_stylesheet_url' ) );
+		add_filter( 'wpseo_stylesheet_url', [ $this, 'override_wpseo_stylesheet_url' ] );
 
 		// Override url in sitemap at root/index.
-		add_filter( 'wpseo_sitemap_index_links', array( $this, 'maybe_override_sitemap_index_links' ) );
+		add_filter( 'wpseo_sitemap_index_links', [ $this, 'maybe_override_sitemap_index_links' ] );
 
 		// Override url in sitemap for posts, pages, taxonomy archives, authors etc.
-		add_filter( 'wpseo_sitemap_url', array( $this, 'maybe_override_sitemap_url' ), 10, 1 );
+		add_filter( 'wpseo_sitemap_url', [ $this, 'maybe_override_sitemap_url' ], 10, 1 );
 
-		add_filter( 'robots_txt', array( $this, 'maybe_override_sitemap_robots_url' ), 999999 );
+		add_filter( 'robots_txt', [ $this, 'maybe_override_sitemap_robots_url' ], 999999 );
 
 		// Override Search results yoast head, get_head endpoint currently does't detect search page.
-		add_filter( 'wpseo_canonical', array( $this, 'override_search_canonical' ), 10, 1 );
-		add_filter( 'wpseo_title', array( $this, 'override_search_title' ), 10, 1 );
-		add_filter( 'wpseo_opengraph_title', array( $this, 'override_search_title' ), 10, 1 );
-		add_filter( 'wpseo_opengraph_url', array( $this, 'override_search_canonical' ), 10, 1 );
+		add_filter( 'wpseo_canonical', [ $this, 'override_search_canonical' ], 10, 1 );
+		add_filter( 'wpseo_title', [ $this, 'override_search_title' ], 10, 1 );
+		add_filter( 'wpseo_opengraph_title', [ $this, 'override_search_title' ], 10, 1 );
+		add_filter( 'wpseo_opengraph_url', [ $this, 'override_search_canonical' ], 10, 1 );
 	}
 
 	/**
@@ -219,12 +219,12 @@ class YoastSEO {
 
 		$str_replace_mapping = apply_filters(
 			'tenup_headless_wp_search_title_variables_replacments',
-			array(
+			[
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
 				' %%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( ' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
 				'%%sep%%'          => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
-			)
+			]
 		);
 
 		return str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
