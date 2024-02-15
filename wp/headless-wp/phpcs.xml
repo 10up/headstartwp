@@ -6,10 +6,17 @@
 	<!-- What to scan -->
 	<file>.</file>
 
+	<!-- What not to scan -->
+	<exclude-pattern>rector.php</exclude-pattern>
+	<exclude-pattern>jwt</exclude-pattern>
+
 	<!-- Options -->
 	<arg value="sp"/>
 	<arg name="colors"/>
 	<arg name="basepath" value="."/>
+
+	<!-- Force short array syntax -->
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
 	<!-- Disallowed functions -->
 	<rule ref="Generic.PHP.ForbiddenFunctions">
