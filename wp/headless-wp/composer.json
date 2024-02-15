@@ -32,7 +32,8 @@
     "yoast/wp-test-utils": "^1.1",
     "php-stubs/wordpress-stubs": "^6.1",
     "php-stubs/wordpress-tests-stubs": "^6.1",
-    "wordpress/wordpress-develop": "dev-trunk"
+    "wordpress/wordpress-develop": "dev-trunk",
+    "rector/rector": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -42,6 +43,8 @@
   "scripts": {
     "lint": "./vendor/bin/phpcs --standard=phpcs.xml",
     "lint-fix": "./vendor/bin/phpcbf --standard=phpcs.xml",
+    "refactor": "./vendor/bin/rector --dry-run",
+    "refactor-fix": "./vendor/bin/rector",
     "post-install-cmd": [
       "php -r \"copy('vendor/wordpress/wordpress-develop/wp-tests-config-sample.php', 'vendor/wordpress/wordpress-develop/wp-tests-config.php');\""
     ],
