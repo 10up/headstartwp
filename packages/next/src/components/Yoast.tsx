@@ -84,9 +84,16 @@ export function Yoast({ seo, useHtml = false }: Props) {
 						domNode.firstChild &&
 						isTextElement(domNode.firstChild)
 					) {
-						domNode.firstChild.data = domNode.firstChild.data.replace(
-							new RegExp(sourceUrl, 'g'),
-							hostUrl,
+						return (
+							<script
+								type="application/ld+json"
+								dangerouslySetInnerHTML={{
+									__html: domNode.firstChild.data.replace(
+										new RegExp(sourceUrl, 'g'),
+										hostUrl,
+									),
+								}}
+							/>
 						);
 					}
 
