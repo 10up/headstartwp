@@ -689,6 +689,7 @@ export interface PostSearchEntity extends SearchObjectEntity {
 	_embedded: {
 		author: AuthorEntity[];
 		'wp:term': Array<TermEntity[]>;
+		self: Array<PostEntity[]>;
 	};
 }
 

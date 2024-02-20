@@ -20,7 +20,7 @@ const SearchPage = () => {
 		<>
 			<h1>Search Results</h1>
 			<ul>
-				{data.posts.map((item) => (
+				{data.searchResults.map((item) => (
 					<li key={item.id}>
 						<Link href={item.url}>
 							{item.id} - {item.title}

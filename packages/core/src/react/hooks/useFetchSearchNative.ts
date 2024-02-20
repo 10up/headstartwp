@@ -18,7 +18,7 @@ import { makeErrorCatchProxy } from './util';
 export interface useSearchNativeResponse<
 	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 > extends HookResponse {
-	data?: { posts: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
+	data?: { searchResults: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
 }
 
 /**
@@ -49,7 +49,7 @@ export function useFetchSearchNative<
 
 	if (error || !data) {
 		const fakeData = {
-			posts: makeErrorCatchProxy<T[]>('posts'),
+			searchResults: makeErrorCatchProxy<T[]>('posts'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
@@ -58,7 +58,7 @@ export function useFetchSearchNative<
 
 	const { result, pageInfo, queriedObject } = data;
 
-	const posts = result.map((post) => {
+	const searchResults = result.map((post) => {
 		if ('subtype' in post) {
 			const postSearchEntity = post as PostSearchEntity;
 			post.author = getPostAuthor(postSearchEntity);
@@ -68,7 +68,7 @@ export function useFetchSearchNative<
 		return post;
 	});
 
-	return { data: { posts, pageInfo, queriedObject }, loading: false, isMainQuery };
+	return { data: { searchResults, pageInfo, queriedObject }, loading: false, isMainQuery };
 }
 
 /**
