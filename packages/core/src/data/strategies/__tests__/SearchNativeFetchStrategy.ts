@@ -1,10 +1,5 @@
 import { SearchNativeFetchStrategy } from '../SearchNativeFetchStrategy';
-import { apiGet } from '../../api';
 import { setHeadstartWPConfig } from '../../../utils';
-
-jest.mock('../../api');
-
-const apiGetMock = jest.mocked(apiGet);
 
 describe('SearchNativeFetchStrategy', () => {
 	let fetchStrategy: SearchNativeFetchStrategy;
@@ -13,8 +8,6 @@ describe('SearchNativeFetchStrategy', () => {
 		fetchStrategy = new SearchNativeFetchStrategy();
 
 		setHeadstartWPConfig({});
-		apiGetMock.mockReset();
-		apiGetMock.mockClear();
 	});
 
 	it('parse url properly', async () => {

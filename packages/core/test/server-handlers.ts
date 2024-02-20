@@ -2,7 +2,6 @@ import { rest, DefaultRequestBody } from 'msw';
 import { redirect } from './mocks/redirect';
 import posts from './__fixtures__/posts/posts.json';
 import pages from './__fixtures__/posts/pages.json';
-import { PostEntity, getPostAuthor } from '../src/data';
 
 interface TestEndpointResponse {
 	ok: boolean;
@@ -222,12 +221,12 @@ const handlers = [
 			let results: typeof posts = [];
 
 			if (subtype.includes('post')) {
-				results.push(...posts);
+				results = [...posts];
 			}
 
 			if (subtype.includes('page')) {
 				// @ts-expect-error
-				results.push(...pages);
+				results = [...results, ...pages];
 			}
 
 			if (search) {
@@ -269,7 +268,7 @@ const handlers = [
 							subtype: r.type,
 							_embedded: {
 								_self: { ...r },
-								author: getPostAuthor(r as unknown as PostEntity),
+								author: { ...r._embedded.author },
 								/* 'wp:term':
 									r.type === 'post'
 										? getPostTerms(r as unknown as PostEntity)
