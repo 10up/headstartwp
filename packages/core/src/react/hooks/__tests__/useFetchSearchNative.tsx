@@ -66,7 +66,7 @@ describe('useFetchSearch', () => {
 		const { result } = renderHook(
 			() =>
 				useFetchSearchNative(
-					{ per_page: 2, type: 'term', subtype: 'category,post_tag' },
+					{ per_page: 2, type: 'term', subtype: ['category', 'post_tag'] },
 					{},
 					'/headless',
 				),
@@ -80,7 +80,10 @@ describe('useFetchSearch', () => {
 			expect(
 				result.current.data?.searchResults.find((r) => r.title === 'headless'),
 			).toBeTruthy();
-			expect(result.current.data?.queriedObject.search?.subtype).toBe('category,post_tag');
+			expect(result.current.data?.queriedObject.search?.subtype).toStrictEqual([
+				'category',
+				'post_tag',
+			]);
 			expect(result.current.data?.queriedObject.search?.searchedValue).toBe('headless');
 		});
 	});

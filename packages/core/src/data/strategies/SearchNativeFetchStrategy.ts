@@ -39,7 +39,7 @@ export interface SearchParams extends EndpointParams {
 	/**
 	 * Limit results to items of one or more object subtypes.
 	 */
-	subtype?: string;
+	subtype?: string | string[];
 
 	/**
 	 * Ensure result set excludes specific IDs.
@@ -98,6 +98,21 @@ export class SearchNativeFetchStrategy<
 	}
 
 	/**
+	 * Builds the endpoint url for the search endpoint
+	 *
+	 * @param params The params for the request
+	 * @returns
+	 */
+	buildEndpointURL(params: Partial<P>): string {
+		const normalizedParams = { ...params };
+		if (Array.isArray(normalizedParams.subtype)) {
+			normalizedParams.subtype = normalizedParams.subtype.join(',');
+		}
+
+		return super.buildEndpointURL(normalizedParams);
+	}
+
+	/**
 	 * The fetcher function is overridden to disable throwing if not found
 	 *
 	 * If a search request returns not found we do not want to redirect to a 404 page,
@@ -144,7 +159,10 @@ export class SearchNativeFetchStrategy<
 			},
 		};
 
-		const response = await super.fetcher(url, params, { ...options, throwIfNotFound: false });
+		const response = await super.fetcher(url, params, {
+			...options,
+			throwIfNotFound: false,
+		});
 
 		return {
 			...response,

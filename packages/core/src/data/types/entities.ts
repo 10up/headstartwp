@@ -641,7 +641,7 @@ export interface SearchEntity extends Entity {
 	/**
 	 * Subtype of Search for the object.
 	 */
-	subtype: string;
+	subtype: string | string[];
 }
 
 /**
