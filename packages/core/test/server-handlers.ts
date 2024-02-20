@@ -2,6 +2,8 @@ import { rest, DefaultRequestBody } from 'msw';
 import { redirect } from './mocks/redirect';
 import posts from './__fixtures__/posts/posts.json';
 import pages from './__fixtures__/posts/pages.json';
+import categories from './__fixtures__/terms/categories.json';
+import tags from './__fixtures__/terms/tags.json';
 
 interface TestEndpointResponse {
 	ok: boolean;
@@ -243,7 +245,7 @@ const handlers = [
 			if ((page - 1) * perPage > totalResults) {
 				return res(
 					ctx.json({
-						code: 'rest_post_invalid_page_number',
+						code: 'rest_search_invalid_page_number',
 						message:
 							'The page number requested is larger than the number of pages available.',
 						data: {
@@ -273,6 +275,66 @@ const handlers = [
 									r.type === 'post'
 										? getPostTerms(r as unknown as PostEntity)
 										: undefined, */
+							},
+						};
+
+						return result;
+					}),
+				),
+			);
+		}
+
+		if (type === 'term') {
+			let results: typeof categories = [];
+
+			if (subtype.includes('category')) {
+				results = [...categories];
+			}
+
+			if (subtype.includes('post_tag')) {
+				// @ts-expect-error
+				results = [...results, ...tags];
+			}
+
+			if (search) {
+				results = results.filter((p) => {
+					return (
+						p.name.toLowerCase().includes(search.toLowerCase()) ||
+						p.description.toLowerCase().includes(search.toLowerCase())
+					);
+				});
+			}
+
+			const totalResults = results.length;
+
+			if ((page - 1) * perPage > totalResults) {
+				return res(
+					ctx.json({
+						code: 'rest_search_invalid_page_number',
+						message:
+							'The page number requested is larger than the number of pages available.',
+						data: {
+							status: 400,
+						},
+					}),
+				);
+			}
+
+			if (perPage) {
+				results = results.slice((page - 1) * perPage, perPage);
+			}
+
+			return res(
+				ctx.json(
+					results.map((r) => {
+						const result = {
+							id: Number(r.id),
+							title: r.name,
+							url: r.link,
+							type,
+							subtype: r.taxonomy,
+							_embedded: {
+								_self: { ...r },
 							},
 						};
 

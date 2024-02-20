@@ -42,7 +42,7 @@ describe('useFetchSearch', () => {
 		});
 	});
 
-	it('fetches data properly', async () => {
+	it('searches for posts properly', async () => {
 		const { result } = renderHook(
 			() =>
 				useFetchSearchNative(
@@ -59,6 +59,29 @@ describe('useFetchSearch', () => {
 			expect(result.current.data?.searchResults.length).toBeGreaterThanOrEqual(1);
 			expect(result.current.data?.queriedObject.search?.subtype).toBe('post,page');
 			expect(result.current.data?.queriedObject.search?.searchedValue).toBe('Debug');
+		});
+	});
+
+	it('searches for terms properly', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchSearchNative(
+					{ per_page: 2, type: 'term', subtype: 'category,post_tag' },
+					{},
+					'/headless',
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.data?.searchResults.length).toBeGreaterThanOrEqual(1);
+			expect(
+				result.current.data?.searchResults.find((r) => r.title === 'headless'),
+			).toBeTruthy();
+			expect(result.current.data?.queriedObject.search?.subtype).toBe('category,post_tag');
+			expect(result.current.data?.queriedObject.search?.searchedValue).toBe('headless');
 		});
 	});
 
