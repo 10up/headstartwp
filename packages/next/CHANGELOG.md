@@ -1,5 +1,18 @@
 # @headstartwp/next
 
+## 1.3.0
+
+### Minor Changes
+
+- 8452279a: Implement WordPress native search endpoint
+
+### Patch Changes
+
+- 6a35eaa0: Fix invalid structured data ld+json
+- e0e7c82f: Fix redirect status code when set to permanent'
+- Updated dependencies [8452279a]
+  - @headstartwp/core@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes

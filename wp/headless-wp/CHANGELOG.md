@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.1.0
+
+### Minor Changes
+
+- 8452279a: Implement WordPress native search endpoint
+
 ## 1.0.13
 
 ### Patch Changes
