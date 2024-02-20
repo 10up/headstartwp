@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.3.0
+
+### Minor Changes
+
+- 8452279a: Implement WordPress native search endpoint
+
 ## 1.2.0
 
 ### Minor Changes
