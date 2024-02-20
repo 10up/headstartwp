@@ -1,0 +1,1809 @@
+[
+    {
+        "id": 168,
+        "date": "2022-10-24T14:07:42",
+        "date_gmt": "2022-10-24T17:07:42",
+        "guid": {
+            "rendered": "https:\/\/js1.10up.com\/?page_id=168"
+        },
+        "modified": "2022-10-24T14:07:43",
+        "modified_gmt": "2022-10-24T17:07:43",
+        "slug": "debug-blocks",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/js1.10up.com\/debug-blocks\/",
+        "title": {
+            "rendered": "Debug Blocks"
+        },
+        "content": {
+            "rendered": "<div class=\"wp-block-columns\" data-wp-block='{\"isStackedOnMobile\":true}' data-wp-block-name=\"core\/columns\"><div class=\"wp-block-column\" data-wp-block=\"[]\" data-wp-block-name=\"core\/column\"><p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">Colum 1<\/p>\n<\/div>\n\n\n<div class=\"wp-block-column\" data-wp-block=\"[]\" data-wp-block-name=\"core\/column\"><p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">Column 1<\/p>\n<\/div>\n<\/div>\n",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "<p>Colum 1 Column 1<\/p>\n",
+            "protected": false
+        },
+        "author": 2,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Debug Blocks - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/debug-blocks\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Debug Blocks - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"Colum 1 Column 1\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/debug-blocks\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"article:modified_time\" content=\"2022-10-24T17:07:43+00:00\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/js1.10up.com\/debug-blocks\/\",\"url\":\"https:\/\/js1.10up.com\/debug-blocks\/\",\"name\":\"Debug Blocks - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"datePublished\":\"2022-10-24T17:07:42+00:00\",\"dateModified\":\"2022-10-24T17:07:43+00:00\",\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/debug-blocks\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/debug-blocks\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/debug-blocks\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Debug Blocks\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Debug Blocks - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/debug-blocks\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Debug Blocks - HeadstartWP",
+            "og_description": "Colum 1 Column 1",
+            "og_url": "https:\/\/js1.10up.com\/debug-blocks\/",
+            "og_site_name": "HeadstartWP",
+            "article_modified_time": "2022-10-24T17:07:43+00:00",
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/js1.10up.com\/debug-blocks\/",
+                        "url": "https:\/\/js1.10up.com\/debug-blocks\/",
+                        "name": "Debug Blocks - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "datePublished": "2022-10-24T17:07:42+00:00",
+                        "dateModified": "2022-10-24T17:07:43+00:00",
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/debug-blocks\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/js1.10up.com\/debug-blocks\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/debug-blocks\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Debug Blocks"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/168"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/comments?post=168"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 1,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/168\/revisions"
+                }
+            ],
+            "predecessor-version": [
+                {
+                    "id": 169,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/168\/revisions\/169"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/media?parent=168"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        },
+        "_embedded": {
+            "author": [
+                {
+                    "id": 2,
+                    "name": "Nicholas Oliveira",
+                    "url": "",
+                    "description": "",
+                    "link": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                    "slug": "nicholas-andre",
+                    "avatar_urls": {
+                        "24": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=24&d=mm&r=g",
+                        "48": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=48&d=mm&r=g",
+                        "96": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g"
+                    },
+                    "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Nicholas Oliveira, Author at HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"profile\" \/>\n<meta property=\"og:title\" content=\"Nicholas Oliveira, Author at HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"og:image\" content=\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"ProfilePage\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"url\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"name\":\"Nicholas Oliveira, Author at HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Archives for Nicholas Oliveira\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"},{\"@type\":\"Person\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f\",\"name\":\"Nicholas Oliveira\",\"image\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/image\/\",\"url\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"contentUrl\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"caption\":\"Nicholas Oliveira\"},\"mainEntityOfPage\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"}}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                    "yoast_head_json": {
+                        "title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "robots": {
+                            "index": "index",
+                            "follow": "follow",
+                            "max-snippet": "max-snippet:-1",
+                            "max-image-preview": "max-image-preview:large",
+                            "max-video-preview": "max-video-preview:-1"
+                        },
+                        "canonical": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_locale": "en_US",
+                        "og_type": "profile",
+                        "og_title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "og_url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_site_name": "HeadstartWP",
+                        "og_image": [
+                            {
+                                "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g"
+                            }
+                        ],
+                        "twitter_card": "summary_large_image",
+                        "schema": {
+                            "@context": "https:\/\/schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "ProfilePage",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "name": "Nicholas Oliveira, Author at HeadstartWP",
+                                    "isPartOf": {
+                                        "@id": "https:\/\/js1.10up.com\/#website"
+                                    },
+                                    "breadcrumb": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb"
+                                    },
+                                    "inLanguage": "en-US",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "ReadAction",
+                                            "target": [
+                                                "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "BreadcrumbList",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb",
+                                    "itemListElement": [
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 1,
+                                            "name": "Home",
+                                            "item": "https:\/\/js1.10up.com\/"
+                                        },
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 2,
+                                            "name": "Archives for Nicholas Oliveira"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https:\/\/js1.10up.com\/#website",
+                                    "url": "https:\/\/js1.10up.com\/",
+                                    "name": "HeadstartWP",
+                                    "description": "HeadstartWP Demo Site",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "SearchAction",
+                                            "target": {
+                                                "@type": "EntryPoint",
+                                                "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                            },
+                                            "query-input": "required name=search_term_string"
+                                        }
+                                    ],
+                                    "inLanguage": "en-US"
+                                },
+                                {
+                                    "@type": "Person",
+                                    "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f",
+                                    "name": "Nicholas Oliveira",
+                                    "image": {
+                                        "@type": "ImageObject",
+                                        "inLanguage": "en-US",
+                                        "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/image\/",
+                                        "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "contentUrl": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "caption": "Nicholas Oliveira"
+                                    },
+                                    "mainEntityOfPage": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "_links": {
+                        "self": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                            }
+                        ],
+                        "collection": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id": 166,
+        "date": "2022-10-24T13:33:30",
+        "date_gmt": "2022-10-24T16:33:30",
+        "guid": {
+            "rendered": "https:\/\/js1.10up.com\/?page_id=166"
+        },
+        "modified": "2022-10-24T13:33:33",
+        "modified_gmt": "2022-10-24T16:33:33",
+        "slug": "internal-link-test",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/js1.10up.com\/internal-link-test\/",
+        "title": {
+            "rendered": "Internal Link Test"
+        },
+        "content": {
+            "rendered": "<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\"><a href=\"https:\/\/js1.10up.com\/2020\/05\/07\/eos-in-delectus-cum-omnis-suscipit-voluptatem\/\">Internal Page<\/a><\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\"><a href=\"https:\/\/js1.10up.com\/2020\/05\/07\/eveniet-vel-voluptas-officia\/\">Internal Link 2<\/a><\/p>\n",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "<p>Internal Page Internal Link 2<\/p>\n",
+            "protected": false
+        },
+        "author": 2,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Internal Link Test - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/internal-link-test\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Internal Link Test - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"Internal Page Internal Link 2\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/internal-link-test\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"article:modified_time\" content=\"2022-10-24T16:33:33+00:00\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/js1.10up.com\/internal-link-test\/\",\"url\":\"https:\/\/js1.10up.com\/internal-link-test\/\",\"name\":\"Internal Link Test - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"datePublished\":\"2022-10-24T16:33:30+00:00\",\"dateModified\":\"2022-10-24T16:33:33+00:00\",\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/internal-link-test\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/internal-link-test\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/internal-link-test\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Internal Link Test\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Internal Link Test - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/internal-link-test\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Internal Link Test - HeadstartWP",
+            "og_description": "Internal Page Internal Link 2",
+            "og_url": "https:\/\/js1.10up.com\/internal-link-test\/",
+            "og_site_name": "HeadstartWP",
+            "article_modified_time": "2022-10-24T16:33:33+00:00",
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/js1.10up.com\/internal-link-test\/",
+                        "url": "https:\/\/js1.10up.com\/internal-link-test\/",
+                        "name": "Internal Link Test - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "datePublished": "2022-10-24T16:33:30+00:00",
+                        "dateModified": "2022-10-24T16:33:33+00:00",
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/internal-link-test\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/js1.10up.com\/internal-link-test\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/internal-link-test\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Internal Link Test"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/166"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/comments?post=166"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 1,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/166\/revisions"
+                }
+            ],
+            "predecessor-version": [
+                {
+                    "id": 167,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/166\/revisions\/167"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/media?parent=166"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        },
+        "_embedded": {
+            "author": [
+                {
+                    "id": 2,
+                    "name": "Nicholas Oliveira",
+                    "url": "",
+                    "description": "",
+                    "link": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                    "slug": "nicholas-andre",
+                    "avatar_urls": {
+                        "24": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=24&d=mm&r=g",
+                        "48": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=48&d=mm&r=g",
+                        "96": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g"
+                    },
+                    "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Nicholas Oliveira, Author at HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"profile\" \/>\n<meta property=\"og:title\" content=\"Nicholas Oliveira, Author at HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"og:image\" content=\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"ProfilePage\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"url\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"name\":\"Nicholas Oliveira, Author at HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Archives for Nicholas Oliveira\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"},{\"@type\":\"Person\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f\",\"name\":\"Nicholas Oliveira\",\"image\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/image\/\",\"url\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"contentUrl\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"caption\":\"Nicholas Oliveira\"},\"mainEntityOfPage\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"}}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                    "yoast_head_json": {
+                        "title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "robots": {
+                            "index": "index",
+                            "follow": "follow",
+                            "max-snippet": "max-snippet:-1",
+                            "max-image-preview": "max-image-preview:large",
+                            "max-video-preview": "max-video-preview:-1"
+                        },
+                        "canonical": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_locale": "en_US",
+                        "og_type": "profile",
+                        "og_title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "og_url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_site_name": "HeadstartWP",
+                        "og_image": [
+                            {
+                                "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g"
+                            }
+                        ],
+                        "twitter_card": "summary_large_image",
+                        "schema": {
+                            "@context": "https:\/\/schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "ProfilePage",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "name": "Nicholas Oliveira, Author at HeadstartWP",
+                                    "isPartOf": {
+                                        "@id": "https:\/\/js1.10up.com\/#website"
+                                    },
+                                    "breadcrumb": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb"
+                                    },
+                                    "inLanguage": "en-US",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "ReadAction",
+                                            "target": [
+                                                "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "BreadcrumbList",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb",
+                                    "itemListElement": [
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 1,
+                                            "name": "Home",
+                                            "item": "https:\/\/js1.10up.com\/"
+                                        },
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 2,
+                                            "name": "Archives for Nicholas Oliveira"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https:\/\/js1.10up.com\/#website",
+                                    "url": "https:\/\/js1.10up.com\/",
+                                    "name": "HeadstartWP",
+                                    "description": "HeadstartWP Demo Site",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "SearchAction",
+                                            "target": {
+                                                "@type": "EntryPoint",
+                                                "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                            },
+                                            "query-input": "required name=search_term_string"
+                                        }
+                                    ],
+                                    "inLanguage": "en-US"
+                                },
+                                {
+                                    "@type": "Person",
+                                    "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f",
+                                    "name": "Nicholas Oliveira",
+                                    "image": {
+                                        "@type": "ImageObject",
+                                        "inLanguage": "en-US",
+                                        "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/image\/",
+                                        "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "contentUrl": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "caption": "Nicholas Oliveira"
+                                    },
+                                    "mainEntityOfPage": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "_links": {
+                        "self": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                            }
+                        ],
+                        "collection": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id": 145,
+        "date": "2022-09-29T02:09:08",
+        "date_gmt": "2022-09-29T02:09:08",
+        "guid": {
+            "rendered": "https:\/\/js1.10up.com\/?page_id=145"
+        },
+        "modified": "2022-09-29T02:13:27",
+        "modified_gmt": "2022-09-29T02:13:27",
+        "slug": "react-native-test",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/js1.10up.com\/react-native-test\/",
+        "title": {
+            "rendered": "React Native Test"
+        },
+        "content": {
+            "rendered": "<h1 data-wp-block='{\"level\":1,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">This is a Heading Block 1<\/h1>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">This is a Heading Block 2<\/h2>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">This is a paragraph Block<\/p>\n\n\n<figure class=\"wp-block-image size-full\" data-wp-block='{\"id\":62,\"sizeSlug\":\"full\",\"linkDestination\":\"none\",\"alt\":\"\"}' data-wp-block-name=\"core\/image\"><img loading=\"lazy\" width=\"215\" height=\"172\" src=\"https:\/\/js1.10up.com\/wp-content\/uploads\/2020\/05\/c8380c9e-69d0-39e6-b894-43cb599196fa.png\" alt=\"\" class=\"wp-image-62\"><figcaption>Image Caption<\/figcaption><\/figure>\n",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "<p>This is a Heading Block 1 This is a Heading Block 2 This is a paragraph Block<\/p>\n",
+            "protected": false
+        },
+        "author": 2,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>React Native Test - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/react-native-test\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"React Native Test - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"This is a Heading Block 1 This is a Heading Block 2 This is a paragraph Block\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/react-native-test\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"article:modified_time\" content=\"2022-09-29T02:13:27+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/js1.10up.com\/wp-content\/uploads\/2020\/05\/c8380c9e-69d0-39e6-b894-43cb599196fa.png\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/js1.10up.com\/react-native-test\/\",\"url\":\"https:\/\/js1.10up.com\/react-native-test\/\",\"name\":\"React Native Test - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"datePublished\":\"2022-09-29T02:09:08+00:00\",\"dateModified\":\"2022-09-29T02:13:27+00:00\",\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/react-native-test\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/react-native-test\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/react-native-test\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"React Native Test\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "React Native Test - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/react-native-test\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "React Native Test - HeadstartWP",
+            "og_description": "This is a Heading Block 1 This is a Heading Block 2 This is a paragraph Block",
+            "og_url": "https:\/\/js1.10up.com\/react-native-test\/",
+            "og_site_name": "HeadstartWP",
+            "article_modified_time": "2022-09-29T02:13:27+00:00",
+            "og_image": [
+                {
+                    "url": "https:\/\/js1.10up.com\/wp-content\/uploads\/2020\/05\/c8380c9e-69d0-39e6-b894-43cb599196fa.png"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/js1.10up.com\/react-native-test\/",
+                        "url": "https:\/\/js1.10up.com\/react-native-test\/",
+                        "name": "React Native Test - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "datePublished": "2022-09-29T02:09:08+00:00",
+                        "dateModified": "2022-09-29T02:13:27+00:00",
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/react-native-test\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/js1.10up.com\/react-native-test\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/react-native-test\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "React Native Test"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/145"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/comments?post=145"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 4,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/145\/revisions"
+                }
+            ],
+            "predecessor-version": [
+                {
+                    "id": 149,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/145\/revisions\/149"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/media?parent=145"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        },
+        "_embedded": {
+            "author": [
+                {
+                    "id": 2,
+                    "name": "Nicholas Oliveira",
+                    "url": "",
+                    "description": "",
+                    "link": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                    "slug": "nicholas-andre",
+                    "avatar_urls": {
+                        "24": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=24&d=mm&r=g",
+                        "48": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=48&d=mm&r=g",
+                        "96": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g"
+                    },
+                    "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Nicholas Oliveira, Author at HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"profile\" \/>\n<meta property=\"og:title\" content=\"Nicholas Oliveira, Author at HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"og:image\" content=\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"ProfilePage\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"url\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"name\":\"Nicholas Oliveira, Author at HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Archives for Nicholas Oliveira\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"},{\"@type\":\"Person\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f\",\"name\":\"Nicholas Oliveira\",\"image\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/image\/\",\"url\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"contentUrl\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"caption\":\"Nicholas Oliveira\"},\"mainEntityOfPage\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"}}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                    "yoast_head_json": {
+                        "title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "robots": {
+                            "index": "index",
+                            "follow": "follow",
+                            "max-snippet": "max-snippet:-1",
+                            "max-image-preview": "max-image-preview:large",
+                            "max-video-preview": "max-video-preview:-1"
+                        },
+                        "canonical": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_locale": "en_US",
+                        "og_type": "profile",
+                        "og_title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "og_url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_site_name": "HeadstartWP",
+                        "og_image": [
+                            {
+                                "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g"
+                            }
+                        ],
+                        "twitter_card": "summary_large_image",
+                        "schema": {
+                            "@context": "https:\/\/schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "ProfilePage",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "name": "Nicholas Oliveira, Author at HeadstartWP",
+                                    "isPartOf": {
+                                        "@id": "https:\/\/js1.10up.com\/#website"
+                                    },
+                                    "breadcrumb": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb"
+                                    },
+                                    "inLanguage": "en-US",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "ReadAction",
+                                            "target": [
+                                                "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "BreadcrumbList",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb",
+                                    "itemListElement": [
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 1,
+                                            "name": "Home",
+                                            "item": "https:\/\/js1.10up.com\/"
+                                        },
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 2,
+                                            "name": "Archives for Nicholas Oliveira"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https:\/\/js1.10up.com\/#website",
+                                    "url": "https:\/\/js1.10up.com\/",
+                                    "name": "HeadstartWP",
+                                    "description": "HeadstartWP Demo Site",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "SearchAction",
+                                            "target": {
+                                                "@type": "EntryPoint",
+                                                "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                            },
+                                            "query-input": "required name=search_term_string"
+                                        }
+                                    ],
+                                    "inLanguage": "en-US"
+                                },
+                                {
+                                    "@type": "Person",
+                                    "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f",
+                                    "name": "Nicholas Oliveira",
+                                    "image": {
+                                        "@type": "ImageObject",
+                                        "inLanguage": "en-US",
+                                        "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/image\/",
+                                        "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "contentUrl": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "caption": "Nicholas Oliveira"
+                                    },
+                                    "mainEntityOfPage": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "_links": {
+                        "self": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                            }
+                        ],
+                        "collection": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id": 97,
+        "date": "2022-03-21T15:15:38",
+        "date_gmt": "2022-03-21T15:15:38",
+        "guid": {
+            "rendered": "https:\/\/js1.10up.com\/?page_id=97"
+        },
+        "modified": "2022-05-02T13:20:38",
+        "modified_gmt": "2022-05-02T13:20:38",
+        "slug": "front-page",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/js1.10up.com\/",
+        "title": {
+            "rendered": "Front-Page"
+        },
+        "content": {
+            "rendered": "<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">This is the front-page<\/p>\n",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "<p>This is the front-page<\/p>\n",
+            "protected": false
+        },
+        "author": 2,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Front-Page - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Front-Page - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"This is the front-page\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"article:modified_time\" content=\"2022-05-02T13:20:38+00:00\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/js1.10up.com\/\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"Front-Page - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"datePublished\":\"2022-03-21T15:15:38+00:00\",\"dateModified\":\"2022-05-02T13:20:38+00:00\",\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Front-Page\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Front-Page - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Front-Page - HeadstartWP",
+            "og_description": "This is the front-page",
+            "og_url": "https:\/\/js1.10up.com\/",
+            "og_site_name": "HeadstartWP",
+            "article_modified_time": "2022-05-02T13:20:38+00:00",
+            "twitter_card": "summary_large_image",
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/js1.10up.com\/",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "Front-Page - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "datePublished": "2022-03-21T15:15:38+00:00",
+                        "dateModified": "2022-05-02T13:20:38+00:00",
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/js1.10up.com\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Front-Page"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/97"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/comments?post=97"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 2,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/97\/revisions"
+                }
+            ],
+            "predecessor-version": [
+                {
+                    "id": 109,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/97\/revisions\/109"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/media?parent=97"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        },
+        "_embedded": {
+            "author": [
+                {
+                    "id": 2,
+                    "name": "Nicholas Oliveira",
+                    "url": "",
+                    "description": "",
+                    "link": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                    "slug": "nicholas-andre",
+                    "avatar_urls": {
+                        "24": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=24&d=mm&r=g",
+                        "48": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=48&d=mm&r=g",
+                        "96": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g"
+                    },
+                    "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Nicholas Oliveira, Author at HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"profile\" \/>\n<meta property=\"og:title\" content=\"Nicholas Oliveira, Author at HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"og:image\" content=\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"ProfilePage\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"url\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"name\":\"Nicholas Oliveira, Author at HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Archives for Nicholas Oliveira\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"},{\"@type\":\"Person\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f\",\"name\":\"Nicholas Oliveira\",\"image\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/image\/\",\"url\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"contentUrl\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"caption\":\"Nicholas Oliveira\"},\"mainEntityOfPage\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"}}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                    "yoast_head_json": {
+                        "title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "robots": {
+                            "index": "index",
+                            "follow": "follow",
+                            "max-snippet": "max-snippet:-1",
+                            "max-image-preview": "max-image-preview:large",
+                            "max-video-preview": "max-video-preview:-1"
+                        },
+                        "canonical": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_locale": "en_US",
+                        "og_type": "profile",
+                        "og_title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "og_url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_site_name": "HeadstartWP",
+                        "og_image": [
+                            {
+                                "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g"
+                            }
+                        ],
+                        "twitter_card": "summary_large_image",
+                        "schema": {
+                            "@context": "https:\/\/schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "ProfilePage",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "name": "Nicholas Oliveira, Author at HeadstartWP",
+                                    "isPartOf": {
+                                        "@id": "https:\/\/js1.10up.com\/#website"
+                                    },
+                                    "breadcrumb": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb"
+                                    },
+                                    "inLanguage": "en-US",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "ReadAction",
+                                            "target": [
+                                                "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "BreadcrumbList",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb",
+                                    "itemListElement": [
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 1,
+                                            "name": "Home",
+                                            "item": "https:\/\/js1.10up.com\/"
+                                        },
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 2,
+                                            "name": "Archives for Nicholas Oliveira"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https:\/\/js1.10up.com\/#website",
+                                    "url": "https:\/\/js1.10up.com\/",
+                                    "name": "HeadstartWP",
+                                    "description": "HeadstartWP Demo Site",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "SearchAction",
+                                            "target": {
+                                                "@type": "EntryPoint",
+                                                "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                            },
+                                            "query-input": "required name=search_term_string"
+                                        }
+                                    ],
+                                    "inLanguage": "en-US"
+                                },
+                                {
+                                    "@type": "Person",
+                                    "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f",
+                                    "name": "Nicholas Oliveira",
+                                    "image": {
+                                        "@type": "ImageObject",
+                                        "inLanguage": "en-US",
+                                        "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/image\/",
+                                        "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "contentUrl": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "caption": "Nicholas Oliveira"
+                                    },
+                                    "mainEntityOfPage": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "_links": {
+                        "self": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                            }
+                        ],
+                        "collection": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id": 91,
+        "date": "2020-05-08T17:11:50",
+        "date_gmt": "2020-05-08T17:11:50",
+        "guid": {
+            "rendered": "https:\/\/js1.10up.com\/?page_id=91"
+        },
+        "modified": "2020-05-08T17:11:50",
+        "modified_gmt": "2020-05-08T17:11:50",
+        "slug": "about-us",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/js1.10up.com\/about-us\/",
+        "title": {
+            "rendered": "About Us"
+        },
+        "content": {
+            "rendered": "<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula neque, tempor vitae sem sed, tempor cursus dolor. Nunc malesuada maximus nisi nec posuere. Integer id rhoncus lacus. In lectus metus, pharetra varius placerat vitae, porttitor id elit. Mauris eleifend posuere diam. Nunc pellentesque sapien et pretium convallis. Donec justo enim, accumsan et urna nec, rhoncus molestie leo. In non dui libero. Fusce non purus nibh. Aenean sit amet libero ac lacus tempus congue. Cras viverra efficitur neque, sed mattis enim ultricies eget. Nulla tempor orci non mi semper vestibulum. Etiam tortor purus, egestas quis nisl ut, vehicula vehicula enim. Maecenas ac lacus mollis, aliquam quam ac, viverra quam. Morbi varius maximus fermentum.<\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">Curabitur gravida maximus erat a fringilla. Quisque libero justo, molestie sed pretium a, feugiat eget nulla. Vivamus sodales tristique euismod. Curabitur a lectus elit. Nulla augue justo, aliquet eu mollis at, ullamcorper vitae eros. Quisque viverra ultricies cursus. Fusce vestibulum eget mi sed aliquam. Aliquam erat magna, porta at aliquet ultricies, aliquet condimentum quam. Suspendisse nec tincidunt neque. Fusce laoreet dui non porta laoreet. Nam congue vel elit hendrerit rutrum. In congue augue a risus tempus blandit. Sed vehicula at odio eget aliquam.<\/p>\n",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula neque, tempor vitae sem sed, tempor cursus dolor. Nunc malesuada maximus nisi nec posuere. Integer id rhoncus lacus. In lectus metus, pharetra varius placerat vitae, porttitor id elit. Mauris eleifend posuere diam. Nunc pellentesque sapien et pretium convallis. Donec justo enim, accumsan et urna nec,&hellip; <a class=\"more-link\" href=\"https:\/\/js1.10up.com\/about-us\/\">Continue reading <span class=\"screen-reader-text\">About Us<\/span><\/a><\/p>\n",
+            "protected": false
+        },
+        "author": 2,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>About Us - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/about-us\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"About Us - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula neque, tempor vitae sem sed, tempor cursus dolor. Nunc malesuada maximus nisi nec posuere. Integer id rhoncus lacus. In lectus metus, pharetra varius placerat vitae, porttitor id elit. Mauris eleifend posuere diam. Nunc pellentesque sapien et pretium convallis. Donec justo enim, accumsan et urna nec,&hellip; Continue reading About Us\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/about-us\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/js1.10up.com\/about-us\/\",\"url\":\"https:\/\/js1.10up.com\/about-us\/\",\"name\":\"About Us - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"datePublished\":\"2020-05-08T17:11:50+00:00\",\"dateModified\":\"2020-05-08T17:11:50+00:00\",\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/about-us\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/about-us\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/about-us\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"About Us\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "About Us - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/about-us\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "About Us - HeadstartWP",
+            "og_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula neque, tempor vitae sem sed, tempor cursus dolor. Nunc malesuada maximus nisi nec posuere. Integer id rhoncus lacus. In lectus metus, pharetra varius placerat vitae, porttitor id elit. Mauris eleifend posuere diam. Nunc pellentesque sapien et pretium convallis. Donec justo enim, accumsan et urna nec,&hellip; Continue reading About Us",
+            "og_url": "https:\/\/js1.10up.com\/about-us\/",
+            "og_site_name": "HeadstartWP",
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/js1.10up.com\/about-us\/",
+                        "url": "https:\/\/js1.10up.com\/about-us\/",
+                        "name": "About Us - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "datePublished": "2020-05-08T17:11:50+00:00",
+                        "dateModified": "2020-05-08T17:11:50+00:00",
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/about-us\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/js1.10up.com\/about-us\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/about-us\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "About Us"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/91"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/comments?post=91"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 2,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/91\/revisions"
+                }
+            ],
+            "predecessor-version": [
+                {
+                    "id": 114,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/91\/revisions\/114"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/media?parent=91"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        },
+        "_embedded": {
+            "author": [
+                {
+                    "id": 2,
+                    "name": "Nicholas Oliveira",
+                    "url": "",
+                    "description": "",
+                    "link": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                    "slug": "nicholas-andre",
+                    "avatar_urls": {
+                        "24": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=24&d=mm&r=g",
+                        "48": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=48&d=mm&r=g",
+                        "96": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g"
+                    },
+                    "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Nicholas Oliveira, Author at HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"profile\" \/>\n<meta property=\"og:title\" content=\"Nicholas Oliveira, Author at HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"og:image\" content=\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"ProfilePage\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"url\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\",\"name\":\"Nicholas Oliveira, Author at HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Archives for Nicholas Oliveira\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"},{\"@type\":\"Person\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f\",\"name\":\"Nicholas Oliveira\",\"image\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/image\/\",\"url\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"contentUrl\":\"https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g\",\"caption\":\"Nicholas Oliveira\"},\"mainEntityOfPage\":{\"@id\":\"https:\/\/js1.10up.com\/author\/nicholas-andre\/\"}}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                    "yoast_head_json": {
+                        "title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "robots": {
+                            "index": "index",
+                            "follow": "follow",
+                            "max-snippet": "max-snippet:-1",
+                            "max-image-preview": "max-image-preview:large",
+                            "max-video-preview": "max-video-preview:-1"
+                        },
+                        "canonical": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_locale": "en_US",
+                        "og_type": "profile",
+                        "og_title": "Nicholas Oliveira, Author at HeadstartWP",
+                        "og_url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                        "og_site_name": "HeadstartWP",
+                        "og_image": [
+                            {
+                                "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=500&d=mm&r=g"
+                            }
+                        ],
+                        "twitter_card": "summary_large_image",
+                        "schema": {
+                            "@context": "https:\/\/schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "ProfilePage",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "url": "https:\/\/js1.10up.com\/author\/nicholas-andre\/",
+                                    "name": "Nicholas Oliveira, Author at HeadstartWP",
+                                    "isPartOf": {
+                                        "@id": "https:\/\/js1.10up.com\/#website"
+                                    },
+                                    "breadcrumb": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb"
+                                    },
+                                    "inLanguage": "en-US",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "ReadAction",
+                                            "target": [
+                                                "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "BreadcrumbList",
+                                    "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/#breadcrumb",
+                                    "itemListElement": [
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 1,
+                                            "name": "Home",
+                                            "item": "https:\/\/js1.10up.com\/"
+                                        },
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 2,
+                                            "name": "Archives for Nicholas Oliveira"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https:\/\/js1.10up.com\/#website",
+                                    "url": "https:\/\/js1.10up.com\/",
+                                    "name": "HeadstartWP",
+                                    "description": "HeadstartWP Demo Site",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "SearchAction",
+                                            "target": {
+                                                "@type": "EntryPoint",
+                                                "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                            },
+                                            "query-input": "required name=search_term_string"
+                                        }
+                                    ],
+                                    "inLanguage": "en-US"
+                                },
+                                {
+                                    "@type": "Person",
+                                    "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/80dc700f15958026d35346a396e3a50f",
+                                    "name": "Nicholas Oliveira",
+                                    "image": {
+                                        "@type": "ImageObject",
+                                        "inLanguage": "en-US",
+                                        "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/image\/",
+                                        "url": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "contentUrl": "https:\/\/secure.gravatar.com\/avatar\/7b2765eba1c1a5a0bf538352e86bc5bf?s=96&d=mm&r=g",
+                                        "caption": "Nicholas Oliveira"
+                                    },
+                                    "mainEntityOfPage": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/nicholas-andre\/"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "_links": {
+                        "self": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/2"
+                            }
+                        ],
+                        "collection": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "date": "2020-05-05T23:41:22",
+        "date_gmt": "2020-05-05T23:41:22",
+        "guid": {
+            "rendered": "https:\/\/js1.10up.com\/?page_id=3"
+        },
+        "modified": "2020-05-08T17:11:16",
+        "modified_gmt": "2020-05-08T17:11:16",
+        "slug": "privacy-policy",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/js1.10up.com\/privacy-policy\/",
+        "title": {
+            "rendered": "Privacy Policy"
+        },
+        "content": {
+            "rendered": "<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">Who we are<\/h2>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">Our website address is: https:\/\/js1.10up.com.<\/p>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">What personal data we collect and why we collect it<\/h2>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">Comments<\/h3>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor&rsquo;s IP address and browser user agent string to help spam detection.<\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">An anonymized string created from your email address (also called a hash) may be provided to the Gravatar service to see if you are using it. The Gravatar service privacy policy is available here: https:\/\/automattic.com\/privacy\/. After approval of your comment, your profile picture is visible to the public in the context of your comment.<\/p>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">Media<\/h3>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">If you upload images to the website, you should avoid uploading images with embedded location data (EXIF GPS) included. Visitors to the website can download and extract any location data from images on the website.<\/p>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">Contact forms<\/h3>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">Cookies<\/h3>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">If you leave a comment on our site you may opt-in to saving your name, email address and website in cookies. These are for your convenience so that you do not have to fill in your details again when you leave another comment. These cookies will last for one year.<\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">If you visit our login page, we will set a temporary cookie to determine if your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser.<\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select &#8220;Remember Me&#8221;, your login will persist for two weeks. If you log out of your account, the login cookies will be removed.<\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">If you edit or publish an article, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the post ID of the article you just edited. It expires after 1 day.<\/p>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">Embedded content from other websites<\/h3>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website.<\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">These websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with that embedded content, including tracking your interaction with the embedded content if you have an account and are logged in to that website.<\/p>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">Analytics<\/h3>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">Who we share your data with<\/h2>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">How long we retain your data<\/h2>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">If you leave a comment, the comment and its metadata are retained indefinitely. This is so we can recognize and approve any follow-up comments automatically instead of holding them in a moderation queue.<\/p>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">For users that register on our website (if any), we also store the personal information they provide in their user profile. All users can see, edit, or delete their personal information at any time (except they cannot change their username). Website administrators can also see and edit that information.<\/p>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">What rights you have over your data<\/h2>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">If you have an account on this site, or have left comments, you can request to receive an exported file of the personal data we hold about you, including any data you have provided to us. You can also request that we erase any personal data we hold about you. This does not include any data we are obliged to keep for administrative, legal, or security purposes.<\/p>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">Where we send your data<\/h2>\n\n\n<p data-wp-block='{\"content\":\"\",\"dropCap\":false}' data-wp-block-name=\"core\/paragraph\">Visitor comments may be checked through an automated spam detection service.<\/p>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">Your contact information<\/h2>\n\n\n<h2 data-wp-block='{\"content\":\"\",\"level\":2}' data-wp-block-name=\"core\/heading\">Additional information<\/h2>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">How we protect your data<\/h3>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">What data breach procedures we have in place<\/h3>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">What third parties we receive data from<\/h3>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">What automated decision making and\/or profiling we do with user data<\/h3>\n\n\n<h3 data-wp-block='{\"level\":3,\"content\":\"\"}' data-wp-block-name=\"core\/heading\">Industry regulatory disclosure requirements<\/h3>\n",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "<p>Who we are Our website address is: https:\/\/js1.10up.com. What personal data we collect and why we collect it Comments When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor&rsquo;s IP address and browser user agent string to help spam detection. An anonymized string created from&hellip; <a class=\"more-link\" href=\"https:\/\/js1.10up.com\/privacy-policy\/\">Continue reading <span class=\"screen-reader-text\">Privacy Policy<\/span><\/a><\/p>\n",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "open",
+        "template": "",
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Privacy Policy - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/privacy-policy\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Privacy Policy - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"Who we are Our website address is: https:\/\/js1.10up.com. What personal data we collect and why we collect it Comments When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor&rsquo;s IP address and browser user agent string to help spam detection. An anonymized string created from&hellip; Continue reading Privacy Policy\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/privacy-policy\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"article:modified_time\" content=\"2020-05-08T17:11:16+00:00\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"3 minutes\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/js1.10up.com\/privacy-policy\/\",\"url\":\"https:\/\/js1.10up.com\/privacy-policy\/\",\"name\":\"Privacy Policy - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"datePublished\":\"2020-05-05T23:41:22+00:00\",\"dateModified\":\"2020-05-08T17:11:16+00:00\",\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/privacy-policy\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/privacy-policy\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/privacy-policy\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Privacy Policy\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Privacy Policy - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/privacy-policy\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Privacy Policy - HeadstartWP",
+            "og_description": "Who we are Our website address is: https:\/\/js1.10up.com. What personal data we collect and why we collect it Comments When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor&rsquo;s IP address and browser user agent string to help spam detection. An anonymized string created from&hellip; Continue reading Privacy Policy",
+            "og_url": "https:\/\/js1.10up.com\/privacy-policy\/",
+            "og_site_name": "HeadstartWP",
+            "article_modified_time": "2020-05-08T17:11:16+00:00",
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "3 minutes"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/js1.10up.com\/privacy-policy\/",
+                        "url": "https:\/\/js1.10up.com\/privacy-policy\/",
+                        "name": "Privacy Policy - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "datePublished": "2020-05-05T23:41:22+00:00",
+                        "dateModified": "2020-05-08T17:11:16+00:00",
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/privacy-policy\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/js1.10up.com\/privacy-policy\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/privacy-policy\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Privacy Policy"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/3"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/comments?post=3"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 1,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/3\/revisions"
+                }
+            ],
+            "predecessor-version": [
+                {
+                    "id": 89,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/pages\/3\/revisions\/89"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/media?parent=3"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        },
+        "_embedded": {
+            "author": [
+                {
+                    "id": 3,
+                    "name": "jane",
+                    "url": "",
+                    "description": "",
+                    "link": "https:\/\/js1.10up.com\/author\/jane\/",
+                    "slug": "jane",
+                    "avatar_urls": {
+                        "24": "https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=24&d=mm&r=g",
+                        "48": "https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=48&d=mm&r=g",
+                        "96": "https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=96&d=mm&r=g"
+                    },
+                    "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>jane, Author at HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/author\/jane\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"profile\" \/>\n<meta property=\"og:title\" content=\"jane, Author at HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/author\/jane\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta property=\"og:image\" content=\"https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=500&d=mm&r=g\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"ProfilePage\",\"@id\":\"https:\/\/js1.10up.com\/author\/jane\/\",\"url\":\"https:\/\/js1.10up.com\/author\/jane\/\",\"name\":\"jane, Author at HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/author\/jane\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/js1.10up.com\/author\/jane\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/author\/jane\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Archives for jane\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"},{\"@type\":\"Person\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/3afac93ee5b5788ae9a84fb816e75c04\",\"name\":\"jane\",\"image\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/js1.10up.com\/#\/schema\/person\/image\/\",\"url\":\"https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=96&d=mm&r=g\",\"contentUrl\":\"https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=96&d=mm&r=g\",\"caption\":\"jane\"},\"mainEntityOfPage\":{\"@id\":\"https:\/\/js1.10up.com\/author\/jane\/\"}}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                    "yoast_head_json": {
+                        "title": "jane, Author at HeadstartWP",
+                        "robots": {
+                            "index": "index",
+                            "follow": "follow",
+                            "max-snippet": "max-snippet:-1",
+                            "max-image-preview": "max-image-preview:large",
+                            "max-video-preview": "max-video-preview:-1"
+                        },
+                        "canonical": "https:\/\/js1.10up.com\/author\/jane\/",
+                        "og_locale": "en_US",
+                        "og_type": "profile",
+                        "og_title": "jane, Author at HeadstartWP",
+                        "og_url": "https:\/\/js1.10up.com\/author\/jane\/",
+                        "og_site_name": "HeadstartWP",
+                        "og_image": [
+                            {
+                                "url": "https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=500&d=mm&r=g"
+                            }
+                        ],
+                        "twitter_card": "summary_large_image",
+                        "schema": {
+                            "@context": "https:\/\/schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "ProfilePage",
+                                    "@id": "https:\/\/js1.10up.com\/author\/jane\/",
+                                    "url": "https:\/\/js1.10up.com\/author\/jane\/",
+                                    "name": "jane, Author at HeadstartWP",
+                                    "isPartOf": {
+                                        "@id": "https:\/\/js1.10up.com\/#website"
+                                    },
+                                    "breadcrumb": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/jane\/#breadcrumb"
+                                    },
+                                    "inLanguage": "en-US",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "ReadAction",
+                                            "target": [
+                                                "https:\/\/js1.10up.com\/author\/jane\/"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "BreadcrumbList",
+                                    "@id": "https:\/\/js1.10up.com\/author\/jane\/#breadcrumb",
+                                    "itemListElement": [
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 1,
+                                            "name": "Home",
+                                            "item": "https:\/\/js1.10up.com\/"
+                                        },
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 2,
+                                            "name": "Archives for jane"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https:\/\/js1.10up.com\/#website",
+                                    "url": "https:\/\/js1.10up.com\/",
+                                    "name": "HeadstartWP",
+                                    "description": "HeadstartWP Demo Site",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "SearchAction",
+                                            "target": {
+                                                "@type": "EntryPoint",
+                                                "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                            },
+                                            "query-input": "required name=search_term_string"
+                                        }
+                                    ],
+                                    "inLanguage": "en-US"
+                                },
+                                {
+                                    "@type": "Person",
+                                    "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/3afac93ee5b5788ae9a84fb816e75c04",
+                                    "name": "jane",
+                                    "image": {
+                                        "@type": "ImageObject",
+                                        "inLanguage": "en-US",
+                                        "@id": "https:\/\/js1.10up.com\/#\/schema\/person\/image\/",
+                                        "url": "https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=96&d=mm&r=g",
+                                        "contentUrl": "https:\/\/secure.gravatar.com\/avatar\/fe4af3a918b880a2ba43be66a01ac466?s=96&d=mm&r=g",
+                                        "caption": "jane"
+                                    },
+                                    "mainEntityOfPage": {
+                                        "@id": "https:\/\/js1.10up.com\/author\/jane\/"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "_links": {
+                        "self": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users\/3"
+                            }
+                        ],
+                        "collection": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/users"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+]

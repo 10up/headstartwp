@@ -1,0 +1,571 @@
+[
+    {
+        "id": 8,
+        "count": 4,
+        "description": "",
+        "link": "https:\/\/js1.10up.com\/category\/news\/nested-category\/",
+        "name": "Nested Category",
+        "slug": "nested-category",
+        "taxonomy": "category",
+        "parent": 5,
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Nested Category Archives - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/category\/news\/nested-category\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Nested Category Archives - HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/category\/news\/nested-category\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/nested-category\/\",\"url\":\"https:\/\/js1.10up.com\/category\/news\/nested-category\/\",\"name\":\"Nested Category Archives - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/category\/news\/nested-category\/#breadcrumb\"},\"inLanguage\":\"en-US\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/nested-category\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"News\",\"item\":\"https:\/\/js1.10up.com\/category\/news\/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Nested Category\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Nested Category Archives - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/category\/news\/nested-category\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Nested Category Archives - HeadstartWP",
+            "og_url": "https:\/\/js1.10up.com\/category\/news\/nested-category\/",
+            "og_site_name": "HeadstartWP",
+            "twitter_card": "summary_large_image",
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "CollectionPage",
+                        "@id": "https:\/\/js1.10up.com\/category\/news\/nested-category\/",
+                        "url": "https:\/\/js1.10up.com\/category\/news\/nested-category\/",
+                        "name": "Nested Category Archives - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/category\/news\/nested-category\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/category\/news\/nested-category\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "News",
+                                "item": "https:\/\/js1.10up.com\/category\/news\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 3,
+                                "name": "Nested Category"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories\/8"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/taxonomies\/category"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories\/5"
+                }
+            ],
+            "wp:post_type": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/posts?categories=8"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        },
+        "_embedded": {
+            "up": [
+                {
+                    "id": 5,
+                    "link": "https:\/\/js1.10up.com\/category\/news\/",
+                    "name": "News",
+                    "slug": "news",
+                    "taxonomy": "category",
+                    "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>News Archives - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/category\/news\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"News Archives - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"Testando\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/category\/news\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/\",\"url\":\"https:\/\/js1.10up.com\/category\/news\/\",\"name\":\"News Archives - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/category\/news\/#breadcrumb\"},\"inLanguage\":\"en-US\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"News\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+                    "yoast_head_json": {
+                        "title": "News Archives - HeadstartWP",
+                        "robots": {
+                            "index": "index",
+                            "follow": "follow",
+                            "max-snippet": "max-snippet:-1",
+                            "max-image-preview": "max-image-preview:large",
+                            "max-video-preview": "max-video-preview:-1"
+                        },
+                        "canonical": "https:\/\/js1.10up.com\/category\/news\/",
+                        "og_locale": "en_US",
+                        "og_type": "article",
+                        "og_title": "News Archives - HeadstartWP",
+                        "og_description": "Testando",
+                        "og_url": "https:\/\/js1.10up.com\/category\/news\/",
+                        "og_site_name": "HeadstartWP",
+                        "twitter_card": "summary_large_image",
+                        "schema": {
+                            "@context": "https:\/\/schema.org",
+                            "@graph": [
+                                {
+                                    "@type": "CollectionPage",
+                                    "@id": "https:\/\/js1.10up.com\/category\/news\/",
+                                    "url": "https:\/\/js1.10up.com\/category\/news\/",
+                                    "name": "News Archives - HeadstartWP",
+                                    "isPartOf": {
+                                        "@id": "https:\/\/js1.10up.com\/#website"
+                                    },
+                                    "breadcrumb": {
+                                        "@id": "https:\/\/js1.10up.com\/category\/news\/#breadcrumb"
+                                    },
+                                    "inLanguage": "en-US"
+                                },
+                                {
+                                    "@type": "BreadcrumbList",
+                                    "@id": "https:\/\/js1.10up.com\/category\/news\/#breadcrumb",
+                                    "itemListElement": [
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 1,
+                                            "name": "Home",
+                                            "item": "https:\/\/js1.10up.com\/"
+                                        },
+                                        {
+                                            "@type": "ListItem",
+                                            "position": 2,
+                                            "name": "News"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "@type": "WebSite",
+                                    "@id": "https:\/\/js1.10up.com\/#website",
+                                    "url": "https:\/\/js1.10up.com\/",
+                                    "name": "HeadstartWP",
+                                    "description": "HeadstartWP Demo Site",
+                                    "potentialAction": [
+                                        {
+                                            "@type": "SearchAction",
+                                            "target": {
+                                                "@type": "EntryPoint",
+                                                "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                            },
+                                            "query-input": "required name=search_term_string"
+                                        }
+                                    ],
+                                    "inLanguage": "en-US"
+                                }
+                            ]
+                        }
+                    },
+                    "_links": {
+                        "self": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories\/5"
+                            }
+                        ],
+                        "collection": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories"
+                            }
+                        ],
+                        "about": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/taxonomies\/category"
+                            }
+                        ],
+                        "wp:post_type": [
+                            {
+                                "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/posts?categories=5"
+                            }
+                        ],
+                        "curies": [
+                            {
+                                "name": "wp",
+                                "href": "https:\/\/api.w.org\/{rel}",
+                                "templated": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "id": 5,
+        "count": 20,
+        "description": "Testando",
+        "link": "https:\/\/js1.10up.com\/category\/news\/",
+        "name": "News",
+        "slug": "news",
+        "taxonomy": "category",
+        "parent": 0,
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>News Archives - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/category\/news\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"News Archives - HeadstartWP\" \/>\n<meta property=\"og:description\" content=\"Testando\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/category\/news\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/\",\"url\":\"https:\/\/js1.10up.com\/category\/news\/\",\"name\":\"News Archives - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/category\/news\/#breadcrumb\"},\"inLanguage\":\"en-US\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/category\/news\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"News\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "News Archives - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/category\/news\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "News Archives - HeadstartWP",
+            "og_description": "Testando",
+            "og_url": "https:\/\/js1.10up.com\/category\/news\/",
+            "og_site_name": "HeadstartWP",
+            "twitter_card": "summary_large_image",
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "CollectionPage",
+                        "@id": "https:\/\/js1.10up.com\/category\/news\/",
+                        "url": "https:\/\/js1.10up.com\/category\/news\/",
+                        "name": "News Archives - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/category\/news\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/category\/news\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "News"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories\/5"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/taxonomies\/category"
+                }
+            ],
+            "wp:post_type": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/posts?categories=5"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1,
+        "count": 25,
+        "description": "",
+        "link": "https:\/\/js1.10up.com\/category\/uncategorized\/",
+        "name": "Uncategorized",
+        "slug": "uncategorized",
+        "taxonomy": "category",
+        "parent": 0,
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Uncategorized Archives - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/category\/uncategorized\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Uncategorized Archives - HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/category\/uncategorized\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\/\/js1.10up.com\/category\/uncategorized\/\",\"url\":\"https:\/\/js1.10up.com\/category\/uncategorized\/\",\"name\":\"Uncategorized Archives - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/category\/uncategorized\/#breadcrumb\"},\"inLanguage\":\"en-US\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/category\/uncategorized\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Uncategorized\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Uncategorized Archives - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/category\/uncategorized\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Uncategorized Archives - HeadstartWP",
+            "og_url": "https:\/\/js1.10up.com\/category\/uncategorized\/",
+            "og_site_name": "HeadstartWP",
+            "twitter_card": "summary_large_image",
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "CollectionPage",
+                        "@id": "https:\/\/js1.10up.com\/category\/uncategorized\/",
+                        "url": "https:\/\/js1.10up.com\/category\/uncategorized\/",
+                        "name": "Uncategorized Archives - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/category\/uncategorized\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/category\/uncategorized\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Uncategorized"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories\/1"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/taxonomies\/category"
+                }
+            ],
+            "wp:post_type": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/posts?categories=1"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 7,
+        "count": 0,
+        "description": "",
+        "link": "https:\/\/js1.10up.com\/category\/zero-posts\/",
+        "name": "Zero Posts",
+        "slug": "zero-posts",
+        "taxonomy": "category",
+        "parent": 0,
+        "meta": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v21.2 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Zero Posts Archives - HeadstartWP<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/js1.10up.com\/category\/zero-posts\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Zero Posts Archives - HeadstartWP\" \/>\n<meta property=\"og:url\" content=\"https:\/\/js1.10up.com\/category\/zero-posts\/\" \/>\n<meta property=\"og:site_name\" content=\"HeadstartWP\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"CollectionPage\",\"@id\":\"https:\/\/js1.10up.com\/category\/zero-posts\/\",\"url\":\"https:\/\/js1.10up.com\/category\/zero-posts\/\",\"name\":\"Zero Posts Archives - HeadstartWP\",\"isPartOf\":{\"@id\":\"https:\/\/js1.10up.com\/#website\"},\"breadcrumb\":{\"@id\":\"https:\/\/js1.10up.com\/category\/zero-posts\/#breadcrumb\"},\"inLanguage\":\"en-US\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/js1.10up.com\/category\/zero-posts\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/js1.10up.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Zero Posts\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/js1.10up.com\/#website\",\"url\":\"https:\/\/js1.10up.com\/\",\"name\":\"HeadstartWP\",\"description\":\"HeadstartWP Demo Site\",\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/js1.10up.com\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}],\"inLanguage\":\"en-US\"}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Zero Posts Archives - HeadstartWP",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/js1.10up.com\/category\/zero-posts\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Zero Posts Archives - HeadstartWP",
+            "og_url": "https:\/\/js1.10up.com\/category\/zero-posts\/",
+            "og_site_name": "HeadstartWP",
+            "twitter_card": "summary_large_image",
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "CollectionPage",
+                        "@id": "https:\/\/js1.10up.com\/category\/zero-posts\/",
+                        "url": "https:\/\/js1.10up.com\/category\/zero-posts\/",
+                        "name": "Zero Posts Archives - HeadstartWP",
+                        "isPartOf": {
+                            "@id": "https:\/\/js1.10up.com\/#website"
+                        },
+                        "breadcrumb": {
+                            "@id": "https:\/\/js1.10up.com\/category\/zero-posts\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/js1.10up.com\/category\/zero-posts\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/js1.10up.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Zero Posts"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/js1.10up.com\/#website",
+                        "url": "https:\/\/js1.10up.com\/",
+                        "name": "HeadstartWP",
+                        "description": "HeadstartWP Demo Site",
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/js1.10up.com\/?s={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories\/7"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/categories"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/taxonomies\/category"
+                }
+            ],
+            "wp:post_type": [
+                {
+                    "href": "https:\/\/js1.10up.com\/wp-json\/wp\/v2\/posts?categories=7"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    }
+]

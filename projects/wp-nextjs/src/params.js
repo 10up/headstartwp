@@ -11,7 +11,10 @@ export const indexParams = { postType: ['page'] };
 /**
  * @type {import('@headstartwp/core').PostsArchiveParams}
  */
-export const searchParams = { postType: 'post' };
+export const searchParams = {
+	type: 'post',
+	subtype: 'page, post',
+};
 
 /**
  * @type {import('@headstartwp/core').PostOrPostsParams}

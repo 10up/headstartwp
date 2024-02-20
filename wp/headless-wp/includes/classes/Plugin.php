@@ -48,6 +48,9 @@ class Plugin {
 
 		$gutenberg = new Gutenberg();
 		$gutenberg->register();
+
+		$search = new Search\Search();
+		$search->register();
 	}
 
 	/**
