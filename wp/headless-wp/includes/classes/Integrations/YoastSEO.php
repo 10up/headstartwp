@@ -217,18 +217,25 @@ class YoastSEO {
 	 * @return string
 	 */
 	public function replace_yoast_search_title_placeholders( $title, $query_vars ) {
+		$separator = \YoastSEO()->helpers->options->get_title_separator();
 
 		$str_replace_mapping = apply_filters(
 			'tenup_headless_wp_search_title_variables_replacments',
 			array(
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				' %%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( ' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
-				'%%sep%%'          => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
+				'%%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
+				'%%sep%%'          => $separator ?? ' ',
 			)
 		);
 
-		return str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
+		$title = str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
+
+		// Cleanup extra separators from possible missing values, we don't want to end up with 'You searched for - - - - '.
+		$escaped_sep = preg_quote( $separator, '/' );
+		$pattern     = '/\s*' . $escaped_sep . '\s*' . $escaped_sep . '+/';
+
+		return preg_replace( $pattern, ' ' . $separator, $title );
 	}
 
 	/**

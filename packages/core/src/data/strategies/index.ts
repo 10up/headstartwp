@@ -2,6 +2,7 @@ export * from './AbstractFetchStrategy';
 export * from './SinglePostFetchStrategy';
 export * from './PostsArchiveFetchStrategy';
 export * from './SearchFetchStrategy';
+export * from './SearchNativeFetchStrategy';
 export * from './AppSettingsStrategy';
 export * from './TaxonomyTermsStrategy';
 export * from './AuthorArchiveFetchStrategy';
