@@ -39,7 +39,6 @@
       "HeadlessWP\\": "includes/classes/"
     },
     "files": [
-      "includes/utils/langs.php",
       "includes/utils/rest.php"
     ]
   },

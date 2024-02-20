@@ -78,8 +78,6 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 			return '';
 		}
 
-		$default_lang = Langs\get_default_locale_slug();
-
 		// Herflangs for archive first pages.
 		if ( $is_taxonomy ) {
 			foreach ( $translations as $language => $translated_id ) {
@@ -97,11 +95,8 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 			// Herflangs for single posts.
 			foreach ( $translations as $language => $translated_id ) {
 
-				// Prevent homepage page slug from being added to hreflang tags.
 				if ( in_array( $translated_id, $homepages, true ) ) {
-					$is_homepage                 = true;
-					$hreflangs_urls[ $language ] = home_url( $default_lang === $language ? '' : $language );
-					continue;
+					$is_homepage  = true;
 				}
 
 				// Only add hreflang tags for published posts.
