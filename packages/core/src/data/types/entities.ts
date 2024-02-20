@@ -689,7 +689,7 @@ export interface PostSearchEntity extends SearchObjectEntity {
 	_embedded: {
 		author: AuthorEntity[];
 		'wp:term': Array<TermEntity[]>;
-		self: Array<PostEntity[]>;
+		self: PostEntity[];
 	};
 }
 
@@ -698,7 +698,7 @@ export interface PostSearchEntity extends SearchObjectEntity {
  */
 export interface TermSearchEntity extends SearchObjectEntity {
 	_embedded: {
-		self: Array<TermEntity[]>;
+		self: TermEntity[];
 	};
 }
 

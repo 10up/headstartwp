@@ -83,12 +83,10 @@ export class SearchNativeFetchStrategy<
 	}
 
 	/**
-	 * This strategy automatically extracts taxonomy filters, date filters and pagination params from the URL
-	 *
-	 * It also takes into account the custom taxonomies specified in `headless.config.js`
+	 * This strategy automatically extracts the search term and and pagination params from the URL
 	 *
 	 * @param path The URL path to extract params from
-	 * @param params
+	 * @param params The params passed to the strategy
 	 */
 	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
 		const config = getSiteBySourceUrl(this.baseURL);

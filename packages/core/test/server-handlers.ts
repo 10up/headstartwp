@@ -1,6 +1,8 @@
 import { rest, DefaultRequestBody } from 'msw';
 import { redirect } from './mocks/redirect';
 import posts from './__fixtures__/posts/posts.json';
+import pages from './__fixtures__/posts/pages.json';
+import { PostEntity, getPostAuthor } from '../src/data';
 
 interface TestEndpointResponse {
 	ok: boolean;
@@ -206,6 +208,82 @@ const handlers = [
 		}
 
 		return res(ctx.json(results));
+	}),
+
+	rest.get('/wp-json/wp/v2/search', (req, res, ctx) => {
+		const query = req.url.searchParams;
+		const search = query.get('search');
+		const type = query.get('type') ?? 'post';
+		const subtype = query.get('subtype')?.split(',') ?? ['post'];
+		const perPage = Number(query.get('per_page') || 10);
+		const page = Number(query.get('page') || 1);
+
+		if (type === 'post') {
+			let results: typeof posts = [];
+
+			if (subtype.includes('post')) {
+				results.push(...posts);
+			}
+
+			if (subtype.includes('page')) {
+				// @ts-expect-error
+				results.push(...pages);
+			}
+
+			if (search) {
+				results = results.filter((p) => {
+					return (
+						p.title.rendered.toLowerCase().includes(search.toLowerCase()) ||
+						p.content.rendered.toLowerCase().includes(search.toLowerCase())
+					);
+				});
+			}
+
+			const totalResults = results.length;
+
+			if ((page - 1) * perPage > totalResults) {
+				return res(
+					ctx.json({
+						code: 'rest_post_invalid_page_number',
+						message:
+							'The page number requested is larger than the number of pages available.',
+						data: {
+							status: 400,
+						},
+					}),
+				);
+			}
+
+			if (perPage) {
+				results = results.slice((page - 1) * perPage, perPage);
+			}
+
+			return res(
+				ctx.json(
+					results.map((r) => {
+						const result = {
+							id: Number(r.id),
+							title: r.title.rendered,
+							url: r.link,
+							type,
+							subtype: r.type,
+							_embedded: {
+								_self: { ...r },
+								author: getPostAuthor(r as unknown as PostEntity),
+								/* 'wp:term':
+									r.type === 'post'
+										? getPostTerms(r as unknown as PostEntity)
+										: undefined, */
+							},
+						};
+
+						return result;
+					}),
+				),
+			);
+		}
+
+		return res(ctx.json([]));
 	}),
 ];
 
