@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.3.2-next.0
+
+### Patch Changes
+
+- 5396b238: Hotfix preview alternative headers
+
 ## 1.3.1
 
 ### Patch Changes
