@@ -55,6 +55,15 @@ export type Integrations = {
 	polylang?: PolylangIntegration;
 };
 
+export type PreviewConfig = {
+	/**
+	 * Flag to enable using the alternative authorization header.
+	 *
+	 * This can be useful if you have separate JWT-based authentication on your project.
+	 */
+	alternativeAuthorizationHeader?: boolean;
+};
+
 export type HeadlessConfig = {
 	host?: string;
 	locale?: string;
@@ -68,6 +77,7 @@ export type HeadlessConfig = {
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
 	sites?: HeadlessConfig[];
+	preview?: PreviewConfig;
 	debug?: {
 		requests?: boolean;
 		redirects?: boolean;
