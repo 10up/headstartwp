@@ -5,11 +5,11 @@ slug: /wordpress-integration/previews
 
 # Previews
 
-The preview feature requires the 10up's headless WordPress plugin installed. The preview functionality is built on top of [Next.js preview API](https://nextjs.org/docs/advanced-features/preview-mode). It uses a short-lived JWT token generated on the WordPress side that can only be used for previewing, this means it is not necessary to set up a hardcoded secret between WP and Next.js.
+The preview feature requires the HeadstartWP plugin installed. The preview functionality is built on top of [Next.js preview API](https://nextjs.org/docs/advanced-features/preview-mode). It uses a short-lived JWT token generated on the WordPress side that can only be used for previewing, this means it is not necessary to set up a hardcoded secret between WP and Next.js.
 
 For previews to work, make sure the frontend URL is entered in WP settings as per instructions in [Installing WordPress Plugin](/learn/getting-started/installing-wordpress-plugin).
 
-The logic for generating the JWT token and redirecting to the preview endpoint can be seen [here](https://github.com/10up/headstartwp/blob/develop/wp/headless-wp/includes/classes/Preview/preview.php).
+The logic for generating the JWT token and redirecting it to the preview endpoint can be seen [here](https://github.com/10up/headstartwp/blob/develop/wp/headless-wp/includes/classes/Preview/preview.php).
 ```php
 $token = PreviewToken::generate(
 	[
@@ -42,7 +42,7 @@ Below is a summary of the preview workflow.
 
 ## Usage
 
-The Next.js project **must** expose a `api/preview` endpoint that uses the [previewHandler](/api/modules/headstartwp_next/#previewhandler).
+The Next.js project **must** expose an `api/preview` endpoint that uses the [previewHandler](/api/modules/headstartwp_next/#previewhandler).
 
 ```javascript
 //src/pages/api/preview.js
@@ -153,3 +153,20 @@ The JWT token expires after 5 min by default, after this period, open another pr
 **I'm unable to preview a custom post type**
 
 Make sure you defined the right `single` property when registering the custom post type. See [headless config docs](/learn/getting-started/headless-config/#customposttypes). The `single` property must match the route prefix for the custom post type.
+
+**I have a custom authentication using the Authorization header, how can I use the preview functionality?**
+
+Make sure you have HeadstartWP plugin >= 1.0.1, `@headstartwp/core` >= 1.3.1 and `@headstartwp/next`>= 1.3.1. Then in your `headstartwp.config.js` add the following config:
+
+```js
+module.exports = {
+	// other configs.
+	// ...
+
+	preview: {
+		alternativeAuthorizationHeader: true
+	}
+}
+```
+
+This will tell HeadstartWP to use an alternative header (`X-HeadstartWP-Authorization`) instead of the default `Authorization` header.

@@ -211,3 +211,22 @@ This option control how redirects are handled. There are 2 supported methods of 
 ## debug
 
 You can enable log debugging for both requests and redirects. `debug.requests` will enable logging all API requests made by the framework and `debug.redirects` will log all attempts to detect and fetch a redirect from WordPress.
+
+## preview
+
+### alternativeAuthorizationHeader
+
+Tells HeadstartWP to use an alternative header (`X-HeadstartWP-Authorization`) instead of the default `Authorization` header for making authenticated preview requests.
+
+Make sure you have HeadstartWP plugin >= 1.0.1, `@headstartwp/core` >= 1.3.1 and `@headstartwp/next`>= 1.3.1 to use this setting.
+
+```js
+module.exports = {
+	// other configs.
+	// ...
+
+	preview: {
+		alternativeAuthorizationHeader: true
+	}
+}
+```
