@@ -31,7 +31,7 @@ export interface FetchHookDataOptions<P = unknown, T = unknown> {
 	/**
 	 * Optional. If set, will forward fetch options to the fetch strategy
 	 */
-	fetchStrategyOptions?: FetchOptions;
+	fetchStrategyOptions?: Partial<FetchOptions>;
 }
 
 function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams {
@@ -83,7 +83,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl, integrations, debug } = getSiteFromContext(ctx);
+	const { sourceUrl, integrations, debug, preview } = getSiteFromContext(ctx);
 	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
@@ -123,6 +123,18 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 		if (debug?.requests) {
 			log(LOGTYPE.DEBUG, 'Preview request detected, using preview data', ctx.previewData);
+		}
+
+		if (preview?.alternativeAuthorizationHeader) {
+			if (debug?.devMode) {
+				log(LOGTYPE.INFO, `Using alternativeAuthorization header for ${key.url}`);
+			}
+
+			if (!options.fetchStrategyOptions) {
+				options.fetchStrategyOptions = {};
+			}
+
+			options.fetchStrategyOptions.alternativePreviewAuthorizationHeader = true;
 		}
 	}
 

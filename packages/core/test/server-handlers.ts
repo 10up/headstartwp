@@ -142,7 +142,7 @@ const handlers = [
 		const id = Number(req.params.id);
 
 		// revisions always requires Authorization
-		if (!req.headers.has('Authorization')) {
+		if (!req.headers.has('Authorization' || !req.headers.has('X-HeadstartWP-Authorization'))) {
 			return res(ctx.json({ code: 'rest_unauthorized', data: { status: 500 } }));
 		}
 
@@ -191,8 +191,10 @@ const handlers = [
 		// hardcode 57 as a draft post
 		if (id === DRAFT_POST_ID) {
 			if (
-				req.headers.has('Authorization') &&
-				req.headers.get('Authorization') === `Bearer ${VALID_AUTH_TOKEN}`
+				(req.headers.has('Authorization') &&
+					req.headers.get('Authorization') === `Bearer ${VALID_AUTH_TOKEN}`) ||
+				(req.headers.has('X-HeadstartWP-Authorization') &&
+					req.headers.get('X-HeadstartWP-Authorization') === `Bearer ${VALID_AUTH_TOKEN}`)
 			) {
 				return res(ctx.json(results));
 			}

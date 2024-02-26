@@ -276,10 +276,10 @@ export class SinglePostFetchStrategy<
 		const { burstCache = false } = options;
 
 		if (params.authToken) {
-			options.bearerToken = params.authToken;
+			options.previewToken = params.authToken;
 		}
 
-		const authHeader = this.getAuthHeader(options);
+		const authHeader = this.getPreviewAuthHeader(options);
 
 		let error;
 		if (params.revision && params.id) {
@@ -288,7 +288,7 @@ export class SinglePostFetchStrategy<
 					`${this.baseURL}${this.getEndpoint()}/revisions?per_page=1`,
 					{
 						headers: {
-							Authorization: authHeader,
+							[this.getPreviewHeaderName(options)]: authHeader,
 						},
 					},
 					burstCache,
