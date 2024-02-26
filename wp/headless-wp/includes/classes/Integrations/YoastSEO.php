@@ -224,7 +224,7 @@ class YoastSEO {
 			array(
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				'%%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
+				'%%page%%'         => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
 				'%%sep%%'          => $separator ?? ' ',
 			)
 		);
@@ -284,7 +284,7 @@ class YoastSEO {
 	public function override_search_canonical( $canonical ) {
 		if ( $this->get_yoast_search_query_vars() ) {
 			$search_route = apply_filters( 'tenup_headless_wp_search_route', 'search' );
-			$canonical = rtrim( $canonical, '/' ) . '/' . $search_route;
+			$canonical    = rtrim( $canonical, '/' ) . '/' . $search_route;
 		}
 
 		return $canonical;

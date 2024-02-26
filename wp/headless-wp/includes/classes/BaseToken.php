@@ -60,8 +60,12 @@ abstract class BaseToken {
 
 	/**
 	 * Decode capability tokens if present.
+	 *
+	 * @param string $token if set will use this instead of reading from the headers
+	 *
+	 * @return null|object
 	 */
-	public  static function get_payload_from_token( $token = '' ) {
+	public static function get_payload_from_token( $token = '' ) {
 		// Get HTTP Authorization Header.
 		$header = isset( $_SERVER['HTTP_AUTHORIZATION'] )
 		? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) )
@@ -72,7 +76,7 @@ abstract class BaseToken {
 			$header = sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) );
 		}
 
-		if ( ! $header && isset( $_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION']) ) {
+		if ( ! $header && isset( $_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] ) ) {
 			$header = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] ) );
 		}
 
