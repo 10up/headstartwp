@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import { CustomPostType, getSiteByHost, PostEntity } from '@headstartwp/core';
-import { getCustomPostType, getHeadlessConfig } from '@headstartwp/core/utils';
+import { getCustomPostType, getHeadstartWPConfig } from '@headstartwp/core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData, usePost } from '../data';
 import { PreviewData } from './types';
@@ -138,7 +138,7 @@ export async function previewHandler(
 	);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
 
-	const { sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
+	const { sourceUrl, preview } = isMultisiteRequest ? site : getHeadstartWPConfig();
 
 	const revision = is_revision === '1';
 
@@ -167,6 +167,10 @@ export async function previewHandler(
 					postType: post_type,
 					revision,
 					authToken: token as string,
+				},
+				fetchStrategyOptions: {
+					alternativePreviewAuthorizationHeader:
+						preview?.alternativeAuthorizationHeader ?? false,
 				},
 			},
 		);
