@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.3.1-next.0
+
+### Patch Changes
+
+- 0bd8e415: Add ability to preview using an alternative authorization header
+
 ## 1.3.0
 
 ### Minor Changes
