@@ -30,6 +30,7 @@ export function getHeadstartWPConfig() {
 		hostUrl,
 		integrations,
 		debug,
+		preview,
 	} = __10up__HEADLESS_CONFIG;
 
 	const defaultTaxonomies: CustomTaxonomies = [
@@ -79,6 +80,7 @@ export function getHeadstartWPConfig() {
 		useWordPressPlugin: useWordPressPlugin || false,
 		integrations,
 		debug,
+		preview,
 		sites: (sites || []).map((site) => {
 			// if host is not defined but hostUrl is, infer host from hostUrl
 			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {
@@ -119,6 +121,7 @@ export function getSite(site?: HeadlessConfig) {
 		redirectStrategy: site?.redirectStrategy || settings.redirectStrategy || 'none',
 		useWordPressPlugin: site?.useWordPressPlugin || settings.useWordPressPlugin || false,
 		integrations: site?.integrations || settings.integrations,
+		preview: site?.preview || settings.preview,
 	};
 
 	return headlessConfig;
