@@ -55,8 +55,4 @@ module.exports = {
 		 */
 		devMode: process.env?.ENABLE_DEV_MODE === 'true',
 	},
-
-	preview: {
-		alternativeAuthorizationHeader: true,
-	},
 };
