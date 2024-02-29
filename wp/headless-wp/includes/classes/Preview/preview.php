@@ -38,5 +38,6 @@ $preview_url = sprintf(
 	$locale
 );
 
+// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 wp_redirect( $preview_url );
 die();
