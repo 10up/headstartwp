@@ -42,11 +42,11 @@ class CacheFlush {
 	}
 
 	/**
-	 * Run the cron job
-	 *
-	 * @param int $post_id Post ID.
-	 */
-	public function run_job( int $post_id ): void {
+  * Run the cron job
+  *
+  * @param int $post_id The post id
+  */
+ public function run_job( int $post_id ): void {
 		$this->revalidate( $post_id );
 	}
 

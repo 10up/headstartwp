@@ -98,7 +98,8 @@ class YoastSEO {
 	/**
 	 * Override base url for sitemap links with NextJS app url in sitemap.
 	 *
-	 * @param string $xml XML markup for url for the given link in sitemap.
+	 * @param  string $xml  XML markup for url for the given link in sitemap.
+	 * @return string       Modified XML markup for url for the given link in sitemap.
 	 */
 	public function maybe_override_sitemap_url( string $xml ): string {
 		if ( ! $this->should_rewrite_urls() ) {
@@ -207,19 +208,26 @@ class YoastSEO {
 	 * @param string $title The search SEO title
 	 * @param array  $query_vars The search query vars.
 	 */
-	public function replace_yoast_search_title_placeholders( string $title, array $query_vars ): string {
+	public function replace_yoast_search_title_placeholders( $title, $query_vars ): ?string {
+		$separator = \YoastSEO()->helpers->options->get_title_separator();
 
 		$str_replace_mapping = apply_filters(
 			'tenup_headless_wp_search_title_variables_replacments',
 			[
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				' %%page%%'        => empty( $query_vars['page'] ) ? '' : sprintf( ' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ),
-				'%%sep%%'          => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
+				'%%page%%'         => empty( $query_vars['page'] ) ? '' : sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ),
+				'%%sep%%'          => $separator ?? ' ',
 			]
 		);
 
-		return str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
+		$title = str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
+
+		// Cleanup extra separators from possible missing values, we don't want to end up with 'You searched for - - - - '.
+		$escaped_sep = preg_quote( (string) $separator, '/' );
+		$pattern     = '/\s*' . $escaped_sep . '\s*' . $escaped_sep . '+/';
+
+		return preg_replace( $pattern, ' ' . $separator, $title );
 	}
 
 	/**

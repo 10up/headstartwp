@@ -8,6 +8,7 @@
 namespace HeadlessWP\API;
 
 use HeadlessWP\CacheFlush\CacheFlushToken;
+use WP_Error;
 use WP_REST_Server;
 use Exception;
 use WP_REST_Response;
@@ -44,7 +45,9 @@ class TokenEndpoint {
 	/**
 	 * Checks whether the current request validates the token or not
 	 *
-	 * @throws Exception If payload is invalid.
+	 * @return boolean|WP_Error True if permission is granted; error otherwise.
+	 *
+	 * @throws \Exception If payload is invalid.
 	 */
 	public function get_item_permissions_check(): bool {
 		try {
@@ -65,8 +68,10 @@ class TokenEndpoint {
 	}
 	/**
 	 * Returns the token payload.
+	 *
+	 * @return WP_REST_Response The REST response.
 	 */
-	public function get_item(): WP_REST_Response {
+	public function get_item() {
 		$payload = CacheFlushToken::getToken();
 
 		return rest_ensure_response(

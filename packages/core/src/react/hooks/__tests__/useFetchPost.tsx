@@ -110,6 +110,29 @@ describe('useFetchPost', () => {
 		});
 	});
 
+	it('fetches draft posts with authToken and alternativePreviewAuthorizationHeader', async () => {
+		// 57 is a hardcoded draft post in msw
+		const { result } = renderHook(
+			() =>
+				useFetchPost(
+					{ id: DRAFT_POST_ID, authToken: VALID_AUTH_TOKEN },
+					{
+						fetchStrategyOptions: {
+							alternativePreviewAuthorizationHeader: true,
+						},
+					},
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.post.id).toBe(57);
+		});
+	});
+
 	it('errors if fetches revisions without authToken', async () => {
 		const { result } = renderHook(() => useFetchPost({ id: 57, revision: true }), {
 			wrapper,
@@ -121,6 +144,32 @@ describe('useFetchPost', () => {
 	it('fetches revisions with authToken', async () => {
 		const { result } = renderHook(
 			() => useFetchPost({ id: 64, revision: true, authToken: 'Fake Auth Token' }),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.post.id).toBe(64);
+			expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
+			// ensure fields that don't exists in revisions are returned
+			expect(result.current.data?.post.format).toBe('standard');
+			expect(result.current.data?.post?.terms?.category[0]?.slug).toBe('news');
+		});
+	});
+
+	it('fetches revisions with authToken and alternativePreviewAuthorizationHeader', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPost(
+					{ id: 64, revision: true, authToken: 'Fake Auth Token' },
+					{
+						fetchStrategyOptions: {
+							alternativePreviewAuthorizationHeader: true,
+						},
+					},
+				),
 			{
 				wrapper,
 			},

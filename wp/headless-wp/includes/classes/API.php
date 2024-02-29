@@ -52,8 +52,8 @@ class API {
 		);
 
 		foreach ( $post_types as $post_type ) {
-			add_filter( sprintf( 'rest_%s_query', $post_type ), [ $this, 'modify_rest_params' ], 10, 1 );
-			add_filter( sprintf( 'rest_%s_collection_params', $post_type ), [ $this, 'modify_rest_params_schema' ], 10, 2 );
+			add_filter( sprintf('rest_%s_query', $post_type), [ $this, 'modify_rest_params' ], 10, 1 );
+			add_filter( sprintf('rest_%s_collection_params', $post_type), [ $this, 'modify_rest_params_schema' ], 10, 2 );
 		}
 	}
 
@@ -87,9 +87,10 @@ class API {
 	 * Modifies the REST API query parameters to check for a taxonomy term slug instead of ID, which is the default
 	 * This is passed via the URL via ?<taxonomy>=term, eg ?category=category-slug
 	 *
-	 * @param array $args REST arguments.
+	 * @param array  - $args The Rest Args
+	 * @return array - array of args
 	 */
-	public function modify_rest_params( array $args ): array {
+	public function modify_rest_params( array $args ) {
 		if ( empty( $args['post_type'] ) ) {
 			return $args;
 		}

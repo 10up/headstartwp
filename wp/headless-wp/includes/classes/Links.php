@@ -24,17 +24,17 @@ class Links {
 	}
 
 	/**
-	 * Create Taxonomy Rewrites
-	 *
-	 * /posts/category/category-slug
-	 * /events/category/category-slug
-	 *
-	 * This is to allow taxonomy archive pages to exist that aren't specific to the 'post' post type by default and make more usable across other post types by
-	 * creating default rewrite rules for taxonomy endpoints for post types for the front-end site to resolve to in the format /<CPT>/<taxonomy>/<slug>.
-	 *
-	 * @param array $rules Rewrite rules.
-	 */
-	public function create_taxonomy_rewrites( array $rules ): array {
+  * Create Taxonomy Rewrites
+  *
+  * /posts/category/category-slug
+  * /events/category/category-slug
+  *
+  * This is to allow taxonomy archive pages to exist that aren't specific to the 'post' post type by default and make more usable across other post types by
+  * creating default rewrite rules for taxonomy endpoints for post types for the front-end site to resolve to in the format /<CPT>/<taxonomy>/<slug>.
+  *
+  * @param array $rules Rewrite rules.
+  */
+ public function create_taxonomy_rewrites( array $rules ): array {
 
 		// When set_taxonomy_rewrites_disabled true, bypasses these custom endpoint rewrite rules
 		if ( true === apply_filters( __FUNCTION__ . '_disabled', false ) ) {
@@ -72,8 +72,8 @@ class Links {
 					continue;
 				}
 
-				$rules[ sprintf( '%s/%s/(.+?)/?$', $post_slug, $rewrite_slug ) ]                   = sprintf( 'index.php?%s=$1&post_type=%s', $rewrite_query_var, $post_type );
-				$rules[ sprintf( '%s/%s/(.+?)/page/?([0-9]{1,})/?$', $post_slug, $rewrite_slug ) ] = sprintf( 'index.php?%s=$1&paged=$2&post_type=%s', $rewrite_query_var, $post_type );
+				$rules[ sprintf('%s/%s/(.+?)/?$', $post_slug, $rewrite_slug) ]                   = sprintf('index.php?%s=$1&post_type=%s', $rewrite_query_var, $post_type);
+				$rules[ sprintf('%s/%s/(.+?)/page/?([0-9]{1,})/?$', $post_slug, $rewrite_slug) ] = sprintf('index.php?%s=$1&paged=$2&post_type=%s', $rewrite_query_var, $post_type);
 
 			}
 		}
@@ -88,7 +88,7 @@ class Links {
 	 * @param string $path The path
 	 * @param string $orig_scheme The orig scheme
 	 */
-	public function filter_home_url( string $home_url, string $path, string $orig_scheme ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+	public function filter_home_url( $home_url, $path, $orig_scheme ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 		$url = Plugin::get_react_url();
 
 		if ( empty( $url ) ) {
@@ -141,7 +141,8 @@ class Links {
 			}
 
 			// Redirect the frontend WordPress request to the React website URL.
-			\wp_safe_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
+			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+			\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
 			exit;
 		}
 	}
