@@ -144,7 +144,8 @@ class Links {
 			}
 
 			// Redirect the frontend WordPress request to the React website URL.
-			\wp_safe_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
+			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+			\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
 			exit;
 		}
 	}
