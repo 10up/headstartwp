@@ -35,7 +35,7 @@ class API {
 		$token_endpoint = new API\TokenEndpoint();
 		$token_endpoint->register();
 
-		add_action( 'init', array( $this, 'register_post_type_taxonomy_params' ), 999 );
+		add_action( 'init', [ $this, 'register_post_type_taxonomy_params' ], 999 );
 	}
 
 	/**
@@ -45,14 +45,14 @@ class API {
 	public function register_post_type_taxonomy_params() {
 
 		$post_types = get_post_types(
-			array(
+			[
 				'show_in_rest' => true,
 				'public'       => true,
-			)
+			]
 		);
 
 		foreach ( $post_types as $post_type ) {
-			add_filter( "rest_{$post_type}_query", array( $this, 'modify_rest_params' ), 10, 2 );
+			add_filter( "rest_{$post_type}_query", [ $this, 'modify_rest_params' ], 10, 1 );
 			add_filter( "rest_{$post_type}_collection_params", [ $this, 'modify_rest_params_schema' ], 10, 2 );
 		}
 	}
@@ -89,10 +89,9 @@ class API {
 	 * This is passed via the URL via ?<taxonomy>=term, eg ?category=category-slug
 	 *
 	 * @param array  - $args The Rest Args
-	 * @param object - $request The Request Object
 	 * @return array - array of args
 	 */
-	public function modify_rest_params( $args, $request ) {
+	public function modify_rest_params( $args ) {
 		if ( empty( $args['post_type'] ) ) {
 			return $args;
 		}
@@ -116,7 +115,7 @@ class API {
 			if ( ! empty( $term ) && ! is_numeric( $term ) ) {
 				if ( isset( $args['tax_query'] ) ) {
 					$args['tax_query'][0]['field'] = 'slug';
-					$args['tax_query']             = array_map(
+					$args['tax_query']             = array_map( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						function ( $tax_query ) use ( $taxonomy ) {
 							if ( $tax_query['taxonomy'] === $taxonomy->name ) {
 								$tax_query['field'] = 'slug';
@@ -127,12 +126,12 @@ class API {
 						$args['tax_query']
 					);
 				} else {
-					$args['tax_query'][] = array(
+					$args['tax_query'][] = [
 						'taxonomy'         => $taxonomy->name,
 						'field'            => 'slug',
 						'terms'            => sanitize_text_field( $term ),
 						'include_children' => false,
-					);
+					];
 				}
 			}
 		}

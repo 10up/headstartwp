@@ -57,7 +57,7 @@ class PreviewToken extends BaseToken {
 		}
 		// Prevent using the token for requests that are GET, but use the
 		// `_method` query to override the method.
-		if ( isset( $_GET['_method'] ) && 'GET' !== $_GET['_method'] ) {
+		if ( isset( $_GET['_method'] ) && 'GET' !== $_GET['_method'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return false;
 		}
 		// Prevent using the token for requests that are GET, but use the
@@ -71,11 +71,11 @@ class PreviewToken extends BaseToken {
 
 		// Allowed capabilities when the token is type 'preview'. You also need to
 		// have permission to 'edit_post' or 'delete_post' for preview posts.
-		$capabilities = array(
+		$capabilities = [
 			'read_post'   => $post_id,
 			'edit_post'   => $post_id,
 			'delete_post' => $post_id,
-		);
+		];
 
 		// Prior to WordPress 5.5.1, capabilities should be specified with `page`
 		// for pages, so we are adding them as well to support older versions of
@@ -83,11 +83,11 @@ class PreviewToken extends BaseToken {
 		if ( 'page' === $post_type ) {
 			$capabilities = array_merge(
 				$capabilities,
-				array(
+				[
 					'read_page'   => $post_id,
 					'edit_page'   => $post_id,
 					'delete_page' => $post_id,
-				)
+				]
 			);
 		}
 
@@ -101,7 +101,7 @@ class PreviewToken extends BaseToken {
 
 		// If it is a global capability, check if it is included as value.
 		list( $cap ) = $args;
-		return in_array( $cap, $capabilities );
+		return in_array( $cap, $capabilities, true );
 	}
 
 	/**
