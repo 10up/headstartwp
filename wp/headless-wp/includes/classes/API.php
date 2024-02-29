@@ -52,8 +52,8 @@ class API {
 		);
 
 		foreach ( $post_types as $post_type ) {
-			add_filter( sprintf('rest_%s_query', $post_type), [ $this, 'modify_rest_params' ], 10, 1 );
-			add_filter( sprintf('rest_%s_collection_params', $post_type), [ $this, 'modify_rest_params_schema' ], 10, 2 );
+			add_filter( sprintf( 'rest_%s_query', $post_type ), [ $this, 'modify_rest_params' ], 10, 1 );
+			add_filter( sprintf( 'rest_%s_collection_params', $post_type ), [ $this, 'modify_rest_params_schema' ], 10, 2 );
 		}
 	}
 

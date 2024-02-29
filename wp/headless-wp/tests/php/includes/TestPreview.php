@@ -59,9 +59,9 @@ class TestPreview extends TestCase {
 
 
 	/**
-  * Tests the preview token generation
-  */
- public function test_preview_token_generation(): void {
+	 * Tests the preview token generation
+	 */
+	public function test_preview_token_generation(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
 		$payload = (array) PreviewToken::get_payload_from_token( $token );
@@ -70,9 +70,9 @@ class TestPreview extends TestCase {
 	}
 
 	/**
-  * Tests getting the token payload
-  */
- public function test_get_payload_from_token(): void {
+	 * Tests getting the token payload
+	 */
+	public function test_get_payload_from_token(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
 		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
@@ -93,9 +93,9 @@ class TestPreview extends TestCase {
 	}
 
 	/**
-  * Tests getting the token payload from alternative header
-  */
- public function test_get_payload_from_token_alternative_header(): void {
+	 * Tests getting the token payload from alternative header
+	 */
+	public function test_get_payload_from_token_alternative_header(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
 		$_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] = 'Bearer ' . $token;

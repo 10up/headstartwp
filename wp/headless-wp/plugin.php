@@ -47,10 +47,10 @@ if ( file_exists( HEADLESS_WP_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
 				$base_dir = __DIR__ . '/includes/classes/';
 				// Does the class use the namespace prefix?
 				$len = strlen( $prefix );
-			if ( strncmp( $prefix, (string) $the_class, $len ) !== 0 ) {
+			if ( strncmp( $prefix, $the_class, $len ) !== 0 ) {
 				return;
 			}
-				$relative_class = substr( (string) $the_class, $len );
+				$relative_class = substr( $the_class, $len );
 				$file           = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
 				// If the file exists, require it.
 			if ( file_exists( $file ) ) {
