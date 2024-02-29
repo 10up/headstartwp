@@ -1,0 +1,19 @@
+name: Rector check
+
+on: pull_request
+
+jobs:
+  rector:
+    name: rector
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set PHP version
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+    - name: composer install
+      run: cd ./wp/headless-wp && composer install --ignore-platform-reqs
+    - name: Enforce PHP standards with Rector
+      run: cd ./wp/headless-wp && composer run refactor

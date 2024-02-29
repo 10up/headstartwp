@@ -44,8 +44,8 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 		if ( ! empty( $taxonomies ) ) {
 			$links['https://api.w.org/term'] = [];
 
-			foreach ( $taxonomies as $tax ) {
-				$taxonomy_route = rest_get_route_for_taxonomy_items( $tax );
+			foreach ( $taxonomies as $taxonomy ) {
+				$taxonomy_route = rest_get_route_for_taxonomy_items( $taxonomy );
 
 				// Skip taxonomies that are not public.
 				if ( empty( $taxonomy_route ) ) {
@@ -60,7 +60,7 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 
 				$links['https://api.w.org/term'][] = [
 					'href'       => $terms_url,
-					'taxonomy'   => $tax,
+					'taxonomy'   => $taxonomy,
 					'embeddable' => true,
 				];
 			}

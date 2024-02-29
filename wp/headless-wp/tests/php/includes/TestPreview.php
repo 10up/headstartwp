@@ -29,19 +29,15 @@ class TestPreview extends TestCase {
 
 	/**
 	 * Sets up the Test class
-	 *
-	 * @return void
 	 */
-	public function set_up() {
+	protected function set_up(): void {
 		$this->preview = new PreviewLink();
 	}
 
 	/**
-	 * Tests if previwes handling can be disable
-	 *
-	 * @return void
+	 * Tests if previews handling can be disable
 	 */
-	public function test_should_handle_preview() {
+	public function test_should_handle_preview(): void {
 		$this->assertTrue( $this->preview->should_handle_preview() );
 
 		add_filter( 'tenup_headless_wp_previews_enabled', '__return_false' );
@@ -53,10 +49,8 @@ class TestPreview extends TestCase {
 
 	/**
 	 * Tests handle_preview
-	 *
-	 * @return void
 	 */
-	public function test_handle_review() {
+	public function test_handle_review(): void {
 		// it should not change the template if not in preview context
 		$this->assertEquals( $this->preview->handle_preview( 'index.php' ), 'index.php' );
 
@@ -66,10 +60,8 @@ class TestPreview extends TestCase {
 
 	/**
 	 * Tests the preview token generation
-	 *
-	 * @return void
 	 */
-	public function test_preview_token_generation() {
+	public function test_preview_token_generation(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
 		$payload = (array) PreviewToken::get_payload_from_token( $token );
@@ -79,13 +71,11 @@ class TestPreview extends TestCase {
 
 	/**
 	 * Tests getting the token payload
-	 *
-	 * @return void
 	 */
-	public function test_get_payload_from_token() {
+	public function test_get_payload_from_token(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
-		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$payload = (array) PreviewToken::get_payload_from_token();
 
@@ -93,7 +83,7 @@ class TestPreview extends TestCase {
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 
-		$_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$payload = (array) PreviewToken::get_payload_from_token();
 
@@ -104,13 +94,11 @@ class TestPreview extends TestCase {
 
 	/**
 	 * Tests getting the token payload from alternative header
-	 *
-	 * @return void
 	 */
-	public function test_get_payload_from_token_alternative_header() {
+	public function test_get_payload_from_token_alternative_header(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
-		$_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$payload = (array) PreviewToken::get_payload_from_token();
 

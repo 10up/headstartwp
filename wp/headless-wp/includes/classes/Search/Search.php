@@ -15,7 +15,7 @@ class Search {
 	/**
 	 * Set up any hooks
 	 */
-	public function register() {
+	public function register(): void {
 		add_filter( 'wp_rest_search_handlers', [ $this, 'override_rest_search_handlers' ], 10, 1 );
 	}
 
@@ -27,9 +27,9 @@ class Search {
 	 */
 	public function override_rest_search_handlers( $search_handlers ) {
 
-		foreach ( $search_handlers as &$handler ) {
-			if ( $handler instanceof \WP_REST_Post_Search_Handler ) {
-				$handler = new PostSearchHandler();
+		foreach ( $search_handlers as &$search_handler ) {
+			if ( $search_handler instanceof \WP_REST_Post_Search_Handler ) {
+				$search_handler = new PostSearchHandler();
 				break;
 			}
 		}

@@ -9,32 +9,33 @@ namespace HeadlessWP\Integrations;
 
 use DOMDocument;
 use Exception;
+use WP_Block;
+use WP_HTML_Tag_Processor;
 
 /**
  * The Gutenberg integration class
  */
 class Gutenberg {
+
 	/**
 	 * Register Hooks
 	 */
-	public function register() {
+	public function register(): void {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
 	}
 
 	/**
 	 * Process the block with the WP_HTML_Tag_Processor
 	 *
-	 * @param string    $html The Block's Markup
-	 * @param string    $block_name The name of the block
-	 * @param string    $block_attrs_serialized The serialized block attributes
-	 * @param array     $block The block's array
-	 * @param \WP_Block $block_instance The block instance
-	 *
-	 * @return string The processed html
+	 * @param string   $html The Block's Markup
+	 * @param string   $block_name The name of the block
+	 * @param string   $block_attrs_serialized The serialized block attributes
+	 * @param array    $block The block's array
+	 * @param WP_Block $block_instance The block instance
 	 */
-	public function process_block_with_html_tag_api( $html, $block_name, $block_attrs_serialized, $block, $block_instance ) {
+	public function process_block_with_html_tag_api( string $html, string $block_name, string $block_attrs_serialized, array $block, WP_Block $block_instance ): string {
 		try {
-			$doc = new \WP_HTML_Tag_Processor( $html );
+			$doc = new WP_HTML_Tag_Processor( $html );
 
 			if ( $doc->next_tag() ) {
 				$doc->set_attribute( 'data-wp-block-name', $block_name );
@@ -43,16 +44,16 @@ class Gutenberg {
 				/**
 				 * Filter the block's before rendering
 				 *
-				 * @param \WP_HTML_Tag_Processor $doc
+				 * @param WP_HTML_Tag_Processor $doc
 				 * @param string $html The original block markup
 				 * @param array $block The Block's schema
-				 * @param \WP_Block $block_instance The block's instance
+				 * @param WP_Block $block_instance The block's instance
 				 */
 				$doc = apply_filters( 'tenup_headless_wp_render_html_tag_processor_block_markup', $doc, $html, $block, $block_instance );
 
 				return $doc->get_updated_html();
 			}
-		} catch ( Exception $e ) {
+		} catch ( Exception ) {
 			return $html;
 		}
 
@@ -62,15 +63,15 @@ class Gutenberg {
 	/**
 	 * Process the block with the DOMDocument api
 	 *
-	 * @param string    $html The Block's Markup
-	 * @param string    $block_name The name of the block
-	 * @param string    $block_attrs_serialized The serialized block attributes
-	 * @param array     $block The block's array
-	 * @param \WP_Block $block_instance The block instance
+	 * @param string   $html The Block's Markup
+	 * @param string   $block_name The name of the block
+	 * @param string   $block_attrs_serialized The serialized block attributes
+	 * @param array    $block The block's array
+	 * @param WP_Block $block_instance The block instance
 	 *
 	 * @return string The processed html
 	 */
-	public function process_block_with_dom_document_api( $html, $block_name, $block_attrs_serialized, $block, $block_instance ) {
+	public function process_block_with_dom_document_api( string $html, string $block_name, string $block_attrs_serialized, array $block, WP_Block $block_instance ): string {
 		try {
 			libxml_use_internal_errors( true );
 			$doc = new DomDocument( '1.0', 'UTF-8' );
@@ -102,7 +103,7 @@ class Gutenberg {
 			$root_node = apply_filters( 'tenup_headless_wp_render_block_markup', $root_node, $html, $block, $block_instance );
 
 			return $doc->saveHTML();
-		} catch ( Exception $e ) {
+		} catch ( Exception ) {
 			return $html;
 		}
 	}
@@ -110,13 +111,11 @@ class Gutenberg {
 	/**
 	 * Filter rendered blocks to include a data-wp-blocks attribute with block's attrs
 	 *
-	 * @param string    $html Rendered block content.
-	 * @param array     $block Block data.
-	 * @param \WP_Block $block_instance The block's instance
-	 *
-	 * @return string
+	 * @param string   $html Rendered block content.
+	 * @param array    $block Block data.
+	 * @param WP_Block $block_instance The block's instance
 	 */
-	public function render_block( $html, $block, $block_instance ) {
+	public function render_block( string $html, array $block, WP_Block $block_instance ): string {
 		// do not process blocks without a blockName
 		if ( empty( $block['blockName'] ) ) {
 			return $html;

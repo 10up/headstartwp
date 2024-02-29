@@ -16,7 +16,7 @@ class Feed {
 	/**
 	 * Set up any hooks
 	 */
-	public function register() {
+	public function register(): void {
 		add_filter( 'the_permalink_rss', [ $this, 'filter_url' ], 999 );
 		add_filter( 'the_content_feed', [ $this, 'filter_url' ], 999 );
 		add_filter( 'the_excerpt_rss', [ $this, 'filter_url' ], 999 );
@@ -26,10 +26,8 @@ class Feed {
 
 	/**
 	 * Checks if urls should be rewritten
-	 *
-	 * @return boolean
 	 */
-	protected function should_rewrite_urls() {
+	protected function should_rewrite_urls(): bool {
 		if ( ! Plugin::get_react_url() ) {
 			return false;
 		}
@@ -47,11 +45,9 @@ class Feed {
 	/**
 	 * Filters the home url for feeds
 	 *
-	 * @param string $content Content
-	 *
-	 * @return string
+	 * @param string $content Feed content.
 	 */
-	public function filter_url( $content ) {
+	public function filter_url( string $content ): string {
 		if ( ! $this->should_rewrite_urls() ) {
 			return $content;
 		}
@@ -74,12 +70,10 @@ class Feed {
 	/**
 	 * Filters the feed url
 	 *
-	 * @param string $info The value
-	 * @param string $option The option name
-	 *
-	 * @return string
+	 * @param string $info RSS info.
+	 * @param string $option RSS type.
 	 */
-	public function filter_rss_url( $info, $option ) {
+	public function filter_rss_url( string $info, string $option ): string {
 		if ( ! $this->should_rewrite_urls() ) {
 			return $info;
 		}

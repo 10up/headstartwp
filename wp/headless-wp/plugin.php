@@ -31,8 +31,8 @@ $jwt_files = [
 	'SignatureInvalidException.php',
 ];
 
-foreach ( $jwt_files as $filename ) {
-	require_once HEADLESS_WP_PLUGIN_PATH . '/includes/classes/php-jwt/' . $filename;
+foreach ( $jwt_files as $jwt_file ) {
+	require_once HEADLESS_WP_PLUGIN_PATH . '/includes/classes/php-jwt/' . $jwt_file;
 }
 
 // Require Composer autoloader if it exists.
@@ -40,7 +40,7 @@ if ( file_exists( HEADLESS_WP_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
 	require_once HEADLESS_WP_PLUGIN_PATH . 'vendor/autoload.php';
 } else {
 	spl_autoload_register(
-		function ( $the_class ) {
+		function ( $the_class ): void {
 				// Project-specific namespace prefix.
 				$prefix = 'HeadlessWP\\';
 				// Base directory for the namespace prefix.
@@ -66,7 +66,7 @@ $plugin->register();
 
 add_action(
 	'rest_api_init',
-	function () {
+	function (): void {
 		PreviewToken::setup();
 	}
 );
