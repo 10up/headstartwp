@@ -1,5 +1,17 @@
 # @headstartwp/headstartwp
 
+## 1.1.1
+
+### Patch Changes
+
+- 0bd8e415: Add ability to preview using an alternative authorization header
+
+## 1.1.0
+
+### Minor Changes
+
+- 8452279a: Implement WordPress native search endpoint
+
 ## 1.0.13
 
 ### Patch Changes

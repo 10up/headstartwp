@@ -641,7 +641,65 @@ export interface SearchEntity extends Entity {
 	/**
 	 * Subtype of Search for the object.
 	 */
+	subtype: string | string[];
+}
+
+/**
+ * Interface for search object entities from the /wp/v2/search endpoint.
+ *
+ * Interfaces that extends from this one are:
+ * - {@link PostSearchEntity}.
+ * - {@link TermSearchEntity}.
+ */
+export interface SearchObjectEntity extends Entity {
+	/**
+	 * Unique identifier for the object.
+	 */
+	id: number;
+
+	/**
+	 * URL to the object.
+	 */
+	url: string;
+
+	/**
+	 * The title for the object.
+	 */
+	title: string;
+
+	/**
+	 * Type of Search for the object.
+	 */
+	type: 'post' | 'term' | 'post-format';
+}
+
+/**
+ * Interface for posts entities from the /wp/v2/search endpoint.
+ */
+export interface PostSearchEntity extends SearchObjectEntity {
+	/**
+	 * Subtype of Search for the object.
+	 */
 	subtype: string;
+
+	author?: AuthorEntity[];
+
+	terms?: Record<string, TermEntity[]>;
+
+	_embedded: {
+		author: AuthorEntity[];
+		'wp:term': Array<TermEntity[]>;
+		self: PostEntity[];
+	};
+}
+
+/**
+ * Interface for terms entities from the /wp/v2/search endpoint.
+ */
+export interface TermSearchEntity extends SearchObjectEntity {
+	_embedded: {
+		self: TermEntity[];
+	};
 }
 
 export type Redirect = {

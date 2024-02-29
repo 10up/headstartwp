@@ -29,7 +29,7 @@
   "require-dev": {
     "10up/phpcs-composer": "3.0.0",
     "giacocorsiglia/wordpress-stubs": "^5.1",
-    "yoast/wp-test-utils": "^1.1",
+    "yoast/wp-test-utils": "^1.2",
     "php-stubs/wordpress-stubs": "^6.1",
     "php-stubs/wordpress-tests-stubs": "^6.1",
     "wordpress/wordpress-develop": "dev-trunk"
