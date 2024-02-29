@@ -89,7 +89,7 @@ class Plugin {
 		register_setting(
 			'general',
 			'site_react_url',
-			array( 'sanitize_callback' => 'esc_url_raw' )
+			[ 'sanitize_callback' => 'esc_url_raw' ]
 		);
 
 		// Register the settings
@@ -114,7 +114,7 @@ class Plugin {
 		register_setting(
 			'general',
 			'headless_site_locale',
-			array( 'sanitize_callback' => 'esc_attr' )
+			[ 'sanitize_callback' => 'esc_attr' ]
 		);
 
 		add_settings_field(
@@ -139,7 +139,7 @@ class Plugin {
 		register_setting(
 			'general',
 			'site_react_redirect',
-			array( 'sanitize_callback' => 'intval' )
+			[ 'sanitize_callback' => 'intval' ]
 		);
 
 		// Register the settings
@@ -167,7 +167,7 @@ class Plugin {
 		register_setting(
 			'general',
 			'headless_isr_revalidate',
-			array( 'sanitize_callback' => 'intval' )
+			[ 'sanitize_callback' => 'intval' ]
 		);
 
 		add_settings_field(

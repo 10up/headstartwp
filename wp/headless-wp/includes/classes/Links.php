@@ -19,8 +19,8 @@ class Links {
 	 * Set up any hooks
 	 */
 	public function register() {
-		add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
-		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
+		add_action( 'template_redirect', [ $this, 'maybe_redirect_frontend' ] );
+		add_filter( 'rewrite_rules_array', [ $this, 'create_taxonomy_rewrites' ] );
 	}
 
 	/**
@@ -44,10 +44,10 @@ class Links {
 		}
 
 		$post_types = get_post_types(
-			array(
+			[
 				'show_in_rest' => true,
 				'public'       => true,
-			)
+			]
 		);
 
 		unset( $post_types['page'] );
