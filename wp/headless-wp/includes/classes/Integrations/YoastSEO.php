@@ -312,13 +312,11 @@ class YoastSEO {
 		add_filter(
 			'wpseo_frontend_presenters',
 			function ( $presenters ) {
-				require_once HEADLESS_WP_PLUGIN_INC . 'classes/Integrations/PolylangHreflangs.php';
-
-				if ( ! class_exists( '\HeadlessWP\Integrations\PolylangHreflangs' ) ) {
+				if ( ! class_exists( '\HeadlessWP\Integrations\Polylang' ) ) {
 					return $presenters;
 				}
 
-				$presenters[] = new \HeadlessWP\Integrations\PolylangHreflangs();
+				$presenters[] = new \HeadlessWP\Integrations\Polylang();
 
 				return $presenters;
 			}

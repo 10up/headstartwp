@@ -10,12 +10,11 @@ namespace HeadlessWP\Integrations;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use HeadlessWP\Utils\Rest;
-use HeadlessWP\Utils\Langs;
 
 /**
  * The PolylangHrefLangs integration class
  */
-class PolylangHrefLangs extends Abstract_Indexable_Presenter {
+class Polylang extends Abstract_Indexable_Presenter {
 
 	/**
 	 * Output the hreflang tags if they exist.
