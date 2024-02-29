@@ -32,8 +32,8 @@ class JWK {
 	 *
 	 * @uses parseKey
 	 */
-	public static function parseKeySet( array $jwks ): array {
-		$keys = [];
+	public static function parseKeySet( array $jwks ) {
+		$keys = array();
 
 		if ( ! isset( $jwks['keys'] ) ) {
 			throw new UnexpectedValueException( '"keys" member must exist in the JWK Set' );
@@ -43,13 +43,13 @@ class JWK {
 		}
 
 		foreach ( $jwks['keys'] as $k => $v ) {
-			$kid = $v['kid'] ?? $k;
+			$kid = isset( $v['kid'] ) ? $v['kid'] : $k;
 			if ( $key = self::parseKey( $v ) ) {
 				$keys[ $kid ] = $key;
 			}
 		}
 
-		if ( [] === $keys ) {
+		if ( 0 === \count( $keys ) ) {
 			throw new UnexpectedValueException( 'No supported algorithms found in JWK Set' );
 		}
 
@@ -110,11 +110,14 @@ class JWK {
 	 *
 	 * @uses encodeLength
 	 */
-	private static function createPemFromModulusAndExponent( string $n, string $e ): string {
+	private static function createPemFromModulusAndExponent( $n, $e ) {
 		$modulus        = JWT::urlsafeB64Decode( $n );
 		$publicExponent = JWT::urlsafeB64Decode( $e );
 
-		$components = ['modulus'        => \pack( 'Ca*a*', 2, self::encodeLength( \strlen( $modulus ) ), $modulus ), 'publicExponent' => \pack( 'Ca*a*', 2, self::encodeLength( \strlen( $publicExponent ) ), $publicExponent )];
+		$components = array(
+			'modulus'        => \pack( 'Ca*a*', 2, self::encodeLength( \strlen( $modulus ) ), $modulus ),
+			'publicExponent' => \pack( 'Ca*a*', 2, self::encodeLength( \strlen( $publicExponent ) ), $publicExponent ),
+		);
 
 		$rsaPublicKey = \pack(
 			'Ca*a*a*',
@@ -136,20 +139,23 @@ class JWK {
 			$rsaOID . $rsaPublicKey
 		);
 
-		return "-----BEGIN PUBLIC KEY-----\r\n" .
+		$rsaPublicKey = "-----BEGIN PUBLIC KEY-----\r\n" .
 			\chunk_split( \base64_encode( $rsaPublicKey ), 64 ) .
 			'-----END PUBLIC KEY-----';
+
+		return $rsaPublicKey;
 	}
 
 	/**
-  * DER-encode the length
-  *
-  * DER supports lengths up to (2**8)**127, however, we'll only support lengths up to (2**8)**4.  See
-  * {@link http://itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf#p=13 X.690 paragraph 8.1.3} for more information.
-  *
-  * @param int $length
-  */
- private static function encodeLength( $length ): string {
+	 * DER-encode the length
+	 *
+	 * DER supports lengths up to (2**8)**127, however, we'll only support lengths up to (2**8)**4.  See
+	 * {@link http://itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf#p=13 X.690 paragraph 8.1.3} for more information.
+	 *
+	 * @param int $length
+	 * @return string
+	 */
+	private static function encodeLength( $length ) {
 		if ( $length <= 0x7F ) {
 			return \chr( $length );
 		}
