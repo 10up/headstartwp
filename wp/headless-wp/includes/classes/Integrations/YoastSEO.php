@@ -18,24 +18,24 @@ class YoastSEO {
 	 */
 	public function register() {
 		// Override sitemap stylesheet.
-		add_filter( 'wpseo_stylesheet_url', array( $this, 'override_wpseo_stylesheet_url' ) );
+		add_filter( 'wpseo_stylesheet_url', [ $this, 'override_wpseo_stylesheet_url' ] );
 
 		// Override url in sitemap at root/index.
-		add_filter( 'wpseo_sitemap_index_links', array( $this, 'maybe_override_sitemap_index_links' ) );
+		add_filter( 'wpseo_sitemap_index_links', [ $this, 'maybe_override_sitemap_index_links' ] );
 
 		// Override url in sitemap for posts, pages, taxonomy archives, authors etc.
-		add_filter( 'wpseo_sitemap_url', array( $this, 'maybe_override_sitemap_url' ), 10, 2 );
+		add_filter( 'wpseo_sitemap_url', [ $this, 'maybe_override_sitemap_url' ], 10, 1 );
 
-		add_filter( 'robots_txt', array( $this, 'maybe_override_sitemap_robots_url' ), 999999 );
+		add_filter( 'robots_txt', [ $this, 'maybe_override_sitemap_robots_url' ], 999999 );
 
 		// Override Search results yoast head, get_head endpoint currently does't detect search page.
-		add_filter( 'wpseo_canonical', array( $this, 'override_search_canonical' ), 10, 1 );
-		add_filter( 'wpseo_title', array( $this, 'override_search_title' ), 10, 1 );
-		add_filter( 'wpseo_opengraph_title', array( $this, 'override_search_title' ), 10, 1 );
-		add_filter( 'wpseo_opengraph_url', array( $this, 'override_search_canonical' ), 10, 1 );
+		add_filter( 'wpseo_canonical', [ $this, 'override_search_canonical' ], 10, 1 );
+		add_filter( 'wpseo_title', [ $this, 'override_search_title' ], 10, 1 );
+		add_filter( 'wpseo_opengraph_title', [ $this, 'override_search_title' ], 10, 1 );
+		add_filter( 'wpseo_opengraph_url', [ $this, 'override_search_canonical' ], 10, 1 );
 
 		// Introduce hereflangs presenter to Yoast list of presenters.
-		add_action( 'rest_api_init', array( $this, 'wpseo_rest_api_hreflang_presenter' ), 10, 0 );
+		add_action( 'rest_api_init', [ $this, 'wpseo_rest_api_hreflang_presenter' ], 10, 0 );
 	}
 
 	/**
@@ -77,13 +77,13 @@ class YoastSEO {
 	 * @param  array $links Array of links to be shown in sitemap.
 	 * @return array        Modified array of links to be shown in sitemap.
 	 */
-	public function maybe_override_sitemap_index_links( array $links ) : array {
+	public function maybe_override_sitemap_index_links( array $links ): array {
 		if ( ! $this->should_rewrite_urls() ) {
 			return $links;
 		}
 
 		return array_map(
-			function( $link ) {
+			function ( $link ) {
 				// Bail, if we don't have loc.
 				if ( empty( $link['loc'] ) ) {
 					return $link;
@@ -106,10 +106,9 @@ class YoastSEO {
 	 * Override base url for sitemap links with NextJS app url in sitemap.
 	 *
 	 * @param  string $xml  XML markup for url for the given link in sitemap.
-	 * @param  array  $link Link for which the url xml markup is rendered.
 	 * @return string       Modified XML markup for url for the given link in sitemap.
 	 */
-	public function maybe_override_sitemap_url( string $xml, array $link ) : string {
+	public function maybe_override_sitemap_url( string $xml ): string {
 		if ( ! $this->should_rewrite_urls() ) {
 			return $xml;
 		}
@@ -220,18 +219,25 @@ class YoastSEO {
 	 * @return string
 	 */
 	public function replace_yoast_search_title_placeholders( $title, $query_vars ) {
+		$separator = \YoastSEO()->helpers->options->get_title_separator();
 
 		$str_replace_mapping = apply_filters(
 			'tenup_headless_wp_search_title_variables_replacments',
-			array(
+			[
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				' %%page%%'        => ! empty( $query_vars['page'] ) ? sprintf( ' %s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
-				'%%sep%%'          => \YoastSEO()->helpers->options->get_title_separator() ?? ' ',
-			)
+				'%%page%%'         => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
+				'%%sep%%'          => $separator ?? ' ',
+			]
 		);
 
-		return str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
+		$title = str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
+
+		// Cleanup extra separators from possible missing values, we don't want to end up with 'You searched for - - - - '.
+		$escaped_sep = preg_quote( $separator, '/' );
+		$pattern     = '/\s*' . $escaped_sep . '\s*' . $escaped_sep . '+/';
+
+		return preg_replace( $pattern, ' ' . $separator, $title );
 	}
 
 	/**
@@ -305,7 +311,7 @@ class YoastSEO {
 
 		add_filter(
 			'wpseo_frontend_presenters',
-			function( $presenters ) {
+			function ( $presenters ) {
 				require_once HEADLESS_WP_PLUGIN_INC . 'classes/Integrations/PolylangHreflangs.php';
 
 				if ( ! class_exists( '\HeadlessWP\Integrations\PolylangHreflangs' ) ) {

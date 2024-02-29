@@ -47,10 +47,10 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 		}
 
 		$hreflangs_output = '';
-		$hreflangs_urls   = array();
+		$hreflangs_urls   = [];
 
 		$post_id      = get_the_ID();
-		$translations = array();
+		$translations = [];
 		$is_taxonomy  = false;
 		$is_homepage  = false;
 		$term         = null;
@@ -96,7 +96,7 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 			foreach ( $translations as $language => $translated_id ) {
 
 				if ( in_array( $translated_id, $homepages, true ) ) {
-					$is_homepage  = true;
+					$is_homepage = true;
 				}
 
 				// Only add hreflang tags for published posts.
@@ -153,5 +153,4 @@ class PolylangHrefLangs extends Abstract_Indexable_Presenter {
 
 		return $result;
 	}
-
 }

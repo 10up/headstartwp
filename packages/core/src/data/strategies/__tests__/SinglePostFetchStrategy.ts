@@ -254,6 +254,48 @@ describe('SinglePostFetchStrategy', () => {
 		);
 	});
 
+	it('handle revisions with alternative headers', async () => {
+		const samplePostRevision = { title: 'test', id: 1, link: '/post-name' };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: [samplePostRevision],
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/post-name');
+		const revisionParams = { ...params, id: 1, revision: true, authToken: 'test token' };
+
+		await fetchStrategy.fetcher(
+			fetchStrategy.buildEndpointURL(revisionParams),
+			revisionParams,
+			{
+				alternativePreviewAuthorizationHeader: true,
+			},
+		);
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts/1/revisions?per_page=1',
+			{
+				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
+			},
+			false,
+		);
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			2,
+			'/wp-json/wp/v2/posts/1',
+			{
+				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
+			},
+			false,
+		);
+	});
+
 	it('handle draft posts', async () => {
 		const samplePost = { title: 'test', id: 1 };
 		const sampleHeaders = {
@@ -276,6 +318,35 @@ describe('SinglePostFetchStrategy', () => {
 			'/wp-json/wp/v2/posts/10',
 			{
 				headers: { Authorization: 'Bearer test token' },
+			},
+			false,
+		);
+	});
+
+	it('handle draft posts with alternative headers', async () => {
+		const samplePost = { title: 'test', id: 1 };
+		const sampleHeaders = {
+			'x-wp-totalpages': 1,
+			'x-wp-total': 1,
+		};
+
+		apiGetMock.mockResolvedValue({
+			headers: sampleHeaders,
+			json: samplePost,
+		});
+
+		const params = fetchStrategy.getParamsFromURL('/post-name');
+		const draftParams = { ...params, id: 10, authToken: 'test token' };
+
+		await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(draftParams), draftParams, {
+			alternativePreviewAuthorizationHeader: true,
+		});
+
+		expect(apiGetMock).toHaveBeenNthCalledWith(
+			1,
+			'/wp-json/wp/v2/posts/10',
+			{
+				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
 			},
 			false,
 		);
