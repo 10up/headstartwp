@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { CustomPostType, getSiteByHost, PostEntity } from '@headstartwp/core';
+import { CustomPostType, getSiteByHost, PostEntity, removeSourceUrl } from '@headstartwp/core';
 import { getCustomPostType, getHeadstartWPConfig } from '@headstartwp/core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData, usePost } from '../data';
@@ -177,7 +177,7 @@ export async function previewHandler(
 
 		const id = Number(post_id);
 
-		const result = Array.isArray(data?.result) ? data.result[0] : data.result;
+		const result: PostEntity = Array.isArray(data?.result) ? data.result[0] : data.result;
 
 		if (result?.id === id || result?.parent === id) {
 			const { slug } = result;
@@ -199,6 +199,11 @@ export async function previewHandler(
 			 * @returns the default redirec tpath
 			 */
 			const getDefaultRedirectPath = () => {
+				// TODO: perhabs we should result.link directly and confirm it's not in form of ?p=post_id
+				if (result.status !== 'draft') {
+					return removeSourceUrl({ link: result.link, backendUrl: sourceUrl ?? '' });
+				}
+
 				const singleRoute = postTypeDef.single || '/';
 				// remove leading slashes
 				const prefixRoute = singleRoute.replace(/^\/+/, '');
