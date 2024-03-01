@@ -1,6 +1,15 @@
 import { removeSourceUrl } from '..';
 
 describe('removeSourceUrl', () => {
+	it('returns empty string without nonEmptyLink', () => {
+		expect(
+			removeSourceUrl({
+				link: 'https://test.com/test',
+				backendUrl: 'https://test.com/test',
+				nonEmptyLink: false,
+			}),
+		).toBe('');
+	});
 	it('removes source url', () => {
 		expect(
 			removeSourceUrl({

@@ -20,7 +20,7 @@ export type removeSourceUrlType = {
 	 * If the removal of source url from link leads to a empty string,
 	 * this setting control whether a '/' should be returned or the empty string
 	 */
-	nonEmptyLinks?: boolean;
+	nonEmptyLink?: boolean;
 };
 
 /**
@@ -43,7 +43,7 @@ export function removeSourceUrl({
 	link: originalLink,
 	backendUrl,
 	publicUrl = '/',
-	nonEmptyLinks = true,
+	nonEmptyLink = true,
 }: removeSourceUrlType) {
 	if (typeof originalLink === 'undefined') {
 		warn('link is undefined, double check if you are passing a valid value');
@@ -80,7 +80,7 @@ export function removeSourceUrl({
 
 		transformedLink = hasTrailingSlash ? transformedLink : transformedLink.replace(/\/?$/, '');
 
-		if (nonEmptyLinks && transformedLink === '') {
+		if (nonEmptyLink && transformedLink === '') {
 			return '/';
 		}
 

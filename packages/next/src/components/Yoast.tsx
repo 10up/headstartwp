@@ -21,7 +21,7 @@ export function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 		link: url,
 		publicUrl: hostUrl,
 		backendUrl: sourceUrl,
-		nonEmptyLinks: false,
+		nonEmptyLink: false,
 	})}`;
 }
 
