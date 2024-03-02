@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "php": ">=8"
+    "php": ">=8",
+    "yoast/wordpress-seo": "^22.1"
   },
   "repositories": [
     {
@@ -49,7 +50,13 @@
   },
   "config": {
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/installers": true
+    }
+  },
+  "extra": {
+    "installer-paths": {
+        "vendor/{$name}/": ["type:wordpress-plugin"]
     }
   }
 }
