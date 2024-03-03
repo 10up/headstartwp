@@ -15,6 +15,12 @@ export type removeSourceUrlType = {
 	 * The public url. Defaults to '/'.
 	 */
 	publicUrl?: string;
+
+	/**
+	 * If the removal of source url from link leads to a empty string,
+	 * this setting control whether a '/' should be returned or the empty string
+	 */
+	nonEmptyLink?: boolean;
 };
 
 /**
@@ -25,17 +31,28 @@ export type removeSourceUrlType = {
  *
  * @see https://github.com/frontity/frontity/blob/dev/packages/components/link/utils.ts
  *
+ * @param props.link The link that might contain the sourceUrl
+ * @param props.backendUrl The source url
+ * @param props.publicUrl The public url
+ * @param props.nonEmptyLinks If the removal of source url from link leads to a empty string,
+ * this setting control whether a '/' should be returned or the empty string
+ *
  * @returns The URL without the Source URL.
  */
-export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSourceUrlType) {
-	if (typeof link === 'undefined') {
+export function removeSourceUrl({
+	link: originalLink,
+	backendUrl,
+	publicUrl = '/',
+	nonEmptyLink = true,
+}: removeSourceUrlType) {
+	if (typeof originalLink === 'undefined') {
 		warn('link is undefined, double check if you are passing a valid value');
 		return '';
 	}
 
 	if (typeof backendUrl === 'undefined') {
 		warn('backendUrl is undefined, double check if you are passing a valid value');
-		return link;
+		return originalLink;
 	}
 
 	// Ensure `sourceUrl` and `publicUrl` always include a trailing slash. All
@@ -43,21 +60,33 @@ export function removeSourceUrl({ link, backendUrl, publicUrl = '/' }: removeSou
 	const sourceUrl = backendUrl.replace(/\/?$/, '/');
 	const appUrl = publicUrl.replace(/\/?$/, '/');
 
-	if (sourceUrl === '/' || link.startsWith('#')) {
-		return link;
+	if (sourceUrl === '/' || originalLink.startsWith('#')) {
+		return originalLink;
 	}
 
 	const { host: sourceHost, pathname: sourcePath } = new URL(sourceUrl);
 	const { pathname: appPath } = new URL(appUrl, sourceUrl);
 
+	// we need to know if the original link has trailing slash or not
+	const hasTrailingSlash = /\/$/.test(originalLink);
+	const link = !hasTrailingSlash ? `${originalLink}/` : originalLink;
 	const linkUrl = new URL(link, sourceUrl);
 
 	// Compare just the host and the pathname. This way we ignore the protocol if
 	// it doesn't match.
 	if (linkUrl.host === sourceHost && linkUrl.pathname.startsWith(sourcePath)) {
-		return linkUrl.pathname.replace(sourcePath, appPath) + linkUrl.search + linkUrl.hash;
+		let transformedLink =
+			linkUrl.pathname.replace(sourcePath, appPath) + linkUrl.search + linkUrl.hash;
+
+		transformedLink = hasTrailingSlash ? transformedLink : transformedLink.replace(/\/?$/, '');
+
+		if (nonEmptyLink && transformedLink === '') {
+			return '/';
+		}
+
+		return transformedLink;
 	}
 
 	// Do not change the link for other cases.
-	return link;
+	return originalLink;
 }
