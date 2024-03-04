@@ -199,8 +199,7 @@ export async function previewHandler(
 			 * @returns the default redirec tpath
 			 */
 			const getDefaultRedirectPath = () => {
-				// TODO: perhabs we should result.link directly and confirm it's not in form of ?p=post_id
-				if (result.status !== 'draft') {
+				if (preview?.usePostLinkForRedirect) {
 					return removeSourceUrl({ link: result.link, backendUrl: sourceUrl ?? '' });
 				}
 
