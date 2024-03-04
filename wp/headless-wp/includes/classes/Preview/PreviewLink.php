@@ -19,7 +19,7 @@ class PreviewLink {
 		add_filter( 'template_include', [ $this, 'handle_preview' ], 20 );
 
 		add_filter( 'post_link', [ $this, 'force_posts_drafts_to_have_permalinks' ], 10, 2 );
-		add_filter( 'post_permalink', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
+		add_filter( 'post_type_link', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
 		add_action( 'page_link', [ $this, 'force_page_drafts_to_have_permalinks' ], 10, 2 );
 	}
 
@@ -32,11 +32,6 @@ class PreviewLink {
 	 * @return string
 	 */
 	protected function force_drafts_to_have_permalinks( string $permalink, \WP_Post $post ): string {
-		// If this isn't a rest request do nothing
-		if ( ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
-			return $permalink;
-		}
-
 		if ( 'draft' !== $post->post_status ) {
 			return $permalink;
 		}
@@ -55,7 +50,7 @@ class PreviewLink {
 
 				[$permastruct, $post_name] = \get_sample_permalink( $post->ID );
 				$link                      = str_replace( '%postname%', $post_name, $permastruct );
-				$link                      = str_replace( '%pagename%', $post_name, $permastruct );
+				$link                      = str_replace( '%pagename%', $post_name, $link );
 
 				return $link;
 			}
@@ -91,9 +86,9 @@ class PreviewLink {
 	 * @return string
 	 */
 	public function force_cpts_drafts_to_have_permalinks( string $permalink, \WP_Post $post ): string {
-		remove_filter( 'post_permalink', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
+		remove_filter( 'post_type_link', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
 		$link = $this->force_drafts_to_have_permalinks( $permalink, $post );
-		add_filter( 'post_permalink', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
+		add_filter( 'post_type_link', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
 
 		return $link;
 	}
