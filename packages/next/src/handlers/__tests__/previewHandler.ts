@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '@headstartwp/core/test';
-import { setHeadstartWPConfig } from '@headstartwp/core';
+import { removeSourceUrl, setHeadstartWPConfig } from '@headstartwp/core';
 import { previewHandler } from '../previewHandler';
 
 describe('previewHandler', () => {
@@ -283,5 +283,33 @@ describe('previewHandler', () => {
 		expect(res._getData()).toBe(
 			'Cannot preview an unknown post type, did you forget to add it to headless.config.js?',
 		);
+	});
+
+	it('use post.link when preview.usePostLinkForRedirect is treu', async () => {
+		setHeadstartWPConfig({
+			preview: { usePostLinkForRedirect: true },
+		});
+
+		const { req, res } = createMocks({
+			method: 'GET',
+			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'post' },
+		});
+
+		res.setPreviewData = jest.fn();
+		await previewHandler(req, res);
+
+		expect(res.setPreviewData).toHaveBeenCalled();
+		expect(res._getStatusCode()).toBe(302);
+
+		// instead of manually building the redirect url it should just use what's coming from post.link
+		// manually calling removeSourceUrl here bc currently test suite doesn't have any source url set so it can't
+		// do link replacement automatically
+		expect(
+			removeSourceUrl({ link: res._getRedirectUrl(), backendUrl: 'https://js1.10up.com' }),
+		).toBe('/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto-preview=true');
+	});
+
+	setHeadstartWPConfig({
+		preview: { usePostLinkForRedirect: false },
 	});
 });

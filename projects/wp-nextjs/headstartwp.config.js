@@ -55,4 +55,12 @@ module.exports = {
 		 */
 		devMode: process.env?.ENABLE_DEV_MODE === 'true',
 	},
+
+	preview: {
+		/**
+		 * If enabled, it will use the `post.link` property of the REST response
+		 * to redirect to the appropriate route for previewing
+		 */
+		usePostLinkForRedirect: true,
+	},
 };
