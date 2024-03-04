@@ -31,7 +31,7 @@ class PreviewLink {
 	 *
 	 * @return string
 	 */
-	protected function force_drafts_to_have_permalinks( string $permalink, \WP_Post $post ) : string {
+	protected function force_drafts_to_have_permalinks( string $permalink, \WP_Post $post ): string {
 		// If this isn't a rest request do nothing
 		if ( ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 			return $permalink;
@@ -49,13 +49,13 @@ class PreviewLink {
 			}
 
 			if ( 'preview' === $payload->type && $post->ID === $payload->post_id ) {
-				if( ! function_exists( 'get_sample_permalink' ) ) {
-					include_once( ABSPATH . 'wp-admin/includes/post.php' );
+				if ( ! function_exists( 'get_sample_permalink' ) ) {
+					include_once ABSPATH . 'wp-admin/includes/post.php';
 				}
 
 				[$permastruct, $post_name] = \get_sample_permalink( $post->ID );
-				$link =  str_replace( '%postname%', $post_name, $permastruct );
-				$link =  str_replace( '%pagename%', $post_name, $permastruct );
+				$link                      = str_replace( '%postname%', $post_name, $permastruct );
+				$link                      = str_replace( '%pagename%', $post_name, $permastruct );
 
 				return $link;
 			}
@@ -74,7 +74,7 @@ class PreviewLink {
 	 *
 	 * @return string
 	 */
-	public function force_posts_drafts_to_have_permalinks( string $permalink, \WP_Post $post ) : string {
+	public function force_posts_drafts_to_have_permalinks( string $permalink, \WP_Post $post ): string {
 		remove_filter( 'post_link', [ $this, 'force_posts_drafts_to_have_permalinks' ], 10, 2 );
 		$link = $this->force_drafts_to_have_permalinks( $permalink, $post );
 		add_filter( 'post_link', [ $this, 'force_posts_drafts_to_have_permalinks' ], 10, 2 );
@@ -90,7 +90,7 @@ class PreviewLink {
 	 *
 	 * @return string
 	 */
-	public function force_cpts_drafts_to_have_permalinks( string $permalink, \WP_Post $post ) : string {
+	public function force_cpts_drafts_to_have_permalinks( string $permalink, \WP_Post $post ): string {
 		remove_filter( 'post_permalink', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
 		$link = $this->force_drafts_to_have_permalinks( $permalink, $post );
 		add_filter( 'post_permalink', [ $this, 'force_cpts_drafts_to_have_permalinks' ], 10, 2 );
@@ -101,12 +101,12 @@ class PreviewLink {
 	/**
 	 * Force page drafts to have permalinks
 	 *
-	 * @param string	$permalink   The post's permalink.
-	 * @param int		$page_id     The page_id
+	 * @param string $permalink   The post's permalink.
+	 * @param int    $page_id     The page_id
 	 *
 	 * @return string
 	 */
-	public function force_page_drafts_to_have_permalinks( string $permalink, int $page_id ) : string {
+	public function force_page_drafts_to_have_permalinks( string $permalink, int $page_id ): string {
 		remove_filter( 'page_link', [ $this, 'force_page_drafts_to_have_permalinks' ], 10, 2 );
 		$link = $this->force_drafts_to_have_permalinks( $permalink, get_post( $page_id ) );
 		add_filter( 'page_link', [ $this, 'force_page_drafts_to_have_permalinks' ], 10, 2 );

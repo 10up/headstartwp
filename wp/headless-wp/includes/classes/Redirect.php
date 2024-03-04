@@ -59,6 +59,7 @@ class Redirect {
 			// if any sitemap requests reaches this point then it is a 404
 			if ( str_contains( $url_request, 'sitemap' ) && str_ends_with( $url_request, '.xml' ) ) {
 				// redirect to the homepage, otherwise users would see a HTTP 404 (not the 404 page on next.js) error on the browser.
+				// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ), 307 );
 				exit;
 			}
