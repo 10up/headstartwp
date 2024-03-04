@@ -18,8 +18,10 @@ export function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	}
 
 	return `${hostUrl}${removeSourceUrl({
-		link: url.replace(/\/?$/, '/'),
+		link: url,
+		publicUrl: hostUrl,
 		backendUrl: sourceUrl,
+		nonEmptyLink: false,
 	})}`;
 }
 
