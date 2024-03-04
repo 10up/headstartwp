@@ -51,6 +51,9 @@ class Plugin {
 
 		$search = new Search\Search();
 		$search->register();
+
+		$redirect = new Redirect();
+		$redirect->register();
 	}
 
 	/**
