@@ -50,11 +50,10 @@ class PreviewLink {
 
 			if ( 'preview' === $payload->type && $post->ID === $payload->post_id ) {
 				if( ! function_exists( 'get_sample_permalink' ) ) {
-					// Front-end post update
 					include_once( ABSPATH . 'wp-admin/includes/post.php' );
 				}
 
-				[$permastruct, $post_name] = \get_sample_permalink( $post->ID, 'test' );
+				[$permastruct, $post_name] = \get_sample_permalink( $post->ID );
 				$link =  str_replace( '%postname%', $post_name, $permastruct );
 				$link =  str_replace( '%pagename%', $post_name, $permastruct );
 
