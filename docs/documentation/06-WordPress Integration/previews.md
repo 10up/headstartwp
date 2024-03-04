@@ -89,6 +89,10 @@ export default async function handler(req, res) {
 This option was added in `@headstartwp/next@1.1.0`.
 :::info
 
+:::tip
+A better alternative is using `preview.usePostLinkForRedirect`. With this setting, you can set up previews so that it uses the `link` property returned in the REST API response for redirecting to the appropriate path/route. This requires that your WordPress permalink matches the Next.js route structure. Check out the docs for [preview.usePostLinkForRedirect](/learn/getting-started/headless-config/#usepostlinkforredirect).
+:::tip
+
 The `getRedirectPath` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts are `/%category%/%postname%/` you could create a `/src/pages/[category]/[...path.js]` route to handle single post. However, once you do that the `previewHandler` doesn't know how to redirect to that URL and as such you will have to provide your own redirect handling.
 
 The framework will also use this value to restrict the preview cookie to the post being previewed to avoid bypassing `getStaticProps` until the cookie expires or the browser is closed. See the [Next.js docs](https://nextjs.org/docs/pages/building-your-application/configuring/preview-mode#specify-the-preview-mode-duration) for more info.
@@ -120,10 +124,10 @@ export default async function handler(req, res) {
 
 #### `onRedirect`
 
-:::caution
+:::tip
 Instead of implementing `onRedirect` we recommend implementing `getRedirectPath` instead as that will only enable the preview cookie for 
 the post being previewed.
-:::caution
+:::tip
 
 The `onRedirect` gives you full access to the `req` and `res` objects. If you do need implement this function we recommend also implementing `getRedirectPath`.
 
