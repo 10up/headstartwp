@@ -43,7 +43,7 @@ module.exports = {
 			enable: true,
 		},
 		polylang: {
-			enable: process.env?.ENABLE_POLYLANG_INTEGRATION === 'true',
+			enable: process.env?.NEXT_PUBLIC_ENABLE_POLYLANG_INTEGRATION === 'true',
 		},
 	},
 
