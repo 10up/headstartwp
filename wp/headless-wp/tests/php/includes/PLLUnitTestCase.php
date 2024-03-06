@@ -29,6 +29,7 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public static function setUpBeforeClass(): void {
+		parent::setUpBeforeClass();
 		self::$polylang = new \stdClass();
 
 		self::$polylang->options                 = \PLL_Install::get_default_options();
@@ -68,10 +69,10 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function tearDown(): void {
+		parent::tearDown();
+
 		unset( $GLOBALS['wp_settings_errors'] );
 		self::$polylang->model->clean_languages_cache(); // We must do it before database ROLLBACK otherwhise it is impossible to delete the transient
-
-		parent::tearDown();
 	}
 
 	/**
@@ -117,6 +118,21 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 				self::$polylang->model->delete_language( $lang->term_id );
 				unset( $GLOBALS['wp_settings_errors'] );
 			}
+		}
+	}
+
+	/**
+	 * Switches to the given language
+	 *
+	 * @param string $lang The language to switch to
+	 *
+	 * @return void
+	 */
+	protected static function switch_language( string $lang ): void {
+		$language = \PLL()->model->get_language( $lang );
+
+		if ( false !== $language ) {
+			\PLL()->curlang = $language;
 		}
 	}
 
