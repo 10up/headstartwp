@@ -77,6 +77,10 @@ export function Yoast({ seo, useHtml = false }: Props) {
 						props.href = convertUrl(props.href, hostUrl, sourceUrl);
 					}
 
+					if (props.rel === 'alternate') {
+						props.href = convertUrl(props.href, hostUrl, sourceUrl);
+					}
+
 					if (props.property === 'og:url') {
 						props.content = convertUrl(props.content, hostUrl, sourceUrl);
 					}
