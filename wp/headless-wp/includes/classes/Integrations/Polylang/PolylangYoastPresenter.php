@@ -69,7 +69,7 @@ class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 
 		// Get Term or Post translations.
 		if ( $source instanceof \WP_term && pll_is_translated_taxonomy( $source->taxonomy ) ) {
-			$term = $source;
+			$term         = $source;
 			$translations = pll_get_term_translations( $term->term_id );
 			$is_taxonomy  = true;
 		} else {
