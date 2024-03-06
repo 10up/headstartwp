@@ -25,6 +25,14 @@
           "reference": "trunk"
         }
       }
+    },
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
     }
   ],
   "require-dev": {
@@ -56,7 +64,9 @@
   },
   "extra": {
     "installer-paths": {
-        "vendor/{$name}/": ["type:wordpress-plugin"]
+      "vendor/{$name}/": [
+        "type:wordpress-plugin"
+      ]
     }
   }
 }
