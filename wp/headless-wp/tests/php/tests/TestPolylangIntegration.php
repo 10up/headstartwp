@@ -245,8 +245,16 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 			\pll_set_post_language( $post_pt, 'pt' );
 		}
 
+		\pll_save_term_translations(
+			[
+				'en' => $cat_en_id,
+				'pt' => $cat_pt_id,
+			]
+		);
+
 		$yoast_head = $this->getYoastHeadForTerm( 'post', $cat_pt_id );
 
-		$this->assertNotFalse( strpos( $yoast_head, '<link rel="alternate" href="http://localhost:8889/category/english" hreflang="en" />' ), 'hreflang was not found' );
+		$this->assertNotFalse( strpos( $yoast_head, sprintf( '<link rel="alternate" href="http://localhost:8889/?cat=%s&#038;lang=en" hreflang="en" />', $cat_en_id ) ), 'hreflang was not found' );
+		$this->assertNotFalse( strpos( $yoast_head, sprintf( '<link rel="alternate" href="http://localhost:8889/?cat=%s&#038;lang=en" hreflang="pt" />', $cat_pt_id )), 'hreflang was not found' );
 	}
 }

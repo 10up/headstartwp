@@ -10,7 +10,6 @@
 namespace HeadlessWP\Integrations\Polylang;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
-use HeadlessWP\Utils\Rest;
 
 /**
  * The PolylangYoastPresenter integration class
@@ -39,6 +38,11 @@ class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 	 * @return string Hreflang tags or empty string.
 	 */
 	public function get() {
+		$source = $this->presentation->source;
+
+		if ( ! $source instanceof \WP_Post && ! $source instanceof \WP_Term ) {
+			return '';
+		}
 
 		$languages = pll_languages_list();
 
@@ -49,7 +53,7 @@ class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 		$hreflangs_output = '';
 		$hreflangs_urls   = [];
 
-		$post_id      = get_the_ID();
+		$post_id      = $source instanceof \WP_Post ? $source->ID : false;
 		$translations = [];
 		$is_taxonomy  = false;
 		$is_homepage  = false;
@@ -64,12 +68,10 @@ class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 		}
 
 		// Get Term or Post translations.
-		if ( empty( $post_id ) ) {
-			$term = Rest\is_taxonomy_rest_request();
-			if ( $term instanceof \WP_term && pll_is_translated_taxonomy( $term->taxonomy ) ) {
-				$translations = pll_get_term_translations( $term->term_id );
-				$is_taxonomy  = true;
-			}
+		if ( $source instanceof \WP_term && pll_is_translated_taxonomy( $source->taxonomy ) ) {
+			$term = $source;
+			$translations = pll_get_term_translations( $term->term_id );
+			$is_taxonomy  = true;
 		} else {
 			$translations = pll_get_post_translations( $post_id );
 		}

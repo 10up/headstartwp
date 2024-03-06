@@ -46,10 +46,7 @@
   "autoload": {
     "psr-4": {
       "HeadlessWP\\": "includes/classes/"
-    },
-    "files": [
-      "includes/utils/rest.php"
-    ]
+    }
   },
   "scripts": {
     "lint": "./vendor/bin/phpcs --standard=phpcs.xml",
