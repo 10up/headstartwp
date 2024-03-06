@@ -33,6 +33,9 @@ class YoastSEO {
 		add_filter( 'wpseo_title', [ $this, 'override_search_title' ], 10, 1 );
 		add_filter( 'wpseo_opengraph_title', [ $this, 'override_search_title' ], 10, 1 );
 		add_filter( 'wpseo_opengraph_url', [ $this, 'override_search_canonical' ], 10, 1 );
+
+		// Introduce hereflangs presenter to Yoast list of presenters.
+		add_action( 'rest_api_init', [ $this, 'wpseo_rest_api_hreflang_presenter' ], 10, 0 );
 	}
 
 	/**
@@ -287,5 +290,36 @@ class YoastSEO {
 		}
 
 		return $canonical;
+	}
+
+	/**
+	 * Register custom presenter to handle hreflang tags in Yoast REST response.
+	 * Called on rest_api_init
+	 *
+	 * Polylang adds hreflang tags by hooking into wp_head which only runs on the front end on a
+	 * traditional WordPress setup.
+	 *
+	 * @return array
+	 */
+	public function wpseo_rest_api_hreflang_presenter() {
+
+		$enable_hreflang = apply_filters( 'tenup_headless_wp_enable_hreflangs', true );
+
+		if ( ! $enable_hreflang ) {
+			return;
+		}
+
+		add_filter(
+			'wpseo_frontend_presenters',
+			function ( $presenters ) {
+				if ( ! class_exists( '\HeadlessWP\Integrations\Polylang\PolylangYoastPresenter' ) ) {
+					return $presenters;
+				}
+
+				$presenters[] = new \HeadlessWP\Integrations\Polylang\PolylangYoastPresenter();
+
+				return $presenters;
+			}
+		);
 	}
 }
