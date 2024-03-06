@@ -1,20 +1,21 @@
 <?php
 /**
- * HeadlessWP PolylangHrefLangs Class.
+ * PolylangPresenter class
+ *
  * Adds hreflangs to Yoast head
  *
  * @package HeadlessWP
  */
 
-namespace HeadlessWP\Integrations;
+namespace HeadlessWP\Integrations\Polylang;
 
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use HeadlessWP\Utils\Rest;
 
 /**
- * The PolylangHrefLangs integration class
+ * The PolylangYoastPresenter integration class
  */
-class Polylang extends Abstract_Indexable_Presenter {
+class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * Output the hreflang tags if they exist.
