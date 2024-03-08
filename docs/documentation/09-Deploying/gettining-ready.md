@@ -14,6 +14,6 @@ Before deploying we recommend checking out a few things to ensure a smooth launc
 - Check out ads.txt, HeadstartWP will also proxy it through WP. We recommend installing the [ads.txt](https://wordpress.org/plugins/ads-txt/) plugin.
 - Consider setting up application monitoring such as [DataDog](./data-dog.md), New-Relic or Sentry.
 
-## Hosting Options
+## Hosting
 
-You can deploy HeadstartWP to any hosting that supports Next.js. Check out our [Hosting Recommendations](./hosting.md) page.
+You can deploy HeadstartWP to any hosting that supports Next.js. We've tested HeadstartWP on a few platforms. Check out our [Hosting](./hosting.md) page for some tips.
