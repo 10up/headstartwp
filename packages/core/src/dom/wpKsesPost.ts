@@ -10,7 +10,7 @@ interface IWpKsesPostOptions extends IFilterXSSOptions {
 /**
  * Sanitize HTML content by the wp_kses_post() requirements
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { wpKsesPost } from '@headstartwp/core';

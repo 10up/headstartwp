@@ -31,7 +31,7 @@ export interface SafeHtmlProps {
  *
  * The html prop is sanitized through {@link wpKsesPost} so it's safe for rendering arbitrary html markup.
  *
- * ## Usage
+ * #### Usage
  *
  * ```jsx
  * <SafeHtml html="<div><p>hello world</p> div content</div>" />

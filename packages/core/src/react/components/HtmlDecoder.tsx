@@ -18,7 +18,7 @@ export interface HtmlDecodeProps {
  *
  * Any actual html markup gets stripped before decoding html entities. If you need to render HTML use {@link SafeHtml}
  *
- * ## Usage
+ * #### Usage
  *
  * ```jsx
  * <HtmlDecoder html="Hello world! &#8211; foo bar &#8211;" />

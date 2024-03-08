@@ -98,7 +98,7 @@ function withPreviewSuffix(path: string) {
  *
  * **Important**: This function is meant to be used in a api route at `/pages/api/preview`.
  *
- * ### Usage
+ * #### Usage
  *
  * ```ts
  * // pages/api/preview.js

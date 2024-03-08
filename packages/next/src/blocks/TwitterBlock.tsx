@@ -5,7 +5,7 @@ import Script from 'next/script';
 /**
  * Renders a twitter embed
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { BlocksRenderer } from "@headstartwp/core/react";

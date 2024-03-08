@@ -63,7 +63,7 @@ export type HeadlessAppProps = {
  *
  * Should be used in `pages/_app.js`
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { HeadlessApp } from "@headstartwp/next";
