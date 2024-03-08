@@ -4,7 +4,9 @@ sidebar_label: Hosting
 sidebar_position: 1
 ---
 
-# Hosting Recommendations
+# Hosting
+
+We've tested HeadstartWP on the following hosting platforms. We've listed here some tips when hosting on these platforms.
 
 ## Vercel
 
