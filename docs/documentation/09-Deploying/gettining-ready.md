@@ -12,7 +12,7 @@ Before deploying we recommend checking out a few things to ensure a smooth launc
 - Confirm your sitemaps are working. If you have the Yoast SEO plugin, HeadstartWP will proxy sitemaps through WP and ensure links are replaced with the front-end links
 - Check out your robots.txt, HeadstarWP will proxy it through WP as well.
 - Check out ads.txt, HeadstartWP will also proxy it through WP. We recommend installing the [ads.txt](https://wordpress.org/plugins/ads-txt/) plugin.
-- Consider setting up application monitoring such as [DataDog](./data-dog.md), New-Relic or Sentry.
+- Consider setting up application monitoring such as [Datadog](./datadog.md), New-Relic or Sentry.
 
 ## Hosting
 
