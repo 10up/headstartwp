@@ -10,6 +10,7 @@ namespace HeadlessWP\Tests;
 use DateTime;
 use HeadlessWP\Preview\PreviewLink;
 use HeadlessWP\Preview\PreviewToken;
+use WP_REST_Request;
 use WP_UnitTestCase;
 
 /**
@@ -30,6 +31,24 @@ class TestPreview extends WP_UnitTestCase {
 	 * @var \WP_Rewrite
 	 */
 	protected $wp_rewrite;
+
+	/**
+	 * The rest server
+	 *
+	 * @var WP_REST_Server
+	 */
+	protected static \WP_REST_Server $rest_server;
+
+	/**
+	 * Setup any pre-test data.
+	 *
+	 * @return void
+	 */
+	public static function setUpBeforeClass(): void {
+		parent::setUpBeforeClass();
+
+		self::$rest_server = rest_get_server();
+	}
 
 	/**
 	 * Sets up the Test class
@@ -55,6 +74,18 @@ class TestPreview extends WP_UnitTestCase {
 		 */
 		$this->wp_rewrite->init();
 		$this->wp_rewrite->set_permalink_structure( '/%postname%/' );
+
+		add_filter( 'tenup_headless_wp_should_force_drafts_to_have_permalinks', '__return_true' );
+	}
+
+	/**
+	 * Tears the tests down
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		parent::tear_down();
+		remove_filter( 'tenup_headless_wp_should_force_drafts_to_have_permalinks', '__return_true' );
 	}
 
 	/**
@@ -165,15 +196,15 @@ class TestPreview extends WP_UnitTestCase {
 
 		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
 
-		$this->assertEquals( 'http://localhost:8889/draft-post/', get_permalink( $draft ) );
+		$this->assertEquals( 'http://localhost:8889/draft-post/', $this->preview->get_draft_permalink( $draft ) );
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 
 		// without authorization it shouldn't modify permalink
 		$this->assertEquals(
-			"http://localhost:8889/?p=$draft->ID",
-			get_permalink( $draft ),
-			"without authorization it shouldn't modify permalink"
+			'',
+			$this->preview->get_draft_permalink( $draft ),
+			'without authorization it should return an empty string'
 		);
 	}
 
@@ -206,7 +237,7 @@ class TestPreview extends WP_UnitTestCase {
 
 		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
 
-		$this->assertEquals( "http://localhost:8889/{$date->format('Y/m/d')}/draft-post/", get_permalink( $draft ) );
+		$this->assertEquals( "http://localhost:8889/{$date->format('Y/m/d')}/draft-post/", $this->preview->get_draft_permalink( $draft ) );
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 
@@ -238,11 +269,15 @@ class TestPreview extends WP_UnitTestCase {
 
 		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
 
-		$this->assertEquals( 'http://localhost:8889/draft-page/', get_permalink( $draft ) );
+		$this->assertEquals( 'http://localhost:8889/draft-page/', $this->preview->get_draft_permalink( $draft ) );
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 
-		$this->assertEquals( "http://localhost:8889/?page_id=$draft->ID", get_permalink( $draft ) );
+		$this->assertEquals(
+			'',
+			$this->preview->get_draft_permalink( $draft ),
+			'without authorization it should return an empty string'
+		);
 	}
 
 	/**
@@ -272,10 +307,82 @@ class TestPreview extends WP_UnitTestCase {
 
 		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
 
-		$this->assertEquals( 'http://localhost:8889/book/draft-book/', get_permalink( $draft ) );
+		$this->assertEquals( 'http://localhost:8889/book/draft-book/', $this->preview->get_draft_permalink( $draft ) );
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 
-		$this->assertEquals( "http://localhost:8889/?post_type=book&p=$draft->ID", get_permalink( $draft ) );
+		$this->assertEquals(
+			'',
+			$this->preview->get_draft_permalink( $draft ),
+			'without authorization it should return an empty string'
+		);
+	}
+
+	/**
+	 * Tests draft cpts with custom rewrite rules are not plain permalinks
+	 *
+	 * @return void
+	 */
+	public function test_draft_cpt_custom_permalink() {
+		register_post_type( 'news', [] );
+		register_taxonomy_for_object_type( 'category', 'news' );
+
+		$category = $this->factory()->term->create_and_get(
+			[
+				'taxonomy' => 'category',
+			]
+		);
+
+		$draft = $this->factory()->post->create_and_get(
+			[
+				'post_title'    => 'Draft new',
+				'post_status'   => 'draft',
+				'post_content'  => 'draf new',
+				'post_type'     => 'news',
+				'post_category' => [ $category->term_id ],
+			]
+		);
+
+		add_filter(
+			'post_type_link',
+			function ( $post_link, $post ) {
+				if ( 'news' !== $post->post_type ) {
+					return $post_link;
+				}
+
+				$post_name = empty( $post->post_name ) ? sanitize_title( $post->post_title ) : $post->post_name;
+				$post_name = empty( $post_name ) ? $post->ID : $post_name;
+
+				$fallback = esc_url( home_url( sprintf( 'newsroom/%s', $post_name ) ) );
+
+				$news_types = wp_get_post_terms( $post->ID, 'category', [ 'fields' => 'slugs' ] );
+
+				if (
+				is_wp_error( $news_types ) ||
+				! is_array( $news_types ) ||
+				! count( $news_types ) > 0
+				) {
+					return $fallback;
+				}
+
+				return esc_url( home_url( sprintf( 'newsroom/%s/%s', $news_types[0], $post_name ) ) );
+			},
+			10,
+			2
+		);
+
+		// simulate a REST request
+		$token = PreviewToken::generate(
+			[
+				'type'    => 'preview',
+				'post_id' => $draft->ID,
+			]
+		);
+
+		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+
+		$this->assertEquals( "http://localhost:8889/newsroom/$category->slug/draft-new", $this->preview->get_draft_permalink( $draft ) );
+
+		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 	}
 }

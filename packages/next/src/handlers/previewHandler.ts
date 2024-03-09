@@ -200,7 +200,16 @@ export async function previewHandler(
 			 */
 			const getDefaultRedirectPath = () => {
 				if (preview?.usePostLinkForRedirect) {
-					return removeSourceUrl({ link: result.link, backendUrl: sourceUrl ?? '' });
+					if (
+						result.status === 'draft' &&
+						typeof result._tenup_preview_link === 'undefined'
+					) {
+						throw new Error(
+							'You are using usePostLinkForRedirect setting but your rest response does not have _tenup_preview_link, ensure you are running the latest version of the plugin',
+						);
+					}
+					const link = result._tenup_preview_link ?? result.link;
+					return removeSourceUrl({ link: link as string, backendUrl: sourceUrl ?? '' });
 				}
 
 				const singleRoute = postTypeDef.single || '/';
