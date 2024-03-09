@@ -74,8 +74,6 @@ class TestPreview extends WP_UnitTestCase {
 		 */
 		$this->wp_rewrite->init();
 		$this->wp_rewrite->set_permalink_structure( '/%postname%/' );
-
-		add_filter( 'tenup_headless_wp_should_force_drafts_to_have_permalinks', '__return_true' );
 	}
 
 	/**
@@ -85,7 +83,6 @@ class TestPreview extends WP_UnitTestCase {
 	 */
 	public function tear_down() {
 		parent::tear_down();
-		remove_filter( 'tenup_headless_wp_should_force_drafts_to_have_permalinks', '__return_true' );
 	}
 
 	/**
