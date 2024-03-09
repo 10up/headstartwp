@@ -285,7 +285,7 @@ describe('previewHandler', () => {
 		);
 	});
 
-	it('use post.link when preview.usePostLinkForRedirect is treu', async () => {
+	it('use post.link when preview.usePostLinkForRedirect is true', async () => {
 		setHeadstartWPConfig({
 			preview: { usePostLinkForRedirect: true },
 		});
