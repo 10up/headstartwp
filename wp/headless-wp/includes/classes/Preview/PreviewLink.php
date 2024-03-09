@@ -34,8 +34,8 @@ class PreviewLink {
 				$post_type,
 				'_tenup_preview_link',
 				[
-					'get_callback' => function ( $object ) {
-						return $this->get_draft_permalink( get_post( $object['id'] ) );
+					'get_callback' => function ( $post_object ) {
+						return $this->get_draft_permalink( get_post( $post_object['id'] ) );
 					},
 					'schema'       => [
 						'type' => 'string',

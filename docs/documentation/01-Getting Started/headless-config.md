@@ -237,7 +237,7 @@ module.exports = {
 This feature was added in `@headstartwp/next@1.3.3` and requires the plugin version >= 1.1.2.
 :::info
 
-This option, if enabled, will use the `post.link` property of the REST response to redirect to the appropriate route for previewing. This can be very useful to avoid the need for providing a custom [getRedirectPath](/learn/wordpress-integration/previews#getredirectpath) implementation by telling the preview handler to simply use the `post.link` property coming in via the REST API response for the previewed post.
+This option, if enabled, will use the `post.link` property of the post being previewed to redirect to the appropriate route for previewing. This can be very useful to avoid the need for providing a custom [getRedirectPath](/learn/wordpress-integration/previews#getredirectpath) implementation by telling the preview handler to simply use the post's link as returned via the WordPress `get_permalink` function.
 
 Note that you will want to make sure that your WordPress permalink structure closely follows the route structure of your Next.js app for this option to work well.
 
@@ -251,3 +251,5 @@ module.exports = {
 	}
 }
 ```
+
+More for info check out the [preview docs](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).

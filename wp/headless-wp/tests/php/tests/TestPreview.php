@@ -10,7 +10,6 @@ namespace HeadlessWP\Tests;
 use DateTime;
 use HeadlessWP\Preview\PreviewLink;
 use HeadlessWP\Preview\PreviewToken;
-use WP_REST_Request;
 use WP_UnitTestCase;
 
 /**
@@ -31,24 +30,6 @@ class TestPreview extends WP_UnitTestCase {
 	 * @var \WP_Rewrite
 	 */
 	protected $wp_rewrite;
-
-	/**
-	 * The rest server
-	 *
-	 * @var WP_REST_Server
-	 */
-	protected static \WP_REST_Server $rest_server;
-
-	/**
-	 * Setup any pre-test data.
-	 *
-	 * @return void
-	 */
-	public static function setUpBeforeClass(): void {
-		parent::setUpBeforeClass();
-
-		self::$rest_server = rest_get_server();
-	}
 
 	/**
 	 * Sets up the Test class
@@ -74,15 +55,6 @@ class TestPreview extends WP_UnitTestCase {
 		 */
 		$this->wp_rewrite->init();
 		$this->wp_rewrite->set_permalink_structure( '/%postname%/' );
-	}
-
-	/**
-	 * Tears the tests down
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		parent::tear_down();
 	}
 
 	/**
@@ -347,8 +319,7 @@ class TestPreview extends WP_UnitTestCase {
 					return $post_link;
 				}
 
-				$post_name = empty( $post->post_name ) ? sanitize_title( $post->post_title ) : $post->post_name;
-				$post_name = empty( $post_name ) ? $post->ID : $post_name;
+				$post_name = empty( $post->post_name ) ? '%postname%' : $post->post_name;
 
 				$fallback = esc_url( home_url( sprintf( 'newsroom/%s', $post_name ) ) );
 
