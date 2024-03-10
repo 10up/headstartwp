@@ -18,7 +18,10 @@ class PreviewLink {
 	public function register() {
 		add_filter( 'template_include', [ $this, 'handle_preview' ], 20 );
 
-		add_action( 'rest_api_init', [ $this, 'add_preview_link_field' ] );
+		// only add _tenup_preview_link for preview authenticated requests
+		if ( PreviewToken::get_payload_from_token() ) {
+			add_action( 'rest_api_init', [ $this, 'add_preview_link_field' ] );
+		}
 	}
 
 	/**
