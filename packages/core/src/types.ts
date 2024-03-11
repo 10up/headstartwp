@@ -62,6 +62,12 @@ export type PreviewConfig = {
 	 * This can be useful if you have separate JWT-based authentication on your project.
 	 */
 	alternativeAuthorizationHeader?: boolean;
+
+	/**
+	 * If enabled, it will use the `post.link` property of the REST response
+	 * to redirect to the appropriate route for previewing
+	 */
+	usePostLinkForRedirect?: boolean;
 };
 
 export type HeadlessConfig = {
