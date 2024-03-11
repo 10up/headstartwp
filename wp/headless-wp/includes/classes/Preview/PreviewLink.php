@@ -18,7 +18,7 @@ class PreviewLink {
 	public function register() {
 		add_filter( 'template_include', [ $this, 'handle_preview' ], 20 );
 
-		// only add _tenup_preview_link for preview authenticated requests
+		// only add _headless_wp_preview_link for preview authenticated requests
 		if ( PreviewToken::get_payload_from_token() ) {
 			add_action( 'rest_api_init', [ $this, 'add_preview_link_field' ] );
 		}
@@ -35,7 +35,7 @@ class PreviewLink {
 		foreach ( $post_types as $post_type ) {
 			register_rest_field(
 				$post_type,
-				'_tenup_preview_link',
+				'_headless_wp_preview_link',
 				[
 					'get_callback' => function ( $post_object ) {
 						return $this->get_draft_permalink( get_post( $post_object['id'] ) );

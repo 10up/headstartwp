@@ -154,7 +154,7 @@ The `preview.usePostLinkForRedirect` was added in `@headstartwp/next@1.3.3` and 
 
 This becomes even more useful when you have a more complicated permalink structure, let's say your `news` post type adds the category name to the url such as `/news/political/news-name`. If both your Next.js project and WordPress are following the same permalink structure, no additional logic is required to get previews to work. Previously permalinks like this would require providing custom logic in `getRedirectPath`.
 
-Note that by default, `draft` posts will not have a pretty permalink, instead, they have something like `domain.com/?p=id` so HeadstartWP adds a new rest field for all public post types called: `_tenup_preview_link` which will return a pretty permalink even for draft posts. This field will be used by the previewHandler for draft posts.
+Note that by default, `draft` posts will not have a pretty permalink, instead, they have something like `domain.com/?p=id` so HeadstartWP adds a new rest field for all public post types called: `_headless_wp_preview_link` which will return a pretty permalink even for draft posts. This field will be used by the previewHandler for draft posts.
 
 If you are overriding permalink in WordPress via filter you must ensure that draft posts have a fallback post name. e.g: 
 

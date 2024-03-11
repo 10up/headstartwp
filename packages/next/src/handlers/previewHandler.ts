@@ -202,13 +202,13 @@ export async function previewHandler(
 				if (preview?.usePostLinkForRedirect) {
 					if (
 						result.status === 'draft' &&
-						typeof result._tenup_preview_link === 'undefined'
+						typeof result._headless_wp_preview_link === 'undefined'
 					) {
 						throw new Error(
-							'You are using usePostLinkForRedirect setting but your rest response does not have _tenup_preview_link, ensure you are running the latest version of the plugin',
+							'You are using usePostLinkForRedirect setting but your rest response does not have _headless_wp_preview_link, ensure you are running the latest version of the plugin',
 						);
 					}
-					const link = result._tenup_preview_link ?? result.link;
+					const link = result._headless_wp_preview_link ?? result.link;
 					return removeSourceUrl({ link: link as string, backendUrl: sourceUrl ?? '' });
 				}
 
