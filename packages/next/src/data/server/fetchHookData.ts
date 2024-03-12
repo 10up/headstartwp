@@ -56,7 +56,7 @@ function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams 
  * Data fetching will be performed by the specified strategy and URL params will be automatically extracted
  * from `context
  *
- * ## Usage
+ * #### Usage
  *
  * ```ts
  * export async function getServerSideProps(context) {

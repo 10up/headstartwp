@@ -26,17 +26,16 @@ class CacheFlush {
 	 */
 	public function register() {
 		add_action( 'save_post', [ $this, 'trigger_cache_for_post' ], 99999999, 3 );
-		add_action( self::CRON_JOB_NAME, [ $this, 'run_job' ], 10, 2 );
+		add_action( self::CRON_JOB_NAME, [ $this, 'run_job' ], 10, 1 );
 	}
 
 	/**
 	 * Run the cron job
 	 *
-	 * @param int    $post_id The post id
-	 * @param string $modified_date The post modified date
+	 * @param int $post_id The post id
 	 * @return void
 	 */
-	public function run_job( $post_id, $modified_date ) {
+	public function run_job( $post_id ) {
 		$this->revalidate( $post_id );
 	}
 

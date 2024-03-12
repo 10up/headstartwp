@@ -39,7 +39,8 @@ export function getPathName(resolvedUrl: string) {
  *
  * If `error` is of type {@link NotFoundError} it will redirect to the 404 page. Otherwise it will
  * return a server error (500) page
- * ## Usage
+ *
+ * #### Usage
  *
  * ```ts
  * export async function getServerSideProps(context) {

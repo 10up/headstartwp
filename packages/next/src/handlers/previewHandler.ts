@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { CustomPostType, getSiteByHost, PostEntity } from '@headstartwp/core';
+import { CustomPostType, getSiteByHost, PostEntity, removeSourceUrl } from '@headstartwp/core';
 import { getCustomPostType, getHeadstartWPConfig } from '@headstartwp/core/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { fetchHookData, usePost } from '../data';
@@ -98,7 +98,7 @@ function withPreviewSuffix(path: string) {
  *
  * **Important**: This function is meant to be used in a api route at `/pages/api/preview`.
  *
- * ### Usage
+ * #### Usage
  *
  * ```ts
  * // pages/api/preview.js
@@ -177,7 +177,7 @@ export async function previewHandler(
 
 		const id = Number(post_id);
 
-		const result = Array.isArray(data?.result) ? data.result[0] : data.result;
+		const result: PostEntity = Array.isArray(data?.result) ? data.result[0] : data.result;
 
 		if (result?.id === id || result?.parent === id) {
 			const { slug } = result;
@@ -199,6 +199,19 @@ export async function previewHandler(
 			 * @returns the default redirec tpath
 			 */
 			const getDefaultRedirectPath = () => {
+				if (preview?.usePostLinkForRedirect) {
+					if (
+						result.status === 'draft' &&
+						typeof result._headless_wp_preview_link === 'undefined'
+					) {
+						throw new Error(
+							'You are using usePostLinkForRedirect setting but your rest response does not have _headless_wp_preview_link, ensure you are running the latest version of the plugin',
+						);
+					}
+					const link = result._headless_wp_preview_link ?? result.link;
+					return removeSourceUrl({ link: link as string, backendUrl: sourceUrl ?? '' });
+				}
+
 				const singleRoute = postTypeDef.single || '/';
 				// remove leading slashes
 				const prefixRoute = singleRoute.replace(/^\/+/, '');

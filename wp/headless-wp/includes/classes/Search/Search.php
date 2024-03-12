@@ -16,7 +16,7 @@ class Search {
 	 * Set up any hooks
 	 */
 	public function register() {
-		add_filter( 'wp_rest_search_handlers', array( $this, 'override_rest_search_handlers' ), 10, 1 );
+		add_filter( 'wp_rest_search_handlers', [ $this, 'override_rest_search_handlers' ], 10, 1 );
 	}
 
 	/**

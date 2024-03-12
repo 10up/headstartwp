@@ -28,21 +28,21 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 		}
 
 		// Add author link
-		if ( ( in_array( $post->post_type, array( 'post', 'page' ), true ) || post_type_supports( $post->post_type, 'author' ) )
+		if ( ( in_array( $post->post_type, [ 'post', 'page' ], true ) || post_type_supports( $post->post_type, 'author' ) )
 			&& ! empty( $post->post_author ) ) {
-			$links['author'] = array(
-				array(
+			$links['author'] = [
+				[
 					'href'       => rest_url( 'wp/v2/users/' . $post->post_author ),
 					'embeddable' => true,
-				),
-			);
+				],
+			];
 		}
 
 		// Add terms link (wp:term)
 		$taxonomies = get_object_taxonomies( $post->post_type );
 
 		if ( ! empty( $taxonomies ) ) {
-			$links['https://api.w.org/term'] = array();
+			$links['https://api.w.org/term'] = [];
 
 			foreach ( $taxonomies as $tax ) {
 				$taxonomy_route = rest_get_route_for_taxonomy_items( $tax );
@@ -58,11 +58,11 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 					rest_url( $taxonomy_route )
 				);
 
-				$links['https://api.w.org/term'][] = array(
+				$links['https://api.w.org/term'][] = [
 					'href'       => $terms_url,
 					'taxonomy'   => $tax,
 					'embeddable' => true,
-				);
+				];
 			}
 		}
 
@@ -71,10 +71,10 @@ class PostSearchHandler extends \WP_REST_Post_Search_Handler {
 		if ( $featured_media ) {
 			$image_url = rest_url( rest_get_route_for_post( $featured_media ) );
 
-			$links['https://api.w.org/featuredmedia'] = array(
+			$links['https://api.w.org/featuredmedia'] = [
 				'href'       => $image_url,
 				'embeddable' => true,
-			);
+			];
 		}
 
 		return apply_filters( 'tenup_headless_wp_rest_search_post_embedable_links', $links, $post );

@@ -9,7 +9,7 @@ import { fetchHookData } from '../data';
  *
  * **Important**: This function is meant to be used in a api route e.g: `/pages/api/revalidate`.
  *
- * ### Usage
+ * #### Usage
  *
  * ```ts
  * // pages/api/revalidate.js

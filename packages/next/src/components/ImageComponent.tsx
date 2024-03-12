@@ -80,7 +80,7 @@ export interface ImageProps extends ImageBlockProps {
  *
  * If `width`, `height` or `src` are not provided, this component will not be used.
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { BlocksRenderer, ImageBlock } from "@headstartwp/core/react";

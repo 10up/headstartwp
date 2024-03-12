@@ -1,7 +1,34 @@
 <?xml version="1.0"?>
 <ruleset name="10up PHPCS">
-	<description>10up PHPCS extended.</description>
-	<ini name="error_reporting" value="E_ALL &#38; ~E_DEPRECATED" />
-
+	<!-- How to scan -->
 	<rule ref="10up-Default" />
+
+	<!-- What to scan -->
+	<file>.</file>
+
+	<!-- What not to scan -->
+	<exclude-pattern>rector.php</exclude-pattern>
+	<exclude-pattern>jwt</exclude-pattern>
+
+	<!-- Options -->
+	<arg value="sp"/>
+	<arg name="colors"/>
+	<arg name="basepath" value="."/>
+
+	<!-- Force short array syntax -->
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+	<!-- Disallowed functions -->
+	<rule ref="Generic.PHP.ForbiddenFunctions">
+	<properties>
+		<property name="forbiddenFunctions" type="array">
+			<element key="eval" value="null"/>
+			<element key="dd" value="null"/>
+			<element key="var_dump" value="null"/>
+			<element key="write_log" value="null"/>
+			<element key="error_log" value="null"/>
+			<element key="create_function" value="null"/>
+		</property>
+		</properties>
+	</rule>
 </ruleset>

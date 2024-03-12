@@ -55,7 +55,7 @@ export function getAttributes(attribs: Element['attribs']): Record<string, strin
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
  * the underlying parser used by {@link BlocksRenderer}.
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { isAnchorTag } from '@headstartwp/core';
@@ -117,7 +117,7 @@ export type isImageTagOptions = {
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
  * the underlying parser used by {@link BlocksRenderer}.
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { isImageTag, ImageBlock } from '@headstartwp/core';
@@ -166,7 +166,7 @@ export const youtubeEmbedRegex =
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
  * the underlying parser used by {@link BlocksRenderer}.
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { isYoutubeEmbed } from '@headstartwp/core';
@@ -206,7 +206,7 @@ export function isYoutubeEmbed(node: DOMNode) {
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
  * the underlying parser used by {@link BlocksRenderer}.
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { isTwitterEmbed } from '@headstartwp/core';
@@ -256,7 +256,7 @@ export type isBlockOptions = {
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
  * the underlying parser used by {@link BlocksRenderer}.
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { isBlock } from '@headstartwp/core';
@@ -312,7 +312,7 @@ export function isBlock(node: DOMNode, _options: isBlockOptions) {
  * This function expects to be used with `DOMNode` objects from `html-react-parser`, which is
  * the underlying parser used by {@link BlocksRenderer}.
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { isBlockByName } from '@headstartwp/core';

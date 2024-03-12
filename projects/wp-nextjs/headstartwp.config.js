@@ -8,7 +8,7 @@ module.exports = {
 	 * The WordPress Source Url
 	 */
 	sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
-	hostUrl: process.env.HOST_URL,
+	hostUrl: process.env.NEXT_PUBLIC_HOST_URL,
 	customPostTypes: [
 		// this is just an example
 		{
@@ -43,7 +43,7 @@ module.exports = {
 			enable: true,
 		},
 		polylang: {
-			enable: process.env?.ENABLE_POLYLANG_INTEGRATION === 'true',
+			enable: process?.env?.NEXT_PUBLIC_ENABLE_POLYLANG_INTEGRATION === 'true',
 		},
 	},
 
@@ -54,5 +54,13 @@ module.exports = {
 		 * devMode logs additional stuff that can be helpful for debugging
 		 */
 		devMode: process.env?.ENABLE_DEV_MODE === 'true',
+	},
+
+	preview: {
+		/**
+		 * If enabled, it will use the `post.link` property of the REST response
+		 * to redirect to the appropriate route for previewing
+		 */
+		usePostLinkForRedirect: true,
 	},
 };

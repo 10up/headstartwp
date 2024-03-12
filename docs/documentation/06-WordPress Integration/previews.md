@@ -89,7 +89,11 @@ export default async function handler(req, res) {
 This option was added in `@headstartwp/next@1.1.0`.
 :::info
 
-The `getRedirectPath` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts are `/%category%/%postname%/` you could create a `/src/pages/[category]/[...path.js]` route to handle single post. However, once you do that the `previewHandler` doesn't know how to redirect to that URL and as such you will have to provide your own redirect handling.
+:::tip
+A better alternative is using `preview.usePostLinkForRedirect`. With this setting, you can set up previews so that it uses the `post.link` property of the post for redirecting to the appropriate path/route. This requires that your WordPress permalink matches the Next.js route structure. Check out the docs for [preview.usePostLinkForRedirect](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).
+:::tip
+
+The `getRedirectPath` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts is `/%category%/%postname%/` you could create a `/src/pages/[category]/[...path.js]` route to handle single post. However, once you do that the `previewHandler` doesn't know how to redirect to that URL and as such you will have to provide your own redirect handling.
 
 The framework will also use this value to restrict the preview cookie to the post being previewed to avoid bypassing `getStaticProps` until the cookie expires or the browser is closed. See the [Next.js docs](https://nextjs.org/docs/pages/building-your-application/configuring/preview-mode#specify-the-preview-mode-duration) for more info.
 
@@ -120,10 +124,10 @@ export default async function handler(req, res) {
 
 #### `onRedirect`
 
-:::caution
+:::tip
 Instead of implementing `onRedirect` we recommend implementing `getRedirectPath` instead as that will only enable the preview cookie for 
 the post being previewed.
-:::caution
+:::tip
 
 The `onRedirect` gives you full access to the `req` and `res` objects. If you do need implement this function we recommend also implementing `getRedirectPath`.
 
@@ -143,6 +147,56 @@ export default async function handler(req, res) {
 	});
 }
 ```
+
+### The `usePostLinkForRedirect` setting
+
+The `preview.usePostLinkForRedirect` was added in `@headstartwp/next@1.3.3` and it tells the preview handler to use the actual post permalink to figure out where it should redirect to. With this setting, previewing a post will automatically redirect to a route in Next.js based on the permalink structure set in WordPress. As an example let's say you have a custom post type called `news` and its permalink structure is `/news/news-name`. If your Next.js URL structure strictly follows that pattern you would have a route at `pages/news/[...path].js`. Therefore HeadstartWP can infer the proper path to a preview request for a post of type `news`.
+
+This becomes even more useful when you have a more complicated permalink structure, let's say your `news` post type adds the category name to the url such as `/news/political/news-name`. If both your Next.js project and WordPress are following the same permalink structure, no additional logic is required to get previews to work. Previously permalinks like this would require providing custom logic in `getRedirectPath`.
+
+Note that by default, `draft` posts will not have a pretty permalink, instead, they have something like `domain.com/?p=id` so HeadstartWP adds a new rest field for all public post types called: `_headless_wp_preview_link` which will return a pretty permalink even for draft posts. This field will be used by the previewHandler for draft posts.
+
+If you are overriding permalink in WordPress via filter you must ensure that draft posts have a fallback post name. e.g: 
+
+```php
+// adds category to the news permalink and prefix it with "newsroom"
+add_filter(
+	'post_type_link',
+	function ( $post_link, $post ) {
+		if ( 'news' !== $post->post_type ) {
+			return $post_link;
+		}
+
+		// draft posts won't have `$post->post_name` set.
+		$post_name = empty( $post->post_name ) ? sanitize_title( $post->post_title ) : $post->post_name;
+		$post_name = empty( $post_name ) ? $post->ID : $post_name;
+
+		$fallback = esc_url( home_url( sprintf( 'newsroom/%s', $post_name ) ) );
+
+		$news_types = wp_get_post_terms( $post->ID, 'category', [ 'fields' => 'slugs' ] );
+
+		if (
+		is_wp_error( $news_types ) ||
+		! is_array( $news_types ) ||
+		! count( $news_types ) > 0
+		) {
+			return $fallback;
+		}
+
+		return esc_url( home_url( sprintf( 'newsroom/%s/%s', $news_types[0], $post_name ) ) );
+	},
+	10,
+	2
+);
+```
+
+You can also use a placeholder instead of manually handling post_name yourself e.g:
+
+```php
+$post_name = empty( $post->post_name ) ? '%postname%' : $post->post_name;
+```
+
+When building the permalink for draft posts the framework will automatically replace `%postname` or `%pagename%` with the post_name (based on the title) or a fallback to post id.
 
 ## FAQ
 

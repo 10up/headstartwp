@@ -11,7 +11,7 @@ export interface LinkBlockProps extends IBlockAttributes {
 /**
  * The Link Block converts a anchor tag node into a next/link component if it's an internal link
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * import { BlocksRenderer } from "@headstartwp/core/react";

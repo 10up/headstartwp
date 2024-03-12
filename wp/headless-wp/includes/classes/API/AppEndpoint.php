@@ -39,7 +39,6 @@ class AppEndpoint {
 		// Clear the cache for this endpoint when posts and options are saved
 		add_action( 'save_post', [ $this, 'invalidate_cache' ] );
 		add_action( 'update_option', [ $this, 'maybe_invalidate_cache' ] );
-
 	}
 
 	/**
@@ -133,10 +132,10 @@ class AppEndpoint {
 			// Specify any data that will be needed to retrieve the homepage
 			$response['home'] = apply_filters(
 				'headless_wp_api_app_home',
-				array(
+				[
 					'id'   => $homepage_id,
 					'slug' => $home_page_post_slug,
-				)
+				]
 			);
 
 			// Set up menu data to return for REST API
@@ -214,7 +213,6 @@ class AppEndpoint {
 		}
 
 		return $filtered_menu;
-
 	}
 
 	/**

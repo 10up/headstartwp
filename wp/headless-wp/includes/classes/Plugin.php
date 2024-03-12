@@ -51,6 +51,9 @@ class Plugin {
 
 		$search = new Search\Search();
 		$search->register();
+
+		$redirect = new Redirect();
+		$redirect->register();
 	}
 
 	/**
@@ -92,14 +95,14 @@ class Plugin {
 		register_setting(
 			'general',
 			'site_react_url',
-			array( 'sanitize_callback' => 'esc_url_raw' )
+			[ 'sanitize_callback' => 'esc_url_raw' ]
 		);
 
 		// Register the settings
 		add_settings_field(
 			'site_react_url',
 			esc_html__( 'Headless Frontend URL', 'headless-wp' ),
-			function() { ?>
+			function () { ?>
 				<input
 					type = "url"
 					placeholder = "https://"
@@ -117,13 +120,13 @@ class Plugin {
 		register_setting(
 			'general',
 			'headless_site_locale',
-			array( 'sanitize_callback' => 'esc_attr' )
+			[ 'sanitize_callback' => 'esc_attr' ]
 		);
 
 		add_settings_field(
 			'headless_site_locale',
 			esc_html__( 'Headless Multisite Locale (optional)', 'headless-wp' ),
-			function() {
+			function () {
 				?>
 				<input
 					type="text"
@@ -142,7 +145,7 @@ class Plugin {
 		register_setting(
 			'general',
 			'site_react_redirect',
-			array( 'sanitize_callback' => 'intval' )
+			[ 'sanitize_callback' => 'intval' ]
 		);
 
 		// Register the settings
@@ -170,7 +173,7 @@ class Plugin {
 		register_setting(
 			'general',
 			'headless_isr_revalidate',
-			array( 'sanitize_callback' => 'intval' )
+			[ 'sanitize_callback' => 'intval' ]
 		);
 
 		add_settings_field(
@@ -278,10 +281,12 @@ class Plugin {
 			return;
 		}
 
-		$setting_url = admin_url( 'options-general.php#site_react_url' );
-		$message     = sprintf( __( '<strong>Notice:</strong> Headless Site Address Setting Not Entered. | <a href="%s">Fix setting</a>', 'headless-wp' ), esc_url( $setting_url ) );
-
-		printf( '<div class="notice notice-warning"><p>%1$s</p></div>', wp_kses_post( $message ) );
+		printf(
+			'<div class="notice notice-warning"><p><strong>%s:</strong> %s <a href="%s">%s</a></p></div>',
+			esc_html__( 'Notice', 'headless-wp' ),
+			esc_html__( 'Headless Site Address is not entered.', 'headless-wp' ),
+			esc_url( admin_url( 'options-general.php#site_react_url' ) ),
+			esc_html__( 'Fix the setting.', 'headless-wp' )
+		);
 	}
-
 }
