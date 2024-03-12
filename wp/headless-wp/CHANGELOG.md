@@ -1,5 +1,14 @@
 # @headstartwp/headstartwp
 
+## 1.1.2-next.0
+
+### Patch Changes
+
+- 479f0665: PHPCS 3.0 and code styling updates
+- 3f1b4f78: fix: hreflangs tags on multilingual sites
+- 26246a01: Add the ability to leverage `post.link` for redirecting the previewed post to the appropriate route via the `preview.usePostLinkForRedirect` setting.
+- ac0f1684: Fix redirect loop for invalid sitemap paths
+
 ## 1.1.1
 
 ### Patch Changes
