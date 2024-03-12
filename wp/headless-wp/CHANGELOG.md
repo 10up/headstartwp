@@ -1,5 +1,32 @@
 # @headstartwp/headstartwp
 
+## 1.1.3
+
+### Patch Changes
+
+- b1d368df: Move yoast to a dev dep
+
+## 1.1.2
+
+### Patch Changes
+
+- 479f0665: PHPCS 3.0 and code styling updates
+- 3f1b4f78: fix: hreflangs tags on multilingual sites
+- 26246a01: Add the ability to leverage `post.link` for redirecting the previewed post to the appropriate route via the `preview.usePostLinkForRedirect` setting.
+- ac0f1684: Fix redirect loop for invalid sitemap paths
+
+## 1.1.1
+
+### Patch Changes
+
+- 0bd8e415: Add ability to preview using an alternative authorization header
+
+## 1.1.0
+
+### Minor Changes
+
+- 8452279a: Implement WordPress native search endpoint
+
 ## 1.0.13
 
 ### Patch Changes

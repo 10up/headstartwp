@@ -19,35 +19,34 @@ class Links {
 	 * Set up any hooks
 	 */
 	public function register() {
-		add_action( 'template_redirect', array( $this, 'maybe_redirect_frontend' ) );
-
-		add_filter( 'rewrite_rules_array', array( $this, 'create_taxonomy_rewrites' ) );
+		add_filter( 'rewrite_rules_array', [ $this, 'create_taxonomy_rewrites' ] );
 	}
 
 	/**
 	 * Create Taxonomy Rewrites
 	 *
-	 * @param array $array - array of rewrite rules.
+	 * @param array $rules Rewrite rules.
+	 *
 	 * @return array
 	 *
-	 * * /posts/category/category-slug
+	 * /posts/category/category-slug
 	 * /events/category/category-slug
 	 *
 	 * This is to allow taxonomy archive pages to exist that aren't specific to the 'post' post type by default and make more usable across other post types by
 	 * creating default rewrite rules for taxonomy endpoints for post types for the front-end site to resolve to in the format /<CPT>/<taxonomy>/<slug>.
 	 */
-	public function create_taxonomy_rewrites( $array ) {
+	public function create_taxonomy_rewrites( $rules ) {
 
 		// When set_taxonomy_rewrites_disabled true, bypasses these custom endpoint rewrite rules
-		if ( true === apply_filters( __function__ . '_disabled', false ) ) {
-			return $array;
+		if ( true === apply_filters( __FUNCTION__ . '_disabled', false ) ) {
+			return $rules;
 		}
 
 		$post_types = get_post_types(
-			array(
+			[
 				'show_in_rest' => true,
 				'public'       => true,
-			)
+			]
 		);
 
 		unset( $post_types['page'] );
@@ -72,13 +71,13 @@ class Links {
 					continue;
 				}
 
-				$array[ "$post_slug/$rewrite_slug/(.+?)/?$" ]                   = "index.php?$rewrite_query_var=$1&post_type=$post_type";
-				$array[ "$post_slug/$rewrite_slug/(.+?)/page/?([0-9]{1,})/?$" ] = "index.php?$rewrite_query_var=$1&paged=$2&post_type=$post_type";
+				$rules[ "$post_slug/$rewrite_slug/(.+?)/?$" ]                   = "index.php?$rewrite_query_var=$1&post_type=$post_type";
+				$rules[ "$post_slug/$rewrite_slug/(.+?)/page/?([0-9]{1,})/?$" ] = "index.php?$rewrite_query_var=$1&paged=$2&post_type=$post_type";
 
 			}
 		}
 
-		return $array;
+		return $rules;
 	}
 
 	/**
@@ -89,7 +88,7 @@ class Links {
 	 * @param string $orig_scheme The orig scheme
 	 * @return string
 	 */
-	public function filter_home_url( $home_url, $path, $orig_scheme ) {
+	public function filter_home_url( $home_url, $path, $orig_scheme ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 		$url = Plugin::get_react_url();
 
 		if ( empty( $url ) ) {
@@ -103,49 +102,5 @@ class Links {
 		$url = set_url_scheme( $url );
 
 		return $url;
-	}
-
-	/**
-	 * Redirect the WordPress frontend if the React website URL has been filled in and the user has selected to redirect the frontend
-	 */
-	public function maybe_redirect_frontend() {
-		// if request method is HEAD then the headless site is making a HEAD request to figure out redirects, so don't mess with redirects or home_url
-		if (
-			isset( $_SERVER['REQUEST_METHOD'] ) &&
-			'HEAD' === sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) )
-		) {
-			return;
-		}
-
-		if ( isset( $_SERVER['HTTP_X_WP_REDIRECT_CHECK'] ) ) {
-			return;
-		}
-
-		global $wp;
-
-		$site_url = \get_option( 'site_react_url' );
-
-		$should_redirect = ! is_admin() && ! is_preview() && ! is_robots() && ! is_feed() && ! empty( $site_url );
-		$should_redirect = $should_redirect && true === Plugin::should_frontend_redirect();
-
-		/**
-		 * Filter's whether the frontend should redirect to the react url
-		 *
-		 * @param array $should_redirect The default should redirect value.
-		 */
-		$should_redirect = apply_filters( 'tenup_headless_wp_frontend_should_redirect', $should_redirect );
-
-		if ( $should_redirect ) {
-			$url_request = $wp->request;
-
-			// do not redirect for (missing) assets
-			if ( str_starts_with( $url_request, '/wp-content' ) || str_ends_with( $url_request, '.css' ) || str_ends_with( $url_request, '.js' ) ) {
-				return;
-			}
-
-			// Redirect the frontend WordPress request to the React website URL.
-			\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
-			exit;
-		}
 	}
 }

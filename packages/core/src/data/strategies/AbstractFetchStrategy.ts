@@ -66,6 +66,20 @@ export interface FetchOptions {
 	bearerToken?: string;
 
 	/**
+	 * The preview token to use for the request.
+	 *
+	 * These are tokens issued by the HeadstartWP plugin and is used to authenticate previews
+	 */
+	previewToken?: string;
+
+	/**
+	 * Flag to enable using the alternative authorization header.
+	 *
+	 * This can be useful if you have separate authentication on your project.
+	 */
+	alternativePreviewAuthorizationHeader?: boolean;
+
+	/**
 	 * Whether to burst cache by appending a timestamp to the query
 	 */
 	burstCache?: boolean;
@@ -224,6 +238,21 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		};
 	}
 
+	getPreviewHeaderName(options: Partial<FetchOptions> = {}) {
+		return options.alternativePreviewAuthorizationHeader
+			? 'X-HeadstartWP-Authorization'
+			: 'Authorization';
+	}
+
+	getPreviewAuthHeader(options: Partial<FetchOptions> = {}) {
+		let previewAuthHeader = '';
+		if (options.previewToken) {
+			previewAuthHeader = `Bearer ${options.previewToken}`;
+		}
+
+		return previewAuthHeader;
+	}
+
 	getAuthHeader(options: Partial<FetchOptions> = {}) {
 		let bearerAuthHeader = '';
 		if (options.bearerToken) {
@@ -266,13 +295,22 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		const { burstCache = false } = options;
 
 		const args = {};
-
+		const headers: Record<string, string> = {};
 		const authHeader = this.getAuthHeader(options);
+
 		if (authHeader) {
+			headers.Authorization = authHeader;
+		}
+
+		const previewAuthHeader = this.getPreviewAuthHeader(options);
+
+		if (options.previewToken) {
+			headers[this.getPreviewHeaderName(options)] = previewAuthHeader;
+		}
+
+		if (Object.keys(headers).length > 0) {
 			// @ts-expect-error
-			args.headers = {
-				Authorization: authHeader,
-			};
+			args.headers = headers;
 		}
 
 		const result = await apiGet(`${this.baseURL}${url}`, args, burstCache);

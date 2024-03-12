@@ -18,7 +18,7 @@ import { usePrepareFetch } from './usePrepareFetch';
  * - Date (/YYYY/MM/DD)
  * - Custom Taxonomy (/taxonomy/term-name)
  *
- * ### Handling multiple WordPress routes in a single next.js route
+ * #### Handling multiple WordPress routes in a single next.js route
  *
  * The `usePosts` hook is very flexible and can handle multiple WordPress routes in a single next.js route when using the optional-catch-all route (`[[...path]].js`).
  * Alongside with the actual data, `usePosts` also returns information about the current route so you can conditionally load different components.

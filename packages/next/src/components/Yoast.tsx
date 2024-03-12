@@ -18,8 +18,10 @@ export function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	}
 
 	return `${hostUrl}${removeSourceUrl({
-		link: url.replace(/\/?$/, '/'),
+		link: url,
+		publicUrl: hostUrl,
 		backendUrl: sourceUrl,
+		nonEmptyLink: false,
 	})}`;
 }
 
@@ -72,6 +74,10 @@ export function Yoast({ seo, useHtml = false }: Props) {
 
 					if (props.rel === 'canonical') {
 						props.name = 'canonical';
+						props.href = convertUrl(props.href, hostUrl, sourceUrl);
+					}
+
+					if (props.rel === 'alternate') {
 						props.href = convertUrl(props.href, hostUrl, sourceUrl);
 					}
 

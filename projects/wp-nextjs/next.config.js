@@ -14,10 +14,9 @@ const nextConfig = {
 		ignoreDuringBuilds: true,
 	},
 };
-
 // if you are not using polylang integration you can remove this code
 // if you are replace the locales with the ones you are using
-if (process.env?.ENABLE_POLYLANG_INTEGRATION === 'true') {
+if (process.env?.NEXT_PUBLIC_ENABLE_POLYLANG_INTEGRATION === 'true') {
 	nextConfig.i18n = {
 		locales: ['en', 'pt'],
 		defaultLocale: 'en',

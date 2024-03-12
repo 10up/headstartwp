@@ -1,4 +1,3 @@
-composer.lock
 vendor
 .vscode
 .wp-env.override.json

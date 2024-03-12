@@ -38,7 +38,7 @@ export class VerifyTokenFetchStrategy extends AbstractFetchStrategy<
 
 	async fetcher(url: string, params: VerifyTokenParams, options: Partial<FetchOptions> = {}) {
 		if (params.authToken) {
-			options.bearerToken = params.authToken;
+			options.previewToken = params.authToken;
 		}
 
 		return super.fetcher(url, params, options);

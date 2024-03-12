@@ -5,7 +5,7 @@ export const seoKey = '@seo';
 /**
  * The useSeo hook. Returns the current SEO object
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * const seo = useSeo();

@@ -17,6 +17,68 @@ class PreviewLink {
 	 */
 	public function register() {
 		add_filter( 'template_include', [ $this, 'handle_preview' ], 20 );
+
+		// only add _headless_wp_preview_link for preview authenticated requests
+		if ( PreviewToken::get_payload_from_token() ) {
+			add_action( 'rest_api_init', [ $this, 'add_preview_link_field' ] );
+		}
+	}
+
+	/**
+	 * Adds preview link field
+	 *
+	 * @return void
+	 */
+	public function add_preview_link_field() {
+		$post_types = get_post_types( [ 'show_in_rest' => true ], 'names' );
+
+		foreach ( $post_types as $post_type ) {
+			register_rest_field(
+				$post_type,
+				'_headless_wp_preview_link',
+				[
+					'get_callback' => function ( $post_object ) {
+						return $this->get_draft_permalink( get_post( $post_object['id'] ) );
+					},
+					'schema'       => [
+						'type' => 'string',
+					],
+				]
+			);
+		}
+	}
+
+	/**
+	 * Get drafts permalinks
+	 *
+	 * @param \WP_Post $post The post in question.
+	 *
+	 * @return string
+	 */
+	public function get_draft_permalink( \WP_Post $post ): string {
+		try {
+			$payload = PreviewToken::get_payload_from_token();
+
+			if ( ! $payload ) {
+				return '';
+			}
+
+			if ( 'preview' === $payload->type && $post->ID === $payload->post_id ) {
+				if ( ! function_exists( 'get_sample_permalink' ) ) {
+					include_once ABSPATH . 'wp-admin/includes/post.php';
+				}
+
+				[$permastruct, $post_name] = \get_sample_permalink( $post->ID );
+				$link                      = str_replace( '%postname%', $post_name, $permastruct );
+				$link                      = str_replace( '%pagename%', $post_name, $link );
+
+				return $link;
+			}
+
+			return '';
+		} catch ( \Exception $e ) {
+			return '';
+		}
 	}
 
 	/**

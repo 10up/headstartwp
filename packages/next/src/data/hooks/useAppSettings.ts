@@ -5,7 +5,7 @@ import { usePrepareFetch } from './usePrepareFetch';
 /**
  * The useAppSettings hook
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * const { data, loading, error } = useAppSettings();
@@ -13,7 +13,7 @@ import { usePrepareFetch } from './usePrepareFetch';
  * // check loading and error states
  * ```
  *
- * ### Server-Side-Rendering or Static-Site-Generation
+ * ##### Server-Side-Rendering or Static-Site-Generation
  *
  * ```tsx
  * export async function getServerSideProps(context) {
