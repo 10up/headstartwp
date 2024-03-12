@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.1.3
+
+### Patch Changes
+
+- b1d368df: Move yoast to a dev dep
+
 ## 1.1.2
 
 ### Patch Changes
