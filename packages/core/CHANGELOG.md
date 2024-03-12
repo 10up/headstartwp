@@ -1,5 +1,12 @@
 # @headstartwp/core
 
+## 1.3.2
+
+### Patch Changes
+
+- 95d6eb96: fix: make convertUrl and removeSourceUrl respect the original link's trailingslash
+- 26246a01: Add the ability to leverage `post.link` for redirecting the previewed post to the appropriate route via the `preview.usePostLinkForRedirect` setting.
+
 ## 1.3.1
 
 ### Patch Changes
