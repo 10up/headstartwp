@@ -51,7 +51,7 @@ export const apiGet = async (
 	const queryArgs = burstCache
 		? {
 				cacheTime: new Date().getTime(),
-		  }
+			}
 		: {};
 
 	const config = getHeadlessConfig();

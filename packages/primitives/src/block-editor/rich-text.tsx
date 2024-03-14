@@ -4,6 +4,8 @@ import { useBlockPrimitiveProps } from './block.js';
 
 const RichText = <T extends keyof HTMLElementTagNameMap>({
 	onPrimitiveChange,
+	name,
+	value,
 	...rest
 }: RichTextPrimitive<T>) => {
 	const { attributes, setAttributes } = useBlockPrimitiveProps();
@@ -11,9 +13,9 @@ const RichText = <T extends keyof HTMLElementTagNameMap>({
 	const defaultOnPrimitive = () => {};
 	const _onPrimitiveChange = onPrimitiveChange ?? defaultOnPrimitive;
 
-	const onChange = (value) => _onPrimitiveChange(attributes, setAttributes, value);
+	const onChange = (value) => _onPrimitiveChange(name, value, setAttributes, attributes);
 
-	return <GutenbergRichText onChange={onChange} {...rest} />;
+	return <GutenbergRichText onChange={onChange} value={attributes[name] ?? value} {...rest} />;
 };
 
 export default RichText;

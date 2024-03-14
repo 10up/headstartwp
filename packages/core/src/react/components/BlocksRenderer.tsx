@@ -237,7 +237,7 @@ export function BlocksRenderer({ html, ksesAllowList, sanitizeFn, children }: Bl
 
 										return options.replace(childNode);
 									},
-							  })
+								})
 							: null,
 					);
 				}

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Block> allow consumers to call setAttributes 1`] = `
+<DocumentFragment>
+  <h1
+    aria-label="Heading..."
+    aria-multiline="true"
+    aria-readonly="false"
+    class="block-editor-rich-text__editable rich-text"
+    contenteditable="true"
+    data-wp-block-attribute-key="0"
+    role="textbox"
+    style="white-space: pre-wrap; min-width: 1px;"
+  >
+    ﻿
+    <span
+      data-rich-text-placeholder="Heading..."
+      style="pointer-events:none;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;"
+    />
+  </h1>
+</DocumentFragment>
+`;
+
+exports[`<Block> simply render childrens 1`] = `
+<DocumentFragment>
+  <p>
+    children
+  </p>
+</DocumentFragment>
+`;
