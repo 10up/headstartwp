@@ -10,7 +10,8 @@ const RichText = <T extends keyof HTMLElementTagNameMap>({
 }: RichTextPrimitive<T>) => {
 	const { attributes, setAttributes } = useBlockPrimitiveProps();
 
-	const defaultOnPrimitive = () => {};
+	const defaultOnPrimitive = (_name, _value, _setAttributes) =>
+		_setAttributes({ [_name]: _value });
 	const _onPrimitiveChange = onPrimitiveChange ?? defaultOnPrimitive;
 
 	const onChange = (value) => _onPrimitiveChange(name, value, setAttributes, attributes);
