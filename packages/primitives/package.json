@@ -7,10 +7,15 @@
   "author": "10up <info@10up.com> (https://10up.com/)",
   "type": "module",
   "exports": {
-    "./*.js": {
-      "block-editor": "./dist/block-editor/*.js",
-      "default": "./dist/primitives/*.js",
-      "types": "./dist/index.d.ts"
+    "./rich-text": {
+      "block-editor": "./dist/src/block-editor/rich-text.js",
+      "types": "./dist/src/primitives/rich-text.d.ts",
+      "default": "./dist/src/primitives/rich-text.js"
+    },
+    "./block": {
+      "block-editor": "./dist/src/block-editor/block.js",
+      "types": "./dist/src/primitives/block.d.ts",
+      "default": "./dist/src/primitives/block.js"
     }
   },
   "imports": {
