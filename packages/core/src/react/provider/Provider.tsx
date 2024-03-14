@@ -1,4 +1,4 @@
-import { FC, createContext, useMemo } from 'react';
+import { PropsWithChildren, createContext, useMemo } from 'react';
 import { getHeadlessConfig } from '../../utils/config';
 import { SettingsContextProps } from './types';
 
@@ -8,7 +8,7 @@ interface ProviderProps {
 	settings: SettingsContextProps;
 }
 
-export const SettingsProvider: FC<ProviderProps> = ({ settings, children }) => {
+export const SettingsProvider = ({ settings, children }: PropsWithChildren<ProviderProps>) => {
 	const settingsValue = useMemo(
 		() => ({
 			...getHeadlessConfig(),
