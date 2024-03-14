@@ -42,6 +42,7 @@ describe('<Block>', () => {
 
 		expect(setAttributes).toHaveBeenCalled();
 		expect(screen.getByText('heading')).toBeDefined();
+		expect(asFragment()).toMatchSnapshot();
 	});
 });
 

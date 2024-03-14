@@ -21,6 +21,23 @@ exports[`<Block> allow consumers to call setAttributes 1`] = `
 </DocumentFragment>
 `;
 
+exports[`<Block> allow consumers to call setAttributes 2`] = `
+<DocumentFragment>
+  <h1
+    aria-label="Heading..."
+    aria-multiline="true"
+    aria-readonly="false"
+    class="block-editor-rich-text__editable rich-text"
+    contenteditable="true"
+    data-wp-block-attribute-key="0"
+    role="textbox"
+    style="white-space: pre-wrap; min-width: 1px;"
+  >
+    heading
+  </h1>
+</DocumentFragment>
+`;
+
 exports[`<Block> simply render childrens 1`] = `
 <DocumentFragment>
   <p>
