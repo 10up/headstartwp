@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.3.3-next.0
+
+### Patch Changes
+
+- 654681df: Fix: replace camelcase underlying implementation as the previous one only worked in node
+
 ## 1.3.2
 
 ### Patch Changes
