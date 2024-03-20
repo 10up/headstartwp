@@ -36,6 +36,61 @@ class YoastSEO {
 
 		// Introduce hereflangs presenter to Yoast list of presenters.
 		add_action( 'rest_api_init', [ $this, 'wpseo_rest_api_hreflang_presenter' ], 10, 0 );
+
+		// Modify API response to optimise payload by removing the yoast_head and yoast_json_head where not needed.
+		// Embedded data is not added yet on rest_prepare_{$this->post_type}.
+		add_filter( 'rest_pre_echo_response' , [ $this, 'optimise_yoast_payload' ], 10, 3 );
+	}
+
+	/**
+	 * Optimises the Yoast SEO payload in REST API responses.
+	 *
+	 * This method modifies the API response to reduce the payload size by removing
+	 * the 'yoast_head' and 'yoast_json_head' fields from the response when they are
+	 * not needed for the nextjs app.
+	 * See https://github.com/10up/headstartwp/issues/563
+	 *
+	 * @param array           $result The response data to be served, typically an array.
+	 * @param WP_REST_Server  $server Server instance.
+	 * @param WP_REST_Request $request Request used to generate the response.
+	 *
+	 * @return array Modified response data.
+	 */
+	public function optimise_yoast_payload( $result, $server, $request ) {
+
+		$embed  = isset( $_GET['_embed'] ) ? rest_parse_embed_param( $_GET['_embed'] ) : false;
+
+		if ( ! $embed ) {
+			return $result;
+		}
+
+		foreach ( $result as &$post_obj ) {
+			// Optimise for taxonnomies. Removes yoast head from _embed terms for any term that is not in the queried params.
+			if ( ! empty( $post_obj['_embedded']['wp:term'] ) ) {
+				// Loop through each wp:term collection in _embedded.
+				foreach ( $post_obj['_embedded']['wp:term'] as &$terms_collection ) {
+					foreach ( $terms_collection as &$term_obj ) {
+						// Get the queried terms for the taxonomy.
+						$taxonomy_param = $term_obj['taxonomy'] === 'category' ?
+							$request->get_param('category') ?? $request->get_param('categories') :
+							$request->get_param( $term_obj['taxonomy']  );
+
+						if ( ! empty( $taxonomy_param ) ) {
+							$taxonomy_param = is_array( $taxonomy_param ) ? $taxonomy_param : explode( ',', $taxonomy_param );
+
+							// If the term slug is not in taxonomy_param array, unset yoast heads.
+							if ( !in_array( $term_obj['slug'], $taxonomy_param, true ) ) {
+								unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
+							}
+						} else {
+							unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
+						}
+					}
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	/**
