@@ -7,6 +7,8 @@ import { useBlockProps } from '@wordpress/block-editor';
 import RichText from '@headstartwp/blocks-primitives/rich-text';
 // eslint-disable-next-line import/no-unresolved
 import Block from '@headstartwp/blocks-primitives/block';
+// eslint-disable-next-line import/no-unresolved
+import Image from '@headstartwp/blocks-primitives/image';
 
 /**
  * Edit component.
@@ -35,6 +37,9 @@ const ExampleBlockEdit = (props) => {
 					name="title"
 					value={title}
 				/>
+
+				<h2>Image 1</h2>
+				<Image name="image" />
 			</Block>
 		</div>
 	);

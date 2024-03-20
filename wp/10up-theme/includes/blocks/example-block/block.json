@@ -10,6 +10,9 @@
   "attributes":{
     "title": {
       "type" : "string"
+    },
+    "image": {
+      "type": "object"
     }
   },
   "example": {
