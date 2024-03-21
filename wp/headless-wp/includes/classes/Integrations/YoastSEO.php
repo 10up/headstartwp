@@ -51,8 +51,8 @@ class YoastSEO {
 	 * See https://github.com/10up/headstartwp/issues/563
 	 *
 	 * @param array           $result The response data to be served, typically an array.
-	 * @param WP_REST_Server  $server Server instance.
-	 * @param WP_REST_Request $request Request used to generate the response.
+	 * @param \WP_REST_Server  $server Server instance.
+	 * @param \WP_REST_Request $request Request used to generate the response.
 	 *
 	 * @return array Modified response data.
 	 */
@@ -64,33 +64,100 @@ class YoastSEO {
 			return $result;
 		}
 
+		$first_post = true;
+
 		foreach ( $result as &$post_obj ) {
-			// Optimise for taxonnomies. Removes yoast head from _embed terms for any term that is not in the queried params.
+
 			if ( ! empty( $post_obj['_embedded']['wp:term'] ) ) {
-				// Loop through each wp:term collection in _embedded.
-				foreach ( $post_obj['_embedded']['wp:term'] as &$terms_collection ) {
-					foreach ( $terms_collection as &$term_obj ) {
-						// Get the queried terms for the taxonomy.
-						$taxonomy_param = $term_obj['taxonomy'] === 'category' ?
-							$request->get_param('category') ?? $request->get_param('categories') :
-							$request->get_param( $term_obj['taxonomy']  );
+				$this->optimise_yoast_payload_for_taxonomy( $post_obj['_embedded']['wp:term'], $request, $first_post );
+			}
 
-						if ( ! empty( $taxonomy_param ) ) {
-							$taxonomy_param = is_array( $taxonomy_param ) ? $taxonomy_param : explode( ',', $taxonomy_param );
+			if ( ! empty( $post_obj['_embedded']['author'] ) ) {
+				$this->optimise_yoast_payload_for_author( $post_obj['_embedded']['author'], $request, $first_post );
+			}
 
-							// If the term slug is not in taxonomy_param array, unset yoast heads.
-							if ( !in_array( $term_obj['slug'], $taxonomy_param, true ) ) {
-								unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
-							}
-						} else {
-							unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
-						}
-					}
+			$first_post = false;
+		}
+
+		unset( $post_obj );
+
+		return $result;
+	}
+
+	/**
+	 * Optimises the Yoast SEO payload for taxonomies.
+	 * Removes yoast head from _embed terms for any term that is not in the queried params.
+	 * Logic runs for the first post, yoast head metadata is removed completely for other posts.
+	 *
+	 * @param array            $taxonomy_groups The _embedded wp:term collections.
+	 * @param \WP_REST_Request $request         Request used to generate the response.
+	 * @param boolean          $first_post      Whether this is the first post in the response.
+	 *
+	 * @return void
+	 */
+	protected function optimise_yoast_payload_for_taxonomy( &$taxonomy_groups, $request, $first_post ) {
+
+		foreach ( $taxonomy_groups as &$taxonomy_group ) {
+
+			foreach ( $taxonomy_group as &$term_obj ) {
+
+				$param = null;
+
+				if ( $first_post ) {
+					// Get the queried terms for the taxonomy.
+					$param = $term_obj['taxonomy'] === 'category' ?
+						$request->get_param('category') ?? $request->get_param('categories') :
+						$request->get_param( $term_obj['taxonomy']  );
 				}
+
+				if ( $first_post && ! empty( $param ) ) {
+					$param = is_array( $param ) ? $param : explode( ',', $param );
+
+					// If the term slug is not in param array, unset yoast heads.
+					if ( ! in_array( $term_obj['slug'], $param, true ) && ! in_array( $term_obj['id'], $param, true ) ) {
+						unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
+					}
+				} else {
+					unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
+				}
+			}
+
+			unset( $term_obj );
+		}
+
+		unset( $taxonomy_group );
+	}
+
+	/**
+	 * Optimises the Yoast SEO payload for author.
+	 * Removes yoast head from _embed author for any author that is not in the queried params.
+	 * Logic runs for the first post, yoast head metadata is removed completely for other posts.
+	 *
+	 * @param array            $authors     The _embedded author collections.
+	 * @param \WP_REST_Request $request     Request used to generate the response.
+	 * @param boolean          $first_post  Whether this is the first post in the response.
+	 *
+	 * @return void
+	 */
+	protected function optimise_yoast_payload_for_author( &$authors, $request, $first_post ) {
+
+		foreach ( $authors as &$author ) {
+
+			$param = $first_post ? $request->get_param( 'author' ) : null;
+
+			if ( $first_post && ! empty( $param ) ) {
+				$param = is_array( $param ) ? $param : explode( ',', $param );
+
+				// If the term slug is not in param array, unset yoast heads.
+				if ( ! in_array( $author['slug'], $param, true ) && ! in_array( $author['id'], $param, true )  ) {
+					unset( $author['yoast_head'], $author['yoast_head_json'] );
+				}
+			} else {
+				unset( $author['yoast_head'], $author['yoast_head_json'] );
 			}
 		}
 
-		return $result;
+		unset( $author );
 	}
 
 	/**
