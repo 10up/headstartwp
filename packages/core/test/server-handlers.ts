@@ -42,7 +42,7 @@ const handlers = [
 	}),
 
 	rest.get('/wp-json/headless-wp/v1/app', (req, res, ctx) => {
-		return res(ctx.json({ ok: true }));
+		return res(ctx.json({ ok: true, home: { id: 1 } }));
 	}),
 
 	rest.get('/wp-json/wp/v2/posts', (req, res, ctx) => {

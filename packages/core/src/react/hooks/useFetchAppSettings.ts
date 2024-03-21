@@ -1,3 +1,4 @@
+import { KeyedMutator } from 'swr';
 import { AppEntity, AppSettingsStrategy, EndpointParams, FetchResponse } from '../../data';
 import { getWPUrl } from '../../utils';
 import { FetchHookOptions, HookResponse } from './types';
@@ -6,6 +7,7 @@ import { makeErrorCatchProxy } from './util';
 
 export interface useAppSettingsResponse<T extends AppEntity> extends HookResponse {
 	data?: T;
+	mutate: KeyedMutator<FetchResponse<T>>;
 }
 
 /**
@@ -25,7 +27,7 @@ export function useFetchAppSettings<
 	params: P | {} = {},
 	options: FetchHookOptions<FetchResponse<T>> = {},
 ): useAppSettingsResponse<T> {
-	const { data, error, isMainQuery } = useFetch<T, P>(
+	const { data, error, isMainQuery, mutate } = useFetch<T, P>(
 		params,
 		useFetchAppSettings.fetcher<T, P>(),
 		options,
@@ -33,12 +35,12 @@ export function useFetchAppSettings<
 
 	if (error || !data) {
 		const fakeData = makeErrorCatchProxy<T>('data');
-		return { error, loading: !data, data: fakeData, isMainQuery };
+		return { error, loading: !data, data: fakeData, isMainQuery, mutate };
 	}
 
 	const { result } = data;
 
-	return { data: result, loading: false, isMainQuery };
+	return { data: result, loading: false, isMainQuery, mutate };
 }
 
 /**

@@ -1,3 +1,4 @@
+import { KeyedMutator } from 'swr';
 import { useFetch } from './useFetch';
 import type { FetchHookOptions, HookResponse } from './types';
 import {
@@ -12,7 +13,12 @@ import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
 export interface usePostResponse<T extends PostEntity = PostEntity> extends HookResponse {
-	data?: { post: T };
+	data?: {
+		post: T;
+		pageInfo: FetchResponse<T>['pageInfo'];
+		queriedObject: FetchResponse<T>['queriedObject'];
+	};
+	mutate: KeyedMutator<FetchResponse<T>>;
 }
 
 /**
@@ -32,7 +38,7 @@ export function useFetchPost<T extends PostEntity = PostEntity, P extends PostPa
 	options: FetchHookOptions<FetchResponse<T>> = {},
 	path = '',
 ): usePostResponse<T> {
-	const { data, error, isMainQuery } = useFetch<T[], P, T>(
+	const { data, error, isMainQuery, mutate } = useFetch<T[], P, T>(
 		params,
 		useFetchPost.fetcher<T, P>(),
 		options,
@@ -40,8 +46,12 @@ export function useFetchPost<T extends PostEntity = PostEntity, P extends PostPa
 	);
 
 	if (error || !data) {
-		const fakeData = { post: makeErrorCatchProxy<T>('post') };
-		return { error, loading: error ? false : !data, data: fakeData, isMainQuery };
+		const fakeData = {
+			post: makeErrorCatchProxy<T>('post'),
+			pageInfo: makeErrorCatchProxy<FetchResponse<T>['pageInfo']>('pageInfo'),
+			queriedObject: makeErrorCatchProxy<FetchResponse<T>['queriedObject']>('queriedObject'),
+		};
+		return { error, loading: error ? false : !data, data: fakeData, isMainQuery, mutate };
 	}
 
 	const post = {
@@ -50,7 +60,12 @@ export function useFetchPost<T extends PostEntity = PostEntity, P extends PostPa
 		terms: getPostTerms(data.result),
 	};
 
-	return { data: { post }, loading: false, isMainQuery };
+	return {
+		data: { post, pageInfo: data.pageInfo, queriedObject: data.queriedObject },
+		loading: false,
+		isMainQuery,
+		mutate,
+	};
 }
 
 /**
