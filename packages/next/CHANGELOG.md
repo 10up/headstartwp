@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.3.4
+
+### Patch Changes
+
+- 2c7313ac: Introducing `prepareFetchHookData` and making it public as it can be useful for projects customizing `fetchHookData` behavior.
+- Updated dependencies [5d5a856a]
+  - @headstartwp/core@1.3.4
+
 ## 1.3.3
 
 ### Patch Changes

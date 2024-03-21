@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.3.4
+
+### Patch Changes
+
+- 5d5a856a: Expose swr "bound mutate" function
+
 ## 1.3.3
 
 ### Patch Changes
