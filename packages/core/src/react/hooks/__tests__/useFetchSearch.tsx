@@ -44,7 +44,7 @@ describe('useFetchSearch', () => {
 			wrapper,
 		});
 
-		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery'];
+		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery', 'mutate'];
 		const returnedKeys = Object.keys(result.current);
 		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
 

@@ -1,3 +1,4 @@
+import { KeyedMutator } from 'swr';
 import { useFetch } from './useFetch';
 
 import type { FetchHookOptions, HookResponse } from './types';
@@ -19,6 +20,7 @@ export interface useSearchNativeResponse<
 	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 > extends HookResponse {
 	data?: { searchResults: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
+	mutate: KeyedMutator<FetchResponse<T[]>>;
 }
 
 /**
@@ -40,7 +42,7 @@ export function useFetchSearchNative<
 	options: FetchHookOptions<FetchResponse<T[]>> = {},
 	path = '',
 ): useSearchNativeResponse<T> {
-	const { data, error, isMainQuery } = useFetch<T[], P>(
+	const { data, error, isMainQuery, mutate } = useFetch<T[], P>(
 		params,
 		useFetchSearchNative.fetcher<T, P>(),
 		options,
@@ -53,7 +55,7 @@ export function useFetchSearchNative<
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
-		return { error, loading: !data, data: fakeData, isMainQuery };
+		return { error, loading: !data, data: fakeData, isMainQuery, mutate };
 	}
 
 	const { result, pageInfo, queriedObject } = data;
@@ -68,7 +70,12 @@ export function useFetchSearchNative<
 		return post;
 	});
 
-	return { data: { searchResults, pageInfo, queriedObject }, loading: false, isMainQuery };
+	return {
+		data: { searchResults, pageInfo, queriedObject },
+		loading: false,
+		isMainQuery,
+		mutate,
+	};
 }
 
 /**

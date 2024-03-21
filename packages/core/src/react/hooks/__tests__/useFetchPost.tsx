@@ -3,7 +3,7 @@ import * as React from 'react';
 import { expectTypeOf } from 'expect-type';
 import { SWRConfig } from 'swr';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
-import { PostEntity, PostParams } from '../../../data';
+import { PageInfo, PostEntity, PostParams, QueriedObject } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 import * as useFetchModule from '../useFetch';
@@ -58,7 +58,7 @@ describe('useFetchPost', () => {
 			wrapper,
 		});
 
-		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery'];
+		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery', 'mutate'];
 		const returnedKeys = Object.keys(result.current);
 		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
 
@@ -340,6 +340,36 @@ describe('useFetchPost', () => {
 			expect(result.current.data?.post.slug).toBe(
 				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
 			);
+		});
+	});
+
+	it('mutates data properly', async () => {
+		const { result } = renderHook(
+			() => useFetchPost({ slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' }),
+			{ wrapper },
+		);
+
+		await waitFor(() =>
+			expect(result.current.data?.post.slug).toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			),
+		);
+
+		const oldPost = { ...result.current.data?.post } as PostEntity;
+
+		await waitFor(() => {
+			result.current.mutate({
+				result: { ...oldPost, slug: 'new-slug' },
+				pageInfo: result.current.data?.pageInfo as PageInfo,
+				queriedObject: result.current.data?.queriedObject as QueriedObject,
+			});
+		});
+
+		await waitFor(() => {
+			expect(result.current.data?.post.slug).not.toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			);
+			expect(result.current.data?.post.slug).toBe('new-slug');
 		});
 	});
 });
