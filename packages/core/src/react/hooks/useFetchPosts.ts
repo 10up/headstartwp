@@ -1,3 +1,4 @@
+import type { KeyedMutator } from 'swr';
 import { useFetch } from './useFetch';
 
 import type { FetchHookOptions, HookResponse } from './types';
@@ -62,6 +63,7 @@ export interface usePostsResponse<T extends PostEntity = PostEntity> extends Hoo
 		queriedObject: QueriedObject;
 	};
 	pageType: PageType;
+	mutate: KeyedMutator<FetchResponse<T[]>>;
 }
 
 /**
@@ -90,6 +92,7 @@ export function useFetchPosts<
 		error,
 		params: queryParams,
 		isMainQuery,
+		mutate,
 	} = useFetch<T[], P>(params, fetcher ?? useFetchPosts.fetcher<T, P>(), options, path);
 	const { sourceUrl } = useSettings();
 
@@ -145,7 +148,7 @@ export function useFetchPosts<
 			queriedObject: makeErrorCatchProxy<QueriedObject>('queriedObject'),
 		};
 
-		return { error, loading: !data, pageType, data: fakeData, isMainQuery };
+		return { error, loading: !data, pageType, data: fakeData, isMainQuery, mutate };
 	}
 
 	const { result, pageInfo, queriedObject } = data;
@@ -159,6 +162,7 @@ export function useFetchPosts<
 		loading: false,
 		pageType,
 		isMainQuery,
+		mutate,
 	};
 }
 

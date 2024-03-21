@@ -1,3 +1,4 @@
+import { KeyedMutator } from 'swr';
 import { useFetch } from './useFetch';
 
 import type { FetchHookOptions, HookResponse } from './types';
@@ -13,6 +14,7 @@ import { makeErrorCatchProxy } from './util';
 
 export interface useTermsResponse<T extends TermEntity> extends HookResponse {
 	data?: { terms: T[]; pageInfo: PageInfo };
+	mutate: KeyedMutator<FetchResponse<T[]>>;
 }
 
 /**
@@ -34,7 +36,7 @@ export function useFetchTerms<
 	options: FetchHookOptions<FetchResponse<T[]>> = {},
 	path = '',
 ): useTermsResponse<T> {
-	const { data, error, isMainQuery } = useFetch<T[], P>(
+	const { data, error, isMainQuery, mutate } = useFetch<T[], P>(
 		params,
 		useFetchTerms.fetcher<T, P>(),
 		options,
@@ -46,12 +48,12 @@ export function useFetchTerms<
 			terms: makeErrorCatchProxy<T[]>('terms'),
 			pageInfo: makeErrorCatchProxy<PageInfo>('pageInfo'),
 		};
-		return { error, loading: !data, data: fakeData, isMainQuery };
+		return { error, loading: !data, data: fakeData, isMainQuery, mutate };
 	}
 
 	const { result, pageInfo } = data;
 
-	return { data: { terms: result, pageInfo }, loading: false, isMainQuery };
+	return { data: { terms: result, pageInfo }, loading: false, isMainQuery, mutate };
 }
 
 /**
