@@ -5,6 +5,11 @@ import { isBlobURL } from '@wordpress/blob';
 import { ImagePrimitive, ImagePrimitiveValue } from '../shared/types.js';
 import { useBlockPrimitiveProps } from './block.js';
 
+/**
+ * The Image Block Editor Primitive
+ *
+ * Expects an attribute of type {@link ImagePrimitiveValue}
+ */
 const Image = ({
 	name,
 	onPrimitiveSelect,
