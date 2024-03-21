@@ -76,6 +76,10 @@ class YoastSEO {
 				$this->optimise_yoast_payload_for_author( $post_obj['_embedded']['author'], $request, $first_post );
 			}
 
+			if ( ! $first_post ) {
+				unset( $post_obj['yoast_head'], $post_obj['yoast_head_json'] );
+			}
+
 			$first_post = false;
 		}
 
