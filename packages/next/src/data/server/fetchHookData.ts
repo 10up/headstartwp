@@ -50,40 +50,20 @@ function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams 
 }
 
 /**
- * A function that implements data fetching on the server. This should be used in `getServerSideProps`
- * or `getStaticProps`.
- *
- * Data fetching will be performed by the specified strategy and URL params will be automatically extracted
- * from `context
- *
- * #### Usage
- *
- * ```ts
- * export async function getServerSideProps(context) {
- *	try {
- * 		const usePostsHook = await fetchHookData(usePosts.fetcher(),context);
- *
- *		return addHookData([usePostsHook], {});
- *	} catch (e) {
- *		return handleError(e, context);
- *	}
- * }
- * ```
+ * Prepares all the things for fetchHookData
  *
  * @param fetchStrategy The fetch strategy to use. Typically this is exposed by the hook e.g: `usePosts.fetcher()`
  * @param ctx The Next.js context, either the one from `getServerSideProps` or `getStaticProps`
  * @param options See {@link FetchHookDataOptions}
  *
- * @returns An object with a key of `data` and a value of the fetched data.
- *
- * @category Next.js Data Fetching Utilities
+ * @returns The various things fetchHookData needs
  */
-export async function fetchHookData<T = unknown, P extends EndpointParams = EndpointParams, R = T>(
+export function prepareFetchHookData<T = unknown, P extends EndpointParams = EndpointParams, R = T>(
 	fetchStrategy: AbstractFetchStrategy<T, P, R>,
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl, integrations, debug, preview } = getSiteFromContext(ctx);
+	const { sourceUrl, integrations } = getSiteFromContext(ctx);
 	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
@@ -104,22 +84,70 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<P>;
 
-	// we don't want to include the preview params in the key
-	const key = fetchStrategy.getCacheKey(finalParams);
+	return {
+		cacheKey: fetchStrategy.getCacheKey(finalParams),
+		params: finalParams,
+		urlParams,
+		path: stringPath,
+	};
+}
+
+/**
+ * A function that implements data fetching on the server. This should be used in `getServerSideProps`
+ * or `getStaticProps`.
+ *
+ * Data fetching will be performed by the specified strategy and URL params will be automatically extracted
+ * from `context
+ *
+ * #### Usage
+ *
+ * ```ts
+ * export async function getServerSideProps(context) {
+ *	try {
+ * 		const usePostsHook = await fetchHookData(usePosts.fetcher(),context);
+ *
+ *		return addHookData([usePostsHook], {});
+ *	} catch (e) {
+ *		return handleError(e, context);
+ *	}
+ * }´
+ * ```
+ *
+ * @param fetchStrategy The fetch strategy to use. Typically this is exposed by the hook e.g: `usePosts.fetcher()`
+ * @param ctx The Next.js context, either the one from `getServerSideProps` or `getStaticProps`
+ * @param options See {@link FetchHookDataOptions}
+ *
+ * @returns An object with a key of `data` and a value of the fetched data.
+ *
+ * @category Next.js Data Fetching Utilities
+ */
+export async function fetchHookData<T = unknown, P extends EndpointParams = EndpointParams, R = T>(
+	fetchStrategy: AbstractFetchStrategy<T, P, R>,
+	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
+	options: FetchHookDataOptions<P, T> = {},
+) {
+	const {
+		cacheKey: key,
+		params,
+		urlParams,
+		path,
+	} = prepareFetchHookData(fetchStrategy, ctx, options);
+
+	const { debug, preview } = getSiteFromContext(ctx);
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[fetchHookData] key for  ${key.url}`, key);
 	}
 
 	if (
-		isPreviewRequest(finalParams, urlParams) &&
+		isPreviewRequest(params, urlParams) &&
 		typeof ctx.preview !== 'undefined' &&
 		typeof ctx.previewData !== 'undefined'
 	) {
-		finalParams.id = ctx.previewData.id;
-		finalParams.revision = ctx.previewData.revision;
-		finalParams.postType = ctx.previewData.postType;
-		finalParams.authToken = ctx.previewData.authToken;
+		params.id = ctx.previewData.id;
+		params.revision = ctx.previewData.revision;
+		params.postType = ctx.previewData.postType;
+		params.authToken = ctx.previewData.authToken;
 
 		if (debug?.requests) {
 			log(LOGTYPE.DEBUG, 'Preview request detected, using preview data', ctx.previewData);
@@ -138,16 +166,12 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		}
 	}
 
-	const data = await fetchStrategy.fetcher(
-		fetchStrategy.buildEndpointURL(finalParams),
-		finalParams,
-		{
-			// burst cache to skip REST API cache when the request is being made under getStaticProps
-			// if .req is not available then this is a GetStaticPropsContext
-			burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
-			...options.fetchStrategyOptions,
-		},
-	);
+	const data = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+		// burst cache to skip REST API cache when the request is being made under getStaticProps
+		// if .req is not available then this is a GetStaticPropsContext
+		burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
+		...options.fetchStrategyOptions,
+	});
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
@@ -155,7 +179,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 	const normalizedData = fetchStrategy.normalizeForCache(
 		fetchStrategy.filterData(data, options.filterData as unknown as FilterDataOptions<R>),
-		finalParams,
+		params,
 	);
 
 	let additionalCacheObjects;
@@ -164,14 +188,14 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		additionalCacheObjects = normalizedData.additionalCacheObjects.map((cacheObject) => ({
 			...cacheObject,
 			key: serializeKey(cacheObject.key),
-			isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
+			isMainQuery: fetchStrategy.isMainQuery(path, params),
 		}));
 	}
 
 	return {
 		...normalizedData,
 		key: serializeKey(key),
-		isMainQuery: fetchStrategy.isMainQuery(stringPath, params),
+		isMainQuery: fetchStrategy.isMainQuery(path, params),
 		additionalCacheObjects: additionalCacheObjects || null,
 	};
 }
