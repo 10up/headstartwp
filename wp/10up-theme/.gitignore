@@ -1,0 +1,4 @@
+vendor
+.vscode
+.wp-env.override.json
+.phpunit.result.cache

@@ -224,7 +224,7 @@ export async function previewHandler(
 				typeof options.getRedirectPath === 'function'
 					? withPreviewSuffix(
 							options.getRedirectPath(getDefaultRedirectPath(), result, postTypeDef),
-					  )
+						)
 					: withPreviewSuffix(getDefaultRedirectPath());
 
 			// we should set the path cookie if onRedirect is undefined (i.e we're just using default behasvior)
