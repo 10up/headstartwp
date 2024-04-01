@@ -98,7 +98,7 @@ export type HeadlessConfig = {
 		ttl?:
 			| number
 			| (<E, P extends EndpointParams, R>(
-					fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+					fetchStrategy: AbstractFetchStrategy<E, P, R>,
 			  ) => number);
 
 		/**
@@ -107,7 +107,7 @@ export type HeadlessConfig = {
 		enabled:
 			| boolean
 			| (<E, P extends EndpointParams, R>(
-					fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+					fetchStrategy: AbstractFetchStrategy<E, P, R>,
 			  ) => boolean);
 
 		/**
@@ -119,7 +119,7 @@ export type HeadlessConfig = {
 		 * @returns
 		 */
 		beforeSet?: <E, P extends EndpointParams, R>(
-			fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+			fetchStrategy: AbstractFetchStrategy<E, P, R>,
 			data: FetchResponse<R>,
 		) => Promise<FetchResponse<R>>;
 
@@ -131,7 +131,7 @@ export type HeadlessConfig = {
 		 * @returns
 		 */
 		afterGet?: <E, P extends EndpointParams, R>(
-			fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+			fetchStrategy: AbstractFetchStrategy<E, P, R>,
 			data: FetchResponse<R>,
 		) => Promise<FetchResponse<R>>;
 
