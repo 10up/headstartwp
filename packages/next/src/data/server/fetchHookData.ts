@@ -78,8 +78,8 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 			enabled: false,
 			ttl: 5 * 60 * 100,
 		},
-		options.cache ?? {},
 		globalCacheConfig ?? {},
+		options.cache ?? {},
 	]);
 
 	const isCacheEnabled =
