@@ -13,6 +13,7 @@ import deepmerge from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
+import { cache } from './cache';
 
 /**
  * The supported options for {@link fetchHookData}
@@ -32,6 +33,26 @@ export interface FetchHookDataOptions<P = unknown, T = unknown> {
 	 * Optional. If set, will forward fetch options to the fetch strategy
 	 */
 	fetchStrategyOptions?: Partial<FetchOptions>;
+
+	/**
+	 * Controls server-side caching
+	 */
+	cache?: {
+		/**
+		 * TTL in milliseconds
+		 */
+		ttl?: number;
+
+		/**
+		 * Whether it should cache this request
+		 */
+		enabled: boolean;
+
+		/**
+		 * The cache strategy
+		 */
+		strategy?: 'lru';
+	};
 }
 
 function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams {
@@ -63,6 +84,9 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
+	// should never cache when cache is not enabled, or when is previewing or when burstCache is set to true
+	const shouldCache = (options?.cache?.enabled ?? false) && !ctx.preview;
+
 	const { sourceUrl, integrations } = getSiteFromContext(ctx);
 	const params: Partial<P> = options?.params || {};
 
@@ -89,6 +113,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 		params: finalParams,
 		urlParams,
 		path: stringPath,
+		shouldCache,
 	};
 }
 
@@ -116,7 +141,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
  * @param fetchStrategy The fetch strategy to use. Typically this is exposed by the hook e.g: `usePosts.fetcher()`
  * @param ctx The Next.js context, either the one from `getServerSideProps` or `getStaticProps`
  * @param options See {@link FetchHookDataOptions}
- *
+ 
  * @returns An object with a key of `data` and a value of the fetched data.
  *
  * @category Next.js Data Fetching Utilities
@@ -131,6 +156,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		params,
 		urlParams,
 		path,
+		shouldCache,
 	} = prepareFetchHookData(fetchStrategy, ctx, options);
 
 	const { debug, preview } = getSiteFromContext(ctx);
@@ -166,12 +192,39 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		}
 	}
 
-	const data = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
-		// burst cache to skip REST API cache when the request is being made under getStaticProps
-		// if .req is not available then this is a GetStaticPropsContext
-		burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
-		...options.fetchStrategyOptions,
-	});
+	let data;
+	const cacheKey = serializeKey(key);
+
+	if (shouldCache) {
+		data = await cache.get(cacheKey);
+
+		if (debug?.devMode) {
+			if (data) {
+				log(LOGTYPE.INFO, `[fetchHookData] cache hit for ${cacheKey}`);
+			} else {
+				log(LOGTYPE.INFO, `[fetchHookData] cache miss for ${cacheKey}`, ctx);
+			}
+		}
+	}
+
+	if (!data) {
+		data = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+			// burst cache to skip REST API cache when the request is being made under getStaticProps
+			// if .req is not available then this is a GetStaticPropsContext
+			burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
+			...options.fetchStrategyOptions,
+		});
+
+		if (shouldCache) {
+			if (debug?.devMode) {
+				log(LOGTYPE.INFO, `[fetchHookData] cache store for ${cacheKey}`);
+			}
+
+			await cache.set(cacheKey, data, {
+				ttl: 5 * 60,
+			});
+		}
+	}
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
@@ -194,7 +247,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 	return {
 		...normalizedData,
-		key: serializeKey(key),
+		key: cacheKey,
 		isMainQuery: fetchStrategy.isMainQuery(path, params),
 		additionalCacheObjects: additionalCacheObjects || null,
 	};
