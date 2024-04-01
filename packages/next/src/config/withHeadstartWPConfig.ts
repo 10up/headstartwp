@@ -1,6 +1,5 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
-import path from 'path';
 import fs from 'fs';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
@@ -62,14 +61,39 @@ export function withHeadstartWPConfig(
 ): NextConfig {
 	const headlessConfigPath = `${process.cwd()}/headless.config.js`;
 	const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
+	const headstartWpConfigClientPath = `${process.cwd()}/headstartwp.config.client.js`;
+	const headstartWpConfigServerPath = `${process.cwd()}/headstartwp.config.server.js`;
 
-	const configPath = fs.existsSync(headstartWpConfigPath)
-		? headstartWpConfigPath
-		: headlessConfigPath;
+	let clientConfigPath = '';
+	let serverConfigPath = '';
+
+	if (fs.existsSync(headstartWpConfigClientPath)) {
+		clientConfigPath = headstartWpConfigClientPath;
+	}
+
+	if (fs.existsSync(headstartWpConfigServerPath)) {
+		serverConfigPath = headstartWpConfigServerPath;
+	}
+
+	if (!clientConfigPath && !serverConfigPath) {
+		if (fs.existsSync(headstartWpConfigPath)) {
+			clientConfigPath = headstartWpConfigPath;
+			serverConfigPath = headstartWpConfigPath;
+		} else if (fs.existsSync(headlessConfigPath)) {
+			clientConfigPath = headlessConfigPath;
+			serverConfigPath = headlessConfigPath;
+		}
+	}
+
+	if (!clientConfigPath && !serverConfigPath) {
+		throw new ConfigError(
+			'Missing config, when spliting config between server and client you need to specify both headstartwp.config.client.js and headstartwp.server.config.js',
+		);
+	}
 
 	if (Object.keys(headlessConfig).length === 0) {
 		// eslint-disable-next-line
-		headlessConfig = require(configPath);
+		headlessConfig = require(serverConfigPath);
 	}
 
 	if (!headlessConfig.sourceUrl && !headlessConfig.sites) {
@@ -165,37 +189,17 @@ export function withHeadstartWPConfig(
 		},
 
 		webpack: (config, options) => {
-			const importSetHeadlessConfig = `
+			const importSetHeadlessClientConfig = `
 				import { setHeadstartWPConfig as __setHeadstartWPConfig } from '@headstartwp/core/utils';
-				import __headlessConfig from '${configPath}';
+				import __headlessConfig from '${clientConfigPath}';
 				__setHeadstartWPConfig(__headlessConfig);
 			`;
 
-			// clear webpack cache whenever headless.config.js changes or one of the env files
-			if (Array.isArray(config.cache.buildDependencies.config)) {
-				const [nextConfigPath] = config.cache.buildDependencies.config;
-
-				const headlessConfigPath = path.resolve(nextConfigPath, '../headless.config.js');
-				const envLocalPath = path.resolve(nextConfigPath, '../.env.local');
-				const envPath = path.resolve(nextConfigPath, '../.env');
-				const envDevPath = path.resolve(nextConfigPath, '../.env.development');
-
-				if (fs.existsSync(headlessConfigPath)) {
-					config.cache.buildDependencies.config.push(headlessConfigPath);
-				}
-
-				if (fs.existsSync(envLocalPath)) {
-					config.cache.buildDependencies.config.push(envLocalPath);
-				}
-
-				if (fs.existsSync(envPath)) {
-					config.cache.buildDependencies.config.push(envPath);
-				}
-
-				if (fs.existsSync(envDevPath)) {
-					config.cache.buildDependencies.config.push(envDevPath);
-				}
-			}
+			const importSetHeadlessServerConfig = `
+				import { setHeadstartWPConfig as __setHeadstartWPConfig } from '@headstartwp/core/utils';
+				import __headlessConfig from '${serverConfigPath}';
+				__setHeadstartWPConfig(__headlessConfig);
+			`;
 
 			config.plugins.push(
 				new ModifySourcePlugin({
@@ -229,7 +233,39 @@ export function withHeadstartWPConfig(
 
 								return matched;
 							},
-							operations: [new ConcatOperation('start', importSetHeadlessConfig)],
+							operations: [
+								new ConcatOperation('start', importSetHeadlessServerConfig),
+							],
+						},
+						{
+							test: (normalModule) => {
+								if (!withHeadstarWPConfigOptions.injectConfig) {
+									return false;
+								}
+
+								const userRequest = normalModule.userRequest || '';
+
+								const startIndex =
+									userRequest.lastIndexOf('!') === -1
+										? 0
+										: userRequest.lastIndexOf('!') + 1;
+
+								const moduleRequest = userRequest
+									.substring(startIndex)
+									.replace(/\\/g, '/');
+
+								// skip next/dist/pages/_app.js
+								if (/next\/dist\/pages\/_app.js/.test(moduleRequest)) {
+									return false;
+								}
+
+								const matched = /_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest);
+
+								return matched;
+							},
+							operations: [
+								new ConcatOperation('start', importSetHeadlessClientConfig),
+							],
 						},
 					],
 				}),
