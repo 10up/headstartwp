@@ -1,3 +1,5 @@
+import type { AbstractFetchStrategy, EndpointParams, FetchResponse } from './data';
+
 export type CustomPostType = {
 	slug: string;
 	endpoint: string;
@@ -88,5 +90,56 @@ export type HeadlessConfig = {
 		requests?: boolean;
 		redirects?: boolean;
 		devMode?: boolean;
+	};
+	cache?: {
+		/**
+		 * TTL in milliseconds
+		 */
+		ttl?:
+			| number
+			| (<E, P extends EndpointParams, R>(
+					fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+			  ) => number);
+
+		/**
+		 * Whether it should cache this request
+		 */
+		enabled:
+			| boolean
+			| (<E, P extends EndpointParams, R>(
+					fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+			  ) => boolean);
+
+		/**
+		 * If set, this function will be executed before calling the cache.set method
+		 * It's useful if you want to remove things from the data before caching.
+		 *
+		 * @param fetcbStrategy The fetch strategy instance
+		 *
+		 * @returns
+		 */
+		beforeSet?: <E, P extends EndpointParams, R>(
+			fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+			data: FetchResponse<R>,
+		) => Promise<FetchResponse<R>>;
+
+		/**
+		 * If set, this function will be executed after restoring data from cache (cache.get) and can be used
+		 * to reconstruct things that were removed in beforeSet.
+		 *
+		 * @param fetcbStrategy The fetch strategy instnace
+		 * @returns
+		 */
+		afterGet?: <E, P extends EndpointParams, R>(
+			fetcbStrategy: AbstractFetchStrategy<E, P, R>,
+			data: FetchResponse<R>,
+		) => Promise<FetchResponse<R>>;
+
+		/**
+		 * The path to a custom cache handler.
+		 *
+		 * If set will override the strategy
+		 */
+		cacheHandler?: string;
 	};
 };

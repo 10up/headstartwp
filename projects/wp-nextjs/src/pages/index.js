@@ -80,11 +80,7 @@ export async function getStaticProps(context) {
 	let appSettings;
 	let slug;
 	try {
-		appSettings = await fetchHookData(useAppSettings.fetcher(), context, {
-			cache: {
-				enabled: true,
-			},
-		});
+		appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 
 		/**
 		 * The static front-page can be set in the WP admin. The default one will be 'front-page'

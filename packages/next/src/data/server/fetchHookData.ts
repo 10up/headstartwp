@@ -2,18 +2,20 @@ import {
 	AbstractFetchStrategy,
 	EndpointParams,
 	FetchOptions,
+	FetchResponse,
 	FilterDataOptions,
+	HeadlessConfig,
 	LOGTYPE,
 	PostParams,
 	log,
 } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { serializeKey } from '@headstartwp/core/react';
-import deepmerge from 'deepmerge';
+import { all as merge } from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
-import { cache } from './cache';
+import cacheHandler from './cache';
 
 /**
  * The supported options for {@link fetchHookData}
@@ -37,22 +39,7 @@ export interface FetchHookDataOptions<P = unknown, T = unknown> {
 	/**
 	 * Controls server-side caching
 	 */
-	cache?: {
-		/**
-		 * TTL in milliseconds
-		 */
-		ttl?: number;
-
-		/**
-		 * Whether it should cache this request
-		 */
-		enabled: boolean;
-
-		/**
-		 * The cache strategy
-		 */
-		strategy?: 'lru';
-	};
+	cache?: HeadlessConfig['cache'];
 }
 
 function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams {
@@ -84,10 +71,29 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	// should never cache when cache is not enabled, or when is previewing or when burstCache is set to true
-	const shouldCache = (options?.cache?.enabled ?? false) && !ctx.preview;
+	const { sourceUrl, integrations, cache: globalCacheConfig } = getSiteFromContext(ctx);
 
-	const { sourceUrl, integrations } = getSiteFromContext(ctx);
+	const cacheConfig = merge<HeadlessConfig['cache']>([
+		{
+			enabled: false,
+			ttl: 5 * 60 * 100,
+		},
+		options.cache ?? {},
+		globalCacheConfig ?? {},
+	]);
+
+	const isCacheEnabled =
+		typeof cacheConfig?.enabled === 'boolean'
+			? cacheConfig.enabled
+			: cacheConfig?.enabled(fetchStrategy);
+
+	// should never cache when cache is not enabled, or when is previewing or when burstCache is set to true
+	const shouldCache = isCacheEnabled && !ctx.preview;
+	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : 5 * 60 * 1000;
+	const cacheTTL = typeof ttl === 'number' ? ttl : ttl(fetchStrategy);
+	const cacheHandler =
+		typeof cacheConfig?.cacheHandler === 'undefined' ? './cache' : cacheConfig.cacheHandler;
+
 	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
@@ -106,14 +112,20 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
 
-	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<P>;
+	const finalParams = merge([defaultParams, urlParams, params]) as Partial<P>;
 
 	return {
 		cacheKey: fetchStrategy.getCacheKey(finalParams),
 		params: finalParams,
 		urlParams,
 		path: stringPath,
-		shouldCache,
+		cache: {
+			enabled: shouldCache,
+			ttl: cacheTTL,
+			cacheHandler,
+			beforeSet: cacheConfig?.beforeSet,
+			afterGet: cacheConfig?.afterGet,
+		},
 	};
 }
 
@@ -156,7 +168,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		params,
 		urlParams,
 		path,
-		shouldCache,
+		cache,
 	} = prepareFetchHookData(fetchStrategy, ctx, options);
 
 	const { debug, preview } = getSiteFromContext(ctx);
@@ -192,18 +204,22 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		}
 	}
 
-	let data;
+	let data: FetchResponse<R> | null = null;
 	const cacheKey = serializeKey(key);
 
-	if (shouldCache) {
-		data = await cache.get(cacheKey);
+	if (cache.enabled) {
+		data = (await cacheHandler.get(cacheKey)) as FetchResponse<R>;
 
-		if (debug?.devMode) {
-			if (data) {
+		if (data) {
+			if (debug?.devMode) {
 				log(LOGTYPE.INFO, `[fetchHookData] cache hit for ${cacheKey}`);
-			} else {
-				log(LOGTYPE.INFO, `[fetchHookData] cache miss for ${cacheKey}`, ctx);
 			}
+
+			if (typeof cache.afterGet === 'function') {
+				data = await cache.afterGet(fetchStrategy, data);
+			}
+		} else if (debug?.devMode) {
+			log(LOGTYPE.INFO, `[fetchHookData] cache miss for ${cacheKey}`);
 		}
 	}
 
@@ -215,13 +231,17 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 			...options.fetchStrategyOptions,
 		});
 
-		if (shouldCache) {
+		if (cache.enabled) {
 			if (debug?.devMode) {
 				log(LOGTYPE.INFO, `[fetchHookData] cache store for ${cacheKey}`);
 			}
 
-			await cache.set(cacheKey, data, {
-				ttl: 5 * 60,
+			if (typeof cache.beforeSet === 'function') {
+				data = await cache.beforeSet(fetchStrategy, data);
+			}
+
+			await cacheHandler.set(cacheKey, data, {
+				ttl: cache.ttl,
 			});
 		}
 	}

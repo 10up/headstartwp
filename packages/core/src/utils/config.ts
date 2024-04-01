@@ -31,6 +31,7 @@ export function getHeadstartWPConfig() {
 		integrations,
 		debug,
 		preview,
+		cache,
 	} = __10up__HEADLESS_CONFIG;
 
 	const defaultTaxonomies: CustomTaxonomies = [
@@ -81,6 +82,7 @@ export function getHeadstartWPConfig() {
 		integrations,
 		debug,
 		preview,
+		cache,
 		sites: (sites || []).map((site) => {
 			// if host is not defined but hostUrl is, infer host from hostUrl
 			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {
@@ -111,7 +113,7 @@ export const getHeadlessConfig = getHeadstartWPConfig;
  * @returns
  */
 export function getSite(site?: HeadlessConfig) {
-	const settings = getHeadlessConfig();
+	const settings = getHeadstartWPConfig();
 	const headlessConfig: HeadlessConfig = {
 		sourceUrl: site?.sourceUrl || settings.sourceUrl,
 		hostUrl: site?.hostUrl,
@@ -122,6 +124,7 @@ export function getSite(site?: HeadlessConfig) {
 		useWordPressPlugin: site?.useWordPressPlugin || settings.useWordPressPlugin || false,
 		integrations: site?.integrations || settings.integrations,
 		preview: site?.preview || settings.preview,
+		cache: site?.cache || settings.cache,
 	};
 
 	return headlessConfig;
@@ -136,7 +139,7 @@ export function getSite(site?: HeadlessConfig) {
  * @returns
  */
 export function getSiteByHost(hostOrUrl: string, locale?: string) {
-	const settings = getHeadlessConfig();
+	const settings = getHeadstartWPConfig();
 	let normalizedHost = hostOrUrl;
 
 	if (normalizedHost.startsWith('https://') || normalizedHost.startsWith('http://')) {
@@ -174,7 +177,7 @@ export function getSiteByHost(hostOrUrl: string, locale?: string) {
  * @returns HeadlessConfig
  */
 export function getSiteBySourceUrl(sourceUrl: string) {
-	const settings = getHeadlessConfig();
+	const settings = getHeadstartWPConfig();
 	const site = settings.sites && settings.sites.find((site) => site.sourceUrl === sourceUrl);
 
 	return getSite(site);
@@ -186,7 +189,7 @@ export function getSiteBySourceUrl(sourceUrl: string) {
  * @param sourceUrl
  */
 export function getCustomTaxonomies(sourceUrl?: string) {
-	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
+	const { customTaxonomies } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadstartWPConfig();
 
 	// at this point this is always an array
 	return customTaxonomies as CustomTaxonomies;
@@ -226,7 +229,7 @@ export function getCustomTaxonomy(slug: string, sourceUrl?: string) {
  * @param sourceUrl
  */
 export function getCustomPostTypes(sourceUrl?: string) {
-	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadlessConfig();
+	const { customPostTypes } = sourceUrl ? getSiteBySourceUrl(sourceUrl) : getHeadstartWPConfig();
 
 	return customPostTypes as CustomPostTypes;
 }
