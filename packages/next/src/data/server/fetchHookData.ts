@@ -3,8 +3,8 @@ import {
 	EndpointParams,
 	FetchOptions,
 	FetchResponse,
+	FetchStrategyCacheConfig,
 	FilterDataOptions,
-	HeadlessConfig,
 	LOGTYPE,
 	PostParams,
 	log,
@@ -39,7 +39,7 @@ export interface FetchHookDataOptions<P = unknown, T = unknown> {
 	/**
 	 * Controls server-side caching
 	 */
-	cache?: HeadlessConfig['cache'];
+	cache?: FetchStrategyCacheConfig;
 }
 
 function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams {
@@ -73,28 +73,15 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 ) {
 	const { sourceUrl, integrations, cache: globalCacheConfig } = getSiteFromContext(ctx);
 
-	const cacheConfig = merge<HeadlessConfig['cache']>([
+	const cacheConfig = merge<FetchStrategyCacheConfig>([
 		{
 			enabled: false,
 			ttl: 5 * 60 * 100,
 			cacheHandler: defaultCacheHandler,
-			forceCacheBurstOnRevalidate: false,
 		},
 		globalCacheConfig ?? {},
 		options.cache ?? {},
 	]);
-
-	const isCacheEnabled =
-		typeof cacheConfig?.enabled === 'boolean'
-			? cacheConfig.enabled
-			: cacheConfig?.enabled(fetchStrategy);
-
-	const burstCache = typeof (ctx as GetServerSidePropsContext).req === 'undefined';
-	const shouldSkipCache = (burstCache && cacheConfig?.forceCacheBurstOnRevalidate) || ctx.preview;
-
-	const shouldCache = isCacheEnabled && !shouldSkipCache;
-	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : 5 * 60 * 1000;
-	const cacheTTL = typeof ttl === 'number' ? ttl : ttl(fetchStrategy);
 
 	const params: Partial<P> = options?.params || {};
 
@@ -115,6 +102,17 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
 
 	const finalParams = merge([defaultParams, urlParams, params]) as Partial<P>;
+
+	const isCacheEnabled =
+		typeof cacheConfig?.enabled === 'boolean'
+			? cacheConfig.enabled
+			: cacheConfig?.enabled({ fetchStrategy, params: finalParams });
+
+	const shouldSkipCache = ctx.preview;
+
+	const shouldCache = isCacheEnabled && !shouldSkipCache;
+	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : 5 * 60 * 1000;
+	const cacheTTL = typeof ttl === 'number' ? ttl : ttl({ fetchStrategy, params: finalParams });
 
 	return {
 		cacheKey: fetchStrategy.getCacheKey(finalParams),
@@ -218,7 +216,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 			}
 
 			if (typeof cache.afterGet === 'function') {
-				data = await cache.afterGet(fetchStrategy, data);
+				data = await cache.afterGet({ fetchStrategy, params }, data);
 			}
 		} else if (debug?.devMode) {
 			log(LOGTYPE.INFO, `[fetchHookData] cache miss for ${cacheKey}`);
@@ -239,7 +237,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 			}
 
 			if (typeof cache.beforeSet === 'function') {
-				data = await cache.beforeSet(fetchStrategy, data);
+				data = await cache.beforeSet({ fetchStrategy, params }, data);
 			}
 
 			await cache.cacheHandler.set(cacheKey, data, cache.ttl);
