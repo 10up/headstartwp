@@ -15,7 +15,7 @@ import { all as merge } from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
-import cacheHandler from './cache';
+import defaultCacheHandler from './cache';
 
 /**
  * The supported options for {@link fetchHookData}
@@ -77,6 +77,8 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 		{
 			enabled: false,
 			ttl: 5 * 60 * 100,
+			cacheHandler: defaultCacheHandler,
+			forceCacheBurstOnRevalidate: false,
 		},
 		globalCacheConfig ?? {},
 		options.cache ?? {},
@@ -87,12 +89,12 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 			? cacheConfig.enabled
 			: cacheConfig?.enabled(fetchStrategy);
 
-	// should never cache when cache is not enabled, or when is previewing or when burstCache is set to true
-	const shouldCache = isCacheEnabled && !ctx.preview;
+	const burstCache = typeof (ctx as GetServerSidePropsContext).req === 'undefined';
+	const shouldSkipCache = (burstCache && cacheConfig?.forceCacheBurstOnRevalidate) || ctx.preview;
+
+	const shouldCache = isCacheEnabled && !shouldSkipCache;
 	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : 5 * 60 * 1000;
 	const cacheTTL = typeof ttl === 'number' ? ttl : ttl(fetchStrategy);
-	const cacheHandler =
-		typeof cacheConfig?.cacheHandler === 'undefined' ? './cache' : cacheConfig.cacheHandler;
 
 	const params: Partial<P> = options?.params || {};
 
@@ -122,7 +124,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 		cache: {
 			enabled: shouldCache,
 			ttl: cacheTTL,
-			cacheHandler,
+			cacheHandler: cacheConfig?.cacheHandler,
 			beforeSet: cacheConfig?.beforeSet,
 			afterGet: cacheConfig?.afterGet,
 		},
@@ -207,8 +209,8 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	let data: FetchResponse<R> | null = null;
 	const cacheKey = serializeKey(key);
 
-	if (cache.enabled) {
-		data = (await cacheHandler.get(cacheKey)) as FetchResponse<R>;
+	if (cache.enabled && cache.cacheHandler) {
+		data = (await cache.cacheHandler.get(cacheKey)) as FetchResponse<R>;
 
 		if (data) {
 			if (debug?.devMode) {
@@ -231,7 +233,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 			...options.fetchStrategyOptions,
 		});
 
-		if (cache.enabled) {
+		if (cache.enabled && cache.cacheHandler) {
 			if (debug?.devMode) {
 				log(LOGTYPE.INFO, `[fetchHookData] cache store for ${cacheKey}`);
 			}
@@ -240,9 +242,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 				data = await cache.beforeSet(fetchStrategy, data);
 			}
 
-			await cacheHandler.set(cacheKey, data, {
-				ttl: cache.ttl,
-			});
+			await cache.cacheHandler.set(cacheKey, data, cache.ttl);
 		}
 	}
 

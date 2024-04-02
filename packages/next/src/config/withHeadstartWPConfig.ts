@@ -234,37 +234,12 @@ export function withHeadstartWPConfig(
 								return matched;
 							},
 							operations: [
-								new ConcatOperation('start', importSetHeadlessServerConfig),
-							],
-						},
-						{
-							test: (normalModule) => {
-								if (!withHeadstarWPConfigOptions.injectConfig) {
-									return false;
-								}
-
-								const userRequest = normalModule.userRequest || '';
-
-								const startIndex =
-									userRequest.lastIndexOf('!') === -1
-										? 0
-										: userRequest.lastIndexOf('!') + 1;
-
-								const moduleRequest = userRequest
-									.substring(startIndex)
-									.replace(/\\/g, '/');
-
-								// skip next/dist/pages/_app.js
-								if (/next\/dist\/pages\/_app.js/.test(moduleRequest)) {
-									return false;
-								}
-
-								const matched = /_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest);
-
-								return matched;
-							},
-							operations: [
-								new ConcatOperation('start', importSetHeadlessClientConfig),
+								new ConcatOperation(
+									'start',
+									options.isServer
+										? importSetHeadlessServerConfig
+										: importSetHeadlessClientConfig,
+								),
 							],
 						},
 					],

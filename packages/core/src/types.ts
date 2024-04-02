@@ -72,6 +72,11 @@ export type PreviewConfig = {
 	usePostLinkForRedirect?: boolean;
 };
 
+export type FetchStrategyCacheHandler<R> = {
+	set: (key: string, data: FetchResponse<R>, ttl: number) => Promise<void>;
+	get: (key: string) => Promise<FetchResponse<R>>;
+};
+
 export type HeadlessConfig = {
 	host?: string;
 	locale?: string;
@@ -102,7 +107,7 @@ export type HeadlessConfig = {
 			  ) => number);
 
 		/**
-		 * Whether it should cache this request
+		 * Whether the cache should be enable globably or for a given fetchStrategy
 		 */
 		enabled:
 			| boolean
@@ -136,10 +141,19 @@ export type HeadlessConfig = {
 		) => Promise<FetchResponse<R>>;
 
 		/**
-		 * The path to a custom cache handler.
+		 * A custom cache handler implementation
 		 *
-		 * If set will override the strategy
+		 * If set will override the default in-memory cache handler
 		 */
-		cacheHandler?: string;
+		cacheHandler?: FetchStrategyCacheHandler<unknown>;
+
+		/**
+		 * Whether it should force cache burst on revalidate.
+		 *
+		 * Enabling this setting will always skip cache inside getStaticProp.
+		 *
+		 * @default false
+		 */
+		forceCacheBurstOnRevalidate?: boolean;
 	};
 };
