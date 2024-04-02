@@ -1,7 +1,7 @@
 import { FetchResponse, FetchStrategyCacheHandler } from '@headstartwp/core';
 import TTLCache from '@isaacs/ttlcache';
 
-const ttlcache = new TTLCache({ max: 10000 });
+const ttlcache = new TTLCache({ max: 100 });
 
 const cache: FetchStrategyCacheHandler<unknown> = {
 	set(key, data, ttl) {
