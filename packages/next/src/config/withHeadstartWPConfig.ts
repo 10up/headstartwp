@@ -236,7 +236,7 @@ export function withHeadstartWPConfig(
 							operations: [
 								new ConcatOperation(
 									'start',
-									options.isServer
+									options.isServer && options.nextRuntime === 'nodejs'
 										? importSetHeadlessServerConfig
 										: importSetHeadlessClientConfig,
 								),
