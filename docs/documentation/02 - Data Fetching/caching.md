@@ -25,7 +25,7 @@ Bear in mind that if you stack multiple layers of caching in your application it
 
 There are two ways to enable fetch strategy caching in HeadstartWP: individually on each `fetchHookData` call, or globally in `headstartwp.config.js`/`headstartwp.config.server.js`. 
 
-Since fetch strategy caching only runs server-side, we recommend moving the cache config to `headstartwp.config.server.js`, not doing so could lead to server-side code being injected in the client-side bundle which would break your build (i.e if you try to set up a redis cache chandler). See [splitting config docs](/learn/getting-started/headless-config/#splitting-clientserver-config).
+Since fetch strategy caching only runs server-side, we recommend moving the cache config to `headstartwp.config.server.js`, not doing so could lead to server-side code being injected in the client-side bundle which would break your build (i.e if you try to set up a Redis cache chandler). See [splitting config docs](/learn/getting-started/headless-config/#splitting-clientserver-config).
 
 ```js title="Enabling caching in fetchHookData"
 fetchHookData(
@@ -35,7 +35,7 @@ fetchHookData(
 );
 ```
 
-`fetchHookData` cache params supports the same parameters than the [cache](/api/modules/headstartwp_core/#fetchstrategycacheconfig) property of the global config.
+`fetchHookData` cache params support the same parameters as the [cache](/api/modules/headstartwp_core/#fetchstrategycacheconfig) property of the global config.
 
 ```js title="Enabling caching in headstartwp.config.server.js"
 const baseConfig = require('./headstartwp.config.client');
@@ -58,17 +58,17 @@ module.exports = {
 };
 ```
 
-`cache.enabled` can also be a function so you can decided whether to cache or not based on the fetchStrategy itself.
+`cache.enabled` can also be a function so you can decide whether to cache or not based on the fetchStrategy itself.
 
 ## In-Memory caching
 
-The default cache handler is a TTL in-memory cache. This cache handler can be useful when you're not hosting on a serverless platform (e.g Vercel) since the node process would be alive and therefore you can cache things in memory. On serverless hosting, by design you cannot hold state between functions invocations, therefore if you try to use a In-Memory caching it would only last for the lifetime of a single request.
+The default cache handler is a TTL in-memory cache. This cache handler can be useful when you're not hosting on a serverless platform (e.g. Vercel) since the node process would be alive and therefore you can cache things in memory. On serverless hosting, by design you cannot hold state between functions invocations, therefore if you try to use an In-Memory caching it would only last for the lifetime of a single request.
 
-The main use case for In-Memory caching is when you want to cache/dedupe fetch calls when you're hosting Next.js on non-serverless hostings. Note that if you have multiple node containers/pod each one of them would have it's own In-Memory caching.
+The main use case for In-Memory caching is when you want to cache/dedupe fetch calls when you're hosting Next.js on non-serverless hostings. Note that if you have multiple node containers/pod each one of them would have its own In-Memory caching.
 
 ## Custom cache handler
 
-You can provide your own cache handler. For instance, if you want to cache things in redis you can easily provide your own cache handler.
+You can provide your own cache handler. For instance, if you want to cache things in Redis you can easily provide your own cache handler.
 
 ```js title="redis cache handler"
 const { getRedisClient } = require('@10up/next-redis-cache-provider');
@@ -121,7 +121,7 @@ module.exports = {
 This is a function that will get called after retrieving data from the cache and can be used to modify the response.
 
 ### beforeSet
-This is a function that will get called before storing data in the cache and can be used to modfy the data that is going to be cached. This can be used to remove things that should not be cached.
+This is a function that will get called before storing data in the cache and can be used to modify the data that is going to be cached. This can be used to remove things that should not be cached.
 
 As an example, you might want to remove particular fields from the cache and always calculate it dynamically with `afterGet`.
 
