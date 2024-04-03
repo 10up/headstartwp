@@ -11,6 +11,7 @@ use DateTime;
 use HeadlessWP\Preview\PreviewLink;
 use HeadlessWP\Preview\PreviewToken;
 use WP_UnitTestCase;
+use WP_Rewrite;
 
 /**
  * Covers the test for the Preview functionality
@@ -27,7 +28,7 @@ class TestPreview extends WP_UnitTestCase {
 	/**
 	 * wp_rewrite class
 	 *
-	 * @var \WP_Rewrite
+	 * @var WP_Rewrite
 	 */
 	protected $wp_rewrite;
 
@@ -138,7 +139,7 @@ class TestPreview extends WP_UnitTestCase {
 			[
 				'post_title'   => 'Draft Post',
 				'post_status'  => 'draft',
-				'post_content' => 'draf post',
+				'post_content' => 'draft post',
 				'post_type'    => 'post',
 			]
 		);
@@ -175,7 +176,7 @@ class TestPreview extends WP_UnitTestCase {
 			[
 				'post_title'   => 'Draft Post',
 				'post_status'  => 'draft',
-				'post_content' => 'draf post',
+				'post_content' => 'draft post',
 				'post_type'    => 'post',
 			]
 		);
@@ -207,7 +208,7 @@ class TestPreview extends WP_UnitTestCase {
 			[
 				'post_title'   => 'Draft Page',
 				'post_status'  => 'draft',
-				'post_content' => 'draf Page',
+				'post_content' => 'draft Page',
 				'post_type'    => 'page',
 			]
 		);
@@ -243,7 +244,7 @@ class TestPreview extends WP_UnitTestCase {
 			[
 				'post_title'   => 'Draft Book',
 				'post_status'  => 'draft',
-				'post_content' => 'draf book',
+				'post_content' => 'draft book',
 				'post_type'    => 'book',
 			]
 		);
@@ -286,7 +287,7 @@ class TestPreview extends WP_UnitTestCase {
 			[
 				'post_title'    => 'Draft new',
 				'post_status'   => 'draft',
-				'post_content'  => 'draf new',
+				'post_content'  => 'draft new',
 				'post_type'     => 'news',
 				'post_category' => [ $category->term_id ],
 			]
@@ -308,7 +309,7 @@ class TestPreview extends WP_UnitTestCase {
 				if (
 				is_wp_error( $news_types ) ||
 				! is_array( $news_types ) ||
-				( $news_types === [] ) > 0
+				( [] === $news_types ) > 0
 				) {
 					return $fallback;
 				}

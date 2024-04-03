@@ -70,6 +70,8 @@ abstract class BaseToken {
 	/**
 	 * Decode capability tokens if present.
 	 *
+	 * @param string $token Token.
+	 *
 	 * @return object|null
 	 */
 	public static function get_payload_from_token( string $token = '' ) {
