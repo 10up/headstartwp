@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.0-next.1
+
+### Patch Changes
+
+- 498fb394: caching: pass `fetchStrategyOptions` and `path` to cache functions.
+- Updated dependencies [498fb394]
+  - @headstartwp/core@1.4.0-next.1
+
 ## 1.4.0-next.0
 
 ### Minor Changes
