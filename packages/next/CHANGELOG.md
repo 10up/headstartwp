@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.0-next.4
+
+### Patch Changes
+
+- 8d3a0f83: Normalize TTL to secs
+- Updated dependencies [8d3a0f83]
+  - @headstartwp/core@1.4.0-next.4
+
 ## 1.4.0-next.3
 
 ### Patch Changes
