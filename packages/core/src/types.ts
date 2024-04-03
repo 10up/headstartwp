@@ -87,7 +87,7 @@ export type FetchStrategyCacheHandlerOptions<E, P extends EndpointParams, R> = {
 
 export type FetchStrategyCacheConfig = {
 	/**
-	 * TTL in milliseconds
+	 * TTL in seconds
 	 */
 	ttl?:
 		| number

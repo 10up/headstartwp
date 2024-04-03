@@ -6,7 +6,8 @@ const ttlcache = new TTLCache({ max: 100 });
 const cache: FetchStrategyCacheHandler = {
 	set(key, data, ttl) {
 		ttlcache.set(key, data, {
-			ttl,
+			// convert ttl from secs to ms
+			ttl: ttl * 1000,
 		});
 		return Promise.resolve(undefined);
 	},
