@@ -1,5 +1,48 @@
 # @headstartwp/next
 
+## 1.4.0-next.4
+
+### Patch Changes
+
+- 8d3a0f83: Normalize TTL to secs
+- Updated dependencies [8d3a0f83]
+  - @headstartwp/core@1.4.0-next.4
+
+## 1.4.0-next.3
+
+### Patch Changes
+
+- bdcc37f0: Make cache.enabled optional
+- Updated dependencies [bdcc37f0]
+  - @headstartwp/core@1.4.0-next.3
+
+## 1.4.0-next.2
+
+### Patch Changes
+
+- 669441f3: Fix: cache handler types, add isCached property
+- Updated dependencies [669441f3]
+  - @headstartwp/core@1.4.0-next.2
+
+## 1.4.0-next.1
+
+### Patch Changes
+
+- 498fb394: caching: pass `fetchStrategyOptions` and `path` to cache functions.
+- Updated dependencies [498fb394]
+  - @headstartwp/core@1.4.0-next.1
+
+## 1.4.0-next.0
+
+### Minor Changes
+
+- cce64d2e: Introducing fetch strategy caching.
+
+### Patch Changes
+
+- Updated dependencies [cce64d2e]
+  - @headstartwp/core@1.4.0-next.0
+
 ## 1.3.4
 
 ### Patch Changes
