@@ -107,30 +107,31 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	const enabled = cacheConfig?.enabled ?? false;
 
 	const isCacheEnabled =
-		typeof enabled === 'boolean'
-			? enabled
-			: enabled({
+		typeof enabled === 'function'
+			? enabled({
 					fetchStrategy,
 					params: finalParams,
 					fetchStrategyOptions: options.fetchStrategyOptions,
 					path: stringPath,
 					cacheHandler: cacheConfig.cacheHandler ?? defaultCacheHandler,
-			  });
+			  })
+			: enabled;
 
 	const shouldSkipCache = ctx.preview;
 
 	const shouldCache = isCacheEnabled && !shouldSkipCache;
-	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : defaultCacheTTL;
+	const ttl = cacheConfig.ttl ?? defaultCacheTTL;
+
 	const cacheTTL =
-		typeof ttl === 'number'
-			? ttl
-			: ttl({
+		typeof ttl === 'function'
+			? ttl({
 					fetchStrategy,
 					params: finalParams,
 					fetchStrategyOptions: options.fetchStrategyOptions,
 					path: stringPath,
 					cacheHandler: cacheConfig.cacheHandler ?? defaultCacheHandler,
-			  });
+			  })
+			: ttl;
 
 	return {
 		cacheKey: fetchStrategy.getCacheKey(finalParams),
