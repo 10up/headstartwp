@@ -2,6 +2,8 @@ import {
 	AbstractFetchStrategy,
 	EndpointParams,
 	FetchOptions,
+	FetchResponse,
+	FetchStrategyCacheConfig,
 	FilterDataOptions,
 	LOGTYPE,
 	PostParams,
@@ -9,10 +11,11 @@ import {
 } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { serializeKey } from '@headstartwp/core/react';
-import deepmerge from 'deepmerge';
+import { all as merge } from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
+import defaultCacheHandler from './cache';
 
 /**
  * The supported options for {@link fetchHookData}
@@ -32,6 +35,11 @@ export interface FetchHookDataOptions<P = unknown, T = unknown> {
 	 * Optional. If set, will forward fetch options to the fetch strategy
 	 */
 	fetchStrategyOptions?: Partial<FetchOptions>;
+
+	/**
+	 * Controls server-side caching
+	 */
+	cache?: FetchStrategyCacheConfig;
 }
 
 function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams {
@@ -63,7 +71,18 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl, integrations } = getSiteFromContext(ctx);
+	const { sourceUrl, integrations, cache: globalCacheConfig } = getSiteFromContext(ctx);
+
+	const cacheConfig = merge<FetchStrategyCacheConfig>([
+		{
+			enabled: false,
+			ttl: 5 * 60 * 100,
+			cacheHandler: defaultCacheHandler,
+		},
+		globalCacheConfig ?? {},
+		options.cache ?? {},
+	]);
+
 	const params: Partial<P> = options?.params || {};
 
 	fetchStrategy.setBaseURL(sourceUrl);
@@ -82,13 +101,31 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	const defaultParams = fetchStrategy.getDefaultParams();
 	const urlParams = fetchStrategy.getParamsFromURL(stringPath, params);
 
-	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<P>;
+	const finalParams = merge([defaultParams, urlParams, params]) as Partial<P>;
+
+	const isCacheEnabled =
+		typeof cacheConfig?.enabled === 'boolean'
+			? cacheConfig.enabled
+			: cacheConfig?.enabled({ fetchStrategy, params: finalParams });
+
+	const shouldSkipCache = ctx.preview;
+
+	const shouldCache = isCacheEnabled && !shouldSkipCache;
+	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : 5 * 60 * 1000;
+	const cacheTTL = typeof ttl === 'number' ? ttl : ttl({ fetchStrategy, params: finalParams });
 
 	return {
 		cacheKey: fetchStrategy.getCacheKey(finalParams),
 		params: finalParams,
 		urlParams,
 		path: stringPath,
+		cache: {
+			enabled: shouldCache,
+			ttl: cacheTTL,
+			cacheHandler: cacheConfig?.cacheHandler,
+			beforeSet: cacheConfig?.beforeSet,
+			afterGet: cacheConfig?.afterGet,
+		},
 	};
 }
 
@@ -116,7 +153,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
  * @param fetchStrategy The fetch strategy to use. Typically this is exposed by the hook e.g: `usePosts.fetcher()`
  * @param ctx The Next.js context, either the one from `getServerSideProps` or `getStaticProps`
  * @param options See {@link FetchHookDataOptions}
- *
+ 
  * @returns An object with a key of `data` and a value of the fetched data.
  *
  * @category Next.js Data Fetching Utilities
@@ -131,6 +168,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		params,
 		urlParams,
 		path,
+		cache,
 	} = prepareFetchHookData(fetchStrategy, ctx, options);
 
 	const { debug, preview } = getSiteFromContext(ctx);
@@ -166,12 +204,45 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		}
 	}
 
-	const data = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
-		// burst cache to skip REST API cache when the request is being made under getStaticProps
-		// if .req is not available then this is a GetStaticPropsContext
-		burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
-		...options.fetchStrategyOptions,
-	});
+	let data: FetchResponse<R> | null = null;
+	const cacheKey = serializeKey(key);
+
+	if (cache.enabled && cache.cacheHandler) {
+		data = (await cache.cacheHandler.get(cacheKey)) as FetchResponse<R>;
+
+		if (data) {
+			if (debug?.devMode) {
+				log(LOGTYPE.INFO, `[fetchHookData] cache hit for ${cacheKey}`);
+			}
+
+			if (typeof cache.afterGet === 'function') {
+				data = await cache.afterGet({ fetchStrategy, params }, data);
+			}
+		} else if (debug?.devMode) {
+			log(LOGTYPE.INFO, `[fetchHookData] cache miss for ${cacheKey}`);
+		}
+	}
+
+	if (!data) {
+		data = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params, {
+			// burst cache to skip REST API cache when the request is being made under getStaticProps
+			// if .req is not available then this is a GetStaticPropsContext
+			burstCache: typeof (ctx as GetServerSidePropsContext).req === 'undefined',
+			...options.fetchStrategyOptions,
+		});
+
+		if (cache.enabled && cache.cacheHandler) {
+			if (debug?.devMode) {
+				log(LOGTYPE.INFO, `[fetchHookData] cache store for ${cacheKey}`);
+			}
+
+			if (typeof cache.beforeSet === 'function') {
+				data = await cache.beforeSet({ fetchStrategy, params }, data);
+			}
+
+			await cache.cacheHandler.set(cacheKey, data, cache.ttl);
+		}
+	}
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[fetchHookData] data.pageInfo for ${key.url}`, data.pageInfo);
@@ -194,7 +265,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 	return {
 		...normalizedData,
-		key: serializeKey(key),
+		key: cacheKey,
 		isMainQuery: fetchStrategy.isMainQuery(path, params),
 		additionalCacheObjects: additionalCacheObjects || null,
 	};

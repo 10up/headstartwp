@@ -1,5 +1,5 @@
 /**
- * UHeadless Config
+ * Config
  *
  * @type {import('@headstartwp/core').HeadlessConfig}
  */
