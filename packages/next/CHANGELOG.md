@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.0-next.2
+
+### Patch Changes
+
+- 669441f3: Fix: cache handler types, add isCached property
+- Updated dependencies [669441f3]
+  - @headstartwp/core@1.4.0-next.2
+
 ## 1.4.0-next.1
 
 ### Patch Changes
