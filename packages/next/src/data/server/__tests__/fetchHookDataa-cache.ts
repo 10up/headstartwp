@@ -54,19 +54,21 @@ describe('fetchHookData caching', () => {
 
 		setHeadstartWPConfig(config);
 
-		fetchMock.mockResponseOnce(JSON.stringify([{}]));
+		fetchMock.mockResponseOnce(JSON.stringify([{ data: {} }]));
 
-		await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test' } });
+		let result = await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test' } });
 
 		expect(config.cache.cacheHandler.set).toHaveBeenCalledTimes(1);
 		expect(config.cache.cacheHandler.get).toHaveBeenCalledTimes(1);
 		expect(fetchMock).toHaveBeenCalledTimes(1);
+		expect(result.data.isCached).toBeFalsy();
 
-		await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test' } });
+		result = await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test' } });
 		// should not be called again
 		expect(config.cache.cacheHandler.set).toHaveBeenCalledTimes(1);
 		expect(fetchMock).toHaveBeenCalledTimes(1);
 		expect(config.cache.cacheHandler.get).toHaveBeenCalledTimes(2);
+		expect(result.data.isCached).toBe(true);
 	});
 
 	it('caches fetch call and runs beforeSet and afterGet', async () => {
@@ -101,23 +103,26 @@ describe('fetchHookData caching', () => {
 		// @ts-expect-error
 		setHeadstartWPConfig(config);
 
-		fetchMock.mockResponseOnce(JSON.stringify([{}]));
+		fetchMock.mockResponseOnce(JSON.stringify([{ data: {} }]));
 
-		await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test2' } });
+		let result = await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test2' } });
 
 		expect(config.cache.cacheHandler.set).toHaveBeenCalledTimes(1);
 		expect(config.cache.cacheHandler.get).toHaveBeenCalledTimes(1);
 		// no cache so should not call after get
 		expect(config.cache.afterGet).not.toHaveBeenCalled();
 		expect(config.cache.beforeSet).toHaveBeenCalledTimes(1);
+		expect(result.data.isCached).toBeFalsy();
 		expect(fetchMock).toHaveBeenCalledTimes(1);
 
-		await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test2' } });
+		result = await fetchHookData(usePosts.fetcher(), {}, { params: { slug: 'test2' } });
+
 		// should not be called again
 		expect(config.cache.cacheHandler.set).toHaveBeenCalledTimes(1);
 		expect(fetchMock).toHaveBeenCalledTimes(1);
 		expect(config.cache.cacheHandler.get).toHaveBeenCalledTimes(2);
 		expect(config.cache.afterGet).toHaveBeenCalledTimes(1);
 		expect(config.cache.beforeSet).toHaveBeenCalledTimes(1);
+		expect(result.data.isCached).toBe(true);
 	});
 });

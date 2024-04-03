@@ -111,6 +111,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 					params: finalParams,
 					fetchStrategyOptions: options.fetchStrategyOptions,
 					path: stringPath,
+					cacheHandler: cacheConfig.cacheHandler ?? defaultCacheHandler,
 			  });
 
 	const shouldSkipCache = ctx.preview;
@@ -125,6 +126,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 					params: finalParams,
 					fetchStrategyOptions: options.fetchStrategyOptions,
 					path: stringPath,
+					cacheHandler: cacheConfig.cacheHandler ?? defaultCacheHandler,
 			  });
 
 	return {
@@ -235,6 +237,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 						params,
 						fetchStrategyOptions: options.fetchStrategyOptions,
 						path,
+						cacheHandler: cache.cacheHandler,
 					},
 					data,
 				);
@@ -264,6 +267,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 						params,
 						fetchStrategyOptions: options.fetchStrategyOptions,
 						path,
+						cacheHandler: cache.cacheHandler,
 					},
 					data,
 				);
@@ -271,6 +275,8 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 
 			await cache.cacheHandler.set(cacheKey, data, cache.ttl);
 		}
+	} else {
+		data.isCached = true;
 	}
 
 	if (debug?.devMode) {

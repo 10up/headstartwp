@@ -72,9 +72,9 @@ export type PreviewConfig = {
 	usePostLinkForRedirect?: boolean;
 };
 
-export type FetchStrategyCacheHandler<R> = {
-	set: (key: string, data: FetchResponse<R>, ttl: number) => Promise<void>;
-	get: (key: string) => Promise<FetchResponse<R>>;
+export type FetchStrategyCacheHandler = {
+	set: <T extends any = any>(key: string, data: T, ttl: number) => Promise<void>;
+	get: <T extends any = any>(key: string) => Promise<T>;
 };
 
 export type FetchStrategyCacheHandlerOptions<E, P extends EndpointParams, R> = {
@@ -82,6 +82,7 @@ export type FetchStrategyCacheHandlerOptions<E, P extends EndpointParams, R> = {
 	params: Partial<P>;
 	fetchStrategyOptions?: Partial<FetchOptions>;
 	path: string;
+	cacheHandler: FetchStrategyCacheHandler;
 };
 
 export type FetchStrategyCacheConfig = {
@@ -133,7 +134,7 @@ export type FetchStrategyCacheConfig = {
 	 *
 	 * If set will override the default in-memory cache handler
 	 */
-	cacheHandler?: FetchStrategyCacheHandler<unknown>;
+	cacheHandler?: FetchStrategyCacheHandler;
 };
 
 export type HeadlessConfig = {

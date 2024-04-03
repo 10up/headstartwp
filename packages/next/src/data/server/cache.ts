@@ -1,9 +1,9 @@
-import { FetchResponse, FetchStrategyCacheHandler } from '@headstartwp/core';
+import { FetchStrategyCacheHandler } from '@headstartwp/core';
 import TTLCache from '@isaacs/ttlcache';
 
 const ttlcache = new TTLCache({ max: 100 });
 
-const cache: FetchStrategyCacheHandler<unknown> = {
+const cache: FetchStrategyCacheHandler = {
 	set(key, data, ttl) {
 		ttlcache.set(key, data, {
 			ttl,
@@ -12,8 +12,8 @@ const cache: FetchStrategyCacheHandler<unknown> = {
 	},
 
 	get(key) {
-		const value = ttlcache.get(key) as FetchResponse<unknown>;
-		return Promise.resolve(value);
+		const value = ttlcache.get(key);
+		return Promise.resolve(value) as any;
 	},
 };
 
