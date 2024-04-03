@@ -35,6 +35,8 @@ export interface EndpointParams {
  * The type of the fetch response
  */
 export interface FetchResponse<T> {
+	isCached?: boolean;
+
 	/**
 	 * Contains the actual data returned from the API
 	 */
