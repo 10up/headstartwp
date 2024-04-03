@@ -52,8 +52,8 @@ module.exports = {
 			// cache app endpoints in-memory by default
 			return fetchStrategy.getEndpoint() === '/wp-json/headless-wp/v1/app';
 		},
-        // ttl in ms, can also be a function
-        ttl: 5 * 60 * 1000,
+        // ttl in seconds, can also be a function
+        ttl: 5 * 60,
 	},
 };
 ```
@@ -92,11 +92,11 @@ module.exports = {
         ttl: ({ fetchStrategy }) => {
             if (fetchStrategy.getEndpoint() === '/wp-json/headless-wp/v1/app') {
                 // 30min
-                return 30 * 60 * 1000;
+                return 30 * 60;
             }
 
             // 5min
-            return 5 * 60 * 1000;
+            return 5 * 60;
         },
 
 		/**
