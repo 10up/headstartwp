@@ -106,13 +106,26 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	const isCacheEnabled =
 		typeof cacheConfig?.enabled === 'boolean'
 			? cacheConfig.enabled
-			: cacheConfig?.enabled({ fetchStrategy, params: finalParams });
+			: cacheConfig?.enabled({
+					fetchStrategy,
+					params: finalParams,
+					fetchStrategyOptions: options.fetchStrategyOptions,
+					path: stringPath,
+			  });
 
 	const shouldSkipCache = ctx.preview;
 
 	const shouldCache = isCacheEnabled && !shouldSkipCache;
 	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : 5 * 60 * 1000;
-	const cacheTTL = typeof ttl === 'number' ? ttl : ttl({ fetchStrategy, params: finalParams });
+	const cacheTTL =
+		typeof ttl === 'number'
+			? ttl
+			: ttl({
+					fetchStrategy,
+					params: finalParams,
+					fetchStrategyOptions: options.fetchStrategyOptions,
+					path: stringPath,
+			  });
 
 	return {
 		cacheKey: fetchStrategy.getCacheKey(finalParams),
@@ -216,7 +229,15 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 			}
 
 			if (typeof cache.afterGet === 'function') {
-				data = await cache.afterGet({ fetchStrategy, params }, data);
+				data = await cache.afterGet(
+					{
+						fetchStrategy,
+						params,
+						fetchStrategyOptions: options.fetchStrategyOptions,
+						path,
+					},
+					data,
+				);
 			}
 		} else if (debug?.devMode) {
 			log(LOGTYPE.INFO, `[fetchHookData] cache miss for ${cacheKey}`);
@@ -237,7 +258,15 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 			}
 
 			if (typeof cache.beforeSet === 'function') {
-				data = await cache.beforeSet({ fetchStrategy, params }, data);
+				data = await cache.beforeSet(
+					{
+						fetchStrategy,
+						params,
+						fetchStrategyOptions: options.fetchStrategyOptions,
+						path,
+					},
+					data,
+				);
 			}
 
 			await cache.cacheHandler.set(cacheKey, data, cache.ttl);

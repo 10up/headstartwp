@@ -1,4 +1,4 @@
-import type { AbstractFetchStrategy, EndpointParams, FetchResponse } from './data';
+import type { AbstractFetchStrategy, EndpointParams, FetchOptions, FetchResponse } from './data';
 
 export type CustomPostType = {
 	slug: string;
@@ -80,6 +80,8 @@ export type FetchStrategyCacheHandler<R> = {
 export type FetchStrategyCacheHandlerOptions<E, P extends EndpointParams, R> = {
 	fetchStrategy: AbstractFetchStrategy<E, P, R>;
 	params: Partial<P>;
+	fetchStrategyOptions?: Partial<FetchOptions>;
+	path: string;
 };
 
 export type FetchStrategyCacheConfig = {
