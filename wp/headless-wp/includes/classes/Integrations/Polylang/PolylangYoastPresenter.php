@@ -16,11 +16,17 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
  */
 class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 
+	/**
+	 * Presentation
+	 *
+	 * @var object
+	 */
 	public $presentation;
+
 	/**
 	 * Output the hreflang tags if they exist.
 	 */
-	public function present() {
+	public function present(): string {
 		if ( function_exists( 'pll_languages_list' ) ) {
 			$hreflangs = $this->get();
 
@@ -38,7 +44,7 @@ class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string Hreflang tags or empty string.
 	 */
-	public function get() {
+	public function get(): string {
 		$source = $this->presentation->source;
 
 		if ( ! $source instanceof \WP_Post && ! $source instanceof \WP_Term ) {
@@ -142,7 +148,7 @@ class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return array List of homepage IDs.
 	 */
-	public function get_homepage_post_ids() {
+	public function get_homepage_post_ids(): array {
 		$home_id = get_option( 'page_on_front' );
 		if ( empty( $home_id ) ) {
 			return [];

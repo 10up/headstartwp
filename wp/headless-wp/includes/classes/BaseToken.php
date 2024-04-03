@@ -41,7 +41,7 @@ abstract class BaseToken {
 	/**
 	 * Return the private key used to encode and decode tokens.
 	 *
-	 * @throws \Exception If the private key is not found.
+	 * @throws Exception If the private key is not found.
 	 *
 	 * @return string
 	 */
@@ -70,9 +70,9 @@ abstract class BaseToken {
 	/**
 	 * Decode capability tokens if present.
 	 *
-	 * @return object
+	 * @return object|null
 	 */
-	public static function get_payload_from_token( $token = '' ) {
+	public static function get_payload_from_token( string $token = '' ) {
 		// Get HTTP Authorization Header.
 		$header = isset( $_SERVER['HTTP_AUTHORIZATION'] )
 		? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) )
