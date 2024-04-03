@@ -45,7 +45,7 @@ return static function ( RectorConfig $rectorConfig ): void {
 			__DIR__ . '/dist',
 			__DIR__ . '/node_modules',
 			__DIR__ . '/vendor',
-			__DIR__ . '/php-jwt',
+			__DIR__ . '/includes/classes/php-jwt',
 			DisallowedEmptyRuleFixerRector::class,
 			SimplifyEmptyArrayCheckRector::class,
 			SimplifyEmptyCheckOnEmptyArrayRector::class,

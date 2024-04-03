@@ -51,4 +51,54 @@ class TestPreview extends TestCase {
 
 		// todo simulate a preview action
 	}
+
+
+	/**
+	 * Tests the preview token generation
+	 */
+	public function test_preview_token_generation(): void {
+		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
+
+		$payload = (array) PreviewToken::get_payload_from_token( $token );
+
+		$this->assertEquals( $payload['type'], 'test_token' );
+	}
+
+	/**
+	 * Tests getting the token payload
+	 */
+	public function test_get_payload_from_token(): void {
+		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
+
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
+
+		$payload = (array) PreviewToken::get_payload_from_token();
+
+		$this->assertEquals( $payload['type'], 'test_token' );
+
+		unset( $_SERVER['HTTP_AUTHORIZATION'] );
+
+		$_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
+
+		$payload = (array) PreviewToken::get_payload_from_token();
+
+		$this->assertEquals( $payload['type'], 'test_token' );
+
+		unset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] );
+	}
+
+	/**
+	 * Tests getting the token payload from alternative header
+	 */
+	public function test_get_payload_from_token_alternative_header(): void {
+		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
+
+		$_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] = 'Bearer ' . $token;
+
+		$payload = (array) PreviewToken::get_payload_from_token();
+
+		$this->assertEquals( $payload['type'], 'test_token' );
+
+		unset( $_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] );
+	}
 }

@@ -41,7 +41,7 @@ abstract class BaseToken {
 	/**
 	 * Return the private key used to encode and decode tokens.
 	 *
-	 * @throws Exception If the private key is not found.
+	 * @throws \Exception If the private key is not found.
 	 *
 	 * @return string
 	 */
