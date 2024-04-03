@@ -103,10 +103,12 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 
 	const finalParams = merge([defaultParams, urlParams, params]) as Partial<P>;
 
+	const enabled = cacheConfig?.enabled ?? false;
+
 	const isCacheEnabled =
-		typeof cacheConfig?.enabled === 'boolean'
-			? cacheConfig.enabled
-			: cacheConfig?.enabled({
+		typeof enabled === 'boolean'
+			? enabled
+			: enabled({
 					fetchStrategy,
 					params: finalParams,
 					fetchStrategyOptions: options.fetchStrategyOptions,

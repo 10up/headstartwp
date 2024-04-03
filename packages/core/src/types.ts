@@ -98,7 +98,7 @@ export type FetchStrategyCacheConfig = {
 	/**
 	 * Whether the cache should be enable globably or for a given fetchStrategy
 	 */
-	enabled:
+	enabled?:
 		| boolean
 		| (<E, P extends EndpointParams, R>(
 				options: FetchStrategyCacheHandlerOptions<E, P, R>,
