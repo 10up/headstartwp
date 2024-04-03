@@ -1,5 +1,16 @@
 # @headstartwp/next
 
+## 1.4.0-next.0
+
+### Minor Changes
+
+- cce64d2e: Introducing fetch strategy caching.
+
+### Patch Changes
+
+- Updated dependencies [cce64d2e]
+  - @headstartwp/core@1.4.0-next.0
+
 ## 1.3.4
 
 ### Patch Changes
