@@ -20,9 +20,10 @@ function flushCache(optionalKey?: string) {
  *
  * @param {string} src   - script needed to load on page
  * @param {number} delay - whether to delay script load
+ * @param {options} options - target for script to be appended
  * @returns {[boolean, boolean]} [loading, error]
  */
-export function useScript(src: string, delay = 0) {
+export function useScript(src: string, delay = 0, position: 'head' | 'body' = 'body') {
 	// Keeping track of script loaded and error state
 	const [state, setState] = useState({
 		loaded: false,
@@ -58,15 +59,19 @@ export function useScript(src: string, delay = 0) {
 				script.addEventListener('load', onScriptLoad);
 				script.addEventListener('error', onScriptError);
 
+				let target: HTMLElement = document.body;
+				if (position !== undefined) {
+					target = document[position] ?? document.body;
+				}
 				// Add script to document body
 				if (delay) {
 					setTimeout(() => {
 						if (isMounted) {
-							document.body.appendChild(script);
+							target.appendChild(script);
 						}
 					}, delay);
 				} else {
-					document.body.appendChild(script);
+					target.appendChild(script);
 				}
 			});
 		}
@@ -93,7 +98,7 @@ export function useScript(src: string, delay = 0) {
 		return () => {
 			isMounted = false;
 		};
-	}, [src, delay]);
+	}, [src, delay, position]);
 
 	return [state.loaded, state.error, flushCache];
 }
