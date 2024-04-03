@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.4.0-next.0
+
+### Minor Changes
+
+- cce64d2e: Introducing fetch strategy caching.
+
 ## 1.3.4
 
 ### Patch Changes
