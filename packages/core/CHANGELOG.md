@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.4.0-next.3
+
+### Patch Changes
+
+- bdcc37f0: Make cache.enabled optional
+
 ## 1.4.0-next.2
 
 ### Patch Changes

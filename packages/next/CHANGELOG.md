@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.0-next.3
+
+### Patch Changes
+
+- bdcc37f0: Make cache.enabled optional
+- Updated dependencies [bdcc37f0]
+  - @headstartwp/core@1.4.0-next.3
+
 ## 1.4.0-next.2
 
 ### Patch Changes
