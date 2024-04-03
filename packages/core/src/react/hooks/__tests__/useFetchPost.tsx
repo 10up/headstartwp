@@ -3,7 +3,7 @@ import * as React from 'react';
 import { expectTypeOf } from 'expect-type';
 import { SWRConfig } from 'swr';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
-import { PostEntity, PostParams } from '../../../data';
+import { PageInfo, PostEntity, PostParams, QueriedObject } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 import * as useFetchModule from '../useFetch';
@@ -58,7 +58,7 @@ describe('useFetchPost', () => {
 			wrapper,
 		});
 
-		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery'];
+		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery', 'mutate'];
 		const returnedKeys = Object.keys(result.current);
 		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
 
@@ -110,6 +110,29 @@ describe('useFetchPost', () => {
 		});
 	});
 
+	it('fetches draft posts with authToken and alternativePreviewAuthorizationHeader', async () => {
+		// 57 is a hardcoded draft post in msw
+		const { result } = renderHook(
+			() =>
+				useFetchPost(
+					{ id: DRAFT_POST_ID, authToken: VALID_AUTH_TOKEN },
+					{
+						fetchStrategyOptions: {
+							alternativePreviewAuthorizationHeader: true,
+						},
+					},
+				),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.post.id).toBe(57);
+		});
+	});
+
 	it('errors if fetches revisions without authToken', async () => {
 		const { result } = renderHook(() => useFetchPost({ id: 57, revision: true }), {
 			wrapper,
@@ -121,6 +144,32 @@ describe('useFetchPost', () => {
 	it('fetches revisions with authToken', async () => {
 		const { result } = renderHook(
 			() => useFetchPost({ id: 64, revision: true, authToken: 'Fake Auth Token' }),
+			{
+				wrapper,
+			},
+		);
+
+		await waitFor(() => {
+			expect(result.current.error).toBeFalsy();
+			expect(result.current.data?.post.id).toBe(64);
+			expect(result.current.data?.post.slug).toBe('ipsum-repudiandae-est-nam');
+			// ensure fields that don't exists in revisions are returned
+			expect(result.current.data?.post.format).toBe('standard');
+			expect(result.current.data?.post?.terms?.category[0]?.slug).toBe('news');
+		});
+	});
+
+	it('fetches revisions with authToken and alternativePreviewAuthorizationHeader', async () => {
+		const { result } = renderHook(
+			() =>
+				useFetchPost(
+					{ id: 64, revision: true, authToken: 'Fake Auth Token' },
+					{
+						fetchStrategyOptions: {
+							alternativePreviewAuthorizationHeader: true,
+						},
+					},
+				),
 			{
 				wrapper,
 			},
@@ -291,6 +340,36 @@ describe('useFetchPost', () => {
 			expect(result.current.data?.post.slug).toBe(
 				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
 			);
+		});
+	});
+
+	it('mutates data properly', async () => {
+		const { result } = renderHook(
+			() => useFetchPost({ slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' }),
+			{ wrapper },
+		);
+
+		await waitFor(() =>
+			expect(result.current.data?.post.slug).toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			),
+		);
+
+		const oldPost = { ...result.current.data?.post } as PostEntity;
+
+		await waitFor(() => {
+			result.current.mutate({
+				result: { ...oldPost, slug: 'new-slug' },
+				pageInfo: result.current.data?.pageInfo as PageInfo,
+				queriedObject: result.current.data?.queriedObject as QueriedObject,
+			});
+		});
+
+		await waitFor(() => {
+			expect(result.current.data?.post.slug).not.toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			);
+			expect(result.current.data?.post.slug).toBe('new-slug');
 		});
 	});
 });

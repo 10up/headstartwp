@@ -1,7 +1,30 @@
 import { removeSourceUrl } from '..';
 
 describe('removeSourceUrl', () => {
+	it('returns empty string without nonEmptyLink', () => {
+		expect(
+			removeSourceUrl({
+				link: 'https://test.com/test',
+				backendUrl: 'https://test.com/test',
+				nonEmptyLink: false,
+			}),
+		).toBe('');
+	});
 	it('removes source url', () => {
+		expect(
+			removeSourceUrl({
+				link: 'https://test.com/test',
+				backendUrl: 'https://test.com/test',
+			}),
+		).toBe('/');
+
+		expect(
+			removeSourceUrl({
+				link: 'http://backendurl.com',
+				backendUrl: 'https://backendurl.com',
+			}),
+		).toBe('/');
+
 		expect(
 			removeSourceUrl({
 				link: 'http://backendurl.com/',
@@ -43,6 +66,13 @@ describe('removeSourceUrl', () => {
 				backendUrl: 'https://backendurl.com/',
 			}),
 		).toBe('/post-name-1?a=1&b=3&d=3');
+
+		expect(
+			removeSourceUrl({
+				link: 'http://backendurl.com/post-name-1?a=1&b=3&d=3/',
+				backendUrl: 'https://backendurl.com/',
+			}),
+		).toBe('/post-name-1?a=1&b=3&d=3/');
 
 		expect(
 			removeSourceUrl({

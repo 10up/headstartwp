@@ -36,7 +36,7 @@ function isAppEntity(data: Entity): data is AppEntity {
  * The `addHookData` function is responsible for collecting all of the results from the `fetchHookData` function calls
  * and prepares the shape of the data to match what the frameworks expects (such as setting initial values for SWR and collecting SEO data).
  *
- * ## Usage
+ * #### Usage
  *
  * ```ts
  * export async function getServerSideProps(context) {

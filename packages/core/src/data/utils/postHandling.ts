@@ -1,4 +1,4 @@
-import { AttachmentEntity, AuthorEntity, PostEntity, TermEntity } from '../types';
+import { AttachmentEntity, AuthorEntity, PostEntity, PostSearchEntity, TermEntity } from '../types';
 import { removeFields } from './dataFilter';
 
 /**
@@ -8,7 +8,7 @@ import { removeFields } from './dataFilter';
  *
  * @category Data Handling
  */
-export function getPostAuthor(post: PostEntity) {
+export function getPostAuthor(post: PostEntity | PostSearchEntity) {
 	return post?._embedded?.author;
 }
 
@@ -19,7 +19,7 @@ export function getPostAuthor(post: PostEntity) {
  *
  * @category Data Handling
  */
-export function getPostTerms(post: PostEntity): Record<string, TermEntity[]> {
+export function getPostTerms(post: PostEntity | PostSearchEntity): Record<string, TermEntity[]> {
 	const terms: PostEntity['terms'] = {};
 
 	if (
@@ -30,6 +30,10 @@ export function getPostTerms(post: PostEntity): Record<string, TermEntity[]> {
 	}
 
 	post._embedded['wp:term'].forEach((taxonomy) => {
+		if (!Array.isArray(taxonomy)) {
+			return;
+		}
+
 		taxonomy.forEach((term) => {
 			const taxonomySlug = term.taxonomy;
 

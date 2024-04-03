@@ -24,16 +24,25 @@
           "reference": "trunk"
         }
       }
+    },
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
     }
   ],
   "require-dev": {
     "10up/phpcs-composer": "3.0.0",
     "giacocorsiglia/wordpress-stubs": "^5.1",
-    "yoast/wp-test-utils": "^1.1",
+    "yoast/wp-test-utils": "^1.2",
     "php-stubs/wordpress-stubs": "^6.1",
     "php-stubs/wordpress-tests-stubs": "^6.1",
     "wordpress/wordpress-develop": "dev-trunk",
-    "rector/rector": "^1.0"
+    "rector/rector": "^1.0",
+    "yoast/wordpress-seo": "^22.1"
   },
   "autoload": {
     "psr-4": {
@@ -52,7 +61,15 @@
   },
   "config": {
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/installers": true
+    }
+  },
+  "extra": {
+    "installer-paths": {
+      "vendor/{$name}/": [
+        "type:wordpress-plugin"
+      ]
     }
   }
 }

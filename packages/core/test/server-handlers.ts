@@ -1,6 +1,9 @@
 import { rest, DefaultRequestBody } from 'msw';
 import { redirect } from './mocks/redirect';
 import posts from './__fixtures__/posts/posts.json';
+import pages from './__fixtures__/posts/pages.json';
+import categories from './__fixtures__/terms/categories.json';
+import tags from './__fixtures__/terms/tags.json';
 
 interface TestEndpointResponse {
 	ok: boolean;
@@ -39,7 +42,7 @@ const handlers = [
 	}),
 
 	rest.get('/wp-json/headless-wp/v1/app', (req, res, ctx) => {
-		return res(ctx.json({ ok: true }));
+		return res(ctx.json({ ok: true, home: { id: 1 } }));
 	}),
 
 	rest.get('/wp-json/wp/v2/posts', (req, res, ctx) => {
@@ -139,7 +142,7 @@ const handlers = [
 		const id = Number(req.params.id);
 
 		// revisions always requires Authorization
-		if (!req.headers.has('Authorization')) {
+		if (!req.headers.has('Authorization' || !req.headers.has('X-HeadstartWP-Authorization'))) {
 			return res(ctx.json({ code: 'rest_unauthorized', data: { status: 500 } }));
 		}
 
@@ -188,8 +191,10 @@ const handlers = [
 		// hardcode 57 as a draft post
 		if (id === DRAFT_POST_ID) {
 			if (
-				req.headers.has('Authorization') &&
-				req.headers.get('Authorization') === `Bearer ${VALID_AUTH_TOKEN}`
+				(req.headers.has('Authorization') &&
+					req.headers.get('Authorization') === `Bearer ${VALID_AUTH_TOKEN}`) ||
+				(req.headers.has('X-HeadstartWP-Authorization') &&
+					req.headers.get('X-HeadstartWP-Authorization') === `Bearer ${VALID_AUTH_TOKEN}`)
 			) {
 				return res(ctx.json(results));
 			}
@@ -206,6 +211,142 @@ const handlers = [
 		}
 
 		return res(ctx.json(results));
+	}),
+
+	rest.get('/wp-json/wp/v2/search', (req, res, ctx) => {
+		const query = req.url.searchParams;
+		const search = query.get('search');
+		const type = query.get('type') ?? 'post';
+		const subtype = query.get('subtype')?.split(',') ?? ['post'];
+		const perPage = Number(query.get('per_page') || 10);
+		const page = Number(query.get('page') || 1);
+
+		if (type === 'post') {
+			let results: typeof posts = [];
+
+			if (subtype.includes('post')) {
+				results = [...posts];
+			}
+
+			if (subtype.includes('page')) {
+				// @ts-expect-error
+				results = [...results, ...pages];
+			}
+
+			if (search) {
+				results = results.filter((p) => {
+					return (
+						p.title.rendered.toLowerCase().includes(search.toLowerCase()) ||
+						p.content.rendered.toLowerCase().includes(search.toLowerCase())
+					);
+				});
+			}
+
+			const totalResults = results.length;
+
+			if ((page - 1) * perPage > totalResults) {
+				return res(
+					ctx.json({
+						code: 'rest_search_invalid_page_number',
+						message:
+							'The page number requested is larger than the number of pages available.',
+						data: {
+							status: 400,
+						},
+					}),
+				);
+			}
+
+			if (perPage) {
+				results = results.slice((page - 1) * perPage, perPage);
+			}
+
+			return res(
+				ctx.json(
+					results.map((r) => {
+						const result = {
+							id: Number(r.id),
+							title: r.title.rendered,
+							url: r.link,
+							type,
+							subtype: r.type,
+							_embedded: {
+								_self: { ...r },
+								author: { ...r._embedded.author },
+								/* 'wp:term':
+									r.type === 'post'
+										? getPostTerms(r as unknown as PostEntity)
+										: undefined, */
+							},
+						};
+
+						return result;
+					}),
+				),
+			);
+		}
+
+		if (type === 'term') {
+			let results: typeof categories = [];
+
+			if (subtype.includes('category')) {
+				results = [...categories];
+			}
+
+			if (subtype.includes('post_tag')) {
+				// @ts-expect-error
+				results = [...results, ...tags];
+			}
+
+			if (search) {
+				results = results.filter((p) => {
+					return (
+						p.name.toLowerCase().includes(search.toLowerCase()) ||
+						p.description.toLowerCase().includes(search.toLowerCase())
+					);
+				});
+			}
+
+			const totalResults = results.length;
+
+			if ((page - 1) * perPage > totalResults) {
+				return res(
+					ctx.json({
+						code: 'rest_search_invalid_page_number',
+						message:
+							'The page number requested is larger than the number of pages available.',
+						data: {
+							status: 400,
+						},
+					}),
+				);
+			}
+
+			if (perPage) {
+				results = results.slice((page - 1) * perPage, perPage);
+			}
+
+			return res(
+				ctx.json(
+					results.map((r) => {
+						const result = {
+							id: Number(r.id),
+							title: r.name,
+							url: r.link,
+							type,
+							subtype: r.taxonomy,
+							_embedded: {
+								_self: { ...r },
+							},
+						};
+
+						return result;
+					}),
+				),
+			);
+		}
+
+		return res(ctx.json([]));
 	}),
 ];
 

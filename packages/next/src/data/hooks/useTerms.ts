@@ -5,7 +5,7 @@ import { usePrepareFetch } from './usePrepareFetch';
 /**
  * The useTerms hook. Returns a collection of term entities
  *
- * ## Usage
+ * #### Usage
  *
  * ```tsx
  * const { loading, data } = useTerms({ taxonomy: 'category', slug: 'cat-name' });

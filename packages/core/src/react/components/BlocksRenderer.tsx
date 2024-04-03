@@ -140,9 +140,9 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: Headl
  *
  * The children components must implement the {@link BlockProps} interface
  *
- * ## Usage
+ * #### Usage
  *
- * ### Usage with the test function
+ * ##### Usage with the test function
  *
  * ```jsx
  * <BlocksRenderer html={html}>
@@ -150,7 +150,7 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: Headl
  * </BlocksRenderer>
  * ```
  *
- * ### Usage with classList and tagName props
+ * ##### Usage with classList and tagName props
  *
  * ```jsx
  * <BlocksRenderer html={html}>

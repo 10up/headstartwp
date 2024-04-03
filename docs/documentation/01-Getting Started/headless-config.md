@@ -211,3 +211,45 @@ This option control how redirects are handled. There are 2 supported methods of 
 ## debug
 
 You can enable log debugging for both requests and redirects. `debug.requests` will enable logging all API requests made by the framework and `debug.redirects` will log all attempts to detect and fetch a redirect from WordPress.
+
+## preview
+
+### alternativeAuthorizationHeader
+
+Tells HeadstartWP to use an alternative header (`X-HeadstartWP-Authorization`) instead of the default `Authorization` header for making authenticated preview requests.
+
+Make sure you have HeadstartWP plugin >= 1.0.1, `@headstartwp/core` >= 1.3.1 and `@headstartwp/next`>= 1.3.1 to use this setting.
+
+```js
+module.exports = {
+	// other configs.
+	// ...
+
+	preview: {
+		alternativeAuthorizationHeader: true
+	}
+}
+```
+
+### usePostLinkForRedirect
+
+:::info
+This feature was added in `@headstartwp/next@1.3.3` and requires the plugin version >= 1.1.2.
+:::info
+
+This option, if enabled, will use the `post.link` property of the post being previewed to redirect to the appropriate route for previewing. This can be very useful to avoid the need for providing a custom [getRedirectPath](/learn/wordpress-integration/previews#getredirectpath) implementation by telling the preview handler to simply use the post's link as returned via the WordPress `get_permalink` function.
+
+Note that you will want to make sure that your WordPress permalink structure closely follows the route structure of your Next.js app for this option to work well.
+
+```js
+module.exports = {
+	// other configs.
+	// ...
+
+	preview: {
+		usePostLinkForRedirect: true
+	}
+}
+```
+
+More for info check out the [preview docs](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).

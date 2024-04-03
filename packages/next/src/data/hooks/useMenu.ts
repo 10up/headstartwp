@@ -7,7 +7,7 @@ import { AppEntity, FetchResponse } from '@headstartwp/core';
  * **Important**: This hook depends on {@link useAppSettings}. If you want to enable SSR;SSG for
  * this hook you will need to fetch app settings on the server side.
  *
- * ## Usage
+ * #### Usage
  *
  * ### Basic usage
  *
@@ -21,7 +21,7 @@ import { AppEntity, FetchResponse } from '@headstartwp/core';
  * }
  * ```
  *
- * ### Re-fetching client-side on focus and/or mount
+ * ##### Re-fetching client-side on focus and/or mount
  * If you are fetching app settings on the server, you can enable re-fetching on focus and/or mount
  * to ensure menus are always up-to date even when using SSG/ISR.
  *

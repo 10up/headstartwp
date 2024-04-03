@@ -3,7 +3,7 @@
  * Plugin Name: HeadstartWP
  * Plugin URI:  https://github.com/10up/headstartwp-plugin
  * Description: Adds functionality to the WordPress admin and REST API for 10up's headless framework.
- * Version: 1.0.13
+ * Version: 1.1.3
  * Author:      10up
  * Author URI:  https://10up.com
  * Text Domain: headstartwp
@@ -17,7 +17,7 @@ namespace HeadlessWP;
 use HeadlessWP\Preview\PreviewToken;
 
 // Useful global constants.
-define( 'HEADLESS_WP_PLUGIN_VERSION', '1.0.13' );
+define( 'HEADLESS_WP_PLUGIN_VERSION', '1.1.3' );
 define( 'HEADLESS_WP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'HEADLESS_WP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'HEADLESS_WP_PLUGIN_INC', HEADLESS_WP_PLUGIN_PATH . 'includes/' );
@@ -40,7 +40,11 @@ if ( file_exists( HEADLESS_WP_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
 	require_once HEADLESS_WP_PLUGIN_PATH . 'vendor/autoload.php';
 } else {
 	spl_autoload_register(
+<<<<<<< HEAD
 		function ( $the_class ): void {
+=======
+		function ( $the_class ) {
+>>>>>>> develop
 				// Project-specific namespace prefix.
 				$prefix = 'HeadlessWP\\';
 				// Base directory for the namespace prefix.
@@ -66,7 +70,11 @@ $plugin->register();
 
 add_action(
 	'rest_api_init',
+<<<<<<< HEAD
 	function (): void {
+=======
+	function () {
+>>>>>>> develop
 		PreviewToken::setup();
 	}
 );

@@ -48,6 +48,12 @@ class Plugin {
 
 		$gutenberg = new Gutenberg();
 		$gutenberg->register();
+
+		$search = new Search\Search();
+		$search->register();
+
+		$redirect = new Redirect();
+		$redirect->register();
 	}
 
 	/**

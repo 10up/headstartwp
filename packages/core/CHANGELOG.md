@@ -1,5 +1,36 @@
 # @headstartwp/core
 
+## 1.3.4
+
+### Patch Changes
+
+- 5d5a856a: Expose swr "bound mutate" function
+
+## 1.3.3
+
+### Patch Changes
+
+- 654681df: Fix: replace camelcase underlying implementation as the previous one only worked in node
+
+## 1.3.2
+
+### Patch Changes
+
+- 95d6eb96: fix: make convertUrl and removeSourceUrl respect the original link's trailingslash
+- 26246a01: Add the ability to leverage `post.link` for redirecting the previewed post to the appropriate route via the `preview.usePostLinkForRedirect` setting.
+
+## 1.3.1
+
+### Patch Changes
+
+- 0bd8e415: Add ability to preview using an alternative authorization header
+
+## 1.3.0
+
+### Minor Changes
+
+- 8452279a: Implement WordPress native search endpoint
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,50 @@
 # @headstartwp/next
 
+## 1.3.4
+
+### Patch Changes
+
+- 2c7313ac: Introducing `prepareFetchHookData` and making it public as it can be useful for projects customizing `fetchHookData` behavior.
+- Updated dependencies [5d5a856a]
+  - @headstartwp/core@1.3.4
+
+## 1.3.3
+
+### Patch Changes
+
+- 95d6eb96: fix: make convertUrl and removeSourceUrl respect the original link's trailingslash
+- 26246a01: Add the ability to leverage `post.link` for redirecting the previewed post to the appropriate route via the `preview.usePostLinkForRedirect` setting.
+- Updated dependencies [95d6eb96]
+- Updated dependencies [26246a01]
+  - @headstartwp/core@1.3.2
+
+## 1.3.2
+
+### Patch Changes
+
+- 5396b238: Hotfix preview alternative headers
+
+## 1.3.1
+
+### Patch Changes
+
+- 0bd8e415: Add ability to preview using an alternative authorization header
+- Updated dependencies [0bd8e415]
+  - @headstartwp/core@1.3.1
+
+## 1.3.0
+
+### Minor Changes
+
+- 8452279a: Implement WordPress native search endpoint
+
+### Patch Changes
+
+- 6a35eaa0: Fix invalid structured data ld+json
+- e0e7c82f: Fix redirect status code when set to permanent'
+- Updated dependencies [8452279a]
+  - @headstartwp/core@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes
