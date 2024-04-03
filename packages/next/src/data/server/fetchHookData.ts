@@ -73,10 +73,11 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 ) {
 	const { sourceUrl, integrations, cache: globalCacheConfig } = getSiteFromContext(ctx);
 
+	const defaultCacheTTL = 5 * 60;
 	const cacheConfig = merge<FetchStrategyCacheConfig>([
 		{
 			enabled: false,
-			ttl: 5 * 60 * 100,
+			ttl: defaultCacheTTL,
 			cacheHandler: defaultCacheHandler,
 		},
 		globalCacheConfig ?? {},
@@ -119,7 +120,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	const shouldSkipCache = ctx.preview;
 
 	const shouldCache = isCacheEnabled && !shouldSkipCache;
-	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : 5 * 60 * 1000;
+	const ttl = typeof cacheConfig?.ttl !== 'undefined' ? cacheConfig.ttl : defaultCacheTTL;
 	const cacheTTL =
 		typeof ttl === 'number'
 			? ttl
