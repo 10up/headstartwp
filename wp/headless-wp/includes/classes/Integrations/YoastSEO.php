@@ -211,7 +211,7 @@ class YoastSEO {
 	 * @param string $title The search SEO title
 	 * @param array  $query_vars The search query vars.
 	 */
-	public function replace_yoast_search_title_placeholders( $title, $query_vars ) {
+	public function replace_yoast_search_title_placeholders( $title, $query_vars ): ?string {
 		$separator = \YoastSEO()->helpers->options->get_title_separator();
 
 		$str_replace_mapping = apply_filters(
@@ -219,7 +219,7 @@ class YoastSEO {
 			[
 				'%%sitename%%'     => get_bloginfo( 'name' ),
 				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				'%%page%%'         => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
+				'%%page%%'         => empty( $query_vars['page'] ) ? '' : sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ),
 				'%%sep%%'          => $separator ?? ' ',
 			]
 		);
@@ -227,7 +227,7 @@ class YoastSEO {
 		$title = str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );
 
 		// Cleanup extra separators from possible missing values, we don't want to end up with 'You searched for - - - - '.
-		$escaped_sep = preg_quote( $separator, '/' );
+		$escaped_sep = preg_quote( (string) $separator, '/' );
 		$pattern     = '/\s*' . $escaped_sep . '\s*' . $escaped_sep . '+/';
 
 		return preg_replace( $pattern, ' ' . $separator, $title );
@@ -289,10 +289,8 @@ class YoastSEO {
 	 *
 	 * Polylang adds hreflang tags by hooking into wp_head which only runs on the front end on a
 	 * traditional WordPress setup.
-	 *
-	 * @return array
 	 */
-	public function wpseo_rest_api_hreflang_presenter() {
+	public function wpseo_rest_api_hreflang_presenter(): void {
 
 		$enable_hreflang = apply_filters( 'tenup_headless_wp_enable_hreflangs', true );
 
@@ -303,7 +301,7 @@ class YoastSEO {
 		add_filter(
 			'wpseo_frontend_presenters',
 			function ( $presenters ) {
-				if ( ! class_exists( '\HeadlessWP\Integrations\Polylang\PolylangYoastPresenter' ) ) {
+				if ( ! class_exists( \HeadlessWP\Integrations\Polylang\PolylangYoastPresenter::class ) ) {
 					return $presenters;
 				}
 

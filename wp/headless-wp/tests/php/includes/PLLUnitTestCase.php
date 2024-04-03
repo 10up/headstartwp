@@ -25,8 +25,6 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Sets up the test class
-	 *
-	 * @return void
 	 */
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -45,19 +43,15 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Clears up the test class
-	 *
-	 * @return void
 	 */
-	public static function wpTearDownAfterClass() {
+	public static function wpTearDownAfterClass(): void {
 		self::delete_all_languages();
 	}
 
 	/**
 	 * Sets up each test
-	 *
-	 * @return void
 	 */
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		add_filter( 'wp_doing_ajax', '__return_false' );
@@ -65,10 +59,8 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 
 	/**
 	 * Clears up each test
-	 *
-	 * @return void
 	 */
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		parent::tearDown();
 
 		unset( $GLOBALS['wp_settings_errors'] );
@@ -110,12 +102,12 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 
 			wp_delete_term( $tt, 'term_translations' );
 
-			foreach ( $terms as $t ) {
-				wp_delete_term( $t, 'category' );
+			foreach ( $terms as $term ) {
+				wp_delete_term( $term, 'category' );
 			}
 
-			foreach ( $languages as $lang ) {
-				self::$polylang->model->delete_language( $lang->term_id );
+			foreach ( $languages as $language ) {
+				self::$polylang->model->delete_language( $language->term_id );
 				unset( $GLOBALS['wp_settings_errors'] );
 			}
 		}
@@ -125,8 +117,6 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 	 * Switches to the given language
 	 *
 	 * @param string $lang The language to switch to
-	 *
-	 * @return void
 	 */
 	protected static function switch_language( string $lang ): void {
 		$language = \PLL()->model->get_language( $lang );
@@ -142,7 +132,7 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 	 * @param bool   $condition The candition
 	 * @param string $message The message
 	 */
-	public static function assertNotFalse( $condition, $message = '' ): void {
+	public static function assertNotFalse( $condition, string $message = '' ): void {
 		if ( version_compare( phpversion(), '5.3', '<' ) ) {
 			self::assertThat( $condition, self::logicalNot( self::isFalse() ), $message );
 		} else {

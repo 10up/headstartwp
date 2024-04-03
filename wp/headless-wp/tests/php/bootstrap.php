@@ -37,7 +37,7 @@ if ( ! function_exists( 'tests_add_filter' ) ) {
 /**
  * Manually load the plugin being tested.
  */
-function _manually_load_plugin() {
+function _manually_load_plugin(): void {
 	require_once WP_PLUGIN_DIR . '/polylang/polylang.php';
 	require_once WP_PLUGIN_DIR . '/wordpress-seo/wp-seo.php';
 	require_once dirname( __DIR__, 2 ) . '/plugin.php';

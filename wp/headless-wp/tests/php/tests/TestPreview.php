@@ -36,7 +36,7 @@ class TestPreview extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function set_up() {
+	protected function set_up() {
 		parent::set_up();
 		$this->preview = new PreviewLink();
 		$this->preview->register();
@@ -59,10 +59,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests if previwes handling can be disable
-	 *
-	 * @return void
 	 */
-	public function test_should_handle_preview() {
+	public function test_should_handle_preview(): void {
 		$this->assertTrue( $this->preview->should_handle_preview() );
 
 		add_filter( 'tenup_headless_wp_previews_enabled', '__return_false' );
@@ -74,10 +72,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests handle_preview
-	 *
-	 * @return void
 	 */
-	public function test_handle_review() {
+	public function test_handle_review(): void {
 		// it should not change the template if not in preview context
 		$this->assertEquals( $this->preview->handle_preview( 'index.php' ), 'index.php' );
 
@@ -87,10 +83,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests the preview token generation
-	 *
-	 * @return void
 	 */
-	public function test_preview_token_generation() {
+	public function test_preview_token_generation(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
 		$payload = (array) PreviewToken::get_payload_from_token( $token );
@@ -100,13 +94,11 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests getting the token payload
-	 *
-	 * @return void
 	 */
-	public function test_get_payload_from_token() {
+	public function test_get_payload_from_token(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
-		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$payload = (array) PreviewToken::get_payload_from_token();
 
@@ -114,7 +106,7 @@ class TestPreview extends WP_UnitTestCase {
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 
-		$_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$payload = (array) PreviewToken::get_payload_from_token();
 
@@ -125,13 +117,11 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests getting the token payload from alternative header
-	 *
-	 * @return void
 	 */
-	public function test_get_payload_from_token_alternative_header() {
+	public function test_get_payload_from_token_alternative_header(): void {
 		$token = PreviewToken::generate( [ 'type' => 'test_token' ] );
 
-		$_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_X_HEADSTARTWP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$payload = (array) PreviewToken::get_payload_from_token();
 
@@ -142,10 +132,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests draft posts links are not plain permalinks
-	 *
-	 * @return void
 	 */
-	public function test_draft_posts_permalink() {
+	public function test_draft_posts_permalink(): void {
 		$draft = $this->factory()->post->create_and_get(
 			[
 				'post_title'   => 'Draft Post',
@@ -163,7 +151,7 @@ class TestPreview extends WP_UnitTestCase {
 			]
 		);
 
-		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$this->assertEquals( 'http://localhost:8889/draft-post/', $this->preview->get_draft_permalink( $draft ) );
 
@@ -179,10 +167,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests draft posts links are not plain permalinks
-	 *
-	 * @return void
 	 */
-	public function test_draft_posts_permalink_with_date() {
+	public function test_draft_posts_permalink_with_date(): void {
 		$this->wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
 
 		$draft = $this->factory()->post->create_and_get(
@@ -204,9 +190,9 @@ class TestPreview extends WP_UnitTestCase {
 			]
 		);
 
-		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
-		$this->assertEquals( "http://localhost:8889/{$date->format('Y/m/d')}/draft-post/", $this->preview->get_draft_permalink( $draft ) );
+		$this->assertEquals( sprintf( 'http://localhost:8889/%s/draft-post/', $date->format( 'Y/m/d' ) ), $this->preview->get_draft_permalink( $draft ) );
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 
@@ -215,10 +201,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests draft pages links are not plain permalinks
-	 *
-	 * @return void
 	 */
-	public function test_draft_pages_permalink() {
+	public function test_draft_pages_permalink(): void {
 		$draft = $this->factory()->post->create_and_get(
 			[
 				'post_title'   => 'Draft Page',
@@ -236,7 +220,7 @@ class TestPreview extends WP_UnitTestCase {
 			]
 		);
 
-		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$this->assertEquals( 'http://localhost:8889/draft-page/', $this->preview->get_draft_permalink( $draft ) );
 
@@ -251,10 +235,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests draft cpts are not plain permalinks
-	 *
-	 * @return void
 	 */
-	public function test_draft_cpt_permalink() {
+	public function test_draft_cpt_permalink(): void {
 		register_post_type( 'book', [] );
 
 		$draft = $this->factory()->post->create_and_get(
@@ -274,7 +256,7 @@ class TestPreview extends WP_UnitTestCase {
 			]
 		);
 
-		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
 		$this->assertEquals( 'http://localhost:8889/book/draft-book/', $this->preview->get_draft_permalink( $draft ) );
 
@@ -289,10 +271,8 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Tests draft cpts with custom rewrite rules are not plain permalinks
-	 *
-	 * @return void
 	 */
-	public function test_draft_cpt_custom_permalink() {
+	public function test_draft_cpt_custom_permalink(): void {
 		register_post_type( 'news', [] );
 		register_taxonomy_for_object_type( 'category', 'news' );
 
@@ -328,7 +308,7 @@ class TestPreview extends WP_UnitTestCase {
 				if (
 				is_wp_error( $news_types ) ||
 				! is_array( $news_types ) ||
-				! count( $news_types ) > 0
+				( $news_types === [] ) > 0
 				) {
 					return $fallback;
 				}
@@ -347,9 +327,9 @@ class TestPreview extends WP_UnitTestCase {
 			]
 		);
 
-		$_SERVER['HTTP_AUTHORIZATION'] = "Bearer $token";
+		$_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $token;
 
-		$this->assertEquals( "http://localhost:8889/newsroom/$category->slug/draft-new", $this->preview->get_draft_permalink( $draft ) );
+		$this->assertEquals( sprintf( 'http://localhost:8889/newsroom/%s/draft-new', $category->slug ), $this->preview->get_draft_permalink( $draft ) );
 
 		unset( $_SERVER['HTTP_AUTHORIZATION'] );
 	}

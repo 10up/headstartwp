@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
  */
 class PolylangYoastPresenter extends Abstract_Indexable_Presenter {
 
+	public $presentation;
 	/**
 	 * Output the hreflang tags if they exist.
 	 */

@@ -95,7 +95,7 @@ abstract class BaseToken {
 		// Get and parse the token.
 		try {
 			if ( ! $token ) {
-				list( $token ) = sscanf( $header, 'Bearer %s' );
+				[$token] = sscanf( $header, 'Bearer %s' );
 			}
 
 			if ( empty( $token ) ) {

@@ -14,14 +14,14 @@ class Redirect {
 	/**
 	 * Set up any hooks
 	 */
-	public function register() {
+	public function register(): void {
 		add_action( 'template_redirect', [ $this, 'maybe_redirect_frontend' ] );
 	}
 
 	/**
 	 * Redirect the WordPress frontend if the React website URL has been filled in and the user has selected to redirect the frontend
 	 */
-	public function maybe_redirect_frontend() {
+	public function maybe_redirect_frontend(): void {
 		// if request method is HEAD then the headless site is making a HEAD request to figure out redirects, so don't mess with redirects or home_url
 		if (
 			isset( $_SERVER['REQUEST_METHOD'] ) &&
@@ -39,7 +39,7 @@ class Redirect {
 		$site_url = \get_option( 'site_react_url' );
 
 		$should_redirect = ! is_admin() && ! is_preview() && ! is_robots() && ! is_feed() && ! empty( $site_url );
-		$should_redirect = $should_redirect && true === Plugin::should_frontend_redirect();
+		$should_redirect = $should_redirect && Plugin::should_frontend_redirect();
 
 		/**
 		 * Filter's whether the frontend should redirect to the react url
@@ -52,12 +52,12 @@ class Redirect {
 			$url_request = $wp->request;
 
 			// do not redirect for (missing) assets
-			if ( str_starts_with( $url_request, '/wp-content' ) || str_ends_with( $url_request, '.css' ) || str_ends_with( $url_request, '.js' ) ) {
+			if ( str_starts_with( (string) $url_request, '/wp-content' ) || str_ends_with( (string) $url_request, '.css' ) || str_ends_with( (string) $url_request, '.js' ) ) {
 				return;
 			}
 
 			// if any sitemap requests reaches this point then it is a 404
-			if ( str_contains( $url_request, 'sitemap' ) && str_ends_with( $url_request, '.xml' ) ) {
+			if ( str_contains( (string) $url_request, 'sitemap' ) && str_ends_with( (string) $url_request, '.xml' ) ) {
 				// redirect to the homepage, otherwise users would see a HTTP 404 (not the 404 page on next.js) error on the browser.
 				// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ), 307 );

@@ -34,8 +34,6 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 
 	/**
 	 * Setup any pre-test data.
-	 *
-	 * @return void
 	 */
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -51,10 +49,8 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 
 	/**
 	 * Sets up the tests
-	 *
-	 * @return void
 	 */
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		/**
@@ -78,12 +74,10 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 	 *
 	 * @param integer $post_id The post id
 	 * @param string  $post_type The post type
-	 *
-	 * @return string
 	 */
 	protected function getYoastHeadForPost( int $post_id, string $post_type = 'post' ): string {
 		$post_type = get_post_type_object( $post_type );
-		$request   = new WP_REST_Request( 'GET', "/wp/v2/$post_type->rest_base/$post_id" );
+		$request   = new WP_REST_Request( 'GET', sprintf( '/wp/v2/%s/%d', $post_type->rest_base, $post_id ) );
 		$response  = rest_do_request( $request );
 		$data      = self::$rest_server->response_to_data( $response, false );
 
@@ -95,12 +89,10 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 	 *
 	 * @param string $post_type The post type we're fetching from
 	 * @param int    $term_id The term id
-	 *
-	 * @return string
 	 */
 	protected function getYoastHeadForTerm( string $post_type, int $term_id ): string {
 		$post_type = get_post_type_object( $post_type );
-		$request   = new WP_REST_Request( 'GET', "/wp/v2/$post_type->rest_base", [ 'categories' => $term_id ] );
+		$request   = new WP_REST_Request( 'GET', '/wp/v2/' . $post_type->rest_base, [ 'categories' => $term_id ] );
 		$response  = rest_do_request( $request );
 		$data      = self::$rest_server->response_to_data( $response, true );
 
@@ -109,10 +101,8 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 
 	/**
 	 * Test hreflang on single posts
-	 *
-	 * @return void
 	 */
-	public function test_hreflang_on_single_posts() {
+	public function test_hreflang_on_single_posts(): void {
 		$english_post = $this->factory()->post->create_and_get(
 			[
 				'post_title'   => '[EN] Post',
@@ -155,10 +145,8 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 
 	/**
 	 * Test hreflang on homepage
-	 *
-	 * @return void
 	 */
-	public function test_hreflang_on_homepage() {
+	public function test_hreflang_on_homepage(): void {
 		$english_page = $this->factory()->post->create(
 			[
 				'post_title'   => '[EN] home page',
@@ -199,10 +187,8 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 
 	/**
 	 * Tests hrelang on taxonomy archives
-	 *
-	 * @return void
 	 */
-	public function test_hreflang_on_taxonomy_archive() {
+	public function test_hreflang_on_taxonomy_archive(): void {
 		$cat_en = $this->factory()->term->create_and_get(
 			[
 				'taxonomy' => 'category',

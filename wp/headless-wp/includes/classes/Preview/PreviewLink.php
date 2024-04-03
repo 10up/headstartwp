@@ -26,10 +26,8 @@ class PreviewLink {
 
 	/**
 	 * Adds preview link field
-	 *
-	 * @return void
 	 */
-	public function add_preview_link_field() {
+	public function add_preview_link_field(): void {
 		$post_types = get_post_types( [ 'show_in_rest' => true ], 'names' );
 
 		foreach ( $post_types as $post_type ) {
@@ -37,7 +35,7 @@ class PreviewLink {
 				$post_type,
 				'_headless_wp_preview_link',
 				[
-					'get_callback' => function ( $post_object ) {
+					'get_callback' => function ( array $post_object ): string {
 						return $this->get_draft_permalink( get_post( $post_object['id'] ) );
 					},
 					'schema'       => [
@@ -52,8 +50,6 @@ class PreviewLink {
 	 * Get drafts permalinks
 	 *
 	 * @param \WP_Post $post The post in question.
-	 *
-	 * @return string
 	 */
 	public function get_draft_permalink( \WP_Post $post ): string {
 		try {
@@ -69,14 +65,13 @@ class PreviewLink {
 				}
 
 				[$permastruct, $post_name] = \get_sample_permalink( $post->ID );
-				$link                      = str_replace( '%postname%', $post_name, $permastruct );
-				$link                      = str_replace( '%pagename%', $post_name, $link );
+				$link                      = str_replace( '%postname%', $post_name, (string) $permastruct );
 
-				return $link;
+				return str_replace( '%pagename%', $post_name, $link );
 			}
 
 			return '';
-		} catch ( \Exception $e ) {
+		} catch ( \Exception ) {
 			return '';
 		}
 	}
