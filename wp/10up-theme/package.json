@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "modern-normalize": "^2.0.0",
-    "@headstartwp/blocks-primitives": "^0.0.1"
+    "@headstartwp/component-library": "*"
   },
   "10up-toolkit": {
     "useBlockAssets": true,

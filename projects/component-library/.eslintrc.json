@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:storybook/recommended",
+    "@10up/eslint-config/react"
+  ],
+  "parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+  "rules": {
+    "react/require-default-props": "off"
+  }
+}

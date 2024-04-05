@@ -8,7 +8,7 @@
   "icon": "feedback",
   "category": "formatting",
   "attributes":{
-    "title": {
+    "button-label": {
       "type" : "string"
     },
     "image": {

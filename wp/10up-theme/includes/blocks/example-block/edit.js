@@ -1,14 +1,12 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
-// eslint-disable-next-line import/no-unresolved
-import RichText from '@headstartwp/blocks-primitives/rich-text';
+
 // eslint-disable-next-line import/no-unresolved
 import Block from '@headstartwp/blocks-primitives/block';
 // eslint-disable-next-line import/no-unresolved
-import Image from '@headstartwp/blocks-primitives/image';
+import { Button } from '@headstartwp/component-library/button';
 
 /**
  * Edit component.
@@ -23,23 +21,13 @@ import Image from '@headstartwp/blocks-primitives/image';
  */
 const ExampleBlockEdit = (props) => {
 	const { attributes, setAttributes } = props;
-	const { title } = attributes;
 
 	const blockProps = useBlockProps();
 
 	return (
 		<div {...blockProps}>
 			<Block attributes={attributes} setAttributes={setAttributes}>
-				<RichText
-					className="wp-block-example-block__title"
-					tagName="h2"
-					placeholder={__('Custom Title')}
-					name="title"
-					value={title}
-				/>
-
-				<h2>Image 1</h2>
-				<Image name="image" />
+				<Button />
 			</Block>
 		</div>
 	);
