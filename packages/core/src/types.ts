@@ -1,3 +1,5 @@
+import type { AbstractFetchStrategy, EndpointParams, FetchOptions, FetchResponse } from './data';
+
 export type CustomPostType = {
 	slug: string;
 	endpoint: string;
@@ -70,6 +72,71 @@ export type PreviewConfig = {
 	usePostLinkForRedirect?: boolean;
 };
 
+export type FetchStrategyCacheHandler = {
+	set: <T extends any = any>(key: string, data: T, ttl: number) => Promise<void>;
+	get: <T extends any = any>(key: string) => Promise<T>;
+};
+
+export type FetchStrategyCacheHandlerOptions<E, P extends EndpointParams, R> = {
+	fetchStrategy: AbstractFetchStrategy<E, P, R>;
+	params: Partial<P>;
+	fetchStrategyOptions?: Partial<FetchOptions>;
+	path: string;
+	cacheHandler: FetchStrategyCacheHandler;
+};
+
+export type FetchStrategyCacheConfig = {
+	/**
+	 * TTL in seconds
+	 */
+	ttl?:
+		| number
+		| (<E, P extends EndpointParams, R>(
+				options: FetchStrategyCacheHandlerOptions<E, P, R>,
+		  ) => number);
+
+	/**
+	 * Whether the cache should be enable globably or for a given fetchStrategy
+	 */
+	enabled?:
+		| boolean
+		| (<E, P extends EndpointParams, R>(
+				options: FetchStrategyCacheHandlerOptions<E, P, R>,
+		  ) => boolean);
+
+	/**
+	 * If set, this function will be executed before calling the cache.set method
+	 * It's useful if you want to remove things from the data before caching.
+	 *
+	 * @param fetcbStrategy The fetch strategy instance
+	 *
+	 * @returns
+	 */
+	beforeSet?: <E, P extends EndpointParams, R>(
+		options: FetchStrategyCacheHandlerOptions<E, P, R>,
+		data: FetchResponse<R>,
+	) => Promise<FetchResponse<R>>;
+
+	/**
+	 * If set, this function will be executed after restoring data from cache (cache.get) and can be used
+	 * to reconstruct things that were removed in beforeSet.
+	 *
+	 * @param fetcbStrategy The fetch strategy instnace
+	 * @returns
+	 */
+	afterGet?: <E, P extends EndpointParams, R>(
+		options: FetchStrategyCacheHandlerOptions<E, P, R>,
+		data: FetchResponse<R>,
+	) => Promise<FetchResponse<R>>;
+
+	/**
+	 * A custom cache handler implementation
+	 *
+	 * If set will override the default in-memory cache handler
+	 */
+	cacheHandler?: FetchStrategyCacheHandler;
+};
+
 export type HeadlessConfig = {
 	host?: string;
 	locale?: string;
@@ -89,4 +156,5 @@ export type HeadlessConfig = {
 		redirects?: boolean;
 		devMode?: boolean;
 	};
+	cache?: FetchStrategyCacheConfig;
 };
