@@ -62,9 +62,6 @@
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
-  "dependencies": {
-    "express": "^4.18.1"
-  },
   "optionalDependencies": {
     "turbo-darwin-64": "^1.9.3",
     "turbo-darwin-arm64": "^1.9.3",
