@@ -87,7 +87,7 @@ export interface BlockRendererProps {
 	 *
 	 * ```jsx
 	 * <BlocksRenderer
-	 *		html="<div><p>hello world</p> div content</div>"
+	 *		html="<div some-attribute><p>hello world</p> div content</div>"
 	 *		ksesAllowList={{ { ...ksesAllowedList, div: [...ksesAllowedList.div, 'some-attribute'] }, }}
 	 * />,
 	 * ```
