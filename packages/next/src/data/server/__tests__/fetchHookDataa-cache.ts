@@ -2,6 +2,7 @@ import { enableFetchMocks } from 'jest-fetch-mock';
 import { HeadlessConfig, setHeadstartWPConfig } from '@headstartwp/core';
 
 import { usePosts } from '../../hooks/usePosts';
+import { usePost } from '../../hooks/usePost';
 
 import { fetchHookData } from '../fetchHookData';
 import cache from '../cache';
@@ -124,5 +125,46 @@ describe('fetchHookData caching', () => {
 		expect(config.cache.afterGet).toHaveBeenCalledTimes(1);
 		expect(config.cache.beforeSet).toHaveBeenCalledTimes(1);
 		expect(result.data.isCached).toBe(true);
+	});
+
+	it('caches with beforeSet without mutating the fetched data', async () => {
+		const config = {
+			useWordPressPlugin: true,
+			cache: {
+				enabled: true,
+
+				afterGet: async (options, data) => {
+					return data;
+				},
+
+				beforeSet: async (options, data) => {
+					return {
+						...data,
+						result: {
+							...data.result,
+							beforeSetField: true,
+						},
+					};
+				},
+
+				cacheHandler: {
+					set: async (key, data, ttl) => {
+						cache.set(key, data, ttl);
+					},
+					get: async (key) => {
+						return cache.get(key);
+					},
+				},
+			},
+		} satisfies HeadlessConfig;
+
+		setHeadstartWPConfig(config);
+
+		fetchMock.mockResponseOnce(JSON.stringify([{ id: 10 }]));
+
+		const result = await fetchHookData(usePost.fetcher(), {}, { params: { slug: 'test3' } });
+
+		expect(result.data.result.id).toBe(10);
+		expect(result.data.result.beforeSetField).toBeUndefined();
 	});
 });

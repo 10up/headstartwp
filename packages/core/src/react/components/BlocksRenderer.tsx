@@ -83,12 +83,12 @@ export interface BlockRendererProps {
 	html: string;
 
 	/**
-	 * The allow list for the parser
+	 * The allow list for the parser, must extend the core allowed list
 	 *
 	 * ```jsx
 	 * <BlocksRenderer
-	 *		html="<div><p>hello world</p> div content</div>"
-	 *		ksesAllowList={{ div: [] }}
+	 *		html="<div some-attribute><p>hello world</p> div content</div>"
+	 *		ksesAllowList={{ { ...ksesAllowedList, div: [...ksesAllowedList.div, 'some-attribute'] }, }}
 	 * />,
 	 * ```
 	 */
