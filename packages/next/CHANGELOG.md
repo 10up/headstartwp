@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.1
+
+### Patch Changes
+
+- 38563cfd: Fix cache.beforeSet
+- Updated dependencies [38563cfd]
+  - @headstartwp/core@1.4.1
+
 ## 1.4.0
 
 ### Minor Changes
