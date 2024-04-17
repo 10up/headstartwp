@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.4.1-next.0
+
+### Patch Changes
+
+- 38563cfd: Fix cache.beforeSet
+
 ## 1.4.0
 
 ### Minor Changes
