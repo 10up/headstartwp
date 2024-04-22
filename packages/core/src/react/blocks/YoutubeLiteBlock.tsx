@@ -28,6 +28,7 @@ declare global {
 export interface YoutubeLiteBlockProps extends IBlockAttributes {
 	src: string;
 	title: string;
+	params?: string;
 }
 
 export interface IYoutubeLiteBlock extends IBlock<YoutubeLiteBlockProps> {}
@@ -55,9 +56,13 @@ export function YoutubeLiteBlock({ domNode }: Omit<IYoutubeLiteBlock, 'component
 		}
 	}
 
-	const { src, title } = attribs;
+	const { src, title, params } = attribs;
 
 	const videoId = src.match(youtubeEmbedRegex)?.[7];
+
+	if (params) {
+		return <lite-youtube videoid={videoId} videotitle={title} params={params} />;
+	}
 
 	return <lite-youtube videoid={videoId} videotitle={title} />;
 }
