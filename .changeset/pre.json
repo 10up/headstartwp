@@ -1,0 +1,19 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@headstartwp/core": "1.4.1",
+    "@10up/react-hooks": "1.2.3",
+    "@headstartwp/next": "1.4.1",
+    "@10up/next-redis-cache-provider": "1.0.0",
+    "@10up/headless-docs": "1.0.0",
+    "@10up/wp-multisite-i18n-nextjs": "0.2.0",
+    "@10up/wp-multisite-nextjs": "0.2.0",
+    "@10up/wp-nextjs": "0.2.0",
+    "@10up/wp-nextjs-ts": "0.2.1",
+    "@headstartwp/headstartwp": "1.1.3"
+  },
+  "changesets": [
+    "fuzzy-bees-speak"
+  ]
+}
