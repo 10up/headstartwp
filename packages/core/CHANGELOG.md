@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.4.2
+
+### Patch Changes
+
+- 66031ec6: Pass params attr to YoutubeLiteBlock
+
 ## 1.4.1
 
 ### Patch Changes
