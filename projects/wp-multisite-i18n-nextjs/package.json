@@ -14,7 +14,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@headstartwp/core": "^1.4.1",
+    "@headstartwp/core": "^1.4.2",
     "@headstartwp/next": "^1.4.1",
     "@linaria/babel-preset": "^4.4.5",
     "@linaria/core": "^4.2.10",
