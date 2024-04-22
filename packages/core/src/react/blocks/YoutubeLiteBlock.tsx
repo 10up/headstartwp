@@ -56,11 +56,15 @@ export function YoutubeLiteBlock({ domNode }: Omit<IYoutubeLiteBlock, 'component
 		}
 	}
 
-	const { src, title, params = '' } = attribs;
+	const { src, title, params } = attribs;
 
 	const videoId = src.match(youtubeEmbedRegex)?.[7];
 
-	return <lite-youtube videoid={videoId} videotitle={title} params={params} />;
+	if (params) {
+		return <lite-youtube videoid={videoId} videotitle={title} params={params} />;
+	}
+
+	return <lite-youtube videoid={videoId} videotitle={title} />;
 }
 
 /**
