@@ -40,6 +40,7 @@
   ],
   "sideEffects": false,
   "scripts": {
+    "postbuild": "node ../../scripts/package.js",
     "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
