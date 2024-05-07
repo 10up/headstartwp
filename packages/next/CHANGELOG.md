@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.4.2-next.3
+
+### Patch Changes
+
+- 0682d9c8: Fix: add .js to import statement for next.js path imports
+
 ## 1.4.2-next.2
 
 ### Patch Changes
