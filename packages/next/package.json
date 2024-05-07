@@ -38,7 +38,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "postbuild": "node ../../scripts/package.js",
+    "postbuild": "tsc-esm-fix --target dist/mjs && node ../../scripts/package.js",
     "build": "npm run ts && npm run ts:cjs",
     "ts:cjs": "tsc -b tsconfig-cjs.json",
     "ts": "tsc -b",
@@ -67,7 +67,8 @@
     "ts-jest": "^29.0.1",
     "typescript": "^5.0.4",
     "whatwg-fetch": "^3.6.2",
-    "jest-fetch-mock": "^3.0.3"
+    "jest-fetch-mock": "^3.0.3",
+    "tsc-esm-fix": "^2.20.27"
   },
   "peerDependencies": {
     "next": ">= 12.0.0",
