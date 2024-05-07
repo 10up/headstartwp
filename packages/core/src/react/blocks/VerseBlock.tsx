@@ -1,8 +1,8 @@
-import { Element } from 'html-react-parser';
+import type { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { IBlock } from '../components';
+import type { IBlock } from '../components';
 import { defaultElement, useBlock, useBlockAttributes } from './hooks';
-import { IBlockAttributes } from './types';
+import type { IBlockAttributes } from './types';
 
 export interface VerseBlockProps extends IBlockAttributes {}
 

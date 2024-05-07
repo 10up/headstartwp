@@ -1,8 +1,8 @@
 import { isBlock } from '../../dom';
-import { IBlock } from '../components';
+import type { IBlock } from '../components';
 import { defaultElement, useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
-import { IBlockAttributes } from './types';
+import type { IBlockAttributes } from './types';
 
 export interface ColumnBlockProps extends IBlockAttributes {}
 

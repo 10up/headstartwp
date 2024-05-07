@@ -1,7 +1,7 @@
 import { isBlockByName } from '../../dom';
-import { IBlock } from '../components';
+import type { IBlock } from '../components';
 import { defaultElement, useBlock, useBlockAttributes } from './hooks';
-import { IBlockAttributes } from './types';
+import type { IBlockAttributes } from './types';
 
 export interface HeadingBlockProps extends IBlockAttributes {
 	level: number;

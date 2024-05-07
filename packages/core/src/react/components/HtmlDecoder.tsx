@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import parse from 'html-react-parser';
 import { stripTags } from '../../dom';
 

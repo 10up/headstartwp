@@ -201,6 +201,8 @@ export function withHeadstartWPConfig(
 				__setHeadstartWPConfig(__headlessConfig);
 			`;
 
+			config.optimization.splitChunks.chunks = 'all';
+
 			config.plugins.push(
 				new ModifySourcePlugin({
 					rules: [

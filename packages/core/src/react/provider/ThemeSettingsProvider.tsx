@@ -1,5 +1,6 @@
-import { FC, createContext } from 'react';
-import { ThemeJSON } from './types';
+import type { FC } from 'react';
+import { createContext } from 'react';
+import type { ThemeJSON } from './types';
 
 export const ThemeSettingsContext = createContext<ThemeJSON>({});
 

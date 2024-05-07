@@ -1,5 +1,5 @@
-import { Element } from 'html-react-parser';
-import { Align, IBlockAttributes } from '../types';
+import type { Element } from 'html-react-parser';
+import type { Align, IBlockAttributes } from '../types';
 import { getAlignStyle } from '../utils';
 import { useBlock } from './useBlock';
 

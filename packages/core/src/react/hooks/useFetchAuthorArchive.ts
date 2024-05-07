@@ -1,11 +1,7 @@
-import {
-	AuthorArchiveFetchStrategy,
-	FetchResponse,
-	PostEntity,
-	PostsArchiveParams,
-} from '../../data';
+import type { FetchResponse, PostEntity, PostsArchiveParams } from '../../data';
+import { AuthorArchiveFetchStrategy } from '../../data';
 import { getWPUrl } from '../../utils';
-import { FetchHookOptions } from './types';
+import type { FetchHookOptions } from './types';
 import { useFetchPosts } from './useFetchPosts';
 
 /**

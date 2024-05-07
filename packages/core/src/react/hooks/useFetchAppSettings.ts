@@ -1,7 +1,8 @@
-import { KeyedMutator } from 'swr';
-import { AppEntity, AppSettingsStrategy, EndpointParams, FetchResponse } from '../../data';
+import type { KeyedMutator } from 'swr';
+import type { AppEntity, EndpointParams, FetchResponse } from '../../data';
+import { AppSettingsStrategy } from '../../data';
 import { getWPUrl } from '../../utils';
-import { FetchHookOptions, HookResponse } from './types';
+import type { FetchHookOptions, HookResponse } from './types';
 import { useFetch } from './useFetch';
 import { makeErrorCatchProxy } from './util';
 

@@ -2,16 +2,14 @@ import type { KeyedMutator } from 'swr';
 import { useFetch } from './useFetch';
 
 import type { FetchHookOptions, HookResponse } from './types';
-import {
+import type {
 	FetchResponse,
-	getPostAuthor,
-	getPostTerms,
 	PageInfo,
 	PostEntity,
-	PostsArchiveFetchStrategy,
 	PostsArchiveParams,
 	QueriedObject,
 } from '../../data';
+import { getPostAuthor, getPostTerms, PostsArchiveFetchStrategy } from '../../data';
 import { getCustomTaxonomies } from '../../utils/config';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';

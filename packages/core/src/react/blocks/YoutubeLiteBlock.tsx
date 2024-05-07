@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { domToReact } from 'html-react-parser';
 import { isYoutubeEmbed, youtubeEmbedRegex } from '../../dom';
-import { IBlock } from '../components';
-import { IBlockAttributes } from './types';
+import type { IBlock } from '../components';
+import type { IBlockAttributes } from './types';
 
 interface LiteYoutube {
 	videoid: string;

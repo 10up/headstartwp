@@ -1,5 +1,6 @@
-import { AppEntity } from '../types';
-import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
+import type { AppEntity } from '../types';
+import type { EndpointParams, FetchOptions } from './AbstractFetchStrategy';
+import { AbstractFetchStrategy } from './AbstractFetchStrategy';
 import { endpoints } from '../utils';
 
 /**

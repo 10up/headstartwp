@@ -1,4 +1,10 @@
-import { AttachmentEntity, AuthorEntity, PostEntity, PostSearchEntity, TermEntity } from '../types';
+import type {
+	AttachmentEntity,
+	AuthorEntity,
+	PostEntity,
+	PostSearchEntity,
+	TermEntity,
+} from '../types';
 import { removeFields } from './dataFilter';
 
 /**

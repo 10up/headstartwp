@@ -1,5 +1,5 @@
-import { Element } from 'html-react-parser';
-import { Border, IBlockAttributes } from '../types';
+import type { Element } from 'html-react-parser';
+import type { Border, IBlockAttributes } from '../types';
 import { useBlock } from './useBlock';
 
 interface BlockBorderAttributes extends IBlockAttributes {

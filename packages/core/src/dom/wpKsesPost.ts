@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
-import sanitize, { getDefaultWhiteList, IFilterXSSOptions } from 'xss';
-import type { IWhiteList } from 'xss';
+import sanitize, { getDefaultWhiteList } from 'xss';
+import type { IWhiteList, IFilterXSSOptions } from 'xss';
 import { isHrefValueClean, linkingSVGElements, svgAllowList, svgHtmlAllowList } from './svg';
 
 interface IWpKsesPostOptions extends IFilterXSSOptions {

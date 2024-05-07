@@ -1,7 +1,7 @@
 import { isBlock } from '../../dom';
-import { IBlock } from '../components';
+import type { IBlock } from '../components';
 import { defaultElement, useBlock, useBlockAttributes } from './hooks';
-import { IBlockAttributes } from './types';
+import type { IBlockAttributes } from './types';
 
 export interface MediaTextBlockProps extends IBlockAttributes {
 	mediaPosition?: 'left' | 'right';

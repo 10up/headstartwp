@@ -3,7 +3,7 @@ import * as React from 'react';
 import { expectTypeOf } from 'expect-type';
 import { SWRConfig } from 'swr';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
-import { PageInfo, PostEntity, PostParams, QueriedObject } from '../../../data';
+import type { PageInfo, PostEntity, PostParams, QueriedObject } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 import * as useFetchModule from '../useFetch';

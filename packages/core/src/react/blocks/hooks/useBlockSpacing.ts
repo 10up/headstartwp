@@ -1,6 +1,6 @@
-import { Element } from 'html-react-parser';
+import type { Element } from 'html-react-parser';
 import { useThemeSetting, useThemeStyles } from '../../provider';
-import { IBlockAttributes, Spacing } from '../types';
+import type { IBlockAttributes, Spacing } from '../types';
 import { useBlock } from './useBlock';
 
 interface BlockSpacingAttributes extends IBlockAttributes {

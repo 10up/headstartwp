@@ -3,7 +3,7 @@ import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
 
 import { SWRConfig } from 'swr';
-import { PostSearchEntity, SearchParams, TermSearchEntity } from '../../../data';
+import type { PostSearchEntity, SearchParams, TermSearchEntity } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearchNative } from '../useFetchSearchNative';
 

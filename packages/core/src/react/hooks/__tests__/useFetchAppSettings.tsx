@@ -2,7 +2,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 import { SWRConfig } from 'swr';
 import * as React from 'react';
-import { AppEntity, EndpointParams, PageInfo, QueriedObject } from '../../../data';
+import type { AppEntity, EndpointParams, PageInfo, QueriedObject } from '../../../data';
 import { useFetchAppSettings } from '../useFetchAppSettings';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';

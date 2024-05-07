@@ -1,4 +1,4 @@
-import { PageInfo, QueriedObject } from '../types';
+import type { PageInfo, QueriedObject } from '../types';
 import { apiGet } from '../api';
 import { NotFoundError, addQueryArgs, EndpointError } from '../../utils';
 import { acceptFields, removeFields } from '../utils/dataFilter';

@@ -1,5 +1,6 @@
-import { FC } from 'react';
-import { SWRConfig, SWRConfiguration } from 'swr';
+import type { FC } from 'react';
+import type { SWRConfiguration } from 'swr';
+import { SWRConfig } from 'swr';
 
 export { unstable_serialize as serializeKey } from 'swr';
 

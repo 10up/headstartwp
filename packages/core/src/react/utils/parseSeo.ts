@@ -1,4 +1,5 @@
-import parse, { HTMLReactParserOptions } from 'html-react-parser';
+import type { HTMLReactParserOptions } from 'html-react-parser';
+import parse from 'html-react-parser';
 import { wpKsesPost } from '../../dom';
 
 export function parseSeo(seo: string, options: HTMLReactParserOptions = { trim: true }) {

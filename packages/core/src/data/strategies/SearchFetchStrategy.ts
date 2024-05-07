@@ -1,11 +1,12 @@
 import { searchMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import type { PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import { PostsArchiveFetchStrategy } from './PostsArchiveFetchStrategy';
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
 import { addQueryArgs, getWPUrl } from '../../utils';
-import { PostEntity, QueriedObject } from '../types';
-import { FetchOptions } from './AbstractFetchStrategy';
+import type { PostEntity, QueriedObject } from '../types';
+import type { FetchOptions } from './AbstractFetchStrategy';
 
 /**
  * The SearchFetchStrategy extends the {@link PostsArchiveFetchStrategy} and does not make use of the

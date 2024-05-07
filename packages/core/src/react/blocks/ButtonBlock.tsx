@@ -1,7 +1,7 @@
-import { Element, Text } from 'html-react-parser';
+import type { Element, Text } from 'html-react-parser';
 import { isBlock } from '../../dom';
-import { IBlock } from '../components';
-import { IBlockAttributes } from './types';
+import type { IBlock } from '../components';
+import type { IBlockAttributes } from './types';
 
 import { defaultElement, useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';

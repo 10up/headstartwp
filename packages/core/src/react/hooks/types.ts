@@ -1,5 +1,5 @@
-import { SWRConfiguration } from 'swr';
-import { FetchOptions } from '../../data';
+import type { SWRConfiguration } from 'swr';
+import type { FetchOptions } from '../../data';
 
 export interface HookResponse {
 	data?: {};

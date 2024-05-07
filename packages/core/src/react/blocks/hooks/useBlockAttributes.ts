@@ -1,4 +1,4 @@
-import { Element } from 'html-react-parser';
+import type { Element } from 'html-react-parser';
 import { FrameworkError } from '../../../utils';
 import { useBlockAlign } from './useBlockAlign';
 import { useBlockBorder } from './useBlockBorder';

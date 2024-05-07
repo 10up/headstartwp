@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
-import { PostEntity, PostsArchiveParams } from '../../../data';
+import type { PostEntity, PostsArchiveParams } from '../../../data';
 import { useFetchAuthorArchive } from '../useFetchAuthorArchive';
 
 describe('useFetchAuthorArchive types', () => {

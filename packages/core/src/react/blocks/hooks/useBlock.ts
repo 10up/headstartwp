@@ -1,7 +1,7 @@
 import { Element } from 'html-react-parser';
 import { FrameworkError } from '../../../utils';
 import { useSettings } from '../../provider';
-import { IBlockAttributes, IDataWPBlock } from '../types';
+import type { IBlockAttributes, IDataWPBlock } from '../types';
 
 const BLOCK_MISSING = '_HEADLESS_/_MISSING__BLOCK_';
 

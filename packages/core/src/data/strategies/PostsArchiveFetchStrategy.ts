@@ -11,16 +11,16 @@ import {
 } from '../../utils';
 import { endpoints, getPostAuthor, getPostTerms, removeFieldsFromPostRelatedData } from '../utils';
 import { apiGet } from '../api';
-import { AuthorEntity, PostEntity, QueriedObject, TermEntity } from '../types';
+import type { AuthorEntity, PostEntity, QueriedObject, TermEntity } from '../types';
 import { postsMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import {
+import type {
 	FetchOptions,
-	AbstractFetchStrategy,
 	EndpointParams,
 	FetchResponse,
 	FilterDataOptions,
 } from './AbstractFetchStrategy';
+import { AbstractFetchStrategy } from './AbstractFetchStrategy';
 import { removeFields } from '../utils/dataFilter';
 
 const authorsEndpoint = '/wp-json/wp/v2/users';

@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
-import { TaxonomyArchiveParams, TermEntity } from '../../../data';
+import type { TaxonomyArchiveParams, TermEntity } from '../../../data';
 import { useFetchTerms } from '../useFetchTerms';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';

@@ -1,10 +1,9 @@
 import useSWR, { useSWRConfig } from 'swr';
 import deepmerge from 'deepmerge';
-import type { EndpointParams, FetchResponse } from '../../data';
-import { AbstractFetchStrategy } from '../../data';
+import type { EndpointParams, FetchResponse, AbstractFetchStrategy } from '../../data';
 
 import { useSettings } from '../provider';
-import { FetchHookOptions } from './types';
+import type { FetchHookOptions } from './types';
 import { log, LOGTYPE, warn } from '../../utils';
 
 export interface useFetchOptions {

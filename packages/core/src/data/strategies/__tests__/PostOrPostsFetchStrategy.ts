@@ -1,7 +1,8 @@
 import merge from 'deepmerge';
 import { NotFoundError, setHeadstartWPConfig } from '../../../utils';
-import { PostOrPostsFetchStrategy, PostOrPostsParams } from '../PostOrPostsFetchStrategy';
-import { PostEntity } from '../../types';
+import type { PostOrPostsParams } from '../PostOrPostsFetchStrategy';
+import { PostOrPostsFetchStrategy } from '../PostOrPostsFetchStrategy';
+import type { PostEntity } from '../../types';
 
 describe('PostOrPostsFetchStrategy', () => {
 	let fetchStrategy: PostOrPostsFetchStrategy;

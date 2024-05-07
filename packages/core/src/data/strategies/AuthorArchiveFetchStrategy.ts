@@ -1,8 +1,9 @@
 import { getCustomTaxonomies } from '../../utils';
-import { PostEntity } from '../types';
+import type { PostEntity } from '../types';
 import { authorArchivesMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import type { PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import { PostsArchiveFetchStrategy } from './PostsArchiveFetchStrategy';
 
 /**
  * The AuthorArchiveFetchStrategy extends the {@link PostsArchiveFetchStrategy} and performs author archive requests

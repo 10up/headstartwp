@@ -1,7 +1,7 @@
 import { isExternalUrl } from './isExternalUrl';
 import { getWPUrl } from './config';
 import { removeSourceUrl } from './removeSourceUrl';
-import { HeadlessConfig } from '../types';
+import type { HeadlessConfig } from '../types';
 
 /**
  * Checks if the url is for an internal link

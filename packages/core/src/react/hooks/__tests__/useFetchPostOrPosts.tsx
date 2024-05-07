@@ -4,7 +4,7 @@ import { SWRConfig } from 'swr';
 import { SettingsProvider } from '../../provider';
 import { setHeadstartWPConfig } from '../../../utils';
 import { useFetchPostOrPosts } from '../useFetchPostOrPosts';
-import { PostEntity, PostOrPostsParams } from '../../../data';
+import type { PostEntity, PostOrPostsParams } from '../../../data';
 import { useFetchPost } from '../useFetchPost';
 import { useFetchPosts } from '../useFetchPosts';
 import * as useFetchModule from '../useFetch';

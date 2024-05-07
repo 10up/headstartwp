@@ -3,7 +3,7 @@ import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
 
 import { SWRConfig } from 'swr';
-import { PostEntity, PostsArchiveParams } from '../../../data';
+import type { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPosts } from '../useFetchPosts';
 import { setHeadlessConfig } from '../../../utils';

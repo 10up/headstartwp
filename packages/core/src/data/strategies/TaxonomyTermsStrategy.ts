@@ -1,13 +1,13 @@
 import { ConfigError, getCustomTaxonomy } from '../../utils';
 import { endpoints } from '../utils';
-import { TermEntity } from '../types';
-import {
-	AbstractFetchStrategy,
+import type { TermEntity } from '../types';
+import type {
 	EndpointParams,
 	FetchOptions,
 	FetchResponse,
 	FilterDataOptions,
 } from './AbstractFetchStrategy';
+import { AbstractFetchStrategy } from './AbstractFetchStrategy';
 import { removeFields } from '../utils/dataFilter';
 
 /**

@@ -1,14 +1,8 @@
-import { KeyedMutator } from 'swr';
+import type { KeyedMutator } from 'swr';
 import { useFetch } from './useFetch';
 import type { FetchHookOptions, HookResponse } from './types';
-import {
-	FetchResponse,
-	getPostAuthor,
-	getPostTerms,
-	PostEntity,
-	PostParams,
-	SinglePostFetchStrategy,
-} from '../../data';
+import type { FetchResponse, PostEntity, PostParams } from '../../data';
+import { getPostAuthor, getPostTerms, SinglePostFetchStrategy } from '../../data';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 

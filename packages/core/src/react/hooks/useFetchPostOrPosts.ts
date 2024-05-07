@@ -1,13 +1,13 @@
 import { useFetch } from './useFetch';
 import type { FetchHookOptions, HookResponse } from './types';
-import { FetchResponse, PostEntity } from '../../data';
+import type { FetchResponse, PostEntity } from '../../data';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
-import {
-	PostOrPostsFetchStrategy,
+import type {
 	PostOrPostsParams,
 	PostOrPostsFetchStrategyResult,
 } from '../../data/strategies/PostOrPostsFetchStrategy';
+import { PostOrPostsFetchStrategy } from '../../data/strategies/PostOrPostsFetchStrategy';
 import { useFetchPost } from './useFetchPost';
 import { useFetchPosts } from './useFetchPosts';
 

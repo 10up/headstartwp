@@ -1,4 +1,4 @@
-import { IWhiteList } from 'xss';
+import type { IWhiteList } from 'xss';
 
 /**
  * A list of safe SVG elements.

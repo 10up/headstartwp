@@ -1,5 +1,5 @@
-import { Element } from 'html-react-parser';
-import { ReactNode } from 'react';
+import type { Element } from 'html-react-parser';
+import type { ReactNode } from 'react';
 
 export interface Colors {
 	backgroundColorSlug: string;

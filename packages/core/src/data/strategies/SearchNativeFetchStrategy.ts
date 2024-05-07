@@ -1,10 +1,11 @@
 import { getSiteBySourceUrl, addQueryArgs, getWPUrl } from '../../utils';
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
-import { PostSearchEntity, TermSearchEntity, QueriedObject } from '../types';
+import type { PostSearchEntity, TermSearchEntity, QueriedObject } from '../types';
 import { searchMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
+import type { FetchOptions, EndpointParams } from './AbstractFetchStrategy';
+import { AbstractFetchStrategy } from './AbstractFetchStrategy';
 
 /**
  * The EndpointParams supported by the {@link SearchNativeFetchStrategy}

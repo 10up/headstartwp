@@ -6,16 +6,16 @@ import {
 	NotFoundError,
 	getSiteBySourceUrl,
 } from '../../utils';
-import { PostEntity } from '../types';
+import type { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
-import {
-	AbstractFetchStrategy,
+import type {
 	EndpointParams,
 	FetchOptions,
 	FetchResponse,
 	FilterDataOptions,
 } from './AbstractFetchStrategy';
+import { AbstractFetchStrategy } from './AbstractFetchStrategy';
 import { endpoints, removeFieldsFromPostRelatedData } from '../utils';
 import { removeFields } from '../utils/dataFilter';
 import { apiGet } from '../api';

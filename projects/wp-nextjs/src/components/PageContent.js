@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { usePost } from '@headstartwp/next';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { HtmlDecoder } from '@headstartwp/core/react';
 
-const Blocks = dynamic(() => import('./Blocks'));
+import { Blocks } from './Blocks';
 
 /**
  * This is an example of how an inner component can access the data without explicitly passing the data to it.

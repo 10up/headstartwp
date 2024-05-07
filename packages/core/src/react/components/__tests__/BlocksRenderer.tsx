@@ -1,9 +1,12 @@
 import { render } from '@testing-library/react';
-import { DOMNode, domToReact, Element } from 'html-react-parser';
-import React, { ReactElement } from 'react';
+import type { DOMNode } from 'html-react-parser';
+import { domToReact, Element } from 'html-react-parser';
+import type { ReactElement } from 'react';
+import React from 'react';
 import { isAnchorTag } from '../../../dom';
 import { SettingsProvider } from '../../provider';
-import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
+import type { BlockProps } from '../BlocksRenderer';
+import { BlocksRenderer } from '../BlocksRenderer';
 
 describe('BlocksRenderer', () => {
 	it('renders html properly', () => {

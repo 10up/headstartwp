@@ -1,14 +1,9 @@
-import { KeyedMutator } from 'swr';
+import type { KeyedMutator } from 'swr';
 import { useFetch } from './useFetch';
 
 import type { FetchHookOptions, HookResponse } from './types';
-import {
-	FetchResponse,
-	PageInfo,
-	TaxonomyArchiveParams,
-	TaxonomyTermsStrategy,
-	TermEntity,
-} from '../../data';
+import type { FetchResponse, PageInfo, TaxonomyArchiveParams, TermEntity } from '../../data';
+import { TaxonomyTermsStrategy } from '../../data';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 

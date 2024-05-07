@@ -1,13 +1,15 @@
-import { PostEntity } from '../types';
-import {
-	AbstractFetchStrategy,
+import type { PostEntity } from '../types';
+import type {
 	EndpointParams,
 	FetchOptions,
 	FetchResponse,
 	NormalizedDataForCache,
 } from './AbstractFetchStrategy';
-import { PostParams, SinglePostFetchStrategy } from './SinglePostFetchStrategy';
-import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import { AbstractFetchStrategy } from './AbstractFetchStrategy';
+import type { PostParams } from './SinglePostFetchStrategy';
+import { SinglePostFetchStrategy } from './SinglePostFetchStrategy';
+import type { PostsArchiveParams } from './PostsArchiveFetchStrategy';
+import { PostsArchiveFetchStrategy } from './PostsArchiveFetchStrategy';
 import { FrameworkError, NotFoundError } from '../../utils';
 
 /**

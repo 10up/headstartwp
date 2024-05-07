@@ -1,6 +1,7 @@
 import { setHeadlessConfig } from '../../../utils';
 import { apiGet } from '../../api';
-import { PostParams, SinglePostFetchStrategy } from '../SinglePostFetchStrategy';
+import type { PostParams } from '../SinglePostFetchStrategy';
+import { SinglePostFetchStrategy } from '../SinglePostFetchStrategy';
 
 jest.mock('../../api');
 

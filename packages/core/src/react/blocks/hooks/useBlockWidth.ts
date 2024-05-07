@@ -1,5 +1,5 @@
-import { Element } from 'html-react-parser';
-import { IBlockAttributes } from '../types';
+import type { Element } from 'html-react-parser';
+import type { IBlockAttributes } from '../types';
 import { getWidthStyles } from '../utils';
 import { useBlock } from './useBlock';
 

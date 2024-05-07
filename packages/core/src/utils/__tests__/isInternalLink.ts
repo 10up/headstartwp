@@ -1,5 +1,5 @@
 import { isInternalLink } from '..';
-import { HeadlessConfig } from '../../types';
+import type { HeadlessConfig } from '../../types';
 
 jest.mock('../config', () => {
 	return {

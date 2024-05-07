@@ -1,6 +1,7 @@
-import { FC, createContext, useMemo } from 'react';
+import type { FC } from 'react';
+import { createContext, useMemo } from 'react';
 import { getHeadlessConfig } from '../../utils/config';
-import { SettingsContextProps } from './types';
+import type { SettingsContextProps } from './types';
 
 export const SettingsContext = createContext<Partial<SettingsContextProps>>({});
 

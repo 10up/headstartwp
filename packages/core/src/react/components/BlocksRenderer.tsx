@@ -1,10 +1,12 @@
-import parse, { HTMLReactParserOptions, domToReact, Element } from 'html-react-parser';
-import React, { isValidElement, ReactElement, ReactNode } from 'react';
+import type { HTMLReactParserOptions, Element } from 'html-react-parser';
+import parse, { domToReact } from 'html-react-parser';
+import type { ReactElement, ReactNode } from 'react';
+import React, { isValidElement } from 'react';
 import type { IWhiteList } from 'xss';
 import { isBlock, wpKsesPost } from '../../dom';
-import { HeadlessConfig } from '../../types';
+import type { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
-import { IBlockAttributes } from '../blocks/types';
+import type { IBlockAttributes } from '../blocks/types';
 import { useSettings } from '../provider';
 import { getInlineStyles } from '../blocks/utils';
 

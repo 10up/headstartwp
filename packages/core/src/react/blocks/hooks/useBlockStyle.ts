@@ -1,4 +1,4 @@
-import { Element } from 'html-react-parser';
+import type { Element } from 'html-react-parser';
 import { getBlockStyle } from '../utils';
 
 /**

@@ -1,5 +1,6 @@
-import { pathToRegexp, Key } from 'path-to-regexp';
-import { Matcher } from './matchers';
+import type { Key } from 'path-to-regexp';
+import { pathToRegexp } from 'path-to-regexp';
+import type { Matcher } from './matchers';
 
 /**
  * Extract the parameters of the `path-to-regexp` pattern from the path.

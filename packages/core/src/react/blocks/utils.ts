@@ -1,6 +1,6 @@
-import { Element } from 'html-react-parser';
+import type { Element } from 'html-react-parser';
 import camelcase from '../../utils/camelcase';
-import { Colors } from './types';
+import type { Colors } from './types';
 
 export function getAlignStyle(domNode: Element) {
 	if (!domNode.attribs.class) {

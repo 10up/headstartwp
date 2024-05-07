@@ -1,6 +1,6 @@
-import { Element } from 'html-react-parser';
+import type { Element } from 'html-react-parser';
 import { useThemeSetting } from '../../provider';
-import { IBlockAttributes, Typography } from '../types';
+import type { IBlockAttributes, Typography } from '../types';
 import { useBlock } from './useBlock';
 import { safeArraySpread } from '../utils';
 

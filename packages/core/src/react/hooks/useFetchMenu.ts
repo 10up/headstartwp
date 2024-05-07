@@ -1,5 +1,5 @@
-import { AppEntity, FetchResponse, MenuItemEntity } from '../../data';
-import { FetchHookOptions, HookResponse } from './types';
+import type { AppEntity, FetchResponse, MenuItemEntity } from '../../data';
+import type { FetchHookOptions, HookResponse } from './types';
 import { useFetchAppSettings } from './useFetchAppSettings';
 import { isProxy, makeErrorCatchProxy } from './util';
 
