@@ -7,7 +7,7 @@ import {
 } from '@headstartwp/core/react';
 import type { SettingsContextProps } from '@headstartwp/core/react';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router.js';
 import { getSiteByHost } from '@headstartwp/core';
 import { Yoast } from './Yoast';
 import { seoKey } from '../data/hooks/useSeo';
