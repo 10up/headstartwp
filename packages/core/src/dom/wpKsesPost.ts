@@ -3,7 +3,7 @@ import * as xss from 'xss';
 import type { IWhiteList, IFilterXSSOptions } from 'xss';
 import { isHrefValueClean, linkingSVGElements, svgAllowList, svgHtmlAllowList } from './svg';
 
-const { getDefaultWhiteList, default: sanitize } = xss;
+const { default: sanitize } = xss;
 
 interface IWpKsesPostOptions extends IFilterXSSOptions {
 	svg?: boolean;
@@ -250,7 +250,8 @@ const commonAttributes = [
 	'data-wp-block-name',
 ];
 
-const defaultAllowList = getDefaultWhiteList();
+// @ts-expect-error
+const defaultAllowList = sanitize.getDefaultWhiteList();
 
 for (const tag of Object.keys(defaultAllowList)) {
 	if (typeof defaultAllowList[tag] !== 'undefined' && Array.isArray(defaultAllowList[tag])) {
