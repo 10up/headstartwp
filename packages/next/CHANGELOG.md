@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.4.2-next.4
+
+### Patch Changes
+
+- b4708b4a: Fix: deepmerge cjs package import
+
 ## 1.4.2-next.3
 
 ### Patch Changes
