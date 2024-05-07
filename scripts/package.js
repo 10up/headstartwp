@@ -16,11 +16,11 @@ const writeFileAsync = (path, data) =>
 	try {
 		await writeFileAsync(
 			path.resolve(process.cwd(), './dist/mjs/package.json'),
-			'{\n    "type": "module"\n}\n',
+			'{\n    "type": "module",\n    "sideEffects": false\n}\n',
 		);
 		await writeFileAsync(
 			path.resolve(process.cwd(), './dist/cjs/package.json'),
-			'{\n    "type": "commonjs"\n}\n',
+			'{\n    "type": "commonjs",\n    "sideEffects": false\n}\n',
 		);
 
 		process.exit();
