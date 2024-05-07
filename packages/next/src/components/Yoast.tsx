@@ -10,7 +10,7 @@ import {
 	isElement,
 } from '@headstartwp/core';
 import { useSettings } from '@headstartwp/core/react';
-import Head from 'next/head';
+import Head from 'next/head.js';
 
 export function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
 	if (!url.startsWith(sourceUrl)) {

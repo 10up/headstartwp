@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link.js';
 import { removeSourceUrl } from '@headstartwp/core/utils';
 import { IBlock, IBlockAttributes, useSettings } from '@headstartwp/core/react';
 import { getAttributes, isAnchorTag } from '@headstartwp/core';
