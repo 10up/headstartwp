@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.2-next.2
+
+### Patch Changes
+
+- b3cd5fe1: Fix: more fixes for esm builds
+- Updated dependencies [b3cd5fe1]
+  - @headstartwp/core@1.4.3-next.2
+
 ## 1.4.2-next.1
 
 ### Patch Changes
