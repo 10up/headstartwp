@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.2-next.1
+
+### Patch Changes
+
+- 399af783: Make ESM builds ESM compatible
+- Updated dependencies [399af783]
+  - @headstartwp/core@1.4.3-next.1
+
 ## 1.4.2-next.0
 
 ### Patch Changes
