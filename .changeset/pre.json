@@ -14,6 +14,7 @@
     "@headstartwp/headstartwp": "1.1.3"
   },
   "changesets": [
+    "chilled-masks-shout",
     "quick-beers-turn",
     "sweet-parrots-run"
   ]

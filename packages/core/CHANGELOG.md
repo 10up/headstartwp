@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.4.3-next.2
+
+### Patch Changes
+
+- b3cd5fe1: Fix: more fixes for esm builds
+
 ## 1.4.3-next.1
 
 ### Patch Changes
