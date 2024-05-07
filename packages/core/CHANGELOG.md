@@ -1,5 +1,13 @@
 # @headstartwp/core
 
+## 1.4.3
+
+### Patch Changes
+
+- b3cd5fe1: Fix: more fixes for esm builds
+- e7c84d58: Fix builds with vite
+- 399af783: Make ESM builds ESM compatible
+
 ## 1.4.3-next.2
 
 ### Patch Changes
