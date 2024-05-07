@@ -11,11 +11,13 @@ import {
 } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { serializeKey } from '@headstartwp/core/react';
-import { all as merge } from 'deepmerge';
+import deepmerge from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
 import defaultCacheHandler from './cache';
+
+const { all: merge } = deepmerge;
 
 /**
  * The supported options for {@link fetchHookData}
