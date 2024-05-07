@@ -1,6 +1,6 @@
 import { isTwitterEmbed } from '@headstartwp/core';
 import { IBlock, IBlockAttributes } from '@headstartwp/core/react';
-import Script from 'next/script';
+import Script from 'next/script.js';
 
 /**
  * Renders a twitter embed
