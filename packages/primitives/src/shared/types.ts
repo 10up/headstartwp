@@ -110,3 +110,9 @@ export interface RichTextPrimitive<T extends keyof HTMLElementTagNameMap>
 		attributes: Attributes,
 	) => void;
 }
+
+export interface GutenbergBlock<T extends Record<string, unknown>> {
+	attributes: {
+		[k in keyof T]: T[k];
+	};
+}

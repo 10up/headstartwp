@@ -7,6 +7,10 @@
   "author": "10up <info@10up.com> (https://10up.com/)",
   "type": "module",
   "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
     "./rich-text": {
       "block-editor": "./dist/src/block-editor/rich-text.js",
       "types": "./dist/src/primitives/rich-text.d.ts",
@@ -47,6 +51,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "@headstartwp/core": "^1.4.2",
     "@types/wordpress__block-library": "^2.6.3",
     "@types/wordpress__block-editor": "^11.5.12",
     "@types/wordpress__components": "^23.0.11"
