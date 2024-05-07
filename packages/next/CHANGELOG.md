@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.4.2-next.0
+
+### Patch Changes
+
+- e7c84d58: Fix builds with vite
+- Updated dependencies [e7c84d58]
+  - @headstartwp/core@1.4.3-next.0
+
 ## 1.4.1
 
 ### Patch Changes

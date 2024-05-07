@@ -1,5 +1,17 @@
 # @headstartwp/core
 
+## 1.4.3-next.0
+
+### Patch Changes
+
+- e7c84d58: Fix builds with vite
+
+## 1.4.2
+
+### Patch Changes
+
+- 66031ec6: Pass params attr to YoutubeLiteBlock
+
 ## 1.4.1
 
 ### Patch Changes
