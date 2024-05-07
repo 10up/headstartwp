@@ -1,5 +1,35 @@
 # @headstartwp/next
 
+## 1.4.2-next.3
+
+### Patch Changes
+
+- 0682d9c8: Fix: add .js to import statement for next.js path imports
+
+## 1.4.2-next.2
+
+### Patch Changes
+
+- b3cd5fe1: Fix: more fixes for esm builds
+- Updated dependencies [b3cd5fe1]
+  - @headstartwp/core@1.4.3-next.2
+
+## 1.4.2-next.1
+
+### Patch Changes
+
+- 399af783: Make ESM builds ESM compatible
+- Updated dependencies [399af783]
+  - @headstartwp/core@1.4.3-next.1
+
+## 1.4.2-next.0
+
+### Patch Changes
+
+- e7c84d58: Fix builds with vite
+- Updated dependencies [e7c84d58]
+  - @headstartwp/core@1.4.3-next.0
+
 ## 1.4.1
 
 ### Patch Changes

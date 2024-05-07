@@ -1,4 +1,5 @@
-import parse, { HTMLReactParserOptions, domToReact, Element } from 'html-react-parser';
+import type { HTMLReactParserOptions, Element } from 'html-react-parser';
+import * as HtmlReactParser from 'html-react-parser';
 import React, { isValidElement, ReactElement, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
 import { isBlock, wpKsesPost } from '../../dom';
@@ -7,6 +8,8 @@ import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
 import { useSettings } from '../provider';
 import { getInlineStyles } from '../blocks/utils';
+
+const { default: parse, domToReact } = HtmlReactParser;
 
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
