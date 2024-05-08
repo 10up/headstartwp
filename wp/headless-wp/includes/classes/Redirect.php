@@ -56,6 +56,14 @@ class Redirect {
 				return;
 			}
 
+			// if any sitemap requests reaches this point then it is a 404
+			if ( str_contains( (string) $url_request, 'sitemap' ) && str_ends_with( (string) $url_request, '.xml' ) ) {
+				// redirect to the homepage, otherwise users would see a HTTP 404 (not the 404 page on next.js) error on the browser.
+				// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+				\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ), 307 );
+				exit;
+			}
+
 			// Redirect the frontend WordPress request to the React website URL.
 			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 			\wp_redirect( trailingslashit( esc_url_raw( $site_url ) ) . $url_request, 301 );
