@@ -1,5 +1,125 @@
 # @headstartwp/next
 
+## 1.4.2
+
+### Patch Changes
+
+- 0682d9c8: Fix: add .js to import statement for next.js path imports
+- b3cd5fe1: Fix: more fixes for esm builds
+- b4708b4a: Fix: deepmerge cjs package import
+- e7c84d58: Fix builds with vite
+- 399af783: Make ESM builds ESM compatible
+- Updated dependencies [b3cd5fe1]
+- Updated dependencies [e7c84d58]
+- Updated dependencies [399af783]
+  - @headstartwp/core@1.4.3
+
+## 1.4.2-next.4
+
+### Patch Changes
+
+- b4708b4a: Fix: deepmerge cjs package import
+
+## 1.4.2-next.3
+
+### Patch Changes
+
+- 0682d9c8: Fix: add .js to import statement for next.js path imports
+
+## 1.4.2-next.2
+
+### Patch Changes
+
+- b3cd5fe1: Fix: more fixes for esm builds
+- Updated dependencies [b3cd5fe1]
+  - @headstartwp/core@1.4.3-next.2
+
+## 1.4.2-next.1
+
+### Patch Changes
+
+- 399af783: Make ESM builds ESM compatible
+- Updated dependencies [399af783]
+  - @headstartwp/core@1.4.3-next.1
+
+## 1.4.2-next.0
+
+### Patch Changes
+
+- e7c84d58: Fix builds with vite
+- Updated dependencies [e7c84d58]
+  - @headstartwp/core@1.4.3-next.0
+
+## 1.4.1
+
+### Patch Changes
+
+- 38563cfd: Fix cache.beforeSet
+- Updated dependencies [38563cfd]
+  - @headstartwp/core@1.4.1
+
+## 1.4.0
+
+### Minor Changes
+
+- cce64d2e: Introducing fetch strategy caching.
+
+### Patch Changes
+
+- 8d3a0f83: Normalize TTL to secs
+- 669441f3: Fix: cache handler types, add isCached property
+- 498fb394: caching: pass `fetchStrategyOptions` and `path` to cache functions.
+- bdcc37f0: Make cache.enabled optional
+- Updated dependencies [8d3a0f83]
+- Updated dependencies [669441f3]
+- Updated dependencies [cce64d2e]
+- Updated dependencies [498fb394]
+- Updated dependencies [bdcc37f0]
+  - @headstartwp/core@1.4.0
+
+## 1.4.0-next.4
+
+### Patch Changes
+
+- 8d3a0f83: Normalize TTL to secs
+- Updated dependencies [8d3a0f83]
+  - @headstartwp/core@1.4.0-next.4
+
+## 1.4.0-next.3
+
+### Patch Changes
+
+- bdcc37f0: Make cache.enabled optional
+- Updated dependencies [bdcc37f0]
+  - @headstartwp/core@1.4.0-next.3
+
+## 1.4.0-next.2
+
+### Patch Changes
+
+- 669441f3: Fix: cache handler types, add isCached property
+- Updated dependencies [669441f3]
+  - @headstartwp/core@1.4.0-next.2
+
+## 1.4.0-next.1
+
+### Patch Changes
+
+- 498fb394: caching: pass `fetchStrategyOptions` and `path` to cache functions.
+- Updated dependencies [498fb394]
+  - @headstartwp/core@1.4.0-next.1
+
+## 1.4.0-next.0
+
+### Minor Changes
+
+- cce64d2e: Introducing fetch strategy caching.
+
+### Patch Changes
+
+- Updated dependencies [cce64d2e]
+  - @headstartwp/core@1.4.0-next.0
+
 ## 1.3.4
 
 ### Patch Changes
