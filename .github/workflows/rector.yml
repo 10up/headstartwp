@@ -16,4 +16,4 @@ jobs:
     - name: composer install
       run: cd ./wp/headless-wp && composer install --ignore-platform-reqs
     - name: Enforce PHP standards with Rector
-      run: cd ./wp/headless-wp && composer run refactor
+      run: cd ./wp/headless-wp && composer run rector
