@@ -20,7 +20,7 @@ class PreviewToken extends BaseToken {
 	 *
 	 * @var array
 	 */
-	private static ?array $payload;
+	private static ?array $payload = null;
 
 	/**
 	 * Add actions and filters.

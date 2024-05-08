@@ -34,11 +34,9 @@ class TestPreview extends WP_UnitTestCase {
 
 	/**
 	 * Sets up the Test class
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
+	*/
+	protected function setUp(): void {
+		parent::setUp();
 		$this->preview = new PreviewLink();
 		$this->preview->register();
 
