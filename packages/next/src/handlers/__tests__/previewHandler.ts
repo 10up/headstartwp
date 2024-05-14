@@ -1,11 +1,12 @@
 import { createMocks } from 'node-mocks-http';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '@headstartwp/core/test';
 import { removeSourceUrl, setHeadstartWPConfig } from '@headstartwp/core';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { previewHandler } from '../previewHandler';
 
 describe('previewHandler', () => {
 	it('does not accepts POST requests', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			query: {},
 		});
@@ -17,7 +18,7 @@ describe('previewHandler', () => {
 	});
 
 	it('rejects requests missing params', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: 1 },
 		});
@@ -29,7 +30,7 @@ describe('previewHandler', () => {
 	});
 
 	it('fails if a valid auth token is not provided', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: 'test', post_type: 'post' },
 		});
@@ -41,7 +42,7 @@ describe('previewHandler', () => {
 	});
 
 	it('works if a valid auth token is provided', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'post' },
 		});
@@ -57,7 +58,7 @@ describe('previewHandler', () => {
 	});
 
 	it('sets preview cookie path', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'post' },
 		});
@@ -94,7 +95,7 @@ describe('previewHandler', () => {
 			],
 		});
 
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: {
 				post_id: DRAFT_POST_ID,
@@ -123,7 +124,10 @@ describe('previewHandler', () => {
 			'/book/modi-qui-dignissimos-sed-assumenda-sint-iusto-preview=true',
 		);
 
-		const { req: reqWithLocale, res: resWithLocale } = createMocks({
+		const { req: reqWithLocale, res: resWithLocale } = createMocks<
+			NextApiRequest,
+			NextApiResponse
+		>({
 			method: 'GET',
 			query: {
 				post_id: DRAFT_POST_ID,
@@ -155,7 +159,7 @@ describe('previewHandler', () => {
 	});
 
 	it('sets preview cookie path with locale', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: {
 				post_id: DRAFT_POST_ID,
@@ -187,7 +191,7 @@ describe('previewHandler', () => {
 	});
 
 	it('set preview cookie path to all paths if onRedirect is passed without getRedirectPath', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'post' },
 		});
@@ -213,7 +217,7 @@ describe('previewHandler', () => {
 	});
 
 	it('set preview cookie path redirectPath if getRedirectPath is passed', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'post' },
 		});
@@ -239,7 +243,7 @@ describe('previewHandler', () => {
 	});
 
 	it('correctly takes into account `options`', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'post' },
 		});
@@ -271,7 +275,7 @@ describe('previewHandler', () => {
 	});
 
 	it('fails if post type is not defined', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'recipe' },
 		});
@@ -290,7 +294,7 @@ describe('previewHandler', () => {
 			preview: { usePostLinkForRedirect: true },
 		});
 
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			query: { post_id: DRAFT_POST_ID, token: VALID_AUTH_TOKEN, post_type: 'post' },
 		});
