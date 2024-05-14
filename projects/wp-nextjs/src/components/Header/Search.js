@@ -41,7 +41,7 @@ export const Search = () => {
 				onKeyDown={onKeyDown}
 			/>
 
-			<button type="button" className={buttonStyles} onClick={goToSearch}>
+			<button type="button" aria-label="search" className={buttonStyles} onClick={goToSearch}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
