@@ -59,7 +59,7 @@
     "jest": "^29.3.1",
     "msw": "^0.35.0",
     "ts-jest": "^29.0.3",
-    "typescript": "^5.0.4",
+    "typescript": "^5.4.2",
     "whatwg-fetch": "^3.6.2",
     "tsc-esm-fix": "^2.20.27"
   },
