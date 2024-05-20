@@ -6,6 +6,7 @@ import {
 	handleError,
 	usePosts,
 	useAppSettings,
+	HeadlessGetStaticProps,
 } from '@headstartwp/next';
 import { PageContent } from '../components/PageContent';
 import { singleParams } from '../params';
@@ -90,7 +91,7 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps(context) {
+export const getStaticProps = (async (context) => {
 	try {
 		// fetch batch of promises and throws errors selectively
 		// passing `throw:false` will prevent errors from being thrown for that promise
@@ -105,4 +106,4 @@ export async function getStaticProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+}) satisfies HeadlessGetStaticProps;

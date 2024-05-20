@@ -1,21 +1,22 @@
-/**
- * @typedef {import('@headstartwp/core').Entity} Entity
- * @typedef {import('@headstartwp/core').FetchResponse} FetchResponse
- *
- * @typedef {Promise<FetchResponse<Entity>>[]} PromiseFunc
- * @typedef {{ throw?: boolean; func: PromiseFunc }} PromiseObject
- * @typedef {PromiseObject[]} FetchBashPromises
- */
+import type { FetchResponse } from '@headstartwp/core';
+
+const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfilledResult<T> =>
+	input.status === 'fulfilled';
 
 /**
  * The fetchBatch function receives an array of PromiseObject and
  * optionally skips throwing exceptions for the ones passed with `throw: false`.
  *
- * @param {FetchBashPromises} promises Array of PromiseObject to be resolved.
+ * @param promises Array of PromiseObject to be resolved.
  *
- * @returns {PromiseFunc} The resolved promises.
+ * @returns {Promise} The resolved promises.
  */
-export async function resolveBatch(promises) {
+export async function resolveBatch(
+	promises: {
+		func: Promise<{ key: string; data: FetchResponse<any>; isMainQuery: boolean }>;
+		throw?: boolean;
+	}[],
+) {
 	const promisesArray = Array.isArray(promises) ? promises : [promises];
 	const promisesArrayFunc = promisesArray.map(({ func }) => func);
 	const shouldThrowPromisesArray = promisesArray.map(({ throw: shouldThrow }) =>
@@ -32,6 +33,6 @@ export async function resolveBatch(promises) {
 		}
 	});
 
-	const fulfilledPromises = settledPromises.filter(({ status }) => status === 'fulfilled');
+	const fulfilledPromises = settledPromises.filter(isFulfilled);
 	return fulfilledPromises.map(({ value }) => value);
 }

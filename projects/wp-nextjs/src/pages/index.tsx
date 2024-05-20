@@ -6,14 +6,20 @@ import {
 	handleError,
 	usePosts,
 	useTerms,
+	HeadlessGetStaticProps,
 } from '@headstartwp/next';
 import PropTypes from 'prop-types';
+import type { PostEntity } from '@headstartwp/core';
+import { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 import { Link } from '../components/Link';
 import { PageContent } from '../components/PageContent';
 import { indexParams } from '../params';
 import { resolveBatch } from '../utils/promises';
 
-const RecentPost = ({ post }) => {
+interface RecentPostProps {
+	post: PostEntity;
+}
+const RecentPost = ({ post }: RecentPostProps) => {
 	return (
 		<div>
 			<h3>{post.title.rendered}</h3>
@@ -21,11 +27,7 @@ const RecentPost = ({ post }) => {
 	);
 };
 
-RecentPost.propTypes = {
-	post: PropTypes.shape({ title: PropTypes.shape({ rendered: PropTypes.string }) }).isRequired,
-};
-
-const Homepage = ({ homePageSlug }) => {
+const Homepage = ({ homePageSlug }: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const params = { ...indexParams, slug: homePageSlug };
 
 	// the query below is a client-side-only query
@@ -76,7 +78,7 @@ Homepage.propTypes = {
 
 export default Homepage;
 
-export async function getStaticProps(context) {
+export const getStaticProps = (async (context) => {
 	let appSettings;
 	let slug;
 	try {
@@ -112,8 +114,10 @@ export async function getStaticProps(context) {
 		return addHookData([...hookData, appSettings], {
 			props: { homePageSlug: slug },
 			revalidate: 5 * 60,
-		});
+		}) as GetStaticPropsResult<ReturnType<typeof addHookData> & { homePageSlug: string }>;
 	} catch (e) {
-		return handleError(e, context);
+		return handleError(e as Error, context) as unknown as GetStaticPropsResult<
+			Record<string, never>
+		>;
 	}
-}
+}) satisfies HeadlessGetStaticProps;

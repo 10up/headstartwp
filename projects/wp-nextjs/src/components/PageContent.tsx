@@ -21,11 +21,7 @@ interface PageContentProps {
 export const PageContent = ({ params }: PageContentProps) => {
 	// This won't require a refetch as long as the data has already been fetched at the page level.
 	// additionally, if the request has not been SSR'd, it will be fetched on the client only once, regardless of how many call to usePost (with the same params) you make
-	const { data, loading } = usePost(params);
-
-	if (loading) {
-		return 'loading';
-	}
+	const { data } = usePost(params);
 
 	return (
 		<>
