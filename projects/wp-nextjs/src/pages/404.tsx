@@ -1,4 +1,10 @@
-import { addHookData, fetchHookData, handleError, useAppSettings } from '@headstartwp/next';
+import {
+	HeadlessGetStaticProps,
+	addHookData,
+	fetchHookData,
+	handleError,
+	useAppSettings,
+} from '@headstartwp/next';
 import Head from 'next/head';
 import { resolveBatch } from '../utils/promises';
 
@@ -16,7 +22,7 @@ const NotFoundPage = () => {
 	);
 };
 
-export async function getStaticProps(context) {
+export const getStaticProps = (async (context) => {
 	try {
 		// fetch batch of promises and throws errors selectively
 		// passing `throw:false` will prevent errors from being thrown for that promise
@@ -28,6 +34,6 @@ export async function getStaticProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+}) satisfies HeadlessGetStaticProps;
 
 export default NotFoundPage;

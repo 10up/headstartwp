@@ -1,5 +1,5 @@
 import { LOGTYPE, fetchRedirect, log } from '@headstartwp/core';
-import { GetServerSidePropsResult } from 'next';
+import { GetServerSidePropsResult, GetStaticPathsResult } from 'next';
 import { HeadlessGetServerSidePropsContext, HeadlessGetStaticPropsPropsContext } from '../types';
 import { getSiteFromContext } from './getSiteFromContext';
 
@@ -63,7 +63,7 @@ export async function handleError(
 	error: Error,
 	ctx: HeadlessGetServerSidePropsContext | HeadlessGetStaticPropsPropsContext,
 	rootRoute: string = '',
-): Promise<GetServerSidePropsResult<{}>> {
+) {
 	const { redirectStrategy, sourceUrl, debug } = getSiteFromContext(ctx);
 
 	if (debug?.devMode) {
@@ -96,11 +96,13 @@ export async function handleError(
 						destination: redirect.location,
 						permanent: redirect.status === 301 || redirect.status === 308,
 					},
-				};
+				} satisfies GetServerSidePropsResult<Record<string, never>>;
 			}
 		}
 
-		return { notFound: true };
+		return { notFound: true } satisfies
+			| GetServerSidePropsResult<Record<string, never>>
+			| GetStaticPathsResult<Record<string, never>>;
 	}
 
 	throw error;

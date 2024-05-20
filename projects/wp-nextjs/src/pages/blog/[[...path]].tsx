@@ -14,6 +14,7 @@ import {
 	useAppSettings,
 	usePostOrPosts,
 	usePosts,
+	HeadlessGetServerSideProps,
 } from '@headstartwp/next';
 
 import { Link } from '../../components/Link';
@@ -50,7 +51,7 @@ const BlogPage = () => {
 
 export default BlogPage;
 
-export async function getServerSideProps(context) {
+export const getServerSideProps = (async (context) => {
 	try {
 		const settledPromises = await resolveBatch([
 			{
@@ -63,4 +64,4 @@ export async function getServerSideProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+}) satisfies HeadlessGetServerSideProps;

@@ -5,7 +5,7 @@ import {
 	PostEntity,
 	removeFieldsFromPostRelatedData,
 } from '@headstartwp/core';
-import type { Redirect } from 'next';
+import type { GetServerSidePropsResult, GetStaticPropsResult, Redirect } from 'next';
 
 export type HookState<T> = {
 	key: string;
@@ -32,6 +32,19 @@ function isAppEntity(data: Entity): data is AppEntity {
 	return typeof (data as AppEntity).settings !== 'undefined';
 }
 
+export interface AddHokoDataBaseProps {
+	[key: string]: unknown;
+}
+
+export interface AddHookDataProps extends AddHokoDataBaseProps {
+	seo: {
+		yoast_head_json: Record<string, unknown>;
+		yoast_head: string;
+	};
+	themeJSON: Record<string, unknown>;
+	fallback: Record<string, unknown>;
+}
+
 /**
  * The `addHookData` function is responsible for collecting all of the results from the `fetchHookData` function calls
  * and prepares the shape of the data to match what the frameworks expects (such as setting initial values for SWR and collecting SEO data).
@@ -56,7 +69,7 @@ function isAppEntity(data: Entity): data is AppEntity {
  *
  * @category Next.js Data Fetching Utilities
  */
-export function addHookData<P = { [key: string]: any }>(
+export function addHookData<P extends AddHokoDataBaseProps>(
 	_hookStates: HookState<FetchResponse<Entity | Entity[]>>[],
 	nextProps: NextJSProps<P>,
 ) {
@@ -70,7 +83,7 @@ export function addHookData<P = { [key: string]: any }>(
 		hookStates.push(hookState);
 	});
 
-	const { props = {}, ...rest } = nextProps;
+	const { props, ...rest } = nextProps;
 	const fallback = {};
 	let seo_json = {};
 	let seo = '';
@@ -197,10 +210,12 @@ export function addHookData<P = { [key: string]: any }>(
 		fallback[key] = data;
 	});
 
+	const normalizedProps = (typeof props === 'undefined' ? {} : props) as P;
+
 	return {
 		...rest,
 		props: {
-			...props,
+			...normalizedProps,
 			seo: {
 				yoast_head_json: seo_json,
 				yoast_head: seo,
@@ -208,5 +223,7 @@ export function addHookData<P = { [key: string]: any }>(
 			themeJSON,
 			fallback,
 		},
-	};
+	} satisfies
+		| GetStaticPropsResult<AddHookDataProps & P>
+		| GetServerSidePropsResult<AddHookDataProps & P>;
 }

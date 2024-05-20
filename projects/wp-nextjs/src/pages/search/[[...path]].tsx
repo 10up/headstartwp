@@ -4,6 +4,7 @@ import {
 	addHookData,
 	handleError,
 	useAppSettings,
+	HeadlessGetServerSideProps,
 } from '@headstartwp/next';
 import { Link } from '../../components/Link';
 import { searchParams } from '../../params';
@@ -34,7 +35,7 @@ const SearchPage = () => {
 
 export default SearchPage;
 
-export async function getServerSideProps(context) {
+export const getServerSideProps = (async (context) => {
 	try {
 		const settledPromises = await resolveBatch([
 			{
@@ -50,4 +51,4 @@ export async function getServerSideProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+}) satisfies HeadlessGetServerSideProps;

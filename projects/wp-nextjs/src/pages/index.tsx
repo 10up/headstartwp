@@ -10,7 +10,7 @@ import {
 } from '@headstartwp/next';
 import PropTypes from 'prop-types';
 import type { PostEntity } from '@headstartwp/core';
-import { GetStaticPropsResult, InferGetStaticPropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 import { Link } from '../components/Link';
 import { PageContent } from '../components/PageContent';
 import { indexParams } from '../params';
@@ -19,6 +19,7 @@ import { resolveBatch } from '../utils/promises';
 interface RecentPostProps {
 	post: PostEntity;
 }
+
 const RecentPost = ({ post }: RecentPostProps) => {
 	return (
 		<div>
@@ -80,7 +81,7 @@ export default Homepage;
 
 export const getStaticProps = (async (context) => {
 	let appSettings;
-	let slug;
+	let slug = '';
 	try {
 		appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 
@@ -114,10 +115,8 @@ export const getStaticProps = (async (context) => {
 		return addHookData([...hookData, appSettings], {
 			props: { homePageSlug: slug },
 			revalidate: 5 * 60,
-		}) as GetStaticPropsResult<ReturnType<typeof addHookData> & { homePageSlug: string }>;
+		});
 	} catch (e) {
-		return handleError(e as Error, context) as unknown as GetStaticPropsResult<
-			Record<string, never>
-		>;
+		return handleError(e as Error, context);
 	}
 }) satisfies HeadlessGetStaticProps;

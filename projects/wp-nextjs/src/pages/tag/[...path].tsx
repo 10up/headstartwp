@@ -1,20 +1,21 @@
 import {
+	usePosts,
 	fetchHookData,
 	addHookData,
 	handleError,
 	useAppSettings,
-	useAuthorArchive,
+	HeadlessGetServerSideProps,
 } from '@headstartwp/next';
 import { Link } from '../../components/Link';
 import { Pagination } from '../../components/Pagination';
 import { resolveBatch } from '../../utils/promises';
 
-const AuthorPage = () => {
-	const { data } = useAuthorArchive();
+const TagPage = () => {
+	const { data } = usePosts({ taxonomy: 'post_tag' });
 
 	return (
 		<>
-			<h1>Author Page: {data.queriedObject.author.name}</h1>
+			<h1>Tag Page: {data.queriedObject?.term?.name}</h1>
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>
@@ -27,13 +28,15 @@ const AuthorPage = () => {
 	);
 };
 
-export default AuthorPage;
+export default TagPage;
 
-export async function getServerSideProps(context) {
+export const getServerSideProps = (async (context) => {
 	try {
 		const settledPromises = await resolveBatch([
 			{
-				func: fetchHookData(useAuthorArchive.fetcher(), context),
+				func: fetchHookData(usePosts.fetcher(), context, {
+					params: { taxonomy: 'post_tag' },
+				}),
 			},
 			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
@@ -42,4 +45,4 @@ export async function getServerSideProps(context) {
 	} catch (e) {
 		return handleError(e, context);
 	}
-}
+}) satisfies HeadlessGetServerSideProps;
