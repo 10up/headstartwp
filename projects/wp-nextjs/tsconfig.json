@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "headstartwp.config.server.js", "headstartwp.config.client.js"  ],
+  ],
   "exclude": [
     "node_modules"
   ]
