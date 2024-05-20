@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
+import type { PostParams } from '@headstartwp/core';
+
 import { usePost } from '@headstartwp/next';
 import dynamic from 'next/dynamic';
 import { HtmlDecoder } from '@headstartwp/core/react';
 
-const Blocks = dynamic(() => import('./Blocks'));
+const Blocks = dynamic(() => import('./Blocks').then((mod) => mod.default));
+
+interface PageContentProps {
+	params: PostParams;
+}
 
 /**
  * This is an example of how an inner component can access the data without explicitly passing the data to it.
@@ -13,7 +18,7 @@ const Blocks = dynamic(() => import('./Blocks'));
  *
  * @returns
  */
-export const PageContent = ({ params }) => {
+export const PageContent = ({ params }: PageContentProps) => {
 	// This won't require a refetch as long as the data has already been fetched at the page level.
 	// additionally, if the request has not been SSR'd, it will be fetched on the client only once, regardless of how many call to usePost (with the same params) you make
 	const { data, loading } = usePost(params);
@@ -30,8 +35,4 @@ export const PageContent = ({ params }) => {
 			<Blocks html={data.post.content.rendered} />
 		</>
 	);
-};
-
-PageContent.propTypes = {
-	params: PropTypes.shape({}).isRequired,
 };

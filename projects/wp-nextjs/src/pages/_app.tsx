@@ -1,4 +1,5 @@
 import { HeadlessApp } from '@headstartwp/next';
+import type { AppProps } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 
@@ -13,9 +14,13 @@ Router.events.on('routeChangeComplete', () => {
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
-// eslint-disable-next-line react/prop-types
-const MyApp = ({ Component, pageProps }) => {
-	// eslint-disable-next-line react/prop-types, no-unused-vars
+interface MyAppProps {
+	themeJson: Record<string, any>;
+	fallback: Record<string, any>;
+}
+
+const MyApp = ({ Component, pageProps }: AppProps<MyAppProps>) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { fallback = {}, themeJson = {}, ...props } = pageProps;
 
 	return (
