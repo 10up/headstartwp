@@ -117,6 +117,6 @@ export const getStaticProps = (async (context) => {
 			revalidate: 5 * 60,
 		});
 	} catch (e) {
-		return handleError(e as Error, context);
+		return handleError(e, context);
 	}
 }) satisfies HeadlessGetStaticProps;
