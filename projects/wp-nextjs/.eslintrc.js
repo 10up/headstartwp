@@ -20,5 +20,6 @@ module.exports = {
 			},
 		],
 		'react/require-default-props': ['error', { functions: 'defaultArguments' }],
+		'jsdoc/require-returns-type': 'off',
 	},
 };
