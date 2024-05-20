@@ -8,17 +8,6 @@ module.exports = {
 		},
 	},
 	rules: {
-		'import/extensions': [
-			'error',
-			'ignorePackages',
-			{
-				js: 'never',
-				mjs: 'never',
-				jsx: 'never',
-				ts: 'never',
-				tsx: 'never',
-			},
-		],
 		'react/require-default-props': ['error', { functions: 'defaultArguments' }],
 		'jsdoc/require-returns-type': 'off',
 	},
