@@ -12,9 +12,9 @@ const PaginationItem = styled.li`
 	margin-right: 5px;
 `;
 
-interface PaginationProps {
+type PaginationProps = {
 	pageInfo: PageInfo;
-}
+};
 
 export const Pagination = ({ pageInfo }: PaginationProps) => {
 	const { asPath } = useRouter();

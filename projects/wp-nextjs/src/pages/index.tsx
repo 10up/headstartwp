@@ -16,9 +16,9 @@ import { PageContent } from '../components/PageContent';
 import { indexParams } from '../params';
 import { resolveBatch } from '../utils/promises';
 
-interface RecentPostProps {
+type RecentPostProps = {
 	post: PostEntity;
-}
+};
 
 const RecentPost = ({ post }: RecentPostProps) => {
 	return (

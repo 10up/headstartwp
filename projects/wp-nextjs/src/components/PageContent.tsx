@@ -6,9 +6,9 @@ import { HtmlDecoder } from '@headstartwp/core/react';
 
 const Blocks = dynamic(() => import('./Blocks').then((mod) => mod.default));
 
-interface PageContentProps {
+type PageContentProps = {
 	params: PostParams;
-}
+};
 
 /**
  * This is an example of how an inner component can access the data without explicitly passing the data to it.

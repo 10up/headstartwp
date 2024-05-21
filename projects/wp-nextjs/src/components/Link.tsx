@@ -4,12 +4,12 @@ import { removeSourceUrl } from '@headstartwp/core';
 import { useSettings } from '@headstartwp/core/react';
 import NextLink from 'next/link';
 
-interface LinkProps {
+type LinkProps = {
 	href: string;
 	rel?: string;
 	target?: '_blank' | '_self';
 	children: ReactNode;
-}
+};
 
 export const Link = ({ href, rel = '', children, target = '_self' }: LinkProps) => {
 	const settings = useSettings();

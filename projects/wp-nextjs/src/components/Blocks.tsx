@@ -3,9 +3,9 @@ import { TwitterBlock, ImageComponent, LinkBlock } from '@headstartwp/next';
 
 import { css } from '@linaria/core';
 
-interface BlocksProps {
+type BlocksProps = {
 	html: string;
-}
+};
 
 export const Blocks = ({ html }: BlocksProps) => {
 	return (

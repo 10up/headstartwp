@@ -14,10 +14,10 @@ Router.events.on('routeChangeComplete', () => {
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
-interface MyAppProps {
+type MyAppProps = {
 	themeJson: Record<string, any>;
 	fallback: Record<string, any>;
-}
+};
 
 const MyApp = ({ Component, pageProps }: AppProps<MyAppProps>) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
