@@ -1,12 +1,16 @@
 import { styled } from '@linaria/react';
-import PropTypes from 'prop-types';
-import { PropsWithChildren } from 'react';
+
+import React, { ReactNode } from 'react';
 
 const StyledMain = styled.main`
 	padding: 20px;
 `;
 
-export const MainContent = ({ children }: PropsWithChildren<{}>) => {
+type MainContentProps = {
+	children: ReactNode;
+};
+
+export const MainContent = ({ children }: MainContentProps) => {
 	return (
 		<div>
 			<section>
@@ -14,8 +18,4 @@ export const MainContent = ({ children }: PropsWithChildren<{}>) => {
 			</section>
 		</div>
 	);
-};
-
-MainContent.propTypes = {
-	children: PropTypes.node.isRequired,
 };

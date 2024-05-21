@@ -15,7 +15,10 @@ const AuthorPage = () => {
 
 	return (
 		<>
-			<h1>Author Page: {data.queriedObject.author.name}</h1>
+			{data.queriedObject.author ? (
+				<h1>Author Page: {data.queriedObject.author.name}</h1>
+			) : null}
+
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>

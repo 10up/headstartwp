@@ -33,9 +33,9 @@ const navStyles = css`
 `;
 
 export const Nav = () => {
-	const { data, loading, error } = useMenu('primary');
+	const { data } = useMenu('primary');
 
-	if (loading || error) {
+	if (!data) {
 		return null;
 	}
 

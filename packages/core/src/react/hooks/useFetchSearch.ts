@@ -16,7 +16,7 @@ import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
 export interface useSearchResponse<T extends PostEntity = PostEntity> extends HookResponse {
-	data?: { posts: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
+	data: { posts: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
 	mutate: KeyedMutator<FetchResponse<T[]>>;
 }
 

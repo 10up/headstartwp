@@ -23,12 +23,16 @@ export const PageContent = ({ params }: PageContentProps) => {
 	// additionally, if the request has not been SSR'd, it will be fetched on the client only once, regardless of how many call to usePost (with the same params) you make
 	const { data } = usePost(params);
 
+	if (!data) {
+		return null;
+	}
+
 	return (
 		<>
 			<h1>
-				<HtmlDecoder html={data.post.title.rendered} />
+				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
-			<Blocks html={data.post.content.rendered} />
+			<Blocks html={data.post.content.rendered ?? ''} />
 		</>
 	);
 };

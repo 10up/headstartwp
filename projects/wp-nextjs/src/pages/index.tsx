@@ -8,7 +8,7 @@ import {
 	useTerms,
 	HeadlessGetStaticProps,
 } from '@headstartwp/next';
-import PropTypes from 'prop-types';
+
 import type { PostEntity } from '@headstartwp/core';
 import { InferGetStaticPropsType } from 'next';
 import { Link } from '../components/Link';
@@ -73,22 +73,20 @@ const Homepage = ({ homePageSlug }: InferGetStaticPropsType<typeof getStaticProp
 	);
 };
 
-Homepage.propTypes = {
-	homePageSlug: PropTypes.string.isRequired,
-};
-
 export default Homepage;
 
 export const getStaticProps = (async (context) => {
-	let appSettings;
+	const hookData = [];
 	let slug = '';
 	try {
-		appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
 
 		/**
 		 * The static front-page can be set in the WP admin. The default one will be 'front-page'
 		 */
 		slug = appSettings.data.result?.home?.slug ?? 'front-page';
+
+		hookData.push(appSettings);
 	} catch (e) {
 		if (e.name === 'EndpointError') {
 			slug = 'front-page';
@@ -96,7 +94,7 @@ export const getStaticProps = (async (context) => {
 	}
 
 	try {
-		const hookData = await resolveBatch([
+		const fetchBatch = await resolveBatch([
 			{
 				func: fetchHookData(usePost.fetcher(), context, {
 					params: {
@@ -112,7 +110,9 @@ export const getStaticProps = (async (context) => {
 			},
 		]);
 
-		return addHookData([...hookData, appSettings], {
+		hookData.push(...fetchBatch);
+
+		return addHookData(hookData, {
 			props: { homePageSlug: slug },
 			revalidate: 5 * 60,
 		});

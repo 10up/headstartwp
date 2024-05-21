@@ -1,5 +1,5 @@
 import { LOGTYPE, fetchRedirect, log } from '@headstartwp/core';
-import { GetServerSidePropsResult, GetStaticPathsResult } from 'next';
+import { GetServerSidePropsResult, GetStaticPropsResult } from 'next';
 import { HeadlessGetServerSidePropsContext, HeadlessGetStaticPropsPropsContext } from '../types';
 import { getSiteFromContext } from './getSiteFromContext';
 
@@ -96,13 +96,13 @@ export async function handleError(
 						destination: redirect.location,
 						permanent: redirect.status === 301 || redirect.status === 308,
 					},
-				} satisfies GetServerSidePropsResult<Record<string, never>>;
+				} satisfies GetServerSidePropsResult<Record<string, unknown>>;
 			}
 		}
 
 		return { notFound: true } satisfies
-			| GetServerSidePropsResult<Record<string, never>>
-			| GetStaticPathsResult<Record<string, never>>;
+			| GetServerSidePropsResult<Record<string, unknown>>
+			| GetStaticPropsResult<Record<string, unknown>>;
 	}
 
 	throw error;

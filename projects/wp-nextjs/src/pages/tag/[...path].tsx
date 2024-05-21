@@ -15,7 +15,7 @@ const TagPage = () => {
 
 	return (
 		<>
-			<h1>Tag Page: {data.queriedObject?.term?.name}</h1>
+			{data.queriedObject.term ? <h1>Tag Page: {data.queriedObject.term.name}</h1> : null}
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>

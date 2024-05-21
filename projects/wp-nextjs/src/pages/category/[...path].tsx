@@ -15,7 +15,10 @@ const CategoryPage = () => {
 
 	return (
 		<>
-			<h1>Category Page: {data.queriedObject.term.name}</h1>
+			{data.queriedObject.term ? (
+				<h1>Category Page: {data.queriedObject.term.name}</h1>
+			) : null}
+
 			<ul>
 				{data.posts.map((post) => (
 					<li key={post.id}>

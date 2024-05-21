@@ -1,6 +1,6 @@
 import { css } from '@linaria/core';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 
 const buttonStyles = css`
 	border: none;
@@ -24,7 +24,7 @@ export const Search = () => {
 		router.push(`/search/${searchTerm}`);
 	};
 
-	const onKeyDown = (e) => {
+	const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.code === 'Enter') {
 			goToSearch();
 		}
