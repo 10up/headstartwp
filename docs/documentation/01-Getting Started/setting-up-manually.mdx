@@ -2,6 +2,10 @@
 slug: /getting-started/setting-up-manually
 sidebar_position: 1
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Setting up the framework from scratch
 
 The recommended way to get started with the framework is by installing the official starter project. See [Quick Setup](/learn/getting-started/quick-setup/) for more information.
@@ -72,6 +76,40 @@ module.exports = withHeadstartWPConfig(nextConfig);
 
 Create a custom `_app.js` to wrap the application with `HeadlessApp` component.
 
+<Tabs>
+<TabItem value="ts" label="TypeScript">
+
+```ts title=src/pages/_app.tsx
+type MyAppProps = {
+	themeJson: Record<string, unknown>;
+	fallback: Record<string, unknown>;
+};
+
+const MyApp = ({ Component, pageProps }: AppProps<MyAppProps>) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { fallback = {}, themeJson = {}, ...props } = pageProps;
+
+	return (
+		<HeadlessApp
+			pageProps={pageProps}
+			settings={{
+				// instruct the framework to use Next.js link component
+				// or your own version
+				linkComponent: Link,
+			}}
+			useYoastHtml
+		>
+			<Layout>
+				<Component {...props} />
+			</Layout>
+		</HeadlessApp>
+	);
+};
+```
+
+</TabItem>
+<TabItem value="js" label="JavaScript">
+
 ```js title=src/pages/_app.js
 import { HeadlessApp } from '@headstartwp/next';
 import Link from 'next/link';
@@ -89,9 +127,11 @@ const MyApp = ({ Component, pageProps }) => {
 		<HeadlessApp
 			pageProps={pageProps}
 			settings={{
-                // instruct the framework to use Next.js link component or your own version
+				// instruct the framework to use Next.js link component
+				// or your own version
 				linkComponent: Link,
 			}}
+			useYoastHtml
 		>
 			<Component {...props} />
 		</HeadlessApp>
@@ -101,11 +141,40 @@ const MyApp = ({ Component, pageProps }) => {
 export default MyApp;
 ```
 
+</TabItem>
+</Tabs>
+
+
 ### Setting up the preview endpoint
 
 The WordPress plugin expects the preview endpoint to be located at `/api/preview`.
 
 To enable support for previews, create a `src/pages/api/preview.js` with the following contents:
+
+<Tabs>
+<TabItem value="ts" label="TypeScript">
+
+```js title=src/pages/api/preview.ts
+import { previewHandler } from '@headstartwp/next';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+/**
+ * The Preview endpoint just needs to proxy the default preview handler
+ *
+ * @param req Next.js request
+ * @param res Next.js response
+ *
+ * @returns the preview handler
+ */
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+	return previewHandler(req, res);
+}
+
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript">
 
 ```js title=src/pages/api/preview.js
 import { previewHandler } from '@headstartwp/next';
@@ -123,6 +192,9 @@ export default async function handler(req, res) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Setting up the revalidate endpoint
 
 The framework supports ISR revalidation triggered by WordPress. To enable ISR revalidate, make sure you have the WordPress plugin enabled and activate the option in WordPress settings.
@@ -130,6 +202,31 @@ The framework supports ISR revalidation triggered by WordPress. To enable ISR re
 ![ISR Option](../../static/img/revalidate-option.png)
 
 Then add the `revalidateHandler` to `src/pages/api/revalidate.js`
+
+<Tabs>
+<TabItem value="ts" label="TypeScript">
+
+```ts title=src/pages/api/revalidate.ts
+import { revalidateHandler } from '@headstartwp/next';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+/**
+ * The revalidate endpoint just needs to proxy the default revalidate handler
+ *
+ * @param req Next.js request
+ * @param res Next.js response
+ *
+ * @returns the revalidate handler
+ */
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+	return revalidateHandler(req, res);
+}
+
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript">
 
 ```js title=src/pages/api/revalidate.js
 import { revalidateHandler } from '@headstartwp/next';
@@ -147,11 +244,56 @@ export default async function handler(req, res) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Creating your first route
 
 To make sure everything is working as expected create a catch-all route called `pages/[...path].js`. This route will be responsible for rendering single post and pages.
 
 By creating a `[...path].js` route, the framework will automatically detect and extract URL parameters from the `path` argument.
+
+<Tabs>
+<TabItem value="ts" label="TypeScript">
+
+```js title=src/pages/[...path].tsx
+import type { PostParams } from '@headstartwp/core';
+import {
+	usePost,
+	fetchHookData,
+	addHookData,
+	handleError,
+	usePosts
+} from '@headstartwp/next';
+import { BlocksRenderer } from '@headstartwp/core/react';
+
+const params: PostParams = { postType: ['post', 'page' ] };
+
+const SinglePostsPage = () => {
+	const { loading, error, data } = usePost(params);
+
+	if (loading) {
+		return 'Loading...';
+	}
+
+	if (error) {
+		return 'error...';
+	}
+
+	return (
+		<div>
+			<h1>{data.post.title.rendered}</h1>
+            <BlocksRenderer html={data.post.content.rendered} />
+		</div>
+	);
+};
+
+export default SinglePostsPage;
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript">
 
 ```js title=src/pages/[...path].js
 import {
@@ -187,6 +329,10 @@ const SinglePostsPage = () => {
 export default SinglePostsPage;
 ```
 
+</TabItem>
+
+</Tabs>
+
 Then, visit any single post or page, e.g: `http://localhost:3000/hello-world` and you should see both the title and the content of that post/page.
 
 Date URLs will also work: e.g: `http://localhost:3000/2022/10/2/hello-world`
@@ -196,6 +342,35 @@ Date URLs will also work: e.g: `http://localhost:3000/2022/10/2/hello-world`
 With the example above, you might have noticed that the data is only being fetched on the client. You must use one of the Next.js data fetching methods to enable SSR/SSG.
 
 Add this to the `pages/[...path].js` file
+
+<Tabs>
+<TabItem value="ts" label="TypeScript">
+
+```ts title="src/pages/[...path].tsx"
+import type { HeadlessGetStaticProps } from '@headstartwp/next';
+
+export const getStaticProps = (async (context) => {
+	try {
+		const settledPromises = await resolveBatch([
+			{
+				func: fetchHookData(usePost.fetcher(), context, { params: singleParams }),
+			},
+			{ func: fetchHookData(useAppSettings.fetcher(), context) },
+		]);
+
+		return addHookData(settledPromises, { revalidate: 5 * 60 });
+	} catch (e) {
+		return handleError(e, context);
+	}
+}) satisfies HeadlessGetStaticProps;
+
+// `satisfies` allow TS to infer the correct types for context as well as makes it
+// possible to correctly infer the page props
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript">
 
 ```js title="src/pages/[...path].js"
 // or export async function getServerSideProps(context)
@@ -210,5 +385,8 @@ export async function getStaticProps(context) {
 	}
 }
 ```
+
+</TabItem>
+</Tabs>
 
 Then refresh the page and voilá! Data is now being fetched on the server.

@@ -15,8 +15,8 @@ Router.events.on('routeChangeComplete', () => {
 Router.events.on('routeChangeError', () => NProgress.done());
 
 type MyAppProps = {
-	themeJson: Record<string, any>;
-	fallback: Record<string, any>;
+	themeJson: Record<string, unknown>;
+	fallback: Record<string, unknown>;
 };
 
 const MyApp = ({ Component, pageProps }: AppProps<MyAppProps>) => {
