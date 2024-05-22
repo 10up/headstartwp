@@ -32,11 +32,11 @@ function isAppEntity(data: Entity): data is AppEntity {
 	return typeof (data as AppEntity).settings !== 'undefined';
 }
 
-export interface AddHokoDataBaseProps {
+export interface AddHookDataBaseProps {
 	[key: string]: unknown;
 }
 
-export interface AddHookDataProps extends AddHokoDataBaseProps {
+export interface AddHookDataProps extends AddHookDataBaseProps {
 	seo: {
 		yoast_head_json: Record<string, unknown>;
 		yoast_head: string;
@@ -69,7 +69,7 @@ export interface AddHookDataProps extends AddHokoDataBaseProps {
  *
  * @category Next.js Data Fetching Utilities
  */
-export function addHookData<P extends AddHokoDataBaseProps>(
+export function addHookData<P extends AddHookDataBaseProps>(
 	_hookStates: HookState<FetchResponse<Entity | Entity[]>>[],
 	nextProps: NextJSProps<P>,
 ) {
