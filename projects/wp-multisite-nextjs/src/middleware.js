@@ -9,7 +9,7 @@ export const config = {
 		 * 3. /fonts (inside /public)
 		 * 4. all root files inside /public (e.g. /favicon.ico)
 		 */
-		'/((?!api|_next|fonts[\\w-]+\\.\\w+).*)',
+		'/((?!api|cache-healthcheck|_next|fonts[\\w-]+\\.\\w+).*)',
 	],
 };
 
