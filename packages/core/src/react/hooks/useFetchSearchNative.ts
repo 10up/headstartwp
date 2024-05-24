@@ -19,7 +19,7 @@ import { makeErrorCatchProxy } from './util';
 export interface useSearchNativeResponse<
 	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 > extends HookResponse {
-	data?: { searchResults: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
+	data: { searchResults: T[]; pageInfo: PageInfo; queriedObject: QueriedObject };
 	mutate: KeyedMutator<FetchResponse<T[]>>;
 }
 
