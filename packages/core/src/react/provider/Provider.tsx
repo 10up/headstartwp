@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, createContext, useMemo } from 'react';
 import { getHeadlessConfig } from '../../utils/config';
 import { SettingsContextProps } from './types';

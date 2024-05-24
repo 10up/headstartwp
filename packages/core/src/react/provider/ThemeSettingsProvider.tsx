@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, createContext } from 'react';
 import { ThemeJSON } from './types';
 

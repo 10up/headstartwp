@@ -1,3 +1,5 @@
+'use client';
+
 import { useThemeSettings } from './useThemeSettings';
 
 const get = (obj, path, defaultValue: any = undefined) => {
