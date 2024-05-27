@@ -24,15 +24,13 @@
       "types": "./dist/mjs/utils/index.d.ts"
     },
     "./react": {
-      "react-server": "./dist/mjs/rsc/index.js",
+      "react-server": {
+        "import": "./dist/mjs/rsc/index.js",
+        "types": "./dist/mjs/rsc/index.d.ts"
+      },
       "require": "./dist/cjs/react/index.js",
       "import": "./dist/mjs/react/index.js",
       "types": "./dist/mjs/react/index.d.ts"
-    },
-    "./rsc": {
-      "import": "./dist/mjs/rsc/index.js",
-      "types": "./dist/mjs/rsc/index.d.ts",
-      "default": "./dist/mjs/rsc/index.js"
     },
     "./test": "./test/server.ts"
   },
