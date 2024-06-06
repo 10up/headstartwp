@@ -32,6 +32,11 @@
       "import": "./dist/mjs/react/index.js",
       "types": "./dist/mjs/react/index.d.ts"
     },
+    "./rsc": {
+      "import": "./dist/mjs/rsc/index.js",
+      "require": "./dist/cjs/rsc/index.js",
+      "types": "./dist/mjs/rsc/index.d.ts"
+    },
     "./test": "./test/server.ts"
   },
   "files": [
