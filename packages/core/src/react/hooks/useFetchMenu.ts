@@ -4,7 +4,7 @@ import { useFetchAppSettings } from './useFetchAppSettings';
 import { isProxy, makeErrorCatchProxy } from './util';
 
 export interface useMenuResponse extends HookResponse {
-	data?: MenuItemEntity[];
+	data: MenuItemEntity[];
 }
 
 function flatToHierarchical(flat: MenuItemEntity[]): MenuItemEntity[] {

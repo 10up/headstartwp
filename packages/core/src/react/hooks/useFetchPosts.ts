@@ -57,7 +57,7 @@ export type PageType = {
 };
 
 export interface usePostsResponse<T extends PostEntity = PostEntity> extends HookResponse {
-	data?: {
+	data: {
 		posts: T[];
 		pageInfo: PageInfo;
 		queriedObject: QueriedObject;

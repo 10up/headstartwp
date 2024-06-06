@@ -6,7 +6,7 @@ import { useFetch } from './useFetch';
 import { makeErrorCatchProxy } from './util';
 
 export interface useAppSettingsResponse<T extends AppEntity> extends HookResponse {
-	data?: T;
+	data: T;
 	mutate: KeyedMutator<FetchResponse<T>>;
 }
 

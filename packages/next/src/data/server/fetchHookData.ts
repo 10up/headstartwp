@@ -116,7 +116,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 					fetchStrategyOptions: options.fetchStrategyOptions,
 					path: stringPath,
 					cacheHandler: cacheConfig.cacheHandler ?? defaultCacheHandler,
-			  })
+				})
 			: enabled;
 
 	const shouldSkipCache = ctx.preview;
@@ -132,7 +132,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 					fetchStrategyOptions: options.fetchStrategyOptions,
 					path: stringPath,
 					cacheHandler: cacheConfig.cacheHandler ?? defaultCacheHandler,
-			  })
+				})
 			: ttl;
 
 	return {

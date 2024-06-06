@@ -13,7 +13,7 @@ import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
 export interface useTermsResponse<T extends TermEntity> extends HookResponse {
-	data?: { terms: T[]; pageInfo: PageInfo };
+	data: { terms: T[]; pageInfo: PageInfo };
 	mutate: KeyedMutator<FetchResponse<T[]>>;
 }
 

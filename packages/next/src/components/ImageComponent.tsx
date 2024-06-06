@@ -7,7 +7,7 @@ const Image =
 	// @ts-expect-error
 	typeof NextImageComponent === 'object' && typeof NextImageComponent.default !== 'undefined'
 		? // @ts-expect-error
-		  NextImageComponent.default
+			NextImageComponent.default
 		: NextImageComponent;
 
 /**

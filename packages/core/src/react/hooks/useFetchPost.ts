@@ -13,7 +13,7 @@ import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 
 export interface usePostResponse<T extends PostEntity = PostEntity> extends HookResponse {
-	data?: {
+	data: {
 		post: T;
 		pageInfo: FetchResponse<T>['pageInfo'];
 		queriedObject: FetchResponse<T>['queriedObject'];
