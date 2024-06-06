@@ -98,6 +98,24 @@ return addHookData<MyCustomPropsType>(hookData, {
 });
 ```
 
+### Extending Framework Hooks
+
+Certain hooks in the framework can accept Generic type parameters. This can used to provide a better developer experience during implementation as you will have clarity on the return type. It may often be required to extend WordPress REST API endpoints to return additional data to align with project requirements. As projects grow, you may need to implement this at hook level to return a specific subset of data as opposed to at route level within `getServerSideProps` or `getStaticProps`. An example is provided below. 
+
+```ts title="useExampleHook.ts"
+interface CustomAppSettings extends AppEntity {
+	settings: AppEntity['settings'] & {
+		custom_settings: {
+			banner_text?: string;
+		};
+	};
+}
+const useExampleHook = () => {
+	const { data, error, loading } = useAppSettings<CustomAppSettings>();
+	...
+}
+```
+
 ## Recommended TS Config
 
 This is the recommended TS Config for working with HeadstartWP and TypeScript
