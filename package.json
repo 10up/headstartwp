@@ -1,5 +1,5 @@
 {
-  "name": "@10up/headless_framework",
+  "name": "@10up/headstartwp",
   "version": "1.0.0",
   "description": "Monorepo for headless framework",
   "homepage": "https://github.com/10up/headstartwp#readme",
@@ -48,8 +48,8 @@
     "jest": "^29.0.3",
     "jest-environment-jsdom": "^29.0.3",
     "lint-staged": "^11.1.2",
-    "turbo": "^1.9.3",
-    "prettier": "3.2.5"
+    "prettier": "3.2.5",
+    "turbo": "^2.0.3"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",
@@ -63,11 +63,12 @@
     "npm": ">=9.0.0"
   },
   "optionalDependencies": {
-    "turbo-darwin-64": "^1.9.3",
-    "turbo-darwin-arm64": "^1.9.3",
-    "turbo-linux-64": "^1.9.3",
-    "turbo-linux-arm64": "^1.9.3",
-    "turbo-windows-64": "^1.9.3",
-    "turbo-windows-arm64": "^1.9.3"
-  }
+    "turbo-darwin-64": "^2.0.3",
+    "turbo-darwin-arm64": "^2.0.3",
+    "turbo-linux-64": "^2.0.3",
+    "turbo-linux-arm64": "^2.0.3",
+    "turbo-windows-64": "^2.0.3",
+    "turbo-windows-arm64": "^2.0.3"
+  },
+  "packageManager": "npm@10.5.0"
 }
