@@ -203,4 +203,22 @@ describe('BlocksRenderer', () => {
       </div>
 	`);
 	});
+
+	it('works correctly with chinese content', () => {
+		const StrongToDiv = ({ domNode, children }: BlockProps) => {
+			const className =
+				domNode instanceof Element ? domNode?.attribs.class || undefined : undefined;
+			return <div className={className}>{children}</div>;
+		};
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<h3 class="wp-block-heading" data-wp-block='{"level":3,"hash":"9fb25fc5-7456-4704-bffe-aa438487253b"}' data-wp-block-name="core/heading"><strong>&aelig;&acute;&raquo;&aring;&#139;&#149;&aelig;&#156;&#159;&eacute;&#150;&#147;</strong></h3>`}
+			>
+				<StrongToDiv tagName="strong" classList={['my-class']} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
 });

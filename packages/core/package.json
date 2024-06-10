@@ -48,6 +48,7 @@
     "watch:ts:cjs": "npm run ts:cjs -- --watch",
     "watch:ts": "npm run ts -- --watch",
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint src/"
   },
   "devDependencies": {
