@@ -22,6 +22,18 @@
         "test/**/*.ts"
       ]
     },
+    "test:watch": {
+      "persistent": true,
+      "dependsOn": ["@headstartwp/core#build", "@headstartwp/next#build"],
+      "outputs": [
+        ""
+      ],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ]
+    },
     "lint": {
       "outputs": [
         ""

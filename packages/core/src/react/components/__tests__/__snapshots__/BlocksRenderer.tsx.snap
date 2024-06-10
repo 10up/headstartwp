@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlocksRenderer works correctly with chinese content 1`] = `
+<div>
+  <h3
+    class="wp-block-heading"
+    data-wp-block="{"level":3,"hash":"9fb25fc5-7456-4704-bffe-aa438487253b"}"
+    data-wp-block-name="core/heading"
+  >
+    <strong>
+      æ´»å‹•æœŸé–“
+    </strong>
+  </h3>
+</div>
+`;

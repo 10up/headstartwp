@@ -21,7 +21,8 @@
         "dev": "npm run watch:ts",
         "watch:ts": "npm run ts -- --watch",
         "lint": "eslint src",
-        "test": "jest"
+        "test": "jest",
+        "test:watch": "jest --watch"
     },
     "dependencies": {
         "ioredis": "^5.3.1"
