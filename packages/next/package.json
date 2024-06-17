@@ -1,6 +1,6 @@
 {
   "name": "@headstartwp/next",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "`@headstartwp/next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headstartwp/blob/develop/packages/next/README.md",
   "license": "MIT",
@@ -46,11 +46,12 @@
     "watch:ts:cjs": "npm run ts:cjs -- --watch",
     "watch:ts": "npm run ts -- --watch",
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint src"
   },
   "dependencies": {
     "deepmerge": "^4.3.1",
-    "@headstartwp/core": "^1.4.3",
+    "@headstartwp/core": "^1.4.4",
     "loader-utils": "^3.2.0",
     "schema-utils": "^4.0.0",
     "@isaacs/ttlcache": "^1.4.1"

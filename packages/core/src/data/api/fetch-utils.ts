@@ -1,9 +1,5 @@
 import { LOGTYPE, addQueryArgs, getHeadlessConfig, log } from '../../utils';
 
-export const getAuthHeader = () => {
-	return null;
-};
-
 /**
  * Fetch Wrapper to handle POST requests
  *
@@ -78,3 +74,5 @@ export const apiGet = async (
 
 	return { headers: receivedHeaders, json };
 };
+
+export const fetchStrategy = async () => {};

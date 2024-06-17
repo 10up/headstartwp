@@ -1,6 +1,6 @@
 {
   "name": "@headstartwp/core",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "`@headstartwp/core` is the core package that houses framework-agnostic components and utilities for building headless sites with WordPress.",
   "homepage": "https://github.com/10up/headstartwp/blob/develop/packages/core/README.md",
   "license": "MIT",
@@ -57,6 +57,7 @@
     "watch:ts:cjs": "npm run ts:cjs -- --watch",
     "watch:ts": "npm run ts -- --watch",
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint src/"
   },
   "devDependencies": {
