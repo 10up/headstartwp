@@ -1,15 +1,24 @@
 import { BlocksRenderer } from '@headstartwp/core/react';
-import { useFetchPost } from '@headstartwp/core/rsc';
-import { setHeadstartWPConfig } from '@headstartwp/core';
+import { fetchPost, fetchPosts, setHeadstartWPConfig } from '@headstartwp/core';
 import styles from './page.module.css';
 import config from '../../headstartwp.config';
 
 setHeadstartWPConfig(config);
 
 const Home = async () => {
-	const { data } = await useFetchPost({
-		slug: '/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
-	});
+	const {
+		data: { posts },
+	} = await fetchPosts();
+
+	const { data } = await fetchPost(
+		{
+			matchCurrentPath: false,
+		},
+		{},
+		'/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+	);
+
+	console.log(posts);
 
 	return (
 		<main className={styles.main}>

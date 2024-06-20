@@ -74,5 +74,3 @@ export const apiGet = async (
 
 	return { headers: receivedHeaders, json };
 };
-
-export const fetchStrategy = async () => {};
