@@ -1,15 +1,8 @@
 import { BlocksRenderer } from '@headstartwp/core/react';
-import { fetchPost, fetchPosts, setHeadstartWPConfig } from '@headstartwp/core';
+import { fetchPost } from '@headstartwp/core';
 import styles from './page.module.css';
-import config from '../../headstartwp.config';
-
-setHeadstartWPConfig(config);
 
 const Home = async () => {
-	const {
-		data: { posts },
-	} = await fetchPosts();
-
 	const { data } = await fetchPost(
 		{
 			matchCurrentPath: false,
@@ -17,8 +10,6 @@ const Home = async () => {
 		{},
 		'/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 	);
-
-	console.log(posts);
 
 	return (
 		<main className={styles.main}>

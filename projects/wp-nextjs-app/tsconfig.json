@@ -20,7 +20,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "strictBindCallApply": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "customConditions": ["react-server"]
   },
   "include": [
     "next-env.d.ts",
