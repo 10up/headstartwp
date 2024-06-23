@@ -49,40 +49,14 @@ export type PageType = {
 };
 
 /**
- * The fetchPosts query function.
+ * Builds the PageType object out of the query params
  *
- * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
- * @param options The options to pass to the swr hook.
- * @param path The path of the url to get url params from.
- *
- * @param _config
- * @module fetchPosts
- * @category Data Fetching Hooks
+ * @param queryParams
+ * @param config
+ * @returns
  */
-export async function fetchPosts<
-	T extends PostEntity = PostEntity,
-	P extends PostsArchiveParams = PostsArchiveParams,
->(
-	params: P | {} = {},
-	options: Partial<FetchOptions> = {},
-	path = '',
-	_config: HeadlessConfig | undefined = undefined,
-) {
-	const config = _config ?? getHeadstartWPConfig();
-
+export function getPageTypeForQuery(queryParams: PostsArchiveParams, config: HeadlessConfig) {
 	const { sourceUrl } = config;
-
-	const {
-		data,
-		isMainQuery,
-		params: queryParams,
-	} = await executeFetchStrategy<T[], P>(
-		fetchPosts.fetcher<T, P>(),
-		config,
-		params,
-		options,
-		path,
-	);
 
 	const pageType: PageType = {
 		isPostArchive: false,
@@ -128,6 +102,45 @@ export async function fetchPosts<
 			pageType.taxonomy = slug;
 		}
 	});
+
+	return pageType;
+}
+
+/**
+ * The fetchPosts query function.
+ *
+ * @param params The list of params to pass to the fetch strategy. It overrides the ones in the URL.
+ * @param options The options to pass to the swr hook.
+ * @param path The path of the url to get url params from.
+ *
+ * @param _config
+ * @module fetchPosts
+ * @category Data Fetching Hooks
+ */
+export async function fetchPosts<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+>(
+	params: P | {} = {},
+	options: Partial<FetchOptions> = {},
+	path = '',
+	_config: HeadlessConfig | undefined = undefined,
+) {
+	const config = _config ?? getHeadstartWPConfig();
+
+	const {
+		data,
+		isMainQuery,
+		params: queryParams,
+	} = await executeFetchStrategy<T[], P>(
+		fetchPosts.fetcher<T, P>(),
+		config,
+		params,
+		options,
+		path,
+	);
+
+	const pageType = getPageTypeForQuery(queryParams, config);
 
 	const { result, pageInfo, queriedObject } = data;
 
