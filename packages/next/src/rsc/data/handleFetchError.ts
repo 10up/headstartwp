@@ -9,7 +9,7 @@ export async function handleFetchError(error: Error, path = '') {
 	}
 
 	if (error.name === 'NotFoundError') {
-		if (redirectStrategy === '404' && path) {
+		if (redirectStrategy === '404' && path.length > 0) {
 			const redirectObject = await fetchRedirect(path, sourceUrl || '');
 
 			if (redirectObject.location) {
@@ -21,6 +21,4 @@ export async function handleFetchError(error: Error, path = '') {
 			}
 		}
 	}
-
-	throw error;
 }
