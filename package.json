@@ -29,9 +29,7 @@
     "publish": "npm run build:packages && npx changeset publish"
   },
   "workspaces": [
-    "packages/core",
-    "packages/next",
-    "packages/next-redis-cache-provider",
+    "packages/*",
     "projects/*",
     "wp/*"
   ],
