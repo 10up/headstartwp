@@ -1,13 +1,9 @@
-import {
-	executeFetchStrategy,
-	FetchOptions,
-	PostParams,
-	SinglePostFetchStrategy,
-} from '../strategies';
+import { executeFetchStrategy, PostParams, SinglePostFetchStrategy } from '../strategies';
 import { HeadlessConfig } from '../../types';
 import { getHeadstartWPConfig, getWPUrl } from '../../utils';
 import { PostEntity } from '../types';
 import { getPostAuthor, getPostTerms } from '../utils';
+import { QueryProps } from './types';
 
 /**
  * The useFetchPost hook. Returns a single post entity
@@ -20,6 +16,7 @@ import { getPostAuthor, getPostTerms } from '../utils';
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
  *
+ * @param query
  * @param _config
  * @module useFetchPost
  * @category Data Fetching Hooks
@@ -27,12 +24,9 @@ import { getPostAuthor, getPostTerms } from '../utils';
 export async function fetchPost<
 	T extends PostEntity = PostEntity,
 	P extends PostParams = PostParams,
->(
-	params: P | {} = {},
-	options: Partial<FetchOptions> = {},
-	path = '',
-	_config: HeadlessConfig | undefined = undefined,
-) {
+>(query: QueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+	const { params = {}, options, path = '' } = query;
+
 	const config = _config ?? getHeadstartWPConfig();
 
 	const { data, isMainQuery } = await executeFetchStrategy<T[], P, T>(

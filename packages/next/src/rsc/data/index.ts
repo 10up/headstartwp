@@ -1,2 +1,2 @@
 export * from '../../data/convertToPath';
-export * from './queries/fetchPostByPath';
+export * from './queries';

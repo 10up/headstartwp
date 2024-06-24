@@ -1,13 +1,9 @@
-import {
-	executeFetchStrategy,
-	FetchOptions,
-	PostsArchiveFetchStrategy,
-	PostsArchiveParams,
-} from '../strategies';
+import { executeFetchStrategy, PostsArchiveFetchStrategy, PostsArchiveParams } from '../strategies';
 import { HeadlessConfig } from '../../types';
 import { getCustomTaxonomies, getHeadstartWPConfig, getWPUrl } from '../../utils';
 import { PostEntity } from '../types';
 import { getPostAuthor, getPostTerms } from '../utils';
+import { QueryProps } from './types';
 
 export type PageType = {
 	/**
@@ -113,6 +109,7 @@ export function getPageTypeForQuery(queryParams: PostsArchiveParams, config: Hea
  * @param options The options to pass to the swr hook.
  * @param path The path of the url to get url params from.
  *
+ * @param query
  * @param _config
  * @module fetchPosts
  * @category Data Fetching Hooks
@@ -120,12 +117,8 @@ export function getPageTypeForQuery(queryParams: PostsArchiveParams, config: Hea
 export async function fetchPosts<
 	T extends PostEntity = PostEntity,
 	P extends PostsArchiveParams = PostsArchiveParams,
->(
-	params: P | {} = {},
-	options: Partial<FetchOptions> = {},
-	path = '',
-	_config: HeadlessConfig | undefined = undefined,
-) {
+>(query: QueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+	const { params = {}, options, path = '' } = query;
 	const config = _config ?? getHeadstartWPConfig();
 
 	const {

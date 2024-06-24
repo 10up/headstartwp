@@ -12,7 +12,7 @@ import {
 	PostsArchiveParams,
 	QueriedObject,
 } from '../../data';
-import { PageType, getPageTypeForQuery } from '../../data/queries/fetchPosts';
+import { PageType, getPageTypeForQuery } from '../../data/fetchFn/fetchPosts';
 import { getWPUrl } from '../../utils';
 import { makeErrorCatchProxy } from './util';
 import { useSettings } from '../provider';

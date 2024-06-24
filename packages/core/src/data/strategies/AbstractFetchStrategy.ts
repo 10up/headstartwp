@@ -310,7 +310,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		const { burstCache = false } = options;
 
 		const args = {};
-		const headers: Record<string, string> = {};
+		const headers: Record<string, unknown> = options.headers ?? {};
 		const authHeader = this.getAuthHeader(options);
 
 		if (authHeader) {
