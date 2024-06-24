@@ -1,3 +1,3 @@
 export * from './data';
-export * from './type';
+export * from './types';
 export * from './config';

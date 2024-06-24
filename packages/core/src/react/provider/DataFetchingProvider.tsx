@@ -14,6 +14,8 @@ export type DataFetchingProviderProps = {
 	swrConfig: SWRConfiguration;
 
 	data: SWRConfiguration['fallback'];
+
+	children: React.ReactNode;
 };
 
 export const DataFetchingProvider: FC<DataFetchingProviderProps> = ({
