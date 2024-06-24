@@ -1,18 +1,17 @@
 import { BlocksRenderer } from '@headstartwp/core/react';
-import { fetchPost } from '@headstartwp/core';
-import styles from './page.module.css';
+import { queryPost } from '@headstartwp/next/app';
 
 const Home = async () => {
-	const { data } = await fetchPost({
-		path: '/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+	const { data } = await queryPost({
 		params: {
+			slug: 'distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 			matchCurrentPath: false,
 		},
 	});
 
 	return (
-		<main className={styles.main}>
-			<div className={styles.description}>
+		<main>
+			<div>
 				<BlocksRenderer html={data.post.content.rendered ?? ''} />
 			</div>
 		</main>

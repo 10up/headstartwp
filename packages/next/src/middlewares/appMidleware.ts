@@ -18,6 +18,7 @@ type AppMidlewareOptions = {
 
 export async function AppMiddleware(
 	req: NextRequest,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	options: AppMidlewareOptions = { appRouter: false },
 ) {
 	const response = NextResponse.next();
@@ -55,11 +56,7 @@ export async function AppMiddleware(
 		response.headers.set('x-headstartwp-site', hostname);
 		const url = req.nextUrl;
 
-		if (options.appRouter) {
-			url.pathname = `/${hostname}${url.pathname}`;
-		} else {
-			url.pathname = `/_sites/${hostname}${url.pathname}`;
-		}
+		url.pathname = `/_sites/${hostname}${url.pathname}`;
 
 		return NextResponse.rewrite(url);
 	}
