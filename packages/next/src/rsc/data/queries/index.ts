@@ -4,4 +4,5 @@ export * from './queryAppSettings';
 export * from './queryAuthorArchive';
 export * from './querySearch';
 export * from './queryTerms';
+export * from './queryPostOrPosts';
 export * from './types';

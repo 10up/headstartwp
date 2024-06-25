@@ -5,3 +5,4 @@ export * from './types';
 export * from './fetchAuthorArchive';
 export * from './fetchTerms';
 export * from './fetchSearch';
+export * from './fetchPostOrPosts';
