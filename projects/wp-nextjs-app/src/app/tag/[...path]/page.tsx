@@ -1,11 +1,11 @@
 import { HeadstartWPRoute, queryPosts } from '@headstartwp/next/app';
 import Link from 'next/link';
 
-const CategoryArchive = async ({ params }: HeadstartWPRoute) => {
+const TagArchive = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryPosts({
 		routeParams: params,
 		params: {
-			taxonomy: 'category',
+			taxonomy: 'post_tag',
 		},
 		options: {
 			headers: {
@@ -29,4 +29,4 @@ const CategoryArchive = async ({ params }: HeadstartWPRoute) => {
 	);
 };
 
-export default CategoryArchive;
+export default TagArchive;

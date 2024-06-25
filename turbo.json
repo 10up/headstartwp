@@ -11,8 +11,12 @@
         "!.next/cache/**"
       ]
     },
+    "@headstartwp/next#build": {
+      "dependsOn": ["@headstartwp/core#build"],
+      "outputs": ["dist/**"]
+    },
     "test": {
-      "dependsOn": ["@headstartwp/core#build", "@headstartwp/next#build"],
+      "dependsOn": ["@headstartwp/next#build"],
       "outputs": [
         ""
       ],
@@ -24,7 +28,7 @@
     },
     "test:watch": {
       "persistent": true,
-      "dependsOn": ["@headstartwp/core#build", "@headstartwp/next#build"],
+      "dependsOn": ["@headstartwp/next#build"],
       "outputs": [
         ""
       ],
@@ -42,7 +46,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["@headstartwp/core#build", "@headstartwp/next#build", "//#wp-env", "@10up/next-redis-cache-provider#build"]
+      "dependsOn": ["@headstartwp/next#build", "//#wp-env", "@10up/next-redis-cache-provider#build"]
     },
     "//#wp-env": {
       "cache": false
