@@ -41,6 +41,7 @@ const MyApp = ({ Component, pageProps }: AppProps<MyAppProps>) => {
 				revalidateOnMount: false,
 			}}
 			settings={{
+				// @ts-expect-error
 				linkComponent: Link,
 			}}
 			useYoastHtml
