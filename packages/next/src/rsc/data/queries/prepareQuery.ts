@@ -1,7 +1,15 @@
-import { HeadlessConfig, getSiteByHost } from '@headstartwp/core';
+import {
+	FrameworkError,
+	HeadlessConfig,
+	getHeadstartWPConfig,
+	getSiteByHost,
+} from '@headstartwp/core';
+import deepmerge from 'deepmerge';
 import { convertToPath } from '../../../data/convertToPath';
 
 import type { NextQueryProps } from './types';
+
+const { all: merge } = deepmerge;
 
 export function prepareQuery<P>(
 	query: NextQueryProps<P>,
@@ -13,17 +21,27 @@ export function prepareQuery<P>(
 	const siteConfig = routeParams?.site ? getSiteByHost(routeParams?.site) : null;
 
 	if (routeParams?.site && !siteConfig) {
-		// improve this
-		throw new Error('Sub site not found');
+		throw new FrameworkError(
+			`Sub site not found, make sure to add ${routeParams?.site} to headstartwp.config.js`,
+		);
 	}
 
-	const config = siteConfig ?? _config;
+	const options = merge<NextQueryProps<P>['options']>([
+		{
+			headers: {
+				cache: 'no-store',
+			},
+		},
+		rest.options ?? {},
+	]);
 
+	const config = siteConfig ?? _config;
 	const pathname = Array.isArray(path) ? convertToPath(path) : path;
 
 	return {
 		...rest,
+		options,
 		path: pathname,
-		config,
+		config: config ?? getHeadstartWPConfig(),
 	};
 }

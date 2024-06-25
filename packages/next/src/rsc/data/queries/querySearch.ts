@@ -21,7 +21,7 @@ export async function querySearch<
 		return result;
 	} catch (error) {
 		if (error instanceof Error) {
-			handleFetchError(error, query.path);
+			handleFetchError(error, config, query.path);
 		}
 		throw error;
 	}

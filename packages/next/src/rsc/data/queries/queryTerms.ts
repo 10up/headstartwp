@@ -9,14 +9,13 @@ export async function queryTerms<
 >(q: NextQueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
 	const { config, ...query } = prepareQuery<P>(q, _config);
 
-	// TODO does this one need to fetch handle errors?
 	try {
 		const result = await fetchTerms<T, P>(query, config);
 
 		return result;
 	} catch (error) {
 		if (error instanceof Error) {
-			handleFetchError(error, query.path);
+			handleFetchError(error, config, query.path);
 		}
 		throw error;
 	}

@@ -1,8 +1,8 @@
-import { LOGTYPE, fetchRedirect, getHeadstartWPConfig, log } from '@headstartwp/core';
+import { HeadlessConfig, LOGTYPE, fetchRedirect, log } from '@headstartwp/core';
 import { notFound, permanentRedirect, redirect } from 'next/navigation';
 
-export async function handleFetchError(error: Error, path = '') {
-	const { redirectStrategy, sourceUrl, debug } = getHeadstartWPConfig();
+export async function handleFetchError(error: Error, config: HeadlessConfig, path = '') {
+	const { redirectStrategy, sourceUrl, debug } = config;
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, '[handleError] error', error.name, error.message);

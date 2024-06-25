@@ -9,15 +9,13 @@ export async function queryAppSettings<
 >(q: NextQueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
 	const { config, ...query } = prepareQuery<P>(q, _config);
 
-	// TODO: do we need to handle errors?
-
 	try {
 		const result = await fetchAppSettings<T, P>(query, config);
 
 		return result;
 	} catch (error) {
 		if (error instanceof Error) {
-			handleFetchError(error, query.path);
+			handleFetchError(error, config, query.path);
 		}
 		throw error;
 	}
