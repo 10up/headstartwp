@@ -4,7 +4,8 @@ import { queryPost } from '@headstartwp/next/app';
 const Home = async () => {
 	const { data } = await queryPost({
 		params: {
-			slug: 'distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+			slug: 'sample-page',
+			postType: 'page',
 			matchCurrentPath: false,
 		},
 	});
