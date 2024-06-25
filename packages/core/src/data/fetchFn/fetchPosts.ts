@@ -111,13 +111,18 @@ export function getPageTypeForQuery(queryParams: PostsArchiveParams, config: Hea
  *
  * @param query
  * @param _config
+ * @param fetcher
  * @module fetchPosts
  * @category Data Fetching Hooks
  */
 export async function fetchPosts<
 	T extends PostEntity = PostEntity,
 	P extends PostsArchiveParams = PostsArchiveParams,
->(query: QueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+>(
+	query: QueryProps<P>,
+	_config: HeadlessConfig | undefined = undefined,
+	fetcher: PostsArchiveFetchStrategy<T, P> | undefined = undefined,
+) {
 	const { params = {}, options, path = '' } = query;
 	const config = _config ?? getHeadstartWPConfig();
 
@@ -126,7 +131,7 @@ export async function fetchPosts<
 		isMainQuery,
 		params: queryParams,
 	} = await executeFetchStrategy<T[], P>(
-		fetchPosts.fetcher<T, P>(),
+		fetcher ?? fetchPosts.fetcher<T, P>(),
 		config,
 		params,
 		options,
