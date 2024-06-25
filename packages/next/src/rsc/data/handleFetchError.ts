@@ -1,5 +1,5 @@
 import { LOGTYPE, fetchRedirect, getHeadstartWPConfig, log } from '@headstartwp/core';
-import { permanentRedirect, redirect } from 'next/navigation';
+import { notFound, permanentRedirect, redirect } from 'next/navigation';
 
 export async function handleFetchError(error: Error, path = '') {
 	const { redirectStrategy, sourceUrl, debug } = getHeadstartWPConfig();
@@ -20,5 +20,7 @@ export async function handleFetchError(error: Error, path = '') {
 				}
 			}
 		}
+
+		notFound();
 	}
 }
