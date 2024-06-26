@@ -13,4 +13,14 @@ describe('queryPosts', () => {
 
 		expect(data.post.slug).toBe('modi-qui-dignissimos-sed-assumenda-sint-iusto');
 	});
+
+	it.skip('issues not found', async () => {
+		await expect(
+			queryPost({
+				routeParams: {
+					path: ['2020', '05', '07', 'not-found-post'],
+				},
+			}),
+		).rejects.toThrow();
+	});
 });
