@@ -20,6 +20,7 @@
     "lint": "turbo run lint",
     "wp-env": "npm run wp-env:start -w=wp/headless-wp",
     "dev": "turbo run dev --parallel --filter=!./projects/wp-multisite-nextjs --filter=!./projects/wp-multisite-i18n-nextjs",
+    "dev:app": "turbo run dev --parallel --filter=!./projects/wp-multisite-nextjs --filter=!./projects/wp-multisite-i18n-nextjs --filter=!./projects/wp-nextjs",
     "dev:multisite": "turbo run dev --parallel --filter=!./projects/wp-nextjs",
     "prepare": "husky install",
     "typedoc": "typedoc",
@@ -28,9 +29,7 @@
     "publish": "npm run build:packages && npx changeset publish"
   },
   "workspaces": [
-    "packages/core",
-    "packages/next",
-    "packages/next-redis-cache-provider",
+    "packages/*",
     "projects/*",
     "wp/*"
   ],

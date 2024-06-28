@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import { domToReact } from 'html-react-parser';
 import { isYoutubeEmbed, youtubeEmbedRegex } from '../../dom';

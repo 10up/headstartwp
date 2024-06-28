@@ -1,7 +1,7 @@
 import useSWR, { useSWRConfig } from 'swr';
-import deepmerge from 'deepmerge';
+
 import type { EndpointParams, FetchResponse } from '../../data';
-import { AbstractFetchStrategy } from '../../data';
+import { AbstractFetchStrategy, prepareFetchStrategy } from '../../data';
 
 import { useSettings } from '../provider';
 import { FetchHookOptions } from './types';
@@ -33,16 +33,16 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 	options: FetchHookOptions<FetchResponse<R>> = {},
 	path = '',
 ) {
-	const { sourceUrl, debug } = useSettings();
+	const settings = useSettings();
 	const { mutate } = useSWRConfig();
+	const { debug } = settings;
 
-	fetchStrategy.setBaseURL(sourceUrl);
-
-	const defaultParams = fetchStrategy.getDefaultParams();
-	const urlParams = fetchStrategy.getParamsFromURL(path, params);
-	const isMainQuery = fetchStrategy.isMainQuery(path, params);
-
-	const finalParams = deepmerge.all([defaultParams, urlParams, params]) as Partial<Params>;
+	const {
+		params: finalParams,
+		isMainQuery,
+		endpointUrl,
+		key,
+	} = prepareFetchStrategy(fetchStrategy, settings, params, path);
 
 	const { fetchStrategyOptions, shouldFetch = true, ...validSWROptions } = options;
 
@@ -58,9 +58,6 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 		// @ts-expect-error
 		options.swr = { ...validSWROptions };
 	}
-
-	const endpointUrl = fetchStrategy.buildEndpointURL(finalParams);
-	const key = fetchStrategy.getCacheKey(finalParams);
 
 	if (debug?.devMode) {
 		log(LOGTYPE.INFO, `[useFetch] key for ${key.url}`, key);

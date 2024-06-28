@@ -19,7 +19,7 @@ export const setHeadlessConfig = setHeadstartWPConfig;
  *
  * @returns The contents of headless.config.js
  */
-export function getHeadstartWPConfig() {
+export function getHeadstartWPConfig(): HeadlessConfig {
 	const {
 		customPostTypes,
 		redirectStrategy,

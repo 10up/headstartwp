@@ -53,6 +53,14 @@ export interface FetchResponse<T> {
 	queriedObject: QueriedObject;
 }
 
+type NextJSHeaders = {
+	next?: {
+		revalidate?: false | 0 | number;
+		tags?: string[];
+	};
+	cache?: 'no-store' | 'force-cache';
+};
+
 /**
  * The options supported by the default fetcher method
  */
@@ -85,6 +93,11 @@ export interface FetchOptions {
 	 * Whether to burst cache by appending a timestamp to the query
 	 */
 	burstCache?: boolean;
+
+	/**
+	 * Headers to sent to fetch
+	 */
+	headers?: Record<string, unknown> & NextJSHeaders;
 }
 
 export interface FilterDataOptions<T> {
@@ -297,7 +310,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 		const { burstCache = false } = options;
 
 		const args = {};
-		const headers: Record<string, string> = {};
+		const headers: Record<string, unknown> = options.headers ?? {};
 		const authHeader = this.getAuthHeader(options);
 
 		if (authHeader) {

@@ -137,7 +137,7 @@ export class SearchNativeFetchStrategy<
 				addQueryArgs(`${wpUrl}${endpoints.yoast}`, {
 					url: `${wpUrl}${pageParam}/?s=${params.search ?? ''}${localeParam}`,
 				}),
-				{},
+				{ headers: options.headers ?? {} },
 				burstCache,
 			);
 
