@@ -15,7 +15,7 @@ export async function queryPosts<
 		return result;
 	} catch (error) {
 		if (error instanceof Error) {
-			handleFetchError(error, config, query.path);
+			await handleFetchError(error, config, query.path);
 		}
 		throw error;
 	}

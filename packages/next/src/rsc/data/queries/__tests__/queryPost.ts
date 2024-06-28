@@ -14,7 +14,7 @@ describe('queryPosts', () => {
 		expect(data.post.slug).toBe('modi-qui-dignissimos-sed-assumenda-sint-iusto');
 	});
 
-	it.skip('issues not found', async () => {
+	it('issues not found', async () => {
 		await expect(
 			queryPost({
 				routeParams: {

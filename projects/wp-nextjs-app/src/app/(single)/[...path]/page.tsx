@@ -6,11 +6,6 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 		params: {
 			matchCurrentPath: false,
 		},
-		options: {
-			headers: {
-				cache: 'no-store',
-			},
-		},
 	});
 
 	return (
