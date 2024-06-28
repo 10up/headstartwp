@@ -44,7 +44,7 @@ export async function fetchPost<
 	};
 
 	return {
-		data: { post, pageInfo: data.pageInfo, queriedObject: data.queriedObject },
+		data: { post },
 		isMainQuery,
 	};
 }

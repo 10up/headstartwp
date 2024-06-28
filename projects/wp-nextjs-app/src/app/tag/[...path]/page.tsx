@@ -7,11 +7,6 @@ const TagArchive = async ({ params }: HeadstartWPRoute) => {
 		params: {
 			taxonomy: 'post_tag',
 		},
-		options: {
-			headers: {
-				cache: 'no-store',
-			},
-		},
 	});
 
 	return (

@@ -4,11 +4,6 @@ import Link from 'next/link';
 const Search = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await querySearch({
 		routeParams: params,
-		options: {
-			headers: {
-				cache: 'no-store',
-			},
-		},
 	});
 
 	if (data.pageInfo.totalItems === 0) {

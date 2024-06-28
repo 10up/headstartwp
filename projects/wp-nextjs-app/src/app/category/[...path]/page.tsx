@@ -7,11 +7,6 @@ const CategoryArchive = async ({ params }: HeadstartWPRoute) => {
 		params: {
 			taxonomy: 'category',
 		},
-		options: {
-			headers: {
-				cache: 'no-store',
-			},
-		},
 	});
 
 	return (
