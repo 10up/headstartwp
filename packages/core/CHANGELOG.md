@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-app.0
+
+### Minor Changes
+
+- dad963d: Initial App Router Support
+
 ## 1.4.4
 
 ### Patch Changes
