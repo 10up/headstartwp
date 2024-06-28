@@ -1,5 +1,16 @@
 # @headstartwp/next
 
+## 1.5.0-app.0
+
+### Minor Changes
+
+- dad963d: Initial App Router Support
+
+### Patch Changes
+
+- Updated dependencies [dad963d]
+  - @headstartwp/core@1.5.0-app.0
+
 ## 1.4.3
 
 ### Patch Changes
