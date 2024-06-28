@@ -3,7 +3,7 @@ name: Release @app
 on:
   push:
     branches:
-      - develop
+      - app-router-release
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
