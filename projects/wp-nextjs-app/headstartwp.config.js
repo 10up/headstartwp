@@ -7,4 +7,8 @@ module.exports = {
 	sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
 
 	useWordPressPlugin: true,
+
+	preview: {
+		usePostLinkForRedirect: true,
+	},
 };
