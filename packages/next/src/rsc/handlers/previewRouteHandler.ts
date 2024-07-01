@@ -104,10 +104,11 @@ export async function previewRouteHandler(request: NextRequest) {
 
 		const redirectPath = getDefaultRedirectPath();
 
-		console.log('Setting preview cookie', previewData, redirectPath);
 		cookies().set(COOKIE_NAME, JSON.stringify(previewData), {
 			maxAge: 5 * 60,
-			// path: redirectPath,
+			// remove trailing slash
+			path: redirectPath.replace(/\/$/, ''),
+			httpOnly: true,
 		});
 
 		draftMode().enable();

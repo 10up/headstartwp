@@ -15,22 +15,29 @@ export async function queryPost<
 	try {
 		const { isEnabled } = draftMode();
 
-		if (isEnabled && cookies().has(COOKIE_NAME)) {
-			const previewData: PreviewData = JSON.parse(cookies().get(COOKIE_NAME)?.value ?? '{}');
+		if (isEnabled) {
+			// the cookie will only exist for the previewed path
+			if (cookies().has(COOKIE_NAME)) {
+				const previewData: PreviewData = JSON.parse(
+					cookies().get(COOKIE_NAME)?.value ?? '{}',
+				);
 
-			if (!query.params) {
-				query.params = {};
-			}
+				if (!query.params) {
+					query.params = {};
+				}
 
-			if (query.params) {
-				query.params.id = previewData.id;
-				query.params.revision = previewData.revision;
-				query.params.postType = previewData.postType;
-				query.params.authToken = previewData.authToken;
+				if (query.params) {
+					query.params.id = previewData.id;
+					query.params.revision = previewData.revision;
+					query.params.postType = previewData.postType;
+					query.params.authToken = previewData.authToken;
+				}
+			} else {
+				// if draft mode was enabled but no preview cookie was found, disable draft mode
+				draftMode().disable();
 			}
 		}
 
-		// todo: find a way to disable preview mode
 		const result = await fetchPost<T, P>(query, config);
 
 		return result;
