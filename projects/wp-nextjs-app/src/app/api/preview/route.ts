@@ -4,6 +4,8 @@ import { setHeadlessConfig } from '@headstartwp/core';
 import config from '../../../../headstartwp.config';
 
 setHeadlessConfig(config);
+
 export async function GET(request: NextRequest) {
+	// @ts-expect-error
 	return previewRouteHandler(request);
 }
