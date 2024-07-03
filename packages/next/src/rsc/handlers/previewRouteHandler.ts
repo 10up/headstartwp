@@ -21,7 +21,7 @@ export type PreviewRouteHandlerOptions = {
 	/**
 	 * If passed will override the default redirect path
 	 *
-	 * @returns the new redirect path
+	 * @param options The options object
 	 */
 	getRedirectPath?: (options: {
 		req: NextRequest;
@@ -33,9 +33,9 @@ export type PreviewRouteHandlerOptions = {
 
 	/**
 	 * If passed, this function will be called when the preview data is fetched and allows
-	 * for additional preview data to be set.
+	 * for additional preview data to be set and stored in the cookie.
 	 *
-	 * The preview data is serialized and stored in a cookie.
+	 * The preview data is stored serialized in a cookie
 	 */
 	preparePreviewData?: (options: {
 		req: NextRequest;
@@ -44,15 +44,67 @@ export type PreviewRouteHandlerOptions = {
 		previewData: PreviewData;
 	}) => PreviewData;
 
+	/**
+	 * If passed will override the behavior of redirecting to the previewed post. We recommend implementing `getRedirectPath` instead.
+	 *
+	 * If set you should handle the redirect yourself by calling `redirect` or permanentRedirect.
+	 *
+	 * This can be used to customize the preview url.
+	 *
+	 * ```ts
+	 * // app/api/preview/route.ts
+	 * import { previewRouteHandler } from '@headstartwp/next/app';
+	 * import type { NextRequest } from 'next/server';
+	 *
+	 * export async function GET(request: NextRequest) {
+	 *  // @ts-expect-error
+	 *  return previewRouteHandler(
+	 * 		request, {
+	 * 			onRedirect(options) {
+	 * 				// custom redirect logic
+	 * 			}
+	 * 		}
+	 *  });
+	 * }
+	 *
+	 * @param options The options object
+	 */
 	onRedirect?: (options: {
 		req: NextRequest;
-		redirectpath?: string;
+		redirectPath?: string;
 		previewData: PreviewData;
 		postTypeDef: CustomPostType;
 		post: PostEntity;
 	}) => void;
 };
 
+/**
+ * The previewRouteHandler is responsible for handling preview requests in the app router
+ *
+ * Handling Previews requires the Headless WordPress Plugin.
+ *
+ * **Important**: This function is meant to be used in a api route at `/app/api/preview/route.ts`.
+ *
+ * #### Usage
+ *
+ * ```ts
+ * // app/api/preview/route.ts
+ * import { previewRouteHandler } from '@headstartwp/next/app';
+ * import type { NextRequest } from 'next/server';
+ *
+ * export async function GET(request: NextRequest) {
+ *  // @ts-expect-error
+ *  return previewRouteHandler(request);
+ * }
+ * ```
+ *
+ * @param request The request object,
+ * @param options The PreviewRouteHandlerOptions {@link PreviewRouteHandlerOptions}
+ *
+ * @returns A response object.
+ *
+ * @category Route handlers
+ */
 export async function previewRouteHandler(
 	request: NextRequest,
 	options: PreviewRouteHandlerOptions = {},
@@ -183,6 +235,7 @@ export async function previewRouteHandler(
 				previewData,
 				postTypeDef,
 				post: result,
+				redirectPath,
 			});
 		} else {
 			redirect(redirectPath);
