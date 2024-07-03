@@ -19,7 +19,7 @@ const RootLayout = ({
 		<html lang="en">
 			<body className={inter.className}>
 				{children}
-				<PreviewIndicator />
+				<PreviewIndicator className="form-container" />
 			</body>
 		</html>
 	);

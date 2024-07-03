@@ -61,8 +61,8 @@
     "@isaacs/ttlcache": "^1.4.1"
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.19.0",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/dom": "^10.3.0",
+    "@testing-library/react": "^16.0.0",
     "@types/jest": "^29.0.3",
     "copy-webpack-plugin": "^10.2.4",
     "expect-type": "^0.15.0",
@@ -71,7 +71,7 @@
     "node-mocks-http": "^1.14.1",
     "ts-jest": "^29.0.1",
     "typescript": "^5.4.5",
-    "whatwg-fetch": "^3.6.2",
+    "whatwg-fetch": "^3.6.20",
     "jest-fetch-mock": "^3.0.3",
     "tsc-esm-fix": "^2.20.27",
     "@types/react": "^18",

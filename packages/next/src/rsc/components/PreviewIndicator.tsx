@@ -1,9 +1,14 @@
 import { cookies, draftMode, headers } from 'next/headers';
 import React from 'react';
 import { redirect } from 'next/navigation';
+
 import { COOKIE_NAME } from '../handlers/previewRouteHandler';
 
-export const PreviewIndicator: React.FC = () => {
+export type PreviewIndicatorProps = {
+	className?: string;
+};
+
+export const PreviewIndicator: React.FC<PreviewIndicatorProps> = ({ className }) => {
 	const { isEnabled } = draftMode();
 
 	if (!isEnabled) {
@@ -20,9 +25,11 @@ export const PreviewIndicator: React.FC = () => {
 	}
 
 	return (
-		<form action={disableDraftMode}>
-			You are previewing the current page.
-			<button type="submit">Exit Preview</button>
-		</form>
+		<div className={className}>
+			<form action={disableDraftMode}>
+				You are previewing the current page.
+				<button type="submit">Exit Preview</button>
+			</form>
+		</div>
 	);
 };
