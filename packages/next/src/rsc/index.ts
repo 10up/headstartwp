@@ -4,3 +4,6 @@ export * from './config';
 
 // handlers
 export * from './handlers/previewRouteHandler';
+
+// components
+export * from './components/PreviewIndicator';

@@ -1,4 +1,6 @@
 import {
+	CustomPostType,
+	PostEntity,
 	fetchPost,
 	getCustomPostType,
 	getHeadstartWPConfig,
@@ -12,7 +14,49 @@ import type { PreviewData } from '../../handlers';
 
 export const COOKIE_NAME = 'headstartwp_preview';
 
-export async function previewRouteHandler(request: NextRequest) {
+/**
+ * The options supported by {@link previewRouteHandler}
+ */
+export type PreviewRouteHandlerOptions = {
+	/**
+	 * If passed will override the default redirect path
+	 *
+	 * @returns the new redirect path
+	 */
+	getRedirectPath?: (options: {
+		req: NextRequest;
+		defaultRedirectPath: string;
+		post: PostEntity;
+		postTypeDef: CustomPostType;
+		previewData: PreviewData;
+	}) => string;
+
+	/**
+	 * If passed, this function will be called when the preview data is fetched and allows
+	 * for additional preview data to be set.
+	 *
+	 * The preview data is serialized and stored in a cookie.
+	 */
+	preparePreviewData?: (options: {
+		req: NextRequest;
+		post: PostEntity;
+		postTypeDef: CustomPostType;
+		previewData: PreviewData;
+	}) => PreviewData;
+
+	onRedirect?: (options: {
+		req: NextRequest;
+		redirectpath?: string;
+		previewData: PreviewData;
+		postTypeDef: CustomPostType;
+		post: PostEntity;
+	}) => void;
+};
+
+export async function previewRouteHandler(
+	request: NextRequest,
+	options: PreviewRouteHandlerOptions = {},
+) {
 	const { searchParams } = request.nextUrl;
 	const post_id = Number(searchParams.get('post_id') ?? 0);
 	const post_type = searchParams.get('post_type');
@@ -35,7 +79,7 @@ export async function previewRouteHandler(request: NextRequest) {
 
 	const revision = is_revision === '1';
 
-	const postTypeDef = getCustomPostType(post_type as string, sourceUrl);
+	const postTypeDef = getCustomPostType(post_type, sourceUrl);
 
 	if (!postTypeDef) {
 		return new Response(
@@ -68,12 +112,22 @@ export async function previewRouteHandler(request: NextRequest) {
 	if (result?.id === id || result?.parent === id) {
 		const { slug } = result;
 
-		const previewData: PreviewData = {
+		let previewData: PreviewData = {
 			id,
 			postType: post_type as string,
 			revision,
 			authToken: token as string,
 		};
+
+		previewData =
+			typeof options.preparePreviewData === 'function'
+				? options.preparePreviewData({
+						req: request,
+						post: result,
+						previewData,
+						postTypeDef,
+					})
+				: previewData;
 
 		/**
 		 * Builds the default redirect path
@@ -102,7 +156,17 @@ export async function previewRouteHandler(request: NextRequest) {
 			return `/${path}`;
 		};
 
-		const redirectPath = getDefaultRedirectPath();
+		const defaultRedirectPath = getDefaultRedirectPath();
+		const redirectPath =
+			typeof options.getRedirectPath === 'function'
+				? options.getRedirectPath({
+						req: request,
+						defaultRedirectPath,
+						post: result,
+						postTypeDef,
+						previewData,
+					})
+				: defaultRedirectPath;
 
 		cookies().set(COOKIE_NAME, JSON.stringify(previewData), {
 			maxAge: 5 * 60,
@@ -113,7 +177,16 @@ export async function previewRouteHandler(request: NextRequest) {
 
 		draftMode().enable();
 
-		redirect(redirectPath);
+		if (typeof options.onRedirect === 'function') {
+			options.onRedirect({
+				req: request,
+				previewData,
+				postTypeDef,
+				post: result,
+			});
+		} else {
+			redirect(redirectPath);
+		}
 	}
 
 	return new Response('There was an error setting up preview', { status: 500 });

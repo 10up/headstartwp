@@ -21,7 +21,7 @@ export type PreviewHandlerOptions = {
 	 *
 	 * If set you should handle the redirect yourself by calling `res.redirect`.
 	 *
-	 * **Important**: You should not need to override this but if you do, uou must append `-preview=true` to the end of the redirected url.
+	 * **Important**: You should not need to override this but if you do, you must append `-preview=true` to the end of the redirected url.
 	 *
 	 * This can be used to customize the preview url.
 	 *
@@ -55,7 +55,7 @@ export type PreviewHandlerOptions = {
 	/**
 	 * If passed will override the default redirect path
 	 *
-	 * **Important**: You should not need to override this but if you do, uou must append `-preview=true` to the end of the redirecte path.
+	 * **Important**: You should not need to override this but if you do, you must append `-preview=true` to the end of the redirecte path.
 	 *
 	 * @param defaultRedirectPath the default redirect path
 	 * @param post PostEntity
@@ -235,7 +235,7 @@ export async function previewHandler(
 
 			res.setPreviewData(previewData, {
 				maxAge: 5 * 60,
-				// we can only safely narrow the cookei to a path if getRedirectPath is implemented or
+				// we can only safely narrow the cookie to a path if getRedirectPath is implemented or
 				// it's using the default behavior without a custom onRedirect
 				path: shouldSetPathInCookie ? redirectPath : '/',
 			});
