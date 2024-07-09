@@ -3,14 +3,13 @@ import {
 	PostEntity,
 	fetchPost,
 	getCustomPostType,
-	getHeadstartWPConfig,
-	getSiteByHost,
 	removeSourceUrl,
 } from '@headstartwp/core';
 import type { NextRequest } from 'next/server';
 import { cookies, draftMode } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { PreviewData } from '../../handlers';
+import { getHostAndConfigFromRequest } from './utils';
 
 export const COOKIE_NAME = 'headstartwp_preview';
 
@@ -57,7 +56,6 @@ export type PreviewRouteHandlerOptions = {
 	 * import type { NextRequest } from 'next/server';
 	 *
 	 * export async function GET(request: NextRequest) {
-	 *  // @ts-expect-error
 	 *  return previewRouteHandler(
 	 * 		request, {
 	 * 			onRedirect(options) {
@@ -93,7 +91,6 @@ export type PreviewRouteHandlerOptions = {
  * import type { NextRequest } from 'next/server';
  *
  * export async function GET(request: NextRequest) {
- *  // @ts-expect-error
  *  return previewRouteHandler(request);
  * }
  * ```
@@ -121,12 +118,7 @@ export async function previewRouteHandler(
 		return new Response('Missing required params', { status: 401 });
 	}
 
-	// get the host header
-	const host = request.headers.get('host') ?? '';
-	const site = getSiteByHost(host, typeof locale === 'string' ? locale : undefined);
-	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
-
-	const config = isMultisiteRequest ? site : getHeadstartWPConfig();
+	const { config } = getHostAndConfigFromRequest(request);
 	const { sourceUrl, preview } = config;
 
 	const revision = is_revision === '1';
@@ -140,7 +132,9 @@ export async function previewRouteHandler(
 		);
 	}
 
-	const { data } = await fetchPost(
+	const {
+		data: { post },
+	} = await fetchPost(
 		{
 			params: {
 				id: Number(post_id),
@@ -159,10 +153,8 @@ export async function previewRouteHandler(
 
 	const id = Number(post_id);
 
-	const result = data.post;
-
-	if (result?.id === id || result?.parent === id) {
-		const { slug } = result;
+	if (post?.id === id || post?.parent === id) {
+		const { slug } = post;
 
 		let previewData: PreviewData = {
 			id,
@@ -175,7 +167,7 @@ export async function previewRouteHandler(
 			typeof options.preparePreviewData === 'function'
 				? options.preparePreviewData({
 						req: request,
-						post: result,
+						post,
 						previewData,
 						postTypeDef,
 					})
@@ -189,14 +181,14 @@ export async function previewRouteHandler(
 		const getDefaultRedirectPath = () => {
 			if (preview?.usePostLinkForRedirect) {
 				if (
-					result.status === 'draft' &&
-					typeof result._headless_wp_preview_link === 'undefined'
+					post.status === 'draft' &&
+					typeof post._headless_wp_preview_link === 'undefined'
 				) {
 					throw new Error(
 						'You are using usePostLinkForRedirect setting but your rest response does not have _headless_wp_preview_link, ensure you are running the latest version of the plugin',
 					);
 				}
-				const link = result._headless_wp_preview_link ?? result.link;
+				const link = post._headless_wp_preview_link ?? post.link;
 				return removeSourceUrl({ link: link as string, backendUrl: sourceUrl ?? '' });
 			}
 
@@ -214,7 +206,7 @@ export async function previewRouteHandler(
 				? options.getRedirectPath({
 						req: request,
 						defaultRedirectPath,
-						post: result,
+						post,
 						postTypeDef,
 						previewData,
 					})
@@ -234,7 +226,7 @@ export async function previewRouteHandler(
 				req: request,
 				previewData,
 				postTypeDef,
-				post: result,
+				post,
 				redirectPath,
 			});
 		} else {
