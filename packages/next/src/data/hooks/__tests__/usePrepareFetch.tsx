@@ -1,6 +1,7 @@
 import { SettingsProvider } from '@headstartwp/core/react';
 import { renderHook } from '@testing-library/react';
 import * as React from 'react';
+import { setHeadstartWPConfig } from '@headstartwp/core';
 import { usePrepareFetch } from '../usePrepareFetch';
 
 const useRouterMock = jest.fn();
@@ -10,11 +11,22 @@ jest.mock('next/router', () => ({
 }));
 
 describe('usePrepareFetch', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
+			useWordPressPlugin: true,
+		});
+	});
+
 	it('injects locale if locale is set and polylang integration is enabled', () => {
 		const wrapper = ({ children }) => {
 			return (
 				<SettingsProvider
-					settings={{ sourceUrl: '', integrations: { polylang: { enable: true } } }}
+					settings={{
+						sourceUrl: 'https://js1.10up.com',
+						useWordPressPlugin: true,
+						integrations: { polylang: { enable: true } },
+					}}
 				>
 					{children}
 				</SettingsProvider>
@@ -36,7 +48,11 @@ describe('usePrepareFetch', () => {
 		const wrapper = ({ children }) => {
 			return (
 				<SettingsProvider
-					settings={{ sourceUrl: '', integrations: { polylang: { enable: true } } }}
+					settings={{
+						sourceUrl: 'https://js1.10up.com',
+						useWordPressPlugin: true,
+						integrations: { polylang: { enable: true } },
+					}}
 				>
 					{children}
 				</SettingsProvider>
