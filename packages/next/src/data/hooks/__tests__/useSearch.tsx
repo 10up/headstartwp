@@ -1,14 +1,22 @@
 import { setHeadstartWPConfig, type PostEntity, type PostsArchiveParams } from '@headstartwp/core';
 import { renderHook } from '@testing-library/react';
+import * as React from 'react';
 import { expectTypeOf } from 'expect-type';
-import { useAuthorArchive } from '../useAuthorArchive';
+import { SettingsProvider } from '@headstartwp/core/react';
+import { useSearch } from '../useSearch';
 
-describe('useAuthorArchive types', () => {
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
+const wrapper = ({ children }) => {
+	return <SettingsProvider settings={config}>{children}</SettingsProvider>;
+};
+
+describe('useSearch types', () => {
 	beforeAll(() => {
-		setHeadstartWPConfig({
-			sourceUrl: 'https://js1.10up.com',
-			useWordPressPlugin: true,
-		});
+		setHeadstartWPConfig(config);
 	});
 
 	it('allows overriding types', () => {
@@ -20,7 +28,9 @@ describe('useAuthorArchive types', () => {
 			isbn: string;
 		}
 
-		const { result } = renderHook(() => useAuthorArchive<Book, BookParams>({ isbn: 'sdasd' }));
+		const { result } = renderHook(() => useSearch<Book, BookParams>({ isbn: 'sdasd' }), {
+			wrapper,
+		});
 
 		expectTypeOf(result.current.data?.posts).toMatchTypeOf<
 			| Array<{

@@ -10,12 +10,14 @@ jest.mock('next/router', () => ({
 	useRouter: () => useRouterMock(),
 }));
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
 describe('usePrepareFetch', () => {
 	beforeAll(() => {
-		setHeadstartWPConfig({
-			sourceUrl: 'https://js1.10up.com',
-			useWordPressPlugin: true,
-		});
+		setHeadstartWPConfig(config);
 	});
 
 	it('injects locale if locale is set and polylang integration is enabled', () => {
@@ -23,8 +25,7 @@ describe('usePrepareFetch', () => {
 			return (
 				<SettingsProvider
 					settings={{
-						sourceUrl: 'https://js1.10up.com',
-						useWordPressPlugin: true,
+						...config,
 						integrations: { polylang: { enable: true } },
 					}}
 				>
@@ -49,8 +50,7 @@ describe('usePrepareFetch', () => {
 			return (
 				<SettingsProvider
 					settings={{
-						sourceUrl: 'https://js1.10up.com',
-						useWordPressPlugin: true,
+						...config,
 						integrations: { polylang: { enable: true } },
 					}}
 				>

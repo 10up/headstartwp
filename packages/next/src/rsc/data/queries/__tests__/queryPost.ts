@@ -1,5 +1,6 @@
 import nextHeaders from 'next/headers';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '@headstartwp/core/test';
+import { setHeadstartWPConfig } from '@headstartwp/core';
 import { queryPost } from '../queryPost';
 import { COOKIE_NAME } from '../../../handlers/previewRouteHandler';
 
@@ -11,7 +12,16 @@ jest.mock('next/headers', () => ({
 	})),
 }));
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
 describe('queryPosts', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig(config);
+	});
+
 	it('fetches posts', async () => {
 		const { data } = await queryPost({
 			routeParams: {

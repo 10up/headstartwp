@@ -11,23 +11,19 @@ jest.mock('next/router', () => ({
 	useRouter: () => useRouterMock(),
 }));
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
+const wrapper = ({ children }) => {
+	return <SettingsProvider settings={config}>{children}</SettingsProvider>;
+};
+
 describe('usePosts', () => {
 	beforeAll(() => {
-		setHeadstartWPConfig({
-			sourceUrl: 'https://js1.10up.com',
-			useWordPressPlugin: true,
-		});
+		setHeadstartWPConfig(config);
 	});
-
-	const wrapper = ({ children }) => {
-		return (
-			<SettingsProvider
-				settings={{ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true }}
-			>
-				{children}
-			</SettingsProvider>
-		);
-	};
 
 	beforeAll(() => {
 		useRouterMock.mockReturnValue({ query: { path: '' } });
@@ -50,10 +46,7 @@ describe('usePosts types', () => {
 	});
 
 	beforeAll(() => {
-		setHeadstartWPConfig({
-			sourceUrl: 'https://js1.10up.com',
-			useWordPressPlugin: true,
-		});
+		setHeadstartWPConfig(config);
 	});
 
 	it('allows overriding types', () => {
@@ -65,7 +58,9 @@ describe('usePosts types', () => {
 			isbn: string;
 		}
 
-		const { result } = renderHook(() => usePosts<Book, BookParams>({ isbn: 'sdasd' }));
+		const { result } = renderHook(() => usePosts<Book, BookParams>({ isbn: 'sdasd' }), {
+			wrapper,
+		});
 
 		expectTypeOf(result.current.data?.posts).toMatchTypeOf<
 			| Array<{
