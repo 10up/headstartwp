@@ -178,7 +178,7 @@ describe('fetchHookData', () => {
 								totalPages: 1,
 							},
 						},
-					'#url:"@postOrPosts",args:#sourceUrl:"",single:#slug:"uncategorized",,routeMatchStrategy:"archive",priority:"archive",archive:#taxonomy:"category",category:"uncategorized",,,':
+					'#url:"@postOrPosts",args:#sourceUrl:"https://js1.10up.com",single:#slug:"uncategorized",,routeMatchStrategy:"archive",priority:"archive",archive:#taxonomy:"category",category:"uncategorized",,,':
 						{
 							pageInfo: {
 								page: 1,
