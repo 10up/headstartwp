@@ -37,15 +37,15 @@ const handlers = [
 		return res(ctx.json({ ok: true }));
 	}),
 
-	rest.get('/wp-json/wp/v2/categories', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/categories', (req, res, ctx) => {
 		return res(ctx.json({ ok: true }));
 	}),
 
-	rest.get('/wp-json/headless-wp/v1/app', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/headless-wp/v1/app', (req, res, ctx) => {
 		return res(ctx.json({ ok: true, home: { id: 1 } }));
 	}),
 
-	rest.get('/wp-json/wp/v2/posts', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/posts', (req, res, ctx) => {
 		const query = req.url.searchParams;
 		const search = query.get('search');
 		const slug = query.get('slug');
@@ -137,7 +137,7 @@ const handlers = [
 		);
 	}),
 
-	rest.get('/wp-json/wp/v2/posts/:id/revisions', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/posts/:id/revisions', (req, res, ctx) => {
 		let results = [...posts];
 		const id = Number(req.params.id);
 
@@ -161,7 +161,7 @@ const handlers = [
 		return res(ctx.json(results));
 	}),
 
-	rest.get('/wp-json/yoast/v1/get_head', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/yoast/v1/get_head', (req, res, ctx) => {
 		return res(
 			ctx.json({
 				html: '',
@@ -172,7 +172,7 @@ const handlers = [
 		);
 	}),
 
-	rest.get('/wp-json/wp/v2/posts/:id', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/posts/:id', (req, res, ctx) => {
 		const query = req.url.searchParams;
 		const embed = query.get('_embed');
 
@@ -213,7 +213,7 @@ const handlers = [
 		return res(ctx.json(results));
 	}),
 
-	rest.get('/wp-json/wp/v2/search', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/search', (req, res, ctx) => {
 		const query = req.url.searchParams;
 		const search = query.get('search');
 		const type = query.get('type') ?? 'post';

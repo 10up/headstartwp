@@ -6,22 +6,24 @@ import { SWRConfig } from 'swr';
 import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearch } from '../useFetchSearch';
-import { setHeadlessConfig } from '../../../utils';
+import { setHeadstartWPConfig } from '../../../utils';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
 
 describe('useFetchSearch', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true });
+	});
+
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider settings={{ sourceUrl: 'https://js1.10up.com' }}>
+					{children}
+				</SettingsProvider>
 			</SWRConfig>
 		);
 	};
-
-	setHeadlessConfig({
-		useWordPressPlugin: true,
-	});
 
 	it('returns empty results instead of throwing if not found', async () => {
 		const { result } = renderHook(() => useFetchSearch({ search: 'not-found' }), {

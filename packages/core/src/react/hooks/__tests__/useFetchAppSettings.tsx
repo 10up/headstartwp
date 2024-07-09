@@ -7,12 +7,21 @@ import { useFetchAppSettings } from '../useFetchAppSettings';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
 import { SettingsProvider } from '../../provider';
+import { setHeadstartWPConfig } from '../../../utils';
 
 describe('useFetchAppSettings types', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true });
+	});
+
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider
+					settings={{ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true }}
+				>
+					{children}
+				</SettingsProvider>
 			</SWRConfig>
 		);
 	};
