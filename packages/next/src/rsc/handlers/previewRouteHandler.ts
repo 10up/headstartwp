@@ -119,6 +119,7 @@ export async function previewRouteHandler(
 	}
 
 	const { config } = getHostAndConfigFromRequest(request);
+
 	const { sourceUrl, preview } = config;
 
 	const revision = is_revision === '1';

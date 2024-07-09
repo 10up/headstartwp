@@ -1,11 +1,14 @@
 import { BlocksRenderer, HtmlDecoder } from '@headstartwp/core/react';
 import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
 
-export const dynamic = 'force-static';
-
 const Single = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryPost({
 		routeParams: params,
+		options: {
+			headers: {
+				cache: 'force-cache',
+			},
+		},
 	});
 
 	return (
