@@ -3,7 +3,8 @@ import { DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { ReactElement } from 'react';
 import { isAnchorTag } from '../../../dom';
 import { SettingsProvider } from '../../provider';
-import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
+import { BlocksRenderer } from '../BlocksRenderer';
+import type { BlockProps } from '../BaseBlocksRenderer';
 
 describe('BlocksRenderer', () => {
 	it('renders html properly', () => {

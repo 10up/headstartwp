@@ -24,6 +24,10 @@
       "require": "./dist/cjs/config/index.js",
       "import": "./dist/mjs/config/index.js",
       "types": "./dist/mjs/config/index.d.ts"
+    },
+    "./app": {
+      "import": "./dist/mjs/rsc/index.js",
+      "types": "./dist/mjs/rsc/index.d.ts"
     }
   },
   "publishConfig": {
@@ -69,7 +73,9 @@
     "typescript": "^5.4.5",
     "whatwg-fetch": "^3.6.2",
     "jest-fetch-mock": "^3.0.3",
-    "tsc-esm-fix": "^2.20.27"
+    "tsc-esm-fix": "^2.20.27",
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
   },
   "peerDependencies": {
     "next": ">= 12.0.0",

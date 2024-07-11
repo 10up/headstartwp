@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { fetchRedirect, getHeadlessConfig, getSiteByHost } from '@headstartwp/core/utils';
+import { fetchRedirect, getHeadstartWPConfig, getSiteByHost } from '@headstartwp/core/utils';
 
 const ALLOWED_STATIC_PATHS = /^\/.*\.(ico|png|jpg|jpeg)$/g;
 
@@ -12,16 +12,26 @@ function isInternalRequest(req: NextRequest) {
 	return req.nextUrl.pathname.startsWith('/_next');
 }
 
-export async function AppMiddleware(req: NextRequest) {
+type AppMidlewareOptions = {
+	appRouter: boolean;
+};
+
+export async function AppMiddleware(
+	req: NextRequest,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	options: AppMidlewareOptions = { appRouter: false },
+) {
+	const response = NextResponse.next();
+
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
-		return NextResponse.next();
+		return response;
 	}
 
 	const hostname = req.headers.get('host') || '';
 	const site = getSiteByHost(hostname, req.nextUrl.locale);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl !== 'undefined';
 
-	const { redirectStrategy, sourceUrl } = isMultisiteRequest ? site : getHeadlessConfig();
+	const { redirectStrategy, sourceUrl } = isMultisiteRequest ? site : getHeadstartWPConfig();
 
 	if (!sourceUrl) {
 		throw new Error('Site not found.');
@@ -42,11 +52,14 @@ export async function AppMiddleware(req: NextRequest) {
 	}
 
 	if (isMultisiteRequest) {
-		const url = req.nextUrl;
 		const hostname = req.headers.get('host') || '';
+		response.headers.set('x-headstartwp-site', hostname);
+		const url = req.nextUrl;
+
 		url.pathname = `/_sites/${hostname}${url.pathname}`;
+
 		return NextResponse.rewrite(url);
 	}
 
-	return NextResponse.next();
+	return response;
 }

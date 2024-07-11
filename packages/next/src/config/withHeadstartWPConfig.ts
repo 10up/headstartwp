@@ -16,6 +16,7 @@ const isPackageInstalled = (packageName: string): boolean => {
 
 	return false;
 };
+
 function traverse(rules) {
 	for (const rule of rules) {
 		if (typeof rule.loader === 'string' && rule.loader.includes('css-loader')) {
@@ -59,6 +60,9 @@ export function withHeadstartWPConfig(
 	headlessConfig: HeadlessConfig = {},
 	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ): NextConfig {
+	const isUsingAppRouter =
+		fs.existsSync(`${process.cwd()}/src/app`) || fs.existsSync(`${process.cwd()}/app`);
+
 	const headlessConfigPath = `${process.cwd()}/headless.config.js`;
 	const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
 	const headstartWpConfigClientPath = `${process.cwd()}/headstartwp.config.client.js`;
@@ -229,7 +233,8 @@ export function withHeadstartWPConfig(
 								const matched =
 									/_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
 									/middleware.(ts|js|mjs)$/.test(moduleRequest) ||
-									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest);
+									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest) ||
+									/app\/.*layout.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest);
 
 								return matched;
 							},
@@ -246,7 +251,8 @@ export function withHeadstartWPConfig(
 				}),
 			);
 
-			if (isPackageInstalled('@linaria/webpack-loader')) {
+			// only load linaria with the pages router configuration if not using app router
+			if (isPackageInstalled('@linaria/webpack-loader') && !isUsingAppRouter) {
 				traverse(config.module.rules);
 				config.module.rules.push({
 					test: /\.(tsx|ts|js|mjs|jsx)$/,

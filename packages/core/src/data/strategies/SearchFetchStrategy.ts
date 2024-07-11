@@ -54,7 +54,7 @@ export class SearchFetchStrategy<
 				addQueryArgs(`${getWPUrl()}${endpoints.yoast}`, {
 					url: `${getWPUrl()}/?s=${params.search}`,
 				}),
-				{},
+				{ headers: options.headers ?? {} },
 				burstCache,
 			);
 
