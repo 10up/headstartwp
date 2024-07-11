@@ -1,5 +1,18 @@
 # @headstartwp/next
 
+## 1.5.0-app.1
+
+### Minor Changes
+
+- 98bae20: Introducing previewRouteHandler to handle preview in Next.js App Router
+- 08ae034: Introducing `revalidateRouteHandler` for handling revalidate requests in Route Handlers (App Router)
+
+### Patch Changes
+
+- Updated dependencies [98bae20]
+- Updated dependencies [08ae034]
+  - @headstartwp/core@1.5.0-app.1
+
 ## 1.5.0-app.0
 
 ### Minor Changes

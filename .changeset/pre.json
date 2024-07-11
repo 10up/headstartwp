@@ -12,6 +12,8 @@
     "@headstartwp/headstartwp": "1.1.3"
   },
   "changesets": [
-    "forty-apes-repair"
+    "cyan-fans-clean",
+    "forty-apes-repair",
+    "moody-emus-matter"
   ]
 }
