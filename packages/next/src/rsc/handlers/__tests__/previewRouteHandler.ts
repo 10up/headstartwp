@@ -2,6 +2,7 @@ import nextHeaders from 'next/headers';
 import { NextRequest } from 'next/server';
 import { setHeadstartWPConfig } from '@headstartwp/core';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '@headstartwp/core/test';
+import { redirect } from 'next/navigation';
 import { COOKIE_NAME, previewRouteHandler } from '../previewRouteHandler';
 
 jest.mock('next/headers', () => ({
@@ -18,7 +19,7 @@ const config = {
 };
 
 describe('previewRouteHandler', () => {
-	beforeAll(() => {
+	beforeEach(() => {
 		setHeadstartWPConfig(config);
 	});
 
@@ -87,7 +88,7 @@ describe('previewRouteHandler', () => {
 		});
 	});
 
-	it('preview works for custom post types', async () => {
+	it('works for custom post types', async () => {
 		setHeadstartWPConfig({
 			...config,
 			customPostTypes: [
@@ -123,38 +124,95 @@ describe('previewRouteHandler', () => {
 			maxAge: 300,
 			path: '/book/modi-qui-dignissimos-sed-assumenda-sint-iusto',
 		});
+	});
 
-		/* const { req: reqWithLocale, res: resWithLocale } = createMocks<
-			NextApiRequest,
-			NextApiResponse
-		>({
-			method: 'GET',
-			query: {
-				post_id: DRAFT_POST_ID,
-				token: VALID_AUTH_TOKEN,
-				post_type: 'book',
-				locale: 'es',
-			},
+	it('works for custom post types with locale', async () => {
+		setHeadstartWPConfig({
+			...config,
+			customPostTypes: [
+				{
+					slug: 'book',
+					// reuse existing posts endpoint
+					endpoint: '/wp-json/wp/v2/posts',
+					// these should match your file-system routing
+					single: '/book',
+					archive: '/books',
+				},
+			],
 		});
 
-		resWithLocale.setPreviewData = jest.fn();
-		await previewHandler(reqWithLocale, resWithLocale);
+		const searchParams = new URLSearchParams({
+			post_id: DRAFT_POST_ID.toString(),
+			token: VALID_AUTH_TOKEN.toString(),
+			post_type: 'book',
+			locale: 'es',
+		});
 
-		expect(resWithLocale.setPreviewData).toHaveBeenCalledWith(
-			{
-				authToken: 'this is a valid auth',
-				id: 57,
-				postType: 'book',
+		const previewDataPayload = JSON.stringify({
+			id: DRAFT_POST_ID,
+			postType: 'book',
+			revision: false,
+			authToken: VALID_AUTH_TOKEN,
+		});
+
+		const req = new NextRequest(`https://js1.10up.com?${searchParams.toString()}`);
+
+		await expect(() => previewRouteHandler(req)).rejects.toThrow('NEXT_REDIRECT');
+
+		expect(nextHeaders.cookies().set).toHaveBeenCalledWith(COOKIE_NAME, previewDataPayload, {
+			httpOnly: true,
+			maxAge: 300,
+			path: '/es/book/modi-qui-dignissimos-sed-assumenda-sint-iusto',
+		});
+	});
+
+	it('correctly takes into account `options`', async () => {
+		const searchParams = new URLSearchParams({
+			post_id: DRAFT_POST_ID.toString(),
+			token: VALID_AUTH_TOKEN.toString(),
+			post_type: 'post',
+		});
+
+		const req = new NextRequest(`https://js1.10up.com?${searchParams.toString()}`);
+
+		const onRedirect = jest.fn(() => {
+			redirect('/');
+		});
+
+		await expect(() =>
+			previewRouteHandler(req, {
+				preparePreviewData({ previewData }) {
+					return { ...previewData, myCustomData: true };
+				},
+				getRedirectPath({ defaultRedirectPath }) {
+					return `${defaultRedirectPath}-preview=true`;
+				},
+				onRedirect,
+			}),
+		).rejects.toThrow('NEXT_REDIRECT');
+
+		expect(nextHeaders.cookies().set).toHaveBeenCalledWith(
+			COOKIE_NAME,
+			JSON.stringify({
+				id: DRAFT_POST_ID,
+				postType: 'post',
 				revision: false,
-			},
+				authToken: VALID_AUTH_TOKEN,
+				myCustomData: true,
+			}),
 			{
+				httpOnly: true,
 				maxAge: 300,
-				path: '/es/book/modi-qui-dignissimos-sed-assumenda-sint-iusto-preview=true',
+				path: '/modi-qui-dignissimos-sed-assumenda-sint-iusto-preview=true',
 			},
 		);
-		expect(resWithLocale._getStatusCode()).toBe(302);
-		expect(resWithLocale._getRedirectUrl()).toBe(
-			'/es/book/modi-qui-dignissimos-sed-assumenda-sint-iusto-preview=true',
-		); */
+
+		expect(onRedirect).toHaveBeenCalledWith({
+			redirectPath: '/modi-qui-dignissimos-sed-assumenda-sint-iusto-preview=true',
+			post: expect.any(Object),
+			postTypeDef: expect.any(Object),
+			previewData: expect.any(Object),
+			req,
+		});
 	});
 });
