@@ -2,6 +2,7 @@ import { VerifyTokenFetchStrategy } from '@headstartwp/core';
 import { revalidatePath } from 'next/cache';
 import { NextRequest } from 'next/server';
 import { getHostAndConfigFromRequest } from './utils';
+
 /**
  * Returns the path to revalidate
  *

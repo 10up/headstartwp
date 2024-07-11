@@ -11,6 +11,9 @@ interface TestEndpointResponse {
 
 export const VALID_AUTH_TOKEN = 'this is a valid auth';
 export const DRAFT_POST_ID = 57;
+export const VALID_REVALIDATE_AUTH_TOKEN = 'this is a valid revalidate auth token';
+export const REVALIDATE_PATH = '/revalidate-path';
+export const REVALIDATE_POST_ID = 57;
 
 const handlers = [
 	rest.head('http://example.com/redirect-test', (req, res) => {
@@ -347,6 +350,28 @@ const handlers = [
 		}
 
 		return res(ctx.json([]));
+	}),
+
+	rest.get('https://js1.10up.com/wp-json/headless-wp/v1/token', (req, res, ctx) => {
+		if (
+			(req.headers.has('Authorization') &&
+				req.headers.get('Authorization') === `Bearer ${VALID_REVALIDATE_AUTH_TOKEN}`) ||
+			(req.headers.has('X-HeadstartWP-Authorization') &&
+				req.headers.get('X-HeadstartWP-Authorization') ===
+					`Bearer ${VALID_REVALIDATE_AUTH_TOKEN}`)
+		) {
+			return res(ctx.json({ post_id: REVALIDATE_POST_ID, path: REVALIDATE_PATH }));
+		}
+
+		return res(
+			ctx.json({
+				code: 'rest_cannot_read',
+				message: 'Sorry, you are not allowed to do this.',
+				data: {
+					status: 401,
+				},
+			}),
+		);
 	}),
 ];
 
