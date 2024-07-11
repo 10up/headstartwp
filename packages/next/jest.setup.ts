@@ -1,4 +1,4 @@
-import 'whatwg-fetch';
+import 'isomorphic-fetch';
 
 import { server } from '@headstartwp/core/test';
 

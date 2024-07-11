@@ -4,8 +4,11 @@ import { PostEntity } from '../../types';
 import { fetchPostOrPosts } from '../fetchPostOrPosts';
 
 describe('fetchPostsOrPosts', () => {
-	setHeadstartWPConfig({
-		useWordPressPlugin: true,
+	beforeAll(() => {
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
+			useWordPressPlugin: true,
+		});
 	});
 
 	it('fetches data properly (archive)', async () => {

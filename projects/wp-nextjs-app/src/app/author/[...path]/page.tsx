@@ -4,11 +4,6 @@ import Link from 'next/link';
 const AuthorArchive = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryAuthorArchive({
 		routeParams: params,
-		options: {
-			headers: {
-				cache: 'no-store',
-			},
-		},
 	});
 
 	return (
