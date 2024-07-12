@@ -7,14 +7,14 @@ import { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
 import { getInlineStyles } from '../blocks/utils';
-import { parseBlockAttributes, ParsedBlock } from '../../dom/parseBlockAttributes';
+import { IDataWPBlock, parseBlockAttributes, ParsedBlock } from '../../dom/parseBlockAttributes';
 
 const { default: parse, domToReact } = HtmlReactParser;
 
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
  */
-export interface BlockProps {
+export interface BlockProps<BlockAttributes extends IDataWPBlock = IDataWPBlock> {
 	/**
 	 * A test function receives a domNode and returns a boolean value indicating
 	 * whether that domNode should be replaced with the React component
@@ -51,7 +51,7 @@ export interface BlockProps {
 	/**
 	 * The block's attribute
 	 */
-	block?: ParsedBlock;
+	block?: ParsedBlock<BlockAttributes>;
 
 	/**
 	 * The children of the domNode that was replaced with the react component

@@ -33,11 +33,11 @@ function safeParsing(json): Record<string, any> {
 /**
  * Represents a parsed block, i.e a block parsed from `data-wp-block` and `data-wp-block-name` attributes
  */
-export type ParsedBlock = {
+export type ParsedBlock<T extends IDataWPBlock = IDataWPBlock> = {
 	/**
 	 * The Block attributes
 	 */
-	attributes: IDataWPBlock;
+	attributes: T;
 
 	/**
 	 * The Block name
