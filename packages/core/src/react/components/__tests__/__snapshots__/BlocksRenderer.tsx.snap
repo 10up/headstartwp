@@ -2,8 +2,10 @@
 
 exports[`BlocksRenderer forward blockProps to the component 1`] = `
 <div>
-  <p>
-    {"attributes":{"blockAttribute":"this is a block attribute"},"name":"10up/custom-block"}
+  <p
+    class="my-class"
+  >
+    {"attributes":{"blockAttribute":"this is a block attribute"},"name":"10up/custom-block","className":"my-class"}
   </p>
 </div>
 `;
