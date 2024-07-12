@@ -1,6 +1,7 @@
 import { isBlock } from '../../dom';
+import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 import { IBlock } from '../components';
-import { defaultElement, useBlock, useBlockAttributes } from './hooks';
+import { useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface MediaTextBlockProps extends IBlockAttributes {
@@ -20,7 +21,7 @@ export interface MediaTextBlockProps extends IBlockAttributes {
 export interface IMediaTextBlock extends IBlock<MediaTextBlockProps> {}
 
 export function MediaTextBlock({
-	domNode: node = defaultElement,
+	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	children,
 	component: Component,
 	style,

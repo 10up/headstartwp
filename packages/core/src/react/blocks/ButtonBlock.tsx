@@ -3,8 +3,9 @@ import { isBlock } from '../../dom';
 import { IBlock } from '../components';
 import { IBlockAttributes } from './types';
 
-import { defaultElement, useBlock } from './hooks';
+import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
+import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 
 /**
  * The interface for components rendered by {@link ButtonBlock}
@@ -60,7 +61,7 @@ export interface IButtonBlock extends IBlock<ButtonBlockProps> {}
  *
  */
 export function ButtonBlock({
-	domNode: node = defaultElement,
+	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	children,
 	component: Component,
 	style,

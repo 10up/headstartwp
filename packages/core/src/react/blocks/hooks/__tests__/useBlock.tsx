@@ -31,7 +31,7 @@ describe('useBlock', () => {
 			wrapper,
 		});
 		expect(consoleWarnMock).toHaveBeenCalledWith(
-			'[useBlock] You are using the useBlock hook in a node that is not a block.',
+			'[parseBlockAttributes] You are using the `parseBlockAttributes` hook in a node that is not a block.',
 		);
 		expect(result.current).toEqual({
 			name: '',

@@ -1,6 +1,7 @@
 import { isBlockByName } from '../../dom';
+import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 import { IBlock } from '../components';
-import { defaultElement, useBlock, useBlockAttributes } from './hooks';
+import { useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface GroupBlockProps extends IBlockAttributes {
@@ -15,7 +16,7 @@ export interface GroupBlockProps extends IBlockAttributes {
 export interface IGroupBlock extends IBlock<GroupBlockProps> {}
 
 export function GroupBlock({
-	domNode: node = defaultElement,
+	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	children,
 	component: Component,
 	style,

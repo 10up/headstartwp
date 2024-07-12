@@ -1,6 +1,7 @@
 import { isBlock } from '../../dom';
+import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 import { IBlock } from '../components';
-import { defaultElement, useBlock } from './hooks';
+import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes } from './types';
 
@@ -22,7 +23,7 @@ export interface CoverBlockProps extends IBlockAttributes {
 export interface ICoverBlock extends IBlock<CoverBlockProps> {}
 
 export function CoverBlock({
-	domNode: node = defaultElement,
+	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	children,
 	component: Component,
 	style,

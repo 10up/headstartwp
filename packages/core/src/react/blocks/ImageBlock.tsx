@@ -1,9 +1,10 @@
 import { Element } from 'html-react-parser';
 import { isBlockByName } from '../../dom';
 import { IBlock } from '../components';
-import { defaultElement, useBlock } from './hooks';
+import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes } from './types';
+import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 
 export interface ImageBlockProps extends IBlockAttributes {
 	width?: number;
@@ -17,7 +18,7 @@ export interface ImageBlockProps extends IBlockAttributes {
 export interface IImageBlock extends IBlock<ImageBlockProps> {}
 
 export function ImageBlock({
-	domNode: node = defaultElement,
+	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	children,
 	component: Component,
 	style,
