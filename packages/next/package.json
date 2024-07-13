@@ -71,7 +71,7 @@
     "node-mocks-http": "^1.14.1",
     "ts-jest": "^29.0.1",
     "typescript": "^5.4.5",
-    "whatwg-fetch": "^3.6.20",
+    "isomorphic-fetch": "^3.0.0",
     "jest-fetch-mock": "^3.0.3",
     "tsc-esm-fix": "^2.20.27",
     "@types/react": "^18",
