@@ -18,11 +18,7 @@ export async function fetchAppSettings<
 
 	const config = _config ?? getHeadstartWPConfig();
 
-	const {
-		data: { result },
-	} = await executeFetchStrategy<T, P>(fetchAppSettings.fetcher<T, P>(), config, params, options);
-
-	return { data: result };
+	return executeFetchStrategy<T, P>(fetchAppSettings.fetcher<T, P>(), config, params, options);
 }
 
 fetchAppSettings.fetcher = <
