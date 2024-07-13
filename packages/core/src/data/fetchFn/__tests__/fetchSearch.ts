@@ -1,8 +1,16 @@
 import { expectTypeOf } from 'expect-type';
 
 import { PostSearchEntity, SearchParams, TermSearchEntity, fetchSearch } from '../..';
+import { setHeadstartWPConfig } from '../../../utils';
 
 describe('fetchSearch', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
+			useWordPressPlugin: true,
+		});
+	});
+
 	it('returns empty results instead of throwing if not found', async () => {
 		const { data } = await fetchSearch({ params: { search: 'not-found' } });
 

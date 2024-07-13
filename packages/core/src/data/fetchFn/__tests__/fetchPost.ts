@@ -3,8 +3,16 @@ import { PostParams } from '../..';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server-handlers';
 import { PostEntity } from '../../types';
 import { fetchPost } from '../fetchPost';
+import { setHeadstartWPConfig } from '../../../utils';
 
 describe('fetchPost', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
+			useWordPressPlugin: true,
+		});
+	});
+
 	it('fetches data properly', async () => {
 		const { data } = await fetchPost({
 			params: { slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' },
@@ -86,11 +94,7 @@ describe('fetchPost', () => {
 
 	it('reads param from the url and sets isMainQuery flag', async () => {
 		const result = await fetchPost({
-			path: '/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
-			params: {
-				fullPath:
-					'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
-			},
+			path: '/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
 		});
 
 		expect(result.data.post.slug).toBe('modi-qui-dignissimos-sed-assumenda-sint-iusto');
@@ -125,12 +129,7 @@ describe('fetchPost', () => {
 
 	it('matches post.link with fullPath when set', async () => {
 		const { data } = await fetchPost({
-			path: '/modi-qui-dignissimos-sed-assumenda-sint-iusto',
-			params: {
-				// force post path mapping against this path
-				fullPath:
-					'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto',
-			},
+			path: '/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto',
 		});
 
 		expect(data.post.slug).toBe('modi-qui-dignissimos-sed-assumenda-sint-iusto');

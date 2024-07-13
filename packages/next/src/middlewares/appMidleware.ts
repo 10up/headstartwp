@@ -21,7 +21,7 @@ export async function AppMiddleware(
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	options: AppMidlewareOptions = { appRouter: false },
 ) {
-	const response = NextResponse.next();
+	let response = NextResponse.next();
 
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
 		return response;
@@ -53,13 +53,15 @@ export async function AppMiddleware(
 
 	if (isMultisiteRequest) {
 		const hostname = req.headers.get('host') || '';
-		response.headers.set('x-headstartwp-site', hostname);
-		const url = req.nextUrl;
 
+		const url = req.nextUrl;
 		url.pathname = `/_sites/${hostname}${url.pathname}`;
 
-		return NextResponse.rewrite(url);
+		response = NextResponse.rewrite(url);
+		response.headers.set('x-headstartwp-site', hostname);
 	}
+
+	response.headers.set('x-headstartwp-current-url', req.nextUrl.pathname);
 
 	return response;
 }

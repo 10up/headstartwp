@@ -1,11 +1,12 @@
 import { expectTypeOf } from 'expect-type';
 
 import { PostEntity, PostsArchiveParams, fetchPosts } from '../..';
-import { setHeadlessConfig } from '../../../utils';
+import { setHeadstartWPConfig } from '../../../utils';
 
 describe('fetchPosts', () => {
-	beforeEach(() => {
-		setHeadlessConfig({
+	beforeAll(() => {
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
 			useWordPressPlugin: true,
 		});
 	});
@@ -128,16 +129,17 @@ describe('fetchPosts', () => {
 	it('throws params.matchArchivepath is true and path does not match', async () => {
 		await expect(
 			fetchPosts({
-				path: 'https://js1.10up.com/category/asdasd/uncategorized',
+				path: '/category/asdasd/uncategorized',
 				params: { category: 'uncategorized', per_page: 1, matchArchivePath: true },
 			}),
 		).rejects.toThrow(
-			`Posts were found but did not match current path: "https://js1.10up.com/category/asdasd/uncategorized"`,
+			`Posts were found but did not match current path: "/category/asdasd/uncategorized"`,
 		);
 	});
 
 	it('throws matchArchivepath config option is true and path does not match', async () => {
-		setHeadlessConfig({
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
 			useWordPressPlugin: true,
 			customTaxonomies: (defaultTaxonomies) => {
 				return defaultTaxonomies.map((taxonomy) => ({
@@ -149,16 +151,17 @@ describe('fetchPosts', () => {
 
 		await expect(
 			fetchPosts({
-				path: 'https://js1.10up.com/category/asdasd/uncategorized',
+				path: '/category/asdasd/uncategorized',
 				params: { category: 'uncategorized', per_page: 2 },
 			}),
 		).rejects.toThrow(
-			`Posts were found but did not match current path: "https://js1.10up.com/category/asdasd/uncategorized"`,
+			`Posts were found but did not match current path: "/category/asdasd/uncategorized"`,
 		);
 	});
 
 	it('does not throws when matchArchivepath config option is true and path matches', async () => {
-		setHeadlessConfig({
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
 			useWordPressPlugin: true,
 			customTaxonomies: (defaultTaxonomies) => {
 				return defaultTaxonomies.map((taxonomy) => ({
@@ -169,8 +172,7 @@ describe('fetchPosts', () => {
 		});
 
 		const { data } = await fetchPosts({
-			// Need this bc source url removal is not working in the tests
-			path: 'https://js1.10up.com/category/uncategorized',
+			path: '/category/uncategorized',
 			params: {
 				category: 'uncategorized',
 				per_page: 1,

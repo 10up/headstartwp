@@ -9,7 +9,14 @@ import { usePostOrPosts } from '../../hooks/usePostOrPosts';
 import { fetchHookData, prepareFetchHookData } from '../fetchHookData';
 import { addHookData } from '../addHookData';
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
 test('fetchHookData types', async () => {
+	setHeadstartWPConfig(config);
+
 	expectTypeOf((await fetchHookData(usePosts.fetcher(), {})).data.result).toMatchTypeOf<
 		PostEntity[]
 	>();
@@ -32,6 +39,10 @@ test('fetchHookData types', async () => {
 });
 
 describe('prepareFetchHookData', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig(config);
+	});
+
 	it('builds path correctly', () => {
 		const { path } = prepareFetchHookData(usePosts.fetcher(), {
 			params: {
@@ -70,6 +81,7 @@ describe('prepareFetchHookData', () => {
 
 	it('returns params properly', () => {
 		setHeadstartWPConfig({
+			...config,
 			useWordPressPlugin: true,
 			integrations: {
 				polylang: {
@@ -98,6 +110,7 @@ describe('prepareFetchHookData', () => {
 		expect(params).toEqual({ slug: 'page-name', _embed: true, id: 1, lang: 'pt' });
 
 		setHeadstartWPConfig({
+			...config,
 			useWordPressPlugin: true,
 		});
 	});
@@ -120,15 +133,20 @@ describe('prepareFetchHookData', () => {
 		);
 
 		expect(cacheKey).toMatchObject({
-			args: { _embed: true, id: 1, slug: 'page-name', sourceUrl: '' },
+			args: { _embed: true, id: 1, slug: 'page-name', sourceUrl: config.sourceUrl },
 			url: '/wp-json/wp/v2/posts',
 		});
 	});
 });
 
 describe('fetchHookData', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig(config);
+	});
+
 	it('handles additionalCacheObjects', async () => {
 		setHeadstartWPConfig({
+			...config,
 			useWordPressPlugin: true,
 		});
 
@@ -152,7 +170,7 @@ describe('fetchHookData', () => {
 		expect(addHookData([result], {})).toMatchObject({
 			props: {
 				fallback: {
-					'#url:"/wp-json/wp/v2/posts",args:#taxonomy:"category",sourceUrl:"",category:"uncategorized",_embed:true,,':
+					'#url:"/wp-json/wp/v2/posts",args:#taxonomy:"category",sourceUrl:"https://js1.10up.com",category:"uncategorized",_embed:true,,':
 						{
 							pageInfo: {
 								page: 1,
@@ -160,7 +178,7 @@ describe('fetchHookData', () => {
 								totalPages: 1,
 							},
 						},
-					'#url:"@postOrPosts",args:#sourceUrl:"",single:#slug:"uncategorized",,routeMatchStrategy:"archive",priority:"archive",archive:#taxonomy:"category",category:"uncategorized",,,':
+					'#url:"@postOrPosts",args:#sourceUrl:"https://js1.10up.com",single:#slug:"uncategorized",,routeMatchStrategy:"archive",priority:"archive",archive:#taxonomy:"category",category:"uncategorized",,,':
 						{
 							pageInfo: {
 								page: 1,

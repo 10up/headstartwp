@@ -230,11 +230,16 @@ export function withHeadstartWPConfig(
 									return false;
 								}
 
+								if (moduleRequest.includes('node_modules')) {
+									return false;
+								}
+
 								const matched =
 									/_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
 									/middleware.(ts|js|mjs)$/.test(moduleRequest) ||
 									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest) ||
-									/app\/.*layout.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest);
+									/app\/.*layout.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
+									/app\/.*.\/route.(ts|js|mjs)$/.test(moduleRequest);
 
 								return matched;
 							},
