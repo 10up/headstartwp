@@ -4,6 +4,7 @@ export * from './config';
 
 // handlers
 export * from './handlers/previewRouteHandler';
+export * from './handlers/revalidateRouterHandler';
 
 // components
 export * from './components/PreviewIndicator';

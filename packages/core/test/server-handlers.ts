@@ -11,6 +11,9 @@ interface TestEndpointResponse {
 
 export const VALID_AUTH_TOKEN = 'this is a valid auth';
 export const DRAFT_POST_ID = 57;
+export const VALID_REVALIDATE_AUTH_TOKEN = 'this is a valid revalidate auth token';
+export const REVALIDATE_PATH = '/revalidate-path';
+export const REVALIDATE_POST_ID = 57;
 
 const handlers = [
 	rest.head('http://example.com/redirect-test', (req, res) => {
@@ -37,15 +40,15 @@ const handlers = [
 		return res(ctx.json({ ok: true }));
 	}),
 
-	rest.get('/wp-json/wp/v2/categories', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/categories', (req, res, ctx) => {
 		return res(ctx.json({ ok: true }));
 	}),
 
-	rest.get('/wp-json/headless-wp/v1/app', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/headless-wp/v1/app', (req, res, ctx) => {
 		return res(ctx.json({ ok: true, home: { id: 1 } }));
 	}),
 
-	rest.get('/wp-json/wp/v2/posts', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/posts', (req, res, ctx) => {
 		const query = req.url.searchParams;
 		const search = query.get('search');
 		const slug = query.get('slug');
@@ -137,7 +140,7 @@ const handlers = [
 		);
 	}),
 
-	rest.get('/wp-json/wp/v2/posts/:id/revisions', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/posts/:id/revisions', (req, res, ctx) => {
 		let results = [...posts];
 		const id = Number(req.params.id);
 
@@ -161,7 +164,7 @@ const handlers = [
 		return res(ctx.json(results));
 	}),
 
-	rest.get('/wp-json/yoast/v1/get_head', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/yoast/v1/get_head', (req, res, ctx) => {
 		return res(
 			ctx.json({
 				html: '',
@@ -172,7 +175,7 @@ const handlers = [
 		);
 	}),
 
-	rest.get('/wp-json/wp/v2/posts/:id', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/posts/:id', (req, res, ctx) => {
 		const query = req.url.searchParams;
 		const embed = query.get('_embed');
 
@@ -213,7 +216,7 @@ const handlers = [
 		return res(ctx.json(results));
 	}),
 
-	rest.get('/wp-json/wp/v2/search', (req, res, ctx) => {
+	rest.get('https://js1.10up.com/wp-json/wp/v2/search', (req, res, ctx) => {
 		const query = req.url.searchParams;
 		const search = query.get('search');
 		const type = query.get('type') ?? 'post';
@@ -347,6 +350,28 @@ const handlers = [
 		}
 
 		return res(ctx.json([]));
+	}),
+
+	rest.get('https://js1.10up.com/wp-json/headless-wp/v1/token', (req, res, ctx) => {
+		if (
+			(req.headers.has('Authorization') &&
+				req.headers.get('Authorization') === `Bearer ${VALID_REVALIDATE_AUTH_TOKEN}`) ||
+			(req.headers.has('X-HeadstartWP-Authorization') &&
+				req.headers.get('X-HeadstartWP-Authorization') ===
+					`Bearer ${VALID_REVALIDATE_AUTH_TOKEN}`)
+		) {
+			return res(ctx.json({ post_id: REVALIDATE_POST_ID, path: REVALIDATE_PATH }));
+		}
+
+		return res(
+			ctx.json({
+				code: 'rest_cannot_read',
+				message: 'Sorry, you are not allowed to do this.',
+				data: {
+					status: 401,
+				},
+			}),
+		);
 	}),
 ];
 

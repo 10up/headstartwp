@@ -6,12 +6,19 @@ import { SWRConfig } from 'swr';
 import { PostSearchEntity, SearchParams, TermSearchEntity } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearchNative } from '../useFetchSearchNative';
+import { setHeadstartWPConfig } from '../../../utils';
 
 describe('useFetchSearch', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true });
+	});
+
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider settings={{ sourceUrl: 'https://js1.10up.com' }}>
+					{children}
+				</SettingsProvider>
 			</SWRConfig>
 		);
 	};

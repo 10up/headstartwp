@@ -1,15 +1,19 @@
 import { setHeadstartWPConfig } from '@headstartwp/core';
 import { queryPosts } from '../queryPosts';
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
 describe('queryPosts', () => {
 	beforeAll(() => {
-		setHeadstartWPConfig({
-			useWordPressPlugin: true,
-		});
+		setHeadstartWPConfig(config);
 	});
 
 	afterAll(() => {
 		setHeadstartWPConfig({
+			...config,
 			useWordPressPlugin: false,
 		});
 	});
