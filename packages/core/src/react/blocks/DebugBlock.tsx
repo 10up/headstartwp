@@ -1,3 +1,5 @@
+'use client';
+
 import { lazy } from 'react';
 import { useBlock } from './hooks';
 import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';

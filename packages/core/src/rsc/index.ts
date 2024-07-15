@@ -8,4 +8,6 @@ export * from '../react/components/Menu';
 
 export * from '../react/provider';
 export * from '../react/utils';
-// TODO: add blocks once they have been refactored
+
+// blocks
+export * from '../react/blocks';

@@ -18,6 +18,38 @@ export type AppQueryResult<T> = {
 	blockSettingValue?: unknown;
 };
 
+export function flatToHierarchical(flat: MenuItemEntity[]): MenuItemEntity[] {
+	const roots: MenuItemEntity[] = [];
+
+	const all: Record<number, MenuItemEntity> = {};
+	flat.forEach((item, index) => {
+		all[item.ID] = { ...item, children: [], order: index };
+	});
+
+	Object.keys(all).forEach((key) => {
+		const id = Number(key);
+		const item = all[id];
+		const parentId = Number(item.menu_item_parent);
+
+		if (parentId === 0) {
+			roots.push(item);
+		} else if (item.menu_item_parent in all) {
+			const p = all[item.menu_item_parent];
+			if (!('children' in p)) {
+				p.children = [];
+			}
+			p.children.push(item);
+		}
+	});
+
+	roots.sort((a, b) => a.order - b.order);
+	roots.forEach((root) => {
+		root?.children?.sort((a, b) => a.order - b.order);
+	});
+
+	return roots;
+}
+
 export async function fetchAppSettings<
 	T extends AppEntity = AppEntity,
 	P extends EndpointParams = EndpointParams,
@@ -39,7 +71,7 @@ export async function fetchAppSettings<
 	const result: AppQueryResult<T> = { data: data.result };
 
 	if (menu && data.result.menus[menu]) {
-		result.menu = data.result.menus[menu];
+		result.menu = flatToHierarchical(data.result.menus[menu]);
 	}
 
 	if (blockSetting && data['theme.json']) {

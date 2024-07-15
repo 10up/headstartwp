@@ -1,3 +1,5 @@
+'use client';
+
 import { isBlock } from '../../dom';
 import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 import { IBlock } from '../components';

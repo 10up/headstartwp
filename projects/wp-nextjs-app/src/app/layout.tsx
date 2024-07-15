@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { PreviewIndicator, queryAppSettings } from '@headstartwp/next/app';
+import { Menu, SettingsProvider } from '@headstartwp/core/react';
+import { getHeadstartWPConfig } from '@headstartwp/core';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,9 +22,11 @@ const RootLayout = async ({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				{menu ? JSON.stringify(menu) : null}
-				{children}
-				<PreviewIndicator className="form-container" />
+				<SettingsProvider settings={getHeadstartWPConfig()}>
+					{menu ? <Menu items={menu} /> : null}
+					{children}
+					<PreviewIndicator className="form-container" />
+				</SettingsProvider>
 			</body>
 		</html>
 	);

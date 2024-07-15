@@ -1,3 +1,5 @@
+'use client';
+
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
