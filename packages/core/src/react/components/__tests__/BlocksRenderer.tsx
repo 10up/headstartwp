@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { ReactElement } from 'react';
-import { isAnchorTag } from '../../../dom';
+import { isAnchorTag, isBlockByName } from '../../../dom';
 import { SettingsProvider } from '../../provider';
 import { BlocksRenderer } from '../BlocksRenderer';
 import type { BlockProps } from '../BaseBlocksRenderer';
@@ -217,6 +217,23 @@ describe('BlocksRenderer', () => {
 				html={`<h3 class="wp-block-heading" data-wp-block='{"level":3,"hash":"9fb25fc5-7456-4704-bffe-aa438487253b"}' data-wp-block-name="core/heading"><strong>&aelig;&acute;&raquo;&aring;&#139;&#149;&aelig;&#156;&#159;&eacute;&#150;&#147;</strong></h3>`}
 			>
 				<StrongToDiv tagName="strong" classList={['my-class']} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('forward blockProps to the component', () => {
+		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p className={block?.className}>{JSON.stringify(block)}</p>;
+		};
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
+				forwardBlockAttributes
+			>
+				<DivToP test={(node) => isBlockByName(node, '10up/custom-block')} />
 			</BlocksRenderer>,
 		);
 

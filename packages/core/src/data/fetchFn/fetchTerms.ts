@@ -7,7 +7,7 @@ import { QueryProps } from './types';
 export async function fetchTerms<
 	T extends TermEntity = TermEntity,
 	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
->(query: QueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+>(query: QueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
 	const { params = {}, options, path = '' } = query;
 
 	const config = _config ?? getHeadstartWPConfig();

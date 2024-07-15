@@ -9,7 +9,7 @@ import { COOKIE_NAME } from '../../handlers/previewRouteHandler';
 export async function queryPost<
 	T extends PostEntity = PostEntity,
 	P extends PostParams = PostParams,
->(q: NextQueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+>(q: NextQueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
 	const { config, ...query } = prepareQuery<P>(q, _config);
 
 	try {

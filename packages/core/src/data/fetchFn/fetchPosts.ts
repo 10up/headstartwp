@@ -119,7 +119,7 @@ export async function fetchPosts<
 	T extends PostEntity = PostEntity,
 	P extends PostsArchiveParams = PostsArchiveParams,
 >(
-	query: QueryProps<P>,
+	query: QueryProps<P> = {},
 	_config: HeadlessConfig | undefined = undefined,
 	fetcher: PostsArchiveFetchStrategy<T, P> | undefined = undefined,
 ) {

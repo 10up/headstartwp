@@ -6,7 +6,7 @@ import { prepareQuery } from './prepareQuery';
 export async function queryTerms<
 	T extends TermEntity = TermEntity,
 	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
->(q: NextQueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+>(q: NextQueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
 	const { config, ...query } = prepareQuery<P>(q, _config);
 
 	try {

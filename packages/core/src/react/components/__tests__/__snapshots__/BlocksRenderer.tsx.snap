@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`BlocksRenderer forward blockProps to the component 1`] = `
+<div>
+  <p
+    class="my-class"
+  >
+    {"attributes":{"blockAttribute":"this is a block attribute"},"name":"10up/custom-block","className":"my-class"}
+  </p>
+</div>
+`;
+
 exports[`BlocksRenderer works correctly with chinese content 1`] = `
 <div>
   <h3

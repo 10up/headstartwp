@@ -28,7 +28,7 @@ export async function fetchPostOrPosts<
 	T extends PostEntity = PostEntity,
 	P extends PostOrPostsParams = PostOrPostsParams,
 >(
-	query: QueryProps<P>,
+	query: QueryProps<P> = {},
 	_config: HeadlessConfig | undefined = undefined,
 ): Promise<FetchPostsOrPostsReturnType<T>> {
 	const { params = {}, options, path = '' } = query;

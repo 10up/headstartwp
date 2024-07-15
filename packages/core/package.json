@@ -70,7 +70,7 @@
     "msw": "^0.35.0",
     "ts-jest": "^29.0.3",
     "typescript": "^5.4.5",
-    "whatwg-fetch": "^3.6.2",
+    "isomorphic-fetch": "^3.0.0",
     "tsc-esm-fix": "^2.20.27",
     "@types/react": "^18",
     "@types/react-dom": "^18"
@@ -80,8 +80,8 @@
     "html-react-parser": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "react-inspector": "^6.0.1",
-    "swr": "^2.1.5",
-    "xss": "^1.0.14",
+    "swr": "^2.2.5",
+    "xss": "^1.0.15",
     "deepmerge": "^4.3.1"
   },
   "peerDependencies": {
