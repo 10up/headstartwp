@@ -8,7 +8,7 @@ import { getPostAuthor, getPostTerms } from '../utils';
 export async function fetchSearch<
 	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 	P extends SearchParams = SearchParams,
->(query: QueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+>(query: QueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
 	const { params = {}, options, path = '' } = query;
 
 	const config = _config ?? getHeadstartWPConfig();

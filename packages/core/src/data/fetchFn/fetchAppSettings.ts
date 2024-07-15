@@ -12,8 +12,8 @@ export type AppQueryProps<P> = QueryProps<P> & {
 	};
 };
 
-export type AppQueryResult = {
-	data: AppEntity;
+export type AppQueryResult<T> = {
+	data: T;
 	menu?: MenuItemEntity[];
 	blockSettingValue?: unknown;
 };
@@ -22,9 +22,9 @@ export async function fetchAppSettings<
 	T extends AppEntity = AppEntity,
 	P extends EndpointParams = EndpointParams,
 >(
-	query: Omit<AppQueryProps<P>, 'path'>,
+	query: Omit<AppQueryProps<P>, 'path'> = {},
 	_config: HeadlessConfig | undefined = undefined,
-): Promise<AppQueryResult> {
+): Promise<AppQueryResult<T>> {
 	const { params = {}, options, menu, blockSetting } = query;
 
 	const config = _config ?? getHeadstartWPConfig();
@@ -36,7 +36,7 @@ export async function fetchAppSettings<
 		options,
 	);
 
-	const result: AppQueryResult = { data: data.result };
+	const result: AppQueryResult<T> = { data: data.result };
 
 	if (menu && data.result.menus[menu]) {
 		result.menu = data.result.menus[menu];

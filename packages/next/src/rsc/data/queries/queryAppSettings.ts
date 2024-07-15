@@ -11,7 +11,7 @@ import { prepareQuery } from './prepareQuery';
 export async function queryAppSettings<
 	T extends AppEntity = AppEntity,
 	P extends EndpointParams = EndpointParams,
->(q: AppQueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+>(q: AppQueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
 	const { config, ...query } = prepareQuery<P>(q, _config);
 
 	try {
