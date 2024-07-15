@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-app.2
+
+### Minor Changes
+
+- 4adc11b: Add `forwardBlockProps` to BlocksRenderer which automatically forwards block props to children components
+
 ## 1.5.0-app.1
 
 ### Minor Changes
