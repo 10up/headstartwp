@@ -12,8 +12,8 @@
     "react": "^18",
     "react-dom": "^18",
     "next": "14.2.3",
-    "@headstartwp/core": "^1.5.0-app.1",
-    "@headstartwp/next": "^1.5.0-app.1"
+    "@headstartwp/core": "^1.5.0-app.2",
+    "@headstartwp/next": "^1.5.0-app.2"
   },
   "devDependencies": {
     "@10up/eslint-config": "^4.0.0",
