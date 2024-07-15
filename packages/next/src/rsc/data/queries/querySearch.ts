@@ -12,7 +12,7 @@ import { prepareQuery } from './prepareQuery';
 export async function querySearch<
 	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 	P extends SearchParams = SearchParams,
->(q: NextQueryProps<P>, _config: HeadlessConfig | undefined = undefined) {
+>(q: NextQueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
 	const { config, ...query } = prepareQuery<P>(q, _config);
 
 	try {

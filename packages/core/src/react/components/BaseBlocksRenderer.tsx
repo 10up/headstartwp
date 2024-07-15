@@ -6,15 +6,15 @@ import { isBlock, wpKsesPost } from '../../dom';
 import { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
-// import { useSettings } from '../provider';
 import { getInlineStyles } from '../blocks/utils';
+import { IDataWPBlock, parseBlockAttributes, ParsedBlock } from '../../dom/parseBlockAttributes';
 
 const { default: parse, domToReact } = HtmlReactParser;
 
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
  */
-export interface BlockProps {
+export interface BlockProps<BlockAttributes extends IDataWPBlock = IDataWPBlock> {
 	/**
 	 * A test function receives a domNode and returns a boolean value indicating
 	 * whether that domNode should be replaced with the React component
@@ -47,6 +47,11 @@ export interface BlockProps {
 	 * The actual domNode that was replaced with the react component
 	 */
 	domNode?: Element;
+
+	/**
+	 * The block's attribute
+	 */
+	block?: ParsedBlock<BlockAttributes>;
 
 	/**
 	 * The children of the domNode that was replaced with the react component
@@ -111,6 +116,11 @@ export interface BlockRendererProps {
 	 * Passing children are not mandatory, if you do not pass them `BlocksRenderer` will simply sanitize the html markup.
 	 */
 	children?: ReactNode;
+
+	/**
+	 * Whether to forward the block attributes to the children components.
+	 */
+	forwardBlockAttributes?: boolean;
 }
 
 interface BaseBlockRendererProps extends BlockRendererProps {
@@ -142,6 +152,7 @@ export function BaseBlocksRenderer({
 	sanitizeFn,
 	children,
 	settings,
+	forwardBlockAttributes = false,
 }: BaseBlockRendererProps) {
 	const blocks: ReactNode[] = React.Children.toArray(children);
 
@@ -191,13 +202,23 @@ export function BaseBlocksRenderer({
 				) {
 					const style = getInlineStyles(domNode as Element);
 
+					const blockProps = {
+						...block.props,
+						domNode,
+						style: style || undefined,
+					};
+
+					if (forwardBlockAttributes) {
+						const { attributes, name, className } = parseBlockAttributes(
+							domNode as Element,
+						);
+
+						blockProps.block = { attributes, name, className };
+					}
+
 					component = React.createElement(
 						block.type,
-						{
-							...block.props,
-							domNode,
-							style: style || undefined,
-						},
+						blockProps,
 						(domNode as Element)?.children
 							? domToReact((domNode as Element)?.children, {
 									// eslint-disable-next-line react/no-unstable-nested-components

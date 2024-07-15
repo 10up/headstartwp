@@ -1,4 +1,4 @@
-import 'whatwg-fetch';
+import 'isomorphic-fetch';
 import { TextDecoder, TextEncoder } from 'util';
 import { server } from './test/server';
 

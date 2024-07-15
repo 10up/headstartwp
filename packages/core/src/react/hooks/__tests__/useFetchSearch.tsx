@@ -10,20 +10,20 @@ import { setHeadstartWPConfig } from '../../../utils';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
 
+const config = { sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true };
+
+const wrapper = ({ children }) => {
+	return (
+		<SWRConfig value={{ provider: () => new Map() }}>
+			<SettingsProvider settings={config}>{children}</SettingsProvider>
+		</SWRConfig>
+	);
+};
+
 describe('useFetchSearch', () => {
 	beforeAll(() => {
-		setHeadstartWPConfig({ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true });
+		setHeadstartWPConfig(config);
 	});
-
-	const wrapper = ({ children }) => {
-		return (
-			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: 'https://js1.10up.com' }}>
-					{children}
-				</SettingsProvider>
-			</SWRConfig>
-		);
-	};
 
 	it('returns empty results instead of throwing if not found', async () => {
 		const { result } = renderHook(() => useFetchSearch({ search: 'not-found' }), {
@@ -109,8 +109,9 @@ describe('useFetchSearch', () => {
 				isbn: string;
 			}
 
-			const { result } = renderHook(() =>
-				useFetchSearch<Book, BookParams>({ isbn: 'sdasd' }),
+			const { result } = renderHook(
+				() => useFetchSearch<Book, BookParams>({ isbn: 'sdasd' }),
+				{ wrapper },
 			);
 
 			expectTypeOf(result.current.data?.posts).toMatchTypeOf<
