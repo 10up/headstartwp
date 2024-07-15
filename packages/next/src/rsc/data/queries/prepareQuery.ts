@@ -18,7 +18,9 @@ export function prepareQuery<P>(
 	const { routeParams, ...rest } = query;
 
 	const path = routeParams?.path ?? '';
-	const siteConfig = routeParams?.site ? getSiteByHost(routeParams?.site) : null;
+	const siteConfig = routeParams?.site
+		? getSiteByHost(decodeURIComponent(routeParams?.site))
+		: null;
 
 	if (routeParams?.site && !siteConfig) {
 		throw new FrameworkError(
