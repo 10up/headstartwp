@@ -14,7 +14,10 @@ const { default: parse, domToReact } = HtmlReactParser;
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
  */
-export interface BlockProps<BlockAttributes extends IDataWPBlock = IDataWPBlock> {
+export interface BlockProps<
+	BlockAttributes extends IDataWPBlock = IDataWPBlock,
+	Context extends Record<string, unknown> = Record<string, unknown>,
+> {
 	/**
 	 * A test function receives a domNode and returns a boolean value indicating
 	 * whether that domNode should be replaced with the React component
@@ -64,6 +67,11 @@ export interface BlockProps<BlockAttributes extends IDataWPBlock = IDataWPBlock>
 	 * The style tag of the domNode as an object.
 	 */
 	style?: Record<string, string>;
+
+	/**
+	 * An optional context that is passed to all children components
+	 */
+	blockContext?: Context;
 }
 
 /**
@@ -121,6 +129,11 @@ export interface BlockRendererProps {
 	 * Whether to forward the block attributes to the children components.
 	 */
 	forwardBlockAttributes?: boolean;
+
+	/**
+	 * An optional context that is passed to all children components
+	 */
+	blockContext?: Record<string, unknown>;
 }
 
 interface BaseBlockRendererProps extends BlockRendererProps {
@@ -153,6 +166,7 @@ export function BaseBlocksRenderer({
 	children,
 	settings,
 	forwardBlockAttributes = false,
+	blockContext,
 }: BaseBlockRendererProps) {
 	const blocks: ReactNode[] = React.Children.toArray(children);
 
@@ -214,6 +228,10 @@ export function BaseBlocksRenderer({
 						);
 
 						blockProps.block = { attributes, name, className };
+					}
+
+					if (typeof blockContext !== 'undefined') {
+						blockProps.blockContext = { ...blockContext };
 					}
 
 					component = React.createElement(

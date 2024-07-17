@@ -10,6 +10,18 @@ exports[`BlocksRenderer forward blockProps to the component 1`] = `
 </div>
 `;
 
+exports[`BlocksRenderer forward context to the component 1`] = `
+<div>
+  <p
+    class="my-class"
+  >
+    {"attributes":{"blockAttribute":"this is a block attribute"},"name":"10up/custom-block","className":"my-class"}
+     - 
+    {"contextProp":"this is a context prop"}
+  </p>
+</div>
+`;
+
 exports[`BlocksRenderer works correctly with chinese content 1`] = `
 <div>
   <h3

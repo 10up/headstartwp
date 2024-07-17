@@ -6,4 +6,5 @@ export type NextQueryProps<P> = {
 		site?: string;
 		[k: string]: unknown;
 	};
+	handleError?: boolean;
 } & Omit<QueryProps<P>, 'path'>;
