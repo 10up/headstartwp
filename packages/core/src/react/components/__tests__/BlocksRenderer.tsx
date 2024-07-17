@@ -239,4 +239,29 @@ describe('BlocksRenderer', () => {
 
 		expect(container).toMatchSnapshot();
 	});
+
+	it('forward context to the component', () => {
+		const DivToP = ({
+			block,
+			blockContext,
+		}: BlockProps<{ blockAttribute: string }, { contextProp: string }>) => {
+			return (
+				<p className={block?.className}>
+					{JSON.stringify(block)} - {JSON.stringify(blockContext)}
+				</p>
+			);
+		};
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
+				forwardBlockAttributes
+				blockContext={{ contextProp: 'this is a context prop' }}
+			>
+				<DivToP test={(node) => isBlockByName(node, '10up/custom-block')} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
 });
