@@ -23,6 +23,7 @@ export async function AppMiddleware(
 ) {
 	let response = NextResponse.next();
 	const currentUrl = req.nextUrl.pathname;
+
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
 		return response;
 	}
@@ -31,7 +32,11 @@ export async function AppMiddleware(
 	const site = getSiteByHost(hostname, req.nextUrl.locale);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl !== 'undefined';
 
-	const { redirectStrategy, sourceUrl } = isMultisiteRequest ? site : getHeadstartWPConfig();
+	const {
+		redirectStrategy,
+		sourceUrl,
+		hostUrl = '/',
+	} = isMultisiteRequest ? site : getHeadstartWPConfig();
 
 	if (!sourceUrl) {
 		throw new Error('Site not found.');
@@ -43,7 +48,10 @@ export async function AppMiddleware(
 		const redirect = await fetchRedirect(pathname, sourceUrl || '');
 
 		if (redirect.location) {
-			return NextResponse.redirect(redirect.location, redirect.status);
+			return NextResponse.redirect(
+				`${hostUrl.replace(/\/$/, '')}${redirect.location}`,
+				redirect.status,
+			);
 		}
 	}
 
