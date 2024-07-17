@@ -1,5 +1,6 @@
-import { BlocksRenderer, HtmlDecoder } from '@headstartwp/core/react';
+import { HtmlDecoder } from '@headstartwp/core/react';
 import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
+import Blocks from '../../../components/Blocks';
 
 const Single = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryPost({
@@ -20,7 +21,7 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
 
-			<BlocksRenderer html={data.post.content.rendered ?? ''} />
+			<Blocks html={data.post.content.rendered ?? ''} />
 		</article>
 	);
 };

@@ -15,7 +15,7 @@ export function prepareQuery<P>(
 	query: NextQueryProps<P>,
 	_config: HeadlessConfig | undefined = undefined,
 ) {
-	const { routeParams, ...rest } = query;
+	const { routeParams, handleError = true, ...rest } = query;
 
 	const path = routeParams?.path ?? '';
 	const siteConfig = routeParams?.site
@@ -45,5 +45,6 @@ export function prepareQuery<P>(
 		options,
 		path: pathname,
 		config: config ?? getHeadstartWPConfig(),
+		handleError,
 	};
 }
