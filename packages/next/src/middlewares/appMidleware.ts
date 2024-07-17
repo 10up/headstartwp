@@ -22,6 +22,7 @@ export async function AppMiddleware(
 	options: AppMidlewareOptions = { appRouter: false },
 ) {
 	let response = NextResponse.next();
+	const currentUrl = req.nextUrl.pathname;
 
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
 		return response;
@@ -31,7 +32,11 @@ export async function AppMiddleware(
 	const site = getSiteByHost(hostname, req.nextUrl.locale);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl !== 'undefined';
 
-	const { redirectStrategy, sourceUrl } = isMultisiteRequest ? site : getHeadstartWPConfig();
+	const {
+		redirectStrategy,
+		sourceUrl,
+		hostUrl = '/',
+	} = isMultisiteRequest ? site : getHeadstartWPConfig();
 
 	if (!sourceUrl) {
 		throw new Error('Site not found.');
@@ -43,7 +48,10 @@ export async function AppMiddleware(
 		const redirect = await fetchRedirect(pathname, sourceUrl || '');
 
 		if (redirect.location) {
-			return NextResponse.redirect(redirect.location, redirect.status);
+			return NextResponse.redirect(
+				`${hostUrl.replace(/\/$/, '')}${redirect.location}`,
+				redirect.status,
+			);
 		}
 	}
 
@@ -52,16 +60,20 @@ export async function AppMiddleware(
 	}
 
 	if (isMultisiteRequest) {
-		const hostname = req.headers.get('host') || '';
-
 		const url = req.nextUrl;
-		url.pathname = `/_sites/${hostname}${url.pathname}`;
 
-		response = NextResponse.rewrite(url);
+		response = NextResponse.rewrite(
+			new URL(
+				options.appRouter
+					? `/${hostname}${url.pathname}`
+					: `/_sites/${hostname}${url.pathname}`,
+				url,
+			),
+		);
 		response.headers.set('x-headstartwp-site', hostname);
 	}
 
-	response.headers.set('x-headstartwp-current-url', req.nextUrl.pathname);
+	response.headers.set('x-headstartwp-current-url', currentUrl);
 
 	return response;
 }
