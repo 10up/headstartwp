@@ -71,7 +71,7 @@ export interface BlockProps<
 	/**
 	 * An optional context that is passed to all children components
 	 */
-	context?: Context;
+	blockContext?: Context;
 }
 
 /**
@@ -133,7 +133,7 @@ export interface BlockRendererProps {
 	/**
 	 * An optional context that is passed to all children components
 	 */
-	context?: Record<string, unknown>;
+	blockContext?: Record<string, unknown>;
 }
 
 interface BaseBlockRendererProps extends BlockRendererProps {
@@ -166,7 +166,7 @@ export function BaseBlocksRenderer({
 	children,
 	settings,
 	forwardBlockAttributes = false,
-	context,
+	blockContext,
 }: BaseBlockRendererProps) {
 	const blocks: ReactNode[] = React.Children.toArray(children);
 
@@ -230,8 +230,8 @@ export function BaseBlocksRenderer({
 						blockProps.block = { attributes, name, className };
 					}
 
-					if (context) {
-						blockProps.context = context;
+					if (typeof blockContext !== 'undefined') {
+						blockProps.blockContext = { ...blockContext };
 					}
 
 					component = React.createElement(

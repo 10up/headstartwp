@@ -243,11 +243,11 @@ describe('BlocksRenderer', () => {
 	it('forward context to the component', () => {
 		const DivToP = ({
 			block,
-			context,
+			blockContext,
 		}: BlockProps<{ blockAttribute: string }, { contextProp: string }>) => {
 			return (
 				<p className={block?.className}>
-					{JSON.stringify(block)} - {JSON.stringify(context)}
+					{JSON.stringify(block)} - {JSON.stringify(blockContext)}
 				</p>
 			);
 		};
@@ -256,7 +256,7 @@ describe('BlocksRenderer', () => {
 			<BlocksRenderer
 				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
 				forwardBlockAttributes
-				context={{ contextProp: 'this is a context prop' }}
+				blockContext={{ contextProp: 'this is a context prop' }}
 			>
 				<DivToP test={(node) => isBlockByName(node, '10up/custom-block')} />
 			</BlocksRenderer>,
