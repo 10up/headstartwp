@@ -1,5 +1,12 @@
 # @headstartwp/core
 
+## 1.5.0-app.3
+
+### Minor Changes
+
+- ca94535: Introduce `blockContext` prop to BlocksRenderer and `handleError` in query functions
+- d696703: Multisite support in App Router
+
 ## 1.5.0-app.2
 
 ### Minor Changes
