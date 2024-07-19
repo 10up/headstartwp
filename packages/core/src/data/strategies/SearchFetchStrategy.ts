@@ -4,7 +4,7 @@ import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFet
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
 import { addQueryArgs, getWPUrl } from '../../utils';
-import { PostEntity, QueriedObject } from '../types';
+import { PostEntity, QueriedObject, YoastJSON } from '../types';
 import { FetchOptions } from './AbstractFetchStrategy';
 
 /**
@@ -45,7 +45,7 @@ export class SearchFetchStrategy<
 	 */
 	async fetcher(url: string, params: Partial<P>, options: Partial<FetchOptions> = {}) {
 		const { burstCache = false } = options;
-		let seo_json: Record<string, any> = {};
+		let seo_json: YoastJSON | null = null;
 		let seo: string = '';
 
 		// Request SEO data.
@@ -70,11 +70,12 @@ export class SearchFetchStrategy<
 				type: 'post',
 				subtype: params.postType ?? 'post',
 				yoast_head: seo,
-				yoast_head_json: {
-					...seo_json,
-				},
 			},
 		};
+
+		if (seo_json && queriedObject.search) {
+			queriedObject.search.yoast_head_json = seo_json;
+		}
 
 		const response = await super.fetcher(url, params, { ...options, throwIfNotFound: false });
 

@@ -5,6 +5,7 @@ import { prepareQuery } from './prepareQuery';
 import { NextQueryProps } from './types';
 import { PreviewData } from '../../../handlers';
 import { COOKIE_NAME } from '../../handlers/previewRouteHandler';
+import { prepareSEOMetadata } from '../seo';
 
 export async function queryPost<
 	T extends PostEntity = PostEntity,
@@ -40,7 +41,10 @@ export async function queryPost<
 
 		const result = await fetchPost<T, P>(query, config);
 
-		return result;
+		return {
+			...result,
+			seo: prepareSEOMetadata(result.data.post, config),
+		};
 	} catch (error) {
 		if (error instanceof Error && handleError) {
 			await handleFetchError(error, config, query.path);

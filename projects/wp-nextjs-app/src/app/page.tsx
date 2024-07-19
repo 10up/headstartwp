@@ -1,14 +1,26 @@
 import { BlocksRenderer } from '@headstartwp/core/react';
-import { queryPost } from '@headstartwp/next/app';
+import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
+import { Metadata } from 'next';
 
-const Home = async () => {
-	const { data } = await queryPost({
+async function query({ params }: HeadstartWPRoute) {
+	return queryPost({
+		routeParams: params,
 		params: {
 			slug: 'sample-page',
 			postType: 'page',
 			matchCurrentPath: false,
 		},
 	});
+}
+
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await query({ params });
+
+	return seo;
+}
+
+const Home = async ({ params }: HeadstartWPRoute) => {
+	const { data } = await query({ params });
 
 	return (
 		<main>

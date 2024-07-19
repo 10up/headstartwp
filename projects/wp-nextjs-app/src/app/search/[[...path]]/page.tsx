@@ -1,10 +1,21 @@
 import { HeadstartWPRoute, querySearch } from '@headstartwp/next/app';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
-const Search = async ({ params }: HeadstartWPRoute) => {
-	const { data } = await querySearch({
+async function query({ params }: HeadstartWPRoute) {
+	return querySearch({
 		routeParams: params,
 	});
+}
+
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await query({ params });
+
+	return seo;
+}
+
+const Search = async ({ params }: HeadstartWPRoute) => {
+	const { data } = await query({ params });
 
 	if (data.pageInfo.totalItems === 0) {
 		return 'Nothing found';

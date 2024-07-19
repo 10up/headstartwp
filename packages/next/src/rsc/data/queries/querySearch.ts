@@ -8,6 +8,7 @@ import {
 import { handleFetchError } from '../handleFetchError';
 import { NextQueryProps } from './types';
 import { prepareQuery } from './prepareQuery';
+import { prepareSEOMetadata } from '../seo';
 
 export async function querySearch<
 	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
@@ -18,7 +19,10 @@ export async function querySearch<
 	try {
 		const result = await fetchSearch<T, P>(query, config);
 
-		return result;
+		return {
+			...result,
+			seo: result.isMainQuery ? prepareSEOMetadata(result.data.queriedObject, config) : {},
+		};
 	} catch (error) {
 		if (error instanceof Error && handleError) {
 			await handleFetchError(error, config, query.path);

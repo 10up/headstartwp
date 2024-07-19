@@ -1,13 +1,24 @@
 import { HeadstartWPRoute, queryPosts } from '@headstartwp/next/app';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
-const CategoryArchive = async ({ params }: HeadstartWPRoute) => {
-	const { data } = await queryPosts({
+async function query({ params }: HeadstartWPRoute) {
+	return queryPosts({
 		routeParams: params,
 		params: {
 			taxonomy: 'category',
 		},
 	});
+}
+
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await query({ params });
+
+	return seo;
+}
+
+const CategoryArchive = async ({ params }: HeadstartWPRoute) => {
+	const { data } = await query({ params });
 
 	return (
 		<article>

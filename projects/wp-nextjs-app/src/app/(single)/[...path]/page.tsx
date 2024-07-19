@@ -1,19 +1,25 @@
 import { HtmlDecoder } from '@headstartwp/core/react';
 import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
+import { Metadata } from 'next';
 import Blocks from '../../../components/Blocks';
 
-const Single = async ({ params }: HeadstartWPRoute) => {
-	const { data } = await queryPost({
+async function query({ params }: HeadstartWPRoute) {
+	return queryPost({
 		routeParams: params,
 		params: {
 			postType: ['post', 'page'],
 		},
-		options: {
-			headers: {
-				cache: 'force-cache',
-			},
-		},
 	});
+}
+
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await query({ params });
+
+	return seo;
+}
+
+const Single = async ({ params }: HeadstartWPRoute) => {
+	const { data } = await query({ params });
 
 	return (
 		<article>

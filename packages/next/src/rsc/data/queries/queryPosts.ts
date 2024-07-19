@@ -2,6 +2,7 @@ import { HeadlessConfig, PostEntity, PostsArchiveParams, fetchPosts } from '@hea
 import { handleFetchError } from '../handleFetchError';
 import { NextQueryProps } from './types';
 import { prepareQuery } from './prepareQuery';
+import { prepareSEOMetadata } from '../seo';
 
 export async function queryPosts<
 	T extends PostEntity = PostEntity,
@@ -12,7 +13,10 @@ export async function queryPosts<
 	try {
 		const result = await fetchPosts<T, P>(query, config);
 
-		return result;
+		return {
+			...result,
+			seo: result.isMainQuery ? prepareSEOMetadata(result.data.queriedObject, config) : {},
+		};
 	} catch (error) {
 		if (error instanceof Error && handleError) {
 			await handleFetchError(error, config, query.path);
