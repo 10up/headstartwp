@@ -13,19 +13,16 @@ export async function queryPostOrPosts<
 	try {
 		const result = await fetchPostOrPosts<T, P>(query, config);
 
-		if (result.isSingle) {
+		if (result.isSingle && result.data.post) {
 			return {
 				...result,
-				seo:
-					result.isMainQuery && result.data.post
-						? prepareSEOMetadata(result.data.post, config)
-						: {},
+				seo: prepareSEOMetadata(result.data.post, config),
 			};
 		}
 
 		return {
 			...result,
-			seo: result.isMainQuery ? prepareSEOMetadata(result.data.queriedObject, config) : {},
+			seo: prepareSEOMetadata(result.data.queriedObject, config),
 		};
 	} catch (error) {
 		if (error instanceof Error && handleError) {

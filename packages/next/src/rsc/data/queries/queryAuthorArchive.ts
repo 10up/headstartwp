@@ -20,7 +20,7 @@ export async function queryAuthorArchive<
 
 		return {
 			...result,
-			seo: result.isMainQuery ? prepareSEOMetadata(result.data.queriedObject, config) : {},
+			seo: prepareSEOMetadata(result.data.queriedObject, config),
 		};
 	} catch (error) {
 		if (error instanceof Error && handleError) {

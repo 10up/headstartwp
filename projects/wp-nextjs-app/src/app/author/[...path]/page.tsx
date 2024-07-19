@@ -1,4 +1,4 @@
-import { HeadstartWPRoute, queryAuthorArchive } from '@headstartwp/next/app';
+import { HeadstartWPRoute, JSONLD, queryAuthorArchive } from '@headstartwp/next/app';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -11,11 +11,11 @@ async function query({ params }: HeadstartWPRoute) {
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const { seo } = await query({ params });
 
-	return seo;
+	return seo.metatada;
 }
 
 const AuthorArchive = async ({ params }: HeadstartWPRoute) => {
-	const { data } = await query({ params });
+	const { data, seo } = await query({ params });
 
 	return (
 		<article>
@@ -28,6 +28,8 @@ const AuthorArchive = async ({ params }: HeadstartWPRoute) => {
 					</li>
 				))}
 			</ul>
+
+			{seo?.schema && <JSONLD schema={seo.schema} />}
 		</article>
 	);
 };
