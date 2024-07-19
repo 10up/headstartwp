@@ -49,6 +49,13 @@ export function fromYoastToMetadata(yoast: YoastJSON, config: HeadlessConfig = {
 			description: yoast.og_description,
 			images: yoast.og_image,
 		},
+		twitter: {
+			creator: yoast.twitter_creator,
+			card: yoast.twitter_card,
+			title: yoast.twitter_title,
+			description: yoast.twitter_description,
+			images: yoast.twitter_image,
+		},
 	};
 }
 
@@ -95,39 +102,50 @@ function getMetatadataForTermEntity(term: TermEntity, config: HeadlessConfig): M
 export function prepareSEOMetadata(
 	data: PostEntity | QueriedObject,
 	_config: HeadlessConfig = {},
-): Metadata {
+): { metatada: Metadata; schema?: string } {
 	const config = _config ?? getHeadstartWPConfig();
 	const { integrations } = config;
 	const isYoastIntegrationEnabled = !!integrations?.yoastSEO?.enable;
+	const { hostUrl = '', sourceUrl = '' } = config;
 
 	let metadata: Metadata = {};
 	let yoastMetadata: Metadata = {};
+	let jsonLd: YoastJSON['schema'];
 
 	if (isPostEntity(data)) {
 		if (data.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.yoast_head_json, config);
+			jsonLd = data.yoast_head_json.schema;
 		} else {
 			metadata = getMetadataForPostEntity(data, config);
 		}
 	} else if (data.author) {
 		if (data.author.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.author.yoast_head_json, config);
+			jsonLd = data.author.yoast_head_json.schema;
 		} else {
 			metadata = getMetadataForAuthorEntity(data.author, config);
 		}
 	} else if (data.search) {
 		if (data.search.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.search.yoast_head_json, config);
+			jsonLd = data.search.yoast_head_json.schema;
 		} else {
 			metadata = getMetatadataForSearchEntity(data.search, config);
 		}
 	} else if (data.term) {
 		if (data.term.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.term.yoast_head_json, config);
+			jsonLd = data.term.yoast_head_json.schema;
 		} else {
 			metadata = getMetatadataForTermEntity(data.term, config);
 		}
 	}
 
-	return merge([metadata, yoastMetadata]);
+	return {
+		metatada: merge([metadata, yoastMetadata]),
+		schema: jsonLd
+			? JSON.stringify(jsonLd).replace(new RegExp(sourceUrl, 'g'), hostUrl)
+			: undefined,
+	};
 }

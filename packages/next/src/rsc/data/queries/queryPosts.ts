@@ -15,7 +15,7 @@ export async function queryPosts<
 
 		return {
 			...result,
-			seo: result.isMainQuery ? prepareSEOMetadata(result.data.queriedObject, config) : {},
+			seo: result.isMainQuery ? prepareSEOMetadata(result.data.queriedObject, config) : null,
 		};
 	} catch (error) {
 		if (error instanceof Error && handleError) {

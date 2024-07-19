@@ -36,6 +36,7 @@ export type YoastJSON = {
 		pixels?: number;
 		id?: string;
 		url: string;
+		type?: string;
 	};
 	og_url?: string;
 	og_site_name?: string;
@@ -44,7 +45,10 @@ export type YoastJSON = {
 	article_published_time?: string;
 	article_modified_time?: string;
 	author?: string;
-	twitter_card?: string;
+	twitter_card?: 'summary' | 'summary_large_image' | 'app' | 'player';
+	twitter_title?: string;
+	twitter_description?: string;
+	twitter_image?: string;
 	twitter_creator?: string;
 	twitter_site?: string;
 	twitter_misc?: Record<string, string>;

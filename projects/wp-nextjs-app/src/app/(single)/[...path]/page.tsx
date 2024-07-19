@@ -1,5 +1,5 @@
 import { HtmlDecoder } from '@headstartwp/core/react';
-import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
+import { HeadstartWPRoute, JSONLD, queryPost } from '@headstartwp/next/app';
 import { Metadata } from 'next';
 import Blocks from '../../../components/Blocks';
 
@@ -15,11 +15,11 @@ async function query({ params }: HeadstartWPRoute) {
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const { seo } = await query({ params });
 
-	return seo;
+	return seo.metatada;
 }
 
 const Single = async ({ params }: HeadstartWPRoute) => {
-	const { data } = await query({ params });
+	const { data, seo } = await query({ params });
 
 	return (
 		<article>
@@ -28,6 +28,8 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 			</h1>
 
 			<Blocks html={data.post.content.rendered ?? ''} />
+
+			{seo.schema && <JSONLD schema={seo.schema} />}
 		</article>
 	);
 };
