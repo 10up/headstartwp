@@ -1,5 +1,8 @@
 import {
+	AuthorEntity,
 	getHeadstartWPConfig,
+	SearchEntity,
+	TermEntity,
 	type Entity,
 	type HeadlessConfig,
 	type PostEntity,
@@ -22,6 +25,7 @@ function isPostEntity(data: Entity | QueriedObject): data is PostEntity {
 
 export function fromYoastToMetadata(yoast: YoastJSON, config: HeadlessConfig = {}): Metadata {
 	const { hostUrl = '', sourceUrl = '' } = config;
+
 	return {
 		title: yoast.title,
 		description: yoast.description,
@@ -48,6 +52,46 @@ export function fromYoastToMetadata(yoast: YoastJSON, config: HeadlessConfig = {
 	};
 }
 
+function getMetadataForPostEntity(post: PostEntity, config: HeadlessConfig): Metadata {
+	const { hostUrl = '', sourceUrl = '' } = config;
+
+	return {
+		title: post.title.rendered,
+		alternates: {
+			canonical: convertUrl(post.link, hostUrl, sourceUrl),
+		},
+	};
+}
+
+function getMetadataForAuthorEntity(author: AuthorEntity, config: HeadlessConfig): Metadata {
+	const { hostUrl = '', sourceUrl = '' } = config;
+
+	return {
+		title: `${author.name} Archives`,
+		alternates: {
+			canonical: convertUrl(author.url, hostUrl, sourceUrl),
+		},
+	};
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getMetatadataForSearchEntity(search: SearchEntity, config: HeadlessConfig): Metadata {
+	return {
+		title: `Searching for ${search.searchedValue}`,
+	};
+}
+
+function getMetatadataForTermEntity(term: TermEntity, config: HeadlessConfig): Metadata {
+	const { hostUrl = '', sourceUrl = '' } = config;
+
+	return {
+		title: `${term.name} Archives`,
+		alternates: {
+			canonical: convertUrl(term.link, hostUrl, sourceUrl),
+		},
+	};
+}
+
 export function prepareSEOMetadata(
 	data: PostEntity | QueriedObject,
 	_config: HeadlessConfig = {},
@@ -63,33 +107,25 @@ export function prepareSEOMetadata(
 		if (data.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.yoast_head_json, config);
 		} else {
-			metadata = {
-				title: data.title.rendered,
-			};
+			metadata = getMetadataForPostEntity(data, config);
 		}
 	} else if (data.author) {
 		if (data.author.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.author.yoast_head_json, config);
 		} else {
-			metadata = {
-				title: data.author.name,
-			};
+			metadata = getMetadataForAuthorEntity(data.author, config);
 		}
 	} else if (data.search) {
 		if (data.search.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.search.yoast_head_json, config);
 		} else {
-			metadata = {
-				title: `Searching for ${data.search.searchedValue}`,
-			};
+			metadata = getMetatadataForSearchEntity(data.search, config);
 		}
 	} else if (data.term) {
 		if (data.term.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.term.yoast_head_json, config);
 		} else {
-			metadata = {
-				title: data.term.name,
-			};
+			metadata = getMetatadataForTermEntity(data.term, config);
 		}
 	}
 
