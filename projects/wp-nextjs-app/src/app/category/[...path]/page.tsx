@@ -14,7 +14,7 @@ async function query({ params }: HeadstartWPRoute) {
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const { seo } = await query({ params });
 
-	return seo?.metatada ?? {};
+	return seo.metatada;
 }
 
 const CategoryArchive = async ({ params }: HeadstartWPRoute) => {

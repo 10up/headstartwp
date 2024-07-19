@@ -1,31 +1,10 @@
 import { PostEntity, QueriedObject } from '@headstartwp/core';
-import { HeadstartWPRoute, queryPostOrPosts } from '@headstartwp/next/app';
+import { HeadstartWPRoute, JSONLD, queryPostOrPosts } from '@headstartwp/next/app';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-type ArchiveProps = {
-	posts: PostEntity[];
-	queriedObject: QueriedObject;
-};
-
-const Archive = ({ posts, queriedObject }: ArchiveProps) => {
-	return (
-		<main>
-			<h1>{queriedObject.term?.name}</h1>
-
-			<ul>
-				{posts.map((post) => (
-					<li key={post.id}>
-						<Link href={post.link}>{post.title.rendered}</Link>
-					</li>
-				))}
-			</ul>
-		</main>
-	);
-};
-
-const BlogPage = async ({ params }: HeadstartWPRoute) => {
-	const { isArchive, isSingle, data } = await queryPostOrPosts({
+async function query({ params }: HeadstartWPRoute) {
+	return queryPostOrPosts({
 		routeParams: params,
 		params: {
 			single: {
@@ -42,15 +21,52 @@ const BlogPage = async ({ params }: HeadstartWPRoute) => {
 			routeMatchStrategy: 'single',
 		},
 	});
+}
+
+export async function generateMetadata({ params }: HeadstartWPRoute) {
+	const { seo } = await query({ params });
+
+	return seo.metatada;
+}
+
+type ArchiveProps = {
+	posts: PostEntity[];
+	queriedObject: QueriedObject;
+	schema?: string;
+};
+
+const Archive = ({ posts, queriedObject, schema = '' }: ArchiveProps) => {
+	return (
+		<main>
+			<h1>{queriedObject.term?.name}</h1>
+
+			<ul>
+				{posts.map((post) => (
+					<li key={post.id}>
+						<Link href={post.link}>{post.title.rendered}</Link>
+					</li>
+				))}
+			</ul>
+
+			{schema && <JSONLD schema={schema} />}
+		</main>
+	);
+};
+
+const BlogPage = async ({ params }: HeadstartWPRoute) => {
+	const { isArchive, isSingle, data, seo } = await query({ params });
 
 	if (isArchive && typeof data.posts !== 'undefined') {
-		return <Archive posts={data.posts} queriedObject={data.queriedObject} />;
+		return (
+			<Archive posts={data.posts} queriedObject={data.queriedObject} schema={seo.schema} />
+		);
 	}
 
 	if (isSingle && typeof data.post !== 'undefined') {
 		return (
 			<article>
 				<h1>{data.post.title.rendered}</h1>
+				{seo.schema && <JSONLD schema={seo.schema} />}
 			</article>
 		);
 	}
