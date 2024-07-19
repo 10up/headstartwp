@@ -11,17 +11,15 @@ export const PostList: React.FC<PostListProps> = async ({ block }) => {
 
 	const { query } = block.attributes;
 
-	try {
-		const {
-			data: { posts },
-		} = await queryPosts({
-			// todo: map the rest of the query object
-			params: { per_page: query.perPage, postType: query.postType },
-			// setting handle error to false will disable automatic handling of errors
-			// i.e you have to handle the error yourself
-			handleError: false,
-		});
+	const { data } = await queryPosts({
+		// todo: map the rest of the query object
+		params: { per_page: query.perPage, postType: query.postType },
+		// setting handle error to false will disable automatic handling of errors
+		// i.e you have to handle the error yourself
+		handleError: false,
+	});
 
+	if (data?.posts) {
 		return (
 			<>
 				<h2>Post List</h2>
@@ -30,7 +28,7 @@ export const PostList: React.FC<PostListProps> = async ({ block }) => {
 				</pre>
 
 				<ul>
-					{posts.map((post) => (
+					{data.posts.map((post) => (
 						<li key={post.id}>
 							#{post.id} -{post.title.rendered}
 						</li>
@@ -38,7 +36,7 @@ export const PostList: React.FC<PostListProps> = async ({ block }) => {
 				</ul>
 			</>
 		);
-	} catch (e) {
-		return 'no posts found';
 	}
+
+	return 'no posts found';
 };

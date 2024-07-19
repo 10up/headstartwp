@@ -11,8 +11,8 @@ import type { NextQueryProps } from './types';
 
 const { all: merge } = deepmerge;
 
-export function prepareQuery<P>(
-	query: NextQueryProps<P>,
+export function prepareQuery<P, Error extends boolean = true>(
+	query: NextQueryProps<P, Error>,
 	_config: HeadlessConfig | undefined = undefined,
 ) {
 	const { routeParams, handleError = true, ...rest } = query;
@@ -28,7 +28,7 @@ export function prepareQuery<P>(
 		);
 	}
 
-	const options = merge<NextQueryProps<P>['options']>([
+	const options = merge<NextQueryProps<P, Error>['options']>([
 		{
 			headers: {
 				cache: 'no-store',
