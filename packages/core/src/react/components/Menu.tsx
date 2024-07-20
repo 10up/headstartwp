@@ -71,10 +71,14 @@ export const MenuItems = ({
 					backendUrl: settings.sourceUrl || '',
 				});
 				const shouldLink = item.children.length === 0 || topLevelItemsClickable;
-				const classNames = [`menu-item-depth-${depth}`];
+				let classNames = [`menu-item-depth-${depth}`];
 
 				if (item.children.length) {
-					classNames.push('menu-item-has-children');
+					classNames = [...classNames, 'menu-item-has-children'];
+				}
+
+				if (item.classes.length) {
+					classNames = [...classNames, ...item.classes];
 				}
 
 				return (
