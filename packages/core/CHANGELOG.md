@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-app.4
+
+### Minor Changes
+
+- e969f38: Introducing SEO handling for App Router
+
 ## 1.5.0-app.3
 
 ### Minor Changes
