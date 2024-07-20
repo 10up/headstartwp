@@ -1,4 +1,4 @@
-import { convertUrl } from '../Yoast';
+import { convertUrl } from '../convertUrl';
 
 describe('convertUrl', () => {
 	it('works without trainling slash', () => {

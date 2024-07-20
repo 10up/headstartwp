@@ -6,11 +6,13 @@
  * Those schemas are accessible making an OPTIONS call to each endpoint.
  */
 
+import { YoastJSON } from './yoast';
+
 /**
  * Empty interface from which all entities inherit.
  */
 export interface Entity {
-	yoast_head_json?: Record<string, any> | null;
+	yoast_head_json?: YoastJSON | null;
 	yoast_head?: string | null;
 	[k: string]: unknown;
 }
@@ -109,9 +111,6 @@ export interface PostTypeEntity extends Entity {
 	 * Whether or not the object can be pinged.
 	 */
 	ping_status: 'open' | 'closed';
-
-	yoast_head_json?: Record<string, any> | null;
-	yoast_head?: string | null;
 }
 
 /**
@@ -474,9 +473,6 @@ export interface TermEntity extends Entity {
 	 * Meta fields.
 	 */
 	meta: Record<string, unknown>;
-
-	yoast_head_json?: Record<string, any> | null;
-	yoast_head?: string | null;
 }
 
 /**
@@ -543,9 +539,6 @@ export interface AuthorEntity extends Entity {
 	 * Meta fields.
 	 */
 	meta: Record<string, unknown>;
-
-	yoast_head_json?: Record<string, any> | null;
-	yoast_head?: string | null;
 }
 
 /**
