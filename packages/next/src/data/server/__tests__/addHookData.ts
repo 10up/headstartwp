@@ -1,4 +1,4 @@
-import { FetchResponse } from '@headstartwp/core';
+import { FetchResponse, YoastJSON } from '@headstartwp/core';
 import { addHookData, HookState } from '../addHookData';
 
 const sampleThemeJson = {
@@ -8,7 +8,13 @@ const sampleThemeJson = {
 const sampleYoast = {
 	title: 'test',
 	description: 'test',
-};
+	robots: {
+		index: 'index',
+		follow: 'follow',
+	},
+	canonical: 'https://example.com',
+} satisfies YoastJSON;
+
 const sampleResult = {
 	id: 0,
 	_embedded: {

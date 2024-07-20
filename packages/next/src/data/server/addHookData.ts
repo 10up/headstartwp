@@ -4,6 +4,7 @@ import {
 	FetchResponse,
 	PostEntity,
 	removeFieldsFromPostRelatedData,
+	YoastJSON,
 } from '@headstartwp/core';
 import type { GetServerSidePropsResult, GetStaticPropsResult, Redirect } from 'next';
 
@@ -38,7 +39,7 @@ export interface AddHookDataBaseProps {
 
 export interface AddHookDataProps extends AddHookDataBaseProps {
 	seo: {
-		yoast_head_json: Record<string, unknown>;
+		yoast_head_json: YoastJSON;
 		yoast_head: string;
 	};
 	themeJSON: Record<string, unknown>;
@@ -217,7 +218,7 @@ export function addHookData<P extends AddHookDataBaseProps>(
 		props: {
 			...normalizedProps,
 			seo: {
-				yoast_head_json: seo_json,
+				yoast_head_json: seo_json as YoastJSON,
 				yoast_head: seo,
 			},
 			themeJSON,

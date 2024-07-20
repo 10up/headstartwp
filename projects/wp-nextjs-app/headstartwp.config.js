@@ -11,4 +11,10 @@ module.exports = {
 	preview: {
 		usePostLinkForRedirect: true,
 	},
+
+	integrations: {
+		yoastSEO: {
+			enable: true,
+		},
+	},
 };

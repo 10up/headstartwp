@@ -1,27 +1,23 @@
 import { BlockProps } from '@headstartwp/core/react';
 import { queryPosts } from '@headstartwp/next/app';
+import { Suspense } from 'react';
 
-interface PostListProps
-	extends BlockProps<{ queryId: number; query: { perPage: number; postType: string } }> {}
+type Query = { perPage: number; postType: string };
 
-export const PostList: React.FC<PostListProps> = async ({ block }) => {
-	if (!block) {
-		return null;
-	}
+interface PostListProps extends BlockProps<{ queryId: number; query: Query }> {}
 
-	const { query } = block.attributes;
+const PostListQuery: React.FC<{ query: Query }> = async ({ query }) => {
+	const {
+		data: { posts },
+	} = await queryPosts({
+		// todo: map the rest of the query object
+		params: { per_page: query.perPage, postType: query.postType },
+		options: {
+			throwIfNotFound: false,
+		},
+	});
 
-	try {
-		const {
-			data: { posts },
-		} = await queryPosts({
-			// todo: map the rest of the query object
-			params: { per_page: query.perPage, postType: query.postType },
-			// setting handle error to false will disable automatic handling of errors
-			// i.e you have to handle the error yourself
-			handleError: false,
-		});
-
+	if (posts.length) {
 		return (
 			<>
 				<h2>Post List</h2>
@@ -38,7 +34,21 @@ export const PostList: React.FC<PostListProps> = async ({ block }) => {
 				</ul>
 			</>
 		);
-	} catch (e) {
-		return 'no posts found';
 	}
+
+	return 'no posts found';
+};
+
+export const PostList: React.FC<PostListProps> = async ({ block }) => {
+	if (!block) {
+		return null;
+	}
+
+	const { query } = block.attributes;
+
+	return (
+		<Suspense fallback="Loading...">
+			<PostListQuery query={query} />
+		</Suspense>
+	);
 };
