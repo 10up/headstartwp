@@ -248,4 +248,42 @@ describe('appMiddleware', () => {
 		res = await AppMiddleware(req);
 		expect(res.headers.get('x-headstartwp-current-url')).toBeNull();
 	});
+
+	it('supports locales with App Router', async () => {
+		setHeadstartWPConfig({
+			locale: 'en',
+			sites: [
+				{
+					sourceUrl: 'http://testwp.com',
+					hostUrl: 'http://test.com',
+					locale: 'en',
+				},
+				{
+					sourceUrl: 'http://testwp2.com',
+					hostUrl: 'http://test2.com',
+					locale: 'pt',
+				},
+				{
+					sourceUrl: 'http://testwp2.com/en',
+					hostUrl: 'http://test2.com',
+					locale: 'en',
+				},
+			],
+		});
+
+		const req = new NextRequest('http://test2.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('host', 'test2.com');
+		req.headers.set('accept-language', 'pt-BR');
+
+		const res = await AppMiddleware(req, { appRouter: true });
+
+		expect(res.headers.get('x-middleware-rewrite')).toBe(
+			'http://test2.com/test2.com/post-name',
+		);
+		expect(res.headers.get('x-headstartwp-site')).toBe('test2.com');
+		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
+	});
 });

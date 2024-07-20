@@ -16,6 +16,7 @@ function isInternalRequest(req: NextRequest) {
 
 function getAppRouterLocale(request: NextRequest) {
 	const config = getHeadstartWPConfig();
+	// remove duples
 	const sitesLocales = config.sites
 		?.filter((site) => typeof site.locale !== 'undefined')
 		.map((site) => site.locale as string);
@@ -107,6 +108,9 @@ export async function AppMiddleware(
 		response.headers.set('x-headstartwp-site', hostname);
 	}
 
+	if (locale) {
+		response.headers.set('x-headstartwp-locale', locale);
+	}
 	response.headers.set('x-headstartwp-current-url', currentUrl);
 
 	return response;

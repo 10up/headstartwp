@@ -32,6 +32,7 @@ export function getHeadstartWPConfig(): HeadlessConfig {
 		debug,
 		preview,
 		cache,
+		locale,
 	} = __10up__HEADLESS_CONFIG;
 
 	const defaultTaxonomies: CustomTaxonomies = [
@@ -73,6 +74,7 @@ export function getHeadstartWPConfig(): HeadlessConfig {
 			: [...(customPostTypes || []), ...defaultPostTypes];
 
 	const headlessConfig = {
+		locale,
 		sourceUrl,
 		hostUrl: hostUrl || '',
 		customPostTypes: postTypes,
