@@ -54,6 +54,8 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "negotiator": "^0.6.3",
+    "@formatjs/intl-localematcher": "^0.5.4",
     "deepmerge": "^4.3.1",
     "@headstartwp/core": "^1.4.4",
     "loader-utils": "^3.2.0",
@@ -70,7 +72,7 @@
     "next-router-mock": "^0.9.13",
     "node-mocks-http": "^1.14.1",
     "ts-jest": "^29.0.1",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.3",
     "isomorphic-fetch": "^3.0.0",
     "jest-fetch-mock": "^3.0.3",
     "tsc-esm-fix": "^2.20.27",

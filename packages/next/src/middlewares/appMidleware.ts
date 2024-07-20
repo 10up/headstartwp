@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { fetchRedirect, getHeadstartWPConfig, getSiteByHost } from '@headstartwp/core/utils';
+import Negotiator from 'negotiator';
+import { match as matchLocale } from '@formatjs/intl-localematcher';
 
 const ALLOWED_STATIC_PATHS = /^\/.*\.(ico|png|jpg|jpeg)$/g;
 
@@ -12,13 +14,44 @@ function isInternalRequest(req: NextRequest) {
 	return req.nextUrl.pathname.startsWith('/_next');
 }
 
+function getAppRouterLocale(request: NextRequest) {
+	const config = getHeadstartWPConfig();
+	const sitesLocales = config.sites
+		?.filter((site) => typeof site.locale !== 'undefined')
+		.map((site) => site.locale as string);
+
+	if (!config.locale) {
+		return undefined;
+	}
+
+	if (!sitesLocales) {
+		return undefined;
+	}
+
+	// Negotiator expects plain object so we need to transform headers
+	const negotiatorHeaders: Record<string, string> = {};
+	request.headers.forEach((value, key) => {
+		negotiatorHeaders[key] = value;
+	});
+
+	const defaultLocale = config.locale ?? 'en';
+
+	const locales: readonly string[] = [defaultLocale, ...(sitesLocales ?? [])];
+
+	// Use negotiator and intl-localematcher to get best locale
+	const languages = new Negotiator({ headers: negotiatorHeaders }).languages(locales);
+
+	const locale = matchLocale(languages, locales, defaultLocale);
+
+	return locale;
+}
+
 type AppMidlewareOptions = {
 	appRouter: boolean;
 };
 
 export async function AppMiddleware(
 	req: NextRequest,
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	options: AppMidlewareOptions = { appRouter: false },
 ) {
 	let response = NextResponse.next();
@@ -28,8 +61,9 @@ export async function AppMiddleware(
 		return response;
 	}
 
+	const locale = options.appRouter ? getAppRouterLocale(req) : req.nextUrl.locale;
 	const hostname = req.headers.get('host') || '';
-	const site = getSiteByHost(hostname, req.nextUrl.locale);
+	const site = getSiteByHost(hostname, locale);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl !== 'undefined';
 
 	const {
