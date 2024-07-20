@@ -71,10 +71,19 @@ export const MenuItems = ({
 					backendUrl: settings.sourceUrl || '',
 				});
 				const shouldLink = item.children.length === 0 || topLevelItemsClickable;
-				const className = `menu-item-depth-${depth}`;
+				const classNames = [`menu-item-depth-${depth}`];
+
+				if (item.children.length) {
+					classNames.push('menu-item-has-children');
+				}
 
 				return (
-					<ItemWrapper key={item.ID} className={className} depth={depth} item={item}>
+					<ItemWrapper
+						key={item.ID}
+						className={classNames.join(' ')}
+						depth={depth}
+						item={item}
+					>
 						{shouldLink ? (
 							<LinkWrapper href={link} depth={depth}>
 								{item.title}
