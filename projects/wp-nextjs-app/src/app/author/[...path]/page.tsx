@@ -9,9 +9,11 @@ async function query({ params }: HeadstartWPRoute) {
 }
 
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
-	const { seo } = await query({ params });
+	const {
+		seo: { metatada },
+	} = await query({ params });
 
-	return seo.metatada;
+	return metatada;
 }
 
 const AuthorArchive = async ({ params }: HeadstartWPRoute) => {

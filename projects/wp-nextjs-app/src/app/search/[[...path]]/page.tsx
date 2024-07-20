@@ -9,9 +9,20 @@ async function query({ params }: HeadstartWPRoute) {
 }
 
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
-	const { seo } = await query({ params });
+	const {
+		seo: { metatada },
+		isMainQuery,
+	} = await query({ params });
 
-	return seo.metatada;
+	if (isMainQuery) {
+		return metatada;
+	}
+
+	// If this is not the main query, nothing is being searched on, so build up the metadata manually
+	return {
+		...metatada,
+		title: 'Search Page',
+	};
 }
 
 const Search = async ({ params }: HeadstartWPRoute) => {

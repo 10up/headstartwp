@@ -36,9 +36,11 @@ export function fromYoastToMetadata(yoast: YoastJSON, config: HeadlessConfig = {
 			'max-image-preview': yoast.robots['max-image-preview'],
 			'max-video-preview': yoast.robots['max-video-preview'],
 		},
-		alternates: {
-			canonical: convertUrl(yoast.canonical, hostUrl, sourceUrl),
-		},
+		alternates: yoast.canonical
+			? {
+					canonical: convertUrl(yoast.canonical, hostUrl, sourceUrl),
+				}
+			: undefined,
 		authors: yoast.author ? [{ name: yoast.author }] : [],
 		openGraph: {
 			locale: yoast.og_locale,

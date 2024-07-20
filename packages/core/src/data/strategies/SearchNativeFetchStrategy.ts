@@ -1,4 +1,4 @@
-import { getSiteBySourceUrl, addQueryArgs, getWPUrl } from '../../utils';
+import { getSiteBySourceUrl, addQueryArgs } from '../../utils';
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
 import { PostSearchEntity, TermSearchEntity, QueriedObject, YoastJSON } from '../types';
@@ -128,23 +128,28 @@ export class SearchNativeFetchStrategy<
 		let seo: string = '';
 
 		// Request SEO data.
-		try {
-			const wpUrl = getWPUrl().replace(/\/$/, ''); // Ensure no double slash in url param
-			const localeParam = this.locale ? `&lang=${this.locale}` : '';
-			const pageParam = params.page ? `/page/${params.page}` : '';
+		const config = getSiteBySourceUrl(this.baseURL);
+		const { integrations } = config;
 
-			const result = await apiGet(
-				addQueryArgs(`${wpUrl}${endpoints.yoast}`, {
-					url: `${wpUrl}${pageParam}/?s=${params.search ?? ''}${localeParam}`,
-				}),
-				{ headers: options.headers ?? {} },
-				burstCache,
-			);
+		if (integrations?.yoastSEO?.enable === true) {
+			try {
+				const wpUrl = this.baseURL.replace(/\/$/, ''); // Ensure no double slash in url param
+				const localeParam = this.locale ? `&lang=${this.locale}` : '';
+				const pageParam = params.page ? `/page/${params.page}` : '';
 
-			seo = result.json.html ?? null;
-			seo_json = { ...(result.json.json as YoastJSON) };
-		} catch (e) {
-			// do nothing
+				const result = await apiGet(
+					addQueryArgs(`${wpUrl}${endpoints.yoast}`, {
+						url: `${wpUrl}${pageParam}/?s=${params.search ?? ''}${localeParam}`,
+					}),
+					{ headers: options.headers ?? {} },
+					burstCache,
+				);
+
+				seo = result.json.html ?? null;
+				seo_json = { ...(result.json.json as YoastJSON) };
+			} catch (e) {
+				// do nothing
+			}
 		}
 
 		const queriedObject: QueriedObject = {

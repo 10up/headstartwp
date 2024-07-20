@@ -12,10 +12,6 @@ async function query({ params }: HeadstartWPRoute) {
 			},
 			archive: {
 				postType: 'post',
-				/**
-				 * Specifying the _fields param reduces the amount of data queried and returned by the API.
-				 */
-				_fields: ['id', 'title', 'link'],
 			},
 			priority: 'single',
 			routeMatchStrategy: 'single',
@@ -24,9 +20,21 @@ async function query({ params }: HeadstartWPRoute) {
 }
 
 export async function generateMetadata({ params }: HeadstartWPRoute) {
-	const { seo } = await query({ params });
+	const {
+		seo: { metatada },
+		isMainQuery,
+	} = await query({ params });
 
-	return seo.metatada;
+	// a main query means that there's a default metadata associated with it
+	if (isMainQuery) {
+		return metatada;
+	}
+
+	// if it's not a main query then there isn't any metadata coming from WordPress
+	return {
+		title: 'Blog',
+		description: 'This is the blog page',
+	};
 }
 
 type ArchiveProps = {
