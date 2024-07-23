@@ -288,17 +288,16 @@ export function withHeadstartWPConfig(
 
 	// if polylang is enabled
 	// and has locales
-	// and locales has not been set by the incoming nextConfig
-	// then do it!
+	// but we are on pages router
+	// error it out!
 	if (
 		headlessConfig.integrations?.polylang?.enable &&
 		(headlessConfig.integrations?.polylang?.locales?.length ?? 0) > 0 &&
-		!nextConfig.i18n
+		!isUsingAppRouter
 	) {
-		nextConfig.i18n = {
-			locales: headlessConfig.integrations.polylang.locales as string[],
-			defaultLocale: headlessConfig.integrations.polylang.defaultLocale ?? 'en',
-		};
+		throw new ConfigError(
+			'The `integrations.polylang.locales` option is not supported in the pages router. In the Pages router you must set the locales in the next config',
+		);
 	}
 
 	return config;

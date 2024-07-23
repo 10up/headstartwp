@@ -98,7 +98,7 @@ export async function AppMiddleware(
 	const isPotentiallyMultisite = hasMultisiteConfig();
 	const hasPolylangIntegration = isPolylangIntegrationEnabled();
 
-	if (hasPolylangIntegration && isPotentiallyMultisite) {
+	if (hasPolylangIntegration && isPotentiallyMultisite && options.appRouter) {
 		// potentially conflicting set up
 		// will figure out later if we need to support this
 		throw new Error('Polylang and multisite are not supported together');
