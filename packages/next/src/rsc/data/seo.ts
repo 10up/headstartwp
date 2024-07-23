@@ -17,9 +17,8 @@ const { all: merge } = deepmerge;
 
 function isPostEntity(data: Entity | QueriedObject): data is PostEntity {
 	return (
-		typeof (data as PostEntity).yoast_head !== 'undefined' &&
-		typeof (data as PostEntity).yoast_head_json !== 'undefined' &&
-		typeof (data as PostEntity).title !== 'undefined'
+		typeof (data as PostEntity).title !== 'undefined' &&
+		typeof (data as PostEntity).type !== 'undefined'
 	);
 }
 
@@ -67,7 +66,7 @@ function getMetadataForPostEntity(post: PostEntity, config: HeadlessConfig): Met
 	return {
 		title: post.title.rendered,
 		alternates: {
-			canonical: convertUrl(post.link, hostUrl, sourceUrl),
+			canonical: post.link ? convertUrl(post.link, hostUrl, sourceUrl) : undefined,
 		},
 	};
 }
@@ -78,7 +77,7 @@ function getMetadataForAuthorEntity(author: AuthorEntity, config: HeadlessConfig
 	return {
 		title: `${author.name} Archives`,
 		alternates: {
-			canonical: convertUrl(author.url, hostUrl, sourceUrl),
+			canonical: author.link ? convertUrl(author.link, hostUrl, sourceUrl) : undefined,
 		},
 	};
 }
@@ -96,7 +95,7 @@ function getMetatadataForTermEntity(term: TermEntity, config: HeadlessConfig): M
 	return {
 		title: `${term.name} Archives`,
 		alternates: {
-			canonical: convertUrl(term.link, hostUrl, sourceUrl),
+			canonical: term.link ? convertUrl(term.link, hostUrl, sourceUrl) : undefined,
 		},
 	};
 }
