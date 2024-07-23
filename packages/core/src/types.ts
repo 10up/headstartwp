@@ -50,7 +50,21 @@ export interface Integration {
 
 export interface YoastSEOIntegration extends Integration {}
 
-export interface PolylangIntegration extends Integration {}
+export interface PolylangIntegration extends Integration {
+	/**
+	 * The list of locales supported by Polylang
+	 *
+	 * In the app router this will be used to match the locale
+	 *
+	 * In the pages router it will be used to set up the locale config
+	 */
+	locales?: string[];
+
+	/**
+	 * The default locale for Polylang
+	 */
+	defaultLocale?: string;
+}
 
 export type Integrations = {
 	yoastSEO?: YoastSEOIntegration;

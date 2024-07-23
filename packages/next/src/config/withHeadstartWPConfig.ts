@@ -121,7 +121,7 @@ export function withHeadstartWPConfig(
 		}
 	});
 
-	return {
+	const config: NextConfig = {
 		...nextConfig,
 		images: {
 			...nextConfig.images,
@@ -285,6 +285,23 @@ export function withHeadstartWPConfig(
 			return config;
 		},
 	};
+
+	// if polylang is enabled
+	// and has locales
+	// and locales has not been set by the incoming nextConfig
+	// then do it!
+	if (
+		headlessConfig.integrations?.polylang?.enable &&
+		(headlessConfig.integrations?.polylang?.locales?.length ?? 0) > 0 &&
+		!nextConfig.i18n
+	) {
+		nextConfig.i18n = {
+			locales: headlessConfig.integrations.polylang.locales as string[],
+			defaultLocale: headlessConfig.integrations.polylang.defaultLocale ?? 'en',
+		};
+	}
+
+	return config;
 }
 
 export function withHeadlessConfig(

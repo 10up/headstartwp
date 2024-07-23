@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { setHeadstartWPConfig } from '@headstartwp/core/utils';
-import { AppMiddleware } from '../appMidleware';
+import { AppMiddleware, getAppRouterLocale } from '../appMidleware';
 
 describe('appMiddleware', () => {
 	it('adds headers', async () => {
@@ -280,10 +280,82 @@ describe('appMiddleware', () => {
 
 		const res = await AppMiddleware(req, { appRouter: true });
 
+		expect(getAppRouterLocale(req)).toBe('pt');
+
 		expect(res.headers.get('x-middleware-rewrite')).toBe(
 			'http://test2.com/test2.com/post-name',
 		);
 		expect(res.headers.get('x-headstartwp-site')).toBe('test2.com');
 		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
+	});
+
+	it('supports locales with polylang and app router', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: 'http://testwp.com',
+			hostUrl: 'http://test.com',
+			integrations: {
+				polylang: {
+					enable: true,
+					locales: ['en', 'es'],
+					defaultLocale: 'en',
+				},
+			},
+		});
+
+		const req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'es');
+
+		expect(getAppRouterLocale(req)).toBe('es');
+
+		const res = await AppMiddleware(req, { appRouter: true });
+
+		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
+	});
+
+	it('throws on polylang and multisite together', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: 'http://testwp.com',
+			hostUrl: 'http://test.com',
+			integrations: {
+				polylang: {
+					enable: true,
+					locales: ['en', 'es'],
+					defaultLocale: 'en',
+				},
+			},
+			sites: [
+				{
+					sourceUrl: 'http://testwp.com',
+					hostUrl: 'http://test.com',
+					locale: 'en',
+				},
+				{
+					sourceUrl: 'http://testwp2.com',
+					hostUrl: 'http://test2.com',
+					locale: 'pt',
+				},
+				{
+					sourceUrl: 'http://testwp2.com/en',
+					hostUrl: 'http://test2.com',
+					locale: 'en',
+				},
+			],
+		});
+
+		const req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('host', 'test.com');
+		req.headers.set('accept-language', 'es');
+
+		expect(getAppRouterLocale(req)).toBeUndefined();
+
+		await expect(() => AppMiddleware(req, { appRouter: true })).rejects.toThrow(
+			'Polylang and multisite are not supported together',
+		);
 	});
 });

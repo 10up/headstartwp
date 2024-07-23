@@ -14,18 +14,47 @@ function isInternalRequest(req: NextRequest) {
 	return req.nextUrl.pathname.startsWith('/_next');
 }
 
-function getAppRouterLocale(request: NextRequest) {
+function hasMultisiteConfig() {
 	const config = getHeadstartWPConfig();
-	// remove duples
-	const sitesLocales = config.sites
-		?.filter((site) => typeof site.locale !== 'undefined')
-		.map((site) => site.locale as string);
+	return (config.sites?.length ?? 0) > 0;
+}
 
-	if (!config.locale) {
+function isPolylangIntegrationEnabled() {
+	const config = getHeadstartWPConfig();
+	return config.integrations?.polylang?.enable ?? false;
+}
+
+export function getAppRouterLocale(request: NextRequest) {
+	const config = getHeadstartWPConfig();
+	const isPotentiallyMultisite = hasMultisiteConfig();
+	const hasPolylangIntegration = isPolylangIntegrationEnabled();
+
+	let defaultLocale: string | undefined;
+	let supportedLocales: string[] = [];
+
+	// no polylang, the default locale is the first root locale
+	if (!hasPolylangIntegration && isPotentiallyMultisite) {
+		defaultLocale = config.locale ?? 'en';
+		supportedLocales = [
+			...new Set(
+				config.sites
+					?.filter((site) => typeof site.locale !== 'undefined')
+					.map((site) => site.locale as string),
+			),
+		];
+	}
+
+	// polylang only
+	if (hasPolylangIntegration && !isPotentiallyMultisite) {
+		defaultLocale = config.integrations?.polylang?.defaultLocale ?? 'en';
+		supportedLocales = [...new Set(config.integrations?.polylang?.locales ?? [])];
+	}
+
+	if (typeof defaultLocale === 'undefined') {
 		return undefined;
 	}
 
-	if (!sitesLocales) {
+	if (supportedLocales.length === 0) {
 		return undefined;
 	}
 
@@ -35,9 +64,7 @@ function getAppRouterLocale(request: NextRequest) {
 		negotiatorHeaders[key] = value;
 	});
 
-	const defaultLocale = config.locale ?? 'en';
-
-	const locales: readonly string[] = [defaultLocale, ...(sitesLocales ?? [])];
+	const locales: readonly string[] = [defaultLocale, ...(supportedLocales ?? [])];
 
 	// Use negotiator and intl-localematcher to get best locale
 	const languages = new Negotiator({ headers: negotiatorHeaders }).languages(locales);
@@ -62,9 +89,20 @@ export async function AppMiddleware(
 		return response;
 	}
 
+	const isPotentiallyMultisite = hasMultisiteConfig();
+	const hasPolylangIntegration = isPolylangIntegrationEnabled();
+
+	if (hasPolylangIntegration && isPotentiallyMultisite) {
+		// potentially conflicting set up
+		// will figure out later if we need to support this
+		throw new Error('Polylang and multisite are not supported together');
+	}
+
 	const locale = options.appRouter ? getAppRouterLocale(req) : req.nextUrl.locale;
 	const hostname = req.headers.get('host') || '';
-	const site = getSiteByHost(hostname, locale);
+
+	// if it's polylang integration, we should not be using locale to get site
+	const site = getSiteByHost(hostname, !hasPolylangIntegration ? locale : undefined);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl !== 'undefined';
 
 	const {
@@ -105,12 +143,14 @@ export async function AppMiddleware(
 				url,
 			),
 		);
+
 		response.headers.set('x-headstartwp-site', hostname);
 	}
 
 	if (locale) {
 		response.headers.set('x-headstartwp-locale', locale);
 	}
+
 	response.headers.set('x-headstartwp-current-url', currentUrl);
 
 	return response;
