@@ -402,8 +402,8 @@ describe('appMiddleware', () => {
 		expect(res.status).toBe(307);
 		expect(res.headers.get('Location')).toBe('http://test.com/post-name');
 
-		// pt is a unsuported locale
-		// so we will not assume it is a locale
+		// pt is a unsuported but valid
+		// the it should not redirect but just let it 404
 		req = new NextRequest('http://test.com/pt/post-name', {
 			method: 'GET',
 		});
@@ -411,14 +411,12 @@ describe('appMiddleware', () => {
 		req.headers.set('host', 'test.com');
 		req.headers.set('accept-language', 'es');
 
-		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'es']);
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'pt']);
 		res = await AppMiddleware(req, { appRouter: true });
-		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
+		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
 		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
 
-		// TOOD: do we want to redirect in this scenario or should it 404 with the unsuported locale?
-		expect(res.status).toBe(307);
-		expect(res.headers.get('Location')).toBe('http://test.com/es/post-name');
+		expect(res.status).toBe(200);
 	});
 
 	it('[multisite with locale] gets locale from url if set', async () => {
@@ -453,15 +451,14 @@ describe('appMiddleware', () => {
 		req.headers.set('accept-language', 'es');
 
 		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'en']);
-		let res = await AppMiddleware(req, { appRouter: true });
+		const res = await AppMiddleware(req, { appRouter: true });
 		expect(res.headers.get('x-headstartwp-locale')).toBe('en');
 		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
 		// should redirect from /en/post-name to /post-name
 		expect(res.status).toBe(307);
 		expect(res.headers.get('Location')).toBe('http://test2.com/post-name');
 
-		// es is a unsuported locale
-		// so we will not assume it is a locale
+		// es is an unsuported but valid locale
 		req = new NextRequest('http://test2.com/es/post-name', {
 			method: 'GET',
 		});
@@ -469,11 +466,10 @@ describe('appMiddleware', () => {
 		req.headers.set('host', 'test2.com');
 		req.headers.set('accept-language', 'pt');
 
-		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'pt']);
-		res = await AppMiddleware(req, { appRouter: true });
-		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
-		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
-		expect(res.status).toBe(307);
-		expect(res.headers.get('Location')).toBe('http://test2.com/pt/post-name');
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'es']);
+		// TODO: should we 404 instead?
+		await expect(() => AppMiddleware(req, { appRouter: true })).rejects.toThrow(
+			'Site not found',
+		);
 	});
 });

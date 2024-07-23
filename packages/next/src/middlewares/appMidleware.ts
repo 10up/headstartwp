@@ -24,6 +24,14 @@ function isPolylangIntegrationEnabled() {
 	return config.integrations?.polylang?.enable ?? false;
 }
 
+function isValidLocale(locale: string) {
+	try {
+		return Intl.getCanonicalLocales(locale).length > 0;
+	} catch (e) {
+		return false;
+	}
+}
+
 function getAppRouterSupportedLocales() {
 	const config = getHeadstartWPConfig();
 	const isPotentiallyMultisite = hasMultisiteConfig();
@@ -89,7 +97,7 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 
 	// if there's a locale in the URL and it's a supported locale, use it
 	const urlLocale = request.nextUrl.pathname.split('/')[1];
-	if (supportedLocales.includes(urlLocale)) {
+	if (supportedLocales.includes(urlLocale) || isValidLocale(urlLocale)) {
 		return [defaultLocale, urlLocale];
 	}
 
@@ -138,7 +146,7 @@ export async function AppMiddleware(
 		: [];
 
 	const locale = options.appRouter && appRouterLocale ? appRouterLocale : req.nextUrl.locale;
-	const urlLocale = pathname.split('/')[1];
+	const firstPathSlice = pathname.split('/')[1];
 	const hostname = req.headers.get('host') || '';
 
 	// if it's polylang integration, we should not be using locale to get site
@@ -152,6 +160,7 @@ export async function AppMiddleware(
 	} = isMultisiteRequest ? site : getHeadstartWPConfig();
 
 	if (!sourceUrl) {
+		// todo: should we 404 instead?
 		throw new Error('Site not found.');
 	}
 
@@ -168,29 +177,36 @@ export async function AppMiddleware(
 
 	let shouldRedirect = false;
 	// redirect default locale in the URL to a version without the locale
-	if (options.appRouter && locale === defaultAppRouterLocale && urlLocale === locale) {
+	if (options.appRouter && locale === defaultAppRouterLocale && firstPathSlice === locale) {
 		shouldRedirect = true;
 		response = NextResponse.redirect(new URL(pathname.replace(`/${locale}`, ''), req.url));
 	}
 
 	const { supportedLocales } = getAppRouterSupportedLocales();
 
+	const pathnameIsMissingLocale = supportedLocales.every(
+		(loc) => !pathname.startsWith(`/${loc}/`) && pathname !== `/${loc}`,
+	);
+
 	if (locale && options.appRouter) {
 		if (
 			locale !== defaultAppRouterLocale &&
-			locale !== urlLocale &&
-			supportedLocales.includes(urlLocale)
+			locale !== firstPathSlice &&
+			supportedLocales.includes(firstPathSlice)
 		) {
 			shouldRedirect = true;
 			response = NextResponse.redirect(
 				new URL(
-					`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname.replace(`/${urlLocale}`, '')}`,
+					`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname.replace(`/${firstPathSlice}`, '')}`,
 					req.url,
 				),
 			);
 		}
 
-		if (!supportedLocales.includes(urlLocale) && locale) {
+		// if we detected a locale, there isn't a supported locale in the URL
+		// but the first part of pathname (what is assumed to be urlLocale) is not a valid locale
+		// then we should redirect to add the locale
+		if (locale && pathnameIsMissingLocale && !isValidLocale(firstPathSlice)) {
 			shouldRedirect = true;
 			response = NextResponse.redirect(
 				new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, req.url),
