@@ -32,7 +32,7 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 	let defaultLocale: string | undefined;
 	let supportedLocales: string[] = [];
 
-	// no polylang, the default locale is the first root locale
+	// no polylang, the default locale is the root locale
 	if (!hasPolylangIntegration && isPotentiallyMultisite) {
 		defaultLocale = config.locale ?? 'en';
 		supportedLocales = [
@@ -58,6 +58,12 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 		return undefined;
 	}
 
+	// if there's a locale in the URL and it's a supported locale, use it
+	const urlLocale = request.nextUrl.pathname.split('/')[1];
+	if (supportedLocales.includes(urlLocale)) {
+		return [defaultLocale, urlLocale];
+	}
+
 	// Negotiator expects plain object so we need to transform headers
 	const negotiatorHeaders: Record<string, string> = {};
 	request.headers.forEach((value, key) => {
@@ -70,12 +76,6 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 	const languages = new Negotiator({ headers: negotiatorHeaders }).languages(locales);
 
 	const locale = matchLocale(languages, locales, defaultLocale);
-
-	// if there's a locale in the URL, use it
-	const urlLocale = request.nextUrl.pathname.split('/')[1];
-	if (supportedLocales.includes(urlLocale)) {
-		return [defaultLocale, urlLocale];
-	}
 
 	return [defaultLocale, locale];
 }
