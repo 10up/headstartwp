@@ -89,7 +89,7 @@ export async function AppMiddleware(
 	options: AppMidlewareOptions = { appRouter: false },
 ) {
 	let response = NextResponse.next();
-	const currentUrl = req.nextUrl.pathname;
+	const { pathname } = req.nextUrl;
 
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
 		return response;
@@ -109,7 +109,7 @@ export async function AppMiddleware(
 		: [];
 
 	const locale = options.appRouter && appRouterLocale ? appRouterLocale : req.nextUrl.locale;
-	const urlLocale = req.nextUrl.pathname.split('/')[1];
+	const urlLocale = pathname.split('/')[1];
 	const hostname = req.headers.get('host') || '';
 
 	// if it's polylang integration, we should not be using locale to get site
@@ -125,8 +125,6 @@ export async function AppMiddleware(
 	if (!sourceUrl) {
 		throw new Error('Site not found.');
 	}
-
-	const { pathname } = req.nextUrl;
 
 	if (redirectStrategy === 'always') {
 		const redirect = await fetchRedirect(pathname, sourceUrl || '');
@@ -146,7 +144,6 @@ export async function AppMiddleware(
 		response = NextResponse.redirect(new URL(pathname.replace(`/${locale}`, ''), req.url));
 	}
 
-	// TODO: rework this, need to take into account url locale
 	if (
 		locale &&
 		options.appRouter &&
@@ -161,20 +158,18 @@ export async function AppMiddleware(
 		);
 	}
 
-	if (req.nextUrl.pathname.endsWith('/page/1') || req.nextUrl.pathname.endsWith('/page/1/')) {
+	if (pathname.endsWith('/page/1') || pathname.endsWith('/page/1/')) {
 		return NextResponse.redirect(req.url.replace('/page/1', ''));
 	}
 
 	if (isMultisiteRequest && !shouldRedirect) {
-		const url = req.nextUrl;
-
-		const pagesRouterRewrite = `/_sites/${hostname}${url.pathname}`;
+		const pagesRouterRewrite = `/_sites/${hostname}${pathname}`;
 		const appRouterRewrite = locale
-			? `/${locale}/${hostname}${url.pathname.replace(`/${locale}`, '')}`
-			: `/${hostname}${url.pathname}`;
+			? `/${locale}/${hostname}${pathname.replace(`/${locale}`, '')}`
+			: `/${hostname}${pathname}`;
 
 		response = NextResponse.rewrite(
-			new URL(options.appRouter ? appRouterRewrite : pagesRouterRewrite, url),
+			new URL(options.appRouter ? appRouterRewrite : pagesRouterRewrite, req.nextUrl),
 		);
 
 		response.headers.set('x-headstartwp-site', hostname);
@@ -184,7 +179,7 @@ export async function AppMiddleware(
 		response.headers.set('x-headstartwp-locale', locale);
 	}
 
-	response.headers.set('x-headstartwp-current-url', currentUrl);
+	response.headers.set('x-headstartwp-current-url', pathname);
 
 	return response;
 }
