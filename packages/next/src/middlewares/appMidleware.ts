@@ -24,6 +24,35 @@ function isPolylangIntegrationEnabled() {
 	return config.integrations?.polylang?.enable ?? false;
 }
 
+function getAppRouterSupportedLocales() {
+	const config = getHeadstartWPConfig();
+	const isPotentiallyMultisite = hasMultisiteConfig();
+	const hasPolylangIntegration = isPolylangIntegrationEnabled();
+
+	let defaultLocale: string | undefined;
+	let supportedLocales: string[] = [];
+
+	// no polylang, the default locale is the root locale
+	if (!hasPolylangIntegration && isPotentiallyMultisite) {
+		defaultLocale = config.locale ?? 'en';
+		supportedLocales = [
+			...new Set(
+				config.sites
+					?.filter((site) => typeof site.locale !== 'undefined')
+					.map((site) => site.locale as string),
+			),
+		];
+	}
+
+	// polylang only
+	if (hasPolylangIntegration && !isPotentiallyMultisite) {
+		defaultLocale = config.integrations?.polylang?.defaultLocale ?? 'en';
+		supportedLocales = [...new Set(config.integrations?.polylang?.locales ?? [])];
+	}
+
+	return { defaultLocale, supportedLocales };
+}
+
 export function getAppRouterLocale(request: NextRequest): [string, string] | undefined {
 	const config = getHeadstartWPConfig();
 	const isPotentiallyMultisite = hasMultisiteConfig();
@@ -144,18 +173,29 @@ export async function AppMiddleware(
 		response = NextResponse.redirect(new URL(pathname.replace(`/${locale}`, ''), req.url));
 	}
 
-	if (
-		locale &&
-		options.appRouter &&
-		// should only redirect if it's not the default locale
-		locale !== defaultAppRouterLocale &&
-		// and the locale is not already in the url
-		locale !== urlLocale
-	) {
-		shouldRedirect = true;
-		response = NextResponse.redirect(
-			new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, req.url),
-		);
+	const { supportedLocales } = getAppRouterSupportedLocales();
+
+	if (locale && options.appRouter) {
+		if (
+			locale !== defaultAppRouterLocale &&
+			locale !== urlLocale &&
+			supportedLocales.includes(urlLocale)
+		) {
+			shouldRedirect = true;
+			response = NextResponse.redirect(
+				new URL(
+					`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname.replace(`/${urlLocale}`, '')}`,
+					req.url,
+				),
+			);
+		}
+
+		if (!supportedLocales.includes(urlLocale) && locale) {
+			shouldRedirect = true;
+			response = NextResponse.redirect(
+				new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, req.url),
+			);
+		}
 	}
 
 	if (pathname.endsWith('/page/1') || pathname.endsWith('/page/1/')) {
