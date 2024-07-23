@@ -1,6 +1,6 @@
-import { FetchOptions } from '../strategies';
+import { EndpointParams, FetchOptions } from '../strategies';
 
-export type QueryProps<P> = {
+export type QueryProps<P extends EndpointParams> = {
 	path?: string;
 	params?: Partial<P>;
 	options?: Partial<FetchOptions>;

@@ -71,6 +71,8 @@ export function getAppRouterLocale(request: NextRequest) {
 
 	const locale = matchLocale(languages, locales, defaultLocale);
 
+	// get locale from URL
+
 	return locale;
 }
 
@@ -132,16 +134,20 @@ export async function AppMiddleware(
 		return NextResponse.redirect(req.url.replace('/page/1', ''));
 	}
 
+	if (locale) {
+		// check to see if it needs to redirect
+	}
+
 	if (isMultisiteRequest) {
 		const url = req.nextUrl;
 
+		const pagesRouterRewrite = `/_sites/${hostname}${url.pathname}`;
+		const appRouterRewrite = locale
+			? `/${locale}/${hostname}${url.pathname}`
+			: `/${hostname}${url.pathname}`;
+
 		response = NextResponse.rewrite(
-			new URL(
-				options.appRouter
-					? `/${hostname}${url.pathname}`
-					: `/_sites/${hostname}${url.pathname}`,
-				url,
-			),
+			new URL(options.appRouter ? appRouterRewrite : pagesRouterRewrite, url),
 		);
 
 		response.headers.set('x-headstartwp-site', hostname);

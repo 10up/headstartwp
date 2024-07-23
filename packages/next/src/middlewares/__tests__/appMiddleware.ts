@@ -283,7 +283,7 @@ describe('appMiddleware', () => {
 		expect(getAppRouterLocale(req)).toBe('pt');
 
 		expect(res.headers.get('x-middleware-rewrite')).toBe(
-			'http://test2.com/test2.com/post-name',
+			'http://test2.com/pt/test2.com/post-name',
 		);
 		expect(res.headers.get('x-headstartwp-site')).toBe('test2.com');
 		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
