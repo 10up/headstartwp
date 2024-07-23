@@ -358,4 +358,30 @@ describe('appMiddleware', () => {
 			'Polylang and multisite are not supported together',
 		);
 	});
+
+	it('gets locale from url if set', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: 'http://testwp.com',
+			hostUrl: 'http://test.com',
+			integrations: {
+				polylang: {
+					enable: true,
+					locales: ['en', 'es'],
+					defaultLocale: 'en',
+				},
+			},
+		});
+
+		const req = new NextRequest('http://test.com/en/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('host', 'test.com');
+		req.headers.set('accept-language', 'es');
+
+		expect(getAppRouterLocale(req)).toBe('en');
+		const res = await AppMiddleware(req, { appRouter: true });
+		expect(res.headers.get('x-headstartwp-locale')).toBe('en');
+		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
+	});
 });

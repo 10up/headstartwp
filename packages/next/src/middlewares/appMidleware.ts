@@ -71,7 +71,11 @@ export function getAppRouterLocale(request: NextRequest) {
 
 	const locale = matchLocale(languages, locales, defaultLocale);
 
-	// get locale from URL
+	// if there's a locale in the URL, use it
+	const urlLocale = request.nextUrl.pathname.split('/')[1];
+	if (supportedLocales.includes(urlLocale)) {
+		return urlLocale;
+	}
 
 	return locale;
 }
@@ -130,12 +134,12 @@ export async function AppMiddleware(
 		}
 	}
 
-	if (req.nextUrl.pathname.endsWith('/page/1') || req.nextUrl.pathname.endsWith('/page/1/')) {
-		return NextResponse.redirect(req.url.replace('/page/1', ''));
-	}
-
 	if (locale) {
 		// check to see if it needs to redirect
+	}
+
+	if (req.nextUrl.pathname.endsWith('/page/1') || req.nextUrl.pathname.endsWith('/page/1/')) {
+		return NextResponse.redirect(req.url.replace('/page/1', ''));
 	}
 
 	if (isMultisiteRequest) {
