@@ -280,7 +280,7 @@ describe('appMiddleware', () => {
 
 		const res = await AppMiddleware(req, { appRouter: true });
 
-		expect(getAppRouterLocale(req)).toBe('pt');
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'pt']);
 
 		expect(res.headers.get('x-middleware-rewrite')).toBe(
 			'http://test2.com/pt/test2.com/post-name',
@@ -308,11 +308,13 @@ describe('appMiddleware', () => {
 
 		req.headers.set('accept-language', 'es');
 
-		expect(getAppRouterLocale(req)).toBe('es');
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'es']);
 
 		const res = await AppMiddleware(req, { appRouter: true });
 
 		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
+		// it should redirect
+		expect(res.status).toBe(307);
 	});
 
 	it('throws on polylang and multisite together', async () => {
@@ -372,16 +374,32 @@ describe('appMiddleware', () => {
 			},
 		});
 
-		const req = new NextRequest('http://test.com/en/post-name', {
+		let req = new NextRequest('http://test.com/en/post-name', {
 			method: 'GET',
 		});
 
 		req.headers.set('host', 'test.com');
 		req.headers.set('accept-language', 'es');
 
-		expect(getAppRouterLocale(req)).toBe('en');
-		const res = await AppMiddleware(req, { appRouter: true });
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'en']);
+		let res = await AppMiddleware(req, { appRouter: true });
 		expect(res.headers.get('x-headstartwp-locale')).toBe('en');
 		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
+		// expect(res.status).toBe(200);
+
+		// pt is a unsuported locale
+		// so we will not assume it is a locale
+		req = new NextRequest('http://test.com/pt/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('host', 'test.com');
+		req.headers.set('accept-language', 'es');
+
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'es']);
+		res = await AppMiddleware(req, { appRouter: true });
+		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
+		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
+		expect(res.status).toBe(200);
 	});
 });

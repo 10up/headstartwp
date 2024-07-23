@@ -24,7 +24,7 @@ function isPolylangIntegrationEnabled() {
 	return config.integrations?.polylang?.enable ?? false;
 }
 
-export function getAppRouterLocale(request: NextRequest) {
+export function getAppRouterLocale(request: NextRequest): [string, string] | undefined {
 	const config = getHeadstartWPConfig();
 	const isPotentiallyMultisite = hasMultisiteConfig();
 	const hasPolylangIntegration = isPolylangIntegrationEnabled();
@@ -74,10 +74,10 @@ export function getAppRouterLocale(request: NextRequest) {
 	// if there's a locale in the URL, use it
 	const urlLocale = request.nextUrl.pathname.split('/')[1];
 	if (supportedLocales.includes(urlLocale)) {
-		return urlLocale;
+		return [defaultLocale, urlLocale];
 	}
 
-	return locale;
+	return [defaultLocale, locale];
 }
 
 type AppMidlewareOptions = {
@@ -104,7 +104,11 @@ export async function AppMiddleware(
 		throw new Error('Polylang and multisite are not supported together');
 	}
 
-	const locale = options.appRouter ? getAppRouterLocale(req) : req.nextUrl.locale;
+	const [defaultAppRouterLocale, appRouterLocale] = options.appRouter
+		? getAppRouterLocale(req) ?? []
+		: [];
+
+	const locale = options.appRouter && appRouterLocale ? appRouterLocale : req.nextUrl.locale;
 	const hostname = req.headers.get('host') || '';
 
 	// if it's polylang integration, we should not be using locale to get site
@@ -134,8 +138,27 @@ export async function AppMiddleware(
 		}
 	}
 
-	if (locale) {
-		// check to see if it needs to redirect
+	// rediret default locale in the URL to a version without the locale
+	if (
+		options.appRouter &&
+		locale === defaultAppRouterLocale &&
+		pathname.startsWith(`/${locale}`)
+	) {
+		// do nothing for now
+	}
+
+	// TODO: rework this, need to take into account url locale
+	if (
+		locale &&
+		options.appRouter &&
+		// should only redirect if it's not the default locale
+		locale !== defaultAppRouterLocale &&
+		// and the locale is not already in the url
+		!pathname.startsWith(`/${locale}`)
+	) {
+		response = NextResponse.redirect(
+			new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, req.url),
+		);
 	}
 
 	if (req.nextUrl.pathname.endsWith('/page/1') || req.nextUrl.pathname.endsWith('/page/1/')) {
