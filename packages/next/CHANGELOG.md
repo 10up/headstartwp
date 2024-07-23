@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.5.0-app.5
+
+### Patch Changes
+
+- c73d000: Fix: SEO with yoast disabled
+- Updated dependencies [c73d000]
+  - @headstartwp/core@1.5.0-app.5
+
 ## 1.5.0-app.4
 
 ### Minor Changes
