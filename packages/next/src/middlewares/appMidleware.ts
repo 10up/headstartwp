@@ -62,30 +62,7 @@ function getAppRouterSupportedLocales() {
 }
 
 export function getAppRouterLocale(request: NextRequest): [string, string] | undefined {
-	const config = getHeadstartWPConfig();
-	const isPotentiallyMultisite = hasMultisiteConfig();
-	const hasPolylangIntegration = isPolylangIntegrationEnabled();
-
-	let defaultLocale: string | undefined;
-	let supportedLocales: string[] = [];
-
-	// no polylang, the default locale is the root locale
-	if (!hasPolylangIntegration && isPotentiallyMultisite) {
-		defaultLocale = config.locale ?? 'en';
-		supportedLocales = [
-			...new Set(
-				config.sites
-					?.filter((site) => typeof site.locale !== 'undefined')
-					.map((site) => site.locale as string),
-			),
-		];
-	}
-
-	// polylang only
-	if (hasPolylangIntegration && !isPotentiallyMultisite) {
-		defaultLocale = config.integrations?.polylang?.defaultLocale ?? 'en';
-		supportedLocales = [...new Set(config.integrations?.polylang?.locales ?? [])];
-	}
+	const { defaultLocale, supportedLocales } = getAppRouterSupportedLocales();
 
 	if (typeof defaultLocale === 'undefined') {
 		return undefined;
