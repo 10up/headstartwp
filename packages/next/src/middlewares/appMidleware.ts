@@ -109,6 +109,7 @@ export async function AppMiddleware(
 		: [];
 
 	const locale = options.appRouter && appRouterLocale ? appRouterLocale : req.nextUrl.locale;
+	const urlLocale = req.nextUrl.pathname.split('/')[1];
 	const hostname = req.headers.get('host') || '';
 
 	// if it's polylang integration, we should not be using locale to get site
@@ -138,13 +139,11 @@ export async function AppMiddleware(
 		}
 	}
 
-	// rediret default locale in the URL to a version without the locale
-	if (
-		options.appRouter &&
-		locale === defaultAppRouterLocale &&
-		pathname.startsWith(`/${locale}`)
-	) {
-		// do nothing for now
+	let shouldRedirect = false;
+	// redirect default locale in the URL to a version without the locale
+	if (options.appRouter && locale === defaultAppRouterLocale && urlLocale === locale) {
+		shouldRedirect = true;
+		response = NextResponse.redirect(new URL(pathname.replace(`/${locale}`, ''), req.url));
 	}
 
 	// TODO: rework this, need to take into account url locale
@@ -154,8 +153,9 @@ export async function AppMiddleware(
 		// should only redirect if it's not the default locale
 		locale !== defaultAppRouterLocale &&
 		// and the locale is not already in the url
-		!pathname.startsWith(`/${locale}`)
+		locale !== urlLocale
 	) {
+		shouldRedirect = true;
 		response = NextResponse.redirect(
 			new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, req.url),
 		);
@@ -165,12 +165,12 @@ export async function AppMiddleware(
 		return NextResponse.redirect(req.url.replace('/page/1', ''));
 	}
 
-	if (isMultisiteRequest) {
+	if (isMultisiteRequest && !shouldRedirect) {
 		const url = req.nextUrl;
 
 		const pagesRouterRewrite = `/_sites/${hostname}${url.pathname}`;
 		const appRouterRewrite = locale
-			? `/${locale}/${hostname}${url.pathname}`
+			? `/${locale}/${hostname}${url.pathname.replace(`/${locale}`, '')}`
 			: `/${hostname}${url.pathname}`;
 
 		response = NextResponse.rewrite(

@@ -271,16 +271,28 @@ describe('appMiddleware', () => {
 			],
 		});
 
-		const req = new NextRequest('http://test2.com/post-name', {
+		let req = new NextRequest('http://test2.com/post-name', {
 			method: 'GET',
 		});
 
 		req.headers.set('host', 'test2.com');
 		req.headers.set('accept-language', 'pt-BR');
 
-		const res = await AppMiddleware(req, { appRouter: true });
+		let res = await AppMiddleware(req, { appRouter: true });
 
 		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'pt']);
+		expect(res.status).toBe(307);
+		expect(res.headers.get('Location')).toBe('http://test2.com/pt/post-name');
+
+		// follow the redirect
+		req = new NextRequest('http://test2.com/pt/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('host', 'test2.com');
+		req.headers.set('accept-language', 'pt-BR');
+
+		res = await AppMiddleware(req, { appRouter: true });
 
 		expect(res.headers.get('x-middleware-rewrite')).toBe(
 			'http://test2.com/pt/test2.com/post-name',
@@ -315,6 +327,7 @@ describe('appMiddleware', () => {
 		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
 		// it should redirect
 		expect(res.status).toBe(307);
+		expect(res.headers.get('Location')).toBe('http://test.com/es/post-name');
 	});
 
 	it('throws on polylang and multisite together', async () => {
@@ -385,7 +398,9 @@ describe('appMiddleware', () => {
 		let res = await AppMiddleware(req, { appRouter: true });
 		expect(res.headers.get('x-headstartwp-locale')).toBe('en');
 		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
-		// expect(res.status).toBe(200);
+		// should redirect from /en/post-name to /post-name
+		expect(res.status).toBe(307);
+		expect(res.headers.get('Location')).toBe('http://test.com/post-name');
 
 		// pt is a unsuported locale
 		// so we will not assume it is a locale
@@ -400,6 +415,8 @@ describe('appMiddleware', () => {
 		res = await AppMiddleware(req, { appRouter: true });
 		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
 		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
-		expect(res.status).toBe(200);
+
+		// TOOD: do we want to redirect in this scenario or should it 404 with the unsuported locale?
+		expect(res.status).toBe(307);
 	});
 });
