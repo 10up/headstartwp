@@ -72,7 +72,7 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 		return undefined;
 	}
 
-	// if there's a locale in the URL and it's a supported locale, use it
+	// if there's a locale in the URL and it's a supported or valid locale, use it
 	const urlLocale = request.nextUrl.pathname.split('/')[1];
 	if (supportedLocales.includes(urlLocale) || isValidLocale(urlLocale)) {
 		return [defaultLocale, urlLocale];
@@ -166,24 +166,16 @@ export async function AppMiddleware(
 	);
 
 	if (locale && options.appRouter) {
-		if (
-			locale !== defaultAppRouterLocale &&
-			locale !== firstPathSlice &&
-			supportedLocales.includes(firstPathSlice)
-		) {
-			shouldRedirect = true;
-			response = NextResponse.redirect(
-				new URL(
-					`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname.replace(`/${firstPathSlice}`, '')}`,
-					req.url,
-				),
-			);
-		}
-
-		// if we detected a locale, there isn't a supported locale in the URL
-		// but the first part of pathname (what is assumed to be urlLocale) is not a valid locale
+		// if we detected a non-default locale, there isn't a supported locale in the URL already
+		// but the first part of pathname (what is assumed to be a locale) is not a valid locale
 		// then we should redirect to add the locale
-		if (locale && pathnameIsMissingLocale && !isValidLocale(firstPathSlice)) {
+		// e.g /about-us -> /en/about-us
+		if (
+			locale &&
+			locale !== defaultAppRouterLocale &&
+			pathnameIsMissingLocale &&
+			!isValidLocale(firstPathSlice)
+		) {
 			shouldRedirect = true;
 			response = NextResponse.redirect(
 				new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, req.url),
