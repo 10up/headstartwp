@@ -52,10 +52,10 @@ export function prepareQuery<P extends EndpointParams>(
 	// if there's not a site config but there is lang
 	// and polylang integration is enabled then add lang
 	if (!siteConfig && routeParams?.lang && params && config?.integrations?.polylang?.enable) {
-		const supportedLocales = config.integrations.polylang.locales ?? [];
+		const supportedLocales = config.i18n?.locales ?? [];
 		if (!supportedLocales.includes(routeParams.lang)) {
 			throw new FrameworkError(
-				'Unsuported lang, make sure you add all desired locales to `config.integrations.polylang.locales`',
+				'Unsuported lang, make sure you add all desired locales to `config.i18n.locales`',
 			);
 		}
 		params.lang = routeParams.lang;

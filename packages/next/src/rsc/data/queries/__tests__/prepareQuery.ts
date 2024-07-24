@@ -134,8 +134,11 @@ describe('prepareQuery with lang and polylang', () => {
 			integrations: {
 				polylang: {
 					enable: true,
-					locales: ['en', 'pt'],
 				},
+			},
+			i18n: {
+				locales: ['en', 'pt'],
+				defaultLocale: 'en',
 			},
 		});
 	});
@@ -168,7 +171,7 @@ describe('prepareQuery with lang and polylang', () => {
 				getHeadstartWPConfig(),
 			),
 		).toThrow(
-			'Unsuported lang, make sure you add all desired locales to `config.integrations.polylang.locales`',
+			'Unsuported lang, make sure you add all desired locales to `config.i18n.locales`',
 		);
 	});
 });

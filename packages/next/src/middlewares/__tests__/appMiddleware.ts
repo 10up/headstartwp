@@ -249,9 +249,12 @@ describe('appMiddleware', () => {
 		expect(res.headers.get('x-headstartwp-current-url')).toBeNull();
 	});
 
-	it('supports locales with App Router', async () => {
+	it('[multisite] supports locales with App Router', async () => {
 		setHeadstartWPConfig({
-			locale: 'en',
+			i18n: {
+				defaultLocale: 'en',
+				locales: ['en', 'pt'],
+			},
 			sites: [
 				{
 					sourceUrl: 'http://testwp.com',
@@ -301,16 +304,18 @@ describe('appMiddleware', () => {
 		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
 	});
 
-	it('supports locales with polylang and app router', async () => {
+	it('[polylang] supports locales and app router', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: 'http://testwp.com',
 			hostUrl: 'http://test.com',
 			integrations: {
 				polylang: {
 					enable: true,
-					locales: ['en', 'es'],
-					defaultLocale: 'en',
 				},
+			},
+			i18n: {
+				locales: ['en', 'es'],
+				defaultLocale: 'en',
 			},
 		});
 
@@ -337,8 +342,6 @@ describe('appMiddleware', () => {
 			integrations: {
 				polylang: {
 					enable: true,
-					locales: ['en', 'es'],
-					defaultLocale: 'en',
 				},
 			},
 			sites: [
@@ -381,9 +384,11 @@ describe('appMiddleware', () => {
 			integrations: {
 				polylang: {
 					enable: true,
-					locales: ['en', 'es'],
-					defaultLocale: 'en',
 				},
+			},
+			i18n: {
+				locales: ['en', 'es'],
+				defaultLocale: 'en',
 			},
 		});
 
@@ -421,7 +426,10 @@ describe('appMiddleware', () => {
 
 	it('[multisite with locale] gets locale from url if set', async () => {
 		setHeadstartWPConfig({
-			locale: 'en',
+			i18n: {
+				locales: ['en', 'es'],
+				defaultLocale: 'en',
+			},
 			sites: [
 				{
 					sourceUrl: 'http://testwp.com',

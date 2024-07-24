@@ -34,31 +34,10 @@ function isValidLocale(locale: string) {
 
 function getAppRouterSupportedLocales() {
 	const config = getHeadstartWPConfig();
-	const isPotentiallyMultisite = hasMultisiteConfig();
-	const hasPolylangIntegration = isPolylangIntegrationEnabled();
 
-	let defaultLocale: string | undefined;
-	let supportedLocales: string[] = [];
+	const { defaultLocale, locales = [] } = config.i18n ?? {};
 
-	// no polylang, the default locale is the root locale
-	if (!hasPolylangIntegration && isPotentiallyMultisite) {
-		defaultLocale = config.locale ?? 'en';
-		supportedLocales = [
-			...new Set(
-				config.sites
-					?.filter((site) => typeof site.locale !== 'undefined')
-					.map((site) => site.locale as string),
-			),
-		];
-	}
-
-	// polylang only
-	if (hasPolylangIntegration && !isPotentiallyMultisite) {
-		defaultLocale = config.integrations?.polylang?.defaultLocale ?? 'en';
-		supportedLocales = [...new Set(config.integrations?.polylang?.locales ?? [])];
-	}
-
-	return { defaultLocale, supportedLocales };
+	return { defaultLocale, supportedLocales: [...new Set(locales)] };
 }
 
 export function getAppRouterLocale(request: NextRequest): [string, string] | undefined {
@@ -154,6 +133,7 @@ export async function AppMiddleware(
 
 	let shouldRedirect = false;
 	// redirect default locale in the URL to a version without the locale
+	// e.g /en/about-us -> /about-us where en is the default locale
 	if (options.appRouter && locale === defaultAppRouterLocale && firstPathSlice === locale) {
 		shouldRedirect = true;
 		response = NextResponse.redirect(new URL(pathname.replace(`/${locale}`, ''), req.url));

@@ -286,17 +286,12 @@ export function withHeadstartWPConfig(
 		},
 	};
 
-	// if polylang is enabled
-	// and has locales
+	// if i18n is sets
 	// but we are on pages router
 	// error it out!
-	if (
-		headlessConfig.integrations?.polylang?.enable &&
-		(headlessConfig.integrations?.polylang?.locales?.length ?? 0) > 0 &&
-		!isUsingAppRouter
-	) {
+	if ((headlessConfig.i18n?.locales?.length ?? 0) > 0 && !isUsingAppRouter) {
 		throw new ConfigError(
-			'The `integrations.polylang.locales` option is not supported in the pages router. In the Pages router you must set the locales in the next config',
+			'The `i18n` option is not supported in the pages router. In the Pages router you must set the locales in the next config',
 		);
 	}
 

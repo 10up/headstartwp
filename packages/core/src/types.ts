@@ -50,21 +50,7 @@ export interface Integration {
 
 export interface YoastSEOIntegration extends Integration {}
 
-export interface PolylangIntegration extends Integration {
-	/**
-	 * The list of locales supported by Polylang
-	 *
-	 * In the app router this will be used to match the locale
-	 *
-	 * In the pages router it will be used to set up the locale config
-	 */
-	locales?: string[];
-
-	/**
-	 * The default locale for Polylang
-	 */
-	defaultLocale?: string;
-}
+export interface PolylangIntegration extends Integration {}
 
 export type Integrations = {
 	yoastSEO?: YoastSEOIntegration;
@@ -163,7 +149,10 @@ export type HeadlessConfig = {
 	redirectStrategy?: RedirectStrategy;
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
-	sites?: HeadlessConfig[];
+	i18n?: {
+		locales: string[];
+		defaultLocale: string;
+	};
 	preview?: PreviewConfig;
 	debug?: {
 		requests?: boolean;
@@ -171,4 +160,5 @@ export type HeadlessConfig = {
 		devMode?: boolean;
 	};
 	cache?: FetchStrategyCacheConfig;
+	sites?: Array<Omit<HeadlessConfig, 'i18n'>>;
 };
