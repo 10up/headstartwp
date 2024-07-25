@@ -137,6 +137,18 @@ export type FetchStrategyCacheConfig = {
 	cacheHandler?: FetchStrategyCacheHandler;
 };
 
+export type I18NConfig = {
+	locales: string[];
+	defaultLocale: string;
+
+	/**
+	 * Whether HeadstartWP should try to detect the browser preferred locale
+	 *
+	 * @default true
+	 */
+	localeDetection?: boolean;
+};
+
 export type HeadlessConfig = {
 	host?: string;
 	locale?: string;
@@ -149,7 +161,7 @@ export type HeadlessConfig = {
 	redirectStrategy?: RedirectStrategy;
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
-	sites?: HeadlessConfig[];
+	i18n?: I18NConfig;
 	preview?: PreviewConfig;
 	debug?: {
 		requests?: boolean;
@@ -157,4 +169,5 @@ export type HeadlessConfig = {
 		devMode?: boolean;
 	};
 	cache?: FetchStrategyCacheConfig;
+	sites?: Array<Omit<HeadlessConfig, 'i18n'>>;
 };

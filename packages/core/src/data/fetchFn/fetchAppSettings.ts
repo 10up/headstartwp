@@ -4,7 +4,7 @@ import { getHeadstartWPConfig, getObjectProperty, getWPUrl } from '../../utils';
 import { AppEntity, MenuItemEntity } from '../types';
 import { QueryProps } from './types';
 
-export type AppQueryProps<P> = QueryProps<P> & {
+export type AppQueryProps<P extends EndpointParams> = QueryProps<P> & {
 	menu?: string;
 	blockSetting?: {
 		blockName?: string;

@@ -121,7 +121,7 @@ export function withHeadstartWPConfig(
 		}
 	});
 
-	return {
+	const config: NextConfig = {
 		...nextConfig,
 		images: {
 			...nextConfig.images,
@@ -285,6 +285,17 @@ export function withHeadstartWPConfig(
 			return config;
 		},
 	};
+
+	// if i18n is sets
+	// but we are on pages router
+	// error it out!
+	if ((headlessConfig.i18n?.locales?.length ?? 0) > 0 && !isUsingAppRouter) {
+		throw new ConfigError(
+			'The `i18n` option is not supported in the pages router. In the Pages router you must set the locales in the next config',
+		);
+	}
+
+	return config;
 }
 
 export function withHeadlessConfig(
