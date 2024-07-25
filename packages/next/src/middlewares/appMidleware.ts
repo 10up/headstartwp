@@ -40,6 +40,12 @@ function getAppRouterSupportedLocales() {
 	return { defaultLocale, supportedLocales: [...new Set(locales)] };
 }
 
+/**
+ * On App Router it returns a tuple with defaultLocale and locale
+ *
+ * @param request Next Request
+ * @returns A tuple [defaultLocale, locale]
+ */
 export function getAppRouterLocale(request: NextRequest): [string, string] | undefined {
 	const { defaultLocale, supportedLocales } = getAppRouterSupportedLocales();
 
@@ -131,22 +137,26 @@ export async function AppMiddleware(
 		}
 	}
 
+	if (pathname.endsWith('/page/1') || pathname.endsWith('/page/1/')) {
+		return NextResponse.redirect(req.url.replace('/page/1', ''));
+	}
+
 	let shouldRedirect = false;
 
-	const { supportedLocales } = getAppRouterSupportedLocales();
-
-	const pathnameIsMissingLocale = supportedLocales.every(
-		(loc) => !pathname.startsWith(`/${loc}/`) && pathname !== `/${loc}`,
-	);
-
 	if (locale && options.appRouter) {
+		const { supportedLocales } = getAppRouterSupportedLocales();
+
+		const pathnameIsMissingLocale = supportedLocales.every(
+			(loc) => !pathname.startsWith(`/${loc}/`) && pathname !== `/${loc}`,
+		);
+
 		// redirect default locale in the URL to a version without the locale
 		// e.g /en/about-us -> /about-us where en is the default locale
 		if (locale === defaultAppRouterLocale && firstPathSlice === locale) {
 			shouldRedirect = true;
-			const pathNameWithoutDefaultLocale = pathname.replace(`/${locale}`, '');
+			const pathNameWithoutLocale = pathname.replace(`/${locale}`, '');
 			response = NextResponse.redirect(
-				new URL(pathNameWithoutDefaultLocale, req.url.replace(`/${locale}`, '')),
+				new URL(pathNameWithoutLocale, req.url.replace(`/${locale}`, '')),
 			);
 		}
 		// if we detected a non-default locale, there isn't a supported locale in the URL already
@@ -172,10 +182,6 @@ export async function AppMiddleware(
 				),
 			);
 		}
-	}
-
-	if (pathname.endsWith('/page/1') || pathname.endsWith('/page/1/')) {
-		return NextResponse.redirect(req.url.replace('/page/1', ''));
 	}
 
 	if (isMultisiteRequest && !shouldRedirect) {

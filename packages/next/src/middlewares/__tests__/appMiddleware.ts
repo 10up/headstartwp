@@ -110,6 +110,7 @@ describe('appMiddleware', () => {
 			'http://test2.com/_sites/test.com/post-name',
 		);
 		expect(res.headers.get('x-headstartwp-site')).toBe('test.com');
+		expect(res.headers.get('x-headstartwp-locale')).toBe('en');
 		expect(res.headers.get('x-headstartwp-current-url')).toBe('/post-name');
 	});
 
@@ -156,7 +157,7 @@ describe('appMiddleware', () => {
 			method: 'GET',
 			nextConfig: {
 				i18n: {
-					locales: ['zh', 'pr'],
+					locales: ['zh', 'pt-br'],
 					defaultLocale: 'pt-br',
 				},
 			},
@@ -167,7 +168,7 @@ describe('appMiddleware', () => {
 		await expect(() => AppMiddleware(req)).rejects.toThrow('Site not found.');
 	});
 
-	it('supports multisite in with App Router', async () => {
+	it('supports multisite with App Router', async () => {
 		setHeadstartWPConfig({
 			sites: [
 				{
@@ -196,7 +197,7 @@ describe('appMiddleware', () => {
 		expect(res.headers.get('x-headstartwp-current-url')).toBe('/post-name');
 	});
 
-	it('redirect /page/1 to page without 1', async () => {
+	it('redirect /page/1 to url without /page/1', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: 'http://testwp.com',
 		});
@@ -304,7 +305,7 @@ describe('appMiddleware', () => {
 		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
 	});
 
-	it('[polylang] supports locales and app router', async () => {
+	it('[polylang] supports locales with app router', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: 'http://testwp.com',
 			hostUrl: 'http://test.com',
@@ -319,7 +320,7 @@ describe('appMiddleware', () => {
 			},
 		});
 
-		const req = new NextRequest('http://test.com/post-name', {
+		let req = new NextRequest('http://test.com/post-name', {
 			method: 'GET',
 		});
 
@@ -327,12 +328,100 @@ describe('appMiddleware', () => {
 
 		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'es']);
 
-		const res = await AppMiddleware(req, { appRouter: true });
+		let res = await AppMiddleware(req, { appRouter: true });
 
 		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
 		// it should redirect
 		expect(res.status).toBe(307);
 		expect(res.headers.get('Location')).toBe('http://test.com/es/post-name');
+
+		req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'en');
+
+		res = await AppMiddleware(req, { appRouter: true });
+		expect(res.headers.get('x-middleware-rewrite')).toBe('http://test.com/en/post-name');
+	});
+
+	it('[i18n] it does not cause redirect loops', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: 'http://testwp.com',
+			hostUrl: 'http://test.com',
+			integrations: {
+				polylang: {
+					enable: true,
+				},
+			},
+			i18n: {
+				locales: ['en', 'es'],
+				defaultLocale: 'en',
+			},
+		});
+
+		let req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'es');
+
+		let res = await AppMiddleware(req, { appRouter: true });
+
+		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
+		// it should redirect
+		expect(res.status).toBe(307);
+		expect(res.headers.get('Location')).toBe('http://test.com/es/post-name');
+
+		req = new NextRequest('http://test.com/es/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'es');
+
+		res = await AppMiddleware(req, { appRouter: true });
+		expect(res.status).toBe(200);
+
+		req = new NextRequest('http://test.com/en/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'en');
+
+		res = await AppMiddleware(req, { appRouter: true });
+		expect(res.headers.get('Location')).toBe('http://test.com/post-name');
+
+		req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'en');
+		res = await AppMiddleware(req, { appRouter: true });
+		expect(res.status).toBe(200);
+	});
+
+	it('[i18n] it skips locale detection if no locales array is set', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: 'http://testwp.com',
+			hostUrl: 'http://test.com',
+			integrations: {
+				polylang: {
+					enable: true,
+				},
+			},
+			// @ts-expect-error
+			i18n: {
+				defaultLocale: 'en',
+			},
+		});
+
+		const req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'es');
+
+		expect(getAppRouterLocale(req)).toBeUndefined();
 	});
 
 	it('throws on polylang and multisite together', async () => {
@@ -480,7 +569,4 @@ describe('appMiddleware', () => {
 			'Site not found',
 		);
 	});
-
-	// TODO: add test for redirect loop
-	// TODO add test for no locale in pathname and a need to redirect to add locale
 });
