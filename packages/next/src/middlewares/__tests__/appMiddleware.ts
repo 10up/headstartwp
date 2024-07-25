@@ -345,6 +345,45 @@ describe('appMiddleware', () => {
 		expect(res.headers.get('x-middleware-rewrite')).toBe('http://test.com/en/post-name');
 	});
 
+	it('[polylang no locale detection] supports locales with app router', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: 'http://testwp.com',
+			hostUrl: 'http://test.com',
+			integrations: {
+				polylang: {
+					enable: true,
+				},
+			},
+			i18n: {
+				locales: ['en', 'es'],
+				defaultLocale: 'en',
+				localeDetection: false,
+			},
+		});
+
+		let req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'es');
+
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'en']);
+
+		let res = await AppMiddleware(req, { appRouter: true });
+
+		expect(res.headers.get('x-headstartwp-locale')).toBe('en');
+		expect(res.status).toBe(200);
+
+		req = new NextRequest('http://test.com/post-name', {
+			method: 'GET',
+		});
+
+		req.headers.set('accept-language', 'en');
+
+		res = await AppMiddleware(req, { appRouter: true });
+		expect(res.headers.get('x-middleware-rewrite')).toBe('http://test.com/en/post-name');
+	});
+
 	it('[i18n] it does not cause redirect loops', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: 'http://testwp.com',

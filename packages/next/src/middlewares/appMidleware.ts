@@ -35,9 +35,13 @@ function isValidLocale(locale: string) {
 function getAppRouterSupportedLocales() {
 	const config = getHeadstartWPConfig();
 
-	const { defaultLocale, locales = [] } = config.i18n ?? {};
+	const { defaultLocale, locales = [], localeDetection = true } = config.i18n ?? {};
 
-	return { defaultLocale, supportedLocales: [...new Set(locales)] };
+	return {
+		defaultLocale,
+		supportedLocales: [...new Set(locales)],
+		localeDetection,
+	};
 }
 
 /**
@@ -47,7 +51,7 @@ function getAppRouterSupportedLocales() {
  * @returns A tuple [defaultLocale, locale]
  */
 export function getAppRouterLocale(request: NextRequest): [string, string] | undefined {
-	const { defaultLocale, supportedLocales } = getAppRouterSupportedLocales();
+	const { defaultLocale, supportedLocales, localeDetection } = getAppRouterSupportedLocales();
 
 	if (typeof defaultLocale === 'undefined') {
 		return undefined;
@@ -63,20 +67,24 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 		return [defaultLocale, urlLocale];
 	}
 
-	// Negotiator expects plain object so we need to transform headers
-	const negotiatorHeaders: Record<string, string> = {};
-	request.headers.forEach((value, key) => {
-		negotiatorHeaders[key] = value;
-	});
+	if (localeDetection) {
+		// Negotiator expects plain object so we need to transform headers
+		const negotiatorHeaders: Record<string, string> = {};
+		request.headers.forEach((value, key) => {
+			negotiatorHeaders[key] = value;
+		});
 
-	const locales: readonly string[] = [defaultLocale, ...(supportedLocales ?? [])];
+		const locales: readonly string[] = [defaultLocale, ...(supportedLocales ?? [])];
 
-	// Use negotiator and intl-localematcher to get best locale
-	const languages = new Negotiator({ headers: negotiatorHeaders }).languages(locales);
+		// Use negotiator and intl-localematcher to get best locale
+		const languages = new Negotiator({ headers: negotiatorHeaders }).languages(locales);
 
-	const locale = matchLocale(languages, locales, defaultLocale);
+		const locale = matchLocale(languages, locales, defaultLocale);
 
-	return [defaultLocale, locale];
+		return [defaultLocale, locale];
+	}
+
+	return [defaultLocale, defaultLocale];
 }
 
 type AppMidlewareOptions = {
