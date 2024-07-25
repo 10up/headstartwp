@@ -58,7 +58,6 @@ type NextJSHeaders = {
 		revalidate?: false | 0 | number;
 		tags?: string[];
 	};
-	cache?: 'no-store' | 'force-cache';
 };
 
 /**
@@ -93,6 +92,11 @@ export interface FetchOptions {
 	 * Whether to burst cache by appending a timestamp to the query
 	 */
 	burstCache?: boolean;
+
+	/**
+	 * Cache option
+	 */
+	cache?: 'no-store' | 'force-cache';
 
 	/**
 	 * Headers to sent to fetch
@@ -309,7 +313,7 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	): Promise<FetchResponse<R>> {
 		const { burstCache = false } = options;
 
-		const args = {};
+		const args: Record<string, unknown> = {};
 		const headers: Record<string, unknown> = options.headers ?? {};
 		const authHeader = this.getAuthHeader(options);
 
@@ -319,12 +323,17 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 
 		const previewAuthHeader = this.getPreviewAuthHeader(options);
 
+		if (options.cache) {
+			args.cache = options.cache;
+		}
+
 		if (options.previewToken) {
 			headers[this.getPreviewHeaderName(options)] = previewAuthHeader;
+			// always set cache to no store if preview token is present
+			args.cache = 'no-store';
 		}
 
 		if (Object.keys(headers).length > 0) {
-			// @ts-expect-error
 			args.headers = headers;
 		}
 

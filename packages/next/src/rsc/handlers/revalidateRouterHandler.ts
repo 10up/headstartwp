@@ -80,8 +80,8 @@ export async function revalidateRouteHandler(request: NextRequest) {
 		const verifyTokenStrategy = new VerifyTokenFetchStrategy(sourceUrl);
 		const { result } = await verifyTokenStrategy.get({
 			authToken: token,
-			// TODO: check if this is correct (it's a separate github issue)
 			lang: typeof locale === 'string' ? locale : undefined,
+			cache: 'no-store',
 		});
 
 		const verifiedPath = result.path ?? '';
