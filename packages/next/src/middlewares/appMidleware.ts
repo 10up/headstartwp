@@ -164,7 +164,7 @@ export async function AppMiddleware(
 			);
 		}
 		// nothing else and there's not a locale in path then rewrite to add default locale
-		else if (pathnameIsMissingLocale) {
+		else if (pathnameIsMissingLocale && !isValidLocale(firstPathSlice)) {
 			response = NextResponse.rewrite(
 				new URL(
 					`/${defaultAppRouterLocale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
