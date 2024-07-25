@@ -2,7 +2,6 @@ import { BlocksRenderer } from '@headstartwp/core/react';
 import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
 
 const Home = async ({ params }: HeadstartWPRoute) => {
-	console.log('HOME');
 	const { data } = await queryPost({
 		routeParams: params,
 		params: {

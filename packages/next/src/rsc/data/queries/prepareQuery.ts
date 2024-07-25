@@ -39,9 +39,7 @@ export function prepareQuery<P extends EndpointParams>(
 
 	const options = merge<NextQueryProps<P>['options']>([
 		{
-			headers: {
-				cache: 'no-store',
-			},
+			cache: 'no-store',
 		},
 		rest.options ?? {},
 	]);

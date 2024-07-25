@@ -29,12 +29,10 @@ describe('prepareQuery', () => {
 		});
 	});
 
-	it('default headers to no-store', () => {
+	it('default cache to no-store', () => {
 		expect(prepareQuery({})).toMatchObject({
 			options: {
-				headers: {
-					cache: 'no-store',
-				},
+				cache: 'no-store',
 			},
 		});
 	});

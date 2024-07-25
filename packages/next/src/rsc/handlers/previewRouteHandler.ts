@@ -147,6 +147,7 @@ export async function previewRouteHandler(
 			options: {
 				alternativePreviewAuthorizationHeader:
 					preview?.alternativeAuthorizationHeader ?? false,
+				cache: 'no-store',
 			},
 		},
 		config,
