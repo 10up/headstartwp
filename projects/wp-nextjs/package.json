@@ -33,7 +33,7 @@
     "@next/bundle-analyzer": "^12.1.0",
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "@typescript-eslint/parser": "^7.9.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.3",
     "@types/nprogress": "^0.2.3",
     "@types/react": "^18",
     "@types/react-dom": "^18"
