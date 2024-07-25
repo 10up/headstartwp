@@ -1,5 +1,15 @@
 # @headstartwp/core
 
+## 1.5.0-app.6
+
+### Minor Changes
+
+- 79ae20e: Adding support for `i18n` routing in app router
+
+### Patch Changes
+
+- 9f05f3f: Fix fetch cache option
+
 ## 1.5.0-app.5
 
 ### Patch Changes

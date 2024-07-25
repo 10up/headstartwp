@@ -10,14 +10,17 @@
     "@10up/wp-nextjs": "0.2.0",
     "@10up/wp-nextjs-app": "0.1.0",
     "@headstartwp/headstartwp": "1.1.3",
-    "@10up/wp-multisite-nextjs-app": "0.1.0"
+    "@10up/wp-multisite-nextjs-app": "0.1.0",
+    "@10up/wp-polylang-nextjs-app": "0.1.0"
   },
   "changesets": [
     "cyan-fans-clean",
     "forty-apes-repair",
     "funny-poems-own",
+    "happy-squids-admire",
     "moody-emus-matter",
     "tall-moles-accept",
+    "tasty-waves-juggle",
     "two-weeks-applaud",
     "wild-toys-refuse",
     "young-planes-jog"
