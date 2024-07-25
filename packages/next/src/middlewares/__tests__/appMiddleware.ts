@@ -480,4 +480,7 @@ describe('appMiddleware', () => {
 			'Site not found',
 		);
 	});
+
+	// TODO: add test for redirect loop
+	// TODO add test for no locale in pathname and a need to redirect to add locale
 });

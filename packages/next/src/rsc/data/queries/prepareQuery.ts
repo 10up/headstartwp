@@ -21,9 +21,12 @@ export function prepareQuery<P extends EndpointParams>(
 	const path = routeParams?.path ?? '';
 	const site = decodeURIComponent(routeParams?.site ?? '');
 
+	const rootConfig = getHeadstartWPConfig();
+	const isPolylangEnabled = rootConfig.integrations?.polylang?.enable;
+
 	// eslint-disable-next-line no-nested-ternary
 	const siteConfig = routeParams?.site
-		? routeParams.lang
+		? routeParams.lang && !isPolylangEnabled
 			? getSiteByHost(site, routeParams.lang)
 			: getSiteByHost(site)
 		: null;
@@ -43,16 +46,14 @@ export function prepareQuery<P extends EndpointParams>(
 		rest.options ?? {},
 	]);
 
-	const config = siteConfig ?? _config;
+	const config = siteConfig ?? (_config || rootConfig);
 	const pathname = Array.isArray(path) ? convertToPath(path) : path;
 
 	const params: typeof originalParams =
 		typeof originalParams !== 'undefined' ? { ...originalParams } : {};
 
-	// if there's not a site config but there is lang
-	// and polylang integration is enabled then add lang
-	if (!siteConfig && routeParams?.lang && params && config?.integrations?.polylang?.enable) {
-		const supportedLocales = config.i18n?.locales ?? [];
+	if (routeParams?.lang && isPolylangEnabled) {
+		const supportedLocales = rootConfig.i18n?.locales ?? [];
 		if (!supportedLocales.includes(routeParams.lang)) {
 			throw new FrameworkError(
 				'Unsuported lang, make sure you add all desired locales to `config.i18n.locales`',

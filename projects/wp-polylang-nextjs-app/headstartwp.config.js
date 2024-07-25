@@ -10,11 +10,13 @@ module.exports = {
 	preview: {
 		usePostLinkForRedirect: true,
 	},
+	i18n: {
+		locales: ['en', 'pt', 'es'],
+		defaultLocale: 'en',
+	},
 	integrations: {
 		polylang: {
-			enabled: true,
-			locales: ['en', 'pt', 'es'],
-			defaultLocale: 'en',
+			enable: true,
 		},
 	},
 };

@@ -1,12 +1,17 @@
 import { BlocksRenderer } from '@headstartwp/core/react';
-import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
+import { HeadstartWPRoute, queryAppSettings, queryPost } from '@headstartwp/next/app';
 
 const Home = async ({ params }: HeadstartWPRoute) => {
-	console.log('HOME');
+	const {
+		data: { home },
+	} = await queryAppSettings({
+		routeParams: params,
+	});
+
 	const { data } = await queryPost({
 		routeParams: params,
 		params: {
-			slug: 'front-page',
+			slug: home.slug ?? 'front-page',
 			postType: 'page',
 		},
 	});
