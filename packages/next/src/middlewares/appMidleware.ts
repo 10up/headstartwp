@@ -99,7 +99,7 @@ export async function AppMiddleware(
 	const { pathname } = req.nextUrl;
 
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
-		return response;
+		return undefined;
 	}
 
 	const isPotentiallyMultisite = hasMultisiteConfig();
@@ -150,7 +150,7 @@ export async function AppMiddleware(
 	}
 
 	let shouldRedirect = false;
-
+	console.log('locale', locale);
 	if (locale && options.appRouter) {
 		const { supportedLocales } = getAppRouterSupportedLocales();
 
