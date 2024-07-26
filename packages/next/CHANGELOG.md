@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.5.0-app.7
+
+### Patch Changes
+
+- 4044248: Introducing `loadHeadstartWpConfig()`
+- Updated dependencies [4044248]
+  - @headstartwp/core@1.5.0-app.7
+
 ## 1.5.0-app.6
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-app.7
+
+### Patch Changes
+
+- 4044248: Introducing `loadHeadstartWpConfig()`
+
 ## 1.5.0-app.6
 
 ### Minor Changes
