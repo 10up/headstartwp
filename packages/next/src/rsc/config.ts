@@ -1,18 +1,15 @@
-import { getHeadstartWPConfig, getSiteByHost } from '@headstartwp/core';
-import { headers } from 'next/headers';
+import { HeadstartWPRoute } from './types';
+import { prepareQuery } from './data/queries/prepareQuery';
 
 /**
- * How to make this work in edge runtimes?
+ * Loads the right config based on route params
+ *
+ * @param routeParams The next.js route params
+ *
+ * @returns
  */
-export async function loadHeadstartWPConfig() {
-	const config = getHeadstartWPConfig();
-	const headersList = headers();
-
-	const site = headersList.get('x-headstartwp-site');
-
-	if (site) {
-		return getSiteByHost(site);
-	}
+export function loadHeadstartWPConfig(routeParams: HeadstartWPRoute['params']) {
+	const { config } = prepareQuery({ routeParams });
 
 	return config;
 }
