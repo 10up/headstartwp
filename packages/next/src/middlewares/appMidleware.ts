@@ -150,7 +150,7 @@ export async function AppMiddleware(
 	}
 
 	let shouldRedirect = false;
-	console.log('locale', locale);
+
 	if (locale && options.appRouter) {
 		const { supportedLocales } = getAppRouterSupportedLocales();
 
