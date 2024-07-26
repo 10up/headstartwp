@@ -1,5 +1,35 @@
+import { removeSourceUrl } from '@headstartwp/core';
 import { BlocksRenderer, HtmlDecoder } from '@headstartwp/core/react';
-import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
+import {
+	HeadstartWPRoute,
+	loadHeadstartWPConfig,
+	queryPost,
+	queryPosts,
+} from '@headstartwp/next/app';
+
+export async function generateStaticParams({ params }: HeadstartWPRoute) {
+	// loads the right config based on route params (this is needed over getHeadstartWPConfig() for sites using multisite)
+	const { sourceUrl = '', hostUrl = '/' } = loadHeadstartWPConfig(params);
+
+	// do not throw if there aren't any posts
+	const { data } = await queryPosts({
+		routeParams: params,
+		params: { postType: 'post' },
+		options: {
+			throwIfNotFound: false,
+		},
+	});
+
+	return data.posts.map((post) => ({
+		path: removeSourceUrl({
+			backendUrl: sourceUrl,
+			link: post.link,
+			publicUrl: hostUrl,
+		})
+			.substring(1)
+			.split('/'),
+	}));
+}
 
 const Single = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryPost({

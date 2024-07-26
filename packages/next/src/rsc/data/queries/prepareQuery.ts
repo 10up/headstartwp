@@ -54,7 +54,7 @@ export function prepareQuery<P extends EndpointParams>(
 		const supportedLocales = rootConfig.i18n?.locales ?? [];
 		if (!supportedLocales.includes(routeParams.lang)) {
 			throw new FrameworkError(
-				'Unsuported lang, make sure you add all desired locales to `config.i18n.locales`',
+				`Unsuported lang (${routeParams.lang}), make sure you add all desired locales to "config.i18n.locales"`,
 			);
 		}
 		params.lang = routeParams.lang;

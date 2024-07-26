@@ -2,6 +2,11 @@ import { HeadstartWPLayout, PreviewIndicator, queryAppSettings } from '@headstar
 import { Menu, SettingsProvider, ThemeSettingsProvider } from '@headstartwp/core/react';
 import { getHeadstartWPConfig } from '@headstartwp/core';
 
+export async function generateStaticParams() {
+	// pre-render en and es posts
+	return [{ lang: 'en' }, { lang: 'es' }];
+}
+
 const RootLayout = async ({ children, params }: Readonly<HeadstartWPLayout>) => {
 	const { menu, data } = await queryAppSettings({ menu: 'primary', routeParams: params });
 
