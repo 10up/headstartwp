@@ -8,9 +8,10 @@ import {
 } from '@headstartwp/next/app';
 
 export async function generateStaticParams({ params }: HeadstartWPRoute) {
-	// loads the right config based on route params (this is needed over getHeadstartWP for sites using multisite)
+	// loads the right config based on route params (this is needed over getHeadstartWPConfig() for sites using multisite)
 	const { sourceUrl = '', hostUrl = '/' } = loadHeadstartWPConfig(params);
 
+	// do not throw if there aren't any posts
 	const { data } = await queryPosts({
 		routeParams: params,
 		params: { postType: 'post' },
