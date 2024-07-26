@@ -223,17 +223,19 @@ describe('BlocksRenderer', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	it('forward blockProps to the component', () => {
+	it('forward blockProps to the component and support attaching test function directly to component', () => {
 		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
 			return <p className={block?.className}>{JSON.stringify(block)}</p>;
 		};
+
+		DivToP.test = (node) => isBlockByName(node, '10up/custom-block');
 
 		const { container } = render(
 			<BlocksRenderer
 				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
 				forwardBlockAttributes
 			>
-				<DivToP test={(node) => isBlockByName(node, '10up/custom-block')} />
+				<DivToP />
 			</BlocksRenderer>,
 		);
 

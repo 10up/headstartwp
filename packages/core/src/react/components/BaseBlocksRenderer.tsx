@@ -146,10 +146,16 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: Headl
 	}
 
 	const { test: testFn, tagName, classList } = block.props;
-	const hasTestFunction = typeof testFn === 'function';
+	const hasTestFunctionProp = typeof testFn === 'function' && block;
 
-	if (hasTestFunction) {
+	if (hasTestFunctionProp) {
 		return testFn(domNode, site);
+	}
+
+	// @ts-expect-error
+	if (typeof block?.type?.test === 'function') {
+		// @ts-expect-error
+		return block.type.test(domNode, site);
 	}
 
 	if (typeof tagName === 'string' && typeof classList !== 'undefined') {
@@ -171,7 +177,6 @@ export function BaseBlocksRenderer({
 	const blocks: ReactNode[] = React.Children.toArray(children);
 
 	// Check if components[] has a non-ReactNode type Element
-	// const hasInvalidComponent: boolean = blocks.findIndex((block) => !isValidElement(block)) !== -1;
 	const hasInvalidComponent: boolean =
 		blocks.findIndex((block) => {
 			if (!isValidElement<BlockProps>(block)) {
@@ -183,6 +188,11 @@ export function BaseBlocksRenderer({
 
 			// if has a test function component is not invalid
 			if (hasTestFunction) {
+				return false;
+			}
+
+			// @ts-expect-error
+			if (typeof block?.type?.test === 'function') {
 				return false;
 			}
 
