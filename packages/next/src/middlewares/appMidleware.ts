@@ -99,7 +99,7 @@ export async function AppMiddleware(
 	const { pathname } = req.nextUrl;
 
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
-		return undefined;
+		return response;
 	}
 
 	const isPotentiallyMultisite = hasMultisiteConfig();
