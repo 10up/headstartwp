@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BlocksRenderer forward blockProps to the component 1`] = `
+exports[`BlocksRenderer forward blockProps to the component and support attaching test function directly to component 1`] = `
 <div>
   <p
     class="my-class"

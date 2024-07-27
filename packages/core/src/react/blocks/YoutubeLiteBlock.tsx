@@ -69,12 +69,4 @@ export function YoutubeLiteBlock({ domNode }: Omit<IYoutubeLiteBlock, 'component
 	return <lite-youtube videoid={videoId} videotitle={title} />;
 }
 
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace YoutubeLiteBlock {
-	export const defaultProps = {
-		test: (node) => isYoutubeEmbed(node),
-	};
-}
+YoutubeLiteBlock.test = (node) => isYoutubeEmbed(node);

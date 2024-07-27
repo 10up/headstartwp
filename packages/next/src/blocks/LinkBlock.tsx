@@ -50,12 +50,4 @@ export function LinkBlock({ domNode, children }: Omit<IBlock<LinkBlockProps>, 'c
 	);
 }
 
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace LinkBlock {
-	export const defaultProps = {
-		test: (node, site) => isAnchorTag(node, { isInternalLink: true }, site),
-	};
-}
+LinkBlock.test = (node, site) => isAnchorTag(node, { isInternalLink: true }, site);

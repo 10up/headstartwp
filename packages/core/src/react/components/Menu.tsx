@@ -110,7 +110,7 @@ type MenuProps = {
 
 export function Menu({
 	items,
-	className,
+	className = 'menu-container',
 	depth = 0,
 	topLevelItemsClickable = false,
 	itemWrapper = DefaultItemWrapper,
@@ -131,19 +131,4 @@ export function Menu({
 			/>
 		</MenuWrapper>
 	);
-}
-
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace Menu {
-	export const defaultProps = {
-		className: 'menu-container',
-		topLevelItemsClickable: false,
-		depth: 0,
-		itemWrapper: DefaultItemWrapper,
-		menuWrapper: DefaultMenuWrapper,
-		linkWrapper: DefaultLinkWrapper,
-	};
 }
