@@ -21,6 +21,7 @@ export async function querySearch<
 
 		return {
 			...result,
+			config,
 			seo: prepareSEOMetadata(result.data.queriedObject, config),
 		};
 	} catch (error) {

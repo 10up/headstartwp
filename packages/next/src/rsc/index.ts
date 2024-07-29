@@ -9,3 +9,6 @@ export * from './handlers/revalidateRouterHandler';
 // components
 export * from './components/PreviewIndicator';
 export * from './components/JSONLD';
+
+// blocks
+export * from './blocks/LinkBlock';

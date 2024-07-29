@@ -11,12 +11,14 @@ import { IDataWPBlock, parseBlockAttributes, ParsedBlock } from '../../dom/parse
 
 const { default: parse, domToReact } = HtmlReactParser;
 
+export type BlockContext = { settings?: HeadlessConfig; [key: string]: unknown };
+
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
  */
 export interface BlockProps<
 	BlockAttributes extends IDataWPBlock = IDataWPBlock,
-	Context extends Record<string, unknown> = Record<string, unknown>,
+	Context extends BlockContext = BlockContext,
 > {
 	/**
 	 * A test function receives a domNode and returns a boolean value indicating
@@ -74,6 +76,10 @@ export interface BlockProps<
 	blockContext?: Context;
 }
 
+export type BlockFC<Props extends BlockProps = BlockProps> = React.FC<Props> & {
+	test?: BlockProps['test'];
+};
+
 /**
  * The common interface for a block transform component
  */
@@ -124,6 +130,11 @@ export interface BlockRendererProps {
 	 * Passing children are not mandatory, if you do not pass them `BlocksRenderer` will simply sanitize the html markup.
 	 */
 	children?: ReactNode;
+
+	/**
+	 * The headless config
+	 */
+	settings?: HeadlessConfig;
 
 	/**
 	 * Whether to forward the block attributes to the children components.
@@ -241,7 +252,9 @@ export function BaseBlocksRenderer({
 					}
 
 					if (typeof blockContext !== 'undefined') {
-						blockProps.blockContext = { ...blockContext };
+						blockProps.blockContext = { ...blockContext, settings };
+					} else {
+						blockProps.blockContext = { settings };
 					}
 
 					component = React.createElement(

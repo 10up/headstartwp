@@ -43,6 +43,7 @@ export async function queryPost<
 
 		return {
 			...result,
+			config,
 			seo: prepareSEOMetadata(result.data.post, config),
 		};
 	} catch (error) {

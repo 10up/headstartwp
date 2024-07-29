@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Me
 }
 
 const Single = async ({ params }: HeadstartWPRoute) => {
-	const { data, seo } = await query({ params });
+	const { data, seo, config } = await query({ params });
 
 	return (
 		<article>
@@ -56,7 +56,7 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
 
-			<Blocks html={data.post.content.rendered ?? ''} />
+			<Blocks html={data.post.content.rendered ?? ''} settings={config} />
 
 			{seo.schema && <JSONLD schema={seo.schema} />}
 		</article>
