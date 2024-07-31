@@ -12,3 +12,4 @@ export * from './components/JSONLD';
 
 // blocks
 export * from './blocks/LinkBlock';
+export * from '../blocks/TwitterBlock';

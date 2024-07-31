@@ -1,11 +1,12 @@
 import { removeSourceUrl } from '@headstartwp/core';
-import { BlocksRenderer, HtmlDecoder } from '@headstartwp/core/react';
+import { HtmlDecoder } from '@headstartwp/core/react';
 import {
 	HeadstartWPRoute,
 	loadHeadstartWPConfig,
 	queryPost,
 	queryPosts,
 } from '@headstartwp/next/app';
+import Blocks from '../../../../components/Blocks';
 
 export async function generateStaticParams({ params }: HeadstartWPRoute) {
 	// loads the right config based on route params (this is needed over getHeadstartWPConfig() for sites using multisite)
@@ -32,7 +33,7 @@ export async function generateStaticParams({ params }: HeadstartWPRoute) {
 }
 
 const Single = async ({ params }: HeadstartWPRoute) => {
-	const { data } = await queryPost({
+	const { data, config } = await queryPost({
 		routeParams: params,
 		params: {
 			postType: ['post', 'page'],
@@ -45,7 +46,7 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
 
-			<BlocksRenderer html={data.post.content.rendered ?? ''} />
+			<Blocks html={data.post.content.rendered ?? ''} settings={config} />
 		</article>
 	);
 };

@@ -8,7 +8,12 @@ import {
 } from '@headstartwp/next/app';
 import { Metadata } from 'next';
 import { removeSourceUrl } from '@headstartwp/core';
+import dynamic from 'next/dynamic';
 import Blocks from '../../../components/Blocks';
+
+const ClientRelatedPosts = dynamic(() =>
+	import('../../../components/RelatedPosts').then((mod) => mod.RelatedPosts),
+);
 
 export async function generateStaticParams({ params }: HeadstartWPRoute) {
 	// loads the right config based on route params (this is needed over getHeadstartWP for sites using polylang integration or multisite)
@@ -59,6 +64,13 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 			<Blocks html={data.post.content.rendered ?? ''} settings={config} />
 
 			{seo.schema && <JSONLD schema={seo.schema} />}
+
+			{data.post.terms.category && (
+				<ClientRelatedPosts
+					post_id={data.post.id}
+					category={data.post.terms.category[0].slug}
+				/>
+			)}
 		</article>
 	);
 };
