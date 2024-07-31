@@ -1,7 +1,19 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
+import path from 'path';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
+
+// Get the path to the project's root package.json
+const packageJsonPath = path.join(process.cwd(), 'package.json');
+const packageJson = packageJsonPath ? JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) : {};
+
+type RemotePattern = {
+	protocol?: 'http' | 'https';
+	hostname: string;
+	port?: string;
+	pathname?: string;
+};
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -45,6 +57,21 @@ function traverse(rules) {
 			traverse(rule.oneOf);
 		}
 	}
+}
+
+function meetsMinimumVersion(versionString: string, compareVersion: number): boolean {
+	if (versionString === 'latest') {
+		return true;
+	}
+
+	// Remove the prefix (^, >=) from the version string
+	const cleanedVersion = versionString.replace(/^[^\d]*/, '');
+
+	// Split the version into major, minor, and patch components
+	const [major] = cleanedVersion.split('.').map(Number);
+
+	// Compare the major version number
+	return major >= compareVersion;
 }
 
 /**
@@ -121,11 +148,26 @@ export function withHeadstartWPConfig(
 		}
 	});
 
+	const useImageRemotePatterns = meetsMinimumVersion(packageJson?.dependencies?.next, 14);
+	const imageConfig: { domains?: string[]; remotePatterns?: RemotePattern[] } = {};
+
+	if (useImageRemotePatterns) {
+		imageConfig.remotePatterns =
+			nextConfig.remotePatterns ??
+			imageDomains.map((each) => {
+				return {
+					hostname: each,
+				};
+			});
+	} else {
+		imageConfig.domains = imageDomains;
+	}
+
 	const config: NextConfig = {
 		...nextConfig,
 		images: {
 			...nextConfig.images,
-			domains: imageDomains,
+			...imageConfig,
 		},
 		async rewrites() {
 			const rewrites =
