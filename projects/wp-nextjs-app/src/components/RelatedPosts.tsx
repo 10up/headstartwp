@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const RelatedPosts: React.FC<Props> = ({ category, post_id }) => {
-	const { data, loading } = useFetchPosts({ per_page: 3, category, exclude: post_id });
+	const { data, loading } = useFetchPosts({ per_page: 3, category, exclude: [post_id] });
 
 	if (loading) {
 		return <div>Loading...</div>;
