@@ -1,7 +1,9 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
+import { ValidationError } from 'yup';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
+import headlessConfigSchema from './headlessConfigSchema';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -104,6 +106,21 @@ export function withHeadstartWPConfig(
 		throw new ConfigError(
 			'Missing sourceUrl in headstartwp.config.js (or headless.config.js). Please add it to your config file.',
 		);
+	}
+
+	// Validate the config file, and log an error if it is invalid
+	try {
+		headlessConfigSchema.validateSync(headlessConfig, {
+			strict: true,
+			abortEarly: false,
+			stripUnknown: false,
+		});
+	} catch (error) {
+		if (error instanceof ValidationError) {
+			console.error(`Error in the configuration file: ${error.errors.map(String)}`);
+		} else {
+			console.error('Unexpected error in the configuration file:', error);
+		}
 	}
 
 	const imageDomains: string[] = nextConfig.images?.domains ?? [];
