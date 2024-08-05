@@ -27,6 +27,7 @@
     },
     "./app": {
       "import": "./dist/mjs/rsc/index.js",
+      "require": "./dist/cjs/rsc/index.js",
       "types": "./dist/mjs/rsc/index.d.ts"
     }
   },
