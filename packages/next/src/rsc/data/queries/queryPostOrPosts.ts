@@ -22,6 +22,7 @@ export async function queryPostOrPosts<
 
 		return {
 			...result,
+			config,
 			seo: prepareSEOMetadata(result.data.queriedObject, config),
 		};
 	} catch (error) {

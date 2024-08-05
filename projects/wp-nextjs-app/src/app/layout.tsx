@@ -1,8 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { PreviewIndicator, queryAppSettings } from '@headstartwp/next/app';
-import { Menu, SettingsProvider, ThemeSettingsProvider } from '@headstartwp/core/react';
-import { getHeadstartWPConfig } from '@headstartwp/core';
+import { Link, PreviewIndicator, queryAppSettings, HeadstartWPApp } from '@headstartwp/next/app';
+import { Menu, SettingsContextProps } from '@headstartwp/core/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,18 +10,22 @@ const RootLayout = async ({
 }: Readonly<{
 	children: React.ReactNode;
 }>) => {
-	const { menu, data } = await queryAppSettings({ menu: 'primary' });
+	const { menu, data, config } = await queryAppSettings({ menu: 'primary' });
+
+	const settings: SettingsContextProps = {
+		...config,
+		// @ts-expect-error
+		linkComponent: Link,
+	};
 
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<ThemeSettingsProvider data={data['theme.json']}>
-					<SettingsProvider settings={getHeadstartWPConfig()}>
-						{menu ? <Menu items={menu} /> : null}
-						{children}
-						<PreviewIndicator className="form-container" />
-					</SettingsProvider>
-				</ThemeSettingsProvider>
+				<HeadstartWPApp settings={settings} themeJSON={data['theme.json']}>
+					{menu ? <Menu items={menu} /> : null}
+					{children}
+					<PreviewIndicator className="form-container" />
+				</HeadstartWPApp>
 			</body>
 		</html>
 	);

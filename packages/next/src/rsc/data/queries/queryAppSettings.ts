@@ -18,7 +18,7 @@ export async function queryAppSettings<
 	try {
 		const result = await fetchAppSettings<T, P>(query, config);
 
-		return result;
+		return { ...result, config };
 	} catch (error) {
 		if (error instanceof Error && handleError) {
 			await handleFetchError(error, config, query.path);

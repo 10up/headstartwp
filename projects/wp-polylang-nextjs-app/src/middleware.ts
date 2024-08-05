@@ -15,6 +15,5 @@ export const config = {
 };
 
 export async function middleware(req: NextRequest) {
-	// @ts-expect-error
 	return AppMiddleware(req, { appRouter: true });
 }

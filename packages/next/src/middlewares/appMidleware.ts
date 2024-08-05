@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { fetchRedirect, getHeadstartWPConfig, getSiteByHost } from '@headstartwp/core/utils';
 import Negotiator from 'negotiator';
 import { match as matchLocale } from '@formatjs/intl-localematcher';

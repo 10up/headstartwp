@@ -34,11 +34,11 @@ import { BlockRendererProps, BaseBlocksRenderer } from './BaseBlocksRenderer';
  *
  * @category React Components
  */
-export function BlocksRenderer({ children, ...props }: BlockRendererProps) {
+export function BlocksRenderer({ children, settings: propSettings, ...props }: BlockRendererProps) {
 	const settings = useSettings();
 
 	return (
-		<BaseBlocksRenderer {...props} settings={settings}>
+		<BaseBlocksRenderer {...props} settings={propSettings ?? settings}>
 			{children}
 		</BaseBlocksRenderer>
 	);
