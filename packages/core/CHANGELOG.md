@@ -1,5 +1,26 @@
 # @headstartwp/core
 
+## 1.5.0-next.0
+
+### Minor Changes
+
+- 6fa9ec2: Introducing previewRouteHandler to handle preview in Next.js App Router
+- 96ea386: Initial App Router Support
+- e969f38: Introducing SEO handling for App Router
+- 2c51bfb: Link handling
+- 79ae20e: Adding support for `i18n` routing in app router
+- 6fa9ec2: Introducing `revalidateRouteHandler` for handling revalidate requests in Route Handlers (App Router)
+- 4f7a665: Add `forwardBlockProps` to BlocksRenderer which automatically forwards block props to children components
+- ca94535: Introduce `blockContext` prop to BlocksRenderer and `handleError` in query functions
+- d696703: Multisite support in App Router
+
+### Patch Changes
+
+- 14c398d: remove usage of defaultProps and intropduce the ability to attach a default test function directly to the component
+- 4044248: Introducing `loadHeadstartWpConfig()`
+- 9f05f3f: Fix fetch cache option
+- c73d000: Fix: SEO with yoast disabled
+
 ## 1.4.4
 
 ### Patch Changes

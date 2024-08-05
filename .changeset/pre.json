@@ -1,0 +1,31 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@headstartwp/core": "1.4.4",
+    "@headstartwp/next": "1.4.3",
+    "@10up/next-redis-cache-provider": "1.0.0",
+    "@10up/wp-multisite-i18n-nextjs": "0.2.0",
+    "@10up/wp-multisite-nextjs": "0.2.0",
+    "@10up/wp-multisite-nextjs-app": "0.1.0",
+    "@10up/wp-nextjs": "0.2.0",
+    "@10up/wp-nextjs-app": "0.1.0",
+    "@10up/wp-polylang-nextjs-app": "0.1.0",
+    "@headstartwp/headstartwp": "1.1.3"
+  },
+  "changesets": [
+    "cyan-fans-clean",
+    "forty-apes-repair",
+    "funny-poems-own",
+    "fuzzy-cows-press",
+    "happy-squids-admire",
+    "large-spies-give",
+    "moody-emus-matter",
+    "tall-moles-accept",
+    "tall-peas-compete",
+    "tasty-waves-juggle",
+    "two-weeks-applaud",
+    "wild-toys-refuse",
+    "young-planes-jog"
+  ]
+}
