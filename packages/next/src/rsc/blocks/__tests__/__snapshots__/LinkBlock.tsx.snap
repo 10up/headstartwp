@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinkBlock shound replace internal links with next/link 1`] = `
+<div>
+  <div
+    class="content"
+  >
+    <a
+      class=""
+      href="/post-name"
+    >
+      This is an internal link
+    </a>
+    &gt;
+  </div>
+</div>
+`;

@@ -17,7 +17,7 @@ interface LinkBlockProps extends BlockProps<IDataWPBlock> {
  * import { BlocksRenderer } from "@headstartwp/core/react";
  * import { LinkBlock } from "@headstartwp/next/app";
  *
- * <BlocksRenderer html={html}>
+ * <BlocksRenderer html={html settings={settings} }>
  * 	<LinkBlock />
  * </BlocksRenderer>
  * ```
