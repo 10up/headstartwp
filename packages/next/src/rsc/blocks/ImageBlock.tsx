@@ -1,32 +1,31 @@
-'use client';
+import { domToReact, Element, isBlockByName } from '@headstartwp/core';
+import { BlockFC, BlockProps } from '@headstartwp/core/react';
+import { ImageComponent } from '../../components/ImageComponent';
 
-import { Element } from 'html-react-parser';
-import { isBlockByName } from '../../dom';
-import { BlockFC, IBlock } from '../components';
-import { useBlock } from './hooks';
-import { useBlockAttributes } from './hooks/useBlockAttributes';
-import { IBlockAttributes } from './types';
-import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
-
-export interface ImageBlockProps extends IBlockAttributes {
+type ImageBlockAttributes = {
 	width?: number;
 	height?: number;
 	sizeSlug?: string;
 	linkDestination?: string;
 	src: string;
 	alt?: string;
-}
+};
 
-export interface IImageBlock extends IBlock<ImageBlockProps> {}
-
-export const ImageBlock: BlockFC<IBlock<ImageBlockProps>> = ({
-	domNode: node = DEFAULT_BLOCK_ELEMENT,
+export const ImageBlock: BlockFC<BlockProps<ImageBlockAttributes>> = ({
+	domNode: node,
 	children,
-	component: Component,
 	style,
-}: IImageBlock) => {
-	const { name, className, attributes } = useBlock<ImageBlockProps>(node);
-	const blockAttributes = useBlockAttributes(node);
+	block,
+}) => {
+	if (typeof node === 'undefined') {
+		return null;
+	}
+
+	if (typeof block === 'undefined') {
+		return domToReact([node]);
+	}
+
+	const { name, className, attributes } = block;
 
 	const hasFigureNode = (node.firstChild as Element).name === 'figure';
 
@@ -48,19 +47,18 @@ export const ImageBlock: BlockFC<IBlock<ImageBlockProps>> = ({
 	const imageHeight = height ?? imgNodeHeight;
 
 	return (
-		<Component
+		<ImageComponent
 			name={name}
 			domNode={node}
 			className={className}
 			src={src}
 			alt={alt}
-			attributes={blockAttributes}
 			width={imageWidth ? Number(imageWidth) : undefined}
 			height={imageHeight ? Number(imageHeight) : undefined}
 			style={style}
 		>
 			{children}
-		</Component>
+		</ImageComponent>
 	);
 };
 

@@ -1,6 +1,6 @@
 import NextImageComponent from 'next/image.js';
 import type { ImageLoaderProps } from 'next/image.js';
-import { ImageBlockProps } from '@headstartwp/core/react';
+import type { ImageBlockProps } from '@headstartwp/core/react';
 
 // See error in https://github.com/vercel/next.js/issues/54777
 const Image =

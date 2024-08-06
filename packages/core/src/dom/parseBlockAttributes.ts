@@ -12,6 +12,8 @@ export const DEFAULT_BLOCK_ELEMENT = new Element('div', {
 	'data-wp-block-name': BLOCK_MISSING,
 });
 
+export const defaultElement = DEFAULT_BLOCK_ELEMENT;
+
 /**
  * Parses Json without throwing errors
  *
