@@ -60,8 +60,7 @@
     "deepmerge": "^4.3.1",
     "loader-utils": "^3.2.0",
     "negotiator": "^0.6.3",
-    "schema-utils": "^4.0.0",
-    "yup": "^1.4.0"
+    "schema-utils": "^4.0.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.3.1",

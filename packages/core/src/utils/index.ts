@@ -9,3 +9,4 @@ export * from './url';
 export * from './log';
 export * from './decodeHtmlSpeciaChars';
 export * from './getObjectProperty';
+export * from './headlessConfigSchema';

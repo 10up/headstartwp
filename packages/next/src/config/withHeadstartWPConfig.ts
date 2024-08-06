@@ -1,9 +1,8 @@
-import { ConfigError, HeadlessConfig } from '@headstartwp/core';
+import { ConfigError, HeadlessConfig, headlessConfigSchema } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
 import { ValidationError } from 'yup';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
-import headlessConfigSchema from './headlessConfigSchema';
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -117,8 +116,10 @@ export function withHeadstartWPConfig(
 		});
 	} catch (error) {
 		if (error instanceof ValidationError) {
-			console.error(`Error in the configuration file: ${error.errors.map(String)}`);
+			// eslint-disable-next-line no-console
+			console.error(`Error in the configuration file: ${error.errors.join(', ')}`);
 		} else {
+			// eslint-disable-next-line no-console
 			console.error('Unexpected error in the configuration file:', error);
 		}
 	}
