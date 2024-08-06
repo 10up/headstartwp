@@ -1,5 +1,16 @@
 # @headstartwp/next
 
+## 1.5.0-next.1
+
+### Minor Changes
+
+- 915c6b6: RSC compatible image block for next.js
+
+### Patch Changes
+
+- Updated dependencies [915c6b6]
+  - @headstartwp/core@1.5.0-next.1
+
 ## 1.5.0-next.0
 
 ### Minor Changes
