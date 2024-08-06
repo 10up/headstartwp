@@ -15,3 +15,4 @@ export * from './components/HeadstartWPApp';
 // blocks
 export * from './blocks/LinkBlock';
 export * from '../blocks/TwitterBlock';
+export * from './blocks/ImageBlock';

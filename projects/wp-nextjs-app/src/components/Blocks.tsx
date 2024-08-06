@@ -1,7 +1,8 @@
 import { BlocksRenderer } from '@headstartwp/core/react';
 import React from 'react';
 import { HeadlessConfig, isBlockByName } from '@headstartwp/core';
-import { LinkBlock, TwitterBlock } from '@headstartwp/next/app';
+import { ImageBlock, LinkBlock, TwitterBlock } from '@headstartwp/next/app';
+
 import { PostList } from './Blocks/PostList';
 
 type BlockProps = {
@@ -15,6 +16,7 @@ const Blocks: React.FC<BlockProps> = ({ html, settings }) => {
 	// the settings is automatically passed to the children components via blockContext
 	return (
 		<BlocksRenderer forwardBlockAttributes html={html} settings={settings}>
+			<ImageBlock />
 			<PostList test={(node) => isBlockByName(node, 'core/query')} />
 			<TwitterBlock />
 			<LinkBlock />
