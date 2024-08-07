@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.5.0-next.2
+
+### Patch Changes
+
+- d49ac5c: Allow overriding fetch strategy
+- Updated dependencies [d49ac5c]
+  - @headstartwp/core@1.5.0-next.2
+
 ## 1.5.0-next.1
 
 ### Minor Changes
