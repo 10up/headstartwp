@@ -1,12 +1,13 @@
 import { ConfigError, HeadlessConfig } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
-import path from 'path';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
-// Get the path to the project's root package.json
-const packageJsonPath = path.join(process.cwd(), 'package.json');
-const packageJson = packageJsonPath ? JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) : {};
+// Use require.resolve to get the path to the package.json
+const nextPackageJsonPath = require.resolve('next/package.json');
+const nextPackageJson = nextPackageJsonPath
+	? JSON.parse(fs.readFileSync(nextPackageJsonPath, 'utf8'))
+	: {};
 
 type RemotePattern = {
 	protocol?: 'http' | 'https';
@@ -148,7 +149,7 @@ export function withHeadstartWPConfig(
 		}
 	});
 
-	const useImageRemotePatterns = meetsMinimumVersion(packageJson?.dependencies?.next, 14);
+	const useImageRemotePatterns = meetsMinimumVersion(nextPackageJson?.version, 14);
 	const imageConfig: { domains?: string[]; remotePatterns?: RemotePattern[] } = {};
 
 	if (useImageRemotePatterns) {
