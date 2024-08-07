@@ -1,17 +1,31 @@
-import { HeadlessConfig, PostEntity, PostsArchiveParams, fetchPosts } from '@headstartwp/core';
+import {
+	HeadlessConfig,
+	PostEntity,
+	PostsArchiveFetchStrategy,
+	PostsArchiveParams,
+	fetchPosts,
+} from '@headstartwp/core';
 import { handleFetchError } from '../handleFetchError';
 import { NextQueryProps } from './types';
 import { prepareQuery } from './prepareQuery';
 import { prepareSEOMetadata } from '../seo';
 
+export type PostsQueryProps<
+	T extends PostEntity = PostEntity,
+	P extends PostsArchiveParams = PostsArchiveParams,
+> = NextQueryProps<P> & {
+	fetchStrategy?: PostsArchiveFetchStrategy<T, P>;
+};
+
 export async function queryPosts<
 	T extends PostEntity = PostEntity,
 	P extends PostsArchiveParams = PostsArchiveParams,
->(q: NextQueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
-	const { config, handleError, ...query } = prepareQuery<P>(q, _config);
+>(q: PostsQueryProps<T, P> = {}, _config: HeadlessConfig | undefined = undefined) {
+	const { fetchStrategy, ...nextQuery } = q;
+	const { config, handleError, ...query } = prepareQuery<P>(nextQuery, _config);
 
 	try {
-		const result = await fetchPosts<T, P>(query, config);
+		const result = await fetchPosts<T, P>(query, config, fetchStrategy);
 
 		return {
 			...result,

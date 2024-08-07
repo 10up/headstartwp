@@ -1,4 +1,10 @@
-import { HeadlessConfig, PostEntity, PostParams, fetchPost } from '@headstartwp/core';
+import {
+	HeadlessConfig,
+	PostEntity,
+	PostParams,
+	SinglePostFetchStrategy,
+	fetchPost,
+} from '@headstartwp/core';
 import { cookies, draftMode } from 'next/headers';
 import { handleFetchError } from '../handleFetchError';
 import { prepareQuery } from './prepareQuery';
@@ -7,11 +13,19 @@ import { PreviewData } from '../../../handlers';
 import { COOKIE_NAME } from '../../handlers/previewRouteHandler';
 import { prepareSEOMetadata } from '../seo';
 
+export type PostQueryProps<
+	T extends PostEntity = PostEntity,
+	P extends PostParams = PostParams,
+> = NextQueryProps<P> & {
+	fetchStrategy?: SinglePostFetchStrategy<T, P>;
+};
+
 export async function queryPost<
 	T extends PostEntity = PostEntity,
 	P extends PostParams = PostParams,
->(q: NextQueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
-	const { config, handleError, ...query } = prepareQuery<P>(q, _config);
+>(q: PostQueryProps<T, P> = {}, _config: HeadlessConfig | undefined = undefined) {
+	const { fetchStrategy, ...nextQuery } = q;
+	const { config, handleError, ...query } = prepareQuery<P>(nextQuery, _config);
 
 	try {
 		const { isEnabled } = draftMode();
@@ -39,7 +53,7 @@ export async function queryPost<
 			}
 		}
 
-		const result = await fetchPost<T, P>(query, config);
+		const result = await fetchPost<T, P>(query, config, fetchStrategy);
 
 		return {
 			...result,
