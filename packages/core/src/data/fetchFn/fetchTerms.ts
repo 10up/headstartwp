@@ -7,13 +7,17 @@ import { QueryProps } from './types';
 export async function fetchTerms<
 	T extends TermEntity = TermEntity,
 	P extends TaxonomyArchiveParams = TaxonomyArchiveParams,
->(query: QueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
+>(
+	query: QueryProps<P> = {},
+	_config: HeadlessConfig | undefined = undefined,
+	fetcher: TaxonomyTermsStrategy<T, P> | undefined = undefined,
+) {
 	const { params = {}, options, path = '' } = query;
 
 	const config = _config ?? getHeadstartWPConfig();
 
 	const { data, isMainQuery } = await executeFetchStrategy<T[], P>(
-		fetchTerms.fetcher<T, P>(),
+		fetcher ?? fetchTerms.fetcher<T, P>(),
 		config,
 		params,
 		options,

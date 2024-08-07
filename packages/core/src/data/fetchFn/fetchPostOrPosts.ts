@@ -30,6 +30,7 @@ export async function fetchPostOrPosts<
 >(
 	query: QueryProps<P> = {},
 	_config: HeadlessConfig | undefined = undefined,
+	fetcher: PostOrPostsFetchStrategy<T, P> | undefined = undefined,
 ): Promise<FetchPostsOrPostsReturnType<T>> {
 	const { params = {}, options, path = '' } = query;
 
@@ -39,7 +40,7 @@ export async function fetchPostOrPosts<
 		data: { result, pageInfo, queriedObject },
 		isMainQuery,
 	} = await executeFetchStrategy<T[], P, PostOrPostsFetchStrategyResult<T>>(
-		fetchPostOrPosts.fetcher<T, P, PostOrPostsFetchStrategyResult<T>>(),
+		fetcher ?? fetchPostOrPosts.fetcher<T, P, PostOrPostsFetchStrategyResult<T>>(),
 		config,
 		params,
 		options,

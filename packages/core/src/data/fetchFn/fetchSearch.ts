@@ -8,13 +8,17 @@ import { getPostAuthor, getPostTerms } from '../utils';
 export async function fetchSearch<
 	T extends PostSearchEntity | TermSearchEntity = PostSearchEntity | TermSearchEntity,
 	P extends SearchParams = SearchParams,
->(query: QueryProps<P> = {}, _config: HeadlessConfig | undefined = undefined) {
+>(
+	query: QueryProps<P> = {},
+	_config: HeadlessConfig | undefined = undefined,
+	fetcher: SearchNativeFetchStrategy<T, P> | undefined = undefined,
+) {
 	const { params = {}, options, path = '' } = query;
 
 	const config = _config ?? getHeadstartWPConfig();
 
 	const { data, isMainQuery } = await executeFetchStrategy<T[], P>(
-		fetchSearch.fetcher<T, P>(),
+		fetcher ?? fetchSearch.fetcher<T, P>(),
 		config,
 		params,
 		options,
