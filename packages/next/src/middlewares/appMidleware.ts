@@ -23,14 +23,6 @@ function isPolylangIntegrationEnabled() {
 	return config.integrations?.polylang?.enable ?? false;
 }
 
-function isValidLocale(locale: string) {
-	try {
-		return Intl.getCanonicalLocales(locale).length > 0;
-	} catch (e) {
-		return false;
-	}
-}
-
 function getAppRouterSupportedLocales() {
 	const config = getHeadstartWPConfig();
 
@@ -41,6 +33,12 @@ function getAppRouterSupportedLocales() {
 		supportedLocales: [...new Set(locales)],
 		localeDetection,
 	};
+}
+
+function isValidLocale(locale: string) {
+	const { supportedLocales } = getAppRouterSupportedLocales();
+
+	return supportedLocales.includes(locale);
 }
 
 /**
@@ -62,7 +60,7 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 
 	// if there's a locale in the URL and it's a supported or valid locale, use it
 	const urlLocale = request.nextUrl.pathname.split('/')[1];
-	if (supportedLocales.includes(urlLocale) || isValidLocale(urlLocale)) {
+	if (isValidLocale(urlLocale)) {
 		return [defaultLocale, urlLocale];
 	}
 

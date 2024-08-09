@@ -520,7 +520,7 @@ describe('appMiddleware', () => {
 			},
 		});
 
-		let req = new NextRequest('http://test.com/en/post-name', {
+		const req = new NextRequest('http://test.com/en/post-name', {
 			method: 'GET',
 		});
 
@@ -528,28 +528,48 @@ describe('appMiddleware', () => {
 		req.headers.set('accept-language', 'es');
 
 		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'en']);
-		let res = await AppMiddleware(req, { appRouter: true });
+		const res = await AppMiddleware(req, { appRouter: true });
 		expect(res.headers.get('x-headstartwp-locale')).toBe('en');
 		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
 		// should redirect from /en/post-name to /post-name
 		expect(res.status).toBe(307);
 		expect(res.headers.get('Location')).toBe('http://test.com/post-name');
+	});
 
-		// pt is a unsuported but valid
-		// the it should not redirect but just let it 404
-		req = new NextRequest('http://test.com/pt/post-name', {
+	it('[polylang] redirects locale that is not supported to browser language url', async () => {
+		setHeadstartWPConfig({
+			sourceUrl: 'http://testwp.com',
+			hostUrl: 'http://test.com',
+			integrations: {
+				polylang: {
+					enable: true,
+				},
+			},
+			i18n: {
+				locales: ['en', 'es'],
+				defaultLocale: 'en',
+			},
+		});
+
+		// pt is unsupported
+		// it should redirect to a url with the browser's language
+		const req = new NextRequest('http://test.com/pt/post-name', {
 			method: 'GET',
 		});
 
 		req.headers.set('host', 'test.com');
 		req.headers.set('accept-language', 'es');
 
-		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'pt']);
-		res = await AppMiddleware(req, { appRouter: true });
-		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
+		// Will match the default, then the accept-language header for a locale that is unsupported
+		expect(getAppRouterLocale(req)).toStrictEqual(['en', 'es']);
+		const res = await AppMiddleware(req, { appRouter: true });
+
+		// Will match the accept-language header for a locale that is unsupported
+		expect(res.headers.get('x-headstartwp-locale')).toBe('es');
 		expect(res.headers.get('x-middleware-rewrite')).toBeNull();
 
-		expect(res.status).toBe(200);
+		expect(res.status).toBe(307);
+		expect(res.headers.get('Location')).toBe('http://test.com/es/pt/post-name');
 	});
 
 	it('[multisite with locale] gets locale from url if set', async () => {
