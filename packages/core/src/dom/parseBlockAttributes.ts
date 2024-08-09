@@ -53,6 +53,20 @@ export type ParsedBlock<T extends IDataWPBlock = IDataWPBlock> = {
 };
 
 /**
+ * Checks whether the node is a WordPress block
+ *
+ * @param node DomNode
+ *
+ * @returns
+ */
+export function isWordPressBlock(node: Element) {
+	return (
+		typeof node.attribs['data-wp-block-name'] !== 'undefined' &&
+		typeof node.attribs['data-wp-block'] !== 'undefined'
+	);
+}
+
+/**
  * Returns the block name and attributes
  *
  * @param node DomNode
@@ -64,10 +78,7 @@ export function parseBlockAttributes(node?: Element): ParsedBlock {
 		throw new FrameworkError('You are calling `parseBlockAttributes` on a undefined node');
 	}
 
-	if (
-		typeof node.attribs['data-wp-block-name'] === 'undefined' &&
-		typeof node.attribs['data-wp-block'] === 'undefined'
-	) {
+	if (!isWordPressBlock(node)) {
 		warn(
 			'[parseBlockAttributes] You are using the `parseBlockAttributes` hook in a node that is not a block.',
 		);

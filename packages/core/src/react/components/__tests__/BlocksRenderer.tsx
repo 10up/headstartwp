@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { ReactElement } from 'react';
 import { isAnchorTag, isBlockByName } from '../../../dom';
@@ -240,6 +240,21 @@ describe('BlocksRenderer', () => {
 		);
 
 		expect(container).toMatchSnapshot();
+	});
+
+	it('does not forward blockProps to the component for nodes that are not wp blocks', () => {
+		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-no-props">{JSON.stringify(block)}</p>;
+		};
+
+		render(
+			<BlocksRenderer html={`<div class="my-class""></div>`} forwardBlockAttributes>
+				<DivToP tagName="div" classList="my-class" />
+			</BlocksRenderer>,
+		);
+
+		const node = screen.getByTestId('block-no-props');
+		expect(node.textContent).toBe('');
 	});
 
 	it('forward context to the component', () => {
