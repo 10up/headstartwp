@@ -7,7 +7,12 @@ import { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
 import { getInlineStyles } from '../blocks/utils';
-import { IDataWPBlock, parseBlockAttributes, ParsedBlock } from '../../dom/parseBlockAttributes';
+import {
+	IDataWPBlock,
+	isWordPressBlock,
+	parseBlockAttributes,
+	ParsedBlock,
+} from '../../dom/parseBlockAttributes';
 
 const { default: parse, domToReact } = HtmlReactParser;
 
@@ -243,7 +248,7 @@ export function BaseBlocksRenderer({
 						style: style || undefined,
 					};
 
-					if (forwardBlockAttributes) {
+					if (forwardBlockAttributes && isWordPressBlock(domNode as Element)) {
 						const { attributes, name, className } = parseBlockAttributes(
 							domNode as Element,
 						);
