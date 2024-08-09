@@ -1,5 +1,14 @@
 # @headstartwp/next
 
+## 1.5.0-next.3
+
+### Patch Changes
+
+- 0c735b7: Fixed - Fixed isValidLocale function to validate against the configuration
+  Added - New test condition for technically valid, but unsupported locale
+- Updated dependencies [fe250b7]
+  - @headstartwp/core@1.5.0-next.3
+
 ## 1.5.0-next.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-next.3
+
+### Patch Changes
+
+- fe250b7: Fix: only run parseBlockAttribute when forwardBlockAttribute is set for nodes that represent wp blocks
+
 ## 1.5.0-next.2
 
 ### Patch Changes
