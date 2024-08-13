@@ -9,8 +9,9 @@ import {
 import { Metadata } from 'next';
 import { removeSourceUrl } from '@headstartwp/core';
 import dynamic from 'next/dynamic';
-import { FC, Suspense } from 'react';
+import { Suspense } from 'react';
 import Blocks from '../../../components/Blocks';
+import { ServerRelatedPosts } from '../../../components/ServerRelatedPosts';
 
 const ClientRelatedPosts = dynamic(() =>
 	import('../../../components/RelatedPosts').then((mod) => mod.RelatedPosts),
@@ -52,26 +53,6 @@ export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Me
 
 	return metatada;
 }
-
-const ServerRelatedPosts: FC<{ post_id: number; category: string }> = async ({
-	post_id,
-	category,
-}) => {
-	const { data } = await queryPosts({
-		params: { postType: 'post', per_page: 3, category, exclude: [post_id] },
-	});
-
-	return (
-		<div>
-			<h2>Related Posts (Streamed from Server)</h2>
-			<ul>
-				{data.posts.map((post) => (
-					<li key={post.id}>{post.title.rendered}</li>
-				))}
-			</ul>
-		</div>
-	);
-};
 
 const Single = async ({ params }: HeadstartWPRoute) => {
 	const { data, seo, config } = await query({ params });

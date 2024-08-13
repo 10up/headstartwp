@@ -30,6 +30,7 @@ export async function queryPostOrPosts<
 		if (result.isSingle && result.data.post) {
 			return {
 				...result,
+				config,
 				seo: prepareSEOMetadata(result.data.post, config),
 			};
 		}
