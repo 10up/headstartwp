@@ -1,7 +1,11 @@
 import { PostEntity, QueriedObject } from '@headstartwp/core';
+import { HtmlDecoder } from '@headstartwp/core/react';
 import { HeadstartWPRoute, JSONLD, queryPostOrPosts } from '@headstartwp/next/app';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import Blocks from '../../../components/Blocks';
+import { ServerRelatedPosts } from '../../../components/ServerRelatedPosts';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPostOrPosts({
@@ -62,7 +66,7 @@ const Archive = ({ posts, queriedObject, schema = '' }: ArchiveProps) => {
 };
 
 const BlogPage = async ({ params }: HeadstartWPRoute) => {
-	const { isArchive, isSingle, data, seo } = await query({ params });
+	const { isArchive, isSingle, data, seo, config } = await query({ params });
 
 	if (isArchive && typeof data.posts !== 'undefined') {
 		return (
@@ -73,7 +77,21 @@ const BlogPage = async ({ params }: HeadstartWPRoute) => {
 	if (isSingle && typeof data.post !== 'undefined') {
 		return (
 			<article>
-				<h1>{data.post.title.rendered}</h1>
+				<h1>
+					<HtmlDecoder html={data.post.title.rendered ?? ''} />
+				</h1>
+
+				<Blocks html={data.post.content.rendered ?? ''} settings={config} />
+
+				{data.post.terms?.category && (
+					<Suspense fallback="Loading (streaming)">
+						<ServerRelatedPosts
+							post_id={data.post.id}
+							category={data.post.terms.category[0].slug}
+						/>
+					</Suspense>
+				)}
+
 				{seo.schema && <JSONLD schema={seo.schema} />}
 			</article>
 		);
