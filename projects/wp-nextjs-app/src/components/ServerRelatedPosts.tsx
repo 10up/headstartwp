@@ -7,7 +7,14 @@ export const ServerRelatedPosts: FC<{ post_id: number; category: string }> = asy
 }) => {
 	const { data } = await queryPosts({
 		params: { postType: 'post', per_page: 3, category, exclude: [post_id] },
+		options: {
+			throwIfNotFound: false,
+		},
 	});
+
+	if (data.posts.length === 0) {
+		return null;
+	}
 
 	return (
 		<div>
