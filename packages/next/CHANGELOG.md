@@ -1,5 +1,14 @@
 # @headstartwp/next
 
+## 1.5.0-next.4
+
+### Patch Changes
+
+- 9ea83c3: Fix: return config from queryPostOrPosts
+- c1d70ec: Opt into image.remotePatters for Next.js versions that supports it
+- Updated dependencies [9ea83c3]
+  - @headstartwp/core@1.5.0-next.4
+
 ## 1.5.0-next.3
 
 ### Patch Changes
