@@ -3,12 +3,6 @@ import { NextConfig } from 'next';
 import fs from 'fs';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
-// Use require.resolve to get the path to the package.json
-const nextPackageJsonPath = require.resolve('next/package.json');
-const nextPackageJson = nextPackageJsonPath
-	? JSON.parse(fs.readFileSync(nextPackageJsonPath, 'utf8'))
-	: {};
-
 type RemotePattern = {
 	protocol?: 'http' | 'https';
 	hostname: string;
@@ -60,19 +54,37 @@ function traverse(rules) {
 	}
 }
 
+function readNextPackageJson() {
+	try {
+		// Use require.resolve to get the path to the package.json
+		const nextPackageJsonPath = require.resolve('next/package.json');
+		const nextPackageJson = nextPackageJsonPath
+			? JSON.parse(fs.readFileSync(nextPackageJsonPath, 'utf8'))
+			: {};
+
+		return nextPackageJson;
+	} catch (e) {
+		return {};
+	}
+}
+
 function meetsMinimumVersion(versionString: string, compareVersion: number): boolean {
 	if (versionString === 'latest') {
 		return true;
 	}
 
-	// Remove the prefix (^, >=) from the version string
-	const cleanedVersion = versionString.replace(/^[^\d]*/, '');
+	try {
+		// Remove the prefix (^, >=) from the version string
+		const cleanedVersion = versionString.replace(/^[^\d]*/, '');
 
-	// Split the version into major, minor, and patch components
-	const [major] = cleanedVersion.split('.').map(Number);
+		// Split the version into major, minor, and patch components
+		const [major] = cleanedVersion.split('.').map(Number);
 
-	// Compare the major version number
-	return major >= compareVersion;
+		// Compare the major version number
+		return major >= compareVersion;
+	} catch (e) {
+		return false;
+	}
 }
 
 /**
@@ -149,7 +161,8 @@ export function withHeadstartWPConfig(
 		}
 	});
 
-	const useImageRemotePatterns = meetsMinimumVersion(nextPackageJson?.version, 14);
+	const nextPackageJson = readNextPackageJson();
+	const useImageRemotePatterns = meetsMinimumVersion(nextPackageJson?.version ?? '', 14);
 	const imageConfig: { domains?: string[]; remotePatterns?: RemotePattern[] } = {};
 
 	if (useImageRemotePatterns) {
