@@ -3,6 +3,13 @@ import { NextConfig } from 'next';
 import fs from 'fs';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
+type RemotePattern = {
+	protocol?: 'http' | 'https';
+	hostname: string;
+	port?: string;
+	pathname?: string;
+};
+
 const LINARIA_EXTENSION = '.linaria.module.css';
 
 const isPackageInstalled = (packageName: string): boolean => {
@@ -44,6 +51,39 @@ function traverse(rules) {
 		if (Array.isArray(rule.oneOf)) {
 			traverse(rule.oneOf);
 		}
+	}
+}
+
+function readNextPackageJson() {
+	try {
+		// Use require.resolve to get the path to the package.json
+		const nextPackageJsonPath = require.resolve('next/package.json');
+		const nextPackageJson = nextPackageJsonPath
+			? JSON.parse(fs.readFileSync(nextPackageJsonPath, 'utf8'))
+			: {};
+
+		return nextPackageJson;
+	} catch (e) {
+		return {};
+	}
+}
+
+function meetsMinimumVersion(versionString: string, compareVersion: number): boolean {
+	if (versionString === 'latest') {
+		return true;
+	}
+
+	try {
+		// Remove the prefix (^, >=) from the version string
+		const cleanedVersion = versionString.replace(/^[^\d]*/, '');
+
+		// Split the version into major, minor, and patch components
+		const [major] = cleanedVersion.split('.').map(Number);
+
+		// Compare the major version number
+		return major >= compareVersion;
+	} catch (e) {
+		return false;
 	}
 }
 
@@ -121,11 +161,27 @@ export function withHeadstartWPConfig(
 		}
 	});
 
+	const nextPackageJson = readNextPackageJson();
+	const useImageRemotePatterns = meetsMinimumVersion(nextPackageJson?.version ?? '', 14);
+	const imageConfig: { domains?: string[]; remotePatterns?: RemotePattern[] } = {};
+
+	if (useImageRemotePatterns) {
+		imageConfig.remotePatterns =
+			nextConfig.remotePatterns ??
+			imageDomains.map((each) => {
+				return {
+					hostname: each,
+				};
+			});
+	} else {
+		imageConfig.domains = imageDomains;
+	}
+
 	const config: NextConfig = {
 		...nextConfig,
 		images: {
 			...nextConfig.images,
-			domains: imageDomains,
+			...imageConfig,
 		},
 		async rewrites() {
 			const rewrites =
