@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-next.4
+
+### Patch Changes
+
+- 9ea83c3: Fix: return config from queryPostOrPosts
+
 ## 1.5.0-next.3
 
 ### Patch Changes
