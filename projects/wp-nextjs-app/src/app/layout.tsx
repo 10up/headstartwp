@@ -14,7 +14,6 @@ const RootLayout = async ({
 
 	const settings: SettingsContextProps = {
 		...config,
-		// @ts-expect-error
 		linkComponent: Link,
 	};
 
