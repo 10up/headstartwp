@@ -2,4 +2,5 @@
 "@headstartwp/core": patch
 ---
 
-Add addtional classes to Menu component
+Added - Support for custom menu item CSS classes.
+Added - `menu-item-has-children` CSS class for menu item with children.
