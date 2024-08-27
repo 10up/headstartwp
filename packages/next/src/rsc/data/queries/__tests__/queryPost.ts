@@ -1,6 +1,6 @@
 import nextHeaders from 'next/headers';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '@headstartwp/core/test';
-import { setHeadstartWPConfig } from '@headstartwp/core';
+import { PostParams, setHeadstartWPConfig, SinglePostFetchStrategy } from '@headstartwp/core';
 import { queryPost } from '../queryPost';
 import { COOKIE_NAME } from '../../../handlers/previewRouteHandler';
 
@@ -16,6 +16,21 @@ const config = {
 	sourceUrl: 'https://js1.10up.com',
 	useWordPressPlugin: true,
 };
+
+class SinglePostFetchStrategyWithoutUrlParamAndHardcodedSlug extends SinglePostFetchStrategy {
+	hardcodedSlug = 'ipsum-repudiandae-est-nam';
+
+	getParamsFromURL(
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		path: string,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		nonUrlParams?: Partial<PostParams> | undefined,
+	): Partial<PostParams> {
+		return {
+			slug: this.hardcodedSlug,
+		};
+	}
+}
 
 describe('queryPosts', () => {
 	beforeAll(() => {
@@ -87,5 +102,22 @@ describe('queryPosts', () => {
 		});
 
 		expect(data.post.id).toBe(DRAFT_POST_ID);
+	});
+
+	it('allows overriding fetch strategy', async () => {
+		const fetchStrategy = new SinglePostFetchStrategyWithoutUrlParamAndHardcodedSlug();
+
+		const { data } = await queryPost({
+			routeParams: {
+				// this should be ignored bc of the custom fetch strategy
+				path: ['2020', '05', '07', 'modi-qui-dignissimos-sed-assumenda-sint-iusto'],
+			},
+			params: {
+				matchCurrentPath: false,
+			},
+			fetchStrategy,
+		});
+
+		expect(data.post.slug).toBe(fetchStrategy.hardcodedSlug);
 	});
 });

@@ -7,11 +7,6 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 		params: {
 			postType: ['post', 'page'],
 		},
-		options: {
-			headers: {
-				cache: 'force-cache',
-			},
-		},
 	});
 
 	return (

@@ -22,7 +22,9 @@
     "dev": "turbo run dev --parallel --filter=./projects/wp-nextjs --filter=./packages/core --filter=./packages/next",
     "dev:app": "turbo run dev --parallel  --filter=./projects/wp-nextjs-app --filter=./packages/core --filter=./packages/next",
     "dev:app:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs-app --filter=./packages/core --filter=./packages/next",
+    "dev:app:polylang": "turbo run dev --parallel --filter=./projects/wp-polylang-nextjs-app --filter=./packages/core --filter=./packages/next",
     "dev:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs --filter=./packages/core --filter=./packages/next",
+    "dev:multisite:i18n": "turbo run dev --parallel --filter=./projects/wp-multisite-i18n-nextjs --filter=./packages/core --filter=./packages/next",
     "prepare": "husky install",
     "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
@@ -48,7 +50,7 @@
     "jest-environment-jsdom": "^29.0.3",
     "lint-staged": "^11.1.2",
     "prettier": "3.2.5",
-    "turbo": "^2.0.3"
+    "turbo": "^2.0.11"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",

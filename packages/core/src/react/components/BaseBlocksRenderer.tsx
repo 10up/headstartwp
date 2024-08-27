@@ -7,16 +7,23 @@ import { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
 import { getInlineStyles } from '../blocks/utils';
-import { IDataWPBlock, parseBlockAttributes, ParsedBlock } from '../../dom/parseBlockAttributes';
+import {
+	IDataWPBlock,
+	isWordPressBlock,
+	parseBlockAttributes,
+	ParsedBlock,
+} from '../../dom/parseBlockAttributes';
 
 const { default: parse, domToReact } = HtmlReactParser;
+
+export type BlockContext = { settings?: HeadlessConfig; [key: string]: unknown };
 
 /**
  * The interface any children of {@link BlocksRenderer} must implement.
  */
 export interface BlockProps<
 	BlockAttributes extends IDataWPBlock = IDataWPBlock,
-	Context extends Record<string, unknown> = Record<string, unknown>,
+	Context extends BlockContext = BlockContext,
 > {
 	/**
 	 * A test function receives a domNode and returns a boolean value indicating
@@ -74,6 +81,10 @@ export interface BlockProps<
 	blockContext?: Context;
 }
 
+export type BlockFC<Props extends BlockProps = BlockProps> = React.FC<Props> & {
+	test?: BlockProps['test'];
+};
+
 /**
  * The common interface for a block transform component
  */
@@ -126,6 +137,11 @@ export interface BlockRendererProps {
 	children?: ReactNode;
 
 	/**
+	 * The headless config
+	 */
+	settings?: HeadlessConfig;
+
+	/**
 	 * Whether to forward the block attributes to the children components.
 	 */
 	forwardBlockAttributes?: boolean;
@@ -146,10 +162,16 @@ const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: Headl
 	}
 
 	const { test: testFn, tagName, classList } = block.props;
-	const hasTestFunction = typeof testFn === 'function';
+	const hasTestFunctionProp = typeof testFn === 'function' && block;
 
-	if (hasTestFunction) {
+	if (hasTestFunctionProp) {
 		return testFn(domNode, site);
+	}
+
+	// @ts-expect-error
+	if (typeof block?.type?.test === 'function') {
+		// @ts-expect-error
+		return block.type.test(domNode, site);
 	}
 
 	if (typeof tagName === 'string' && typeof classList !== 'undefined') {
@@ -171,7 +193,6 @@ export function BaseBlocksRenderer({
 	const blocks: ReactNode[] = React.Children.toArray(children);
 
 	// Check if components[] has a non-ReactNode type Element
-	// const hasInvalidComponent: boolean = blocks.findIndex((block) => !isValidElement(block)) !== -1;
 	const hasInvalidComponent: boolean =
 		blocks.findIndex((block) => {
 			if (!isValidElement<BlockProps>(block)) {
@@ -183,6 +204,11 @@ export function BaseBlocksRenderer({
 
 			// if has a test function component is not invalid
 			if (hasTestFunction) {
+				return false;
+			}
+
+			// @ts-expect-error
+			if (typeof block?.type?.test === 'function') {
 				return false;
 			}
 
@@ -222,7 +248,7 @@ export function BaseBlocksRenderer({
 						style: style || undefined,
 					};
 
-					if (forwardBlockAttributes) {
+					if (forwardBlockAttributes && isWordPressBlock(domNode as Element)) {
 						const { attributes, name, className } = parseBlockAttributes(
 							domNode as Element,
 						);
@@ -231,7 +257,9 @@ export function BaseBlocksRenderer({
 					}
 
 					if (typeof blockContext !== 'undefined') {
-						blockProps.blockContext = { ...blockContext };
+						blockProps.blockContext = { ...blockContext, settings };
+					} else {
+						blockProps.blockContext = { settings };
 					}
 
 					component = React.createElement(

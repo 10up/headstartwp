@@ -1,6 +1,5 @@
 import { Element } from 'html-react-parser';
 import { ReactNode } from 'react';
-import { IDataWPBlock } from '../../dom/parseBlockAttributes';
 
 export interface Colors {
 	backgroundColorSlug: string;
@@ -87,8 +86,6 @@ export interface IBlockAttributes {
 		spacing: Spacing;
 	};
 }
-
-export type { IDataWPBlock };
 
 export interface BlockAttributes extends Colors {
 	align: Align;

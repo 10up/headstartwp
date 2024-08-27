@@ -2,7 +2,7 @@
 
 import { Element } from 'html-react-parser';
 import { isBlockByName } from '../../dom';
-import { IBlock } from '../components';
+import { BlockFC, IBlock } from '../components';
 import { useBlock } from './hooks';
 import { useBlockAttributes } from './hooks/useBlockAttributes';
 import { IBlockAttributes } from './types';
@@ -19,12 +19,12 @@ export interface ImageBlockProps extends IBlockAttributes {
 
 export interface IImageBlock extends IBlock<ImageBlockProps> {}
 
-export function ImageBlock({
+export const ImageBlock: BlockFC<IBlock<ImageBlockProps>> = ({
 	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	children,
 	component: Component,
 	style,
-}: IImageBlock) {
+}: IImageBlock) => {
 	const { name, className, attributes } = useBlock<ImageBlockProps>(node);
 	const blockAttributes = useBlockAttributes(node);
 
@@ -62,16 +62,8 @@ export function ImageBlock({
 			{children}
 		</Component>
 	);
-}
+};
 
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace ImageBlock {
-	export const defaultProps = {
-		test: (node) => {
-			return isBlockByName(node, 'core/image');
-		},
-	};
-}
+ImageBlock.test = (node) => {
+	return isBlockByName(node, 'core/image');
+};

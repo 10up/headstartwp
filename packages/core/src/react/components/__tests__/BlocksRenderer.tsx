@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { ReactElement } from 'react';
 import { isAnchorTag, isBlockByName } from '../../../dom';
@@ -223,21 +223,38 @@ describe('BlocksRenderer', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	it('forward blockProps to the component', () => {
+	it('forward blockProps to the component and support attaching test function directly to component', () => {
 		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
 			return <p className={block?.className}>{JSON.stringify(block)}</p>;
 		};
+
+		DivToP.test = (node) => isBlockByName(node, '10up/custom-block');
 
 		const { container } = render(
 			<BlocksRenderer
 				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
 				forwardBlockAttributes
 			>
-				<DivToP test={(node) => isBlockByName(node, '10up/custom-block')} />
+				<DivToP />
 			</BlocksRenderer>,
 		);
 
 		expect(container).toMatchSnapshot();
+	});
+
+	it('does not forward blockProps to the component for nodes that are not wp blocks', () => {
+		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-no-props">{JSON.stringify(block)}</p>;
+		};
+
+		render(
+			<BlocksRenderer html={`<div class="my-class""></div>`} forwardBlockAttributes>
+				<DivToP tagName="div" classList="my-class" />
+			</BlocksRenderer>,
+		);
+
+		const node = screen.getByTestId('block-no-props');
+		expect(node.textContent).toBe('');
 	});
 
 	it('forward context to the component', () => {

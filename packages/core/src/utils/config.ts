@@ -32,6 +32,8 @@ export function getHeadstartWPConfig(): HeadlessConfig {
 		debug,
 		preview,
 		cache,
+		locale,
+		i18n,
 	} = __10up__HEADLESS_CONFIG;
 
 	const defaultTaxonomies: CustomTaxonomies = [
@@ -73,6 +75,7 @@ export function getHeadstartWPConfig(): HeadlessConfig {
 			: [...(customPostTypes || []), ...defaultPostTypes];
 
 	const headlessConfig = {
+		locale,
 		sourceUrl,
 		hostUrl: hostUrl || '',
 		customPostTypes: postTypes,
@@ -83,6 +86,7 @@ export function getHeadstartWPConfig(): HeadlessConfig {
 		debug,
 		preview,
 		cache,
+		i18n,
 		sites: (sites || []).map((site) => {
 			// if host is not defined but hostUrl is, infer host from hostUrl
 			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {

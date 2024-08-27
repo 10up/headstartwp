@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BlocksRenderer forward blockProps to the component 1`] = `
+exports[`BlocksRenderer forward blockProps to the component and support attaching test function directly to component 1`] = `
 <div>
   <p
     class="my-class"
@@ -17,7 +17,7 @@ exports[`BlocksRenderer forward context to the component 1`] = `
   >
     {"attributes":{"blockAttribute":"this is a block attribute"},"name":"10up/custom-block","className":"my-class"}
      - 
-    {"contextProp":"this is a context prop"}
+    {"contextProp":"this is a context prop","settings":{}}
   </p>
 </div>
 `;

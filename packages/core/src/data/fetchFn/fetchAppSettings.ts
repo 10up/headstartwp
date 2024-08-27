@@ -4,7 +4,7 @@ import { getHeadstartWPConfig, getObjectProperty, getWPUrl } from '../../utils';
 import { AppEntity, MenuItemEntity } from '../types';
 import { QueryProps } from './types';
 
-export type AppQueryProps<P> = QueryProps<P> & {
+export type AppQueryProps<P extends EndpointParams> = QueryProps<P> & {
 	menu?: string;
 	blockSetting?: {
 		blockName?: string;
@@ -56,13 +56,14 @@ export async function fetchAppSettings<
 >(
 	query: Omit<AppQueryProps<P>, 'path'> = {},
 	_config: HeadlessConfig | undefined = undefined,
+	fetcher: AppSettingsStrategy<T, P> | undefined = undefined,
 ): Promise<AppQueryResult<T>> {
 	const { params = {}, options, menu, blockSetting } = query;
 
 	const config = _config ?? getHeadstartWPConfig();
 
 	const { data } = await executeFetchStrategy<T, P>(
-		fetchAppSettings.fetcher<T, P>(),
+		fetcher ?? fetchAppSettings.fetcher<T, P>(),
 		config,
 		params,
 		options,

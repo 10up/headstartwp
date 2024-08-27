@@ -240,6 +240,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/1/revisions?per_page=1',
 			{
+				cache: 'no-store',
 				headers: { Authorization: 'Bearer test token' },
 			},
 			false,
@@ -248,6 +249,7 @@ describe('SinglePostFetchStrategy', () => {
 			2,
 			'/wp-json/wp/v2/posts/1',
 			{
+				cache: 'no-store',
 				headers: { Authorization: 'Bearer test token' },
 			},
 			false,
@@ -281,6 +283,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/1/revisions?per_page=1',
 			{
+				cache: 'no-store',
 				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
 			},
 			false,
@@ -290,6 +293,7 @@ describe('SinglePostFetchStrategy', () => {
 			2,
 			'/wp-json/wp/v2/posts/1',
 			{
+				cache: 'no-store',
 				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
 			},
 			false,
@@ -317,6 +321,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/10',
 			{
+				cache: 'no-store',
 				headers: { Authorization: 'Bearer test token' },
 			},
 			false,
@@ -346,6 +351,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/10',
 			{
+				cache: 'no-store',
 				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
 			},
 			false,

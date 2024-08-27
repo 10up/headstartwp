@@ -394,6 +394,15 @@ export class PostsArchiveFetchStrategy<
 		const { burstCache = false } = options;
 		let finalUrl = url;
 		const settings = getSiteBySourceUrl(this.baseURL);
+		const args: Record<string, unknown> = {};
+		const headers: Record<string, unknown> = options.headers ?? {};
+		if (options.cache) {
+			args.cache = options.cache;
+		}
+
+		if (Object.keys(headers).length > 0) {
+			args.headers = headers;
+		}
 
 		const customTaxonomies = getCustomTaxonomies(this.baseURL);
 		if (customTaxonomies) {
@@ -411,7 +420,7 @@ export class PostsArchiveFetchStrategy<
 				} else {
 					const terms = await apiGet(
 						`${this.baseURL}${taxonomy.endpoint}?slug=${params[paramSlug]}`,
-						{},
+						args,
 						burstCache,
 					);
 
@@ -435,7 +444,7 @@ export class PostsArchiveFetchStrategy<
 		if (params.author && typeof params.author === 'string' && !settings.useWordPressPlugin) {
 			const authors = await apiGet(
 				`${this.baseURL}${authorsEndpoint}?slug=${params.author}`,
-				{},
+				args,
 				burstCache,
 			);
 

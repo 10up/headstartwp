@@ -1,8 +1,6 @@
-import { cookies, draftMode, headers } from 'next/headers';
+import { draftMode } from 'next/headers';
 import React from 'react';
-import { redirect } from 'next/navigation';
-
-import { COOKIE_NAME } from '../handlers/previewRouteHandler';
+import { disableDraftMode } from '../actions/preview';
 
 export type PreviewIndicatorProps = {
 	className?: string;
@@ -13,15 +11,6 @@ export const PreviewIndicator: React.FC<PreviewIndicatorProps> = ({ className })
 
 	if (!isEnabled) {
 		return null;
-	}
-
-	async function disableDraftMode() {
-		'use server';
-
-		const currentUrl = headers().get('x-headstartwp-current-url') ?? '/';
-		draftMode().disable();
-		cookies().delete(COOKIE_NAME);
-		redirect(currentUrl);
 	}
 
 	return (

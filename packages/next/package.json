@@ -1,6 +1,6 @@
 {
   "name": "@headstartwp/next",
-  "version": "1.4.3",
+  "version": "1.5.0-next.4",
   "description": "`@headstartwp/next` is the Next.js bindings for the headless framework.",
   "homepage": "https://github.com/10up/headstartwp/blob/develop/packages/next/README.md",
   "license": "MIT",
@@ -27,6 +27,7 @@
     },
     "./app": {
       "import": "./dist/mjs/rsc/index.js",
+      "require": "./dist/cjs/rsc/index.js",
       "types": "./dist/mjs/rsc/index.d.ts"
     }
   },
@@ -54,8 +55,10 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "negotiator": "^0.6.3",
+    "@formatjs/intl-localematcher": "^0.5.4",
     "deepmerge": "^4.3.1",
-    "@headstartwp/core": "^1.4.4",
+    "@headstartwp/core": "^1.5.0-next.4",
     "loader-utils": "^3.2.0",
     "schema-utils": "^4.0.0",
     "@isaacs/ttlcache": "^1.4.1"
@@ -70,7 +73,7 @@
     "next-router-mock": "^0.9.13",
     "node-mocks-http": "^1.14.1",
     "ts-jest": "^29.0.1",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.3",
     "isomorphic-fetch": "^3.0.0",
     "jest-fetch-mock": "^3.0.3",
     "tsc-esm-fix": "^2.20.27",
