@@ -312,21 +312,29 @@ export function withHeadstartWPConfig(
 				}),
 			);
 
+			const isLinariaInstalled =
+				isPackageInstalled('@linaria/webpack-loader') ||
+				isPackageInstalled('@wyw-in-js/webpack-loader');
+
 			// only load linaria with the pages router configuration if not using app router
-			if (isPackageInstalled('@linaria/webpack-loader') && !isUsingAppRouter) {
+			if (isLinariaInstalled && !isUsingAppRouter) {
+				const isWYWInJS = isPackageInstalled('@wyw-in-js/webpack-loader');
+
 				traverse(config.module.rules);
 				config.module.rules.push({
 					test: /\.(tsx|ts|js|mjs|jsx)$/,
 					exclude: /node_modules/,
 					use: [
 						{
-							loader: '@linaria/webpack-loader',
+							loader: isWYWInJS
+								? '@wyw-in-js/webpack-loader'
+								: '@linaria/webpack-loader',
 							options: {
 								sourceMap: process.env.NODE_ENV !== 'production',
 								...(nextConfig.linaria || {}),
 								extension: LINARIA_EXTENSION,
 								babelOptions: {
-									presets: ['next/babel', '@linaria'],
+									presets: ['next/babel', isWYWInJS ? '@wyw-in-js' : '@linaria'],
 								},
 							},
 						},
