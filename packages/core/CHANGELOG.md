@@ -1,5 +1,14 @@
 # @headstartwp/core
 
+## 1.5.0-next.5
+
+### Patch Changes
+
+- 8ba6de7: Fix: do not cast menu item ids to number as they are strings
+- d9dcec0: Fix TS type for link component in SettingsContextProps
+- fc7e426: Added - Support for custom menu item CSS classes.
+  Added - `menu-item-has-children` CSS class for menu item with children.
+
 ## 1.5.0-next.4
 
 ### Patch Changes
