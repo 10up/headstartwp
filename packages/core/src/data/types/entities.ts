@@ -712,13 +712,15 @@ export interface MenuItemEntity {
 	post_type: string;
 	post_mime_type: string;
 	menu_item_parent: string;
+	post_parent: string;
 	object_id: string;
 	object: string;
 	type: string;
 	type_label: string;
 	url: string;
 	title: string;
-	target: '_blank' | '_self' | '_parent' | '_top';
+	guid: string;
+	target: '_blank' | '_self' | '_parent' | '_top' | '';
 	attr_title: string;
 	description: string;
 	classes: string[];
