@@ -705,18 +705,22 @@ export type Redirect = {
 };
 
 export interface MenuItemEntity {
+	// TODO: this should be a string but changing this to a string will require a new major
+	// @see https://github.com/10up/headstartwp/issues/772
 	ID: number;
 	menu_order: number;
 	post_type: string;
 	post_mime_type: string;
 	menu_item_parent: string;
+	post_parent: string;
 	object_id: string;
 	object: string;
 	type: string;
 	type_label: string;
 	url: string;
 	title: string;
-	target: '_blank' | '_self' | '_parent' | '_top';
+	guid: string;
+	target: '_blank' | '_self' | '_parent' | '_top' | '';
 	attr_title: string;
 	description: string;
 	classes: string[];

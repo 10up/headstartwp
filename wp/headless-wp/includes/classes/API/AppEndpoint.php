@@ -208,6 +208,12 @@ class AppEndpoint {
 			$filtered_menu_item->attr_title       = $menu_item->attr_title;
 			$filtered_menu_item->description      = $menu_item->description;
 			$filtered_menu_item->classes          = $menu_item->classes;
+			$filtered_menu_item->menu_order       = $menu_item->menu_order;
+			$filtered_menu_item->post_type        = $menu_item->post_type;
+			$filtered_menu_item->post_mime_type   = $menu_item->post_mime_type;
+			$filtered_menu_item->object           = $menu_item->object;
+			$filtered_menu_item->type             = $menu_item->type;
+			$filtered_menu_item->type_label       = $menu_item->type_label;
 
 			$filtered_menu[] = $filtered_menu_item;
 		}
