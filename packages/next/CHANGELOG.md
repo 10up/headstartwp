@@ -1,5 +1,15 @@
 # @headstartwp/next
 
+## 1.5.0-next.5
+
+### Patch Changes
+
+- 5900895: [Pages Router] Add support for `wyw-in-js` and latest version of linaria
+- Updated dependencies [8ba6de7]
+- Updated dependencies [d9dcec0]
+- Updated dependencies [fc7e426]
+  - @headstartwp/core@1.5.0-next.5
+
 ## 1.5.0-next.4
 
 ### Patch Changes

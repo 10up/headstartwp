@@ -14,6 +14,7 @@
     "@headstartwp/headstartwp": "1.1.3"
   },
   "changesets": [
+    "blue-hairs-warn",
     "cyan-fans-clean",
     "famous-apples-knock",
     "forty-apes-repair",
@@ -25,8 +26,11 @@
     "heavy-bikes-join",
     "itchy-cooks-tap",
     "large-spies-give",
+    "late-rings-design",
     "moody-emus-matter",
+    "perfect-pumas-approve",
     "poor-donkeys-march",
+    "shiny-onions-camp",
     "tall-moles-accept",
     "tall-peas-compete",
     "tasty-waves-juggle",
