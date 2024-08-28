@@ -705,6 +705,8 @@ export type Redirect = {
 };
 
 export interface MenuItemEntity {
+	// TODO: this should be a string but changing this to a string will require a new major
+	// @see https://github.com/10up/headstartwp/issues/772
 	ID: number;
 	menu_order: number;
 	post_type: string;

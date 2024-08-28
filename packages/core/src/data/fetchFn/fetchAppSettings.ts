@@ -21,21 +21,21 @@ export type AppQueryResult<T> = {
 export function flatToHierarchical(flat: MenuItemEntity[]): MenuItemEntity[] {
 	const roots: MenuItemEntity[] = [];
 
-	const all: Record<number, MenuItemEntity> = {};
+	const all: Record<string, MenuItemEntity> = {};
 	flat.forEach((item, index) => {
 		all[item.ID] = { ...item, children: [], order: index };
 	});
 
 	Object.keys(all).forEach((key) => {
-		const id = Number(key);
+		const id = key;
 		const item = all[id];
-		const parentId = Number(item.menu_item_parent);
+		const parentId = item.menu_item_parent;
 
-		if (parentId === 0) {
+		if (parentId === '0') {
 			roots.push(item);
 		} else if (item.menu_item_parent in all) {
 			const p = all[item.menu_item_parent];
-			if (!('children' in p)) {
+			if (!p.children) {
 				p.children = [];
 			}
 			p.children.push(item);
