@@ -38,7 +38,8 @@ describe('fetchAppSettings', () => {
 describe('flatToHierarchical', () => {
 	const menuData: Array<MenuItemEntity> = [
 		{
-			ID: 89,
+			// @ts-expect-error to be fixed in next major release
+			ID: '89-en',
 			title: 'Privacy Policy',
 			slug: 'privacy-policy',
 			post_parent: '0',
@@ -63,9 +64,9 @@ describe('flatToHierarchical', () => {
 			ID: 90,
 			title: 'Sample Page 9',
 			slug: '',
-			post_parent: '89',
+			post_parent: '89-en',
 			guid: 'http://localhost:8888/?p=90',
-			menu_item_parent: '89',
+			menu_item_parent: '89-en',
 			object_id: 'page',
 			url: 'http://localhost:8888/',
 			target: '',
@@ -130,7 +131,7 @@ describe('flatToHierarchical', () => {
 	it('converts flat menu data to hierarchical', () => {
 		expect(flatToHierarchical(menuData)).toMatchObject([
 			{
-				ID: 89,
+				ID: '89-en',
 				title: 'Privacy Policy',
 				slug: 'privacy-policy',
 				post_parent: '0',
@@ -152,9 +153,9 @@ describe('flatToHierarchical', () => {
 						ID: 90,
 						title: 'Sample Page 9',
 						slug: '',
-						post_parent: '89',
+						post_parent: '89-en',
 						guid: 'http://localhost:8888/?p=90',
-						menu_item_parent: '89',
+						menu_item_parent: '89-en',
 						object_id: 'page',
 						url: 'http://localhost:8888/',
 						target: '',
