@@ -1,9 +1,9 @@
-name: eslint
+name: ESM Build Test
 
 on: [pull_request]
 
 jobs:
-  eslint:
+  esm-build-test:
     runs-on: ubuntu-latest
 
     strategy:
