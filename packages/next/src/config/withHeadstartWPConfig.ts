@@ -167,7 +167,7 @@ export function withHeadstartWPConfig(
 
 	if (useImageRemotePatterns) {
 		imageConfig.remotePatterns =
-			nextConfig.remotePatterns ??
+			nextConfig?.images?.remotePatterns ??
 			imageDomains.map((each) => {
 				return {
 					hostname: each,
