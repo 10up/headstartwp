@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.5.0-next.6
+
+### Patch Changes
+
+- 9bf2202: Fix: #861 wrapper removing custom images remotePatterns
+
 ## 1.5.0-next.5
 
 ### Patch Changes
