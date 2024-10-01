@@ -2,6 +2,7 @@
 
 import { useFetchPosts } from '@headstartwp/core/react';
 import React from 'react';
+import { container } from './sryles.css';
 
 type Props = {
 	category: string;
@@ -16,7 +17,7 @@ export const RelatedPosts: React.FC<Props> = ({ category, post_id }) => {
 	}
 
 	return (
-		<div>
+		<div className={container}>
 			<h2>Related Posts (Loaded Client-side)</h2>
 			<ul>
 				{data.posts.map((post) => (

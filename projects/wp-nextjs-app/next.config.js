@@ -1,4 +1,7 @@
 const { withHeadstartWPConfig } = require('@headstartwp/next/config');
+const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
+
+const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,4 +12,4 @@ const nextConfig = {
 	},
 };
 
-module.exports = withHeadstartWPConfig(nextConfig);
+module.exports = withHeadstartWPConfig(withVanillaExtract(nextConfig));

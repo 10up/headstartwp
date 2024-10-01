@@ -14,7 +14,7 @@ import Blocks from '../../../components/Blocks';
 import { ServerRelatedPosts } from '../../../components/ServerRelatedPosts';
 
 const ClientRelatedPosts = dynamic(() =>
-	import('../../../components/RelatedPosts').then((mod) => mod.RelatedPosts),
+	import('../../../components/RelatedPosts/RelatedPosts').then((mod) => mod.RelatedPosts),
 );
 
 export async function generateStaticParams({ params }: HeadstartWPRoute) {
