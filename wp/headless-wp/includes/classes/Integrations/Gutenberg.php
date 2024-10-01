@@ -19,6 +19,51 @@ class Gutenberg {
 	 */
 	public function register() {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
+		add_filter( 'render_block_core/image', [ $this, 'ensure_image_has_dimensions' ], 10, 2 );
+	}
+
+	/**
+	 * Ensure that images have dimensions set
+	 *
+	 * @param string $block_content the html for the block
+	 * @param array $block\ the block's schema
+	 *
+	 * @return string
+	 */
+	public function ensure_image_has_dimensions( $block_content, $block ) {
+		$doc = new \WP_HTML_Tag_Processor( $block_content );
+
+		if ( $doc->next_tag( 'img' ) ) {
+			$src = $doc->get_attribute( 'src' );
+			$width = $doc->get_attribute( 'width' );
+			$height = $doc->get_attribute( 'height' );
+
+			// check if $src is a image hosted in the current wp install
+			if ( strpos( $src, get_site_url() ) !== false ) {
+				// if width and height are not set, get the image dimensions
+				if ( ! $width || ! $height ) {
+
+					$image = wp_get_attachment_image_src( attachment_url_to_postid( $src ), 'full' );
+
+					if ( $image ) {
+						$width = $image[1];
+						$height = $image[2];
+					}
+				}
+
+				// if width and height are set, update the image tag
+				if ( $width && $height ) {
+					$doc->set_attribute( 'width', $width );
+					$doc->set_attribute( 'height', $height );
+
+					return $doc->get_updated_html();
+				}
+			} else {
+				print_r('NOT CHECKING IMAGE');
+			}
+		}
+		die();
+		return $block_content;
 	}
 
 	/**
