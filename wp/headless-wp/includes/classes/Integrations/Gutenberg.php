@@ -79,8 +79,8 @@ class Gutenberg {
 				$image_id = $this->get_image_by_url( $src );
 
 				if ( $image_id ) {
-					$img = wp_img_tag_add_width_and_height_attr( $block_content, 'headstartwp', $image_id );
-					$img = wp_img_tag_add_srcset_and_sizes_attr( $img, 'headstartwp', $image_id );
+					$img = wp_img_tag_add_width_and_height_attr( $block_content, 'the_content', $image_id );
+					$img = wp_img_tag_add_srcset_and_sizes_attr( $img, 'the_content', $image_id );
 
 					return $img;
 				}
