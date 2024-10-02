@@ -43,7 +43,7 @@ class TestGutenbergIntegration extends WP_UnitTestCase {
 		$block  = $blocks[0];
 
 		return [
-			'html'         => apply_filters( 'the_content', render_block( $block , 'the_content' )),
+			'html'         => apply_filters( 'the_content', render_block( $block )),
 			'parsed_block' => $block,
 			'instance'     => new \WP_Block( $block ),
 		];
