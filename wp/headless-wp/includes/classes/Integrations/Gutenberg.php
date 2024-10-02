@@ -19,7 +19,46 @@ class Gutenberg {
 	 */
 	public function register() {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
-		add_filter( 'render_block_core/image', [ $this, 'ensure_image_has_dimensions' ], 10, 2 );
+		add_filter( 'render_block_core/image', [ $this, 'ensure_image_has_dimensions' ], 9999, 2 );
+	}
+
+	/**
+	 * Get the image ID by URL
+	 *
+	 * @param string $url The image URL
+	 *
+	 * @return int
+	 */
+	protected function get_image_by_url( $url ) {
+		if ( function_exists( '\wpcom_vip_url_to_postid' ) ) {
+			return \wpcom_vip_url_to_postid( $url );
+		}
+
+		$cache_key = sprintf( 'get_image_by_%s', md5( $url ) );
+		$url = esc_url_raw( $url );
+		$id  = wp_cache_get( $cache_key, 'headstartwp', false );
+
+		if ( $id === false ) {
+			$id  = attachment_url_to_postid( $url );
+
+			/**
+			 * If no ID was found, maybe we're dealing with a scaled big image. So, let's try that.
+			 *
+			 * @see https://core.trac.wordpress.org/ticket/51058
+			 */
+			if ( empty( $id ) ) {
+				$path_parts = pathinfo( $url );
+
+				if ( isset( $path_parts['dirname'], $path_parts['filename'], $path_parts['extension'] ) ) {
+					$scaled_url = trailingslashit( $path_parts['dirname'] ) . $path_parts['filename'] . '-scaled.' . $path_parts['extension'];
+					$id         = attachment_url_to_postid( $scaled_url );
+				}
+			}
+
+			wp_cache_set( $cache_key, $id, 'headstartwp', 3 * HOUR_IN_SECONDS );
+		}
+
+		return $id;
 	}
 
 	/**
@@ -35,34 +74,19 @@ class Gutenberg {
 
 		if ( $doc->next_tag( 'img' ) ) {
 			$src = $doc->get_attribute( 'src' );
-			$width = $doc->get_attribute( 'width' );
-			$height = $doc->get_attribute( 'height' );
-
 			// check if $src is a image hosted in the current wp install
-			if ( strpos( $src, get_site_url() ) !== false ) {
-				// if width and height are not set, get the image dimensions
-				if ( ! $width || ! $height ) {
+			if ( strpos( $src, get_site_url() ) !== false  && empty( $block['attrs']['id'] ) ) {
+				$image_id = $this->get_image_by_url( $src );
 
-					$image = wp_get_attachment_image_src( attachment_url_to_postid( $src ), 'full' );
+				if ( $image_id ) {
+					$img = wp_img_tag_add_width_and_height_attr( $block_content, 'headstartwp', $image_id );
+					$img = wp_img_tag_add_srcset_and_sizes_attr( $img, 'headstartwp', $image_id );
 
-					if ( $image ) {
-						$width = $image[1];
-						$height = $image[2];
-					}
+					return $img;
 				}
-
-				// if width and height are set, update the image tag
-				if ( $width && $height ) {
-					$doc->set_attribute( 'width', $width );
-					$doc->set_attribute( 'height', $height );
-
-					return $doc->get_updated_html();
-				}
-			} else {
-				print_r('NOT CHECKING IMAGE');
 			}
 		}
-		die();
+
 		return $block_content;
 	}
 
