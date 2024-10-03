@@ -19,6 +19,75 @@ class Gutenberg {
 	 */
 	public function register() {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
+		add_filter( 'render_block_core/image', [ $this, 'ensure_image_has_dimensions' ], 9999, 2 );
+	}
+
+	/**
+	 * Get the image ID by URL
+	 *
+	 * @param string $url The image URL
+	 *
+	 * @return int
+	 */
+	protected function get_image_by_url( $url ) {
+		if ( function_exists( '\wpcom_vip_url_to_postid' ) ) {
+			return \wpcom_vip_url_to_postid( $url );
+		}
+
+		$cache_key = sprintf( 'get_image_by_%s', md5( $url ) );
+		$url       = esc_url_raw( $url );
+		$id        = wp_cache_get( $cache_key, 'headstartwp', false );
+
+		if ( false === $id ) {
+			$id = attachment_url_to_postid( $url );
+
+			/**
+			 * If no ID was found, maybe we're dealing with a scaled big image. So, let's try that.
+			 *
+			 * @see https://core.trac.wordpress.org/ticket/51058
+			 */
+			if ( empty( $id ) ) {
+				$path_parts = pathinfo( $url );
+
+				if ( isset( $path_parts['dirname'], $path_parts['filename'], $path_parts['extension'] ) ) {
+					$scaled_url = trailingslashit( $path_parts['dirname'] ) . $path_parts['filename'] . '-scaled.' . $path_parts['extension'];
+					$id         = attachment_url_to_postid( $scaled_url );
+				}
+			}
+
+			wp_cache_set( $cache_key, $id, 'headstartwp', 3 * HOUR_IN_SECONDS );
+		}
+
+		return $id;
+	}
+
+	/**
+	 * Ensure that images have dimensions set
+	 *
+	 * @param string $block_content the html for the block
+	 * @param array  $block the block's schema
+	 *
+	 * @return string
+	 */
+	public function ensure_image_has_dimensions( $block_content, $block ) {
+		$doc = new \WP_HTML_Tag_Processor( $block_content );
+
+		if ( $doc->next_tag( 'img' ) ) {
+			$src = $doc->get_attribute( 'src' );
+			// check if $src is a image hosted in the current wp install
+			if ( strpos( $src, get_site_url() ) !== false && empty( $block['attrs']['id'] ) ) {
+				$image_id = $this->get_image_by_url( $src );
+
+				if ( $image_id ) {
+					$img = wp_img_tag_add_width_and_height_attr( $block_content, 'the_content', $image_id );
+					$img = wp_img_tag_add_srcset_and_sizes_attr( $img, 'the_content', $image_id );
+
+					return $img;
+				}
+			}
+		}
+
+		return $block_content;
 	}
 
 	/**
