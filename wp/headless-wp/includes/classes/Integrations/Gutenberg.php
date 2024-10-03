@@ -35,11 +35,11 @@ class Gutenberg {
 		}
 
 		$cache_key = sprintf( 'get_image_by_%s', md5( $url ) );
-		$url = esc_url_raw( $url );
-		$id  = wp_cache_get( $cache_key, 'headstartwp', false );
+		$url       = esc_url_raw( $url );
+		$id        = wp_cache_get( $cache_key, 'headstartwp', false );
 
-		if ( $id === false ) {
-			$id  = attachment_url_to_postid( $url );
+		if ( false === $id ) {
+			$id = attachment_url_to_postid( $url );
 
 			/**
 			 * If no ID was found, maybe we're dealing with a scaled big image. So, let's try that.
@@ -65,7 +65,7 @@ class Gutenberg {
 	 * Ensure that images have dimensions set
 	 *
 	 * @param string $block_content the html for the block
-	 * @param array $block\ the block's schema
+	 * @param array  $block the block's schema
 	 *
 	 * @return string
 	 */
@@ -75,7 +75,7 @@ class Gutenberg {
 		if ( $doc->next_tag( 'img' ) ) {
 			$src = $doc->get_attribute( 'src' );
 			// check if $src is a image hosted in the current wp install
-			if ( strpos( $src, get_site_url() ) !== false  && empty( $block['attrs']['id'] ) ) {
+			if ( strpos( $src, get_site_url() ) !== false && empty( $block['attrs']['id'] ) ) {
 				$image_id = $this->get_image_by_url( $src );
 
 				if ( $image_id ) {

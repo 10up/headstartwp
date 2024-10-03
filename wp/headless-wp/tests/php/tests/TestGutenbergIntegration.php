@@ -43,7 +43,7 @@ class TestGutenbergIntegration extends WP_UnitTestCase {
 		$block  = $blocks[0];
 
 		return [
-			'html'         => apply_filters( 'the_content', render_block( $block )),
+			'html'         => apply_filters( 'the_content', render_block( $block ) ),
 			'parsed_block' => $block,
 			'instance'     => new \WP_Block( $block ),
 		];
@@ -152,13 +152,18 @@ RESULT;
 		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 	}
 
+	/**
+	 * Tests that all uploaded images have width and height attributes when rendered
+	 *
+	 * @return void
+	 */
 	public function test_ensure_image_width_height() {
-		$post 			= $this->factory()->post->create_and_get();
-		$attachment_id 	= $this->factory()->attachment->create_upload_object( __DIR__ . '/assets/dummy-image.png', $post->ID );
-		$src 			= wp_get_attachment_image_url( $attachment_id, 'full' );
+		$post          = $this->factory()->post->create_and_get();
+		$attachment_id = $this->factory()->attachment->create_upload_object( __DIR__ . '/assets/dummy-image.png', $post->ID );
+		$src           = wp_get_attachment_image_url( $attachment_id, 'full' );
 
 		// simulate an image without dimensions
-		$block = $this->render_from_block_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
+		$block          = $this->render_from_block_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
 		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
 
 		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
@@ -169,7 +174,7 @@ RESULT;
 
 		// simulate an image with dimensions
 		$block = $this->render_from_block_markup( "<!-- wp:image {\"id\":$attachment_id} --> <figure class=\"wp-block-image\"><img class=\"wp-image-$attachment_id\" src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
-		$doc = new WP_HTML_Tag_Processor( $block['html'] );
+		$doc   = new WP_HTML_Tag_Processor( $block['html'] );
 		$doc->next_tag( 'img' );
 
 		$this->assertEquals( $doc->get_attribute( 'width' ), 213 );
