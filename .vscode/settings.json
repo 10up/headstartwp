@@ -3,4 +3,7 @@
     "phpsab.fixerEnable": true,
     "phpsab.snifferEnable": true,
     "phpsab.snifferShowSources": true,
+    "[php]": {
+        "editor.defaultFormatter": "valeryanm.vscode-phpsab"
+    }
 }
