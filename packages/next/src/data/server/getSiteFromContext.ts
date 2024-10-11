@@ -11,10 +11,12 @@ export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPro
 	const currentSite = ctx?.params?.site;
 	const settings = getHeadlessConfig();
 
-	const site = getSiteByHost(currentSite as string);
+	if (currentSite && typeof currentSite === 'string') {
+		const site = getSiteByHost(currentSite);
 
-	if (site) {
-		return getSite(site);
+		if (site) {
+			return getSite(site);
+		}
 	}
 
 	return settings;
