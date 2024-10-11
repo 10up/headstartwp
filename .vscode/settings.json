@@ -1,0 +1,6 @@
+{
+    "phpsab.composerJsonPath": "wp/headless-wp/composer.json",
+    "phpsab.fixerEnable": true,
+    "phpsab.snifferEnable": true,
+    "phpsab.snifferShowSources": true,
+}
