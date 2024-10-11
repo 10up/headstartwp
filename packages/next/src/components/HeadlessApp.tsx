@@ -122,7 +122,7 @@ export function HeadlessApp({
 
 		return {};
 	}, [router]);
-
+	console.log('current site', currentSite?.sourceUrl, router.query.site);
 	const siteSettings = useMemo(() => ({ ...settings, ...currentSite }), [settings, currentSite]);
 
 	return (

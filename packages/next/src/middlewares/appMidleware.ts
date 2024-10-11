@@ -190,16 +190,17 @@ export async function AppMiddleware(
 	}
 
 	if (isMultisiteRequest && !shouldRedirect) {
-		const pagesRouterRewrite = `/_sites/${hostname}${pathname}`;
+		const hostNameOrSlug = site.slug || hostname;
+		const pagesRouterRewrite = `/_sites/${hostNameOrSlug}${pathname}`;
 		const appRouterRewrite = locale
-			? `/${locale}/${hostname}${pathname.replace(`/${locale}`, '')}`
-			: `/${hostname}${pathname}`;
+			? `/${locale}/${hostNameOrSlug}${pathname.replace(`/${locale}`, '')}`
+			: `/${hostNameOrSlug}${pathname}`;
 
 		response = NextResponse.rewrite(
 			new URL(options.appRouter ? appRouterRewrite : pagesRouterRewrite, req.nextUrl),
 		);
 
-		response.headers.set('x-headstartwp-site', hostname);
+		response.headers.set('x-headstartwp-site', hostNameOrSlug);
 	}
 
 	if (locale) {
