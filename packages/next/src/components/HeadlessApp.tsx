@@ -101,7 +101,12 @@ export function HeadlessApp({
 	useYoastHtml = false,
 	handleYoast = true,
 }: HeadlessAppProps) {
-	const { fallback = {}, seo = {}, themeJSON = { settings: {}, styles: {} } } = pageProps;
+	const {
+		fallback = {},
+		seo = {},
+		themeJSON = { settings: {}, styles: {} },
+		__headstartwp_site = '',
+	} = pageProps;
 	const router = useRouter();
 
 	// if preview mode disable revalidating
@@ -116,13 +121,16 @@ export function HeadlessApp({
 	}
 
 	const currentSite = useMemo(() => {
+		if (__headstartwp_site) {
+			return getSiteByHost(__headstartwp_site, router.locale);
+		}
 		if (router.query?.site && !Array.isArray(router.query.site)) {
 			return getSiteByHost(router.query.site, router.locale);
 		}
 
 		return {};
-	}, [router]);
-	console.log('current site', currentSite?.sourceUrl, router.query.site);
+	}, [router, __headstartwp_site]);
+
 	const siteSettings = useMemo(() => ({ ...settings, ...currentSite }), [settings, currentSite]);
 
 	return (
