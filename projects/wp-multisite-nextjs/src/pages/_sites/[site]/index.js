@@ -63,7 +63,7 @@ export const getStaticPaths = async () => {
 	return {
 		paths: sites.map((site) => ({
 			params: {
-				site: site.host,
+				site: site?.slug ?? site.host,
 			},
 		})),
 		fallback: true,
