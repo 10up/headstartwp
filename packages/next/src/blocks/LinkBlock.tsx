@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link.js';
 import { removeSourceUrl } from '@headstartwp/core/utils';
 import { IBlock, IBlockAttributes, useSettings } from '@headstartwp/core/react';
 import { getAttributes, isAnchorTag } from '@headstartwp/core';
@@ -50,12 +50,4 @@ export function LinkBlock({ domNode, children }: Omit<IBlock<LinkBlockProps>, 'c
 	);
 }
 
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace LinkBlock {
-	export const defaultProps = {
-		test: (node, site) => isAnchorTag(node, { isInternalLink: true }, site),
-	};
-}
+LinkBlock.test = (node, site) => isAnchorTag(node, { isInternalLink: true }, site);

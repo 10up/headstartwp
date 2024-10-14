@@ -3,11 +3,17 @@ import { NotFoundError, setHeadstartWPConfig } from '../../../utils';
 import { PostOrPostsFetchStrategy, PostOrPostsParams } from '../PostOrPostsFetchStrategy';
 import { PostEntity } from '../../types';
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
 describe('PostOrPostsFetchStrategy', () => {
 	let fetchStrategy: PostOrPostsFetchStrategy;
 
 	beforeEach(() => {
-		fetchStrategy = new PostOrPostsFetchStrategy('');
+		setHeadstartWPConfig(config);
+		fetchStrategy = new PostOrPostsFetchStrategy(config.sourceUrl);
 	});
 
 	it('returns `@postOrPosts` as the default endpoint', () => {
@@ -98,11 +104,6 @@ describe('PostOrPostsFetchStrategy', () => {
 	});
 
 	it('fetches the proper resource', async () => {
-		setHeadstartWPConfig({
-			sourceUrl: '',
-			useWordPressPlugin: true,
-		});
-
 		let params = fetchStrategy.getParamsFromURL('/');
 		let response = await fetchStrategy.fetcher('', merge(params, { priority: 'archive' }));
 		expect(response.result.isArchive).toBeTruthy();
@@ -152,10 +153,6 @@ describe('PostOrPostsFetchStrategy', () => {
 			'distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 		);
 
-		// this is to force post path nmapping to work
-		p.single.fullPath =
-			'https://js1.10up.com/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam/';
-
 		params = merge(
 			fetchStrategy.getParamsFromURL(
 				'/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam/',
@@ -172,7 +169,6 @@ describe('PostOrPostsFetchStrategy', () => {
 
 		// with this set to true it should error out if the path does not match
 		p.single.matchCurrentPath = true;
-		delete p.single.fullPath;
 
 		params = merge(
 			fetchStrategy.getParamsFromURL(
@@ -186,14 +182,9 @@ describe('PostOrPostsFetchStrategy', () => {
 			'Neither single or archive returned data: The request to /wp-json/wp/v2/posts?_embed=true&categories=distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam returned no data, Post #54 - "https://js1.10up.com/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam/" was found but did not match current path: "/uncategorized/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam"',
 		);
 
-		// now make it work by faking full path
-		// this simulates the post url returned by wp matching the front-end url
-		p.single.fullPath =
-			'https://js1.10up.com/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam/';
-
 		params = merge(
 			fetchStrategy.getParamsFromURL(
-				'/uncategorized/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
+				'/2020/05/07/distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
 				p,
 			),
 			p,
@@ -345,17 +336,12 @@ describe('PostOrPostsFetchStrategy', () => {
 	});
 
 	it('normalizes data for caching', async () => {
-		setHeadstartWPConfig({
-			sourceUrl: '',
-			useWordPressPlugin: true,
-		});
-
 		let params = merge(fetchStrategy.getParamsFromURL('/'), { priority: 'single' });
 		let response = await fetchStrategy.fetcher('', params);
 
 		let normalizedResponse = fetchStrategy.normalizeForCache(response, params);
 		expect(normalizedResponse.additionalCacheObjects?.[0].key).toStrictEqual({
-			args: { _embed: true, sourceUrl: '' },
+			args: { _embed: true, sourceUrl: config.sourceUrl },
 			url: '/wp-json/wp/v2/posts',
 		});
 
@@ -375,7 +361,7 @@ describe('PostOrPostsFetchStrategy', () => {
 		normalizedResponse = fetchStrategy.normalizeForCache(response, params);
 
 		expect(normalizedResponse.additionalCacheObjects?.[0].key).toStrictEqual({
-			args: { _embed: true, ...params.single, sourceUrl: '' },
+			args: { _embed: true, ...params.single, sourceUrl: config.sourceUrl },
 			url: '/wp-json/wp/v2/posts',
 		});
 	});

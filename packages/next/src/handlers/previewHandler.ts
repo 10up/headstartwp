@@ -1,8 +1,13 @@
 /* eslint-disable consistent-return */
-import { CustomPostType, getSiteByHost, PostEntity, removeSourceUrl } from '@headstartwp/core';
+import {
+	CustomPostType,
+	fetchPost,
+	getSiteByHost,
+	PostEntity,
+	removeSourceUrl,
+} from '@headstartwp/core';
 import { getCustomPostType, getHeadstartWPConfig } from '@headstartwp/core/utils';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { fetchHookData, usePost } from '../data';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { PreviewData } from './types';
 
 /**
@@ -16,7 +21,7 @@ export type PreviewHandlerOptions = {
 	 *
 	 * If set you should handle the redirect yourself by calling `res.redirect`.
 	 *
-	 * **Important**: You should not need to override this but if you do, uou must append `-preview=true` to the end of the redirected url.
+	 * **Important**: You should not need to override this but if you do, you must append `-preview=true` to the end of the redirected url.
 	 *
 	 * This can be used to customize the preview url.
 	 *
@@ -50,7 +55,7 @@ export type PreviewHandlerOptions = {
 	/**
 	 * If passed will override the default redirect path
 	 *
-	 * **Important**: You should not need to override this but if you do, uou must append `-preview=true` to the end of the redirecte path.
+	 * **Important**: You should not need to override this but if you do, you must append `-preview=true` to the end of the redirecte path.
 	 *
 	 * @param defaultRedirectPath the default redirect path
 	 * @param post PostEntity
@@ -138,7 +143,8 @@ export async function previewHandler(
 	);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl === 'string';
 
-	const { sourceUrl, preview } = isMultisiteRequest ? site : getHeadstartWPConfig();
+	const config = isMultisiteRequest ? site : getHeadstartWPConfig();
+	const { sourceUrl, preview } = config;
 
 	const revision = is_revision === '1';
 
@@ -152,32 +158,26 @@ export async function previewHandler(
 			return;
 		}
 
-		const { data } = await fetchHookData(
-			usePost.fetcher(sourceUrl),
-			{
-				params: {
-					path: [],
-					site: req.headers?.host,
-				},
-				locale: typeof locale === 'string' ? locale : undefined,
-			},
+		const { data } = await fetchPost(
 			{
 				params: {
 					id: Number(post_id),
 					postType: post_type,
 					revision,
 					authToken: token as string,
+					lang: typeof locale === 'string' ? locale : undefined,
 				},
-				fetchStrategyOptions: {
+				options: {
 					alternativePreviewAuthorizationHeader:
 						preview?.alternativeAuthorizationHeader ?? false,
 				},
 			},
+			config,
 		);
 
 		const id = Number(post_id);
 
-		const result: PostEntity = Array.isArray(data?.result) ? data.result[0] : data.result;
+		const result = data.post;
 
 		if (result?.id === id || result?.parent === id) {
 			const { slug } = result;
@@ -235,7 +235,7 @@ export async function previewHandler(
 
 			res.setPreviewData(previewData, {
 				maxAge: 5 * 60,
-				// we can only safely narrow the cookei to a path if getRedirectPath is implemented or
+				// we can only safely narrow the cookie to a path if getRedirectPath is implemented or
 				// it's using the default behavior without a custom onRedirect
 				path: shouldSetPathInCookie ? redirectPath : '/',
 			});

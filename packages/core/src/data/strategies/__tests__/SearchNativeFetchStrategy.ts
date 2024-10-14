@@ -1,13 +1,18 @@
 import { SearchNativeFetchStrategy } from '../SearchNativeFetchStrategy';
 import { setHeadstartWPConfig } from '../../../utils';
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
 describe('SearchNativeFetchStrategy', () => {
 	let fetchStrategy: SearchNativeFetchStrategy;
 
 	beforeEach(() => {
 		fetchStrategy = new SearchNativeFetchStrategy();
 
-		setHeadstartWPConfig({});
+		setHeadstartWPConfig(config);
 	});
 
 	it('parse url properly', async () => {

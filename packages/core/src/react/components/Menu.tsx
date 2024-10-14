@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable @typescript-eslint/no-use-before-define, react/require-default-props */
 import { PropsWithChildren } from 'react';
@@ -69,10 +71,23 @@ export const MenuItems = ({
 					backendUrl: settings.sourceUrl || '',
 				});
 				const shouldLink = item.children.length === 0 || topLevelItemsClickable;
-				const className = `menu-item-depth-${depth}`;
+				let classNames = [`menu-item-depth-${depth}`];
+
+				if (item.children.length) {
+					classNames = [...classNames, 'menu-item-has-children'];
+				}
+
+				if (item.classes.length) {
+					classNames = [...classNames, ...item.classes];
+				}
 
 				return (
-					<ItemWrapper key={item.ID} className={className} depth={depth} item={item}>
+					<ItemWrapper
+						key={item.ID}
+						className={classNames.join(' ')}
+						depth={depth}
+						item={item}
+					>
 						{shouldLink ? (
 							<LinkWrapper href={link} depth={depth}>
 								{item.title}
@@ -108,7 +123,7 @@ type MenuProps = {
 
 export function Menu({
 	items,
-	className,
+	className = 'menu-container',
 	depth = 0,
 	topLevelItemsClickable = false,
 	itemWrapper = DefaultItemWrapper,
@@ -129,19 +144,4 @@ export function Menu({
 			/>
 		</MenuWrapper>
 	);
-}
-
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace Menu {
-	export const defaultProps = {
-		className: 'menu-container',
-		topLevelItemsClickable: false,
-		depth: 0,
-		itemWrapper: DefaultItemWrapper,
-		menuWrapper: DefaultMenuWrapper,
-		linkWrapper: DefaultLinkWrapper,
-	};
 }

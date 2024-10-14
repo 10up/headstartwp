@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.1.4-next.0
+
+### Patch Changes
+
+- 8ba6de7: Fix: do not cast menu item ids to number as they are strings
+
 ## 1.1.3
 
 ### Patch Changes

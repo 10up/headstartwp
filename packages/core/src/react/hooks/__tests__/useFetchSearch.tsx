@@ -6,21 +6,23 @@ import { SWRConfig } from 'swr';
 import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearch } from '../useFetchSearch';
-import { setHeadlessConfig } from '../../../utils';
+import { setHeadstartWPConfig } from '../../../utils';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
 
-describe('useFetchSearch', () => {
-	const wrapper = ({ children }) => {
-		return (
-			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
-			</SWRConfig>
-		);
-	};
+const config = { sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true };
 
-	setHeadlessConfig({
-		useWordPressPlugin: true,
+const wrapper = ({ children }) => {
+	return (
+		<SWRConfig value={{ provider: () => new Map() }}>
+			<SettingsProvider settings={config}>{children}</SettingsProvider>
+		</SWRConfig>
+	);
+};
+
+describe('useFetchSearch', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig(config);
 	});
 
 	it('returns empty results instead of throwing if not found', async () => {
@@ -107,8 +109,9 @@ describe('useFetchSearch', () => {
 				isbn: string;
 			}
 
-			const { result } = renderHook(() =>
-				useFetchSearch<Book, BookParams>({ isbn: 'sdasd' }),
+			const { result } = renderHook(
+				() => useFetchSearch<Book, BookParams>({ isbn: 'sdasd' }),
+				{ wrapper },
 			);
 
 			expectTypeOf(result.current.data?.posts).toMatchTypeOf<

@@ -1,15 +1,18 @@
+'use client';
+
 import { Element } from 'html-react-parser';
 import { isBlock } from '../../dom';
 import { IBlock } from '../components';
-import { defaultElement, useBlock, useBlockAttributes } from './hooks';
+import { useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
+import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 
 export interface PreformattedBlockProps extends IBlockAttributes {}
 
 export interface IPreformattedBlock extends IBlock<PreformattedBlockProps> {}
 
 export function PreformattedBlock({
-	domNode: node = defaultElement,
+	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	component: Component,
 	children,
 	style,

@@ -1,9 +1,10 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { ReactElement } from 'react';
-import { isAnchorTag } from '../../../dom';
+import { isAnchorTag, isBlockByName } from '../../../dom';
 import { SettingsProvider } from '../../provider';
-import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
+import { BlocksRenderer } from '../BlocksRenderer';
+import type { BlockProps } from '../BaseBlocksRenderer';
 
 describe('BlocksRenderer', () => {
 	it('renders html properly', () => {
@@ -202,5 +203,82 @@ describe('BlocksRenderer', () => {
         </div>
       </div>
 	`);
+	});
+
+	it('works correctly with chinese content', () => {
+		const StrongToDiv = ({ domNode, children }: BlockProps) => {
+			const className =
+				domNode instanceof Element ? domNode?.attribs.class || undefined : undefined;
+			return <div className={className}>{children}</div>;
+		};
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<h3 class="wp-block-heading" data-wp-block='{"level":3,"hash":"9fb25fc5-7456-4704-bffe-aa438487253b"}' data-wp-block-name="core/heading"><strong>&aelig;&acute;&raquo;&aring;&#139;&#149;&aelig;&#156;&#159;&eacute;&#150;&#147;</strong></h3>`}
+			>
+				<StrongToDiv tagName="strong" classList={['my-class']} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('forward blockProps to the component and support attaching test function directly to component', () => {
+		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p className={block?.className}>{JSON.stringify(block)}</p>;
+		};
+
+		DivToP.test = (node) => isBlockByName(node, '10up/custom-block');
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
+				forwardBlockAttributes
+			>
+				<DivToP />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('does not forward blockProps to the component for nodes that are not wp blocks', () => {
+		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-no-props">{JSON.stringify(block)}</p>;
+		};
+
+		render(
+			<BlocksRenderer html={`<div class="my-class""></div>`} forwardBlockAttributes>
+				<DivToP tagName="div" classList="my-class" />
+			</BlocksRenderer>,
+		);
+
+		const node = screen.getByTestId('block-no-props');
+		expect(node.textContent).toBe('');
+	});
+
+	it('forward context to the component', () => {
+		const DivToP = ({
+			block,
+			blockContext,
+		}: BlockProps<{ blockAttribute: string }, { contextProp: string }>) => {
+			return (
+				<p className={block?.className}>
+					{JSON.stringify(block)} - {JSON.stringify(blockContext)}
+				</p>
+			);
+		};
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
+				forwardBlockAttributes
+				blockContext={{ contextProp: 'this is a context prop' }}
+			>
+				<DivToP test={(node) => isBlockByName(node, '10up/custom-block')} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
 	});
 });

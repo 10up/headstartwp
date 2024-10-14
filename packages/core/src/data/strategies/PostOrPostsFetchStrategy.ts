@@ -74,6 +74,13 @@ export class PostOrPostsFetchStrategy<
 		return this.urlParams;
 	}
 
+	isMainQuery(path: string, nonUrlParams: Partial<P>): boolean {
+		return (
+			this.postStrategy.isMainQuery(path, nonUrlParams.single ?? {}) ||
+			this.postsStrategy.isMainQuery(path, nonUrlParams.archive ?? {})
+		);
+	}
+
 	normalizeForCache(data: FetchResponse<R>, params: Partial<P>): NormalizedDataForCache<R, P> {
 		const additionalCacheObjects: NormalizedDataForCache<R, P>[] = [];
 

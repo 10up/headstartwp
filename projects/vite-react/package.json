@@ -1,0 +1,28 @@
+{
+  "name": "@headstartwp/vite-react-test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@headstartwp/core": "^1.5.0-next.5",
+    "@headstartwp/next": "^1.5.0-next.6"
+  },
+  "devDependencies": {
+    "@10up/eslint-config": "^4.0.0",
+    "eslint": "^8",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "globals": "^15.9.0",
+    "typescript": "^5",
+    "vite": "^5.4.1"
+  }
+}

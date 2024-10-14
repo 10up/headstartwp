@@ -11,11 +11,13 @@ import {
 } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 import { serializeKey } from '@headstartwp/core/react';
-import { all as merge } from 'deepmerge';
+import deepmerge from 'deepmerge';
 import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
 import defaultCacheHandler from './cache';
+
+const { all: merge } = deepmerge;
 
 /**
  * The supported options for {@link fetchHookData}
@@ -265,7 +267,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 			}
 
 			if (typeof cache.beforeSet === 'function') {
-				data = await cache.beforeSet(
+				const beforeSetData = await cache.beforeSet(
 					{
 						fetchStrategy,
 						params,
@@ -275,9 +277,11 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 					},
 					data,
 				);
-			}
 
-			await cache.cacheHandler.set(cacheKey, data, cache.ttl);
+				await cache.cacheHandler.set(cacheKey, beforeSetData, cache.ttl);
+			} else {
+				await cache.cacheHandler.set(cacheKey, data, cache.ttl);
+			}
 		}
 	} else {
 		data.isCached = true;

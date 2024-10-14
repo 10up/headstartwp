@@ -114,8 +114,8 @@ describe('getHeadstartWPConfig', () => {
 			},
 		});
 
-		expect(getHeadstartWPConfig().customTaxonomies.at(0)?.matchArchivePath).toBe(true);
-		expect(getHeadstartWPConfig().customTaxonomies.at(1)?.matchArchivePath).toBe(true);
+		expect(getHeadstartWPConfig()?.customTaxonomies?.[0]?.matchArchivePath).toBe(true);
+		expect(getHeadstartWPConfig()?.customTaxonomies?.[1]?.matchArchivePath).toBe(true);
 	});
 
 	it('accepts a function for customPostTypes', () => {
@@ -131,8 +131,8 @@ describe('getHeadstartWPConfig', () => {
 			},
 		});
 
-		expect(getHeadstartWPConfig().customPostTypes.at(0)?.matchSinglePath).toBe(false);
-		expect(getHeadstartWPConfig().customPostTypes.at(1)?.matchSinglePath).toBe(false);
+		expect(getHeadstartWPConfig()?.customPostTypes?.[0]?.matchSinglePath).toBe(false);
+		expect(getHeadstartWPConfig()?.customPostTypes?.[1]?.matchSinglePath).toBe(false);
 	});
 });
 

@@ -6,15 +6,22 @@ import { SWRConfig } from 'swr';
 import { PostSearchEntity, SearchParams, TermSearchEntity } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchSearchNative } from '../useFetchSearchNative';
+import { setHeadstartWPConfig } from '../../../utils';
+
+const config = { sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true };
+
+const wrapper = ({ children }) => {
+	return (
+		<SWRConfig value={{ provider: () => new Map() }}>
+			<SettingsProvider settings={config}>{children}</SettingsProvider>
+		</SWRConfig>
+	);
+};
 
 describe('useFetchSearch', () => {
-	const wrapper = ({ children }) => {
-		return (
-			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
-			</SWRConfig>
-		);
-	};
+	beforeAll(() => {
+		setHeadstartWPConfig(config);
+	});
 
 	it('returns empty results instead of throwing if not found', async () => {
 		const { result } = renderHook(() => useFetchSearchNative({ search: 'not-found' }), {
@@ -122,10 +129,12 @@ describe('useFetchSearch', () => {
 
 			type MyPostSearchType = MyPostSearchEntity | TermSearchEntity;
 
-			const { result } = renderHook(() =>
-				useFetchSearchNative<MyPostSearchType, MySearchParams>({
-					custom_field: 'sdasd',
-				}),
+			const { result } = renderHook(
+				() =>
+					useFetchSearchNative<MyPostSearchType, MySearchParams>({
+						custom_field: 'sdasd',
+					}),
+				{ wrapper },
 			);
 
 			expectTypeOf(result.current.data?.searchResults).toMatchTypeOf<

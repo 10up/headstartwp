@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BlocksRenderer forward blockProps to the component and support attaching test function directly to component 1`] = `
+<div>
+  <p
+    class="my-class"
+  >
+    {"attributes":{"blockAttribute":"this is a block attribute"},"name":"10up/custom-block","className":"my-class"}
+  </p>
+</div>
+`;
+
+exports[`BlocksRenderer forward context to the component 1`] = `
+<div>
+  <p
+    class="my-class"
+  >
+    {"attributes":{"blockAttribute":"this is a block attribute"},"name":"10up/custom-block","className":"my-class"}
+     - 
+    {"contextProp":"this is a context prop","settings":{}}
+  </p>
+</div>
+`;
+
+exports[`BlocksRenderer works correctly with chinese content 1`] = `
+<div>
+  <h3
+    class="wp-block-heading"
+    data-wp-block="{"level":3,"hash":"9fb25fc5-7456-4704-bffe-aa438487253b"}"
+    data-wp-block-name="core/heading"
+  >
+    <strong>
+      æ´»å‹•æœŸé–“
+    </strong>
+  </h3>
+</div>
+`;

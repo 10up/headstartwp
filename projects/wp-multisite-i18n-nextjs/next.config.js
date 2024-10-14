@@ -1,10 +1,8 @@
-const { withHeadlessConfig } = require('@headstartwp/next/config');
+const { withHeadstartWPConfig } = require('@headstartwp/next/config');
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE === 'true',
 });
-
-const headlessConfig = require('./headless.config');
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -22,4 +20,4 @@ const nextConfig = {
 	},
 };
 
-module.exports = withBundleAnalyzer(withHeadlessConfig(nextConfig, headlessConfig));
+module.exports = withBundleAnalyzer(withHeadstartWPConfig(nextConfig));

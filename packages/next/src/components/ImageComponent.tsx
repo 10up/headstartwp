@@ -1,6 +1,14 @@
-import Image, { ImageLoaderProps } from 'next/image';
+import NextImageComponent from 'next/image.js';
+import type { ImageLoaderProps } from 'next/image.js';
+import type { ImageBlockProps } from '@headstartwp/core/react';
 
-import { ImageBlockProps } from '@headstartwp/core/react';
+// See error in https://github.com/vercel/next.js/issues/54777
+const Image =
+	// @ts-expect-error
+	typeof NextImageComponent === 'object' && typeof NextImageComponent.default !== 'undefined'
+		? // @ts-expect-error
+			NextImageComponent.default
+		: NextImageComponent;
 
 /**
  * Given a width and an aspect ratio, calculate the resulting height. If either the

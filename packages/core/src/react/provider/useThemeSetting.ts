@@ -1,14 +1,7 @@
-import { useThemeSettings } from './useThemeSettings';
+'use client';
 
-const get = (obj, path, defaultValue: any = undefined) => {
-	const travel = (regexp) =>
-		String.prototype.split
-			.call(path, regexp)
-			.filter(Boolean)
-			.reduce((res, key) => (res !== null && res !== undefined ? res[key] : res), obj);
-	const result = travel(/[,[\]]+?/) || travel(/[,[\].]+?/);
-	return result === undefined || result === obj ? defaultValue : result;
-};
+import { getObjectProperty } from '../../utils';
+import { useThemeSettings } from './useThemeSettings';
 
 /**
  * Returns a single theme setting normalized
@@ -27,8 +20,8 @@ export function useThemeSetting(
 ) {
 	const settings = useThemeSettings();
 
-	if (blockName && get(settings, `blocks.${blockName}.${path}`)) {
-		return get(settings, `blocks.${blockName}.${path}`);
+	if (blockName && getObjectProperty(settings, `blocks.${blockName}.${path}`)) {
+		return getObjectProperty(settings, `blocks.${blockName}.${path}`);
 	}
 
 	// if blockName is set but doesn't have the setting and we should not fallback, return the default value only
@@ -36,5 +29,5 @@ export function useThemeSetting(
 		return defaultValue;
 	}
 
-	return get(settings, path, defaultValue);
+	return getObjectProperty(settings, path, defaultValue);
 }
