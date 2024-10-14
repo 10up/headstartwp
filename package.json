@@ -32,9 +32,7 @@
     "publish": "npm run build:packages && npx changeset publish"
   },
   "workspaces": [
-    "packages/core",
-    "packages/next",
-    "packages/primitives",
+    "packages/*",
     "projects/*",
     "wp/*"
   ],
