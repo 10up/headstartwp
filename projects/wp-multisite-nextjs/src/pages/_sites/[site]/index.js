@@ -61,11 +61,13 @@ export const getStaticPaths = async () => {
 	const { sites } = getHeadlessConfig();
 
 	return {
-		paths: sites.map((site) => ({
-			params: {
-				site: site?.slug ?? site.host,
-			},
-		})),
+		paths: sites
+			.filter((site) => site.slug !== 'site1')
+			.map((site) => ({
+				params: {
+					site: site?.slug ?? site.host,
+				},
+			})),
 		fallback: true,
 	};
 };
