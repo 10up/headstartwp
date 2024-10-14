@@ -1,4 +1,4 @@
-import { getHeadlessConfig, getSite, getSiteByHost } from '@headstartwp/core';
+import { getHeadstartWPConfig, getSite, getSiteByHost } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 
 /**
@@ -9,7 +9,7 @@ import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
  */
 export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPropsContext) {
 	const currentSite = ctx?.params?.site;
-	const settings = getHeadlessConfig();
+	const settings = getHeadstartWPConfig();
 
 	if (currentSite && typeof currentSite === 'string') {
 		const site = getSiteByHost(currentSite);

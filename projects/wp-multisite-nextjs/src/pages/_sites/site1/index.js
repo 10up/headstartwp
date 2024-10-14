@@ -4,18 +4,20 @@ import {
 	handleError,
 	useAppSettings,
 	usePost,
+	withSiteContext,
 } from '@headstartwp/next';
+import { useSettings } from '@headstartwp/core/react';
 import { indexParams } from '../../../params';
 
 const Site1Homepage = () => {
-	return <div>Site 1 Homepage</div>;
+	const settings = useSettings();
+	return <div>{settings.slug} Homepage</div>;
 };
 
 export default Site1Homepage;
 
-export async function getStaticProps(context) {
-	// TODO: create a utlity function to decorate context for a specific site
-	context.params = { site: 'site1' };
+export async function getStaticProps(_context) {
+	const context = withSiteContext(_context, 'site1');
 
 	let appSettings;
 	let slug;
