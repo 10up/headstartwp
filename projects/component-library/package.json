@@ -7,10 +7,11 @@
     "build-storybook": "storybook build"
   },
   "exports": {
-    "./button": "./src/button/Button.tsx"
+    "./button": "./src/button/Button.tsx",
+    "./hero": "./src/hero/Hero.tsx"
   },
   "dependencies": {
-    "@headstartwp/blocks-primitives": "*",
+    "@headstartwp/blocks-primitives": "^0.0.1",
     "react": "^18",
     "react-dom": "^18"
   },

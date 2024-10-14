@@ -52,7 +52,7 @@ export function fromYoastToMetadata(yoast: YoastJSON, config: HeadlessConfig = {
 		},
 		twitter: {
 			creator: yoast.twitter_creator,
-			card: yoast.twitter_card,
+			card: yoast.twitter_card ?? 'summary',
 			title: yoast.twitter_title,
 			description: yoast.twitter_description,
 			images: yoast.twitter_image,

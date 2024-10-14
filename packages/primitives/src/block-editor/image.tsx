@@ -41,7 +41,6 @@ const Image = ({
 
 	return (
 		<>
-			{/* @ts-expect-error */}
 			<BlockControls>
 				{/* @ts-expect-error */}
 				<ToolbarGroup title="Options">

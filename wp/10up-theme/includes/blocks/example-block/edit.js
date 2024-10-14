@@ -6,7 +6,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 // eslint-disable-next-line import/no-unresolved
 import Block from '@headstartwp/blocks-primitives/block';
 // eslint-disable-next-line import/no-unresolved
-import { Button } from '@headstartwp/component-library/button';
+import { Hero } from '@headstartwp/component-library/hero';
 
 /**
  * Edit component.
@@ -27,7 +27,7 @@ const ExampleBlockEdit = (props) => {
 	return (
 		<div {...blockProps}>
 			<Block attributes={attributes} setAttributes={setAttributes}>
-				<Button />
+				<Hero attributes={attributes} />
 			</Block>
 		</div>
 	);
