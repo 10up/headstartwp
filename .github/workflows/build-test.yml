@@ -28,5 +28,5 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm install
-      - name: Build Vite Test Project
+      - name: Build Projects
         run: npm run build
