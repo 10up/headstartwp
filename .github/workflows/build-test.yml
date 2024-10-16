@@ -1,4 +1,4 @@
-name: ESM Build Test
+name: Build Test
 
 on: [pull_request]
 
@@ -29,4 +29,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build Vite Test Project
-        run: npm run build -- --filter=@headstartwp/vite-react-test
+        run: npm run build
