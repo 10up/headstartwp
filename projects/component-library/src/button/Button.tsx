@@ -25,6 +25,7 @@ interface ButtonProps extends GutenbergBlock<BlockAttributes> {
 
 export const Button = ({ primary = false, size = 'medium', attributes, ...props }: ButtonProps) => {
 	const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+
 	return (
 		<RichText
 			name="button_label"
