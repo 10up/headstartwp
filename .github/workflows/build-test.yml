@@ -3,7 +3,7 @@ name: Build Test
 on: [pull_request]
 
 jobs:
-  esm-build-test:
+  build-test:
     runs-on: ubuntu-latest
 
     strategy:
