@@ -48,7 +48,7 @@ jobs:
         run: npx -p nextjs-bundle-analysis report
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: bundle
           path: ./projects/wp-nextjs/.next/analyze/__bundle_analysis.json
