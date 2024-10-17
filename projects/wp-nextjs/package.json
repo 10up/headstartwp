@@ -15,8 +15,8 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@headstartwp/core": "^1.5.0-next.5",
-    "@headstartwp/next": "^1.5.0-next.6",
+    "@headstartwp/core": "^1.5.0-next.6",
+    "@headstartwp/next": "^1.5.0-next.7",
     "@10up/next-redis-cache-provider": "^1.0.0",
     "@linaria/core": "^6.2.0",
     "@linaria/react": "^6.2.1",

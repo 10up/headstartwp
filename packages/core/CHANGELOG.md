@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-next.6
+
+### Minor Changes
+
+- 042980b: Add the ability to add aliases/slug to sites in the multisite setup
+
 ## 1.5.0-next.5
 
 ### Patch Changes
