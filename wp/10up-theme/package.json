@@ -1,0 +1,35 @@
+{
+  "name": "tenup-theme",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npm run watch",
+    "dev": "10up-toolkit watch --port=5000 --hot",
+    "build": "10up-toolkit build",
+    "format-js": "10up-toolkit format-js",
+    "lint-js": "10up-toolkit lint-js",
+    "lint-style": "10up-toolkit lint-style",
+    "clean-dist": "rm -rf ./dist",
+    "scaffold:block": "cd includes/blocks/ && wp-create-block --no-plugin --template ../../../../bin/create-block-template"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "10up-toolkit": "^6.0.0"
+  },
+  "dependencies": {
+    "modern-normalize": "^2.0.0",
+    "@headstartwp/component-library": "*"
+  },
+  "10up-toolkit": {
+    "useBlockAssets": true,
+    "entry": {
+      "admin": "./assets/js/admin/admin.js",
+      "editor-style-overrides": "./assets/js/admin/editor-style-overrides.js",
+      "frontend": "./assets/js/frontend/frontend.js",
+      "shared": "./assets/js/shared/shared.js",
+      "styleguide": "./assets/js/styleguide/styleguide.js",
+      "block-editor-script": "./includes/block-editor-script.js"
+    }
+  }
+}

@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import { PropsWithChildren } from 'react';
 
 interface RawLinkProps {
 	href: string;
 	children: React.ReactNode;
 }
 
-export const RawLink: FC<RawLinkProps> = ({ children, href, ...props }) => {
+export const RawLink = ({ children, href, ...props }: PropsWithChildren<RawLinkProps>) => {
 	return (
 		<a href={href} {...props}>
 			{children}

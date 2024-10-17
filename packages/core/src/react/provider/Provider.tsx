@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, createContext, useMemo } from 'react';
+import { PropsWithChildren, createContext, useMemo } from 'react';
 import { getHeadlessConfig } from '../../utils/config';
 import { SettingsContextProps } from './types';
 
@@ -11,7 +11,7 @@ interface ProviderProps {
 	children: React.ReactNode;
 }
 
-export const SettingsProvider: FC<ProviderProps> = ({ settings, children }) => {
+export const SettingsProvider = ({ settings, children }: PropsWithChildren<ProviderProps>) => {
 	const settingsValue = useMemo(
 		() => ({
 			...getHeadlessConfig(),

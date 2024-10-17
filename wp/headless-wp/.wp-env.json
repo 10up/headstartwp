@@ -5,15 +5,16 @@
     "https://downloads.wordpress.org/plugin/wordpress-seo.22.1.zip",
     "https://downloads.wordpress.org/plugin/safe-redirect-manager.2.1.1.zip"
   ],
+  "themes": ["../10up-theme"],
   "env": {
     "tests": {
-        "plugins": [
-          ".",
-          "../local-plugin",
-          "https://downloads.wordpress.org/plugin/wordpress-seo.22.1.zip",
-          "https://downloads.wordpress.org/plugin/safe-redirect-manager.2.1.1.zip",
-          "https://downloads.wordpress.org/plugin/polylang.3.5.4.zip"
-        ]
+      "plugins": [
+        ".",
+        "../local-plugin",
+        "https://downloads.wordpress.org/plugin/wordpress-seo.22.1.zip",
+        "https://downloads.wordpress.org/plugin/safe-redirect-manager.2.1.1.zip",
+        "https://downloads.wordpress.org/plugin/polylang.3.5.4.zip"
+      ]
     }
-}
+  }
 }

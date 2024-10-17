@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RichText render to a native html elements 1`] = `
+<DocumentFragment>
+  <h1>
+    This is a heading
+  </h1>
+</DocumentFragment>
+`;
+
+exports[`RichText render to a native html elements 2`] = `
+<DocumentFragment>
+  <p>
+    This is a paragraph
+  </p>
+</DocumentFragment>
+`;
