@@ -2,6 +2,8 @@ import { GutenbergBlock, ImagePrimitiveValue } from '@headstartwp/blocks-primiti
 import Image from '@headstartwp/blocks-primitives/image';
 import RichText from '@headstartwp/blocks-primitives/rich-text';
 
+import { containerStyle, titleStyle } from './style.css.ts';
+
 export type HeroAttributes = {
 	title: string;
 	content: string;
@@ -10,8 +12,14 @@ export type HeroAttributes = {
 
 export const Hero = ({ attributes }: GutenbergBlock<HeroAttributes>) => {
 	return (
-		<div>
-			<RichText name="title" tagName="h2" placeholder="The title" value={attributes.title} />
+		<div className={containerStyle}>
+			<RichText
+				name="title"
+				tagName="h2"
+				placeholder="The title"
+				value={attributes.title}
+				className={titleStyle}
+			/>
 
 			<RichText
 				name="content"
