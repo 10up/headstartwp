@@ -1,5 +1,5 @@
 {
-  "name": "@headstartwp/blocks-primitives",
+  "name": "@headstartwp/block-primitives",
   "version": "0.0.1",
   "description": "A set of Gutenberg Primitives for authoring react components that can be shared with the block editor",
   "homepage": "https://github.com/10up/headstartwp/blob/develop/packages/primitives/README.md",

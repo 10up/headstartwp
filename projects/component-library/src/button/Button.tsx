@@ -1,6 +1,6 @@
 import React from 'react';
-import RichText from '@headstartwp/blocks-primitives/rich-text';
-import type { GutenbergBlock } from '@headstartwp/blocks-primitives';
+import RichText from '@headstartwp/block-primitives/rich-text';
+import type { GutenbergBlock } from '@headstartwp/block-primitives';
 
 type BlockAttributes = {
 	button_label: string;

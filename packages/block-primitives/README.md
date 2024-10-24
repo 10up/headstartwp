@@ -1,11 +1,11 @@
-# @headstartwp/blocks-primitives
+# @headstartwp/block-primitives
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/next/LICENSE.md)
 
 
 ## Installation
 
 ```
-npm install --save @headstartwp/blocks-primitives
+npm install --save @headstartwp/block-primitives
 ```
 
 ## Support Level
