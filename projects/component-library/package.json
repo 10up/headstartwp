@@ -7,7 +7,6 @@
     "build-storybook": "storybook build"
   },
   "exports": {
-    "./button": "./src/button/Button.tsx",
     "./hero": "./src/hero/Hero.tsx"
   },
   "dependencies": {
