@@ -4,7 +4,7 @@
   "scripts": {
     "start": "npm run watch",
     "dev": "10up-toolkit watch --port=5000 --hot",
-    "build": "10up-toolkit build --include=@headstartwp/component-library",
+    "build": "10up-toolkit build",
     "format-js": "10up-toolkit format-js",
     "lint-js": "10up-toolkit lint-js",
     "lint-style": "10up-toolkit lint-style",
@@ -15,10 +15,12 @@
     "node": ">=18.0.0"
   },
   "devDependencies": {
-    "10up-toolkit": "6.3.0-next.1"
+    "10up-toolkit": "6.3.0-next.1",
+    "eslint-import-resolver-webpack": "^0.13.9"
   },
   "dependencies": {
     "modern-normalize": "^2.0.0",
+    "@headstartwp/block-primitives": "*",
     "@headstartwp/component-library": "*"
   },
   "10up-toolkit": {

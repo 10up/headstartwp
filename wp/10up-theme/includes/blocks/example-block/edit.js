@@ -3,9 +3,7 @@
  */
 import { useBlockProps } from '@wordpress/block-editor';
 
-// eslint-disable-next-line import/no-unresolved
-import Block from '@headstartwp/blocks-primitives/block';
-// eslint-disable-next-line import/no-unresolved
+import Block from '@headstartwp/block-primitives/block';
 import { Hero } from '@headstartwp/component-library/hero';
 
 /**
