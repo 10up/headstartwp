@@ -1,5 +1,5 @@
 import type { RichText } from '@wordpress/block-editor';
-import type { DropdownProps } from '@wordpress/components/build-types/dropdown/types.js';
+import type { DropdownProps } from '@wordpress/components/build-types/dropdown/types.d.ts';
 
 export type Attributes = Record<string, any>;
 export type SetAttributes = (attributes: Attributes) => void;

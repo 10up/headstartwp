@@ -1,8 +1,7 @@
 import type { GutenbergBlock, ImagePrimitiveValue } from '@headstartwp/block-primitives';
 import Image from '@headstartwp/block-primitives/image';
 import RichText from '@headstartwp/block-primitives/rich-text';
-import { a } from './test.ts';
-import { containerStyle, titleStyle } from './style.css.ts';
+import { containerStyle, titleStyle } from './style.css';
 
 export type HeroAttributes = {
 	title: string;
