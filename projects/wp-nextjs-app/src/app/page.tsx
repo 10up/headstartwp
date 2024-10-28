@@ -1,5 +1,5 @@
-import { HeadstartWPRoute, JSONLD, queryPost } from '@headstartwp/next/app';
-import { Metadata } from 'next';
+import { type HeadstartWPRoute, JSONLD, queryPost } from '@headstartwp/next/app';
+import type { Metadata } from 'next';
 import Blocks from '../components/Blocks';
 
 async function query({ params }: HeadstartWPRoute) {

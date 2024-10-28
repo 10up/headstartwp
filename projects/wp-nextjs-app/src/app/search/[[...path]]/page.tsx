@@ -1,5 +1,6 @@
-import { HeadstartWPRoute, querySearch } from '@headstartwp/next/app';
-import { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { querySearch } from '@headstartwp/next/app';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 async function query({ params }: HeadstartWPRoute) {

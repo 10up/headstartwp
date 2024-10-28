@@ -1,12 +1,7 @@
 import { HtmlDecoder } from '@headstartwp/core/react';
-import {
-	HeadstartWPRoute,
-	JSONLD,
-	loadHeadstartWPConfig,
-	queryPost,
-	queryPosts,
-} from '@headstartwp/next/app';
-import { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { JSONLD, loadHeadstartWPConfig, queryPost, queryPosts } from '@headstartwp/next/app';
+import type { Metadata } from 'next';
 import { removeSourceUrl } from '@headstartwp/core';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';

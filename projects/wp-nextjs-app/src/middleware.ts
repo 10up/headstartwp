@@ -1,5 +1,5 @@
 import { AppMiddleware } from '@headstartwp/next/middlewares';
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export const config = {
 	matcher: [

@@ -1,5 +1,5 @@
 import { queryPosts } from '@headstartwp/next/app';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 export const ServerRelatedPosts: FC<{ post_id: number; category: string }> = async ({
 	post_id,

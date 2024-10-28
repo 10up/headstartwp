@@ -1,7 +1,8 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Link, PreviewIndicator, queryAppSettings, HeadstartWPApp } from '@headstartwp/next/app';
-import { Menu, SettingsContextProps } from '@headstartwp/core/react';
+import type { SettingsContextProps } from '@headstartwp/core/react';
+import { Menu } from '@headstartwp/core/react';
 
 const inter = Inter({ subsets: ['latin'] });
 

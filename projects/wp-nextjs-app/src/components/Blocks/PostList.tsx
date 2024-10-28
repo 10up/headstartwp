@@ -1,4 +1,4 @@
-import { BlockProps } from '@headstartwp/core/react';
+import type { BlockProps } from '@headstartwp/core/react';
 import { queryPosts } from '@headstartwp/next/app';
 import { Suspense } from 'react';
 

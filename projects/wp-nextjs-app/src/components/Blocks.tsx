@@ -1,8 +1,11 @@
-import { BlockFC, BlockProps, BlocksRenderer } from '@headstartwp/core/react';
+import type { BlockFC, BlockProps } from '@headstartwp/core/react';
+import { BlocksRenderer } from '@headstartwp/core/react';
 import React from 'react';
-import { HeadlessConfig, isBlockByName } from '@headstartwp/core';
+import type { HeadlessConfig } from '@headstartwp/core';
+import { isBlockByName } from '@headstartwp/core';
 import { ImageBlock, LinkBlock, TwitterBlock } from '@headstartwp/next/app';
-import { Hero, HeroAttributes } from '@headstartwp/component-library/hero';
+import type { HeroAttributes } from '@headstartwp/component-library/hero';
+import { Hero } from '@headstartwp/component-library/hero';
 
 import { PostList } from './Blocks/PostList';
 
