@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "eslint ."
   },
+  "nextBundleAnalysis": {
+    "budget": 148480,
+    "budgetPercentIncreaseRed": 20,
+    "showDetails": true
+  },
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
