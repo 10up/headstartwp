@@ -8,7 +8,6 @@ exports[`<Block> allow consumers to call setAttributes 1`] = `
     aria-readonly="false"
     class="block-editor-rich-text__editable rich-text"
     contenteditable="true"
-    data-wp-block-attribute-key="0"
     role="textbox"
     style="white-space: pre-wrap; min-width: 1px;"
   >
@@ -29,7 +28,6 @@ exports[`<Block> allow consumers to call setAttributes 2`] = `
     aria-readonly="false"
     class="block-editor-rich-text__editable rich-text"
     contenteditable="true"
-    data-wp-block-attribute-key="0"
     role="textbox"
     style="white-space: pre-wrap; min-width: 1px;"
   >

@@ -8,23 +8,23 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/src/index.d.ts",
-      "default": "./dist/src/index.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./rich-text": {
-      "block-editor": "./dist/src/block-editor/rich-text.js",
-      "types": "./dist/src/primitives/rich-text.d.ts",
-      "default": "./dist/src/primitives/rich-text.js"
+      "block-editor": "./dist/block-editor/rich-text.js",
+      "types": "./dist/primitives/rich-text.d.ts",
+      "default": "./dist/primitives/rich-text.js"
     },
     "./image": {
-      "block-editor": "./dist/src/block-editor/image.js",
-      "types": "./dist/src/primitives/image.d.ts",
-      "default": "./dist/src/primitives/image.js"
+      "block-editor": "./dist/block-editor/image.js",
+      "types": "./dist/primitives/image.d.ts",
+      "default": "./dist/primitives/image.js"
     },
     "./block": {
-      "block-editor": "./dist/src/block-editor/block.js",
-      "types": "./dist/src/primitives/block.d.ts",
-      "default": "./dist/src/primitives/block.js"
+      "block-editor": "./dist/block-editor/block.js",
+      "types": "./dist/primitives/block.d.ts",
+      "default": "./dist/primitives/block.js"
     }
   },
   "imports": {
@@ -61,6 +61,7 @@
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",
     "@wordpress/blob": "^3.53.0",
+    "@wordpress/block-editor": "^12.21.0",
     "@types/jest": "^29.0.3",
     "jest": "^29.0.3",
     "ts-jest": "^29.0.1",
