@@ -1,4 +1,4 @@
-import { getHeadlessConfig, getSite } from '@headstartwp/core';
+import { getHeadstartWPConfig, getSite, getSiteByHost } from '@headstartwp/core';
 import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
 
 /**
@@ -9,20 +9,14 @@ import { GetServerSidePropsContext, GetStaticPropsContext } from 'next';
  */
 export function getSiteFromContext(ctx: GetServerSidePropsContext | GetStaticPropsContext) {
 	const currentSite = ctx?.params?.site;
-	const settings = getHeadlessConfig();
+	const settings = getHeadstartWPConfig();
 
-	const site =
-		settings.sites &&
-		settings.sites.find(({ host, locale }) => {
-			if (ctx.locale) {
-				return host === currentSite && locale === ctx.locale;
-			}
+	if (currentSite && typeof currentSite === 'string') {
+		const site = getSiteByHost(currentSite);
 
-			return host === currentSite;
-		});
-
-	if (site) {
-		return getSite(site);
+		if (site) {
+			return getSite(site);
+		}
 	}
 
 	return settings;

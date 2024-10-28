@@ -144,6 +144,7 @@ describe('getSiteByHost', () => {
 			{
 				sourceUrl: 'https://sourceurl.com/site1',
 				hostUrl: 'https://site1.com',
+				slug: 'site1',
 				locale: 'en',
 			},
 			{
@@ -151,6 +152,7 @@ describe('getSiteByHost', () => {
 				host: 'site2.com',
 				hostUrl: 'https://site2.com',
 				locale: 'es',
+				slug: 'site2',
 			},
 		],
 	};
@@ -178,5 +180,10 @@ describe('getSiteByHost', () => {
 
 		expect(getSiteByHost('site2.com', 'en')).toBeNull();
 		expect(getSiteByHost('site1.com', 'es')).toBeNull();
+	});
+
+	it('find sites by slug', () => {
+		expect(getSiteByHost('site1', 'en')?.sourceUrl).toBe('https://sourceurl.com/site1');
+		expect(getSiteByHost('site2', 'es')?.sourceUrl).toBe('https://sourceurl.com/site2');
 	});
 });

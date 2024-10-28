@@ -1,9 +1,9 @@
-name: ESM Build Test
+name: Build Test
 
 on: [pull_request]
 
 jobs:
-  esm-build-test:
+  build-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,5 +28,5 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm install
-      - name: Build Vite Test Project
-        run: npm run build -- --filter=@headstartwp/vite-react-test
+      - name: Build Projects
+        run: npm run build
