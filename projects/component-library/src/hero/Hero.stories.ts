@@ -29,6 +29,12 @@ export const Primary: Story = {
 				url: 'https://placehold.co/600x400',
 				alt: 'Hero Image',
 			},
+			link: {
+				url: 'https://example.com',
+				text: 'Read more',
+				title: 'Read more',
+				opensInNewTab: true,
+			},
 		},
 	},
 };

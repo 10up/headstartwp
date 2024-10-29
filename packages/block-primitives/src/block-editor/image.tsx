@@ -4,23 +4,26 @@ import { Placeholder, Spinner, ToolbarGroup } from '@wordpress/components';
 import { isBlobURL } from '@wordpress/blob';
 import { ImagePrimitive, ImagePrimitiveValue } from '../shared/types.js';
 import { useBlockPrimitiveProps } from './block.js';
+import FrontEndImagePrimitive from '../primitives/image.js';
 
 /**
  * The Image Block Editor Primitive
  *
  * Expects an attribute of type {@link ImagePrimitiveValue}
  */
-const Image = ({
-	name,
-	onPrimitiveSelect,
-	mediaURL,
-	mediaId,
-	title = 'Edit Media',
-	value,
-	accept = 'image/*,video/*',
-	allowedTypes = ['image'],
-	...rest
-}: ImagePrimitive) => {
+const Image = (props: ImagePrimitive) => {
+	const {
+		name,
+		onPrimitiveSelect,
+		mediaURL,
+		mediaId,
+		title = 'Edit Media',
+		value,
+		accept = 'image/*,video/*',
+		allowedTypes = ['image'],
+		...rest
+	} = props;
+
 	const { attributes, setAttributes } = useBlockPrimitiveProps();
 
 	const defaultOnPrimitive: ImagePrimitive['onPrimitiveSelect'] = (
@@ -35,7 +38,7 @@ const Image = ({
 	};
 
 	const attribute: ImagePrimitiveValue = attributes[name] ?? value ?? {};
-	const { id, url, alt } = attribute;
+	const { id, url } = attribute;
 
 	const isUploading = !id && isBlobURL(url);
 
@@ -68,8 +71,8 @@ const Image = ({
 					)}
 				</Placeholder>
 			) : null}
-			{/* TOOD: Maybe just use the front-end primitive here */}
-			{!isUploading && id ? <img src={url} alt={alt ?? ''} /> : null}
+
+			{!isUploading && id ? <FrontEndImagePrimitive {...props} value={attribute} /> : null}
 		</>
 	);
 };

@@ -1,12 +1,18 @@
-import type { GutenbergBlock, ImagePrimitiveValue } from '@headstartwp/block-primitives';
+import type {
+	GutenbergBlock,
+	ImagePrimitiveValue,
+	LinkPrimitiveValue,
+} from '@headstartwp/block-primitives';
 import Image from '@headstartwp/block-primitives/image';
 import RichText from '@headstartwp/block-primitives/rich-text';
-import { containerStyle, titleStyle } from './style.css';
+import Link from '@headstartwp/block-primitives/link';
+import { containerStyle, titleStyle, linkStyle } from './style.css';
 
 export type HeroAttributes = {
 	title: string;
 	content: string;
 	image: ImagePrimitiveValue;
+	link: LinkPrimitiveValue;
 };
 
 export const Hero = ({ attributes }: GutenbergBlock<HeroAttributes>) => {
@@ -34,6 +40,9 @@ export const Hero = ({ attributes }: GutenbergBlock<HeroAttributes>) => {
 				mediaURL={attributes?.image?.url ?? ''}
 				allowedTypes={['image/jpg']}
 			/>
+
+			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+			<Link name="link" value={attributes.link} className={linkStyle} />
 		</div>
 	);
 };

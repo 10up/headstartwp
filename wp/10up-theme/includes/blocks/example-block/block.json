@@ -16,6 +16,9 @@
     },
     "image": {
       "type": "object"
+    },
+    "link": {
+      "type": "object"
     }
   },
   "example": {

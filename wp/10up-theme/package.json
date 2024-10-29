@@ -21,7 +21,8 @@
   "dependencies": {
     "modern-normalize": "^2.0.0",
     "@headstartwp/block-primitives": "*",
-    "@headstartwp/component-library": "*"
+    "@headstartwp/component-library": "*",
+    "@10up/block-components": "^1.19.3"
   },
   "10up-toolkit": {
     "useBlockAssets": true,

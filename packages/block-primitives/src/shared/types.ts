@@ -111,6 +111,24 @@ export interface RichTextPrimitive<T extends keyof HTMLElementTagNameMap>
 	) => void;
 }
 
+// copied from 10up block components
+
+export interface LinkPrimitiveValue {
+	url: string;
+	opensInNewTab?: boolean;
+	title?: string;
+	text?: string;
+	type?: string;
+	kind?: string;
+}
+
+export interface LinkProps {
+	name: string;
+	value?: LinkPrimitiveValue;
+	placeholder?: string;
+	className?: string;
+}
+
 export interface GutenbergBlock<T extends Record<string, unknown>> {
 	attributes: {
 		[k in keyof T]: T[k];
