@@ -30,6 +30,11 @@
       "block-editor": "./dist/block-editor/block.js",
       "types": "./dist/primitives/block.d.ts",
       "default": "./dist/primitives/block.js"
+    },
+    "./inner-blocks": {
+      "block-editor": "./dist/block-editor/inner-blocks.js",
+      "types": "./dist/primitives/inner-blocks.d.ts",
+      "default": "./dist/primitives/inner-blocks.js"
     }
   },
   "imports": {

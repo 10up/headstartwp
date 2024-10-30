@@ -6,7 +6,8 @@ import type {
 import Image from '@headstartwp/block-primitives/image';
 import RichText from '@headstartwp/block-primitives/rich-text';
 import Link from '@headstartwp/block-primitives/link';
-import { containerStyle, titleStyle, linkStyle } from './style.css';
+import InnerBlocks from '@headstartwp/block-primitives/inner-blocks';
+import { containerStyle, titleStyle, linkStyle, innerBlocksStyle } from './style.css';
 
 export type HeroAttributes = {
 	title: string;
@@ -15,7 +16,7 @@ export type HeroAttributes = {
 	link: LinkPrimitiveValue;
 };
 
-export const Hero = ({ attributes }: GutenbergBlock<HeroAttributes>) => {
+export const Hero = ({ attributes, children }: GutenbergBlock<HeroAttributes>) => {
 	return (
 		<div className={containerStyle}>
 			<RichText
@@ -43,6 +44,8 @@ export const Hero = ({ attributes }: GutenbergBlock<HeroAttributes>) => {
 
 			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
 			<Link name="link" value={attributes.link} className={linkStyle} />
+
+			<InnerBlocks className={innerBlocksStyle}>{children}</InnerBlocks>
 		</div>
 	);
 };

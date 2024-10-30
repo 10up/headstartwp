@@ -1,4 +1,4 @@
-import type { RichText } from '@wordpress/block-editor';
+import type { RichText, InnerBlocks } from '@wordpress/block-editor';
 import type { DropdownProps } from '@wordpress/components/build-types/dropdown/types.d.ts';
 
 export type Attributes = Record<string, any>;
@@ -129,7 +129,13 @@ export interface LinkProps {
 	className?: string;
 }
 
+export interface InnerBlocksProps extends InnerBlocks.Props {
+	children?: React.ReactNode;
+	className?: string;
+}
+
 export interface GutenbergBlock<T extends Record<string, unknown>> {
+	children?: React.ReactNode;
 	attributes: {
 		[k in keyof T]: T[k];
 	};

@@ -9,7 +9,7 @@
  * @var WP_Block $block              Block instance.
  * @var array    $context            Block context.
  */
-
 ?>
 <div <?php echo get_block_wrapper_attributes(); // phpcs:ignore ?>>
+    <?php echo wp_kses_post($content); ?>
 </div>

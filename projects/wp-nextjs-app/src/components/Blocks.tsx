@@ -14,14 +14,14 @@ type BlocksRendererProps = {
 	settings: HeadlessConfig;
 };
 
-const HeroBlock: BlockFC<BlockProps<HeroAttributes>> = ({ block }) => {
+const HeroBlock: BlockFC<BlockProps<HeroAttributes>> = ({ block, children }) => {
 	if (!block) {
 		return null;
 	}
 
 	const { attributes } = block;
 
-	return <Hero attributes={attributes} />;
+	return <Hero attributes={attributes}>{children}</Hero>;
 };
 
 HeroBlock.test = (node) => isBlockByName(node, 'tenup/hero');
