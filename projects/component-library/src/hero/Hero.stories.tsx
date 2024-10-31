@@ -36,5 +36,12 @@ export const Primary: Story = {
 				opensInNewTab: true,
 			},
 		},
+		// inner blocks must be passed as children
+		children: (
+			<ul>
+				<li>Itme 1</li>
+				<li>item 2</li>
+			</ul>
+		),
 	},
 };

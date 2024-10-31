@@ -1,5 +1,5 @@
 import type {
-	GutenbergBlock,
+	UniversalBlock,
 	ImagePrimitiveValue,
 	LinkPrimitiveValue,
 } from '@headstartwp/block-primitives';
@@ -7,8 +7,12 @@ import Image from '@headstartwp/block-primitives/image';
 import RichText from '@headstartwp/block-primitives/rich-text';
 import Link from '@headstartwp/block-primitives/link';
 import InnerBlocks from '@headstartwp/block-primitives/inner-blocks';
+import { FC } from 'react';
 import { containerStyle, titleStyle, linkStyle, innerBlocksStyle } from './style.css';
 
+/**
+ * This is the Universal Block's attributes, i.e the attributes coming from the Gutenberg block
+ */
 export type HeroAttributes = {
 	title: string;
 	content: string;
@@ -16,7 +20,15 @@ export type HeroAttributes = {
 	link: LinkPrimitiveValue;
 };
 
-export const Hero = ({ attributes, children }: GutenbergBlock<HeroAttributes>) => {
+/**
+ * This is the Hero component's props
+ *
+ * It extends UniversalBlock's interface and adds the HeroAttributes, you may add more props that are not attributes,
+ * i.e any props that ar enot controlled by the Gutenberg block itself
+ */
+export interface HeroProps extends UniversalBlock<HeroAttributes> {}
+
+export const Hero: FC<HeroProps> = ({ attributes, children }) => {
 	return (
 		<div className={containerStyle}>
 			<RichText
@@ -45,7 +57,9 @@ export const Hero = ({ attributes, children }: GutenbergBlock<HeroAttributes>) =
 			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
 			<Link name="link" value={attributes.link} className={linkStyle} />
 
-			<InnerBlocks className={innerBlocksStyle}>{children}</InnerBlocks>
+			<InnerBlocks allowedBlocks={['core/list']} className={innerBlocksStyle}>
+				{children}
+			</InnerBlocks>
 		</div>
 	);
 };
