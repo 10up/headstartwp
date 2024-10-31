@@ -1,6 +1,7 @@
-import { ReactNode, createContext, useContext, useMemo } from 'react';
+import React, { ReactNode, createContext, isValidElement, useContext, useMemo } from 'react';
+import { UniversalBlock } from '#shared/types.js';
 
-const BlockPrimitiveContext = createContext<BlockProps>({
+const BlockPrimitiveContext = createContext<UniversalBlockProviderProps>({
 	attributes: {},
 	setAttributes: () => {
 		throw new Error(
@@ -9,7 +10,7 @@ const BlockPrimitiveContext = createContext<BlockProps>({
 	},
 });
 
-type BlockProps = {
+type UniversalBlockProviderProps = {
 	attributes: Record<string, any>;
 	setAttributes: (attributes: Record<string, any>) => void;
 };
@@ -20,12 +21,28 @@ export function useBlockPrimitiveProps() {
 	return props;
 }
 
-const Block = ({ attributes, setAttributes, children }: BlockProps & { children: ReactNode }) => {
+const UniversalBlockProvider = ({
+	attributes,
+	setAttributes,
+	children,
+}: UniversalBlockProviderProps & { children: ReactNode }) => {
 	const value = useMemo(() => ({ setAttributes, attributes }), [attributes, setAttributes]);
+	const blocks: ReactNode[] = React.Children.toArray(children);
 
 	return (
-		<BlockPrimitiveContext.Provider value={value}>{children}</BlockPrimitiveContext.Provider>
+		<BlockPrimitiveContext.Provider value={value}>
+			{blocks.map((block) => {
+				if (isValidElement<UniversalBlock>(block)) {
+					return React.cloneElement(block, {
+						...block.props,
+						attributes,
+					});
+				}
+
+				return block;
+			})}
+		</BlockPrimitiveContext.Provider>
 	);
 };
 
-export default Block;
+export default UniversalBlockProvider;

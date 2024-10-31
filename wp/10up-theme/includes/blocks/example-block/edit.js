@@ -3,7 +3,7 @@
  */
 import { useBlockProps } from '@wordpress/block-editor';
 
-import Block from '@headstartwp/block-primitives/block';
+import UniversalBlockProvider from '@headstartwp/block-primitives/block';
 import { Hero } from '@headstartwp/component-library/hero';
 
 /**
@@ -24,9 +24,9 @@ const ExampleBlockEdit = (props) => {
 
 	return (
 		<div {...blockProps}>
-			<Block attributes={attributes} setAttributes={setAttributes}>
-				<Hero attributes={attributes} />
-			</Block>
+			<UniversalBlockProvider attributes={attributes} setAttributes={setAttributes}>
+				<Hero />
+			</UniversalBlockProvider>
 		</div>
 	);
 };
