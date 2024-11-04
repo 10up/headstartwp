@@ -134,7 +134,7 @@ export interface InnerBlocksProps extends InnerBlocks.Props {
 	className?: string;
 }
 
-export interface UniversalBlock<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface UniversalBlock<T extends Record<string, any> = Record<string, any>> {
 	children?: React.ReactNode;
 	attributes: {
 		[k in keyof T]: T[k];

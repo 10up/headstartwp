@@ -2,9 +2,8 @@
  * WordPress dependencies
  */
 import { useBlockProps } from '@wordpress/block-editor';
-
-import UniversalBlockProvider from '@headstartwp/block-primitives/block';
 import { Hero } from '@headstartwp/component-library/hero';
+import { useBlockPrimitiveProps } from '@headstartwp/block-primitives/hooks';
 
 /**
  * Edit component.
@@ -17,16 +16,13 @@ import { Hero } from '@headstartwp/component-library/hero';
  * @param {Function} props.setAttributes    Sets the value for block attributes.
  * @returns {Function} Render the edit screen
  */
-const ExampleBlockEdit = (props) => {
-	const { attributes, setAttributes } = props;
-
+const ExampleBlockEdit = () => {
 	const blockProps = useBlockProps();
+	const { attributes } = useBlockPrimitiveProps();
 
 	return (
 		<div {...blockProps}>
-			<UniversalBlockProvider attributes={attributes} setAttributes={setAttributes}>
-				<Hero />
-			</UniversalBlockProvider>
+			<Hero attributes={attributes} />
 		</div>
 	);
 };

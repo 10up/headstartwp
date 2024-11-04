@@ -26,10 +26,10 @@
       "types": "./dist/primitives/link.d.ts",
       "default": "./dist/primitives/link.js"
     },
-    "./block": {
-      "block-editor": "./dist/block-editor/block.js",
-      "types": "./dist/primitives/block.d.ts",
-      "default": "./dist/primitives/block.js"
+    "./hooks": {
+      "block-editor": "./dist/block-editor/hooks/index.js",
+      "types": "./dist/block-editor/hooks/index.d.js",
+      "default": "./dist/block-editor/hooks/index.js"
     },
     "./inner-blocks": {
       "block-editor": "./dist/block-editor/inner-blocks.js",

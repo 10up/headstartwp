@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { LinkProps } from '#shared/types.js';
 
-const Link: FC<LinkProps> = ({ className, value }) => {
+export const Link: FC<LinkProps> = ({ className, value }) => {
 	if (typeof value === 'undefined') {
 		return null;
 	}
@@ -18,5 +18,3 @@ const Link: FC<LinkProps> = ({ className, value }) => {
 		</a>
 	);
 };
-
-export default Link;

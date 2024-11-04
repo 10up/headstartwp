@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import RichText from '../rich-text.js';
+import { RichText } from '../rich-text.js';
 
 describe('RichText', () => {
 	it('render to a native html elements', () => {

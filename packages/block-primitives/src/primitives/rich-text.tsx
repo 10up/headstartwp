@@ -1,6 +1,6 @@
 import type { RichTextPrimitive } from '#shared/types.ts';
 
-const RichText = <T extends keyof HTMLElementTagNameMap>({
+export const RichText = <T extends keyof HTMLElementTagNameMap>({
 	tagName,
 	className,
 	value,
@@ -13,5 +13,3 @@ const RichText = <T extends keyof HTMLElementTagNameMap>({
 
 	return <Tag className={className} dangerouslySetInnerHTML={{ __html: value }} />;
 };
-
-export default RichText;

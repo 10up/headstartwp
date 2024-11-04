@@ -1,8 +1,8 @@
 import { RichText as GutenbergRichText } from '@wordpress/block-editor';
 import { RichTextPrimitive } from '#shared/types.js';
-import { useBlockPrimitiveProps } from './block.js';
+import { useBlockPrimitiveProps } from './hooks/useBlockPrimitiveProps.js';
 
-const RichText = <T extends keyof HTMLElementTagNameMap>({
+export const RichText = <T extends keyof HTMLElementTagNameMap>({
 	onPrimitiveChange,
 	name,
 	value,
@@ -14,9 +14,17 @@ const RichText = <T extends keyof HTMLElementTagNameMap>({
 		_setAttributes({ [_name]: _value });
 	const _onPrimitiveChange = onPrimitiveChange ?? defaultOnPrimitive;
 
-	const onChange = (value) => _onPrimitiveChange(name, value, setAttributes, attributes);
+	const onChange = (value) => {
+		if (attributes) {
+			_onPrimitiveChange(name, value, setAttributes, attributes);
+		}
+	};
 
-	return <GutenbergRichText onChange={onChange} value={attributes[name] ?? value} {...rest} />;
+	return (
+		<GutenbergRichText
+			onChange={onChange}
+			value={!attributes ? '' : attributes[name] ?? value}
+			{...rest}
+		/>
+	);
 };
-
-export default RichText;

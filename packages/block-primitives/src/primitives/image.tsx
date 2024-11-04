@@ -1,6 +1,6 @@
 import { ImagePrimitive } from '../shared/types.js';
 
-const Image = ({ value }: ImagePrimitive) => {
+export const Image = ({ value }: ImagePrimitive) => {
 	if (typeof value === 'undefined') {
 		return null;
 	}
@@ -9,5 +9,3 @@ const Image = ({ value }: ImagePrimitive) => {
 
 	return <img src={url} alt={alt ?? ''} />;
 };
-
-export default Image;

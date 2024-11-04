@@ -3,10 +3,10 @@ import type {
 	ImagePrimitiveValue,
 	LinkPrimitiveValue,
 } from '@headstartwp/block-primitives';
-import Image from '@headstartwp/block-primitives/image';
-import RichText from '@headstartwp/block-primitives/rich-text';
-import Link from '@headstartwp/block-primitives/link';
-import InnerBlocks from '@headstartwp/block-primitives/inner-blocks';
+import { Image } from '@headstartwp/block-primitives/image';
+import { RichText } from '@headstartwp/block-primitives/rich-text';
+import { Link } from '@headstartwp/block-primitives/link';
+import { InnerBlocks } from '@headstartwp/block-primitives/inner-blocks';
 import { FC } from 'react';
 import { containerStyle, titleStyle, linkStyle, innerBlocksStyle } from './style.css';
 
