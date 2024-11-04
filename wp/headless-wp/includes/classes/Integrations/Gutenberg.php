@@ -30,8 +30,8 @@ class Gutenberg {
 	 * @return int
 	 */
 	protected function get_image_by_url( $url ) {
-		if ( function_exists( '\wpcom_vip_url_to_postid' ) ) {
-			return \wpcom_vip_url_to_postid( $url );
+		if ( function_exists( '\wpcom_vip_attachment_url_to_postid' ) ) {
+			return \wpcom_vip_attachment_url_to_postid( $url );
 		}
 
 		$cache_key = sprintf( 'get_image_by_%s', md5( $url ) );
@@ -74,8 +74,12 @@ class Gutenberg {
 
 		if ( $doc->next_tag( 'img' ) ) {
 			$src = $doc->get_attribute( 'src' );
-			// check if $src is a image hosted in the current wp install
-			if ( strpos( $src, get_site_url() ) !== false && empty( $block['attrs']['id'] ) ) {
+
+			$src_check = str_replace( 'http://', 'https://', $src );
+			$site_url  = str_replace( 'http://', 'https://', get_site_url() );
+
+			// check if $src is a image hosted in the current wp install and block has no ID
+			if ( str_contains( $src_check, $site_url ) && empty( $block['attrs']['id'] ) ) {
 				$image_id = $this->get_image_by_url( $src );
 
 				if ( $image_id ) {
