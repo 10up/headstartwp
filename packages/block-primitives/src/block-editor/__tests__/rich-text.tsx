@@ -1,12 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { RichText } from '../rich-text.js';
-
 import * as WrapperModule from '../hooks/useBlockPrimitiveProps.js';
 
 describe('RichText', () => {
 	let attributes = {};
-	const setAttributes = jest.fn((newAttributes) => {
+	const setAttributes = jest.fn((newAttributes: Record<string, any>) => {
 		attributes = { ...attributes, ...newAttributes };
 		return attributes;
 	});
