@@ -3,7 +3,6 @@
  */
 import { useBlockProps } from '@wordpress/block-editor';
 import { Hero } from '@headstartwp/component-library/hero';
-import { useBlockPrimitiveProps } from '@headstartwp/block-primitives/hooks';
 
 /**
  * Edit component.
@@ -16,9 +15,8 @@ import { useBlockPrimitiveProps } from '@headstartwp/block-primitives/hooks';
  * @param {Function} props.setAttributes    Sets the value for block attributes.
  * @returns {Function} Render the edit screen
  */
-const ExampleBlockEdit = () => {
+const ExampleBlockEdit = ({ attributes }) => {
 	const blockProps = useBlockProps();
-	const { attributes } = useBlockPrimitiveProps();
 
 	return (
 		<div {...blockProps}>
