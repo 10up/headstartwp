@@ -1,11 +1,16 @@
+// @ts-expect-error
+import NextImage from 'next/image';
 import { ImagePrimitive } from '../shared/types.js';
 
-export const Image = ({ value }: ImagePrimitive) => {
+export const Image = ({ value, size }: ImagePrimitive) => {
 	if (typeof value === 'undefined') {
 		return null;
 	}
 
-	const { url, alt } = value;
+	const imageSize = size ? value.sizes[size] ?? value : value;
 
-	return <img src={url} alt={alt ?? ''} />;
+	const { url, width, height } = imageSize;
+	const { alt } = value;
+
+	return <NextImage src={url} width={width} height={height} alt={alt} />;
 };

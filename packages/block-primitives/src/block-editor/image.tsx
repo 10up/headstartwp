@@ -3,8 +3,20 @@ import { BlockControls, MediaReplaceFlow } from '@wordpress/block-editor';
 import { Placeholder, Spinner, ToolbarGroup } from '@wordpress/components';
 import { isBlobURL } from '@wordpress/blob';
 import { ImagePrimitive, ImagePrimitiveValue } from '../shared/types.js';
-import { Image as FrontEndImagePrimitive } from '../primitives/image.js';
 import { useBlockPrimitiveProps } from './hooks/useBlockPrimitiveProps.js';
+
+export const ImagePreview = ({ value, size }: ImagePrimitive) => {
+	if (typeof value === 'undefined') {
+		return null;
+	}
+
+	const imageSize = size ? value.sizes[size] ?? value : value;
+
+	const { url, width, height } = imageSize;
+	const { alt } = value;
+
+	return <img src={url} width={width} height={height} alt={alt} />;
+};
 
 /**
  * The Image Block Editor Primitive
@@ -24,15 +36,23 @@ export const Image = (props: ImagePrimitive) => {
 		...rest
 	} = props;
 
-	const defaultImageValue: ImagePrimitiveValue = { id: 0, url: '', alt: '' };
+	const defaultImageValue: ImagePrimitiveValue = {
+		id: 0,
+		url: '',
+		alt: '',
+		title: '',
+		width: 0,
+		height: 0,
+		sizes: {},
+	};
 	const value = _value ?? defaultImageValue;
 	const { attributes, setAttributes } = useBlockPrimitiveProps();
 
 	const defaultOnPrimitive: ImagePrimitive['onPrimitiveSelect'] = (
 		_name,
-		{ id, url, alt },
+		{ id, url, alt, width, title, height, sizes },
 		_setAttributes,
-	) => _setAttributes({ [_name]: { id, url, alt } });
+	) => _setAttributes({ [_name]: { id, url, alt, title, width, height, sizes } });
 	const _onPrimitiveSelect = onPrimitiveSelect ?? defaultOnPrimitive;
 
 	const onSelect: MediaReplaceFlow['onSelect'] = (value) => {
@@ -76,7 +96,7 @@ export const Image = (props: ImagePrimitive) => {
 				</Placeholder>
 			) : null}
 
-			{!isUploading && id ? <FrontEndImagePrimitive {...props} value={attribute} /> : null}
+			{!isUploading && id ? <ImagePreview {...props} value={attribute} /> : null}
 		</>
 	);
 };

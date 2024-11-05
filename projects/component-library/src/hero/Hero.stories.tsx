@@ -28,6 +28,10 @@ export const Primary: Story = {
 				id: 1,
 				url: 'https://placehold.co/600x400',
 				alt: 'Hero Image',
+				width: 600,
+				height: 400,
+				sizes: {},
+				title: 'Hero Image',
 			},
 			link: {
 				url: 'https://example.com',

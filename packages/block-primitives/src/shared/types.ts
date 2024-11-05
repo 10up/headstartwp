@@ -44,6 +44,23 @@ export type ImagePrimitiveValue = {
 	 * Image alt text
 	 */
 	alt: string;
+
+	/**
+	 * The image title
+	 */
+	title: string;
+
+	/**
+	 * The width of the image
+	 */
+	width: number;
+
+	/**
+	 * The height of the image
+	 */
+	height: number;
+
+	sizes: Record<string, { url: string; width: number; height: number; orientantion: string }>;
 };
 
 /**
@@ -64,6 +81,11 @@ export interface ImagePrimitive extends Omit<MediaReplaceFlow, 'onSelect'> {
 	 * The actual value
 	 */
 	value?: ImagePrimitiveValue;
+
+	/**
+	 * Which size to use
+	 */
+	size?: string;
 
 	/**
 	 * Optional custom onSelect handler
@@ -127,6 +149,9 @@ export interface LinkProps {
 	value?: LinkPrimitiveValue;
 	placeholder?: string;
 	className?: string;
+	replace?: boolean;
+	scroll?: boolean;
+	prefetch?: boolean | null;
 }
 
 export interface InnerBlocksProps extends InnerBlocks.Props {
