@@ -1,12 +1,10 @@
-import type { BlockFC, BlockProps } from '@headstartwp/core/react';
 import { BlocksRenderer } from '@headstartwp/core/react';
 import React from 'react';
 import type { HeadlessConfig } from '@headstartwp/core';
 import { isBlockByName } from '@headstartwp/core';
-import { ImageBlock, LinkBlock, TwitterBlock } from '@headstartwp/next/app';
-import type { HeroAttributes } from '@headstartwp/component-library/hero';
+import { ImageBlock, LinkBlock, queryAppSettings, TwitterBlock } from '@headstartwp/next/app';
 import { Hero } from '@headstartwp/component-library/hero';
-
+import { UniversalBlockRenderer } from '@headstartwp/block-primitives/renderer';
 import { PostList } from './Blocks/PostList';
 
 type BlocksRendererProps = {
@@ -14,29 +12,28 @@ type BlocksRendererProps = {
 	settings: HeadlessConfig;
 };
 
-const HeroBlock: BlockFC<BlockProps<HeroAttributes>> = ({ block, children }) => {
-	if (!block) {
-		return null;
-	}
-
-	const { attributes } = block;
-
-	return <Hero attributes={attributes}>{children}</Hero>;
-};
-
-HeroBlock.test = (node) => isBlockByName(node, 'tenup/hero');
-
-const Blocks: React.FC<BlocksRendererProps> = ({ html, settings }) => {
+const Blocks: React.FC<BlocksRendererProps> = async ({ html, settings }) => {
 	// we need to pass settings as a prop since there's no context in server components
 	// and BlocksRenderer needs the settings for the LinkBlock
 	// the settings is automatically passed to the children components via blockContext
+	const { data } = await queryAppSettings();
+
 	return (
-		<BlocksRenderer forwardBlockAttributes html={html} settings={settings}>
+		<BlocksRenderer
+			forwardBlockAttributes
+			html={html}
+			settings={settings}
+			blockContext={{ themeJSON: data['theme.json'] }}
+		>
 			<ImageBlock />
 			<PostList test={(node) => isBlockByName(node, 'core/query')} />
 			<TwitterBlock />
 			<LinkBlock />
-			<HeroBlock />
+			<UniversalBlockRenderer
+				component={Hero}
+				test={(node) => isBlockByName(node, 'tenup/hero')}
+				componentProps={{ testprop22asd: 'test' }}
+			/>
 		</BlocksRenderer>
 	);
 };

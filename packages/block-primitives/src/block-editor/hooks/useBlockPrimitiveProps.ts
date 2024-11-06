@@ -3,16 +3,16 @@ import { useCallback } from 'react';
 import { useBlockEditContext } from '@wordpress/block-editor';
 import { select, dispatch } from '@wordpress/data';
 
-export function useBlockPrimitiveProps() {
+export function useBlockPrimitiveProps<Attrs extends Record<string, any>>() {
 	const { clientId, isSelected } = useBlockEditContext();
 
 	const attributes = select('core/block-editor').getBlockAttributes(clientId) ?? {};
 	const setAttributes = useCallback(
-		(newAttributes: Record<string, any>) => {
+		(newAttributes: Attrs) => {
 			dispatch('core/block-editor').updateBlockAttributes(clientId, newAttributes);
 		},
 		[clientId],
 	);
 
-	return { clientId, isSelected, attributes, setAttributes };
+	return { clientId, isSelected, attributes: attributes as Attrs, setAttributes };
 }

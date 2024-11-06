@@ -3,6 +3,7 @@
  */
 import { useBlockProps } from '@wordpress/block-editor';
 import { Hero } from '@headstartwp/component-library/hero';
+import { UniversalBlockRenderer } from '@headstartwp/block-primitives/renderer';
 
 /**
  * Edit component.
@@ -15,12 +16,12 @@ import { Hero } from '@headstartwp/component-library/hero';
  * @param {Function} props.setAttributes    Sets the value for block attributes.
  * @returns {Function} Render the edit screen
  */
-const ExampleBlockEdit = ({ attributes }) => {
+const ExampleBlockEdit = () => {
 	const blockProps = useBlockProps();
 
 	return (
 		<div {...blockProps}>
-			<Hero attributes={attributes} />
+			<UniversalBlockRenderer component={Hero} />
 		</div>
 	);
 };

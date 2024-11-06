@@ -4,19 +4,7 @@ import { Placeholder, Spinner, ToolbarGroup } from '@wordpress/components';
 import { isBlobURL } from '@wordpress/blob';
 import { ImagePrimitive, ImagePrimitiveValue } from '../shared/types.js';
 import { useBlockPrimitiveProps } from './hooks/useBlockPrimitiveProps.js';
-
-export const ImagePreview = ({ value, size }: ImagePrimitive) => {
-	if (typeof value === 'undefined') {
-		return null;
-	}
-
-	const imageSize = size ? value.sizes[size] ?? value : value;
-
-	const { url, width, height } = imageSize;
-	const { alt } = value;
-
-	return <img src={url} width={width} height={height} alt={alt} />;
-};
+import { RawImage } from '../shared/raw-image.js';
 
 /**
  * The Image Block Editor Primitive
@@ -96,7 +84,7 @@ export const Image = (props: ImagePrimitive) => {
 				</Placeholder>
 			) : null}
 
-			{!isUploading && id ? <ImagePreview {...props} value={attribute} /> : null}
+			{!isUploading && id ? <RawImage {...props} value={attribute} /> : null}
 		</>
 	);
 };

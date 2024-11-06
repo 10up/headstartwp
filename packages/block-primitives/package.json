@@ -11,6 +11,11 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./renderer": {
+      "block-editor": "./dist/block-editor/renderer.js",
+      "types": "./dist/primitives/renderer.d.ts",
+      "default": "./dist/primitives/renderer.js"
+    },
     "./rich-text": {
       "block-editor": "./dist/block-editor/rich-text.js",
       "types": "./dist/primitives/rich-text.d.ts",

@@ -1,3 +1,4 @@
+import { HeadlessConfig } from '@headstartwp/core';
 import type { RichText, InnerBlocks } from '@wordpress/block-editor';
 import type { DropdownProps } from '@wordpress/components/build-types/dropdown/types.d.ts';
 
@@ -164,4 +165,6 @@ export interface UniversalBlock<T extends Record<string, any> = Record<string, a
 	attributes: {
 		[k in keyof T]: T[k];
 	};
+	settings?: HeadlessConfig;
+	themeJSON?: Record<string, any>;
 }
