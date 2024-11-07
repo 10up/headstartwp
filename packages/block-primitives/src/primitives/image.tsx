@@ -6,7 +6,7 @@ import { RawImage } from '../shared/raw-image.js';
 
 type NextImageProps = React.ComponentProps<typeof NextImage>;
 
-export const Image: FC<ImagePrimitive & { nextProps: NextImageProps }> = ({
+export const Image: FC<ImagePrimitive & { nextProps?: NextImageProps }> = ({
 	value,
 	size,
 	...props
