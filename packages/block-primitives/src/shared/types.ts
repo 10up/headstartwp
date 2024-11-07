@@ -153,6 +153,10 @@ export interface LinkProps {
 	replace?: boolean;
 	scroll?: boolean;
 	prefetch?: boolean | null;
+	linkSettings?: {
+		sourceUrl?: string;
+		hostUrl?: string;
+	};
 }
 
 export interface InnerBlocksProps extends InnerBlocks.Props {

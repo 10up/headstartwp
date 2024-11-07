@@ -3,13 +3,16 @@ import { HeadlessConfig } from '../../types';
 import { getHeadstartWPConfig, getObjectProperty, getWPUrl } from '../../utils';
 import { AppEntity, MenuItemEntity } from '../types';
 import { QueryProps } from './types';
+import { ThemeJSON } from '../../react/provider/types';
+
+export type BlockSettingQuery = {
+	blockName?: string;
+	setting: string;
+};
 
 export type AppQueryProps<P extends EndpointParams> = QueryProps<P> & {
 	menu?: string;
-	blockSetting?: {
-		blockName?: string;
-		setting: string;
-	};
+	blockSetting?: BlockSettingQuery;
 };
 
 export type AppQueryResult<T> = {
@@ -50,6 +53,18 @@ export function flatToHierarchical(flat: MenuItemEntity[]): MenuItemEntity[] {
 	return roots;
 }
 
+export function getThemeSetting(
+	themeSettings: ThemeJSON['settings'],
+	blockSetting: BlockSettingQuery,
+) {
+	return blockSetting?.blockName
+		? getObjectProperty(
+				themeSettings,
+				`blocks.${blockSetting?.blockName}.${blockSetting.setting}`,
+			)
+		: getObjectProperty(themeSettings, blockSetting.setting);
+}
+
 export async function fetchAppSettings<
 	T extends AppEntity = AppEntity,
 	P extends EndpointParams = EndpointParams,
@@ -69,19 +84,16 @@ export async function fetchAppSettings<
 		options,
 	);
 
+	const themeSettings = data.result['theme.json'].settings;
+
 	const result: AppQueryResult<T> = { data: data.result };
 
 	if (menu && data.result.menus[menu]) {
 		result.menu = flatToHierarchical(data.result.menus[menu]);
 	}
 
-	if (blockSetting && data['theme.json']) {
-		const blockSettingValue = blockSetting?.blockName
-			? getObjectProperty(
-					data.result['theme.json'],
-					`blocks.${blockSetting?.blockName}.${blockSetting.setting}`,
-				)
-			: getObjectProperty(result.data['theme.json'], blockSetting.setting);
+	if (blockSetting && themeSettings) {
+		const blockSettingValue = getThemeSetting(themeSettings, blockSetting);
 
 		if (blockSettingValue) {
 			result.blockSettingValue = blockSettingValue;

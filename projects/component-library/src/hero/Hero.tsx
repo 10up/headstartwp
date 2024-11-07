@@ -28,7 +28,7 @@ export type HeroAttributes = {
  */
 export interface HeroProps extends UniversalBlock<HeroAttributes> {}
 
-export const Hero: FC<HeroProps> = ({ attributes, children }) => {
+export const Hero: FC<HeroProps> = ({ attributes, children, settings }) => {
 	return (
 		<div className={containerStyle}>
 			<RichText
@@ -55,7 +55,12 @@ export const Hero: FC<HeroProps> = ({ attributes, children }) => {
 			/>
 
 			{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-			<Link name="link" value={attributes.link} className={linkStyle} />
+			<Link
+				name="link"
+				value={attributes.link}
+				className={linkStyle}
+				linkSettings={{ sourceUrl: settings?.sourceUrl, hostUrl: settings?.hostUrl }}
+			/>
 
 			<InnerBlocks allowedBlocks={['core/list']} className={innerBlocksStyle}>
 				{children}

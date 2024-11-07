@@ -27,10 +27,11 @@ export const UniversalBlockRenderer = <Attrs extends IDataWPBlock>({
 			<Component
 				attributes={attributes}
 				themeJSON={__experimentalFeatures}
+				settings={{}}
 				{...componentProps}
 			/>
 		);
 	}
 
-	return <Component attributes={attributes} themeJSON={__experimentalFeatures} />;
+	return <Component attributes={attributes} themeJSON={__experimentalFeatures} settings={{}} />;
 };
