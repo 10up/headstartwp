@@ -290,6 +290,7 @@ export class SinglePostFetchStrategy<
 						headers: {
 							[this.getPreviewHeaderName(options)]: authHeader,
 						},
+						cache: 'no-store',
 					},
 					burstCache,
 				);

@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import type { HeadlessConfig } from '../../types';
 import type { IImageBlock } from '../blocks/ImageBlock';
 
 export type SettingsContextProps = {
-	linkComponent?: ReactNode;
+	linkComponent?: React.FC<any>;
 	imageComponent?: React.FC<IImageBlock>;
 } & HeadlessConfig;
 

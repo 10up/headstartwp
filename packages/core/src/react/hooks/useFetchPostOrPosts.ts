@@ -12,7 +12,7 @@ import { useFetchPost } from './useFetchPost';
 import { useFetchPosts } from './useFetchPosts';
 
 export interface usePostOrPostResponse<T extends PostEntity = PostEntity> extends HookResponse {
-	data?: { post?: T; posts?: T[] };
+	data: { post?: T; posts?: T[] };
 	isSingle: boolean;
 	isArchive: boolean;
 }

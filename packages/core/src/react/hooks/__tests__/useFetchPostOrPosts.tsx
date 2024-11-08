@@ -14,16 +14,27 @@ describe('useFetchPostOrPosts', () => {
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider
+					settings={{ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true }}
+				>
+					{children}
+				</SettingsProvider>
 			</SWRConfig>
 		);
 	};
 
 	const wrapperWithCache = ({ children }) => {
-		return <SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>;
+		return (
+			<SettingsProvider
+				settings={{ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true }}
+			>
+				{children}
+			</SettingsProvider>
+		);
 	};
 
 	setHeadstartWPConfig({
+		sourceUrl: 'https://js1.10up.com',
 		useWordPressPlugin: true,
 	});
 

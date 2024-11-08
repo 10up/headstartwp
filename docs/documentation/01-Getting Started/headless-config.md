@@ -43,6 +43,14 @@ module.exports = {
 };
 ```
 
+## Splitting client/server config
+
+You can split the config between a client and a server config. This is needed when you're setting up [cache handler](/learn/data-fetching/caching/).
+
+Simply create a `headstartwp.config.client.js` and a `headstartwp.config.server.js` file and HeadstartWP will pick them up and inject on the appropriate bundle.
+
+We recommend `headstartwp.config.client.js` to be the source of truth and that you import it in the server config and make only the changes needed.
+
 ## sourceUrl
 
 The `sourceUrl` option should point to a valid WordPress installation from where the headless site should be sourced to.
@@ -253,3 +261,7 @@ module.exports = {
 ```
 
 More for info check out the [preview docs](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).
+
+## cache
+
+See [caching](/learn/data-fetching/caching/) docs.

@@ -1,6 +1,6 @@
 import { isTwitterEmbed } from '@headstartwp/core';
 import { IBlock, IBlockAttributes } from '@headstartwp/core/react';
-import Script from 'next/script';
+import Script from 'next/script.js';
 
 /**
  * Renders a twitter embed
@@ -32,12 +32,4 @@ export function TwitterBlock({ children }: Omit<IBlock<IBlockAttributes>, 'compo
 	);
 }
 
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace TwitterBlock {
-	export const defaultProps = {
-		test: (node) => isTwitterEmbed(node),
-	};
-}
+TwitterBlock.test = (node) => isTwitterEmbed(node);

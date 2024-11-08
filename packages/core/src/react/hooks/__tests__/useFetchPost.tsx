@@ -3,17 +3,23 @@ import * as React from 'react';
 import { expectTypeOf } from 'expect-type';
 import { SWRConfig } from 'swr';
 import { DRAFT_POST_ID, VALID_AUTH_TOKEN } from '../../../../test/server';
-import { PostEntity, PostParams } from '../../../data';
+import { PageInfo, PostEntity, PostParams, QueriedObject } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
+import { setHeadstartWPConfig } from '../../../utils';
 
 describe('useFetchPost', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true });
+	});
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider settings={{ sourceUrl: 'https://js1.10up.com' }}>
+					{children}
+				</SettingsProvider>
 			</SWRConfig>
 		);
 	};
@@ -58,7 +64,7 @@ describe('useFetchPost', () => {
 			wrapper,
 		});
 
-		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery'];
+		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery', 'mutate'];
 		const returnedKeys = Object.keys(result.current);
 		const missingKeys = returnedKeys.filter((key) => !expectedKeys.includes(key));
 
@@ -240,14 +246,7 @@ describe('useFetchPost', () => {
 	it('reads param from the url and sets isMainQuery flag', async () => {
 		const { result } = renderHook(
 			() =>
-				useFetchPost(
-					{
-						fullPath:
-							'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
-					},
-					{},
-					'/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
-				),
+				useFetchPost({}, {}, '/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto/'),
 			{
 				wrapper,
 			},
@@ -320,16 +319,7 @@ describe('useFetchPost', () => {
 
 	it('matches post.link with fullPath when set', async () => {
 		const { result } = renderHook(
-			() =>
-				useFetchPost(
-					{
-						// force post path mapping against this path
-						fullPath:
-							'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto',
-					},
-					{},
-					'/modi-qui-dignissimos-sed-assumenda-sint-iusto',
-				),
+			() => useFetchPost({}, {}, '/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto'),
 			{
 				wrapper,
 			},
@@ -340,6 +330,36 @@ describe('useFetchPost', () => {
 			expect(result.current.data?.post.slug).toBe(
 				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
 			);
+		});
+	});
+
+	it('mutates data properly', async () => {
+		const { result } = renderHook(
+			() => useFetchPost({ slug: 'modi-qui-dignissimos-sed-assumenda-sint-iusto' }),
+			{ wrapper },
+		);
+
+		await waitFor(() =>
+			expect(result.current.data?.post.slug).toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			),
+		);
+
+		const oldPost = { ...result.current.data?.post } as PostEntity;
+
+		await waitFor(() => {
+			result.current.mutate({
+				result: { ...oldPost, slug: 'new-slug' },
+				pageInfo: result.current.data?.pageInfo as PageInfo,
+				queriedObject: result.current.data?.queriedObject as QueriedObject,
+			});
+		});
+
+		await waitFor(() => {
+			expect(result.current.data?.post.slug).not.toBe(
+				'modi-qui-dignissimos-sed-assumenda-sint-iusto',
+			);
+			expect(result.current.data?.post.slug).toBe('new-slug');
 		});
 	});
 });

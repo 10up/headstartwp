@@ -1,4 +1,4 @@
-import { AppEntity } from '../types';
+import { Entity } from '../types';
 import { AbstractFetchStrategy, EndpointParams, FetchOptions } from './AbstractFetchStrategy';
 import { endpoints } from '../utils';
 
@@ -10,15 +10,30 @@ export interface VerifyTokenParams extends EndpointParams {
 }
 
 /**
+ * The TokenEntity represents a token issued by the headless wp plugin
+ */
+export interface TokenEntity extends Entity {
+	/**
+	 * The path that the token was issued for
+	 */
+	path: string;
+
+	/**
+	 * The post_id that the token was issued for
+	 */
+	post_id: number;
+}
+
+/**
  * The Verify Token strategy is used to verify tokens issued by the
  * headless wp plugin
  *
  * @category Data Fetching
  */
 export class VerifyTokenFetchStrategy extends AbstractFetchStrategy<
-	AppEntity,
-	EndpointParams,
-	AppEntity
+	TokenEntity,
+	VerifyTokenParams,
+	TokenEntity
 > {
 	getDefaultEndpoint(): string {
 		return endpoints.tokenVerify;

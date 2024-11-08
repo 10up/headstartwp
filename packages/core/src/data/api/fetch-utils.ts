@@ -1,9 +1,5 @@
 import { LOGTYPE, addQueryArgs, getHeadlessConfig, log } from '../../utils';
 
-export const getAuthHeader = () => {
-	return null;
-};
-
 /**
  * Fetch Wrapper to handle POST requests
  *
@@ -51,7 +47,7 @@ export const apiGet = async (
 	const queryArgs = burstCache
 		? {
 				cacheTime: new Date().getTime(),
-		  }
+			}
 		: {};
 
 	const config = getHeadlessConfig();

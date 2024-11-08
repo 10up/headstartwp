@@ -10,5 +10,5 @@ export function convertToPath(args: string[] | undefined) {
 		return '/';
 	}
 
-	return `/${args.join('/')}`;
+	return `/${args.filter((a) => a.length > 0).join('/')}`;
 }

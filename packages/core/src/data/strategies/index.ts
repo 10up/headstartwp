@@ -8,3 +8,4 @@ export * from './TaxonomyTermsStrategy';
 export * from './AuthorArchiveFetchStrategy';
 export * from './VerifyTokenFetchStrategy';
 export * from './PostOrPostsFetchStrategy';
+export * from './executeFetchStrategy';

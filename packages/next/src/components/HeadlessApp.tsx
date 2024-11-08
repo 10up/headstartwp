@@ -7,7 +7,7 @@ import {
 } from '@headstartwp/core/react';
 import type { SettingsContextProps } from '@headstartwp/core/react';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router.js';
 import { getSiteByHost } from '@headstartwp/core';
 import { Yoast } from './Yoast';
 import { seoKey } from '../data/hooks/useSeo';
@@ -101,7 +101,12 @@ export function HeadlessApp({
 	useYoastHtml = false,
 	handleYoast = true,
 }: HeadlessAppProps) {
-	const { fallback = {}, seo = {}, themeJSON = { settings: {}, styles: {} } } = pageProps;
+	const {
+		fallback = {},
+		seo = {},
+		themeJSON = { settings: {}, styles: {} },
+		__headstartwp_site = '',
+	} = pageProps;
 	const router = useRouter();
 
 	// if preview mode disable revalidating
@@ -116,12 +121,15 @@ export function HeadlessApp({
 	}
 
 	const currentSite = useMemo(() => {
+		if (__headstartwp_site) {
+			return getSiteByHost(__headstartwp_site, router.locale);
+		}
 		if (router.query?.site && !Array.isArray(router.query.site)) {
 			return getSiteByHost(router.query.site, router.locale);
 		}
 
 		return {};
-	}, [router]);
+	}, [router, __headstartwp_site]);
 
 	const siteSettings = useMemo(() => ({ ...settings, ...currentSite }), [settings, currentSite]);
 

@@ -1,4 +1,4 @@
-import { FetchResponse } from '@headstartwp/core';
+import { FetchResponse, YoastJSON } from '@headstartwp/core';
 import { addHookData, HookState } from '../addHookData';
 
 const sampleThemeJson = {
@@ -8,7 +8,13 @@ const sampleThemeJson = {
 const sampleYoast = {
 	title: 'test',
 	description: 'test',
-};
+	robots: {
+		index: 'index',
+		follow: 'follow',
+	},
+	canonical: 'https://example.com',
+} satisfies YoastJSON;
+
 const sampleResult = {
 	id: 0,
 	_embedded: {
@@ -59,6 +65,7 @@ describe('addHookData', () => {
 					pageInfo: { ...samplePageInfo },
 				},
 				isMainQuery: true,
+				hostOrSlug: 'mainsite',
 			},
 			{
 				key: 'second-key',
@@ -68,10 +75,12 @@ describe('addHookData', () => {
 					pageInfo: { ...samplePageInfo },
 				},
 				isMainQuery: false,
+				hostOrSlug: 'site2',
 			},
 		];
 		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
+				__headstartwp_site: 'mainsite',
 				fallback: {
 					'first-key': {
 						result: {
@@ -114,6 +123,7 @@ describe('addHookData', () => {
 					pageInfo: samplePageInfo,
 				},
 				isMainQuery: false,
+				hostOrSlug: 'site2',
 			},
 		];
 
@@ -129,6 +139,7 @@ describe('addHookData', () => {
 
 		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
+				__headstartwp_site: 'site2',
 				fallback: {
 					'first-key': {
 						queriedObject: {},

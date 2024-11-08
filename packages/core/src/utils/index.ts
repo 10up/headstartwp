@@ -8,3 +8,4 @@ export * from './isInternalLink';
 export * from './url';
 export * from './log';
 export * from './decodeHtmlSpeciaChars';
+export * from './getObjectProperty';

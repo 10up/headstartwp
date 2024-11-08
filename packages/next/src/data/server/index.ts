@@ -3,3 +3,4 @@ export * from '../convertToPath';
 export * from './fetchHookData';
 export * from './getSiteFromContext';
 export * from './handleError';
+export * from './withSiteContext';

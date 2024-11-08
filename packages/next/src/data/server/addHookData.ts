@@ -4,13 +4,15 @@ import {
 	FetchResponse,
 	PostEntity,
 	removeFieldsFromPostRelatedData,
+	YoastJSON,
 } from '@headstartwp/core';
-import type { Redirect } from 'next';
+import type { GetServerSidePropsResult, GetStaticPropsResult, Redirect } from 'next';
 
 export type HookState<T> = {
 	key: string;
 	data: T;
 	isMainQuery: boolean;
+	hostOrSlug?: string;
 	additionalCacheObjects?: HookState<T>[];
 };
 
@@ -30,6 +32,19 @@ function hasYoastTags(data: Entity): data is PostEntity {
 
 function isAppEntity(data: Entity): data is AppEntity {
 	return typeof (data as AppEntity).settings !== 'undefined';
+}
+
+export interface AddHookDataBaseProps {
+	[key: string]: unknown;
+}
+
+export interface AddHookDataProps extends AddHookDataBaseProps {
+	seo: {
+		yoast_head_json: YoastJSON;
+		yoast_head: string;
+	};
+	themeJSON: Record<string, unknown>;
+	fallback: Record<string, unknown>;
 }
 
 /**
@@ -56,7 +71,7 @@ function isAppEntity(data: Entity): data is AppEntity {
  *
  * @category Next.js Data Fetching Utilities
  */
-export function addHookData<P = { [key: string]: any }>(
+export function addHookData<P extends AddHookDataBaseProps>(
 	_hookStates: HookState<FetchResponse<Entity | Entity[]>>[],
 	nextProps: NextJSProps<P>,
 ) {
@@ -70,7 +85,7 @@ export function addHookData<P = { [key: string]: any }>(
 		hookStates.push(hookState);
 	});
 
-	const { props = {}, ...rest } = nextProps;
+	const { props, ...rest } = nextProps;
 	const fallback = {};
 	let seo_json = {};
 	let seo = '';
@@ -197,16 +212,21 @@ export function addHookData<P = { [key: string]: any }>(
 		fallback[key] = data;
 	});
 
+	const normalizedProps = (typeof props === 'undefined' ? {} : props) as P;
+
 	return {
 		...rest,
 		props: {
-			...props,
+			...normalizedProps,
 			seo: {
-				yoast_head_json: seo_json,
+				yoast_head_json: seo_json as YoastJSON,
 				yoast_head: seo,
 			},
 			themeJSON,
 			fallback,
+			__headstartwp_site: mainQuery?.hostOrSlug ?? validHookStates?.[0]?.hostOrSlug ?? null,
 		},
-	};
+	} satisfies
+		| GetStaticPropsResult<AddHookDataProps & P>
+		| GetServerSidePropsResult<AddHookDataProps & P>;
 }

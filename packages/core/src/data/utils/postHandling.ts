@@ -60,7 +60,7 @@ export function removeFieldsFromPostRelatedData(
 				'wp:featuredmedia': post._embedded?.['wp:featuredmedia']
 					? post._embedded?.['wp:featuredmedia']?.map((attachments) =>
 							removeFields(fieldsToRemove, attachments as AttachmentEntity[]),
-					  )
+						)
 					: [],
 				author: post._embedded.author
 					? (removeFields(fieldsToRemove, post._embedded.author) as AuthorEntity[])
@@ -68,7 +68,7 @@ export function removeFieldsFromPostRelatedData(
 				'wp:term': post._embedded?.['wp:term']
 					? post._embedded['wp:term']?.map(
 							(terms) => removeFields(fieldsToRemove, terms) as TermEntity[],
-					  )
+						)
 					: [],
 			},
 		};

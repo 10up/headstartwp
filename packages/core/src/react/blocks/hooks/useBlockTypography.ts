@@ -1,3 +1,5 @@
+'use client';
+
 import { Element } from 'html-react-parser';
 import { useThemeSetting } from '../../provider';
 import { IBlockAttributes, Typography } from '../types';

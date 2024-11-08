@@ -1,5 +1,5 @@
 import { Element } from 'html-react-parser';
-import camelCase from '../../utils/camelcase';
+import camelcase from '../../utils/camelcase';
 import { Colors } from './types';
 
 export function getAlignStyle(domNode: Element) {
@@ -133,7 +133,7 @@ export function getInlineStyles(domNode: Element) {
 		const position = style.indexOf(':');
 		const prop = style.substring(0, position).trim();
 		const value = style.substring(position).substring(1).trim();
-		stylesObject[camelCase(prop, {})] = value;
+		stylesObject[camelcase(prop)] = value;
 	});
 
 	return stylesObject;

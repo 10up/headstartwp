@@ -1,5 +1,253 @@
 # @headstartwp/next
 
+## 1.5.0-next.7
+
+### Minor Changes
+
+- 042980b: Add the ability to add aliases/slug to sites in the multisite setup
+
+### Patch Changes
+
+- Updated dependencies [042980b]
+  - @headstartwp/core@1.5.0-next.6
+
+## 1.5.0-next.6
+
+### Patch Changes
+
+- 9bf2202: Fix: #861 wrapper removing custom images remotePatterns
+
+## 1.5.0-next.5
+
+### Patch Changes
+
+- 5900895: [Pages Router] Add support for `wyw-in-js` and latest version of linaria
+- Updated dependencies [8ba6de7]
+- Updated dependencies [d9dcec0]
+- Updated dependencies [fc7e426]
+  - @headstartwp/core@1.5.0-next.5
+
+## 1.5.0-next.4
+
+### Patch Changes
+
+- 9ea83c3: Fix: return config from queryPostOrPosts
+- c1d70ec: Opt into image.remotePatters for Next.js versions that supports it
+- Updated dependencies [9ea83c3]
+  - @headstartwp/core@1.5.0-next.4
+
+## 1.5.0-next.3
+
+### Patch Changes
+
+- 0c735b7: Fixed - Fixed isValidLocale function to validate against the configuration
+  Added - New test condition for technically valid, but unsupported locale
+- Updated dependencies [fe250b7]
+  - @headstartwp/core@1.5.0-next.3
+
+## 1.5.0-next.2
+
+### Patch Changes
+
+- d49ac5c: Allow overriding fetch strategy
+- Updated dependencies [d49ac5c]
+  - @headstartwp/core@1.5.0-next.2
+
+## 1.5.0-next.1
+
+### Minor Changes
+
+- 915c6b6: RSC compatible image block for next.js
+
+### Patch Changes
+
+- Updated dependencies [915c6b6]
+  - @headstartwp/core@1.5.0-next.1
+
+## 1.5.0-next.0
+
+### Minor Changes
+
+- 6fa9ec2: Introducing previewRouteHandler to handle preview in Next.js App Router
+- 96ea386: Initial App Router Support
+- e969f38: Introducing SEO handling for App Router
+- 2c51bfb: Link handling
+- 79ae20e: Adding support for `i18n` routing in app router
+- 6fa9ec2: Introducing `revalidateRouteHandler` for handling revalidate requests in Route Handlers (App Router)
+- 4f7a665: Add `forwardBlockProps` to BlocksRenderer which automatically forwards block props to children components
+- ca94535: Introduce `blockContext` prop to BlocksRenderer and `handleError` in query functions
+- d696703: Multisite support in App Router
+
+### Patch Changes
+
+- 14c398d: remove usage of defaultProps and intropduce the ability to attach a default test function directly to the component
+- 4044248: Introducing `loadHeadstartWpConfig()`
+- 9f05f3f: Fix fetch cache option
+- c73d000: Fix: SEO with yoast disabled
+- Updated dependencies [6fa9ec2]
+- Updated dependencies [96ea386]
+- Updated dependencies [e969f38]
+- Updated dependencies [2c51bfb]
+- Updated dependencies [79ae20e]
+- Updated dependencies [14c398d]
+- Updated dependencies [6fa9ec2]
+- Updated dependencies [4f7a665]
+- Updated dependencies [4044248]
+- Updated dependencies [9f05f3f]
+- Updated dependencies [ca94535]
+- Updated dependencies [d696703]
+- Updated dependencies [c73d000]
+  - @headstartwp/core@1.5.0-next.0
+
+## 1.4.3
+
+### Patch Changes
+
+- f6e005c: Fix: Improve types for better page props type inference.
+
+  It also updates types for data fetching hooks to better reflect the fact that `data` is treated as though it is always there and if users do not check for `loading` or `error` by themselves and there's no preloaded data, a runtime fatal error will be issued instead.
+
+- Updated dependencies [f6e005c]
+  - @headstartwp/core@1.4.4
+
+## 1.4.2
+
+### Patch Changes
+
+- 0682d9c8: Fix: add .js to import statement for next.js path imports
+- b3cd5fe1: Fix: more fixes for esm builds
+- b4708b4a: Fix: deepmerge cjs package import
+- e7c84d58: Fix builds with vite
+- 399af783: Make ESM builds ESM compatible
+- Updated dependencies [b3cd5fe1]
+- Updated dependencies [e7c84d58]
+- Updated dependencies [399af783]
+  - @headstartwp/core@1.4.3
+
+## 1.4.2-next.4
+
+### Patch Changes
+
+- b4708b4a: Fix: deepmerge cjs package import
+
+## 1.4.2-next.3
+
+### Patch Changes
+
+- 0682d9c8: Fix: add .js to import statement for next.js path imports
+
+## 1.4.2-next.2
+
+### Patch Changes
+
+- b3cd5fe1: Fix: more fixes for esm builds
+- Updated dependencies [b3cd5fe1]
+  - @headstartwp/core@1.4.3-next.2
+
+## 1.4.2-next.1
+
+### Patch Changes
+
+- 399af783: Make ESM builds ESM compatible
+- Updated dependencies [399af783]
+  - @headstartwp/core@1.4.3-next.1
+
+## 1.4.2-next.0
+
+### Patch Changes
+
+- e7c84d58: Fix builds with vite
+- Updated dependencies [e7c84d58]
+  - @headstartwp/core@1.4.3-next.0
+
+## 1.4.1
+
+### Patch Changes
+
+- 38563cfd: Fix cache.beforeSet
+- Updated dependencies [38563cfd]
+  - @headstartwp/core@1.4.1
+
+## 1.4.0
+
+### Minor Changes
+
+- cce64d2e: Introducing fetch strategy caching.
+
+### Patch Changes
+
+- 8d3a0f83: Normalize TTL to secs
+- 669441f3: Fix: cache handler types, add isCached property
+- 498fb394: caching: pass `fetchStrategyOptions` and `path` to cache functions.
+- bdcc37f0: Make cache.enabled optional
+- Updated dependencies [8d3a0f83]
+- Updated dependencies [669441f3]
+- Updated dependencies [cce64d2e]
+- Updated dependencies [498fb394]
+- Updated dependencies [bdcc37f0]
+  - @headstartwp/core@1.4.0
+
+## 1.4.0-next.4
+
+### Patch Changes
+
+- 8d3a0f83: Normalize TTL to secs
+- Updated dependencies [8d3a0f83]
+  - @headstartwp/core@1.4.0-next.4
+
+## 1.4.0-next.3
+
+### Patch Changes
+
+- bdcc37f0: Make cache.enabled optional
+- Updated dependencies [bdcc37f0]
+  - @headstartwp/core@1.4.0-next.3
+
+## 1.4.0-next.2
+
+### Patch Changes
+
+- 669441f3: Fix: cache handler types, add isCached property
+- Updated dependencies [669441f3]
+  - @headstartwp/core@1.4.0-next.2
+
+## 1.4.0-next.1
+
+### Patch Changes
+
+- 498fb394: caching: pass `fetchStrategyOptions` and `path` to cache functions.
+- Updated dependencies [498fb394]
+  - @headstartwp/core@1.4.0-next.1
+
+## 1.4.0-next.0
+
+### Minor Changes
+
+- cce64d2e: Introducing fetch strategy caching.
+
+### Patch Changes
+
+- Updated dependencies [cce64d2e]
+  - @headstartwp/core@1.4.0-next.0
+
+## 1.3.4
+
+### Patch Changes
+
+- 2c7313ac: Introducing `prepareFetchHookData` and making it public as it can be useful for projects customizing `fetchHookData` behavior.
+- Updated dependencies [5d5a856a]
+  - @headstartwp/core@1.3.4
+
+## 1.3.3
+
+### Patch Changes
+
+- 95d6eb96: fix: make convertUrl and removeSourceUrl respect the original link's trailingslash
+- 26246a01: Add the ability to leverage `post.link` for redirecting the previewed post to the appropriate route via the `preview.usePostLinkForRedirect` setting.
+- Updated dependencies [95d6eb96]
+- Updated dependencies [26246a01]
+  - @headstartwp/core@1.3.2
+
 ## 1.3.2
 
 ### Patch Changes

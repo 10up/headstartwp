@@ -87,10 +87,6 @@ export interface IBlockAttributes {
 	};
 }
 
-export interface IDataWPBlock {
-	[key: string]: unknown;
-}
-
 export interface BlockAttributes extends Colors {
 	align: Align;
 	style: Partial<Style>;

@@ -59,7 +59,7 @@ class TestGutenbergIntegration extends TestCase {
 
 		$this->assertEquals(
 			trim( $enhanced_block ),
-			'<h3 class="wp-block-heading" id="hello-world" data-wp-block=\'{"level":3,"content":""}\' data-wp-block-name="core/heading">Hello world</h3>'
+			'<h3 class="wp-block-heading" id="hello-world" data-wp-block=\'{"level":3}\' data-wp-block-name="core/heading">Hello world</h3>'
 		);
 
 		$markup = <<<MARKUP

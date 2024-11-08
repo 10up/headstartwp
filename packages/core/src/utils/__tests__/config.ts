@@ -114,8 +114,8 @@ describe('getHeadstartWPConfig', () => {
 			},
 		});
 
-		expect(getHeadstartWPConfig().customTaxonomies.at(0)?.matchArchivePath).toBe(true);
-		expect(getHeadstartWPConfig().customTaxonomies.at(1)?.matchArchivePath).toBe(true);
+		expect(getHeadstartWPConfig()?.customTaxonomies?.[0]?.matchArchivePath).toBe(true);
+		expect(getHeadstartWPConfig()?.customTaxonomies?.[1]?.matchArchivePath).toBe(true);
 	});
 
 	it('accepts a function for customPostTypes', () => {
@@ -131,8 +131,8 @@ describe('getHeadstartWPConfig', () => {
 			},
 		});
 
-		expect(getHeadstartWPConfig().customPostTypes.at(0)?.matchSinglePath).toBe(false);
-		expect(getHeadstartWPConfig().customPostTypes.at(1)?.matchSinglePath).toBe(false);
+		expect(getHeadstartWPConfig()?.customPostTypes?.[0]?.matchSinglePath).toBe(false);
+		expect(getHeadstartWPConfig()?.customPostTypes?.[1]?.matchSinglePath).toBe(false);
 	});
 });
 
@@ -144,6 +144,7 @@ describe('getSiteByHost', () => {
 			{
 				sourceUrl: 'https://sourceurl.com/site1',
 				hostUrl: 'https://site1.com',
+				slug: 'site1',
 				locale: 'en',
 			},
 			{
@@ -151,6 +152,7 @@ describe('getSiteByHost', () => {
 				host: 'site2.com',
 				hostUrl: 'https://site2.com',
 				locale: 'es',
+				slug: 'site2',
 			},
 		],
 	};
@@ -178,5 +180,10 @@ describe('getSiteByHost', () => {
 
 		expect(getSiteByHost('site2.com', 'en')).toBeNull();
 		expect(getSiteByHost('site1.com', 'es')).toBeNull();
+	});
+
+	it('find sites by slug', () => {
+		expect(getSiteByHost('site1', 'en')?.sourceUrl).toBe('https://sourceurl.com/site1');
+		expect(getSiteByHost('site2', 'es')?.sourceUrl).toBe('https://sourceurl.com/site2');
 	});
 });
