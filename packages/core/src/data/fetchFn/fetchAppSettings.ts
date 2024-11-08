@@ -84,7 +84,7 @@ export async function fetchAppSettings<
 		options,
 	);
 
-	const themeSettings = data.result['theme.json'].settings;
+	const themeSettings = data.result['theme.json']?.settings;
 
 	const result: AppQueryResult<T> = { data: data.result };
 

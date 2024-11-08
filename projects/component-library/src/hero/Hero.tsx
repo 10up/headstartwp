@@ -8,6 +8,7 @@ import { RichText } from '@headstartwp/block-primitives/rich-text';
 import { Link } from '@headstartwp/block-primitives/link';
 import { InnerBlocks } from '@headstartwp/block-primitives/inner-blocks';
 import { FC } from 'react';
+import { getThemeSetting } from '@headstartwp/core/dist/mjs/data/data';
 import { containerStyle, titleStyle, linkStyle, innerBlocksStyle } from './style.css';
 
 /**
