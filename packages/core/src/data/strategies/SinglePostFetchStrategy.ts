@@ -5,6 +5,7 @@ import {
 	removeSourceUrl,
 	NotFoundError,
 	getSiteBySourceUrl,
+	addQueryArgs,
 } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
@@ -278,6 +279,7 @@ export class SinglePostFetchStrategy<
 	 */
 	async fetcher(url: string, params: P, options: Partial<FetchOptions> = {}) {
 		const { burstCache = false } = options;
+		let finalUrl = url;
 
 		if (params.authToken) {
 			options.previewToken = params.authToken;
@@ -309,10 +311,12 @@ export class SinglePostFetchStrategy<
 
 		try {
 			if (this.optimizeYoastPayload) {
-				params.optimizeYoastPayload = true;
+				finalUrl = addQueryArgs(finalUrl, {
+					optimizeYoastPayload: true,
+				});
 			}
 
-			const result = await super.fetcher(url, params, options);
+			const result = await super.fetcher(finalUrl, params, options);
 
 			return result;
 		} catch (e) {

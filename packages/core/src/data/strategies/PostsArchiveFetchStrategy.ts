@@ -462,7 +462,9 @@ export class PostsArchiveFetchStrategy<
 		}
 
 		if (this.optimizeYoastPayload) {
-			params.optimizeYoastPayload = true;
+			finalUrl = addQueryArgs(finalUrl, {
+				optimizeYoastPayload: true,
+			});
 		}
 
 		return super.fetcher(finalUrl, params, options);

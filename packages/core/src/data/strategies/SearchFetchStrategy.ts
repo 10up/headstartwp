@@ -85,10 +85,6 @@ export class SearchFetchStrategy<
 			queriedObject.search.yoast_head_json = seo_json;
 		}
 
-		if (this.optimizeYoastPayload) {
-			params.optimizeYoastPayload = true;
-		}
-
 		const response = await super.fetcher(url, params, { ...options, throwIfNotFound: false });
 
 		return {
