@@ -344,8 +344,8 @@ class YoastSEO {
 	public function optimise_yoast_payload( $result, $server, $request, $embed = false ) {
 
 		$embed = $embed ?: rest_parse_embed_param( $_GET['_embed'] ?? false );
-
-		if ( ! $embed ) {
+		
+		if ( ! $embed || empty( $request->get_param( 'optimizeYoastPayload' ) ) ) {
 			return $result;
 		}
 

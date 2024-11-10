@@ -102,6 +102,8 @@ export class TaxonomyTermsStrategy<
 > extends AbstractFetchStrategy<T[], P> {
 	defaultTaxonomy = 'category';
 
+	optimizeYoastPayload: boolean = false;
+
 	getDefaultEndpoint(): string {
 		return endpoints.category;
 	}
@@ -140,6 +142,10 @@ export class TaxonomyTermsStrategy<
 		params: Partial<P>,
 		options?: Partial<FetchOptions>,
 	): Promise<FetchResponse<T[]>> {
+		if (this.optimizeYoastPayload) {
+			params.optimizeYoastPayload = true;
+		}
+
 		return super.fetcher(url, params, { ...options, throwIfNotFound: false });
 	}
 

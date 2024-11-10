@@ -90,6 +90,8 @@ export class SinglePostFetchStrategy<
 
 	shouldCheckCurrentPathAgainstPostLink: boolean = true;
 
+	optimizeYoastPayload: boolean = false;
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -107,6 +109,8 @@ export class SinglePostFetchStrategy<
 			config.integrations?.polylang?.enable && nonUrlParams.lang ? nonUrlParams.lang : '';
 
 		this.path = nonUrlParams.fullPath ?? path;
+
+		this.optimizeYoastPayload = !!config.integrations?.yoastSEO?.optimizeYoastPayload;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
@@ -304,6 +308,10 @@ export class SinglePostFetchStrategy<
 		}
 
 		try {
+			if (this.optimizeYoastPayload) {
+				params.optimizeYoastPayload = true;
+			}
+
 			const result = await super.fetcher(url, params, options);
 
 			return result;

@@ -28,6 +28,13 @@ export interface EndpointParams {
 	 */
 	lang?: string;
 
+	/**
+	 * The custom parameter to optimize the Yoast payload.
+	 *
+	 * This is only used if the YoastSEO integration is enabled
+	 */
+	optimizeYoastPayload?: boolean;
+
 	[k: string]: unknown;
 }
 

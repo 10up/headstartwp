@@ -211,6 +211,8 @@ export class PostsArchiveFetchStrategy<
 
 	locale: string = '';
 
+	optimizeYoastPayload: boolean = false;
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -233,6 +235,8 @@ export class PostsArchiveFetchStrategy<
 		// this is required for post path mapping
 		this.locale = config.integrations?.polylang?.enable && params.lang ? params.lang : '';
 		this.path = path;
+
+		this.optimizeYoastPayload = !!config.integrations?.yoastSEO?.optimizeYoastPayload;
 
 		const matchers = [...postsMatchers];
 
@@ -455,6 +459,10 @@ export class PostsArchiveFetchStrategy<
 			} else {
 				throw new NotFoundError(`Author "${params.author}" not found`);
 			}
+		}
+
+		if (this.optimizeYoastPayload) {
+			params.optimizeYoastPayload = true;
 		}
 
 		return super.fetcher(finalUrl, params, options);

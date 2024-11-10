@@ -8,7 +8,7 @@ import {
 } from './AbstractFetchStrategy';
 import { PostParams, SinglePostFetchStrategy } from './SinglePostFetchStrategy';
 import { PostsArchiveFetchStrategy, PostsArchiveParams } from './PostsArchiveFetchStrategy';
-import { FrameworkError, NotFoundError } from '../../utils';
+import { FrameworkError, NotFoundError, getSiteBySourceUrl } from '../../utils';
 
 /**
  * The params supported by {@link PostOrPostsFetchStrategy}
@@ -61,11 +61,17 @@ export class PostOrPostsFetchStrategy<
 
 	postsStrategy: PostsArchiveFetchStrategy = new PostsArchiveFetchStrategy(this.baseURL);
 
+	optimizeYoastPayload: boolean = false;
+
 	getDefaultEndpoint(): string {
 		return '@postOrPosts';
 	}
 
 	getParamsFromURL(path: string, params: Partial<P> = {}): Partial<P> {
+		const config = getSiteBySourceUrl(this.baseURL);
+
+		this.optimizeYoastPayload = !!config.integrations?.yoastSEO?.optimizeYoastPayload;
+
 		this.urlParams = {
 			single: this.postStrategy.getParamsFromURL(path, params.single),
 			archive: this.postsStrategy.getParamsFromURL(path, params.archive),
