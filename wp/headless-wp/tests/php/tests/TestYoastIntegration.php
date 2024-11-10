@@ -51,6 +51,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	public function set_up() {
 		parent::set_up();
+
 		$this->yoast_seo = new YoastSEO();
 		$this->yoast_seo->register();
 		self::$rest_server = rest_get_server();
@@ -111,6 +112,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
 		$request->set_param( $param, $value );
+		$request->set_param( 'optimizeYoastPayload', true );
 
 		$response = rest_do_request( $request );
 		$data     = self::$rest_server->response_to_data( $response, true );
