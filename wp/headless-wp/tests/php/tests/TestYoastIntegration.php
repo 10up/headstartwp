@@ -38,6 +38,13 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	protected $category_id;
 
 	/**
+	 * The tag id
+	 *
+	 * @var int
+	 */
+	protected $tag_id;
+
+	/**
 	 * The author id
 	 *
 	 * @var int
@@ -64,6 +71,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	protected function create_posts() {
 		$this->category_id = $this->factory()->term->create( [ 'taxonomy' => 'category', 'slug' => 'test-category' ] );
+		$this->tag_id      = $this->factory()->term->create( [ 'taxonomy' => 'post_tag', 'slug' => 'test-post-tag' ] );
 		$this->author_id   = $this->factory()->user->create(
 			[
 				'role'         => 'editor',
@@ -75,13 +83,24 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 		);
 
 		$random_category_id = $this->factory()->term->create( [ 'taxonomy' => 'category', 'slug' => 'random-category' ] );
+		$random_tag_id      = $this->factory()->term->create( [ 'taxonomy' => 'post_tag', 'slug' => 'random-post-tag' ] );
 
-		$this->factory()->post->create_many( 2, [
+		$post_1 = $this->factory()->post->create_and_get( [
 			'post_type'     => 'post',
 			'post_status'   => 'publish',
-			'post_category' => [ $this->category_id, $random_category_id ],
 			'post_author'   => $this->author_id,
 		]);
+
+		$post_2 = $this->factory()->post->create_and_get( [
+			'post_type'     => 'post',
+			'post_status'   => 'publish',
+			'post_author'   => $this->author_id,
+		]);
+
+		wp_set_post_terms( $post_1->ID, [ $this->category_id, $random_category_id ], 'category' );
+		wp_set_post_terms( $post_2->ID, [ $this->category_id, $random_category_id ], 'category' );
+		wp_set_post_terms( $post_1->ID, [ $this->tag_id, $random_tag_id ], 'post_tag' );
+		wp_set_post_terms( $post_2->ID, [ $this->tag_id, $random_tag_id ], 'post_tag' );
 	}
 
 	/**
@@ -89,15 +108,19 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_optimise_category_yoast_payload() {
-
+	public function test_optimise_yoast_payload() {
+		
 		// Perform a REST API request for the posts by category.
-		$result = $this->get_posts_by_with_optimised_response( 'categories', $this->category_id );
-		$this->assert_yoast_head_in_response( $result );
+		$result_category = $this->get_posts_by_with_optimised_response( 'categories', $this->category_id );
+		$this->assert_yoast_head_in_response( $result_category );
+
+		// Perform a REST API request for the posts by tag.
+		// $result_tag = $this->get_posts_by_with_optimised_response( 'tags', $this->tag_id );
+		// $this->assert_yoast_head_in_response( $result_tag );
 
 		// Perform a REST API request for the posts by author.
-		// $result = $this->get_posts_by_with_optimised_response( 'author', $this->author_id );
-		// $this->assert_yoast_head_in_response( $result );
+		// $result_author = $this->get_posts_by_with_optimised_response( 'author', $this->author_id );
+		// $this->assert_yoast_head_in_response( $$result_author );
 	}
 
 	/**
@@ -113,6 +136,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
 		$request->set_param( $param, $value );
 		$request->set_param( 'optimizeYoastPayload', true );
+		$request->set_param( '_embed', true );
 
 		$response = rest_do_request( $request );
 		$data     = self::$rest_server->response_to_data( $response, true );
