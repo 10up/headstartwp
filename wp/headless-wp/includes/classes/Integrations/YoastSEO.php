@@ -39,7 +39,7 @@ class YoastSEO {
 
 		// Modify API response to optimise payload by removing the yoast_head and yoast_json_head where not needed.
 		// Embedded data is not added yet on rest_prepare_{$this->post_type}.
-		add_filter( 'rest_pre_echo_response' , [ $this, 'optimise_yoast_payload' ], 10, 3 );
+		add_filter( 'rest_pre_echo_response', [ $this, 'optimise_yoast_payload' ], 10, 3 );
 	}
 
 	/**
@@ -338,13 +338,14 @@ class YoastSEO {
 	 * @param array            $result The response data to be served, typically an array.
 	 * @param \WP_REST_Server  $server Server instance.
 	 * @param \WP_REST_Request $request Request used to generate the response.
+	 * @param boolean          $embed Whether the response should include embedded data.
 	 *
 	 * @return array Modified response data.
 	 */
 	public function optimise_yoast_payload( $result, $server, $request, $embed = false ) {
 
-		$embed = $embed ?: rest_parse_embed_param( $_GET['_embed'] ?? false );
-		
+		$embed = $embed ? $embed : filter_var( wp_unslash( $_GET['_embed'] ?? false ), FILTER_VALIDATE_BOOLEAN );
+
 		if ( ! $embed || empty( $request->get_param( 'optimizeYoastPayload' ) ) ) {
 			return $result;
 		}
@@ -394,9 +395,9 @@ class YoastSEO {
 
 				if ( $first_post ) {
 					// Get the queried terms for the taxonomy.
-					$param = $term_obj['taxonomy'] === 'category' ?
-						$request->get_param('category') ?? $request->get_param('categories') :
-						$request->get_param( $term_obj['taxonomy']  );
+					$param = 'category' === $term_obj['taxonomy'] ?
+						$request->get_param( 'category' ) ?? $request->get_param( 'categories' ) :
+						$request->get_param( $term_obj['taxonomy'] );
 				}
 
 				if ( $first_post && ! empty( $param ) ) {
@@ -438,7 +439,7 @@ class YoastSEO {
 				$param = is_array( $param ) ? $param : explode( ',', $param );
 
 				// If the term slug is not in param array, unset yoast heads.
-				if ( ! in_array( $author['slug'], $param, true ) && ! in_array( $author['id'], $param, true )  ) {
+				if ( ! in_array( $author['slug'], $param, true ) && ! in_array( $author['id'], $param, true ) ) {
 					unset( $author['yoast_head'], $author['yoast_head_json'] );
 				}
 			} else {

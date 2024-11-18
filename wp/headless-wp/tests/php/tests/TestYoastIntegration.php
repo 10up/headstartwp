@@ -16,7 +16,7 @@ use WP_REST_Server;
  * Covers the test for the Yoast integration
  */
 class TestYoastIntegration extends WP_Test_REST_TestCase {
-/**
+	/**
 	 * The YoastSEO instance
 	 *
 	 * @var YoastSEO
@@ -70,8 +70,18 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 * Create posts for testing
 	 */
 	protected function create_posts() {
-		$this->category_id = $this->factory()->term->create( [ 'taxonomy' => 'category', 'slug' => 'test-category' ] );
-		$this->tag_id      = $this->factory()->term->create( [ 'taxonomy' => 'post_tag', 'slug' => 'test-post-tag' ] );
+		$this->category_id = $this->factory()->term->create(
+			[
+				'taxonomy' => 'category',
+				'slug'     => 'test-category',
+			]
+		);
+		$this->tag_id      = $this->factory()->term->create(
+			[
+				'taxonomy' => 'post_tag',
+				'slug'     => 'test-post-tag',
+			]
+		);
 		$this->author_id   = $this->factory()->user->create(
 			[
 				'role'         => 'editor',
@@ -82,20 +92,34 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 			]
 		);
 
-		$random_category_id = $this->factory()->term->create( [ 'taxonomy' => 'category', 'slug' => 'random-category' ] );
-		$random_tag_id      = $this->factory()->term->create( [ 'taxonomy' => 'post_tag', 'slug' => 'random-post-tag' ] );
+		$random_category_id = $this->factory()->term->create(
+			[
+				'taxonomy' => 'category',
+				'slug'     => 'random-category',
+			]
+		);
+		$random_tag_id      = $this->factory()->term->create(
+			[
+				'taxonomy' => 'post_tag',
+				'slug'     => 'random-post-tag',
+			]
+		);
 
-		$post_1 = $this->factory()->post->create_and_get( [
-			'post_type'     => 'post',
-			'post_status'   => 'publish',
-			'post_author'   => $this->author_id,
-		]);
+		$post_1 = $this->factory()->post->create_and_get(
+			[
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+				'post_author' => $this->author_id,
+			]
+		);
 
-		$post_2 = $this->factory()->post->create_and_get( [
-			'post_type'     => 'post',
-			'post_status'   => 'publish',
-			'post_author'   => $this->author_id,
-		]);
+		$post_2 = $this->factory()->post->create_and_get(
+			[
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+				'post_author' => $this->author_id,
+			]
+		);
 
 		wp_set_post_terms( $post_1->ID, [ $this->category_id, $random_category_id ], 'category' );
 		wp_set_post_terms( $post_2->ID, [ $this->category_id, $random_category_id ], 'category' );
@@ -109,7 +133,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 * @return void
 	 */
 	public function test_optimise_yoast_payload() {
-		
+
 		// Perform a REST API request for the posts by category.
 		$result_category = $this->get_posts_by_with_optimised_response( 'categories', $this->category_id );
 		$this->assert_yoast_head_in_response( $result_category );
@@ -179,7 +203,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	protected function assert_embedded_item( $embedded_obj, $type, $first_post, $id = null ) {
 
-		foreach ( $embedded_obj[ $type ] as $group) {
+		foreach ( $embedded_obj[ $type ] as $group ) {
 
 			$items = 'wp:term' !== $type ? [ $group ] : $group;
 
