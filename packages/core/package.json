@@ -88,5 +88,10 @@
 	},
 	"peerDependencies": {
 		"react": ">= 19.0.0"
+	},
+	"overrides": {
+		"swr": {
+			"react": "19.0.0-rc-66855b96-20241106"
+		}
 	}
 }
