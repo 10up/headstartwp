@@ -6,8 +6,8 @@ export type PreviewIndicatorProps = {
 	className?: string;
 };
 
-export const PreviewIndicator: React.FC<PreviewIndicatorProps> = ({ className }) => {
-	const { isEnabled } = draftMode();
+export const PreviewIndicator: React.FC<PreviewIndicatorProps> = async ({ className }) => {
+	const { isEnabled } = await draftMode();
 
 	if (!isEnabled) {
 		return null;

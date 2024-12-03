@@ -1,41 +1,41 @@
 {
-  "name": "@10up/wp-multisite-i18n-nextjs",
-  "version": "0.2.0",
-  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with 10up's Headless Framework.",
-  "homepage": "https://github.com/10up/headstartwp/blob/develop/projects/wp-multisite-i18n-nextjs/README.md",
-  "license": "GPL-2.0-or-later",
-  "author": "10up <info@10up.com> (https://10up.com/)",
-  "private": true,
-  "scripts": {
-    "dev": "next dev -p 3002",
-    "build": "next build",
-    "build:analyze": "ANALYZE=true next build",
-    "start": "next start",
-    "lint": "eslint ."
-  },
-  "dependencies": {
-    "@headstartwp/core": "^1.5.0-next.7",
-    "@headstartwp/next": "^1.5.0-next.7",
-    "@linaria/core": "^6.2.0",
-    "@linaria/react": "^6.2.1",
-    "clsx": "^1.1.1",
-    "next": "^14.2.5",
-    "nprogress": "^0.2.0",
-    "prop-types": "^15.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@wyw-in-js/babel-preset": "0.5.4",
-    "@wyw-in-js/webpack-loader": "^0.5.4",
-    "@10up/eslint-config": "^4.0.0",
-    "@next/bundle-analyzer": "^12.1.0",
-    "@types/react": "^18",
-    "@types/react-dom": "^18"
-  },
-  "engineStrict": true,
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
-  }
+	"name": "@10up/wp-multisite-i18n-nextjs",
+	"version": "0.2.0",
+	"description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with 10up's Headless Framework.",
+	"homepage": "https://github.com/10up/headstartwp/blob/develop/projects/wp-multisite-i18n-nextjs/README.md",
+	"license": "GPL-2.0-or-later",
+	"author": "10up <info@10up.com> (https://10up.com/)",
+	"private": true,
+	"scripts": {
+		"dev": "next dev -p 3002",
+		"build": "next build",
+		"build:analyze": "ANALYZE=true next build",
+		"start": "next start",
+		"lint": "eslint ."
+	},
+	"dependencies": {
+		"@headstartwp/core": "^1.5.0-next.7",
+		"@headstartwp/next": "^1.5.0-next.7",
+		"@linaria/core": "^6.2.0",
+		"@linaria/react": "^6.2.1",
+		"clsx": "^1.1.1",
+		"next": "^14.2.5",
+		"nprogress": "^0.2.0",
+		"prop-types": "^15.7.2",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@wyw-in-js/babel-preset": "0.5.4",
+		"@wyw-in-js/webpack-loader": "^0.5.4",
+		"@10up/eslint-config": "^4.0.0",
+		"@next/bundle-analyzer": "^12.1.0",
+		"@types/react": "npm:types-react@19.0.0-rc.1",
+		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+	},
+	"engineStrict": true,
+	"engines": {
+		"node": ">=18.0.0",
+		"npm": ">=9.0.0"
+	}
 }

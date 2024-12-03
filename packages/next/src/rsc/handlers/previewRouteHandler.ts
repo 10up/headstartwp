@@ -112,6 +112,8 @@ export async function previewRouteHandler(
 	const is_revision = searchParams.get('is_revision');
 	const token = searchParams.get('token');
 	const locale = searchParams.get('locale');
+	const cookieStore = await cookies();
+	const draftmode = await draftMode();
 
 	// check if post_id, post_type and token is set
 	if (!post_id || !token || !post_type) {
@@ -214,14 +216,14 @@ export async function previewRouteHandler(
 					})
 				: defaultRedirectPath;
 
-		cookies().set(COOKIE_NAME, JSON.stringify(previewData), {
+		cookieStore.set(COOKIE_NAME, JSON.stringify(previewData), {
 			maxAge: 5 * 60,
 			// remove trailing slash
 			path: redirectPath.replace(/\/$/, ''),
 			httpOnly: true,
 		});
 
-		draftMode().enable();
+		draftmode.enable();
 
 		if (typeof options.onRedirect === 'function') {
 			options.onRedirect({

@@ -61,7 +61,10 @@
     "@headstartwp/core": "^1.5.0-next.6",
     "loader-utils": "^3.2.0",
     "schema-utils": "^4.0.0",
-    "@isaacs/ttlcache": "^1.4.1"
+    "@isaacs/ttlcache": "^1.4.1",
+    "next": "15.0.3",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.3.1",
@@ -77,11 +80,15 @@
     "isomorphic-fetch": "^3.0.0",
     "jest-fetch-mock": "^3.0.3",
     "tsc-esm-fix": "^2.20.27",
-    "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
   },
   "peerDependencies": {
-    "next": ">= 12.0.0",
-    "react": ">= 17.0.2"
+    "next": "15.0.3",
+    "react": "19.0.0-rc-66855b96-20241106"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
   }
 }
