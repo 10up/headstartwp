@@ -38,7 +38,7 @@
     "wp/*"
   ],
   "devDependencies": {
-    "@10up/eslint-config": "^4.0.0",
+    "@10up/eslint-config": "^4.1.0",
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",

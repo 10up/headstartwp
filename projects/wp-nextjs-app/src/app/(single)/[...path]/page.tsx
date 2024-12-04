@@ -18,8 +18,9 @@ const ClientRelatedPosts = dynamic(() =>
 );
 
 export async function generateStaticParams({ params }: HeadstartWPRoute) {
+	const routeParams = await params;
 	// loads the right config based on route params (this is needed over getHeadstartWP for sites using polylang integration or multisite)
-	const { sourceUrl = '', hostUrl = '/' } = loadHeadstartWPConfig(params);
+	const { sourceUrl = '', hostUrl = '/' } = loadHeadstartWPConfig(routeParams);
 
 	const { data } = await queryPosts({
 		routeParams: params,

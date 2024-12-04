@@ -1,8 +1,9 @@
 export type HeadstartWPRoute<Params extends { [k: string]: unknown } = {}> = {
-	params: { path: string[]; site?: string; lang?: string };
+	params: Promise<{ path: string[]; site?: string; lang?: string }>;
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 } & Params;
 
 export type HeadstartWPLayout<Params extends { [k: string]: unknown } = {}> = {
-	params: { site?: string; lang?: string };
+	params: Promise<{ site?: string; lang?: string }>;
 	children: React.ReactNode;
 } & Params;

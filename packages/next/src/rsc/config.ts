@@ -8,7 +8,7 @@ import { prepareQuery } from './data/queries/prepareQuery';
  *
  * @returns
  */
-export function loadHeadstartWPConfig(routeParams: HeadstartWPRoute['params']) {
+export function loadHeadstartWPConfig(routeParams: Awaited<HeadstartWPRoute['params']>) {
 	const { config } = prepareQuery({ routeParams });
 
 	return config;
