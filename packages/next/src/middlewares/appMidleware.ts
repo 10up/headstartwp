@@ -93,7 +93,7 @@ export async function AppMiddleware(
 	options: AppMidlewareOptions = { appRouter: false },
 ) {
 	let response = NextResponse.next();
-	const { pathname } = req.nextUrl;
+	const { pathname, searchParams } = req.nextUrl;
 
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
 		return response;
@@ -193,8 +193,8 @@ export async function AppMiddleware(
 		const hostNameOrSlug = site.slug || hostname;
 		const pagesRouterRewrite = `/_sites/${hostNameOrSlug}${pathname}`;
 		const appRouterRewrite = locale
-			? `/${locale}/${hostNameOrSlug}${pathname.replace(`/${locale}`, '')}`
-			: `/${hostNameOrSlug}${pathname}`;
+			? `/${locale}/${hostNameOrSlug}${pathname.replace(`/${locale}`, '')}?${searchParams.toString()}`
+			: `/${hostNameOrSlug}${pathname}?${searchParams.toString()}`;
 
 		response = NextResponse.rewrite(
 			new URL(options.appRouter ? appRouterRewrite : pagesRouterRewrite, req.nextUrl),
