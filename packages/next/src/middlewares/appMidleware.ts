@@ -191,7 +191,9 @@ export async function AppMiddleware(
 
 	if (isMultisiteRequest && !shouldRedirect) {
 		const hostNameOrSlug = site.slug || hostname;
-		const queryString = searchParams.keys.length ? `?${searchParams.toString()}` : '';
+		const queryString = Array.from(searchParams.keys()).length
+			? `?${searchParams.toString()}`
+			: '';
 		const pagesRouterRewrite = `/_sites/${hostNameOrSlug}${pathname}${queryString}`;
 		const appRouterRewrite = locale
 			? `/${locale}/${hostNameOrSlug}${pathname.replace(`/${locale}`, '')}${queryString}`
