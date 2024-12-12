@@ -191,10 +191,11 @@ export async function AppMiddleware(
 
 	if (isMultisiteRequest && !shouldRedirect) {
 		const hostNameOrSlug = site.slug || hostname;
-		const pagesRouterRewrite = `/_sites/${hostNameOrSlug}${pathname}`;
+		const queryString = searchParams.keys.length ? `?${searchParams.toString()}` : '';
+		const pagesRouterRewrite = `/_sites/${hostNameOrSlug}${pathname}${queryString}`;
 		const appRouterRewrite = locale
-			? `/${locale}/${hostNameOrSlug}${pathname.replace(`/${locale}`, '')}?${searchParams.toString()}`
-			: `/${hostNameOrSlug}${pathname}?${searchParams.toString()}`;
+			? `/${locale}/${hostNameOrSlug}${pathname.replace(`/${locale}`, '')}${queryString}`
+			: `/${hostNameOrSlug}${pathname}${queryString}`;
 
 		response = NextResponse.rewrite(
 			new URL(options.appRouter ? appRouterRewrite : pagesRouterRewrite, req.nextUrl),
