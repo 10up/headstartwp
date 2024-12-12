@@ -389,7 +389,7 @@ describe('appMiddleware', () => {
 		res = await AppMiddleware(req, { appRouter: true });
 		expect(res.headers.get('x-middleware-rewrite')).toBe('http://test.com/en/post-name');
 
-		// add default locale with a query string, expecting this to fail
+		// add default locale with a query string
 		req = new NextRequest('http://test.com/post-name?s=query', {
 			method: 'GET',
 		});
