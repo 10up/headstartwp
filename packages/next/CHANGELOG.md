@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.5.0-next.8
+
+### Patch Changes
+
+- 9f7da69: Ensure query string is appended to URL rewrite/redirect in middleware
+
 ## 1.5.0-next.7
 
 ### Minor Changes
