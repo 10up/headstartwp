@@ -42,7 +42,7 @@ class TestGutenbergIntegration extends WP_UnitTestCase {
 	 */
 	public function render_block_data(): array {
 		return [
-			'Single Tag Markup'                   => [
+			'Single Tag Markup'   => [
 				$this->core_render_block_from_markup(
 					<<<MARKUP
 					<!-- wp:heading {"level":3} -->
@@ -61,7 +61,7 @@ class TestGutenbergIntegration extends WP_UnitTestCase {
 					],
 				],
 			],
-			'Inner Blocks Markup'                 => [
+			'Inner Blocks Markup' => [
 				$this->core_render_block_from_markup(
 					<<<MARKUP
 					<!-- wp:media-text {"mediaId":28,"mediaLink":"http://localhost:8888/blocks-test/screenshot-2023-06-16-at-11-09-21/","mediaType":"image"} -->
@@ -89,7 +89,7 @@ class TestGutenbergIntegration extends WP_UnitTestCase {
 					],
 				],
 			],
-			'Image Block Markup'                  => [
+			'Image Block Markup'  => [
 				$this->core_render_block_from_markup(
 					<<<MARKUP
 					<!-- wp:image {"id":28,"sizeSlug":"large","linkDestination":"none"} -->
@@ -133,7 +133,7 @@ class TestGutenbergIntegration extends WP_UnitTestCase {
 
 	/**
 	 * Tests rendering classic block
-	 * 	- Classic blocks contain raw HTML without attributes
+	 *  - Classic blocks contain raw HTML without attributes
 	 *
 	 * @return void
 	 */
@@ -213,7 +213,7 @@ RESULT;
 
 	/**
 	 * Tests block's rendering Synced Patterns which use another post to store the patterns content
-	 * 	- Run separate to hook the Parser filter on all render_block processing, required for nested blocks
+	 *  - Run separate to hook the Parser filter on all render_block processing, required for nested blocks
 	 *
 	 * @return void
 	 */
@@ -235,7 +235,7 @@ RESULT;
 					<!-- wp:paragraph -->
 					<p>Hello world</p>
 					<!-- /wp:paragraph -->
-					MARKUP
+					MARKUP,
 			]
 		);
 
@@ -287,7 +287,6 @@ RESULT;
 		$this->validate_processed_blocks( $html_api_block['html'], $block_structure, 'HTML Tag API Synced Pattern' );
 
 		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
-
 
 		remove_filter( 'render_block', [ $this->parser, 'render_block' ], 10 );
 	}
