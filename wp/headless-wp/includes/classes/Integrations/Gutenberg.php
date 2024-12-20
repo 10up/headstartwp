@@ -59,8 +59,6 @@ class Gutenberg {
 	 */
 	public function process_block_with_dom_document_api( $html, $block_name, $block_attrs_serialized, $block, $block_instance ) {
 		try {
-			libxml_use_internal_errors( true );
-
 			return $this->bypass_block_attributes( $block_name, $block_instance )
 				? $this->process_dom_document_bypassed_block( $html )
 				: $this->process_dom_document_block( $html, $block_name, $block_attrs_serialized, $block, $block_instance );
@@ -125,7 +123,7 @@ class Gutenberg {
 		array $block,
 		WP_Block $block_instance
 	): string {
-		$document = $this->read_decoded_dom_document( $html );
+		$document = $this->read_converted_dom_document( $html );
 
 		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$root_node = $document->documentElement;
@@ -161,13 +159,13 @@ class Gutenberg {
 	 * @return string
 	 */
 	public function process_dom_document_bypassed_block( string $html ): string {
-		$document  = $this->read_decoded_dom_document( "<body>{$html}</body>" );
+		$document  = $this->read_converted_dom_document( "<body>{$html}</body>" );
 		$body      = $document->getElementsByTagName( 'body' )->item( 0 );
 		$node_html = [];
 
 		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		foreach ( $body->childNodes as $child ) {
-			$block = new DOMDocument();
+			$block = new DOMDocument( '1.0', 'UTF-8' );
 			$block->appendChild( $block->importNode( $child, true ) );
 
 			$child_html   = $block->saveHTML();
@@ -190,9 +188,13 @@ class Gutenberg {
 	 *
 	 * @return DOMDocument
 	 */
-	protected function read_decoded_dom_document( string $html ) {
-		$document = new DomDocument( '1.0', 'UTF-8' );
-		$document->loadHTML( htmlspecialchars_decode( htmlentities( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) ), LIBXML_HTML_NODEFDTD | LIBXML_HTML_NOIMPLIED );
+	protected function read_converted_dom_document( string $html ) {
+		$converted_html = htmlspecialchars_decode( htmlentities( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) );
+		$document       = new DomDocument( '1.0', 'UTF-8' );
+
+		libxml_use_internal_errors( true );
+		$document->loadHTML( $converted_html, LIBXML_HTML_NODEFDTD | LIBXML_HTML_NOIMPLIED );
+		libxml_clear_errors();
 
 		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		if ( null === $document->documentElement ) {

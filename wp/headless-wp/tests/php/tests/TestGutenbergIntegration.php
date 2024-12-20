@@ -153,6 +153,40 @@ RESULT;
 	}
 
 	/**
+	 * Test to ensure the parser handles both HTML and Multi-byte encodings properly
+	 *
+	 * @return void
+	 */
+	public function test_handle_multi_byte_html_encoding() {
+		[ 'html' => $html, 'parsed_block' => $block, 'instance' => $instance ] =
+			$this->core_render_block_from_markup(
+				<<<MARKUP
+				<!-- wp:paragraph -->
+				<p>The temperature is 23°C ☀️ (sun emoji) and © (copyright symbol). HTML entity for Degrees: &#176;.</p>
+				<!-- /wp:paragraph -->
+				MARKUP
+			);
+		$dom_expected          = <<<RESULT
+			<p data-wp-block='{"dropCap":false}' data-wp-block-name="core/paragraph">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			RESULT;
+		$html_tag_api_expected = <<<RESULT
+			<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			RESULT;
+
+		$dom_output = $this->parser->render_block( $html, $block, $instance );
+
+		$this->assertSame( trim( $dom_expected ), trim( $dom_output ), 'Gutenberg | DOM Document | Test HTML Encoding' );
+
+		add_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
+
+		$html_api_output = $this->parser->render_block( $html, $block, $instance );
+
+		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
+
+		$this->assertSame( trim( $html_tag_api_expected ), trim( $html_api_output ), 'Gutenberg | HTML Tag API | Test HTML Encoding' );
+	}
+
+	/**
 	 * Tests rendering classic block with the HTML tag api
 	 *
 	 * @return void
