@@ -1,5 +1,12 @@
 # @headstartwp/headstartwp
 
+## 1.1.4
+
+### Patch Changes
+
+- 07d0325: Added - Improved tests for the Gutenberg block attribute processing
+  Fixed - Gutenberg post content block attribute processing for Synced Patterns and support for multibyte characters.
+
 ## 1.1.3
 
 ### Patch Changes
