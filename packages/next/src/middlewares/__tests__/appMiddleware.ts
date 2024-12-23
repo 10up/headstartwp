@@ -305,6 +305,51 @@ describe('appMiddleware', () => {
 		expect(res.headers.get('x-headstartwp-locale')).toBe('pt');
 	});
 
+	it('[multisite] supports query strings in App and Pages router', async () => {
+		setHeadstartWPConfig({
+			sites: [
+				{
+					sourceUrl: 'http://testwp.com',
+					hostUrl: 'http://test.com',
+				},
+				{
+					sourceUrl: 'http://testwp2.com',
+					hostUrl: 'http://test2.com',
+				},
+				{
+					sourceUrl: 'http://testwp2.com/en',
+					hostUrl: 'http://test2.com',
+				},
+			],
+		});
+
+		// App Router
+		let req = new NextRequest('http://test2.com/post-name?s=search-slug', {
+			method: 'GET',
+		});
+
+		req.headers.set('host', 'test2.com');
+
+		let res = await AppMiddleware(req, { appRouter: true });
+
+		expect(res.headers.get('x-middleware-rewrite')).toBe(
+			'http://test2.com/test2.com/post-name?s=search-slug',
+		);
+
+		// Pages Router
+		req = new NextRequest('http://test2.com/post-name?s=search-slug', {
+			method: 'GET',
+		});
+
+		req.headers.set('host', 'test2.com');
+
+		res = await AppMiddleware(req, { appRouter: false });
+
+		expect(res.headers.get('x-middleware-rewrite')).toBe(
+			'http://test2.com/_sites/test2.com/post-name?s=search-slug',
+		);
+	});
+
 	it('[polylang] supports locales with app router', async () => {
 		setHeadstartWPConfig({
 			sourceUrl: 'http://testwp.com',
@@ -343,6 +388,16 @@ describe('appMiddleware', () => {
 
 		res = await AppMiddleware(req, { appRouter: true });
 		expect(res.headers.get('x-middleware-rewrite')).toBe('http://test.com/en/post-name');
+
+		// add default locale with a query string
+		req = new NextRequest('http://test.com/post-name?s=query', {
+			method: 'GET',
+		});
+
+		res = await AppMiddleware(req, { appRouter: true });
+		expect(res.headers.get('x-middleware-rewrite')).toBe(
+			'http://test.com/en/post-name?s=query',
+		);
 	});
 
 	it('[polylang no locale detection] supports locales with app router', async () => {
