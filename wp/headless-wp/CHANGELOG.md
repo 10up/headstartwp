@@ -1,10 +1,17 @@
 # @headstartwp/headstartwp
 
-## 1.1.4-next.0
+## 1.1.5-next.0
 
 ### Patch Changes
 
 - 8ba6de7: Fix: do not cast menu item ids to number as they are strings
+
+## 1.1.4
+
+### Patch Changes
+
+- 07d0325: Added - Improved tests for the Gutenberg block attribute processing
+  Fixed - Gutenberg post content block attribute processing for Synced Patterns and support for multibyte characters.
 
 ## 1.1.3
 
