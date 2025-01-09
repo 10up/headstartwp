@@ -3,7 +3,12 @@ import { EPConfig } from '../types';
 export function getESEndpoint(config: EPConfig): string {
 	const { node, indexName } = config;
 
-	if (node.includes('elasticpress.io')) {
+	if (!node) {
+		throw new Error('You must specify an ElasticSearch node');
+	}
+
+	const url = new URL(node);
+	if (['elasticpress.io'].includes(url.host)) {
 		return `${node}/api/v1/search/posts/${indexName}`;
 	}
 
