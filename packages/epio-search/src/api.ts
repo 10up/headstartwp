@@ -8,6 +8,14 @@ export async function get(data: EPSearchParams, endpoint: string): Promise<EPRes
 			.join('&');
 	}
 
-	const response = await fetch(endpointWithParams);
-	return response.json();
+	try {
+		const response = await fetch(endpointWithParams);
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		return response.json();
+	} catch (error) {
+		console.error('Error fetching data:', error);
+		throw error;
+	}
 }

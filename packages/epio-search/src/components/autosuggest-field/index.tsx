@@ -8,8 +8,8 @@ import { useElasticPress } from '../provider/ep-provider';
 import { useRoveFocus } from '../../hooks/use-rove-focus';
 import SearchField from '../search-field';
 import AutosuggestFieldItem from './autosuggest-field-item';
-import styles from './styles.module.css';
 import { SearchFieldProps } from '../../types';
+import styles from './styles.module.css';
 
 interface AutosuggestFieldProps extends Omit<SearchFieldProps, 'debounceMs'> {
 	onItemRender?: (item: any) => any;

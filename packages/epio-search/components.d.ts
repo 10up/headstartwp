@@ -1,1 +1,1 @@
-export * from './dist/mjs/components';
+export * from './dist/components';

@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist/mjs",
+    "outDir": "dist",
     "module": "esnext",
     "target": "ES2017",
 		"plugins": [{ "name": "typescript-plugin-css-modules" }]

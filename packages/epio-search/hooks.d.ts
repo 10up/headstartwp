@@ -1,1 +1,1 @@
-export * from './dist/mjs/hooks';
+export * from './dist/hooks';

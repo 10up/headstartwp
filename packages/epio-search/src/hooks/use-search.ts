@@ -69,9 +69,9 @@ export function useSearch() {
 				dispatch(setOffset(offset));
 			} catch (exception) {
 				// setError();
+			} finally {
+				dispatch(setLoading(false));
 			}
-
-			dispatch(setLoading(false));
 		},
 		[dispatch, onSearch, search, hitMap, loadInitialData, getEndpoint],
 	);

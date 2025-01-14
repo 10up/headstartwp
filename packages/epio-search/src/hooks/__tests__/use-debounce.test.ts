@@ -67,7 +67,9 @@ describe('useDebounce', () => {
 			result.current('arg1');
 		});
 
-		rerender({ cb: callback2 });
+		act(() => {
+			rerender({ cb: callback2 });
+		});
 
 		act(() => {
 			jest.advanceTimersByTime(delay);

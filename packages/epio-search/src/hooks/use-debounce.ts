@@ -1,16 +1,20 @@
 'use client';
 
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 export function useDebounce(callback: (...args: unknown[]) => void, delay: number) {
 	const callbackRef = useRef(callback);
 	const timer = useRef(0);
 
+	useEffect(() => {
+		callbackRef.current = callback;
+	}, [callback]);
+
 	const naiveDebounce = useCallback(
-		(fn: (...args: unknown[]) => void, delayMs: number, ...args: unknown[]) => {
+		(delayMs: number, ...args: unknown[]) => {
 			clearTimeout(timer.current);
 			timer.current = window.setTimeout(() => {
-				fn(...args);
+				callbackRef.current(...args);
 			}, delayMs);
 		},
 		[],
@@ -19,7 +23,7 @@ export function useDebounce(callback: (...args: unknown[]) => void, delay: numbe
 	return useMemo(
 		() =>
 			(...args: unknown[]) =>
-				naiveDebounce(callbackRef.current, delay, ...args),
+				naiveDebounce(delay, ...args),
 		[delay, naiveDebounce],
 	);
 }

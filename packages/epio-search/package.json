@@ -37,11 +37,23 @@
 		"wp-types": "^4.67.0"
 	},
 	"devDependencies": {
-		"@types/react": "^17",
+		"@types/react": "^18",
 		"copyfiles": "^2.4.1",
-		"typescript-plugin-css-modules": "^5.1.0"
+		"typescript-plugin-css-modules": "^5.1.0",
+		"@testing-library/react": "^16.0.0",
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/jest-dom": "^6.6.3"
 	},
 	"peerDependencies": {
-		"react": ">= 17.0.2"
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0"
+	},
+	"overrides": {
+		"@testing-library/react": {
+			"peerDependencies": {
+				"react": "^18.0.0",
+				"react-dom": "^18.0.0"
+			}
+		}
 	}
 }
