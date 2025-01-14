@@ -9,6 +9,9 @@ async function query({ params }: HeadstartWPRoute) {
 			slug: 'sample-page',
 			postType: 'page',
 		},
+		options: {
+			cache: 'force-cache',
+		},
 	});
 }
 
