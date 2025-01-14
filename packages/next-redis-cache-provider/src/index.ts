@@ -125,10 +125,24 @@ export default class RedisCache implements CacheHandler {
 			const BUILD_ID = await this.fs.readFile(
 				path.join(path.dirname(this.serverDistDir), 'BUILD_ID'),
 			);
-			return BUILD_ID;
+
+			this.BUILD_ID = BUILD_ID.toString();
+
+			return this.BUILD_ID;
 		} catch (e) {
 			return '';
 		}
+	}
+
+	private async getBuildIdAndConnect() {
+		return Promise.all([
+			this.getBuildId(),
+			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
+		]);
+	}
+
+	private buildKey(key: string) {
+		return `${this.BUILD_ID}:${key}`;
 	}
 
 	public async get(
@@ -139,12 +153,9 @@ export default class RedisCache implements CacheHandler {
 			return null;
 		}
 
-		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([
-			this.getBuildId(),
-			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
-		]);
-		const value = await this.redisClient.get(`${BUILD_ID}:${key}`);
+		await this.getBuildIdAndConnect();
+
+		const value = await this.redisClient.get(this.buildKey(key));
 
 		if (this.lazyConnect) {
 			this.redisClient.disconnect();
@@ -162,24 +173,36 @@ export default class RedisCache implements CacheHandler {
 
 		if (!this.flushToDisk || !data || ctx.fetchCache) return;
 
-		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([
-			this.getBuildId(),
-			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
-		]);
+		await this.getBuildIdAndConnect();
 
 		await this.redisClient.set(
-			`${BUILD_ID}:${key}`,
+			this.buildKey(key),
 			JSON.stringify({ lastModified: Date.now(), value: data }),
 		);
+
+		const tags = ctx.tags || [];
+
+		for await (const tag of tags) {
+			await this.redisClient.sadd(this.buildKey(tag), key);
+		}
 
 		if (this.lazyConnect) {
 			this.redisClient.disconnect();
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async revalidateTag(_tag: string): Promise<void> {
-		// do nothing
+	async revalidateTag(_tag: string | string[]): Promise<void> {
+		await this.getBuildIdAndConnect();
+		const tags = [_tag].flat();
+
+		for await (const tag of tags) {
+			const keys = await this.redisClient.smembers(this.buildKey(tag));
+
+			for await (const key of keys) {
+				await this.redisClient.del(this.buildKey(key));
+			}
+
+			await this.redisClient.del(this.buildKey(tag));
+		}
 	}
 }
