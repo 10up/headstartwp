@@ -10,7 +10,6 @@ describe('useSearch', () => {
 	const mockDispatch = jest.fn();
 	const mockOnSearch = jest.fn();
 	const mockGetEndpoint = jest.fn();
-	
 	beforeEach(() => {
 		jest.clearAllMocks();
 		(useElasticPress as jest.Mock).mockReturnValue({
@@ -20,23 +19,22 @@ describe('useSearch', () => {
 				offset: 0,
 				per_page: 10,
 				orderby: 'relevance',
-				order: 'desc'
+				order: 'desc',
 			},
 			results: { totalResults: null },
 			hitMap: {},
 			loadInitialData: false,
 			getEndpoint: mockGetEndpoint,
-			onSearch: mockOnSearch
+			onSearch: mockOnSearch,
 		});
 		(runEPQuery as jest.Mock).mockResolvedValue({
 			results: [],
-			totalResults: 0
+			totalResults: 0,
 		});
 	});
 
 	it('should not search if search term is less than minSearchCharacters', async () => {
 		const { result } = renderHook(() => useSearch());
-		
 		await act(async () => {
 			await result.current.refine('ab');
 		});
@@ -47,7 +45,7 @@ describe('useSearch', () => {
 
 	it('should search when term meets minimum length', async () => {
 		const { result } = renderHook(() => useSearch());
-		
+
 		await act(async () => {
 			await result.current.refine('abc');
 		});
@@ -59,7 +57,7 @@ describe('useSearch', () => {
 
 	it('should load more results', async () => {
 		const { result } = renderHook(() => useSearch());
-		
+
 		await act(async () => {
 			await result.current.loadMore();
 		});
@@ -70,7 +68,7 @@ describe('useSearch', () => {
 
 	it('should update order by', async () => {
 		const { result } = renderHook(() => useSearch());
-		
+
 		await act(async () => {
 			await result.current.setOrderBy('date');
 		});
@@ -83,7 +81,7 @@ describe('useSearch', () => {
 		(useElasticPress as jest.Mock).mockReturnValue({
 			...useElasticPress(),
 			loadInitialData: true,
-			results: { totalResults: null }
+			results: { totalResults: null },
 		});
 
 		renderHook(() => useSearch());

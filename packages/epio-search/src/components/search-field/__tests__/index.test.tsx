@@ -15,7 +15,7 @@ describe('SearchField', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
 		(useSearch as jest.Mock).mockReturnValue({ refine: mockRefine });
-		(useDebounce as jest.Mock).mockImplementation((fn, delay) => mockDebouncedFn);
+		(useDebounce as jest.Mock).mockImplementation(() => mockDebouncedFn);
 	});
 
 	it('renders with default props', () => {
@@ -41,22 +41,22 @@ describe('SearchField', () => {
 	it('calls debouncedSearch on input change', () => {
 		const { container } = render(<SearchField />);
 		const input = container.querySelector('input');
-		
+
 		fireEvent.change(input!, { target: { value: 'test query' } });
-		
+
 		expect(mockDebouncedFn).toHaveBeenCalledWith('test query');
 	});
 
 	it('performs search with initial value if provided', () => {
 		render(<SearchField initialValue="initial test" />);
-		
+
 		expect(mockDebouncedFn).toHaveBeenCalledWith('initial test');
 	});
 
 	it('spreads additional props to input', () => {
 		const { container } = render(<SearchField aria-label="Search" />);
 		const input = container.querySelector('input');
-		
+
 		expect(input).toHaveAttribute('aria-label', 'Search');
 	});
 });

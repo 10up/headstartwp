@@ -15,6 +15,7 @@ export async function get(data: EPSearchParams, endpoint: string): Promise<EPRes
 		}
 		return response.json();
 	} catch (error) {
+		// eslint-disable-next-line no-console -- log the error
 		console.error('Error fetching data:', error);
 		throw error;
 	}

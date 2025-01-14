@@ -10,15 +10,12 @@ export function useDebounce(callback: (...args: unknown[]) => void, delay: numbe
 		callbackRef.current = callback;
 	}, [callback]);
 
-	const naiveDebounce = useCallback(
-		(delayMs: number, ...args: unknown[]) => {
-			clearTimeout(timer.current);
-			timer.current = window.setTimeout(() => {
-				callbackRef.current(...args);
-			}, delayMs);
-		},
-		[],
-	);
+	const naiveDebounce = useCallback((delayMs: number, ...args: unknown[]) => {
+		clearTimeout(timer.current);
+		timer.current = window.setTimeout(() => {
+			callbackRef.current(...args);
+		}, delayMs);
+	}, []);
 
 	return useMemo(
 		() =>
