@@ -12,6 +12,7 @@ export function useDebounce(callback: (...args: unknown[]) => void, delay: numbe
 
 	const naiveDebounce = useCallback((delayMs: number, ...args: unknown[]) => {
 		clearTimeout(timer.current);
+
 		timer.current = window.setTimeout(() => {
 			callbackRef.current(...args);
 		}, delayMs);
