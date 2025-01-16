@@ -39,7 +39,7 @@ export function prepareQuery<P extends EndpointParams>(
 
 	const options = merge<NextQueryProps<P>['options']>([
 		{
-			cache: 'no-store',
+			cache: typeof rest.options?.next?.revalidate === 'undefined' ? 'no-store' : undefined,
 		},
 		rest.options ?? {},
 	]);
