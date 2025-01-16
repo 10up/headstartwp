@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.5.0-next.9
+
+### Patch Changes
+
+- 1c0bf8f: Fix fetch settings for next.js
+- Updated dependencies [1c0bf8f]
+  - @headstartwp/core@1.5.0-next.8
+
 ## 1.5.0-next.8
 
 ### Patch Changes

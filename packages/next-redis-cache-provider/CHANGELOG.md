@@ -1,5 +1,11 @@
 # @10up/next-redis-cache-provider
 
+## 2.0.0-next.0
+
+### Major Changes
+
+- 1c0bf8f: Introducing support for App Router
+
 ## 1.0.0
 
 ### Major Changes
