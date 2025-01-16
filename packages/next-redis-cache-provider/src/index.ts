@@ -145,7 +145,7 @@ export default class RedisCache implements CacheHandler {
 	}
 
 	private buildKey(key: string) {
-		if (this.ctx._appDir) {
+		if (typeof this.BUILD_ID === 'undefined') {
 			return key;
 		}
 

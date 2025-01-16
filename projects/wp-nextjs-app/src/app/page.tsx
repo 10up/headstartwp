@@ -10,7 +10,6 @@ async function query({ params }: HeadstartWPRoute) {
 			postType: 'page',
 		},
 		options: {
-			cache: 'force-cache',
 			next: {
 				revalidate: 60,
 				tags: ['home'],

@@ -15,6 +15,7 @@ if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
 	initRedisClient();
 
 	nextConfig.cacheHandler = require.resolve('@10up/next-redis-cache-provider');
+	nextConfig.cacheMaxMemorySize = 0;
 }
 
 module.exports = withHeadstartWPConfig(nextConfig);
