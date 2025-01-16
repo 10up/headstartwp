@@ -189,7 +189,7 @@ class Gutenberg {
 	 * @return DOMDocument
 	 */
 	protected function read_converted_dom_document( string $html ) {
-		$converted_html = htmlspecialchars_decode( htmlspecialchars( $html, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' ) );
+		$converted_html = htmlspecialchars_decode( htmlentities( htmlspecialchars( $html, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' ) ) );
 		$document       = new DomDocument( '1.0', 'UTF-8' );
 
 		libxml_use_internal_errors( true );
