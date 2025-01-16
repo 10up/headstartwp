@@ -11,6 +11,10 @@ async function query({ params }: HeadstartWPRoute) {
 		},
 		options: {
 			cache: 'force-cache',
+			next: {
+				revalidate: 60,
+				tags: ['home'],
+			},
 		},
 	});
 }

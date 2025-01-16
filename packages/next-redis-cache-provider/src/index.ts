@@ -80,7 +80,10 @@ export default class RedisCache implements CacheHandler {
 
 	private lazyConnect: boolean = false;
 
+	private ctx: CacheHandlerContext;
+
 	constructor(ctx: CacheHandlerContext) {
+		this.ctx = ctx;
 		this.flushToDisk = ctx.flushToDisk;
 		this.fs = ctx.fs;
 		this.serverDistDir = ctx.serverDistDir;
@@ -142,16 +145,17 @@ export default class RedisCache implements CacheHandler {
 	}
 
 	private buildKey(key: string) {
+		if (this.ctx._appDir) {
+			return key;
+		}
+
 		return `${this.BUILD_ID}:${key}`;
 	}
 
 	public async get(
 		...args: Parameters<IncrementalCache['get']>
 	): Promise<CacheHandlerValue | null> {
-		const [key, ctx] = args;
-		if (ctx?.fetchIdx || ctx?.fetchUrl) {
-			return null;
-		}
+		const [key] = args;
 
 		await this.getBuildIdAndConnect();
 
@@ -171,19 +175,23 @@ export default class RedisCache implements CacheHandler {
 	public async set(...args: Parameters<IncrementalCache['set']>): Promise<void> {
 		const [key, data, ctx] = args;
 
-		if (!this.flushToDisk || !data || ctx.fetchCache) return;
+		if (!this.flushToDisk || !data) return;
 
 		await this.getBuildIdAndConnect();
 
-		await this.redisClient.set(
-			this.buildKey(key),
-			JSON.stringify({ lastModified: Date.now(), value: data }),
-		);
+		const value = JSON.stringify({ lastModified: Date.now(), value: data });
+		const redisKey = this.buildKey(key);
+
+		if (typeof ctx.revalidate === 'number') {
+			await this.redisClient.set(redisKey, value, 'EX', ctx.revalidate);
+		} else {
+			await this.redisClient.set(redisKey, value);
+		}
 
 		const tags = ctx.tags || [];
 
 		for await (const tag of tags) {
-			await this.redisClient.sadd(this.buildKey(tag), key);
+			await this.redisClient.sadd(this.buildKey(`tag:${tag}`), key);
 		}
 
 		if (this.lazyConnect) {
@@ -196,13 +204,13 @@ export default class RedisCache implements CacheHandler {
 		const tags = [_tag].flat();
 
 		for await (const tag of tags) {
-			const keys = await this.redisClient.smembers(this.buildKey(tag));
+			const keys = await this.redisClient.smembers(this.buildKey(`tag:${tag}`));
 
 			for await (const key of keys) {
 				await this.redisClient.del(this.buildKey(key));
 			}
 
-			await this.redisClient.del(this.buildKey(tag));
+			await this.redisClient.del(this.buildKey(`tag:${tag}`));
 		}
 	}
 }
