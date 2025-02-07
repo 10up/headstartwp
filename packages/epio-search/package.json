@@ -25,13 +25,22 @@
 			"types": "./dist/components/index.d.ts"
 		}
 	},
+	"files": [
+		"dist",
+		"types.d.ts",
+		"components.d.ts",
+		"utils.d.ts",
+		"hooks.d.ts"
+	],
 	"sideEffects": false,
 	"scripts": {
 		"build": "npm run ts && npm run copystyles",
 		"ts": "tsc -b",
 		"copystyles": "copyfiles -u 1 src/**/*.css dist",
 		"dev": "concurrently \"npm run watch:ts\"",
-		"lint": "eslint src/"
+		"watch:ts": "npm run ts -- --watch",
+		"lint": "eslint src/",
+		"test": "jest"
 	},
 	"dependencies": {
 		"wp-types": "^4.67.0"

@@ -8,7 +8,7 @@ export function getESEndpoint(config: EPConfig): string {
 	}
 
 	const url = new URL(node);
-	if (['elasticpress.io'].includes(url.host)) {
+	if (url.host.includes('elasticpress.io')) {
 		return `${node}/api/v1/search/posts/${indexName}`;
 	}
 

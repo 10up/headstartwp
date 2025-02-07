@@ -12,19 +12,21 @@ const merge = (provided: Record<string, unknown>, defaultValues: Record<string, 
 	...provided,
 });
 
+const defaultHitMap = (hit) => {
+	return hit._source as EPPost;
+};
+
 export default function ElasticPressProvider({
 	children,
 	node,
 	indexName,
-	hitMap = (hit) => {
-		return hit._source as EPPost;
-	},
+	hitMap,
 	loadInitialData = true,
 	searchTerm = '',
 	searchState,
 	resultsState,
 	onSSR,
-	onSearch = () => {},
+	onSearch,
 }: EPProviderProps): JSX.Element {
 	if (!node) {
 		throw new Error('You must specify an ElasticSearch node');
@@ -59,10 +61,10 @@ export default function ElasticPressProvider({
 			search: state.search,
 			results: state.results,
 			loading: state.loading,
-			hitMap,
+			hitMap: hitMap ?? defaultHitMap,
 			getEndpoint,
 			dispatch,
-			onSearch,
+			onSearch: onSearch ?? (() => {}),
 		};
 	}, [state, node, indexName, loadInitialData, hitMap, getEndpoint, onSearch]);
 

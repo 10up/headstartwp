@@ -1,6 +1,10 @@
 import { EPResponse, EPSearchParams } from './types';
 
-export async function get(data: EPSearchParams, endpoint: string): Promise<EPResponse> {
+export async function get(
+	data: EPSearchParams,
+	endpoint: string,
+	signal?: AbortSignal,
+): Promise<EPResponse> {
 	let endpointWithParams = `${endpoint}?`;
 	if (data && Object.keys(data).length) {
 		endpointWithParams += Object.keys(data)
@@ -9,7 +13,7 @@ export async function get(data: EPSearchParams, endpoint: string): Promise<EPRes
 	}
 
 	try {
-		const response = await fetch(endpointWithParams);
+		const response = await fetch(endpointWithParams, { signal });
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}

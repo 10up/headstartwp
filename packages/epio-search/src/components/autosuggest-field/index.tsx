@@ -4,6 +4,7 @@
  * ElasticPress autosuggest field
  */
 
+import { useEffect } from 'react';
 import { useElasticPress } from '../provider/ep-provider';
 import { useRoveFocus } from '../../hooks/use-rove-focus';
 import SearchField from '../search-field';
@@ -25,9 +26,13 @@ export default function AutosuggestField({
 	collapsed = false,
 	...rest
 }: AutosuggestFieldProps): JSX.Element {
-	const { search, results } = useElasticPress();
+	const { results } = useElasticPress();
+	const size = results.items ? results.items.length : 0;
+	const { focus, setFocus, isCollapsed, setIsCollapsed } = useRoveFocus(size, collapsed);
 
-	const { focus, setFocus, isCollapsed } = useRoveFocus(search.per_page, collapsed);
+	useEffect(() => {
+		setIsCollapsed(!results.items);
+	}, [results, setIsCollapsed]);
 
 	return (
 		<div className={`${styles.container} ep-autosuggest-container`}>

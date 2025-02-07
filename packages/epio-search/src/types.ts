@@ -44,7 +44,7 @@ export type EPSearchParams = EPState['search'] & SearchOrSearchTerm;
 export interface EPProviderProps {
 	searchTerm?: string;
 	children: ReactNode;
-	hitMap: EPHitMap;
+	hitMap?: EPHitMap;
 	indexName: string | undefined;
 	loadInitialData?: boolean;
 	node: string | undefined;
@@ -52,7 +52,7 @@ export interface EPProviderProps {
 	resultsState?: Pick<EPState, 'results'>;
 	endpoint?: string;
 	onSSR?: (contextValue: EPContextValue) => void;
-	onSearch: (searchState: EPSearchParams) => void;
+	onSearch?: (searchState: EPSearchParams) => void;
 }
 
 export type EPOrderBy = 'date' | 'price' | 'relevance';
@@ -71,6 +71,7 @@ export interface EPState {
 		term_relations?: string;
 		terms?: number[];
 		relation?: 'and' | 'or';
+		template_name?: string | null;
 	};
 	results: {
 		items: EPPost[] | null;
@@ -84,6 +85,8 @@ export interface EPContextValue
 		Omit<EPProviderProps, 'children' | 'searchState' | 'resultsState' | 'searchTerm'> {
 	getEndpoint: () => string;
 	dispatch: React.Dispatch<any>;
+	hitMap: EPHitMap;
+	onSearch: (searchState: EPSearchParams) => void;
 }
 
 export interface EPResponse {

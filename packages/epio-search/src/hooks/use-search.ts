@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useElasticPress } from '../components/provider/ep-provider';
 import { setSearchTerm, setLoading, setResults, setOffset } from '../components/provider/actions';
 import { runEPQuery } from '../utils';
 import type { EPSearchParams, EPOrderBy, EPOrder, EPContextValue } from '../types';
 
 export function useSearch() {
+	const abortControllerRef = useRef<AbortController | null>(null);
 	const {
 		dispatch,
 		searchTerm,
@@ -16,6 +17,7 @@ export function useSearch() {
 		loadInitialData,
 		getEndpoint,
 		onSearch,
+		loading,
 	} = useElasticPress();
 
 	const refine = useCallback(
@@ -26,12 +28,19 @@ export function useSearch() {
 				minSearchCharacters?: number;
 			} = {},
 		) => {
+			if (loading && abortControllerRef.current) {
+				abortControllerRef.current.abort();
+			}
+			abortControllerRef.current = new AbortController();
+			const { signal } = abortControllerRef.current;
+
 			const minSearchCharacters = options?.minSearchCharacters ?? 3;
 			const offset = options?.offset ?? 0;
 			const append = options?.append ?? false;
 			const orderby = options?.orderby ?? search.orderby;
 			const order = options?.order ?? search.order;
 			const per_page = options?.per_page ?? search.per_page;
+			const template_name = options?.template_name ?? null;
 
 			dispatch(setSearchTerm(value));
 
@@ -55,12 +64,16 @@ export function useSearch() {
 				per_page,
 				searchTerm: value,
 			};
+			if (template_name) {
+				searchState.template_name = template_name;
+			}
 
 			try {
 				const { results, totalResults } = await runEPQuery(
 					searchState, // we've already checked that searchTerm is not null
 					getEndpoint(),
 					hitMap,
+					signal,
 				);
 
 				onSearch(searchState);
@@ -73,7 +86,7 @@ export function useSearch() {
 				dispatch(setLoading(false));
 			}
 		},
-		[dispatch, onSearch, search, hitMap, loadInitialData, getEndpoint],
+		[loading, search, dispatch, loadInitialData, getEndpoint, hitMap, onSearch],
 	);
 
 	const loadMore = useCallback(() => {
@@ -114,12 +127,31 @@ export function useSearch() {
 		[refine, searchTerm],
 	);
 
+	const setTemplateName = useCallback(
+		(value: string) => {
+			refine(searchTerm, {
+				minSearchCharacters: 0,
+				template_name: value,
+			});
+		},
+		[refine, searchTerm],
+	);
+
 	// loadInitialData
 	useEffect(() => {
-		if (results.totalResults === null && loadInitialData) {
+		if (!loading && results.totalResults === null && loadInitialData) {
 			refine(null);
 		}
-	}, [refine, results.totalResults, loadInitialData]);
+	}, [refine, results.totalResults, loadInitialData, loading]);
 
-	return { refine, search, results, loadMore, setOrderBy, setOrder, setPerPage };
+	useEffect(() => {
+		return () => {
+			// Abort the fetch request on cleanup
+			if (abortControllerRef.current) {
+				abortControllerRef.current.abort();
+			}
+		};
+	}, []);
+
+	return { refine, search, results, loadMore, setOrderBy, setOrder, setPerPage, setTemplateName };
 }

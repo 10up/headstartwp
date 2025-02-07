@@ -1,35 +1,48 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
-export function useRoveFocus(size, collapsed) {
+export function useRoveFocus(size: number, collapsed: boolean) {
 	const [currentFocus, setCurrentFocus] = useState(-1);
 	const [isCollapsed, setIsCollapsed] = useState(collapsed);
+	const focusRef = useRef(currentFocus);
+	const collapsedRef = useRef(isCollapsed);
+
+	useEffect(() => {
+		focusRef.current = currentFocus;
+		collapsedRef.current = isCollapsed;
+	}, [currentFocus, isCollapsed]);
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent) => {
 			if (e.key === 'ArrowDown') {
 				e.preventDefault();
-				setCurrentFocus(currentFocus === size - 1 ? -1 : currentFocus + 1);
+				const newFocus = focusRef.current >= size - 1 ? 0 : focusRef.current + 1;
+				setCurrentFocus(newFocus);
 			}
 			if (e.key === 'ArrowUp') {
 				e.preventDefault();
-				setCurrentFocus(currentFocus === -1 ? size - 1 : currentFocus - 1);
+				const newFocus = focusRef.current <= 0 ? size - 1 : focusRef.current - 1;
+				setCurrentFocus(newFocus);
 			}
 			if (e.key === 'Escape') {
 				e.preventDefault();
 				setIsCollapsed(true);
 			}
 		},
-		[size, currentFocus, setCurrentFocus],
+		[size],
 	);
 
 	useEffect(() => {
-		document.addEventListener('keydown', handleKeyDown, false);
+		const controller = new AbortController();
+		const { signal } = controller;
+		if (!collapsed) {
+			document.addEventListener('keydown', handleKeyDown, { signal });
+		}
 		return () => {
-			document.removeEventListener('keydown', handleKeyDown, false);
+			controller.abort();
 		};
-	}, [handleKeyDown]);
+	}, [collapsed, handleKeyDown]);
 
-	return { focus: currentFocus, setFocus: setCurrentFocus, isCollapsed };
+	return { focus: currentFocus, setFocus: setCurrentFocus, isCollapsed, setIsCollapsed };
 }

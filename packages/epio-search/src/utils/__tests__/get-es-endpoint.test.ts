@@ -4,11 +4,13 @@ import { EPConfig } from '../../types';
 describe('getESEndpoint', () => {
 	it('should return the correct endpoint for elasticpress.io', () => {
 		const config: EPConfig = {
-			node: 'https://elasticpress.io',
+			node: 'https://search-api-tests-60a8167dd80df.us-east-1.staging.clients.hosted-elasticpress.io',
 			indexName: 'test-index',
 		};
 		const result = getESEndpoint(config);
-		expect(result).toBe('https://elasticpress.io/api/v1/search/posts/test-index');
+		expect(result).toBe(
+			'https://search-api-tests-60a8167dd80df.us-east-1.staging.clients.hosted-elasticpress.io/api/v1/search/posts/test-index',
+		);
 	});
 
 	it('should throw an error if node is not specified', () => {

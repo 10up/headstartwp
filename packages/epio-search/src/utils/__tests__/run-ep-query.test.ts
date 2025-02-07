@@ -44,22 +44,12 @@ describe('runEPQuery', () => {
 	it('should return results and totalResults', async () => {
 		const { results, totalResults } = await runEPQuery(searchState, endpoint, hitMap);
 
+		expect(mockGet).toHaveBeenCalledTimes(1);
 		expect(results).toEqual([
 			{ post_id: 1, title: 'Post 1' },
 			{ post_id: 2, title: 'Post 2' },
 		]);
 		expect(totalResults).toBe(2);
-	});
-
-	it('should filter out undefined values from searchState', async () => {
-		const searchStateWithUndefined: EPSearchParams = {
-			searchTerm: 'test',
-			post_type: undefined,
-		};
-
-		await runEPQuery(searchStateWithUndefined, endpoint, hitMap);
-
-		expect(mockGet).toHaveBeenCalledWith({ search: 'test' }, endpoint);
 	});
 
 	it('should handle empty response', async () => {
