@@ -53,11 +53,9 @@ export interface FetchResponse<T> {
 	queriedObject: QueriedObject;
 }
 
-type NextJSHeaders = {
-	next?: {
-		revalidate?: false | 0 | number;
-		tags?: string[];
-	};
+type NextJSFetchOptions = {
+	revalidate?: false | 0 | number;
+	tags?: string[];
 };
 
 /**
@@ -101,7 +99,9 @@ export interface FetchOptions {
 	/**
 	 * Headers to sent to fetch
 	 */
-	headers?: Record<string, unknown> & NextJSHeaders;
+	headers?: Record<string, unknown>;
+
+	next?: NextJSFetchOptions;
 }
 
 export interface FilterDataOptions<T> {
@@ -335,6 +335,10 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 
 		if (Object.keys(headers).length > 0) {
 			args.headers = headers;
+		}
+
+		if (options.next) {
+			args.next = options.next;
 		}
 
 		const result = await apiGet(`${this.baseURL}${url}`, args, burstCache);
