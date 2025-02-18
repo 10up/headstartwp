@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.1.5
+
+### Patch Changes
+
+- 0b31232: Fix deprecation notice for PHP >= 8.2 for the usage of mb_convert_encoding with 'HTML-ENTITIES'
+
 ## 1.1.4
 
 ### Patch Changes
