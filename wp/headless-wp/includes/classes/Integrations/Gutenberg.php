@@ -189,7 +189,9 @@ class Gutenberg {
 	 * @return DOMDocument
 	 */
 	protected function read_converted_dom_document( string $html ) {
-		$converted_html = htmlspecialchars_decode( htmlentities( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) );
+		// Yes this is cryptic, but the previous way using mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) has been deprecated
+		// @see https://www.drupal.org/project/smart_trim/issues/3342481#comment-14982548
+		$converted_html = mb_encode_numericentity( $html, [ 0x80, 0x10FFFF, 0, ~0 ], 'UTF-8' );
 		$document       = new DomDocument( '1.0', 'UTF-8' );
 
 		libxml_use_internal_errors( true );
