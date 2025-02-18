@@ -38,6 +38,9 @@ async function query({ params }: HeadstartWPRoute) {
 		params: {
 			postType: ['post', 'page'],
 		},
+		options: {
+			cache: 'force-cache',
+		},
 	});
 }
 

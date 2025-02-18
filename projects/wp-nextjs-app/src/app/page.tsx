@@ -9,6 +9,12 @@ async function query({ params }: HeadstartWPRoute) {
 			slug: 'sample-page',
 			postType: 'page',
 		},
+		options: {
+			next: {
+				revalidate: 60,
+				tags: ['home'],
+			},
+		},
 	});
 }
 

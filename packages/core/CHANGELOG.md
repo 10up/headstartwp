@@ -1,5 +1,17 @@
 # @headstartwp/core
 
+## 1.5.0-next.8
+
+### Patch Changes
+
+- 1c0bf8f: Fix fetch settings for next.js
+
+## 1.5.0-next.7
+
+### Minor Changes
+
+- 5290658: Fix: xss import issue
+
 ## 1.5.0-next.6
 
 ### Minor Changes
