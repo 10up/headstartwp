@@ -27,7 +27,7 @@ jobs:
           [[ ! -f .changeset/pre.json ]] && npx changeset pre enter next || echo 'already in pre mode'
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: actions/cache@v4
         with:
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: npm run publish

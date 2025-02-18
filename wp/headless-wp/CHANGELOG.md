@@ -1,10 +1,16 @@
 # @headstartwp/headstartwp
 
-## 1.1.5-next.0
+## 1.1.6-next.0
 
 ### Patch Changes
 
 - 8ba6de7: Fix: do not cast menu item ids to number as they are strings
+
+## 1.1.5
+
+### Patch Changes
+
+- 0b31232: Fix deprecation notice for PHP >= 8.2 for the usage of mb_convert_encoding with 'HTML-ENTITIES'
 
 ## 1.1.4
 
