@@ -15,6 +15,9 @@
     "@10up/wp-multisite-nextjs-app",
     "@10up/wp-multisite-nextjs",
     "@10up/wp-multisite-i18n-nextjs",
-    "@headstartwp/vite-react-test"
+    "@headstartwp/vite-react-test",
+    "@10up/wp-nextjs-universal-blocks",
+    "@headstartwp/component-library",
+    "tenup-theme"
   ]
 }
