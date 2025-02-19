@@ -1,0 +1,108 @@
+{
+  "name": "@headstartwp/block-primitives",
+  "version": "0.0.1",
+  "description": "A set of Gutenberg Primitives for authoring react components that can be shared with the block editor",
+  "homepage": "https://github.com/10up/headstartwp/blob/develop/packages/primitives/README.md",
+  "license": "MIT",
+  "author": "10up <info@10up.com> (https://10up.com/)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./renderer": {
+      "block-editor": "./dist/block-editor/renderer.js",
+      "types": "./dist/primitives/renderer.d.ts",
+      "default": "./dist/primitives/renderer.js"
+    },
+    "./rich-text": {
+      "block-editor": "./dist/block-editor/rich-text.js",
+      "types": "./dist/primitives/rich-text.d.ts",
+      "default": "./dist/primitives/rich-text.js"
+    },
+    "./image": {
+      "block-editor": "./dist/block-editor/image.js",
+      "types": "./dist/primitives/image.d.ts",
+      "default": "./dist/primitives/image.js"
+    },
+    "./link": {
+      "block-editor": "./dist/block-editor/link.js",
+      "types": "./dist/primitives/link.d.ts",
+      "default": "./dist/primitives/link.js"
+    },
+    "./hooks": {
+      "block-editor": "./dist/block-editor/hooks/index.js",
+      "types": "./dist/block-editor/hooks/index.d.js",
+      "default": "./dist/block-editor/hooks/index.js"
+    },
+    "./inner-blocks": {
+      "block-editor": "./dist/block-editor/inner-blocks.js",
+      "types": "./dist/primitives/inner-blocks.d.ts",
+      "default": "./dist/primitives/inner-blocks.js"
+    }
+  },
+  "imports": {
+    "#/*": {
+      "block-editor": "./src/block-editor/*",
+      "default": "./src/primitives/*"
+    },
+    "#shared/*": "./src/shared/*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "npm run ts",
+    "ts": "tsc -b",
+    "dev": "npm run watch:ts",
+    "watch:ts": "npm run ts -- --watch",
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest",
+    "test:watch": "node --experimental-vm-modules ../../node_modules/jest/bin/jest --watch",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@headstartwp/core": "^1.5.0-next.5",
+    "@types/wordpress__block-library": "^2.6.3",
+    "@types/wordpress__block-editor": "^11.5.12"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^9.3.4",
+    "@testing-library/react": "^14.2.1",
+    "@testing-library/user-event": "^14.5.2",
+    "dts-bundle-generator": "^9.5.1",
+    "@10up/block-components": "^1.19.3",
+    "@types/jest": "^29.0.3",
+    "jest": "^29.0.3",
+    "ts-jest": "^29.0.1",
+    "typescript": "^5.4.2",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "peerDependencies": {
+    "react": ">= 17.0.2",
+    "next": ">= 14.0.0",
+    "@wordpress/block-editor": "^12.21.0",
+    "@wordpress/data": "^9.23.0",
+    "@wordpress/components": "^27.1.0",
+    "@10up/block-components": "^1.19.3",
+    "@wordpress/blob": "^3.53.0"
+  },
+  "peerDependenciesMeta": {
+    "@wordpress/block-editor": {
+      "optional": true
+    },
+    "@wordpress/data": {
+      "optional": true
+    },
+    "@wordpress/blob": {
+      "optional": true
+    },
+    "@10up/block-components": {
+      "optional": true
+    }
+  }
+}

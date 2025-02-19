@@ -1,79 +1,82 @@
 {
-	"name": "@10up/headstartwp",
-	"version": "1.0.0",
-	"description": "Monorepo for headless framework",
-	"homepage": "https://github.com/10up/headstartwp#readme",
-	"author": "10up <info@10up.com> (https://10up.com/)",
-	"contributors": [
-		{
-			"name": "Nícholas André",
-			"email": "nicholas.andre@10up.com",
-			"url": "https://github.com/nicholasio"
-		}
-	],
-	"scripts": {
-		"build": "turbo run build",
-		"build:packages": "turbo run build --filter=./packages/*",
-		"build:wpnextjs": "turbo run build --filter=./projects/wp-nextjs",
-		"build:wpnextjs:app": "turbo run build --filter=./projects/wp-nextjs-app",
-		"build:wpnextjs:epio": "turbo run build --filter=./projects/wp-nextjs-epio",
-		"test": "turbo run test",
-		"test:watch": "turbo run test:watch",
-		"lint": "turbo run lint",
-		"wp-env": "npm run wp-env:start -w=wp/headless-wp",
-		"dev": "turbo run dev --parallel --filter=./projects/wp-nextjs --filter=./packages/core --filter=./packages/next",
-		"dev:app": "turbo run dev --parallel  --filter=./projects/wp-nextjs-app --filter=./packages/core --filter=./packages/next",
-		"dev:app:epio": "turbo run dev --parallel  --filter=./projects/wp-nextjs-epio --filter=./packages/core --filter=./packages/next",
-		"dev:app:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs-app --filter=./packages/core --filter=./packages/next",
-		"dev:app:polylang": "turbo run dev --parallel --filter=./projects/wp-polylang-nextjs-app --filter=./packages/core --filter=./packages/next",
-		"dev:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs --filter=./packages/core --filter=./packages/next",
-		"dev:multisite:i18n": "turbo run dev --parallel --filter=./projects/wp-multisite-i18n-nextjs --filter=./packages/core --filter=./packages/next",
-		"prepare": "husky install",
-		"typedoc": "typedoc",
-		"typedoc:watch": "typedoc --watch",
-		"version": "changeset version && ./scripts/version-plugin.sh",
-		"publish": "npm run build:packages && npx changeset publish"
-	},
-	"workspaces": [
-		"packages/*",
-		"projects/*",
-		"wp/*"
-	],
-	"devDependencies": {
-		"@10up/eslint-config": "^4.0.0",
-		"@changesets/cli": "^2.27.1",
-		"@commitlint/cli": "^13.1.0",
-		"@commitlint/config-conventional": "^13.1.0",
-		"@typescript-eslint/eslint-plugin": "^7.9.0",
-		"@typescript-eslint/parser": "^7.9.0",
-		"concurrently": "^6.3.0",
-		"eslint-import-resolver-typescript": "^2.5.0",
-		"husky": "^7.0.2",
-		"identity-obj-proxy": "^3.0.0",
-		"jest": "^29.0.3",
-		"jest-environment-jsdom": "^29.0.3",
-		"lint-staged": "^11.1.2",
-		"prettier": "3.2.5",
-		"turbo": "^2.0.11"
-	},
-	"nextBundleAnalysis": {
-		"buildOutputDirectory": "./projects/wp-nextjs/.next",
-		"budget": 148480,
-		"budgetPercentIncreaseRed": 20,
-		"showDetails": true
-	},
-	"engineStrict": true,
-	"engines": {
-		"node": ">=18.0.0",
-		"npm": ">=9.0.0"
-	},
-	"optionalDependencies": {
-		"turbo-darwin-64": "^2.0.3",
-		"turbo-darwin-arm64": "^2.0.3",
-		"turbo-linux-64": "^2.0.3",
-		"turbo-linux-arm64": "^2.0.3",
-		"turbo-windows-64": "^2.0.3",
-		"turbo-windows-arm64": "^2.0.3"
-	},
-	"packageManager": "npm@10.5.0"
+  "name": "@10up/headstartwp",
+  "version": "1.0.0",
+  "description": "Monorepo for headless framework",
+  "homepage": "https://github.com/10up/headstartwp#readme",
+  "author": "10up <info@10up.com> (https://10up.com/)",
+  "contributors": [
+    {
+      "name": "Nícholas André",
+      "email": "nicholas.andre@10up.com",
+      "url": "https://github.com/nicholasio"
+    }
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "build:packages": "turbo run build --filter=./packages/*",
+    "build:wpnextjs": "turbo run build --filter=./projects/wp-nextjs",
+    "build:wpnextjs:app": "turbo run build --filter=./projects/wp-nextjs-app",
+    "build:wpnextjs:epio": "turbo run build --filter=./projects/wp-nextjs-epio",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "lint": "turbo run lint",
+    "wp-env": "npm run wp-env:start -w=wp/headless-wp",
+    "dev": "turbo run dev --parallel --filter=./projects/wp-nextjs --filter=./packages/core --filter=./packages/next",
+    "dev:app": "turbo run dev --parallel  --filter=./projects/wp-nextjs-app --filter=./packages/core --filter=./packages/next",
+    "dev:app:epio": "turbo run dev --parallel  --filter=./projects/wp-nextjs-epio --filter=./packages/core --filter=./packages/next",
+    "dev:app:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs-app --filter=./packages/core --filter=./packages/next",
+    "dev:app:polylang": "turbo run dev --parallel --filter=./projects/wp-polylang-nextjs-app --filter=./packages/core --filter=./packages/next",
+    "dev:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs --filter=./packages/core --filter=./packages/next",
+    "dev:multisite:i18n": "turbo run dev --parallel --filter=./projects/wp-multisite-i18n-nextjs --filter=./packages/core --filter=./packages/next",
+    "dev:primitives": "turbo run dev --parallel  --filter=./test-projects/wp-nextjs-universal-blocks --filter=./packages/core --filter=./packages/next --filter=./packages/block-primitives --filter=./test-projects/component-library --filter=./wp/10up-theme",
+    "dev:component-library": "turbo run dev --parallel --filter=./projects/component-library --filter=./wp/10up-theme",
+    "prepare": "husky install",
+    "typedoc": "typedoc",
+    "typedoc:watch": "typedoc --watch",
+    "version": "changeset version && ./scripts/version-plugin.sh",
+    "publish": "npm run build:packages && npx changeset publish"
+  },
+  "workspaces": [
+    "packages/*",
+    "projects/*",
+    "wp/*",
+    "test-projects/*"
+  ],
+  "devDependencies": {
+    "@10up/eslint-config": "^4.0.0",
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.9.0",
+    "@typescript-eslint/parser": "^7.9.0",
+    "concurrently": "^6.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "husky": "^7.0.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.0.3",
+    "jest-environment-jsdom": "^29.0.3",
+    "lint-staged": "^11.1.2",
+    "prettier": "3.2.5",
+    "turbo": "^2.0.11"
+  },
+  "nextBundleAnalysis": {
+    "buildOutputDirectory": "./projects/wp-nextjs/.next",
+    "budget": 148480,
+    "budgetPercentIncreaseRed": 20,
+    "showDetails": true
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "optionalDependencies": {
+    "turbo-darwin-64": "^2.0.3",
+    "turbo-darwin-arm64": "^2.0.3",
+    "turbo-linux-64": "^2.0.3",
+    "turbo-linux-arm64": "^2.0.3",
+    "turbo-windows-64": "^2.0.3",
+    "turbo-windows-arm64": "^2.0.3"
+  },
+  "packageManager": "npm@10.5.0"
 }

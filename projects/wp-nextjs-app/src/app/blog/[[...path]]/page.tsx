@@ -1,6 +1,7 @@
-import { PostEntity, QueriedObject } from '@headstartwp/core';
+import type { PostEntity, QueriedObject } from '@headstartwp/core';
 import { HtmlDecoder } from '@headstartwp/core/react';
-import { HeadstartWPRoute, JSONLD, queryPostOrPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { JSONLD, queryPostOrPosts } from '@headstartwp/next/app';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';

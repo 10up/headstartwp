@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2017",
+    "declaration": true
+  },
+  "exclude": ["node_modules", "dist", "src/**/__tests__/*.ts"],
+  "include": ["src"]
+}
