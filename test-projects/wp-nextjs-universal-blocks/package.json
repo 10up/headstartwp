@@ -1,5 +1,5 @@
 {
-  "name": "@10up/wp-nextjs-app",
+  "name": "@10up/wp-nextjs-universal-blocks",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,6 +17,8 @@
     "react": "^18",
     "react-dom": "^18",
     "next": "^14.2.5",
+    "@headstartwp/component-library": "*",
+    "@headstartwp/block-primitives": "*",
     "@headstartwp/core": "^1.5.0-next.8",
     "@headstartwp/next": "^1.5.0-next.9",
     "@10up/next-redis-cache-provider": "^2.0.0-next.0"

@@ -3,6 +3,8 @@ import React from 'react';
 import type { HeadlessConfig } from '@headstartwp/core';
 import { isBlockByName } from '@headstartwp/core';
 import { ImageBlock, LinkBlock, queryAppSettings, TwitterBlock } from '@headstartwp/next/app';
+import { Hero } from '@headstartwp/component-library/hero';
+import { UniversalBlockRenderer } from '@headstartwp/block-primitives/renderer';
 import { PostList } from './Blocks/PostList';
 
 type BlocksRendererProps = {
@@ -27,6 +29,11 @@ const Blocks: React.FC<BlocksRendererProps> = async ({ html, settings }) => {
 			<PostList test={(node) => isBlockByName(node, 'core/query')} />
 			<TwitterBlock />
 			<LinkBlock />
+			<UniversalBlockRenderer
+				component={Hero}
+				test={(node) => isBlockByName(node, 'tenup/hero')}
+				componentProps={{ testprop22asd: 'test' }}
+			/>
 		</BlocksRenderer>
 	);
 };
