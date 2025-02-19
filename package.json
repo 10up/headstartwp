@@ -37,7 +37,8 @@
   "workspaces": [
     "packages/*",
     "projects/*",
-    "wp/*"
+    "wp/*",
+    "test-projects/*"
   ],
   "devDependencies": {
     "@10up/eslint-config": "^4.0.0",
