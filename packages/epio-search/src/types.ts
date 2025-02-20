@@ -53,6 +53,7 @@ export interface EPProviderProps {
 	endpoint?: string;
 	onSSR?: (contextValue: EPContextValue) => void;
 	onSearch?: (searchState: EPSearchParams) => void;
+	onNavigation?: (result: EPPost) => void;
 }
 
 export type EPOrderBy = 'date' | 'price' | 'relevance';

@@ -27,6 +27,7 @@ export default function ElasticPressProvider({
 	resultsState,
 	onSSR,
 	onSearch,
+	onNavigation,
 }: EPProviderProps): JSX.Element {
 	if (!node) {
 		throw new Error('You must specify an ElasticSearch node');
@@ -65,8 +66,21 @@ export default function ElasticPressProvider({
 			getEndpoint,
 			dispatch,
 			onSearch: onSearch ?? (() => {}),
+			onNavigation: onNavigation ?? (() => {}),
 		};
-	}, [state, node, indexName, loadInitialData, hitMap, getEndpoint, onSearch]);
+	}, [
+		node,
+		indexName,
+		loadInitialData,
+		state.searchTerm,
+		state.search,
+		state.results,
+		state.loading,
+		hitMap,
+		getEndpoint,
+		onSearch,
+		onNavigation,
+	]);
 
 	if (typeof window === 'undefined' && typeof onSSR === 'function') {
 		onSSR(contextValue);

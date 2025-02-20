@@ -16,8 +16,10 @@ function TestComponent({ size, collapsed }) {
 	const { focus, setFocus, isCollapsed } = useRoveFocus(size, collapsed);
 
 	useEffect(() => {
-		// Expose the hook's state for testing
-		window.hookState = { focus, setFocus, isCollapsed };
+		if (process.env.NODE_ENV === 'test') {
+			// Expose the hook's state for testing
+			window.hookState = { focus, setFocus, isCollapsed };
+		}
 	}, [focus, setFocus, isCollapsed]);
 
 	return null;

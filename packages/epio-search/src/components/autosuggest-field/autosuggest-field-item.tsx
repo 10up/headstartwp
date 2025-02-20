@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { EPPost } from '../../types';
 import styles from './styles.module.css';
+import { useElasticPress } from '../provider/ep-provider';
 
 interface AutosuggestFieldItemProps {
 	focus: boolean;
@@ -18,6 +19,7 @@ export default function AutosuggestFieldItem({
 	setFocus,
 }: AutosuggestFieldItemProps): JSX.Element {
 	const ref = useRef<HTMLLIElement>(null);
+	const { onNavigation } = useElasticPress();
 
 	useEffect(() => {
 		if (focus && ref.current) {
@@ -27,8 +29,10 @@ export default function AutosuggestFieldItem({
 	}, [focus]);
 
 	const handleNavigate = useCallback(() => {
-		document.location = result.permalink;
-	}, [result.permalink]);
+		if (typeof onNavigation === 'function') {
+			onNavigation(result);
+		}
+	}, [onNavigation, result]);
 
 	const handleSelect = useCallback(
 		(event) => {

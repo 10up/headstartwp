@@ -4,6 +4,7 @@
 	"license": "MIT",
 	"description": "React components for supercharging your headless WordPress website with ElasticPress.",
 	"author": "10up <info@10up.com> (https://10up.com/)",
+	"type": "module",
 	"main": "dist/index.js",
 	"source": "src/index.ts",
 	"types": "dist/index.d.ts",
