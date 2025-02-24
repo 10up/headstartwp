@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Link, PreviewIndicator, queryAppSettings, HeadstartWPApp } from '@headstartwp/next/app';
+import { Link, queryAppSettings, HeadstartWPApp } from '@headstartwp/next/app';
 import { Menu, SettingsContextProps } from '@headstartwp/core/react';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -26,7 +26,7 @@ const RootLayout = async ({
 				<HeadstartWPApp settings={settings} themeJSON={data['theme.json']}>
 					{menu ? <Menu items={menu} /> : null}
 					{children}
-					<PreviewIndicator className="form-container" />
+					{/* <PreviewIndicator className="form-container" /> */}
 				</HeadstartWPApp>
 			</body>
 		</html>

@@ -1,8 +1,7 @@
 import { HeadstartWPRoute, JSONLD, queryPost } from '@headstartwp/next/app';
 import { Metadata } from 'next';
-import { ElasticPressProvider } from '@headstartwp/epio-search';
 import Blocks from '../components/Blocks';
-import { SearchClient } from '../components/SearchClient';
+import Homepage from '../components/Homepage';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPost({
@@ -23,13 +22,10 @@ export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Me
 const Home = async ({ params }: HeadstartWPRoute) => {
 	const { data, seo, config } = await query({ params });
 
+	// have to use a client component to add the ElasticPress Provider
+	// if we want to use the `onNavigation` callback, since it's a client function
 	return (
-		<ElasticPressProvider
-			node="https://search-api-tests-60a8167dd80df.us-east-1.staging.clients.hosted-elasticpress.io"
-			indexName="search-api-tests-60a8167dd80df-searchapitest-post-1"
-			loadInitialData
-		>
-			<SearchClient />
+		<Homepage>
 			<main>
 				<div>
 					<Blocks html={data.post.content.rendered ?? ''} settings={config} />
@@ -37,7 +33,7 @@ const Home = async ({ params }: HeadstartWPRoute) => {
 
 				{seo?.schema && <JSONLD schema={seo.schema} />}
 			</main>
-		</ElasticPressProvider>
+		</Homepage>
 	);
 };
 
