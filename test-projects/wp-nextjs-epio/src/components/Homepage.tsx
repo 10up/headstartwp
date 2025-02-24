@@ -1,9 +1,10 @@
 'use client';
 
+import { ReactNode } from 'react';
 import { ElasticPressProvider } from '@headstartwp/epio-search';
 import { SearchClient } from './SearchClient';
 
-export default ({ children }) => {
+export const Homepage = ({ children }: { children: ReactNode }) => {
 	return (
 		<ElasticPressProvider
 			node="https://search-api-tests-60a8167dd80df.us-east-1.staging.clients.hosted-elasticpress.io"
