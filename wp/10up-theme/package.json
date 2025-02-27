@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "modern-normalize": "^2.0.0",
-    "@headstartwp/block-primitives": "*",
+    "@headstartwp/block-primitives": "0.0.2-next.0",
     "@headstartwp/component-library": "*",
     "@10up/block-components": "^1.19.3"
   },

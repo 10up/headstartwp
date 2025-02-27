@@ -10,7 +10,7 @@
     "./hero": "./src/hero/Hero.tsx"
   },
   "dependencies": {
-    "@headstartwp/block-primitives": "*",
+    "@headstartwp/block-primitives": "0.0.2-next.0",
     "react": "^18",
     "react-dom": "^18"
   },

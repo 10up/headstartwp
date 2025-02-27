@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.5.0-next.9
+
+### Patch Changes
+
+- 2ef9d09: Introducing blocks-primitives package and minor patch to core package
+
 ## 1.5.0-next.8
 
 ### Patch Changes
