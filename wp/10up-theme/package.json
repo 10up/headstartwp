@@ -11,6 +11,7 @@
     "clean-dist": "rm -rf ./dist",
     "scaffold:block": "cd includes/blocks/ && wp-create-block --no-plugin --template ../../../../bin/create-block-template"
   },
+  "private": true,
   "engines": {
     "node": ">=18.0.0"
   },
