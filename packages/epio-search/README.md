@@ -4,7 +4,7 @@
 
 ## Requirements
 
-* Elasticsearch per [ElasticPress requirements](https://github.com/10up/ElasticPress#requirements).
+* ElasticPress per [ElasticPress requirements](https://github.com/10up/ElasticPress#requirements).
 * WordPress website running [ElasticPress](https://elasticpress.io).
 
 ## Installation
