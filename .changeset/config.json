@@ -11,6 +11,7 @@
   "ignore": [
     "@10up/wp-nextjs",
     "@10up/wp-nextjs-app", 
+    "@10up/wp-nextjs-epio",
     "@10up/wp-polylang-nextjs-app",
     "@10up/wp-multisite-nextjs-app",
     "@10up/wp-multisite-nextjs",

@@ -1,5 +1,5 @@
 ---
-"@10up/wp-nextjs-epio": patch
+"@headstartwp/epio-search": patch
 ---
 
 correctly export types
