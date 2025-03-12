@@ -200,7 +200,7 @@ export function withHeadstartWPConfig(
 
 				let shouldRewriteYoastSEOUrls = topLevelShouldRewriteYoastSEOUrls;
 				if (site.integrations?.yoastSEO) {
-					shouldRewriteYoastSEOUrls = site.integrations.yoastSEO.enable === true ? 1 : 0;
+					shouldRewriteYoastSEOUrls = site.integrations.yoastSEO?.enable === true ? 1 : 0;
 				}
 
 				const defaultRewrites = [
