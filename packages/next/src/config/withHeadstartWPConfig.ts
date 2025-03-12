@@ -1,4 +1,4 @@
-import { ConfigError, HeadlessConfig } from '@headstartwp/core';
+import { ConfigError, HeadlessConfig, getSite } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
@@ -186,22 +186,18 @@ export function withHeadstartWPConfig(
 		async rewrites() {
 			const rewrites =
 				typeof nextConfig.rewrites === 'function' ? await nextConfig.rewrites() : [];
-			const topLevelShouldRewriteYoastSEOUrls =
-				headlessConfig?.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
-			sites.forEach((site) => {
+			sites.forEach((rawSite) => {
+				const site = getSite(rawSite);
 				const wpUrl = site.sourceUrl;
-				let prefix = '';
+
+				let prefix = isMultisite ? '/_sites/:site' : '';
 				if (isUsingAppRouter) {
 					prefix = isMultisite ? '/:site' : '';
-				} else {
-					prefix = isMultisite ? '/_sites/:site' : '';
 				}
 
-				let shouldRewriteYoastSEOUrls = topLevelShouldRewriteYoastSEOUrls;
-				if (site.integrations?.yoastSEO) {
-					shouldRewriteYoastSEOUrls = site.integrations.yoastSEO?.enable === true ? 1 : 0;
-				}
+				const shouldRewriteYoastSEOUrls =
+					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
 				const defaultRewrites = [
 					{
