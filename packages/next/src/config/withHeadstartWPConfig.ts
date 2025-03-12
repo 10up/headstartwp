@@ -186,6 +186,8 @@ export function withHeadstartWPConfig(
 		async rewrites() {
 			const rewrites =
 				typeof nextConfig.rewrites === 'function' ? await nextConfig.rewrites() : [];
+			const topLevelShouldRewriteYoastSEOUrls =
+				headlessConfig?.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
 			sites.forEach((site) => {
 				const wpUrl = site.sourceUrl;
@@ -195,8 +197,11 @@ export function withHeadstartWPConfig(
 				} else {
 					prefix = isMultisite ? '/_sites/:site' : '';
 				}
-				const shouldRewriteYoastSEOUrls =
-					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
+
+				let shouldRewriteYoastSEOUrls = topLevelShouldRewriteYoastSEOUrls;
+				if (site.integrations?.yoastSEO) {
+					shouldRewriteYoastSEOUrls = site.integrations.yoastSEO.enable === true ? 1 : 0;
+				}
 
 				const defaultRewrites = [
 					{
