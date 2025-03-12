@@ -189,7 +189,12 @@ export function withHeadstartWPConfig(
 
 			sites.forEach((site) => {
 				const wpUrl = site.sourceUrl;
-				const prefix = isMultisite ? '/_sites/:site' : '';
+				let prefix = '';
+				if (isUsingAppRouter) {
+					prefix = isMultisite ? '/:site' : '';
+				} else {
+					prefix = isMultisite ? '/_sites/:site' : '';
+				}
 				const shouldRewriteYoastSEOUrls =
 					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
@@ -207,7 +212,7 @@ export function withHeadstartWPConfig(
 						destination: `${wpUrl}/feed/?rewrite_urls=1`,
 					},
 					{
-						source: '/robots.txt',
+						source: `${prefix}/robots.txt`,
 						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
