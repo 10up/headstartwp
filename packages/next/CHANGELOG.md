@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.5.0-next.10
+
+### Minor Changes
+
+- 24ddd61: support app router in withHeadstartWPConfig
+
 ## 1.5.0-next.9
 
 ### Patch Changes
