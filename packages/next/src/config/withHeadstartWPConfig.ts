@@ -1,4 +1,4 @@
-import { ConfigError, HeadlessConfig } from '@headstartwp/core';
+import { ConfigError, HeadlessConfig, getSite } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
@@ -187,9 +187,15 @@ export function withHeadstartWPConfig(
 			const rewrites =
 				typeof nextConfig.rewrites === 'function' ? await nextConfig.rewrites() : [];
 
-			sites.forEach((site) => {
+			sites.forEach((rawSite) => {
+				const site = getSite(rawSite);
 				const wpUrl = site.sourceUrl;
-				const prefix = isMultisite ? '/_sites/:site' : '';
+
+				let prefix = isMultisite ? '/_sites/:site' : '';
+				if (isUsingAppRouter) {
+					prefix = isMultisite ? '/:site' : '';
+				}
+
 				const shouldRewriteYoastSEOUrls =
 					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
@@ -207,7 +213,7 @@ export function withHeadstartWPConfig(
 						destination: `${wpUrl}/feed/?rewrite_urls=1`,
 					},
 					{
-						source: '/robots.txt',
+						source: `${prefix}/robots.txt`,
 						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
