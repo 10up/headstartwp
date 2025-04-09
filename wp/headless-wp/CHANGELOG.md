@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.1.6
+
+### Patch Changes
+
+- ffdd745: Fix: only flush app settings cache when updating app settings option
+
 ## 1.1.5
 
 ### Patch Changes
