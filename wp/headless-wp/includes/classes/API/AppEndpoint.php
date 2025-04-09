@@ -223,7 +223,7 @@ class AppEndpoint {
 	 * @return void
 	 */
 	public function maybe_invalidate_cache( $option_name ) {
-		if ( self::$cache_key_store !== $option_name ) {
+		if ( self::$cache_key_store === $option_name ) {
 			$this->invalidate_cache();
 		}
 	}
