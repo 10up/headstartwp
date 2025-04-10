@@ -1,10 +1,15 @@
 # @headstartwp/headstartwp
 
-## 1.1.6-next.0
+## 1.1.7-next.0
 
 ### Patch Changes
 
 - 8ba6de7: Fix: do not cast menu item ids to number as they are strings
+## 1.1.6
+
+### Patch Changes
+
+- ffdd745: Fix: only flush app settings cache when updating app settings option
 
 ## 1.1.5
 
