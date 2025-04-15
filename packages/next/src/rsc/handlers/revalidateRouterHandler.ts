@@ -3,28 +3,32 @@ import { revalidatePath } from 'next/cache';
 import { NextRequest } from 'next/server';
 import { getHostAndConfigFromRequest } from './utils';
 
+interface RevalidateRouteHandlerArgs {
+	verifiedPath: string;
+	slug: string | undefined;
+	locale: string | null;
+	isMultisiteRequest: boolean;
+}
 /**
  * Returns the path to revalidate
  *
- * @param path The path being revalidated
- * @param slug The site slug for which the path is being revalidated
- * @param locale The locale for which the path is being revalidated
- * @param isMultisiteRequest Whether this is a multisite request
- * @returns
+ * @param args The arguments for revalidation
+ * @returns The path to revalidate
  */
-function getPathToRevalidate(
-	path: string,
-	slug: string | undefined,
-	locale: string | null,
-	isMultisiteRequest: boolean,
-) {
-	let pathToRevalidate = path;
+function getPathToRevalidate({
+	verifiedPath,
+	slug,
+	locale,
+	isMultisiteRequest,
+}: RevalidateRouteHandlerArgs): string {
+	let pathToRevalidate = verifiedPath;
 
 	if (isMultisiteRequest && slug) {
 		if (locale) {
-			pathToRevalidate = `/${locale}/${slug}/${path}`;
+			pathToRevalidate = `/${locale}/${slug}/${verifiedPath}`;
+		} else {
+			pathToRevalidate = `/${slug}/${verifiedPath}`;
 		}
-		pathToRevalidate = `/${slug}/${path}`;
 	}
 
 	return pathToRevalidate;
@@ -57,7 +61,7 @@ function getPathToRevalidate(
  */
 export async function revalidateRouteHandler(
 	request: NextRequest,
-	callback: Function | null = null,
+	callback: ((args: RevalidateRouteHandlerArgs) => Promise<void>) | null = null,
 ) {
 	const { searchParams } = request.nextUrl;
 
@@ -95,12 +99,12 @@ export async function revalidateRouteHandler(
 			throw new Error('Token mismatch');
 		}
 
-		const pathToRevalidate = getPathToRevalidate(
+		const pathToRevalidate = getPathToRevalidate({
 			verifiedPath,
 			slug,
 			locale,
 			isMultisiteRequest,
-		);
+		});
 
 		revalidatePath(pathToRevalidate);
 
