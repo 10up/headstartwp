@@ -7,24 +7,24 @@ import { getHostAndConfigFromRequest } from './utils';
  * Returns the path to revalidate
  *
  * @param path The path being revalidated
- * @param host The host for which the path is being revalidated
+ * @param slug The site slug for which the path is being revalidated
  * @param locale The locale for which the path is being revalidated
  * @param isMultisiteRequest Whether this is a multisite request
  * @returns
  */
 function getPathToRevalidate(
 	path: string,
-	host: string,
+	slug: string | undefined,
 	locale: string | null,
 	isMultisiteRequest: boolean,
 ) {
 	let pathToRevalidate = path;
 
-	if (isMultisiteRequest) {
+	if (isMultisiteRequest && slug) {
 		if (locale) {
-			pathToRevalidate = `/_sites/${host}/${locale}/${path}`;
+			pathToRevalidate = `/${locale}/${slug}/${path}`;
 		}
-		pathToRevalidate = `/_sites/${host}${path}`;
+		pathToRevalidate = `/${slug}/${path}`;
 	}
 
 	return pathToRevalidate;
@@ -71,8 +71,7 @@ export async function revalidateRouteHandler(request: NextRequest) {
 	}
 
 	const {
-		host,
-		config: { sourceUrl },
+		config: { sourceUrl, slug },
 		isMultisiteRequest,
 	} = getHostAndConfigFromRequest(request);
 
@@ -94,7 +93,7 @@ export async function revalidateRouteHandler(request: NextRequest) {
 
 		const pathToRevalidate = getPathToRevalidate(
 			verifiedPath,
-			host,
+			slug,
 			locale,
 			isMultisiteRequest,
 		);
