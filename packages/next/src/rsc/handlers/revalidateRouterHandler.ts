@@ -55,7 +55,10 @@ function getPathToRevalidate(
  *
  * @category Route handlers
  */
-export async function revalidateRouteHandler(request: NextRequest, callback) {
+export async function revalidateRouteHandler(
+	request: NextRequest,
+	callback: Function | null = null,
+) {
 	const { searchParams } = request.nextUrl;
 
 	const post_id = Number(searchParams.get('post_id') ?? 0);
