@@ -49,12 +49,13 @@ function getPathToRevalidate(
  * ```
  *
  * @param request The Next Request
+ * @param callback Optional callback function to be called after revalidation
  *
  * @returns A response object.
  *
  * @category Route handlers
  */
-export async function revalidateRouteHandler(request: NextRequest) {
+export async function revalidateRouteHandler(request: NextRequest, callback) {
 	const { searchParams } = request.nextUrl;
 
 	const post_id = Number(searchParams.get('post_id') ?? 0);
@@ -99,6 +100,11 @@ export async function revalidateRouteHandler(request: NextRequest) {
 		);
 
 		revalidatePath(pathToRevalidate);
+
+		// check if callback is set and a function before calling it
+		if (callback && typeof callback === 'function') {
+			await callback({ verifiedPath, slug, locale, isMultisiteRequest });
+		}
 
 		return new Response(JSON.stringify({ message: 'success', path: pathToRevalidate }), {
 			status: 200,
