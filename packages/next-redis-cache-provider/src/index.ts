@@ -2,11 +2,16 @@ import {
 	CacheHandler,
 	CacheHandlerContext,
 	CacheHandlerValue,
-	IncrementalCache,
 } from 'next/dist/server/lib/incremental-cache';
 import Redis from 'ioredis';
 import { CacheFs } from 'next/dist/shared/lib/utils';
 import path from 'path';
+import {
+	GetIncrementalFetchCacheContext,
+	GetIncrementalResponseCacheContext,
+	SetIncrementalFetchCacheContext,
+	SetIncrementalResponseCacheContext,
+} from 'next/dist/server/response-cache/types';
 
 export function getRedisClient(lazyConnect = false) {
 	const [vipHost, vipPort] = process.env.VIP_REDIS_PRIMARY?.split(':') || [undefined, undefined];
@@ -56,6 +61,18 @@ export function getRedisClient(lazyConnect = false) {
 
 export function initRedisClient() {
 	globalThis._nextRedisProviderRedisClient = getRedisClient();
+}
+
+function isSetIncrementalFetchCacheContext(
+	ctx: SetIncrementalFetchCacheContext | SetIncrementalResponseCacheContext,
+): ctx is SetIncrementalFetchCacheContext {
+	return 'tags' in ctx;
+}
+
+function isGetIncrementalFetchCacheContext(
+	ctx: GetIncrementalFetchCacheContext | GetIncrementalResponseCacheContext,
+): ctx is GetIncrementalFetchCacheContext {
+	return 'revalidate' in ctx;
 }
 
 export default class RedisCache implements CacheHandler {
@@ -152,10 +169,8 @@ export default class RedisCache implements CacheHandler {
 		return `${this.BUILD_ID}:${key}`;
 	}
 
-	public async get(
-		...args: Parameters<IncrementalCache['get']>
-	): Promise<CacheHandlerValue | null> {
-		const [key] = args;
+	public async get(...args: Parameters<CacheHandler['get']>): Promise<CacheHandlerValue | null> {
+		const [key, ctx] = args;
 
 		await this.getBuildIdAndConnect();
 
@@ -169,10 +184,23 @@ export default class RedisCache implements CacheHandler {
 			return null;
 		}
 
-		return JSON.parse(value) as CacheHandlerValue;
+		const parsedValue = JSON.parse(value) as CacheHandlerValue;
+		const { lastModified } = parsedValue;
+		if (isGetIncrementalFetchCacheContext(ctx)) {
+			const { revalidate } = ctx;
+
+			if (typeof revalidate === 'number' && typeof lastModified === 'number') {
+				const secondsSinceLastModified = Math.floor((Date.now() - lastModified) / 1000);
+				if (secondsSinceLastModified >= revalidate) {
+					await this.redisClient.del(this.buildKey(key));
+				}
+			}
+		}
+
+		return parsedValue;
 	}
 
-	public async set(...args: Parameters<IncrementalCache['set']>): Promise<void> {
+	public async set(...args: Parameters<CacheHandler['set']>): Promise<void> {
 		const [key, data, ctx] = args;
 
 		if (!this.flushToDisk || !data) return;
@@ -182,16 +210,14 @@ export default class RedisCache implements CacheHandler {
 		const value = JSON.stringify({ lastModified: Date.now(), value: data });
 		const redisKey = this.buildKey(key);
 
-		if (typeof ctx.revalidate === 'number') {
-			await this.redisClient.set(redisKey, value, 'EX', ctx.revalidate);
-		} else {
-			await this.redisClient.set(redisKey, value);
-		}
+		await this.redisClient.set(redisKey, value);
 
-		const tags = ctx.tags || [];
+		if (isSetIncrementalFetchCacheContext(ctx)) {
+			const tags = ctx.tags || [];
 
-		for await (const tag of tags) {
-			await this.redisClient.sadd(this.buildKey(`tag:${tag}`), key);
+			for await (const tag of tags) {
+				await this.redisClient.sadd(this.buildKey(`tag:${tag}`), key);
+			}
 		}
 
 		if (this.lazyConnect) {

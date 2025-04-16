@@ -59,6 +59,10 @@
     "prettier": "3.2.5",
     "turbo": "^2.0.11"
   },
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",
     "budget": 148480,

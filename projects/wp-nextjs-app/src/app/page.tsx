@@ -4,7 +4,7 @@ import Blocks from '../components/Blocks';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			slug: 'sample-page',
 			postType: 'page',

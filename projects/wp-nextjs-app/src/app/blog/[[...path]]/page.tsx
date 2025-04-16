@@ -10,7 +10,7 @@ import { ServerRelatedPosts } from '../../../components/ServerRelatedPosts';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPostOrPosts({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			single: {
 				postType: 'post',

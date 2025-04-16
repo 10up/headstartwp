@@ -5,8 +5,11 @@ import { redirect } from 'next/navigation';
 import { COOKIE_NAME } from '../handlers/previewRouteHandler';
 
 export async function disableDraftMode() {
-	const currentUrl = headers().get('x-headstartwp-current-url') ?? '/';
-	draftMode().disable();
-	cookies().delete(COOKIE_NAME);
+	const headersObject = await headers();
+	const currentUrl = headersObject.get('x-headstartwp-current-url') ?? '/';
+	const { disable } = await draftMode();
+	await disable();
+	const cookiesObject = await cookies();
+	cookiesObject.delete(COOKIE_NAME);
 	redirect(currentUrl);
 }
