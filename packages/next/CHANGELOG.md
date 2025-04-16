@@ -1,5 +1,12 @@
 # @headstartwp/next
 
+## 1.5.0-next.11
+
+### Patch Changes
+
+- 392a74c: Fix: revalidate path
+  Added: A new optional callback parameter was added to `revalidateRouteHandler`. This callback allows extra logic to be run after the path is revalidated. For instance, `revalidateTag` may need to be called for a specific query, or a redis tag may need to be deleted.
+
 ## 1.5.0-next.10
 
 ### Minor Changes
