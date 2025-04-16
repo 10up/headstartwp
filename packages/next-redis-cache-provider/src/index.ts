@@ -109,6 +109,10 @@ export default class RedisCache implements CacheHandler {
 
 	resetRequestCache(): void {}
 
+	public _getRedisClient() {
+		return this.redisClient;
+	}
+
 	/**
 	 * Builds a Redis Client based on the environment variables
 	 *
@@ -176,16 +180,16 @@ export default class RedisCache implements CacheHandler {
 
 		const value = await this.redisClient.get(this.buildKey(key));
 
-		if (this.lazyConnect) {
-			this.redisClient.disconnect();
-		}
-
 		if (!value) {
+			if (this.lazyConnect) {
+				this.redisClient.disconnect();
+			}
 			return null;
 		}
 
 		const parsedValue = JSON.parse(value) as CacheHandlerValue;
 		const { lastModified } = parsedValue;
+
 		if (isGetIncrementalFetchCacheContext(ctx)) {
 			const { revalidate } = ctx;
 
@@ -193,8 +197,17 @@ export default class RedisCache implements CacheHandler {
 				const secondsSinceLastModified = Math.floor((Date.now() - lastModified) / 1000);
 				if (secondsSinceLastModified >= revalidate) {
 					await this.redisClient.del(this.buildKey(key));
+
+					const tags = ctx.tags || [];
+					for await (const tag of tags) {
+						await this.redisClient.srem(this.buildKey(`tag:${tag}`), key);
+					}
 				}
 			}
+		}
+
+		if (this.lazyConnect) {
+			this.redisClient.disconnect();
 		}
 
 		return parsedValue;
