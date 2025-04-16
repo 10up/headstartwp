@@ -26,7 +26,7 @@ const Archive = ({ posts, queriedObject }: ArchiveProps) => {
 
 const BlogPage = async ({ params }: HeadstartWPRoute) => {
 	const { isArchive, isSingle, data } = await queryPostOrPosts({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			single: {
 				postType: 'post',

@@ -5,11 +5,11 @@ const Home = async ({ params }: HeadstartWPRoute) => {
 	const {
 		data: { home },
 	} = await queryAppSettings({
-		routeParams: params,
+		routeParams: await params,
 	});
 
 	const { data } = await queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			slug: home.slug ?? 'front-page',
 			postType: 'page',
