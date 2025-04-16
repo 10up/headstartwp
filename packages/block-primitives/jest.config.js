@@ -10,4 +10,6 @@ export default {
 	testPathIgnorePatterns: ['dist'],
 	collectCoverage: true,
 	setupFilesAfterEnv: ['./jest.setup.ts'],
+	extensionsToTreatAsEsm: ['.ts', '.tsx', '.mts'],
+	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
