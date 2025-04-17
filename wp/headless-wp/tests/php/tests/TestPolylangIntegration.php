@@ -74,37 +74,17 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 	}
 
 	/**
-	 * Returns the yoast head for a post
+	 * Clear Yoast's memoized data
 	 *
-	 * @param integer $post_id The post id
-	 * @param string  $post_type The post type
-	 *
-	 * @return string
+	 * @return void
 	 */
-	protected function getYoastHeadForPost( int $post_id, string $post_type = 'post' ): string {
-		$post_type = get_post_type_object( $post_type );
-		$request   = new WP_REST_Request( 'GET', "/wp/v2/$post_type->rest_base/$post_id" );
-		$response  = rest_do_request( $request );
-		$data      = self::$rest_server->response_to_data( $response, false );
-
-		return $data['yoast_head'] ?? '';
-	}
-
-	/**
-	 * Returns the yoast head for a term
-	 *
-	 * @param string $post_type The post type we're fetching from
-	 * @param int    $term_id The term id
-	 *
-	 * @return string
-	 */
-	protected function getYoastHeadForTerm( string $post_type, int $term_id ): string {
-		$post_type = get_post_type_object( $post_type );
-		$request   = new WP_REST_Request( 'GET', "/wp/v2/$post_type->rest_base", [ 'categories' => $term_id ] );
-		$response  = rest_do_request( $request );
-		$data      = self::$rest_server->response_to_data( $response, true );
-
-		return $data[0]['_embedded']['wp:term'][0][0]['yoast_head'] ?? '';
+	protected function clearYoastMemoizedData(): void {
+		// this seems to be a bug with yoast seo, these two memoizers are not working as they should
+		// they are indexed by $indetaxble->id but only $indexable->object_id exists
+		$memoizer = \YoastSEO()->classes->get( \Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer::class );
+		$memoizer->clear();
+		$presenter_memoizer = \YoastSEO()->classes->get( \Yoast\WP\SEO\Memoizers\Presentation_Memoizer::class );
+		$presenter_memoizer->clear();
 	}
 
 	/**
@@ -142,12 +122,14 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 			]
 		);
 
-		$yoast_head = $this->getYoastHeadForPost( $english_post->ID );
+		$this->clearYoastMemoizedData();
+		$yoast_head = \YoastSEO()->meta->for_post( $english_post->ID )->get_head()->html;
 
 		$this->assertNotFalse( strpos( $yoast_head, '<link rel="alternate" href="http://localhost:8889/en-post/" hreflang="en" />' ), 'hreflang was not found' );
 		$this->assertNotFalse( strpos( $yoast_head, '<link rel="alternate" href="http://localhost:8889/pt_br-post/" hreflang="pt" />' ), 'hreflang was not found' );
 
-		$yoast_head = $this->getYoastHeadForPost( $portuguese_post->ID );
+		$this->clearYoastMemoizedData();
+		$yoast_head = \YoastSEO()->meta->for_post( $portuguese_post->ID )->get_head()->html;
 
 		$this->assertNotFalse( strpos( $yoast_head, '<link rel="alternate" href="http://localhost:8889/pt_br-post/" hreflang="pt" />' ), 'hreflang was not found' );
 		$this->assertNotFalse( strpos( $yoast_head, '<link rel="alternate" href="http://localhost:8889/en-post/" hreflang="en" />' ), 'hreflang was not found' );
@@ -159,7 +141,7 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 	 * @return void
 	 */
 	public function test_hreflang_on_homepage() {
-		$english_page = $this->factory()->post->create(
+		$english_page = $this->factory()->post->create_and_get(
 			[
 				'post_title'   => '[EN] home page',
 				'post_status'  => 'publish',
@@ -168,9 +150,9 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 			]
 		);
 
-		\pll_set_post_language( $english_page, 'en' );
+		\pll_set_post_language( $english_page->ID, 'en' );
 
-		$portuguese_page = $this->factory()->post->create(
+		$portuguese_page = $this->factory()->post->create_and_get(
 			[
 				'post_title'   => '[PT_BR] home Page',
 				'post_status'  => 'publish',
@@ -179,18 +161,19 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 			]
 		);
 
-		\pll_set_post_language( $portuguese_page, 'pt' );
+		\pll_set_post_language( $portuguese_page->ID, 'pt' );
 
 		\pll_save_post_translations(
 			[
-				'en' => $english_page,
-				'pt' => $portuguese_page,
+				'en' => $english_page->ID,
+				'pt' => $portuguese_page->ID,
 			]
 		);
 
-		update_option( 'page_on_front', $english_page );
+		update_option( 'page_on_front', $english_page->ID );
 
-		$yoast_head = $this->getYoastHeadForPost( $english_page, 'page' );
+		$this->clearYoastMemoizedData();
+		$yoast_head = \YoastSEO()->meta->for_post( $english_page->ID )->get_head()->html;
 
 		$this->assertNotFalse( strpos( $yoast_head, '<link rel="alternate" href="http://localhost:8889/en-home-page/" hreflang="en" />' ), 'hreflang was not found' );
 		$this->assertNotFalse( strpos( $yoast_head, '<link rel="alternate" href="http://localhost:8889/pt_br-home-page/" hreflang="pt" />' ), 'hreflang was not found' );
@@ -205,6 +188,7 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 	public function test_hreflang_on_taxonomy_archive() {
 		$cat_en = $this->factory()->term->create_and_get(
 			[
+				'name'     => '[EN] Category',
 				'taxonomy' => 'category',
 			]
 		);
@@ -215,6 +199,7 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 
 		$cat_pt = $this->factory()->term->create_and_get(
 			[
+				'name'     => '[PT_BR] Category',
 				'taxonomy' => 'category',
 			]
 		);
@@ -252,7 +237,8 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 			]
 		);
 
-		$yoast_head = $this->getYoastHeadForTerm( 'post', $cat_pt_id );
+		$this->clearYoastMemoizedData();
+		$yoast_head = \YoastSEO()->meta->for_term( $cat_pt_id )->get_head()->html;
 
 		$this->assertNotFalse( strpos( $yoast_head, sprintf( '<link rel="alternate" href="http://localhost:8889/?cat=%s&#038;lang=en" hreflang="en" />', $cat_en_id ) ), 'hreflang was not found' );
 		$this->assertNotFalse( strpos( $yoast_head, sprintf( '<link rel="alternate" href="http://localhost:8889/?cat=%s&#038;lang=en" hreflang="pt" />', $cat_pt_id ) ), 'hreflang was not found' );
