@@ -1,5 +1,16 @@
 # @headstartwp/next
 
+## 1.5.0-next.12
+
+### Minor Changes
+
+- 27ff57c: Add support for Next.js 15
+
+### Patch Changes
+
+- Updated dependencies [27ff57c]
+  - @headstartwp/core@1.5.0-next.10
+
 ## 1.5.0-next.11
 
 ### Patch Changes
