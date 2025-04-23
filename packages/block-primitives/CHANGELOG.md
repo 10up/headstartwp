@@ -1,5 +1,16 @@
 # @headstartwp/block-primitives
 
+## 0.1.0-next.1
+
+### Minor Changes
+
+- 27ff57c: Add support for Next.js 15
+
+### Patch Changes
+
+- Updated dependencies [27ff57c]
+  - @headstartwp/core@1.5.0-next.10
+
 ## 0.0.2-next.0
 
 ### Patch Changes

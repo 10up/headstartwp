@@ -17,9 +17,9 @@
     "react": "^18",
     "react-dom": "^18",
     "next": "^15.3.0",
-    "@headstartwp/core": "^1.5.0-next.9",
-    "@headstartwp/next": "^1.5.0-next.11",
-    "@10up/next-redis-cache-provider": "^2.0.0-next.0"
+    "@headstartwp/core": "^1.5.0-next.10",
+    "@headstartwp/next": "^1.5.0-next.12",
+    "@10up/next-redis-cache-provider": "^2.0.0-next.1"
   },
   "devDependencies": {
     "@10up/eslint-config": "^4.0.0",
