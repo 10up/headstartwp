@@ -1,5 +1,5 @@
 module.exports = {
-	extends: ['@10up/eslint-config/react'],
+	extends: ['@10up/eslint-config/react', 'plugin:@next/next/recommended'],
 	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint'],
 	settings: {

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const CategoryArchive = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryPosts({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			taxonomy: 'category',
 		},

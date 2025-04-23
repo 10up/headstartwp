@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 async function query({ params }: HeadstartWPRoute) {
 	return querySearch({
-		routeParams: params,
+		routeParams: await params,
 	});
 }
 

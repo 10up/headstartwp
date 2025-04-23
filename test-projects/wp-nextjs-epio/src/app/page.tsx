@@ -5,7 +5,7 @@ import { Homepage } from '../components/Homepage';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			slug: 'home',
 			postType: 'page',

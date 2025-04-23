@@ -1,22 +1,23 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { RichText } from '../rich-text.js';
-import * as WrapperModule from '../hooks/useBlockPrimitiveProps.js';
+import { jest } from '@jest/globals';
 
-describe('RichText', () => {
-	let attributes = {};
-	const setAttributes = jest.fn((newAttributes: Record<string, any>) => {
-		attributes = { ...attributes, ...newAttributes };
-		return attributes;
-	});
-
-	jest.spyOn(WrapperModule, 'useBlockPrimitiveProps').mockReturnValue({
+let attributes = {};
+const setAttributes = jest.fn((newAttributes: Record<string, any>) => {
+	attributes = { ...attributes, ...newAttributes };
+	return attributes;
+});
+jest.unstable_mockModule('../hooks/useBlockPrimitiveProps.js', () => ({
+	useBlockPrimitiveProps: () => ({
 		setAttributes,
 		attributes,
 		clientId: 'clientId',
 		isSelected: true,
-	});
+	}),
+}));
 
+const { RichText } = await import('../rich-text.js');
+describe('RichText', () => {
 	it('supports inline editing', async () => {
 		const user = userEvent.setup();
 

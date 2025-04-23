@@ -12,6 +12,7 @@
     }
   ],
   "scripts": {
+    "clean": "rm -rf node_modules && find . -name 'node_modules' -type d -prune -exec rm -rf '{}' \\;",
     "build": "turbo run build",
     "build:packages": "turbo run build --filter=./packages/*",
     "build:wpnextjs": "turbo run build --filter=./projects/wp-nextjs",
@@ -58,6 +59,10 @@
     "lint-staged": "^11.1.2",
     "prettier": "3.2.5",
     "turbo": "^2.0.11"
+  },
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",

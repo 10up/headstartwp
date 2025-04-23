@@ -247,6 +247,7 @@ export function withHeadstartWPConfig(
 				if (Array.isArray(rewrites)) {
 					rewrites.push(...defaultRewrites);
 				} else {
+					rewrites.fallback = rewrites.fallback ?? [];
 					rewrites.fallback.push(...defaultRewrites);
 				}
 			});

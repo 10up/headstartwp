@@ -3,7 +3,7 @@ import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
 
 const Single = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			postType: ['post', 'page'],
 		},

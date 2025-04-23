@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryAuthorArchive({
-		routeParams: params,
+		routeParams: await params,
 	});
 }
 
