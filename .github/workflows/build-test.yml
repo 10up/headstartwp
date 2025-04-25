@@ -42,6 +42,6 @@ jobs:
       - name: Build Projects (Windows)
         if: matrix.os == 'windows-latest'
         run: npm run build -- --filter=./projects/wp-nextjs-app --filter=./projects/wp-nextjs
-      - name: Build Projects (Linux/Mac)
+      - name: Build Projects
         if: matrix.os != 'windows-latest'
         run: npm run build
