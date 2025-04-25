@@ -1,6 +1,7 @@
 import { ConfigError, HeadlessConfig, getSite } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
+import path from 'path';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
 type RemotePattern = {
@@ -100,13 +101,14 @@ export function withHeadstartWPConfig(
 	headlessConfig: HeadlessConfig = {},
 	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ): NextConfig {
+	const cwd = process.cwd();
 	const isUsingAppRouter =
-		fs.existsSync(`${process.cwd()}/src/app`) || fs.existsSync(`${process.cwd()}/app`);
+		fs.existsSync(path.join(cwd, 'src', 'app')) || fs.existsSync(path.join(cwd, 'app'));
 
-	const headlessConfigPath = `${process.cwd()}/headless.config.js`;
-	const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
-	const headstartWpConfigClientPath = `${process.cwd()}/headstartwp.config.client.js`;
-	const headstartWpConfigServerPath = `${process.cwd()}/headstartwp.config.server.js`;
+	const headlessConfigPath = path.resolve(cwd, 'headless.config.js');
+	const headstartWpConfigPath = path.resolve(cwd, 'headstartwp.config.js');
+	const headstartWpConfigClientPath = path.resolve(cwd, 'headstartwp.config.client.js');
+	const headstartWpConfigServerPath = path.resolve(cwd, 'headstartwp.config.server.js');
 
 	let clientConfigPath = '';
 	let serverConfigPath = '';
@@ -127,6 +129,14 @@ export function withHeadstartWPConfig(
 			clientConfigPath = headlessConfigPath;
 			serverConfigPath = headlessConfigPath;
 		}
+	}
+
+	// Normalize paths for webpack
+	if (clientConfigPath) {
+		clientConfigPath = path.normalize(clientConfigPath).replace(/\\/g, '/');
+	}
+	if (serverConfigPath) {
+		serverConfigPath = path.normalize(serverConfigPath).replace(/\\/g, '/');
 	}
 
 	if (!clientConfigPath && !serverConfigPath) {
