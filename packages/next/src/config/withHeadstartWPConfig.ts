@@ -101,14 +101,14 @@ export function withHeadstartWPConfig(
 	headlessConfig: HeadlessConfig = {},
 	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ): NextConfig {
+	const cwd = process.cwd();
 	const isUsingAppRouter =
-		fs.existsSync(path.join(process.cwd(), 'src', 'app')) ||
-		fs.existsSync(path.join(process.cwd(), 'app'));
+		fs.existsSync(path.join(cwd, 'src', 'app')) || fs.existsSync(path.join(cwd, 'app'));
 
-	const headlessConfigPath = path.join(process.cwd(), 'headless.config.js');
-	const headstartWpConfigPath = path.join(process.cwd(), 'headstartwp.config.js');
-	const headstartWpConfigClientPath = path.join(process.cwd(), 'headstartwp.config.client.js');
-	const headstartWpConfigServerPath = path.join(process.cwd(), 'headstartwp.config.server.js');
+	const headlessConfigPath = path.resolve(cwd, 'headless.config.js');
+	const headstartWpConfigPath = path.resolve(cwd, 'headstartwp.config.js');
+	const headstartWpConfigClientPath = path.resolve(cwd, 'headstartwp.config.client.js');
+	const headstartWpConfigServerPath = path.resolve(cwd, 'headstartwp.config.server.js');
 
 	let clientConfigPath = '';
 	let serverConfigPath = '';
@@ -129,6 +129,14 @@ export function withHeadstartWPConfig(
 			clientConfigPath = headlessConfigPath;
 			serverConfigPath = headlessConfigPath;
 		}
+	}
+
+	// Normalize paths for webpack
+	if (clientConfigPath) {
+		clientConfigPath = path.normalize(clientConfigPath).replace(/\\/g, '/');
+	}
+	if (serverConfigPath) {
+		serverConfigPath = path.normalize(serverConfigPath).replace(/\\/g, '/');
 	}
 
 	if (!clientConfigPath && !serverConfigPath) {
