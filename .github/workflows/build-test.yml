@@ -41,7 +41,7 @@ jobs:
         run: npm install
       - name: Build Projects (Windows)
         if: matrix.os == 'windows-latest'
-        run: npm run build -- --filter='!./projects/wp-multisite-i18n-nextjs'
+        run: npm run build -- --filter=\!./projects/wp-multisite-i18n-nextjs
       - name: Build Projects (Linux/Mac)
         if: matrix.os != 'windows-latest'
         run: npm run build
