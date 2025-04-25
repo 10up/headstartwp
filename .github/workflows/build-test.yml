@@ -16,6 +16,12 @@ jobs:
             node-version: 20
 
     steps:
+      - name: Configure Git line endings
+        if: matrix.os == 'windows-latest'
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
       - name: Checkout
         uses: actions/checkout@v2
 
