@@ -41,7 +41,7 @@ jobs:
         run: npm install
       - name: Build Projects (Windows)
         if: matrix.os == 'windows-latest'
-        run: npm run build -- --filter=./projects/wp-nextjs* --filter=./projects/wp-multisite-nextjs* --filter=./test-projects/*
+        run: npm run build -- --filter=./projects/wp-nextjs-app --filter=./projects/wp-nextjs
       - name: Build Projects (Linux/Mac)
         if: matrix.os != 'windows-latest'
         run: npm run build
