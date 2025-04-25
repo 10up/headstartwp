@@ -41,7 +41,7 @@ jobs:
         run: npm install
       - name: Build Projects (Windows)
         if: matrix.os == 'windows-latest'
-        run: npm run build -- --filter=./projects/wp-nextjs-app --filter=./projects/wp-nextjs
+        run: npm run build:wpnextjs:app && npm run build:wpnextjs
       - name: Build Projects
         if: matrix.os != 'windows-latest'
         run: npm run build
