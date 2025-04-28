@@ -1,7 +1,7 @@
 import type { PostEntity, QueriedObject } from '@headstartwp/core';
 import { HtmlDecoder } from '@headstartwp/core/react';
 import type { HeadstartWPRoute } from '@headstartwp/next/app';
-import { JSONLD, queryPostOrPosts } from '@headstartwp/next/app';
+import { JSONLD, queryAppSettings, queryPostOrPosts } from '@headstartwp/next/app';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -9,11 +9,21 @@ import Blocks from '../../../components/Blocks';
 import { ServerRelatedPosts } from '../../../components/ServerRelatedPosts';
 
 async function query({ params }: HeadstartWPRoute) {
+	const {
+		data: { settings },
+	} = await queryAppSettings({
+		routeParams: await params,
+	});
+
 	return queryPostOrPosts({
 		routeParams: await params,
 		params: {
 			single: {
 				postType: 'post',
+				/**
+				 * This ensures posts are matched correctly
+				 */
+				permalink_structure: settings.permalink_structure ?? '/%postname%',
 			},
 			archive: {
 				postType: 'post',

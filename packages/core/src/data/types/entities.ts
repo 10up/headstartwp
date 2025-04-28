@@ -745,6 +745,8 @@ export interface AppEntity extends Entity {
 		site_rss_url: string;
 		posts_per_page: string;
 		privacy_policy_url: string;
+		permalink_structure: string;
+		[k: string]: unknown;
 	};
 	'theme.json': ThemeJSON;
 }

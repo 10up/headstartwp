@@ -150,12 +150,13 @@ class AppEndpoint {
 			}
 
 			// Set up common metadata. Add any additional metadata below
-			$response['settings']['site_name']          = get_bloginfo( 'name' );
-			$response['settings']['site_desc']          = get_bloginfo( 'description' );
-			$response['settings']['site_wp_url']        = get_bloginfo( 'url' );
-			$response['settings']['site_rss_url']       = get_bloginfo( 'rss2_url' );
-			$response['settings']['posts_per_page']     = get_option( 'posts_per_page' );
-			$response['settings']['privacy_policy_url'] = get_privacy_policy_url();
+			$response['settings']['site_name']           = get_bloginfo( 'name' );
+			$response['settings']['site_desc']           = get_bloginfo( 'description' );
+			$response['settings']['site_wp_url']         = get_bloginfo( 'url' );
+			$response['settings']['site_rss_url']        = get_bloginfo( 'rss2_url' );
+			$response['settings']['posts_per_page']      = get_option( 'posts_per_page' );
+			$response['settings']['privacy_policy_url']  = get_privacy_policy_url();
+			$response['settings']['permalink_structure'] = get_option( 'permalink_structure' );
 
 			$global_styles = wp_get_global_styles();
 

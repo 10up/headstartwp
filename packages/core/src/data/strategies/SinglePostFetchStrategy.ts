@@ -61,6 +61,11 @@ export interface PostParams extends EndpointParams {
 	 * If set, this is the path that will be checked if `slug` is set or `matchCurrentPath` is set to true.
 	 */
 	fullPath?: string;
+
+	/**
+	 * The WordPress permalink structure. This required to properly match post URLs
+	 */
+	permalink_structure?: string;
 }
 
 /**
@@ -125,9 +130,16 @@ export class SinglePostFetchStrategy<
 	 * @param params The params to build the endpoint url
 	 */
 	buildEndpointURL(params: P) {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { id, authToken, revision, postType, matchCurrentPath, fullPath, ...endpointParams } =
-			params;
+		const {
+			id,
+			authToken, // eslint-disable-line @typescript-eslint/no-unused-vars
+			revision, // eslint-disable-line @typescript-eslint/no-unused-vars
+			postType, // eslint-disable-line @typescript-eslint/no-unused-vars
+			matchCurrentPath, // eslint-disable-line @typescript-eslint/no-unused-vars
+			fullPath, // eslint-disable-line @typescript-eslint/no-unused-vars
+			permalink_structure, // eslint-disable-line @typescript-eslint/no-unused-vars
+			...endpointParams
+		} = params;
 
 		if (params.postType) {
 			// if postType is a array of slugs, start off with the first post type
@@ -172,7 +184,15 @@ export class SinglePostFetchStrategy<
 				}),
 			)?.replace(/\/?$/, '/');
 
-			const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
+			// remove leading and trailing slashes
+			let currentPath = decodeURIComponent(this.path).replace(/^\/+|\/+$/g, '');
+
+			if (params.permalink_structure) {
+				currentPath = params.permalink_structure.replace('%postname%', currentPath);
+			}
+
+			// add leading and trailing slashes
+			currentPath = `/${currentPath.replace(/^\/+|\/+$/g, '')}/`;
 
 			if (params.postType && params.postType.length > 0) {
 				const expectedPostTypes = Array.isArray(params.postType)
@@ -274,7 +294,6 @@ export class SinglePostFetchStrategy<
 	 */
 	async fetcher(url: string, params: P, options: Partial<FetchOptions> = {}) {
 		const { burstCache = false } = options;
-
 		if (params.authToken) {
 			options.previewToken = params.authToken;
 		}

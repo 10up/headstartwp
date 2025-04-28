@@ -17,13 +17,14 @@ import {
 	HeadlessGetServerSideProps,
 } from '@headstartwp/next';
 
+import type { PostsArchiveParams } from '@headstartwp/core';
 import { Link } from '../../components/Link';
 import { blogParams } from '../../params';
 import { resolveBatch } from '../../utils/promises';
 import { PageContent } from '../../components/PageContent';
 
-const Archive = () => {
-	const { data } = usePosts(blogParams.archive);
+const Archive = ({ params }: { params: PostsArchiveParams }) => {
+	const { data } = usePosts(params);
 
 	return (
 		<>
@@ -40,27 +41,49 @@ const Archive = () => {
 };
 
 const BlogPage = () => {
-	const { isArchive } = usePostOrPosts(blogParams);
+	const {
+		data: { settings },
+	} = useAppSettings();
+
+	const singleParams = {
+		...blogParams.single,
+		permalink_structure: settings.permalink_structure ?? '/%postname%',
+	};
+
+	const { isArchive } = usePostOrPosts({
+		...blogParams,
+		single: singleParams,
+	});
 
 	if (isArchive) {
-		return <Archive />;
+		return <Archive params={blogParams.archive} />;
 	}
 
-	return <PageContent params={blogParams.single} />;
+	return <PageContent params={singleParams} />;
 };
 
 export default BlogPage;
 
 export const getServerSideProps = (async (context) => {
 	try {
+		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
+
 		const settledPromises = await resolveBatch([
 			{
-				func: fetchHookData(usePostOrPosts.fetcher(), context, { params: blogParams }),
+				func: fetchHookData(usePostOrPosts.fetcher(), context, {
+					params: {
+						...blogParams,
+						single: {
+							...blogParams.single,
+							permalink_structure:
+								appSettings.data.result.settings.permalink_structure,
+						},
+					},
+				}),
 			},
-			{ func: fetchHookData(useAppSettings.fetcher(), context), throw: false },
 		]);
 
-		return addHookData(settledPromises, {});
+		return addHookData([appSettings, ...settledPromises], {});
 	} catch (e) {
 		return handleError(e, context);
 	}
