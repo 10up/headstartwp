@@ -22,7 +22,8 @@
     "spacing": {
       "margin": false,
       "padding": false,
-      "units": []
+      "units": [],
+      "blockGap": true
     },
     "typography": {
       "customFontSize": false,
