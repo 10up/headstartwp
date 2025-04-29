@@ -111,6 +111,27 @@ module.exports = {
 }
 ```
 
+Another use case is if you want your posts to sit at a different prefix (e.g: `/blog`), you can change your permalinks in WordPress (e.g: `/blog/%postname/`) and update the default `post` post type so that its `sigle` property is equal to `/blog`.
+
+```js title="headstartwp.config.js"
+module.exports = {
+    sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
+    hostUrl: process.env.HOST_URL,
+    customPostTypes: (defaultPostTypes) => {
+		return defaultPostTypes.map((postType) => {
+			if (postType === 'post') {
+				return {
+					...postType,
+					single: '/blog'
+				}
+			}
+
+			return postType;
+		};
+	}
+}
+```
+
 ## customTaxonomies
 
 To add support for custom taxonomies, add your custom taxonomy to the `customTaxonomies` setting in `headstartwp.config.js`.

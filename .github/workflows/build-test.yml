@@ -6,6 +6,8 @@ jobs:
   build-test:
     runs-on: ${{ matrix.os }}
     strategy:
+      # This ensures only one combination runs at a time to avoid rate limiting
+      max-parallel: 1
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version: [18, 20, 22]
@@ -13,7 +15,7 @@ jobs:
           - os: windows-latest
             node-version: 18
           - os: windows-latest
-            node-version: 20
+            node-version: 20   
 
     steps:
       - name: Configure Git line endings
