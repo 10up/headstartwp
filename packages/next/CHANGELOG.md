@@ -1,5 +1,14 @@
 # @headstartwp/next
 
+## 1.5.0-next.13
+
+### Patch Changes
+
+- fbcad53: Fix: windows support
+- Updated dependencies [318c9fa]
+- Updated dependencies [ee5be48]
+  - @headstartwp/core@1.5.0-next.11
+
 ## 1.5.0-next.12
 
 ### Minor Changes
