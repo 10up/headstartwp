@@ -1,5 +1,12 @@
 # @headstartwp/core
 
+## 1.5.0-next.11
+
+### Patch Changes
+
+- 318c9fa: Fix: account for possible `single` property in the default post types when executing the default post path matching.
+- ee5be48: Fix: blockGap in useBlockSetting
+
 ## 1.5.0-next.10
 
 ### Minor Changes
