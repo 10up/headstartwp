@@ -10,6 +10,7 @@ interface BlockSpacingAttributes extends IBlockAttributes {
 		spacing: {
 			padding: Spacing['padding'];
 			margin: Spacing['margin'];
+			blockGap: Spacing['blockGap'];
 		};
 	};
 }
@@ -27,12 +28,19 @@ export function useBlockSpacing(node: Element): Spacing {
 	const supportsPadding = !!useThemeSetting('spacing.padding', name);
 	const styles = useThemeStyles();
 
+	let blockGap: Spacing['blockGap'] = '';
+	if (supportsBlockGap && attributes?.styleConfig?.spacing?.blockGap) {
+		blockGap = attributes?.styleConfig?.spacing?.blockGap;
+	} else if (supportsBlockGap && styles?.spacing?.blockGap) {
+		blockGap = styles?.spacing?.blockGap;
+	}
+
 	return {
 		padding: attributes?.styleConfig?.spacing?.padding,
 		margin: attributes?.styleConfig?.spacing?.margin,
 		supportsMargin,
 		supportsPadding,
 		supportsBlockGap,
-		blockGap: supportsBlockGap && styles?.spacing?.blockGap ? styles?.spacing?.blockGap : '',
+		blockGap,
 	};
 }
