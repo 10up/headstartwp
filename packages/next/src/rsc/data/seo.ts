@@ -148,7 +148,7 @@ export function prepareSEOMetadata(
 	return {
 		metadata: _metadata,
 		// @ts-expect-error - previous version had a typo to keeping it for backwards compatibility, users with TS will still see an error during build
-		metatada: metadata,
+		metatada: _metadata,
 		schema: jsonLd
 			? JSON.stringify(jsonLd).replace(new RegExp(sourceUrl, 'g'), hostUrl)
 			: undefined,
