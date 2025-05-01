@@ -25,13 +25,13 @@ async function query({ params }: HeadstartWPRoute) {
 
 export async function generateMetadata({ params }: HeadstartWPRoute) {
 	const {
-		seo: { metatada },
+		seo: { metadata },
 		isMainQuery,
 	} = await query({ params });
 
 	// a main query means that there's a default metadata associated with it
 	if (isMainQuery) {
-		return metatada;
+		return metadata;
 	}
 
 	// if it's not a main query then there isn't any metadata coming from WordPress

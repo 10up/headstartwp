@@ -21,7 +21,7 @@ async function query({ params }: HeadstartWPRoute) {
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const { seo } = await query({ params });
 
-	return seo.metatada;
+	return seo.metadata;
 }
 
 const Home = async ({ params }: HeadstartWPRoute) => {
