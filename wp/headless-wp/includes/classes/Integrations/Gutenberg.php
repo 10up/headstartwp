@@ -78,6 +78,10 @@ class Gutenberg {
 		if ( $doc->next_tag( 'img' ) ) {
 			$src = $doc->get_attribute( 'src' );
 
+			if ( $doc->get_attribute( 'width' ) && $doc->get_attribute( 'height' ) ) {
+				return $block_content;
+			}
+
 			$src_check = str_replace( 'http://', 'https://', $src );
 			$site_url  = str_replace( 'http://', 'https://', get_site_url() );
 
