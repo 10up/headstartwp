@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.5.0-next.14
+
+### Patch Changes
+
+- c8baaa2: Fix type on prepareSeoMetadata
+
 ## 1.5.0-next.13
 
 ### Patch Changes
