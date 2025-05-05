@@ -46,10 +46,10 @@ async function query({ params }: HeadstartWPRoute) {
 
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const {
-		seo: { metatada },
+		seo: { metadata },
 	} = await query({ params });
 
-	return metatada;
+	return metadata;
 }
 
 const Single = async ({ params }: HeadstartWPRoute) => {
