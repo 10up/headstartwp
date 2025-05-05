@@ -2,7 +2,10 @@ import { HeadstartWPLayout, PreviewIndicator, queryAppSettings } from '@headstar
 import { Menu, SettingsProvider, ThemeSettingsProvider } from '@headstartwp/core/react';
 
 const RootLayout = async ({ children, params }: Readonly<HeadstartWPLayout>) => {
-	const { menu, data, config } = await queryAppSettings({ menu: 'primary', routeParams: params });
+	const { menu, data, config } = await queryAppSettings({
+		menu: 'primary',
+		routeParams: await params,
+	});
 
 	return (
 		<ThemeSettingsProvider data={data['theme.json']}>

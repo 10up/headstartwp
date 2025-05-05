@@ -3,28 +3,32 @@ import { revalidatePath } from 'next/cache';
 import { NextRequest } from 'next/server';
 import { getHostAndConfigFromRequest } from './utils';
 
+interface RevalidateRouteHandlerArgs {
+	verifiedPath: string;
+	slug: string | undefined;
+	locale: string | null;
+	isMultisiteRequest: boolean;
+}
 /**
  * Returns the path to revalidate
  *
- * @param path The path being revalidated
- * @param host The host for which the path is being revalidated
- * @param locale The locale for which the path is being revalidated
- * @param isMultisiteRequest Whether this is a multisite request
- * @returns
+ * @param args The arguments for revalidation
+ * @returns The path to revalidate
  */
-function getPathToRevalidate(
-	path: string,
-	host: string,
-	locale: string | null,
-	isMultisiteRequest: boolean,
-) {
-	let pathToRevalidate = path;
+function getPathToRevalidate({
+	verifiedPath,
+	slug,
+	locale,
+	isMultisiteRequest,
+}: RevalidateRouteHandlerArgs): string {
+	let pathToRevalidate = verifiedPath;
 
-	if (isMultisiteRequest) {
+	if (isMultisiteRequest && slug) {
 		if (locale) {
-			pathToRevalidate = `/_sites/${host}/${locale}/${path}`;
+			pathToRevalidate = `/${locale}/${slug}/${verifiedPath}`;
+		} else {
+			pathToRevalidate = `/${slug}/${verifiedPath}`;
 		}
-		pathToRevalidate = `/_sites/${host}${path}`;
 	}
 
 	return pathToRevalidate;
@@ -49,12 +53,16 @@ function getPathToRevalidate(
  * ```
  *
  * @param request The Next Request
+ * @param callback Optional callback function to be called after revalidation
  *
  * @returns A response object.
  *
  * @category Route handlers
  */
-export async function revalidateRouteHandler(request: NextRequest) {
+export async function revalidateRouteHandler(
+	request: NextRequest,
+	callback: ((args: RevalidateRouteHandlerArgs) => Promise<void>) | null = null,
+) {
 	const { searchParams } = request.nextUrl;
 
 	const post_id = Number(searchParams.get('post_id') ?? 0);
@@ -71,8 +79,7 @@ export async function revalidateRouteHandler(request: NextRequest) {
 	}
 
 	const {
-		host,
-		config: { sourceUrl },
+		config: { sourceUrl, slug },
 		isMultisiteRequest,
 	} = getHostAndConfigFromRequest(request);
 
@@ -92,14 +99,19 @@ export async function revalidateRouteHandler(request: NextRequest) {
 			throw new Error('Token mismatch');
 		}
 
-		const pathToRevalidate = getPathToRevalidate(
+		const pathToRevalidate = getPathToRevalidate({
 			verifiedPath,
-			host,
+			slug,
 			locale,
 			isMultisiteRequest,
-		);
+		});
 
 		revalidatePath(pathToRevalidate);
+
+		// check if callback is set and a function before calling it
+		if (callback && typeof callback === 'function') {
+			await callback({ verifiedPath, slug, locale, isMultisiteRequest });
+		}
 
 		return new Response(JSON.stringify({ message: 'success', path: pathToRevalidate }), {
 			status: 200,

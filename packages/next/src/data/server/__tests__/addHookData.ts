@@ -65,6 +65,7 @@ describe('addHookData', () => {
 					pageInfo: { ...samplePageInfo },
 				},
 				isMainQuery: true,
+				hostOrSlug: 'mainsite',
 			},
 			{
 				key: 'second-key',
@@ -74,10 +75,12 @@ describe('addHookData', () => {
 					pageInfo: { ...samplePageInfo },
 				},
 				isMainQuery: false,
+				hostOrSlug: 'site2',
 			},
 		];
 		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
+				__headstartwp_site: 'mainsite',
 				fallback: {
 					'first-key': {
 						result: {
@@ -120,6 +123,7 @@ describe('addHookData', () => {
 					pageInfo: samplePageInfo,
 				},
 				isMainQuery: false,
+				hostOrSlug: 'site2',
 			},
 		];
 
@@ -135,6 +139,7 @@ describe('addHookData', () => {
 
 		expect(addHookData(hookStates, {})).toStrictEqual({
 			props: {
+				__headstartwp_site: 'site2',
 				fallback: {
 					'first-key': {
 						queriedObject: {},

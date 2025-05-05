@@ -1,0 +1,49 @@
+name: Build Test
+
+on: [pull_request]
+
+jobs:
+  build-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # This ensures only one combination runs at a time to avoid rate limiting
+      max-parallel: 1
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [18, 20, 22]
+        exclude:
+          - os: windows-latest
+            node-version: 18
+          - os: windows-latest
+            node-version: 20   
+
+    steps:
+      - name: Configure Git line endings
+        if: matrix.os == 'windows-latest'
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup npm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: npm install
+      - name: Build Projects (Windows)
+        if: matrix.os == 'windows-latest'
+        run: npm run build:wpnextjs:app && npm run build:wpnextjs
+      - name: Build Projects
+        if: matrix.os != 'windows-latest'
+        run: npm run build

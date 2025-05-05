@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const AuthorArchive = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryAuthorArchive({
-		routeParams: params,
+		routeParams: await params,
 	});
 
 	return (

@@ -1,6 +1,7 @@
-import { PostEntity, QueriedObject } from '@headstartwp/core';
+import type { PostEntity, QueriedObject } from '@headstartwp/core';
 import { HtmlDecoder } from '@headstartwp/core/react';
-import { HeadstartWPRoute, JSONLD, queryPostOrPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { JSONLD, queryPostOrPosts } from '@headstartwp/next/app';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -9,7 +10,7 @@ import { ServerRelatedPosts } from '../../../components/ServerRelatedPosts';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPostOrPosts({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			single: {
 				postType: 'post',
@@ -25,13 +26,13 @@ async function query({ params }: HeadstartWPRoute) {
 
 export async function generateMetadata({ params }: HeadstartWPRoute) {
 	const {
-		seo: { metatada },
+		seo: { metadata },
 		isMainQuery,
 	} = await query({ params });
 
 	// a main query means that there's a default metadata associated with it
 	if (isMainQuery) {
-		return metatada;
+		return metadata;
 	}
 
 	// if it's not a main query then there isn't any metadata coming from WordPress

@@ -1,0 +1,61 @@
+{
+	"name": "@headstartwp/epio-search",
+	"version": "1.0.0-next.3",
+	"license": "MIT",
+	"description": "React components for supercharging your headless WordPress website with ElasticPress.",
+	"author": "10up <info@10up.com> (https://10up.com/)",
+	"type": "module",
+	"main": "dist/index.js",
+	"source": "src/index.ts",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		},
+		"./utils": {
+			"import": "./dist/utils/index.js",
+			"types": "./dist/utils/index.d.ts"
+		},
+		"./hooks": {
+			"import": "./dist/hooks/index.js",
+			"types": "./dist/hooks/index.d.ts"
+		},
+		"./components": {
+			"import": "./dist/components/index.js",
+			"types": "./dist/components/index.d.ts"
+		}
+	},
+	"files": [
+		"dist",
+		"types.d.ts",
+		"components.d.ts",
+		"utils.d.ts",
+		"hooks.d.ts"
+	],
+	"sideEffects": false,
+	"scripts": {
+		"build": "npm run ts && npm run copystyles",
+		"ts": "tsc -b",
+		"copystyles": "copyfiles -u 1 src/**/*.css dist",
+		"dev": "concurrently \"npm run watch:ts\"",
+		"watch:ts": "npm run ts -- --watch",
+		"lint": "eslint src/",
+		"test": "jest"
+	},
+	"dependencies": {
+		"wp-types": "^4.67.0"
+	},
+	"devDependencies": {
+		"@types/react": "^18",
+		"copyfiles": "^2.4.1",
+		"typescript-plugin-css-modules": "^5.1.0",
+		"@testing-library/react": "^16.0.0",
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/jest-dom": "^6.6.3"
+	},
+	"peerDependencies": {
+		"react": ">= 18.0.0",
+		"react-dom": ">= 18.0.0"
+	}
+}

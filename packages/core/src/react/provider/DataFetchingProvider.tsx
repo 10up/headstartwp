@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { PropsWithChildren } from 'react';
 import { SWRConfig, SWRConfiguration } from 'swr';
 
 export { unstable_serialize as serializeKey } from 'swr';
@@ -18,10 +18,10 @@ export type DataFetchingProviderProps = {
 	children: React.ReactNode;
 };
 
-export const DataFetchingProvider: FC<DataFetchingProviderProps> = ({
+export const DataFetchingProvider = ({
 	swrConfig,
 	data,
 	children,
-}) => {
+}: PropsWithChildren<DataFetchingProviderProps>) => {
 	return <SWRConfig value={{ fallback: data, ...swrConfig }}>{children}</SWRConfig>;
 };

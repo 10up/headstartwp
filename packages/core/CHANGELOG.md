@@ -1,5 +1,42 @@
 # @headstartwp/core
 
+## 1.5.0-next.11
+
+### Patch Changes
+
+- 318c9fa: Fix: account for possible `single` property in the default post types when executing the default post path matching.
+- ee5be48: Fix: blockGap in useBlockSetting
+
+## 1.5.0-next.10
+
+### Minor Changes
+
+- 27ff57c: Add support for Next.js 15
+
+## 1.5.0-next.9
+
+### Patch Changes
+
+- 2ef9d09: Introducing blocks-primitives package and minor patch to core package
+
+## 1.5.0-next.8
+
+### Patch Changes
+
+- 1c0bf8f: Fix fetch settings for next.js
+
+## 1.5.0-next.7
+
+### Minor Changes
+
+- 5290658: Fix: xss import issue
+
+## 1.5.0-next.6
+
+### Minor Changes
+
+- 042980b: Add the ability to add aliases/slug to sites in the multisite setup
+
 ## 1.5.0-next.5
 
 ### Patch Changes

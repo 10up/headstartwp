@@ -54,7 +54,7 @@ export async function getStaticPaths() {
 					// path is the catch all route, so it must be array with url segments
 					// if you don't want to support date urls just remove the date from the path
 					params: {
-						site: site.host,
+						site: site?.slug ?? site.host,
 						path: removeSourceUrl({ link, backendUrl: site.sourceUrl })
 							.substring(1)
 							.split('/'),
@@ -75,7 +75,7 @@ export async function getStaticPaths() {
 					return {
 						// path is the catch all route, so it must be array with url segments
 						params: {
-							site: site.host,
+							site: site?.slug ?? site.host,
 							path: normalizedLink.substring(1).split('/'),
 						},
 					};

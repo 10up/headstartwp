@@ -6,6 +6,7 @@
  * Those schemas are accessible making an OPTIONS call to each endpoint.
  */
 
+import { ThemeJSON } from '../../react/provider/types';
 import { YoastJSON } from './yoast';
 
 /**
@@ -745,7 +746,7 @@ export interface AppEntity extends Entity {
 		posts_per_page: string;
 		privacy_policy_url: string;
 	};
-	'theme.json': Record<string, any>;
+	'theme.json': ThemeJSON;
 }
 
 export interface PageInfo {

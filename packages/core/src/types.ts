@@ -150,6 +150,10 @@ export type I18NConfig = {
 };
 
 export type HeadlessConfig = {
+	/**
+	 * The slug of the site, this is only used for the multisite feature and it acts as an alias for the site host
+	 */
+	slug?: string;
 	host?: string;
 	locale?: string;
 	sourceUrl?: string;

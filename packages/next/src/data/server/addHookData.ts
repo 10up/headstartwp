@@ -12,6 +12,7 @@ export type HookState<T> = {
 	key: string;
 	data: T;
 	isMainQuery: boolean;
+	hostOrSlug?: string;
 	additionalCacheObjects?: HookState<T>[];
 };
 
@@ -223,6 +224,7 @@ export function addHookData<P extends AddHookDataBaseProps>(
 			},
 			themeJSON,
 			fallback,
+			__headstartwp_site: mainQuery?.hostOrSlug ?? validHookStates?.[0]?.hostOrSlug ?? null,
 		},
 	} satisfies
 		| GetStaticPropsResult<AddHookDataProps & P>

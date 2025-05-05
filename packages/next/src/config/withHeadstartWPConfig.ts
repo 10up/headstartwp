@@ -1,6 +1,7 @@
-import { ConfigError, HeadlessConfig } from '@headstartwp/core';
+import { ConfigError, HeadlessConfig, getSite } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
+import path from 'path';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
 
 type RemotePattern = {
@@ -100,13 +101,14 @@ export function withHeadstartWPConfig(
 	headlessConfig: HeadlessConfig = {},
 	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ): NextConfig {
+	const cwd = process.cwd();
 	const isUsingAppRouter =
-		fs.existsSync(`${process.cwd()}/src/app`) || fs.existsSync(`${process.cwd()}/app`);
+		fs.existsSync(path.join(cwd, 'src', 'app')) || fs.existsSync(path.join(cwd, 'app'));
 
-	const headlessConfigPath = `${process.cwd()}/headless.config.js`;
-	const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
-	const headstartWpConfigClientPath = `${process.cwd()}/headstartwp.config.client.js`;
-	const headstartWpConfigServerPath = `${process.cwd()}/headstartwp.config.server.js`;
+	const headlessConfigPath = path.resolve(cwd, 'headless.config.js');
+	const headstartWpConfigPath = path.resolve(cwd, 'headstartwp.config.js');
+	const headstartWpConfigClientPath = path.resolve(cwd, 'headstartwp.config.client.js');
+	const headstartWpConfigServerPath = path.resolve(cwd, 'headstartwp.config.server.js');
 
 	let clientConfigPath = '';
 	let serverConfigPath = '';
@@ -127,6 +129,14 @@ export function withHeadstartWPConfig(
 			clientConfigPath = headlessConfigPath;
 			serverConfigPath = headlessConfigPath;
 		}
+	}
+
+	// Normalize paths for webpack
+	if (clientConfigPath) {
+		clientConfigPath = path.normalize(clientConfigPath).replace(/\\/g, '/');
+	}
+	if (serverConfigPath) {
+		serverConfigPath = path.normalize(serverConfigPath).replace(/\\/g, '/');
 	}
 
 	if (!clientConfigPath && !serverConfigPath) {
@@ -187,9 +197,15 @@ export function withHeadstartWPConfig(
 			const rewrites =
 				typeof nextConfig.rewrites === 'function' ? await nextConfig.rewrites() : [];
 
-			sites.forEach((site) => {
+			sites.forEach((rawSite) => {
+				const site = getSite(rawSite);
 				const wpUrl = site.sourceUrl;
-				const prefix = isMultisite ? '/_sites/:site' : '';
+
+				let prefix = isMultisite ? '/_sites/:site' : '';
+				if (isUsingAppRouter) {
+					prefix = isMultisite ? '/:site' : '';
+				}
+
 				const shouldRewriteYoastSEOUrls =
 					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
@@ -207,7 +223,7 @@ export function withHeadstartWPConfig(
 						destination: `${wpUrl}/feed/?rewrite_urls=1`,
 					},
 					{
-						source: '/robots.txt',
+						source: `${prefix}/robots.txt`,
 						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
@@ -241,6 +257,7 @@ export function withHeadstartWPConfig(
 				if (Array.isArray(rewrites)) {
 					rewrites.push(...defaultRewrites);
 				} else {
+					rewrites.fallback = rewrites.fallback ?? [];
 					rewrites.fallback.push(...defaultRewrites);
 				}
 			});

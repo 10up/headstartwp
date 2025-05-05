@@ -10,11 +10,11 @@ import Blocks from '../../../../components/Blocks';
 
 export async function generateStaticParams({ params }: HeadstartWPRoute) {
 	// loads the right config based on route params (this is needed over getHeadstartWPConfig() for sites using multisite)
-	const { sourceUrl = '', hostUrl = '/' } = loadHeadstartWPConfig(params);
+	const { sourceUrl = '', hostUrl = '/' } = await loadHeadstartWPConfig(params);
 
 	// do not throw if there aren't any posts
 	const { data } = await queryPosts({
-		routeParams: params,
+		routeParams: await params,
 		params: { postType: 'post' },
 		options: {
 			throwIfNotFound: false,
@@ -34,7 +34,7 @@ export async function generateStaticParams({ params }: HeadstartWPRoute) {
 
 const Single = async ({ params }: HeadstartWPRoute) => {
 	const { data, config } = await queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			postType: ['post', 'page'],
 		},

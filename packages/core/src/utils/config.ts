@@ -34,6 +34,7 @@ export function getHeadstartWPConfig(): HeadlessConfig {
 		cache,
 		locale,
 		i18n,
+		slug,
 	} = __10up__HEADLESS_CONFIG;
 
 	const defaultTaxonomies: CustomTaxonomies = [
@@ -75,6 +76,7 @@ export function getHeadstartWPConfig(): HeadlessConfig {
 			: [...(customPostTypes || []), ...defaultPostTypes];
 
 	const headlessConfig = {
+		slug,
 		locale,
 		sourceUrl,
 		hostUrl: hostUrl || '',
@@ -119,6 +121,7 @@ export const getHeadlessConfig = getHeadstartWPConfig;
 export function getSite(site?: HeadlessConfig) {
 	const settings = getHeadstartWPConfig();
 	const headlessConfig: HeadlessConfig = {
+		slug: site?.slug,
 		sourceUrl: site?.sourceUrl || settings.sourceUrl,
 		hostUrl: site?.hostUrl,
 		host: site?.host,
@@ -158,7 +161,7 @@ export function getSiteByHost(hostOrUrl: string, locale?: string) {
 	const site =
 		settings.sites &&
 		settings.sites.find((site) => {
-			const isHost = site.host === normalizedHost;
+			const isHost = site.host === normalizedHost || site.slug === normalizedHost;
 
 			if (typeof locale !== 'undefined' && locale) {
 				return isHost && site.locale === locale;

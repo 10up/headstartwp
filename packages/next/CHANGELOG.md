@@ -1,5 +1,69 @@
 # @headstartwp/next
 
+## 1.5.0-next.14
+
+### Patch Changes
+
+- c8baaa2: Fix type on prepareSeoMetadata
+
+## 1.5.0-next.13
+
+### Patch Changes
+
+- fbcad53: Fix: windows support
+- Updated dependencies [318c9fa]
+- Updated dependencies [ee5be48]
+  - @headstartwp/core@1.5.0-next.11
+
+## 1.5.0-next.12
+
+### Minor Changes
+
+- 27ff57c: Add support for Next.js 15
+
+### Patch Changes
+
+- Updated dependencies [27ff57c]
+  - @headstartwp/core@1.5.0-next.10
+
+## 1.5.0-next.11
+
+### Patch Changes
+
+- 392a74c: Fix: revalidate path
+  Added: A new optional callback parameter was added to `revalidateRouteHandler`. This callback allows extra logic to be run after the path is revalidated. For instance, `revalidateTag` may need to be called for a specific query, or a redis tag may need to be deleted.
+
+## 1.5.0-next.10
+
+### Minor Changes
+
+- 24ddd61: support app router in withHeadstartWPConfig
+
+## 1.5.0-next.9
+
+### Patch Changes
+
+- 1c0bf8f: Fix fetch settings for next.js
+- Updated dependencies [1c0bf8f]
+  - @headstartwp/core@1.5.0-next.8
+
+## 1.5.0-next.8
+
+### Patch Changes
+
+- 9f7da69: Ensure query string is appended to URL rewrite/redirect in middleware
+
+## 1.5.0-next.7
+
+### Minor Changes
+
+- 042980b: Add the ability to add aliases/slug to sites in the multisite setup
+
+### Patch Changes
+
+- Updated dependencies [042980b]
+  - @headstartwp/core@1.5.0-next.6
+
 ## 1.5.0-next.6
 
 ### Patch Changes

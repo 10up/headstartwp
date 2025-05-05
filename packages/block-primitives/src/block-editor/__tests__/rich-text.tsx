@@ -1,0 +1,53 @@
+import { render, screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { jest } from '@jest/globals';
+
+let attributes = {};
+const setAttributes = jest.fn((newAttributes: Record<string, any>) => {
+	attributes = { ...attributes, ...newAttributes };
+	return attributes;
+});
+jest.unstable_mockModule('../hooks/useBlockPrimitiveProps.js', () => ({
+	useBlockPrimitiveProps: () => ({
+		setAttributes,
+		attributes,
+		clientId: 'clientId',
+		isSelected: true,
+	}),
+}));
+
+const { RichText } = await import('../rich-text.js');
+describe('RichText', () => {
+	it('supports inline editing', async () => {
+		const user = userEvent.setup();
+
+		render(
+			<RichText
+				name="heading"
+				tagName="h1"
+				placeholder="Heading..."
+				onPrimitiveChange={(name, value, _setAttributes) => {
+					_setAttributes({ [name]: value });
+				}}
+			/>,
+		);
+
+		await user.click(screen.getByLabelText('Heading...'));
+		await waitFor(() => user.keyboard('heading'));
+
+		expect(setAttributes).toHaveBeenCalled();
+		expect(screen.getByText('heading')).toBeDefined();
+	});
+
+	it('works without a custom onPrimitiveChange', async () => {
+		const user = userEvent.setup();
+
+		render(<RichText name="heading2" tagName="h1" placeholder="Heading..." />);
+
+		await user.click(screen.getByLabelText('Heading...'));
+		await waitFor(() => user.keyboard('heading 2'));
+
+		expect(setAttributes).toHaveBeenCalled();
+		expect(screen.getByText('heading 2')).toBeDefined();
+	});
+});

@@ -214,14 +214,16 @@ export async function previewRouteHandler(
 					})
 				: defaultRedirectPath;
 
-		cookies().set(COOKIE_NAME, JSON.stringify(previewData), {
+		const cookiesObject = await cookies();
+		cookiesObject.set(COOKIE_NAME, JSON.stringify(previewData), {
 			maxAge: 5 * 60,
 			// remove trailing slash
 			path: redirectPath.replace(/\/$/, ''),
 			httpOnly: true,
 		});
 
-		draftMode().enable();
+		const { enable } = await draftMode();
+		await enable();
 
 		if (typeof options.onRedirect === 'function') {
 			options.onRedirect({

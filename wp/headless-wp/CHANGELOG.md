@@ -1,10 +1,28 @@
 # @headstartwp/headstartwp
 
-## 1.1.4-next.0
+## 1.1.7-next.0
 
 ### Patch Changes
 
 - 8ba6de7: Fix: do not cast menu item ids to number as they are strings
+## 1.1.6
+
+### Patch Changes
+
+- ffdd745: Fix: only flush app settings cache when updating app settings option
+
+## 1.1.5
+
+### Patch Changes
+
+- 0b31232: Fix deprecation notice for PHP >= 8.2 for the usage of mb_convert_encoding with 'HTML-ENTITIES'
+
+## 1.1.4
+
+### Patch Changes
+
+- 07d0325: Added - Improved tests for the Gutenberg block attribute processing
+  Fixed - Gutenberg post content block attribute processing for Synced Patterns and support for multibyte characters.
 
 ## 1.1.3
 

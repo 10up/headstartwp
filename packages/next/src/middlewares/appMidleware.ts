@@ -93,7 +93,7 @@ export async function AppMiddleware(
 	options: AppMidlewareOptions = { appRouter: false },
 ) {
 	let response = NextResponse.next();
-	const { pathname } = req.nextUrl;
+	const { pathname, searchParams } = req.nextUrl;
 
 	if (isStaticAssetRequest(req) || isInternalRequest(req)) {
 		return response;
@@ -119,6 +119,9 @@ export async function AppMiddleware(
 	// if it's polylang integration, we should not be using locale to get site
 	const site = getSiteByHost(hostname, !hasPolylangIntegration ? locale : undefined);
 	const isMultisiteRequest = site !== null && typeof site.sourceUrl !== 'undefined';
+
+	// ensure we re-add the query string when rewriting/redirecing
+	const queryString = Array.from(searchParams.keys()).length ? `?${searchParams.toString()}` : '';
 
 	const {
 		redirectStrategy,
@@ -161,7 +164,7 @@ export async function AppMiddleware(
 			shouldRedirect = true;
 			const pathNameWithoutLocale = pathname.replace(`/${locale}`, '');
 			response = NextResponse.redirect(
-				new URL(pathNameWithoutLocale, req.url.replace(`/${locale}`, '')),
+				new URL(pathNameWithoutLocale + queryString, req.url.replace(`/${locale}`, '')),
 			);
 		}
 		// if we detected a non-default locale, there isn't a supported locale in the URL already
@@ -175,14 +178,17 @@ export async function AppMiddleware(
 		) {
 			shouldRedirect = true;
 			response = NextResponse.redirect(
-				new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, req.url),
+				new URL(
+					`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}${queryString}`,
+					req.url,
+				),
 			);
 		}
 		// nothing else and there's not a locale in path then rewrite to add default locale
 		else if (pathnameIsMissingLocale && !isValidLocale(firstPathSlice)) {
 			response = NextResponse.rewrite(
 				new URL(
-					`/${defaultAppRouterLocale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
+					`/${defaultAppRouterLocale}${pathname.startsWith('/') ? '' : '/'}${pathname}${queryString}`,
 					req.url,
 				),
 			);
@@ -190,16 +196,17 @@ export async function AppMiddleware(
 	}
 
 	if (isMultisiteRequest && !shouldRedirect) {
-		const pagesRouterRewrite = `/_sites/${hostname}${pathname}`;
+		const hostNameOrSlug = site.slug || hostname;
+		const pagesRouterRewrite = `/_sites/${hostNameOrSlug}${pathname}${queryString}`;
 		const appRouterRewrite = locale
-			? `/${locale}/${hostname}${pathname.replace(`/${locale}`, '')}`
-			: `/${hostname}${pathname}`;
+			? `/${locale}/${hostNameOrSlug}${pathname.replace(`/${locale}`, '')}${queryString}`
+			: `/${hostNameOrSlug}${pathname}${queryString}`;
 
 		response = NextResponse.rewrite(
 			new URL(options.appRouter ? appRouterRewrite : pagesRouterRewrite, req.nextUrl),
 		);
 
-		response.headers.set('x-headstartwp-site', hostname);
+		response.headers.set('x-headstartwp-site', hostNameOrSlug);
 	}
 
 	if (locale) {

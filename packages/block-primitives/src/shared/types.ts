@@ -1,0 +1,174 @@
+import { HeadlessConfig } from '@headstartwp/core';
+import type { RichText, InnerBlocks } from '@wordpress/block-editor';
+import type { DropdownProps } from '@wordpress/components/build-types/dropdown/types.d.ts';
+
+export type Attributes = Record<string, any>;
+export type SetAttributes = (attributes: Attributes) => void;
+
+export type MediaReplaceFlow = {
+	mediaURL: string;
+	mediaId?: number;
+	mediaIds?: number[];
+	allowedTypes: string[];
+	accept: string[] | string;
+	onError?: (err: string) => void;
+	onSelect: (media: ImagePrimitiveValue) => void;
+	onSelectURL?: (newUrl: string) => void;
+	onToggleFeaturedImage?: () => void;
+	useFeaturedImage?: () => void;
+	onFilesUpload?: (files: any) => void;
+	name?: string | React.ReactNode;
+	createNotice?: () => void;
+	removeNotice?: () => void;
+	children?: React.ReactNode;
+	multiple?: boolean;
+	addToGallery?: boolean;
+	handleUpload?: boolean;
+	popoverProps?: DropdownProps['popoverProps'];
+};
+
+/**
+ * Represents an image stored with {@link ImagePrimitive}
+ */
+export type ImagePrimitiveValue = {
+	/**
+	 * Image ID
+	 */
+	id: number;
+
+	/**
+	 * Image URL
+	 */
+	url: string;
+
+	/**
+	 * Image alt text
+	 */
+	alt: string;
+
+	/**
+	 * The image title
+	 */
+	title: string;
+
+	/**
+	 * The width of the image
+	 */
+	width: number;
+
+	/**
+	 * The height of the image
+	 */
+	height: number;
+
+	sizes: Record<string, { url: string; width: number; height: number; orientantion: string }>;
+};
+
+/**
+ * The ImagePrimitive interface
+ */
+export interface ImagePrimitive extends Omit<MediaReplaceFlow, 'onSelect'> {
+	/**
+	 * The name of the attribute where image data should be stored
+	 */
+	name: string;
+
+	/**
+	 * The name/label of the toolbar control
+	 */
+	title?: string;
+
+	/**
+	 * The actual value
+	 */
+	value?: ImagePrimitiveValue;
+
+	/**
+	 * Which size to use
+	 */
+	size?: string;
+
+	/**
+	 * Optional custom onSelect handler
+	 *
+	 * @param name The name of the attribute
+	 * @param media The media object
+	 * @param setAttributes The setAttributes handler
+	 * @param attributes The attributes object
+	 *
+	 */
+	onPrimitiveSelect?: (
+		name: string,
+		media: Parameters<MediaReplaceFlow['onSelect']>['0'],
+		setAttributes: SetAttributes,
+		attributes: Attributes,
+	) => void;
+}
+
+export interface RichTextPrimitive<T extends keyof HTMLElementTagNameMap>
+	extends Omit<RichText.Props<T>, 'onChange' | 'value'> {
+	/**
+	 * The name of the attribute where image data should be stored
+	 */
+	name: string;
+
+	/**
+	 * The actual value
+	 */
+	value?: string;
+
+	/**
+	 * Optional custom onSelect handler
+	 *
+	 * @param name The name of the attribute
+	 * @param value The value
+	 * @param setAttributes The setAttributes handler
+	 * @param attributes The attributes object
+	 *
+	 */
+	onPrimitiveChange?: (
+		name: string,
+		value: string,
+		setAttributes: SetAttributes,
+		attributes: Attributes,
+	) => void;
+}
+
+// copied from 10up block components
+
+export interface LinkPrimitiveValue {
+	url: string;
+	opensInNewTab?: boolean;
+	title?: string;
+	text?: string;
+	type?: string;
+	kind?: string;
+}
+
+export interface LinkProps {
+	name: string;
+	value?: LinkPrimitiveValue;
+	placeholder?: string;
+	className?: string;
+	replace?: boolean;
+	scroll?: boolean;
+	prefetch?: boolean | null;
+	linkSettings?: {
+		sourceUrl?: string;
+		hostUrl?: string;
+	};
+}
+
+export interface InnerBlocksProps extends InnerBlocks.Props {
+	children?: React.ReactNode;
+	className?: string;
+}
+
+export interface UniversalBlock<T extends Record<string, any> = Record<string, any>> {
+	children?: React.ReactNode;
+	attributes: {
+		[k in keyof T]: T[k];
+	};
+	settings?: HeadlessConfig;
+	themeJSON?: Record<string, any>;
+}
