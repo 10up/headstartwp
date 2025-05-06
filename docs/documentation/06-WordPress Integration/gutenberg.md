@@ -111,3 +111,27 @@ $doc = apply_filters(
     $block_instance
 );
 ```
+
+### tenup_headless_wp_ensure_image_dimensions
+
+HeadstartWP can automatically add width and height attributes to any internal images in Gutenberg blocks that for some reason is missing width and height attributes to prevent layout shifts. This feature is disabled by default and must be enabled using the `tenup_headless_wp_ensure_image_dimensions` filter. When enabled, it works by:
+
+1. Checking if the image already has width and height attributes
+2. If not, attempting to get the image ID from the URL
+3. Using WordPress core functions to add the dimensions and srcset attributes
+
+This process is only applied to images hosted on your WordPress site and will be skipped for external images.
+
+```php
+/**
+ * Filter to enable image dimension processing
+ *
+ * @param bool   $enable        Whether to enable adding dimensions, defaults to false
+ * @param string $block_content The block content
+ * @param array  $block        The block schema
+ */
+add_filter( 'tenup_headless_wp_ensure_image_dimensions', function( $enable, $block_content, $block ) {
+    // Return true to enable the feature
+    return true;
+}, 10, 3 );
+```

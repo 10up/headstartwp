@@ -209,7 +209,19 @@ RESULT;
 		$attachment_id = $this->factory()->attachment->create_upload_object( __DIR__ . '/assets/dummy-image.png', $post->ID );
 		$src           = wp_get_attachment_image_url( $attachment_id, 'full' );
 
-		// simulate an image without dimensions
+		// Test with filter disabled (default)
+		$block          = $this->core_render_block_from_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
+		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
+
+		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
+		$doc->next_tag( 'img' );
+
+		$this->assertNull( $doc->get_attribute( 'width' ) );
+		$this->assertNull( $doc->get_attribute( 'height' ) );
+
+		// Test with filter enabled
+		add_filter( 'tenup_headless_wp_ensure_image_dimensions', '__return_true' );
+
 		$block          = $this->core_render_block_from_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
 		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
 
@@ -218,6 +230,9 @@ RESULT;
 
 		$this->assertEquals( $doc->get_attribute( 'width' ), 213 );
 		$this->assertEquals( $doc->get_attribute( 'height' ), 237 );
+
+		// Clean up
+		remove_filter( 'tenup_headless_wp_ensure_image_dimensions', '__return_true' );
 
 		// simulate an image with dimensions
 		$block = $this->core_render_block_from_markup( "<!-- wp:image {\"id\":$attachment_id} --> <figure class=\"wp-block-image\"><img class=\"wp-image-$attachment_id\" src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );

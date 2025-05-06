@@ -73,6 +73,17 @@ class Gutenberg {
 	 * @return string
 	 */
 	public function ensure_image_has_dimensions( $block_content, $block ) {
+		/**
+		 * Filter whether to bypass adding dimensions to images
+		 *
+		 * @param bool   $bypass          Whether to bypass adding dimensions, defaults to false
+		 * @param string $block_content   The block content
+		 * @param array  $block          The block schema
+		 */
+		if ( ! apply_filters( 'tenup_headless_wp_ensure_image_dimensions', false, $block_content, $block ) ) {
+			return $block_content;
+		}
+
 		$doc = new \WP_HTML_Tag_Processor( $block_content );
 
 		if ( $doc->next_tag( 'img' ) ) {
