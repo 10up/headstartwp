@@ -226,6 +226,26 @@ RESULT;
 
 		$this->assertEquals( $doc->get_attribute( 'width' ), 213 );
 		$this->assertEquals( $doc->get_attribute( 'height' ), 237 );
+
+		// simulate an image with hardcoded width and height
+		$block          = $this->core_render_block_from_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\" width=\"215\" height=\"235\"/></figure> <!-- /wp:image -->" );
+		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
+
+		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
+		$doc->next_tag( 'img' );
+
+		$this->assertEquals( $doc->get_attribute( 'width' ), 215 );
+		$this->assertEquals( $doc->get_attribute( 'height' ), 235 );
+
+		// simulate an external image
+		$block          = $this->core_render_block_from_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"https://example.com/image.png\" alt=\"\"/></figure> <!-- /wp:image -->" );
+		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
+
+		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
+		$doc->next_tag( 'img' );
+
+		$this->assertNull( $doc->get_attribute( 'width' ) );
+		$this->assertNull( $doc->get_attribute( 'height' ) );
 	}
 
 	/**
