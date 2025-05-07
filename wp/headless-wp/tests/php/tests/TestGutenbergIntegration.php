@@ -200,6 +200,70 @@ RESULT;
 	}
 
 	/**
+	 * Tests that all uploaded images have width and height attributes when rendered
+	 *
+	 * @return void
+	 */
+	public function test_ensure_image_width_height() {
+		$post          = $this->factory()->post->create_and_get();
+		$attachment_id = $this->factory()->attachment->create_upload_object( __DIR__ . '/assets/dummy-image.png', $post->ID );
+		$src           = wp_get_attachment_image_url( $attachment_id, 'full' );
+
+		// Test with filter disabled (default)
+		$block          = $this->core_render_block_from_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
+		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
+
+		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
+		$doc->next_tag( 'img' );
+
+		$this->assertNull( $doc->get_attribute( 'width' ) );
+		$this->assertNull( $doc->get_attribute( 'height' ) );
+
+		// Test with filter enabled
+		add_filter( 'tenup_headless_wp_ensure_image_dimensions', '__return_true' );
+
+		$block          = $this->core_render_block_from_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
+		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
+
+		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
+		$doc->next_tag( 'img' );
+
+		$this->assertEquals( $doc->get_attribute( 'width' ), 213 );
+		$this->assertEquals( $doc->get_attribute( 'height' ), 237 );
+
+		// Clean up
+		remove_filter( 'tenup_headless_wp_ensure_image_dimensions', '__return_true' );
+
+		// simulate an image with dimensions
+		$block = $this->core_render_block_from_markup( "<!-- wp:image {\"id\":$attachment_id} --> <figure class=\"wp-block-image\"><img class=\"wp-image-$attachment_id\" src=\"$src\" alt=\"\"/></figure> <!-- /wp:image -->" );
+		$doc   = new WP_HTML_Tag_Processor( $block['html'] );
+		$doc->next_tag( 'img' );
+
+		$this->assertEquals( $doc->get_attribute( 'width' ), 213 );
+		$this->assertEquals( $doc->get_attribute( 'height' ), 237 );
+
+		// simulate an image with hardcoded width and height
+		$block          = $this->core_render_block_from_markup( "<!-- wp:image {} --> <figure class=\"wp-block-image\"><img src=\"$src\" alt=\"\" width=\"215\" height=\"235\"/></figure> <!-- /wp:image -->" );
+		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
+
+		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
+		$doc->next_tag( 'img' );
+
+		$this->assertEquals( $doc->get_attribute( 'width' ), 215 );
+		$this->assertEquals( $doc->get_attribute( 'height' ), 235 );
+
+		// simulate an external image
+		$block          = $this->core_render_block_from_markup( '<!-- wp:image {} --> <figure class="wp-block-image"><img src="https://example.com/image.png" alt=""/></figure> <!-- /wp:image -->' );
+		$enhanced_block = $this->parser->ensure_image_has_dimensions( $block['html'], $block['parsed_block'] );
+
+		$doc = new WP_HTML_Tag_Processor( $enhanced_block );
+		$doc->next_tag( 'img' );
+
+		$this->assertNull( $doc->get_attribute( 'width' ) );
+		$this->assertNull( $doc->get_attribute( 'height' ) );
+	}
+
+	/**
 	 * Tests block's rendering with newer tag processor api
 	 *  - Wrapper to run test_render with the HTML Tag API processor enabled
 	 *
