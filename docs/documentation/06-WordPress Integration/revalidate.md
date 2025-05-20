@@ -40,7 +40,7 @@ Simply create a Next.js API endpoint that uses the `revalidateHandler` provided 
 
 :::caution
 If you changed the default value of the endpoint path via the `tenup_headless_isr_revalidate_endpoint` filter, make sure you change it in the Next.js app as well. 
-:::caution
+:::
 
 
 ```javascript title="src/pages/api/revalidate"
@@ -75,7 +75,7 @@ Officially, Next.js [recommends](https://nextjs.org/docs/pages/building-your-app
 
 :::caution
 If you are hosting on Vercel you do not need this package.
-:::caution
+:::
 
 Our solution to this problem has been to replace the filesystem cache with a redis cache provider. So whenever Next.js revalidates a page instead of storing the static page in disk, it will write to a shared redis instance that all of the containers would be talking to. The diagram below exemplifies how it works.
 
@@ -118,7 +118,7 @@ module.exports = withHeadstartWPConfig(nextConfig);
 
 :::info
 The HeadstartWP [scaffold](https://github.com/10up/headstartwp/tree/develop/projects/wp-nextjs) already includes the code above
-:::info
+:::
 
 The code above checks for `NEXT_REDIS_URL` and `VIP_REDIS_PRIMARY` (which is specific for WordPress VIP hosting), however there are several other env variables you can use to configure your redis connection.
 

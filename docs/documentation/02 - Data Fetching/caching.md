@@ -18,7 +18,7 @@ You should consider fetch strategy caching if:
 
 :::caution
 Bear in mind that if you stack multiple layers of caching in your application it will get harder and harder to properly flush the cache. Before considering utilizing fetch strategy cache, make sure you have a plan of how content/cache will be flushed when content changes in the CMS.
-:::caution
+:::
 
 
 ## Enabling fetch strategy caching

@@ -39,7 +39,7 @@ const PostPage = () => {
 
 :::caution
 The behavior described here was implemented in version **0.5.x** of the framework and can be disabled by passing `matchCurrentPath: false` to `usePost` (and `fetchHookData` for server-side data fetching).
-:::caution
+:::
 
 The `usePost` hook will by default match the current path captured by `[...path].js` with the post's link property. This ensures the right post is loaded and that 404 are issued to unsupported permalinks. 
 
@@ -49,7 +49,7 @@ The framework requires that the permalink structure set on the backend matches t
 This means that if you include the date in your permalinks the URLs to a post without the date will 404 in the framework.
 
 This is also true for custom post types, if the WordPress backend expects a custom post type to be at `/book/book-name` the front-end must also follow the same URL structure. If you wish to change the permalink structure for custom post types make sure to make the changes both in WordPress and in your front-end code.
-:::caution
+:::
 
 Example where path matches:
 
@@ -76,7 +76,7 @@ When specifying an array of post type, the slug will be searched in both endpoin
 
 :::caution
 This might result in URL conflicts, i.e a post or page using the same slug. The first post type specified will take precedence. In such cases, consider using a different URL structure for each for instance (e.g: using `src/pages/article/[...path].js` for posts).
-:::caution
+:::
 
 
 ```js title="src/pages/[...path].js"

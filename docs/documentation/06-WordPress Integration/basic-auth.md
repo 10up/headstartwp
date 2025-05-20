@@ -16,4 +16,4 @@ WP_BASIC_AUTH_PASSWORD=password
 The above env variables will only be accessible server-side and therefore any client-side requests made directly to WordPress will fail. This happens because Next.js only includes env variables prefixed with `NEXT_PUBLIC_` in the browser bundle.
 
 If you want your client-side requests to work, prefix the above variables with `NEXT_PUBLIC_`. But note that the basic auth creds will be leaked to the public.
-:::caution
+:::

@@ -24,7 +24,7 @@ module.exports = withHeadstartWPConfig(nextConfig);
 ```
 :::caution
 Since `@headstartwp/next@1.2.0` you do not need to import `headstartwp.config.js` in `next.config.js` anymore, the framework will dynamically load the config.
-:::caution
+:::
 
 Here's a sample config file
 
@@ -202,7 +202,7 @@ This route would automatically handle the following URLs:
 
 :::caution
 The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
-:::caution
+:::
 
 It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable [archive path matching](/learn/data-fetching/useposts#archive-path-matching).
 
@@ -264,7 +264,7 @@ module.exports = {
 
 :::info
 This feature was added in `@headstartwp/next@1.3.3` and requires the plugin version >= 1.1.2.
-:::info
+:::
 
 This option, if enabled, will use the `post.link` property of the post being previewed to redirect to the appropriate route for previewing. This can be very useful to avoid the need for providing a custom [getRedirectPath](/learn/wordpress-integration/previews#getredirectpath) implementation by telling the preview handler to simply use the post's link as returned via the WordPress `get_permalink` function.
 

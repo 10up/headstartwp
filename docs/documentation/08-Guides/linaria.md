@@ -10,4 +10,4 @@ The [withHeadstartWPConfig](/docs/api/namespaces/headstartwp_next.config/#withhe
 
 :::caution
 If you're on a monorepo setup, these packages should be installed on the Next.js project.
-:::caution
+:::
