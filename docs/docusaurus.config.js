@@ -44,7 +44,6 @@ const config = {
 	],
 
 	plugins: [
-		/*
 		[
 			'docusaurus-plugin-typedoc',
 			{
@@ -63,7 +62,6 @@ const config = {
 				},
 			},
 		],
-		*/
 		[
 			'@docusaurus/plugin-content-docs',
 			{
@@ -76,7 +74,6 @@ const config = {
 				sidebarCollapsed: false,
 			},
 		],
-		/*
 		[
 			'@docusaurus/plugin-content-docs',
 			{
@@ -89,13 +86,12 @@ const config = {
 				sidebarCollapsed: false,
 			},
 		],
-		*/
 		[
 			'@easyops-cn/docusaurus-search-local',
 			{
 				indexDocs: true,
-				docsRouteBasePath: ['learn'],
-				docsDir: ['documentation'],
+				docsRouteBasePath: ['learn', 'api'],
+				docsDir: ['documentation', 'docs'],
 				hashed: true,
 			},
 		],
@@ -120,7 +116,6 @@ const config = {
 						position: 'right',
 						label: 'Docs',
 					},
-					/*
 					{
 						type: 'doc',
 						docId: 'index',
@@ -128,7 +123,6 @@ const config = {
 						label: 'API Reference',
 						docsPluginId: 'docs',
 					},
-					*/
 				],
 			},
 			announcementBar: {
@@ -149,12 +143,10 @@ const config = {
 								label: 'Documentation',
 								to: '/learn',
 							},
-							/*
 							{
 								label: 'API Reference',
 								to: '/api',
 							},
-							*/
 						],
 					},
 					{

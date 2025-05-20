@@ -24,9 +24,9 @@
     "prism-react-renderer": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typedoc": "^0.28.0",
+    "typedoc": "^0.25.7",
     "typedoc-plugin-inline-sources": "^1.0.2",
-    "typedoc-plugin-markdown": "^4.0.0-next.6"
+    "typedoc-plugin-markdown": "^3.17.1"
   },
   "browserslist": {
     "production": [
