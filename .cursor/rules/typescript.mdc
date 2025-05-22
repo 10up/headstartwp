@@ -1,0 +1,63 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: This rule provides guidance around how to write TypeScript
+globs: *.ts,*.tsx
+alwaysApply: true
+---
+## TypeScript Best Practices
+
+### 1. Code Quality
+- Never ship code with compilation issues
+- Run `tsc --noEmit` in CI for all Pull Requests or make sure tsc is executed as part of build in CI
+- Use strict `tsconfig.json` settings but allow escape hatches when needed
+- Use the "function" keyword for regular functions
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+- Favor named exports for components.
+- Do not use barrel files
+- Generated code must rigorously handle `null` and `undefined` values, adhering to `strictNullChecks: true`.
+- Do not use the generic `Function` type. Instead, generate specific function signatures (e.g., `(name: string, age: number) => User`).
+- Prefer top-level `import type` over inline `import { type ... }`.
+- Use discriminated unions to prevent the 'bag of optionals' problem.
+- Use switch statements to handle the results of discriminated unions
+
+### 2. Escape Hatches
+When stuck with typing issues, use these in order of preference:
+1. `as unknown as ExpectedType` type cast
+2. Explicit `any` type
+3. `// @ts-expect-error` comment with TODO e.g:
+
+```
+// TODO(name): object is not typed property but it should have a `function` method
+// @ts-expect-error
+const result = object.function()
+```
+
+### 3. React TypeScript Guidelines
+- Use `type` over `interface` for React props
+- Use arrow functions for React Components
+- Use `React.FC` for typing React components
+- Use function default arguments instead of `defaultProps`
+- Explicitly declare `children` instead of using `PropsWithChildren`
+- Avoid prop spreading
+- Co-locate types with React components
+- If colocated types cause circular dependencies, move the types to a shared types file.
+- Use `@types` packages when needed
+
+### 4. Recommended tsconfig.json Settings
+```json
+{
+  "noFallthroughCasesInSwitch": true,
+  "noImplicitAny": true,
+  "strictNullChecks": true,
+  "noUnusedParameters": true
+}
+```
+
+## Global Types
+- Do not put application types in global scope
+- Use `global.d.ts` only for extending global types
+- Include global type definitions in `tsconfig.json`'s `include` option

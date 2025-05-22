@@ -1,0 +1,73 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: This rule provides comprehensive guidance for Next.js development, covering code organisation, performance, security, testing, and common pitfalls. It helps developers build robust, scalable, and maintainable Next.js applications by adhering to community-accepted best practices and coding standards.
+globs: *.js,*.jsx,*.ts,*.tsx
+alwaysApply: true
+---
+
+# Next.js Best Practices
+
+## Project Specifics
+-
+
+## Module Organization
+
+*   **Co-location:** Keep related components, styles, and tests in the same directory.
+*   **Feature-based modules:** Group files by feature/domain rather than type (e.g., `components/user-profile/`, not `components/button`, `components/form`).
+*   **Avoid deeply nested directories:** Keep the directory structure relatively flat to improve navigation.
+
+## Naming Conventions
+
+- Use kebab-case for file names (e.g., `my-component.ts`)
+- Use camelCase for variables and function names (e.g., `myVariable`, `myFunction()`)
+- Use UpperCamelCase (PascalCase) for classes, types, and interfaces (e.g., `MyClass`, `MyInterface`)
+- Use ALL_CAPS for constants and enum values (e.g., `MAX_COUNT`, `Color.RED`)
+- Inside generic types, functions or classes, prefix type parameters with `T` (e.g., `TKey`, `TValue`)
+```ts
+type RecordOfArrays<TItem> = Record<string, TItem[]>;
+```
+
+### Code Splitting
+
+*   **Dynamic imports:** Use `next/dynamic` to load components only when they are needed, improving initial load time.  Example: `dynamic(() => import('../components/MyComponent'))`.
+*   **Route-level code splitting:** Next.js automatically splits code based on routes, so each page only loads the necessary JavaScript.
+*   **Granular code splitting:** Break down large components into smaller chunks that can be loaded independently.
+
+### Optimization Techniques
+
+*   **Image optimization:** Use `next/image` component for automatic image optimization, including lazy loading and responsive images.
+*   **Font optimization:**  Use `next/font` to optimize font loading and prevent layout shift.
+*   **Code splitting:** Use dynamic imports and route-level code splitting to reduce initial load time.
+*   **Caching:** Use caching strategies (e.g., `Cache-Control` headers, `SWR`, `React Query`) to reduce data fetching overhead.
+*   **Memoization:** Use `React.memo` to prevent unnecessary re-renders of components.
+*   **Prefetching:** Use the `<Link prefetch>` tag to prefetch pages that are likely to be visited.
+*   **SSR/SSG:** Use Static Site Generation (SSG) for content that doesn't change often and Server-Side Rendering (SSR) for dynamic content.
+*   **Incremental Static Regeneration (ISR):** Use ISR to update statically generated pages on a regular interval.
+
+### Memory Management
+
+*   **Avoid memory leaks:** Clean up event listeners and timers in `useEffect` hooks.
+*   **Minimize re-renders:** Only update state when necessary to reduce the number of re-renders.
+*   **Use immutable data structures:** Avoid mutating data directly to prevent unexpected side effects.
+
+### Rendering Optimization
+
+*   **Server Components (app directory):**  Render as much as possible on the server to reduce client-side JavaScript.
+*   **Client Components (app directory):** Only use client components when interactivity is required. Defer rendering of non-critical client components using `React.lazy`.
+
+### Bundle Size Optimization
+
+*   **Analyze bundle size:** Use tools like `webpack-bundle-analyzer` to identify large dependencies.
+*   **Remove unused code:** Use tree shaking to remove unused code from your bundles.
+*   **Use smaller dependencies:** Replace large dependencies with smaller, more lightweight alternatives.
+*   **Compression:** Enable Gzip or Brotli compression on your server to reduce the size of the transferred files.
+
+### Lazy Loading
+
+*   **Images:** Use `next/image` for automatic lazy loading of images.
+*   **Components:** Use `next/dynamic` for lazy loading of components.
+*   **Intersection Observer:** Use the Intersection Observer API for manual lazy loading of content.

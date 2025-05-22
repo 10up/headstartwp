@@ -1,0 +1,62 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: This rule provides guidance for writing React
+globs: *.js,*.jsx,*.ts,*.tsx
+alwaysApply: true
+---
+# React Best Practices
+
+## When to Use useEffect
+
+Use `useEffect` when you need to:
+- Synchronize with external systems (non-React widgets, network, browser DOM)
+- Handle side effects that need to run after render
+- Manage subscriptions or cleanup
+
+## When NOT to Use useEffect
+
+Avoid `useEffect` for:
+1. **Data Transformations**
+   - Instead of using `useEffect` to transform data for rendering, calculate values during render
+   - Example: Instead of:
+     ```jsx
+     const [fullName, setFullName] = useState('');
+     useEffect(() => {
+       setFullName(firstName + ' ' + lastName);
+     }, [firstName, lastName]);
+     ```
+     Do this:
+     ```jsx
+     const fullName = firstName + ' ' + lastName;
+     ```
+
+2. **User Events**
+   - Handle user events in event handlers, not effects
+   - Effects run after render, so you lose context of what triggered the change
+
+3. **Expensive Calculations**
+   - Use `useMemo` instead of `useEffect` for caching expensive calculations
+   - Example:
+     ```jsx
+     const visibleTodos = useMemo(() => 
+       getFilteredTodos(todos, filter),
+       [todos, filter]
+     );
+     ```
+
+## General Best Practices
+
+- Prefer using a library such as `swr` for handling client-side data fetching but always ask confirmation before using it.
+- Avoid chaining state updates in effects
+- Consider using a reducer for complex state logic
+- Lift state up when synchronizing between components
+- Extract effect logic into custom hooks for reusability
+- Always implement cleanup functions for async operations
+- Avoid updating state in effects when the value can be calculated during render
+- Include all values from the component scope that the effect uses
+- Use the ESLint exhaustive-deps rule to catch missing dependencies
+- Do not use barrel files
