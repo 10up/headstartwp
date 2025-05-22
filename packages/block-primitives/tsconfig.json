@@ -8,6 +8,6 @@
     "target": "ES2017",
     "declaration": true
   },
-  "exclude": ["node_modules", "dist", "src/**/__tests__/*.ts"],
+  "exclude": ["node_modules", "dist"],
   "include": ["src"]
 }

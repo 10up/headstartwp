@@ -73,6 +73,7 @@
   "devDependencies": {
     "@jest/globals": "29.0.3",
     "@testing-library/dom": "^9.3.4",
+    "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",
     "dts-bundle-generator": "^9.5.1",

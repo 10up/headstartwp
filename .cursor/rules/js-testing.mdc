@@ -1,0 +1,28 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: This rule provides guidance for writing testing for JavaScript/TypeScript
+globs: **/__tests__/**/*.*
+alwaysApply: true
+---
+
+- Colocate tests in the same folder of what is being tested. All tests should be in `/__tests__/` folders.
+- Do not test implementation details, test how an end user would use the code being tested as much as possible.
+- Use `describe` blocks with `it` to organize tests.
+- Common test set up can be initialized at the `describe` scope
+- When mocking avoid mocking function unless absolutely necessary. Prefer to mock the sunrounding environment such as mocking HTTP requests.
+- Use `jest` or `vitest` check the project context to ensure the code is generated for the appropriate framework.
+- When using jest, use `@jest/globals`
+- If using Next.js, make sure to use `next/jest` package to configure the jest config. This avoids the need to mock many things from Next.js
+```ts
+import nextJest from 'next/jest.js';
+
+const createJestConfig = nextJest({});
+
+export config = {};
+
+export default createJestConfig(config);
+```

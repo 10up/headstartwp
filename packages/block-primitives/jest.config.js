@@ -9,7 +9,7 @@ export default {
 	testEnvironment: 'jsdom',
 	testPathIgnorePatterns: ['dist'],
 	collectCoverage: true,
-	setupFilesAfterEnv: ['./jest.setup.ts'],
+	setupFilesAfterEnv: ['./src/jest.setup.ts'],
 	extensionsToTreatAsEsm: ['.ts', '.tsx', '.mts'],
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
