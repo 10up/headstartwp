@@ -18,7 +18,7 @@ HeadstartWP supports Next.js ISR via the WordPress plugin and via `@10up/next-re
 ### Plugin setup
 
 HeadstartWP supports On-Demand Revalidation and it requires installing the WordPress Plugin. On-Demand Revalidation is opt-in and must be manually enabled in the plugin's settings (Settings -> General).
-![Plugin settings](../../static/img/documentation/getting-started/plugin-settings.png)
+![Plugin settings](../../../static/img/documentation/getting-started/plugin-settings.png)
 
 The plugin expects the revalidate endpoint to live at  `/api/revalidate`. It is possible to customize this endpoint via the `tenup_headless_isr_revalidate_endpoint`.
 
@@ -79,7 +79,7 @@ If you are hosting on Vercel you do not need this package.
 
 Our solution to this problem has been to replace the filesystem cache with a redis cache provider. So whenever Next.js revalidates a page instead of storing the static page in disk, it will write to a shared redis instance that all of the containers would be talking to. The diagram below exemplifies how it works.
 
-![Plugin settings](../../static/img/documentation/wordpress-integration/next-redis-cache-provider.png)
+![Plugin settings](../../../static/img/documentation/wordpress-integration/next-redis-cache-provider.png)
 
 To set up `@10up/next-redis-cache-provider` first install it via npm:
 

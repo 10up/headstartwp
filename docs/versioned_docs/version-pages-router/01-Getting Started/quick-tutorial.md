@@ -63,7 +63,7 @@ The `usePost` hook is one of the framework's data-fetching hooks. As its name su
 
 > Extracting the *slug* from the url **only** works when using the `[...path].js` or `[[...path]].js `catch-all route style.
 
-![SPA Data Fetching](../../static/img/spa-data-fetching-1.gif)
+![SPA Data Fetching](../../../static/img/spa-data-fetching-1.gif)
 
 Without server-side data fetching, the experience gets clunky and web vitals are greatly affected as there will be a high CLS. SEO is also affected since there is no content or SEO meta tags until the browser fetches the data.
 
@@ -160,7 +160,7 @@ Take some time to review the other routes, did you spot the pattern?
 
 As you might have noticed, the category route is not handling errors and loading states on the client. Therefore it assumes the data will always be pre-fetched on the server. If you remove `getServerSideProps`, you will see the following error.
 
-![data-error](../../static/img/error.png)
+![data-error](../../../static/img/error.png)
 
 At 10up, we strongly believe that a great developer experience increases developer productivity! Therefore the framework will try to help you, the developer, as much as it can.
 

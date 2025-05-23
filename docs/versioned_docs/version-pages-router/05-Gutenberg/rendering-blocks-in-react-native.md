@@ -213,4 +213,4 @@ const RNImageBlock = ({ domNode, height, width, src }) => {
 
 The demo app should render something like this
 
-![Blocks App](../../static/img/blocks-app.png)
+![Blocks App](../../../static/img/blocks-app.png)

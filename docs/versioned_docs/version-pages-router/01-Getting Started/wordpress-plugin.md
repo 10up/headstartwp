@@ -39,4 +39,4 @@ Make sure to set up the path for installing this as a WordPress Plugin:
 
 Go to `Settings -> General` and scroll down until you find the "Headless Frontend URL" and enter the URL for the Headless site.
 
-![Plugin settings](../../static/img/documentation/getting-started/plugin-settings.png)
+![Plugin settings](../../../static/img/documentation/getting-started/plugin-settings.png)

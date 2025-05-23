@@ -103,9 +103,9 @@ Note that the link is converted to a relative link to remove the WordPress domai
 
 To test this, open a page. Then, check which bucket you’re in
 
-![AB Test bucket](../../static/img/a-b-test-1.png)
+![AB Test bucket](../../../static/img/a-b-test-1.png)
 
 In the example above, I was assigned the “mpa” bucket I should see a full page reload when navigating to internal links inside the post content. You can change to the “spa” bucket by modifying the cookie.
 
 
-![AB Test Link](../../static/img/a-b-testing-link.gif)
+![AB Test Link](../../../static/img/a-b-testing-link.gif)

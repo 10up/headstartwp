@@ -133,6 +133,6 @@ import {
 ```
 
 You should see something like this
-![Debug Blocks](../../static/img/debug-blocks.png)
+![Debug Blocks](../../../static/img/debug-blocks.png)
 
 By inspecting the props you can see you have access to things like block name, className, and even the Gutenberg attributes. You could, in theory, build your implementation for every block without loading any of the default Gutenberg styles, shipping your own component library/design system.

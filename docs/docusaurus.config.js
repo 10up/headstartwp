@@ -72,6 +72,16 @@ const config = {
 				showLastUpdateAuthor: true,
 				editUrl: 'https://github.com/10up/headstartwp/tree/trunk/docs',
 				sidebarCollapsed: false,
+				versions: {
+					current: {
+						label: 'App Router',
+						path: 'app-router',
+					},
+					'pages-router': {
+						label: 'Pages Router',
+						// path: 'pages-router',
+					},
+				},
 			},
 		],
 		[
@@ -122,6 +132,11 @@ const config = {
 						position: 'right',
 						label: 'API Reference',
 						docsPluginId: 'docs',
+					},
+					{
+						type: 'docsVersionDropdown',
+						position: 'left',
+						dropdownActiveClassDisabled: true,
 					},
 				],
 			},
