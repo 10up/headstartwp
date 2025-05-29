@@ -15,7 +15,7 @@ Assuming a `src/pages/blog/[[...path]].js` route with the following content.
 
 :::info
 This example is using the optional catch-all route `[[..path]].js` because we want the `/blog` route to be handled by the same file.
-:::info
+:::
 
 ```js title="src/pages/blog/[[...path]].js"
 import { usePost } from '@headstartwp/next';
@@ -70,7 +70,7 @@ You can use the `usePosts` hook to create a category archive route (`src/pages/c
 
 :::info
 We use `[...path].js` here because **we do not want** the `/category` route to render anything.
-:::info
+:::
 
 ```js title="src/pages/category/[...path].js"
 import {

@@ -7,7 +7,7 @@ sidebar_position: 4
 
 :::info
 This hook was introduced in `@headstartwp/core@1.1.0` and `@headstartwp/next@1.1.0`
-:::info
+:::
 
 > The [usePostOrPosts](/api/modules/headstartwp_next#usepostorposts) hook is the Next.js binding for the [useFetchPostOrPosts](/api/namespaces/headstartwp_core.react#usefetchpostorposts).
 

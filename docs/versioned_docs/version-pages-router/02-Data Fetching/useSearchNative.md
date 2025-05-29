@@ -11,7 +11,7 @@ The `useSearchNative` hook is the implementation of core [Search Results](https:
 
 :::caution
 This hook was introduced in `@headstartwp/core@1.3.0`, `@headstartwp/next@1.3.0` and requires the the HeadstartWP WordPress plugin >= 1.1.0
-:::caution
+:::
 
 The headstartwp WordPress plugin does additional customizations to ensure the Search Results endpoints return all the embeddable data associated with search results.
 
@@ -21,7 +21,7 @@ Assuming a `src/pages/search/[[...path]].js` route with the following content.
 
 :::info
 This example is using the optional catch-all route `[[..path]].js` because we want the `/search` route to be handled by the same file and fetch the latest posts.
-:::info
+:::
 
 ```js title="src/pages/search/[[...path]].js"
 import { useSearchNative } from '@headstartwp/next';

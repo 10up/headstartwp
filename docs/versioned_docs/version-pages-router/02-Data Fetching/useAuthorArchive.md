@@ -14,7 +14,7 @@ Assuming a `src/pages/author/[...path].js` route with the following content.
 
 :::info
 This example is using the catch-all route `[..path].js` because **we do not want** the `/author` path to be handled by this route.
-:::info
+:::
 
 ```js title="src/pages/author/[...path].js"
 import { useAuthorArchive } from '@headstartwp/next';

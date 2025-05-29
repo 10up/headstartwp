@@ -7,7 +7,7 @@ sidebar_position: 7
 
 :::info
 This hook was introduced in `@headstartwp/next@1.1.0`
-:::info
+:::
 
 The `useSeo` hook returns the SEO data for the current page.
 

@@ -15,7 +15,7 @@ Assuming a `src/pages/search/[[...path]].js` route with the following content.
 
 :::info
 This example is using the optional catch-all route `[[..path]].js` because we want the `/search` route to be handled by the same file and fetch the latest posts.
-:::info
+:::
 ```js title="src/pages/search/[[...path]].js"
 import { useSearch } from '@headstartwp/next';
 
