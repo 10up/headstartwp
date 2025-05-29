@@ -84,7 +84,7 @@ When using locales make sure to add the locale to `Settings -> General -> Headle
 
 As an example, the first site config in the example above would need the following settings in WordPress.
 
-![Plugin settings Multisite Locale](../../static/img/documentation/wordpress-integration/multisite-locale.png)
+![Plugin settings Multisite Locale](../../../static/img/documentation/wordpress-integration/multisite-locale.png)
 
 
 ### Middleware
