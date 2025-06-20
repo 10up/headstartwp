@@ -222,8 +222,8 @@ export async function previewRouteHandler(
 			httpOnly: true,
 		});
 
-		const { enable } = await draftMode();
-		await enable();
+		const draft = await draftMode();
+		draft.enable();
 
 		if (typeof options.onRedirect === 'function') {
 			options.onRedirect({

@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.5.0-next.15
+
+### Patch Changes
+
+- feff893: Fix how enable() from draftMode is called
+
 ## 1.5.0-next.14
 
 ### Patch Changes
