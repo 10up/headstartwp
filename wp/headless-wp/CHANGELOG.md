@@ -1,10 +1,17 @@
 # @headstartwp/headstartwp
 
+## 1.2.0-next.1
+
+### Minor Changes
+
+- a858208: feat: ensure all internal images added to the block editor contains width and height.
+
 ## 1.1.7-next.0
 
 ### Patch Changes
 
 - 8ba6de7: Fix: do not cast menu item ids to number as they are strings
+
 ## 1.1.6
 
 ### Patch Changes
