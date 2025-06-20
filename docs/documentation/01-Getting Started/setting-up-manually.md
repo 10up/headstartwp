@@ -14,7 +14,7 @@ This guide will help you set up the framework in a clean Next.js App Router proj
 Start by bootstrapping your Next.js project with App Router enabled.
 
 ```bash
-npx create-next-app@latest my-headless-site --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
+npx create-next-app@latest my-headless-site --typescript --eslint --app --src-dir
 cd my-headless-site
 ```
 
@@ -66,10 +66,6 @@ const { withHeadstartWPConfig } = require('@headstartwp/next/config');
  */
 const nextConfig = {
 	// Your Next.js config options
-	experimental: {
-		// Enable if you need server actions
-		serverActions: true,
-	},
 };
 
 module.exports = withHeadstartWPConfig(nextConfig);
@@ -77,34 +73,44 @@ module.exports = withHeadstartWPConfig(nextConfig);
 
 ### Root Layout
 
-In App Router, you need to set up a root layout instead of `_app.js`. Update `src/app/layout.tsx`:
+In App Router, you need to set up a root layout. Update `src/app/layout.tsx`:
 
 ```tsx title="src/app/layout.tsx"
-import { SettingsProvider, ThemeSettingsProvider } from '@headstartwp/core/react';
-import { HeadstartWPProvider } from '@headstartwp/next/app';
-import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
+import { Link, PreviewIndicator, queryAppSettings, HeadstartWPApp } from '@headstartwp/next/app';
+import type { SettingsContextProps } from '@headstartwp/core/react';
+import { Menu } from '@headstartwp/core/react';
 
-export const metadata: Metadata = {
-	title: 'My Headless WordPress Site',
-	description: 'Powered by HeadstartWP and Next.js App Router',
-};
+const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({
+const RootLayout = async ({
 	children,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
-}) {
+}>) => {
+	const { menu, data, config } = await queryAppSettings({ menu: 'primary' });
+
+	const settings: SettingsContextProps = {
+		...config,
+		linkComponent: Link,
+	};
+
 	return (
 		<html lang="en">
-			<body>
-				<HeadstartWPProvider>
+			<body className={inter.className}>
+				<HeadstartWPApp settings={settings} themeJSON={data['theme.json']}>
+					{menu ? <Menu items={menu} /> : null}
 					{children}
-				</HeadstartWPProvider>
+					<PreviewIndicator className="form-container" />
+				</HeadstartWPApp>
 			</body>
 		</html>
 	);
-}
+};
+
+export default RootLayout;
+
 ```
 
 ### Middleware Setup

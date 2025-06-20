@@ -47,7 +47,7 @@ src/
 ├── components/
 │   ├── Blocks.tsx          # Gutenberg blocks renderer
 │   └── ...
-└── middleware.ts           # Optional middleware
+└── middleware.ts           # middleware
 ```
 
 ### Environment Variables
