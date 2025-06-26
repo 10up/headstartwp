@@ -18,7 +18,7 @@ import type { Metadata } from 'next';
 import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { SafeHtml } from '@headstartwp/core/react';
 
-async function query({ params }: { params: Promise<{ slug?: string }> }) {
+async function query({ params }: HeadstartWPRoute) {
   return queryPost({
     routeParams: await params,
     params: {

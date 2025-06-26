@@ -12,99 +12,66 @@ The `queryPosts` function is used to fetch multiple posts, pages, or custom post
 
 ### Basic Example
 
-```tsx title="app/blog/page.tsx"
+```tsx title="app/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { SafeHtml } from '@headstartwp/core/react';
 
-async function query({ params, searchParams }: { 
-  params: Promise<any>, 
-  searchParams: Promise<{ page?: string }> 
-}) {
-  const resolvedSearchParams = await searchParams;
-  
-  return queryPosts({
+export default async function HomePage({ params }: HeadstartWPRoute) {
+  const { data } = await queryPosts({
     routeParams: await params,
     params: {
       postType: 'post',
-      per_page: 10,
-      page: parseInt(resolvedSearchParams.page || '1'),
-    },
-    options: {
-      next: {
-        revalidate: 300, // Revalidate every 5 minutes
-      },
+      per_page: 4,
     },
   });
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Blog Posts',
-    description: 'Latest blog posts from our website',
-  };
-}
-
-export default async function BlogPage({ params, searchParams }: HeadstartWPRoute) {
-  const { data, pageInfo } = await query({ params, searchParams });
   
   return (
     <main>
-      <h1>Blog Posts</h1>
+      <h1>Welcome to Our Site</h1>
       
-      <div className="posts-grid">
-        {data.posts.map(post => (
-          <article key={post.id}>
-            <h2>
-              <Link href={post.link}>
-                {post.title.rendered}
-              </Link>
-            </h2>
-            <SafeHtml html={post.excerpt.rendered} />
-          </article>
-        ))}
-      </div>
-      
-      {/* Pagination */}
-      <div className="pagination">
-        {pageInfo.hasPreviousPage && (
-          <Link href={`?page=${pageInfo.page - 1}`}>
-            Previous
-          </Link>
-        )}
-        {pageInfo.hasNextPage && (
-          <Link href={`?page=${pageInfo.page + 1}`}>
-            Next
-          </Link>
-        )}
-      </div>
+      <section>
+        <h2>Latest Posts</h2>
+        <div className="posts-grid">
+          {data.posts.map(post => (
+            <article key={post.id}>
+              <h3>
+                <Link href={post.link}>
+                  {post.title.rendered}
+                </Link>
+              </h3>
+              <SafeHtml html={post.excerpt.rendered} />
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
 ```
 
-### Category Archive
+### Dynamic Archive Routes
 
-```tsx title="app/category/[slug]/page.tsx"
+For catch-all routes like `[...path]`, HeadstartWP automatically extracts the category, page, or other archive parameters from the URL structure and applies the appropriate filters.
+
+```tsx title="app/[...path]/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
 import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { SafeHtml } from '@headstartwp/core/react';
 
-export default async function CategoryPage({ params }: HeadstartWPRoute) {
+export default async function CategoryArchivePage({ params }: HeadstartWPRoute) {
   const { data } = await queryPosts({
     routeParams: await params,
     params: {
       postType: 'post',
-      category: (await params).slug,
       per_page: 12,
     },
   });
   
   return (
     <main>
-      <h1>Category: {data.queriedObject?.name}</h1>
+      <h1>{data.queriedObject?.name || 'Category Archive'}</h1>
       
       {data.posts.map(post => (
         <article key={post.id}>
@@ -112,6 +79,20 @@ export default async function CategoryPage({ params }: HeadstartWPRoute) {
           <SafeHtml html={post.excerpt.rendered} />
         </article>
       ))}
+
+        {/* Pagination */}
+        <div className="pagination">
+          {data.pageInfo.hasPreviousPage && (
+            <Link href={`?page=${pageInfo.page - 1}`}>
+              Previous
+            </Link>
+          )}
+          {data.pageInfo.hasNextPage && (
+            <Link href={`?page=${pageInfo.page + 1}`}>
+              Next
+            </Link>
+          )}
+        </div>
     </main>
   );
 }
@@ -187,18 +168,7 @@ const { data } = await queryPosts({
 
 ### data.posts
 
-Array of post objects, each containing:
-
-- `id` - Post ID
-- `title.rendered` - Post title
-- `content.rendered` - Post content
-- `excerpt.rendered` - Post excerpt
-- `date` - Publication date
-- `slug` - Post slug
-- `link` - Post permalink
-- `terms` - Associated taxonomies
-- `author` - Author information
-- `featured_media` - Featured image
+Array of post objects. 
 
 ### data.queriedObject
 
@@ -220,50 +190,9 @@ interface PageInfo {
 
 ## Advanced Examples
 
-### Search Results
-
-```tsx title="app/search/page.tsx"
-import { queryPosts } from '@headstartwp/next/app';
-import type { HeadstartWPRoute } from '@headstartwp/next/app';
-import { SafeHtml } from '@headstartwp/core/react';
-
-export default async function SearchPage({ searchParams }: HeadstartWPRoute) {
-  const resolvedSearchParams = await searchParams;
-  const query = resolvedSearchParams.q;
-  
-  if (!query) {
-    return <div>Please enter a search term</div>;
-  }
-  
-  const { data } = await queryPosts({
-    routeParams: {},
-    params: {
-      postType: ['post', 'page'],
-      search: query,
-      per_page: 20,
-    },
-  });
-  
-  return (
-    <main>
-      <h1>Search Results for "{query}"</h1>
-      
-      {data.posts.length === 0 ? (
-        <p>No results found</p>
-      ) : (
-        data.posts.map(post => (
-          <article key={post.id}>
-            <h2>{post.title.rendered}</h2>
-            <SafeHtml html={post.excerpt.rendered} />
-          </article>
-        ))
-      )}
-    </main>
-  );
-}
-```
-
 ### Custom Post Type Archive
+
+To use custom post types with `queryPosts`, you must first register them in your `headstartwp.config.js` file. See the [custom post types configuration](/learn/app-router/getting-started/headless-config#customposttypes) for detailed setup instructions.
 
 ```tsx title="app/products/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
@@ -309,7 +238,7 @@ export default async function ProductsPage({ params }: HeadstartWPRoute) {
 
 ### Generate Static Params for Pagination
 
-```tsx title="app/blog/page/[page]/page.tsx"
+```tsx title="app/blog/[...path]/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
 import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { SafeHtml } from '@headstartwp/core/react';
@@ -333,21 +262,17 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPaginationPage({ params }: HeadstartWPRoute) {
-  const resolvedParams = await params;
-  const page = parseInt(resolvedParams.page);
-  
   const { data } = await queryPosts({
     routeParams: await params,
     params: {
       postType: 'post',
       per_page: 10,
-      page,
     },
   });
   
   return (
     <main>
-      <h1>Blog Posts - Page {page}</h1>
+      <h1>Blog Posts - Page {data.pageInfo.page}</h1>
       {/* Render posts */}
     </main>
   );
