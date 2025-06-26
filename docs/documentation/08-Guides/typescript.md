@@ -14,51 +14,35 @@ With App Router, data fetching happens directly in Server Components using async
 import { queryPost } from '@headstartwp/next/app';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-interface PageProps {
-	params: Promise<{ path?: string[] }>;
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+		},
+	});
+
+	return seo.metadata;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-	try {
-		const { seo } = await queryPost({
-			routeParams: await params,
-			params: {
-				postType: ['post', 'page'],
-			},
-		});
+export default async function PostPage({ params }: HeadstartWPRoute) {
+	const { data } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+		},
+	});
 
-		return seo.metadata;
-	} catch {
-		return {
-			title: 'Page Not Found',
-			description: 'The requested page could not be found.',
-		};
-	}
-}
-
-export default async function PostPage({ params }: PageProps) {
-	try {
-		const { data } = await queryPost({
-			routeParams: await params,
-			params: {
-				postType: ['post', 'page'],
-			},
-		});
-
-		// TypeScript knows the exact shape of data.post
-		return (
-			<article>
-				<h1>{data.post.title.rendered}</h1>
-				<div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
-			</article>
-		);
-	} catch (error: any) {
-		if (error?.status === 404) {
-			notFound();
-		}
-		throw error;
-	}
+	// TypeScript knows the exact shape of data.post
+	return (
+		<article>
+			<h1>{data.post.title.rendered}</h1>
+			<SafeHtml html={data.post.content.rendered} />
+		</article>
+	);
 }
 ```
 
@@ -69,6 +53,7 @@ All HeadstartWP query functions are fully typed:
 ```tsx title="src/app/blog/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
 import type { PostEntity } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
 
 export default async function BlogPage() {
 	const { data } = await queryPosts({
@@ -86,7 +71,7 @@ export default async function BlogPage() {
 			{data.posts.map((post: PostEntity) => (
 				<article key={post.id}>
 					<h2>{post.title.rendered}</h2>
-					<div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+					<SafeHtml html={post.excerpt.rendered} />
 				</article>
 			))}
 		</main>
@@ -100,6 +85,38 @@ When working with custom post types, you can extend the base types for better ty
 
 ```tsx title="src/types/wordpress.ts"
 import type { PostEntity } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
+
+export interface ProductPost extends PostEntity {
+	acf: {
+		price: number;
+		sku: string;
+		gallery: Array<{
+			url: string;
+			alt: string;
+		}>;
+	};
+}
+
+export interface EventPost extends PostEntity {
+	acf: {
+		event_date: string;
+		location: string;
+		capacity: number;
+	};
+}
+
+export interface Post {
+	id: number;
+	title: {
+		rendered: string;
+	};
+	excerpt: {
+		rendered: string;
+	};
+	link: string;
+	date: string;
+}
 
 export interface ProductPost extends PostEntity {
 	acf: {
@@ -126,6 +143,7 @@ Then use these types in your components:
 ```tsx title="src/app/products/[...path]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import type { ProductPost } from '../../../types/wordpress';
+import { SafeHtml } from '@headstartwp/core/react';
 
 interface ProductPageProps {
 	params: Promise<{ path?: string[] }>;
@@ -163,6 +181,7 @@ For static generation, properly type your `generateStaticParams` function:
 
 ```tsx title="src/app/blog/[slug]/page.tsx"
 import { queryPosts, queryPost } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 interface BlogPostParams {
 	slug: string;
@@ -204,7 +223,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 	return (
 		<article>
 			<h1>{data.post.title.rendered}</h1>
-			<div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
+			<SafeHtml html={data.post.content.rendered} />
 		</article>
 	);
 }
@@ -220,6 +239,7 @@ When you need client-side features, use the traditional hooks with proper typing
 import { usePosts } from '@headstartwp/next';
 import { useState } from 'react';
 import type { PostEntity, PostsSearchParams } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
 
 interface InteractivePostListProps {
 	initialPosts: PostEntity[];
@@ -258,7 +278,7 @@ export function InteractivePostList({
 				{data?.posts.map((post: PostEntity) => (
 					<article key={post.id}>
 						<h3>{post.title.rendered}</h3>
-						<div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+						<SafeHtml html={post.excerpt.rendered} />
 					</article>
 				))}
 			</div>
@@ -274,6 +294,7 @@ HeadstartWP query functions accept strongly typed options:
 ```tsx title="src/app/posts/[slug]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import type { QueryPostOptions } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params;
@@ -298,7 +319,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 	return (
 		<article>
 			<h1>{data.post.title.rendered}</h1>
-			<div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
+			<SafeHtml html={data.post.content.rendered} />
 		</article>
 	);
 }
@@ -311,38 +332,28 @@ Properly type error handling scenarios:
 ```tsx title="src/app/[...path]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import { notFound } from 'next/navigation';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 interface HeadstartWPError extends Error {
 	status?: number;
 	data?: any;
 }
 
-export default async function DynamicPage({ params }: { params: Promise<{ path?: string[] }> }) {
-	try {
-		const { data } = await queryPost({
-			routeParams: await params,
-			params: {
-				postType: ['post', 'page'],
-			},
-		});
+export default async function DynamicPage({ params }: HeadstartWPRoute) {
+	const { data } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+		},
+	});
 
-		return (
-			<article>
-				<h1>{data.post.title.rendered}</h1>
-				<div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
-			</article>
-		);
-	} catch (error) {
-		const headstartError = error as HeadstartWPError;
-		
-		if (headstartError.status === 404) {
-			notFound();
-		}
-
-		// Log other errors
-		console.error('Failed to fetch post:', headstartError);
-		throw error;
-	}
+	return (
+		<article>
+			<h1>{data.post.title.rendered}</h1>
+			<SafeHtml html={data.post.content.rendered} />
+		</article>
+	);
 }
 ```
 
@@ -386,6 +397,7 @@ We recommend using a `src/types/global.d.ts` file when you need to add/extend ty
 
 ```ts title="src/types/global.d.ts"
 import type { PostEntity, TermEntity } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
 
 declare global {
 	interface Window {
@@ -413,6 +425,7 @@ Create utility types for common WordPress patterns:
 
 ```ts title="src/types/utils.ts"
 import type { PostEntity, TermEntity } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
 
 export type PostWithACF<T = Record<string, any>> = PostEntity & {
 	acf: T;

@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Setting up the framework from scratch
 
-The recommended way to get started with the framework is by installing the official starter project. See [Quick Setup](/learn/getting-started/quick-setup/) for more information.
+The recommended way to get started with the framework is by installing the official starter project. See [Quick Setup](/learn/app-router/getting-started/quick-setup/) for more information.
 
 This guide will help you set up the framework in a clean Next.js App Router project.
 
@@ -184,50 +184,33 @@ By creating a `[...path]/page.tsx` route, the framework will automatically detec
 ```tsx title="src/app/[...path]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import { BlocksRenderer } from '@headstartwp/core/react';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 const params = { postType: ['post', 'page'] };
 
-interface PageProps {
-	params: Promise<{ path?: string[] }>;
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await queryPost({
+		routeParams: await params,
+		params,
+	});
+
+	return seo.metadata;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-	try {
-		const { seo } = await queryPost({
-			routeParams: await params,
-			params,
-		});
+export default async function SinglePostPage({ params }: HeadstartWPRoute) {
+	const { data } = await queryPost({
+		routeParams: await params,
+		params,
+	});
 
-		return seo.metadata;
-	} catch {
-		return {
-			title: 'Page Not Found',
-			description: 'The requested page could not be found.',
-		};
-	}
-}
-
-export default async function SinglePostPage({ params }: PageProps) {
-	try {
-		const { data } = await queryPost({
-			routeParams: await params,
-			params,
-		});
-
-		return (
-			<article>
-				<h1>{data.post.title.rendered}</h1>
-				<BlocksRenderer html={data.post.content.rendered} />
-			</article>
-		);
-	} catch (error: any) {
-		if (error?.status === 404) {
-			notFound();
-		}
-		throw error;
-	}
+	return (
+		<article>
+			<h1>{data.post.title.rendered}</h1>
+			<BlocksRenderer html={data.post.content.rendered} />
+		</article>
+	);
 }
 ```
 
@@ -296,58 +279,43 @@ Create a home page that fetches your WordPress front page:
 import { queryPost, queryAppSettings } from '@headstartwp/next/app';
 import { BlocksRenderer } from '@headstartwp/core/react';
 import type { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
 export async function generateMetadata(): Promise<Metadata> {
-	try {
-		const { seo } = await queryPost({
-			routeParams: {},
-			params: {
-				slug: 'front-page',
-				postType: 'page',
-			},
-		});
+	const { seo } = await queryPost({
+		routeParams: {},
+		params: {
+			slug: 'front-page',
+			postType: 'page',
+		},
+	});
 
-		return seo.metadata;
-	} catch {
-		return {
-			title: 'Welcome to My Site',
-			description: 'A headless WordPress site powered by HeadstartWP',
-		};
-	}
+	return seo.metadata;
 }
 
-export default async function HomePage() {
-	try {
-		// Get the front page settings
-		const {
-			data: { home },
-		} = await queryAppSettings({
-			routeParams: {},
-		});
+export default async function HomePage({ params }: HeadstartWPRoute) {
+	// Get the front page settings
+	const {
+		data: { home },
+	} = await queryAppSettings({
+		routeParams: await params,
+	});
 
-		// Fetch the front page content
-		const { data } = await queryPost({
-			routeParams: {},
-			params: {
-				slug: home.slug ?? 'front-page',
-				postType: 'page',
-			},
-		});
+	// Fetch the front page content
+	const { data } = await queryPost({
+		routeParams: params,
+		params: {
+			slug: home.slug ?? 'front-page',
+			postType: 'page',
+		},
+	});
 
-		return (
-			<main>
-				<h1>{data.post.title.rendered}</h1>
-				<BlocksRenderer html={data.post.content.rendered} />
-			</main>
-		);
-	} catch (error) {
-		return (
-			<main>
-				<h1>Welcome to My Headless WordPress Site</h1>
-				<p>This is your homepage. Configure your front page in WordPress.</p>
-			</main>
-		);
-	}
+	return (
+		<main>
+			<h1>{data.post.title.rendered}</h1>
+			<BlocksRenderer html={data.post.content.rendered} />
+		</main>
+	);
 }
 ```
 
@@ -361,48 +329,37 @@ import { queryPost, queryPosts } from '@headstartwp/next/app';
 
 // Generate static params for popular posts/pages
 export async function generateStaticParams() {
-	try {
-		const { data } = await queryPosts({
-			routeParams: {},
-			params: {
-				postType: ['post', 'page'],
-				perPage: 20, // Pre-generate 20 most recent posts/pages
-			},
-		});
+	const { data } = await queryPosts({
+		routeParams: {},
+		params: {
+			postType: ['post', 'page'],
+			perPage: 20, // Pre-generate 20 most recent posts/pages
+		},
+	});
 
-		return data.posts.map((post) => ({
-			path: [post.slug],
-		}));
-	} catch {
-		return [];
-	}
+	return data.posts.map((post) => ({
+		path: [post.slug],
+	}));
 }
 
-export default async function SinglePostPage({ params }: PageProps) {
-	try {
-		const { data } = await queryPost({
-			routeParams: await params,
-			params,
-			options: {
-				next: {
-					revalidate: 3600, // Revalidate every hour
-					tags: ['posts'], // Tag for on-demand revalidation
-				},
+export default async function SinglePostPage({ params }: HeadstartWPRoute) {
+	const { data } = await queryPost({
+		routeParams: await params,
+		params,
+		options: {
+			next: {
+				revalidate: 3600, // Revalidate every hour
+				tags: ['posts'], // Tag for on-demand revalidation
 			},
-		});
+		},
+	});
 
-		return (
-			<article>
-				<h1>{data.post.title.rendered}</h1>
-				<BlocksRenderer html={data.post.content.rendered} />
-			</article>
-		);
-	} catch (error: any) {
-		if (error?.status === 404) {
-			notFound();
-		}
-		throw error;
-	}
+	return (
+		<article>
+			<h1>{data.post.title.rendered}</h1>
+			<BlocksRenderer html={data.post.content.rendered} />
+		</article>
+	);
 }
 ```
 
@@ -412,6 +369,7 @@ Create a blog archive page to list all your posts:
 
 ```tsx title="src/app/blog/[[...path]]/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -441,21 +399,21 @@ export default async function BlogPage({ params }: BlogPageProps) {
 	return (
 		<main>
 			<h1>Blog</h1>
-			<div className="grid gap-6">
+			<div className="blog-grid">
 				{data.posts.map((post) => (
-					<article key={post.id} className="border-b pb-6">
-						<h2 className="text-2xl font-bold mb-2">
-							<Link href={post.link} className="hover:text-blue-600">
+					<article key={post.id} className="blog-post">
+						<h2 className="blog-post-title">
+							<Link href={post.link} className="blog-post-link">
 								{post.title.rendered}
 							</Link>
 						</h2>
-						<div className="text-gray-600 mb-2">
+						<div className="blog-post-meta">
 							Published on {new Date(post.date).toLocaleDateString()}
 						</div>
-						<div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+						<SafeHtml html={post.excerpt.rendered} />
 						<Link
 							href={post.link}
-							className="text-blue-600 hover:text-blue-800 font-medium"
+							className="blog-post-read-more"
 						>
 							Read more →
 						</Link>
@@ -475,15 +433,6 @@ Now visit the following URLs to test your setup:
 2. **Single post**: `http://localhost:3000/hello-world` - Should show a WordPress post
 3. **Blog archive**: `http://localhost:3000/blog/` - Should list your posts
 4. **Date URLs**: `http://localhost:3000/2024/01/01/hello-world` - Should work with date-based permalinks
-
-## Key Benefits of App Router Setup
-
-- **Server Components**: Content is rendered on the server for better SEO and performance
-- **Built-in Error Handling**: Automatic error boundaries and loading states
-- **Streaming**: Progressive page loading for better user experience
-- **Static Generation**: Pre-generate popular content at build time
-- **Flexible Caching**: Fine-grained control over caching strategies
-- **TypeScript First**: Full TypeScript support out of the box
 
 ## Next Steps
 

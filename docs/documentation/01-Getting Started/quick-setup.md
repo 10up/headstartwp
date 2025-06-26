@@ -13,7 +13,7 @@ If you're new to Next.js App Router, we recommend reviewing [Next.js App Router 
 - Node.js 18 or later
 - NPM >= 7
 - WordPress >= 5.9 (prior versions might work but haven't been tested)
-- Next.js 13.4+ (for stable App Router features)
+- Next.js 15+ (HeadstartWP only supports App Router with Next.js 15+)
 
 ## Installation
 

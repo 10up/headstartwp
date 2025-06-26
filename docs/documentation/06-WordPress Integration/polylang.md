@@ -251,11 +251,13 @@ const Archive = ({ posts, queriedObject }: ArchiveProps) => {
 	);
 };
 
+import { SafeHtml } from '@headstartwp/core/react';
+
 const Single = ({ post }: { post: PostEntity }) => {
 	return (
 		<article>
 			<h1>{post.title.rendered}</h1>
-			<div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+			<SafeHtml html={post.content.rendered} />
 		</article>
 	);
 };

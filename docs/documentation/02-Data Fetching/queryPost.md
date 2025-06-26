@@ -1,6 +1,7 @@
 ---
-sidebar_position: 4
+sidebar_position: 1
 sidebar_label: queryPost
+slug: /data-fetching/query-post
 ---
 
 # queryPost
@@ -14,6 +15,8 @@ The `queryPost` function is used to fetch a single post, page, or custom post ty
 ```tsx title="app/about/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import type { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 async function query({ params }: { params: Promise<{ slug?: string }> }) {
   return queryPost({
@@ -25,18 +28,18 @@ async function query({ params }: { params: Promise<{ slug?: string }> }) {
   });
 }
 
-export async function generateMetadata({ params }): Promise<Metadata> {
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
   const { seo } = await query({ params });
   return seo.metadata;
 }
 
-export default async function AboutPage({ params }) {
+export default async function AboutPage({ params }: HeadstartWPRoute) {
   const { data, seo } = await query({ params });
   
   return (
     <main>
       <h1>{data.post.title.rendered}</h1>
-      <div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
+      <SafeHtml html={data.post.content.rendered} />
     </main>
   );
 }
@@ -48,8 +51,10 @@ For catch-all routes like `[...path]`, HeadstartWP automatically extracts the sl
 
 ```tsx title="app/[...path]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-export default async function DynamicPage({ params }) {
+export default async function DynamicPage({ params }: HeadstartWPRoute) {
   const { data } = await queryPost({
     routeParams: await params,
     params: {
@@ -60,7 +65,7 @@ export default async function DynamicPage({ params }) {
   return (
     <article>
       <h1>{data.post.title.rendered}</h1>
-      <div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
+      <SafeHtml html={data.post.content.rendered} />
     </article>
   );
 }
@@ -127,25 +132,14 @@ const { data } = await queryPost({
 
 ### data.post
 
-The post object containing:
-
-- `title.rendered` - Post title
-- `content.rendered` - Post content 
-- `excerpt.rendered` - Post excerpt
-- `date` - Publication date
-- `modified` - Last modified date
-- `slug` - Post slug
-- `link` - Post permalink
-- `terms` - Associated taxonomies
-- `author` - Author information
-- `featured_media` - Featured image
+The post object.
 
 ### seo
 
 SEO data compatible with Next.js metadata:
 
 ```tsx
-export async function generateMetadata({ params }): Promise<Metadata> {
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
   const { seo } = await queryPost({
     routeParams: await params,
     params: { postType: 'page' },
@@ -210,51 +204,3 @@ export async function POST(request: Request) {
   return Response.json({ revalidated: true });
 }
 ```
-
-## Error Handling
-
-```tsx
-import { notFound } from 'next/navigation';
-
-export default async function PostPage({ params }) {
-  try {
-    const { data } = await queryPost({
-      routeParams: await params,
-      params: { postType: 'post' },
-    });
-    
-    return (
-      <article>
-        <h1>{data.post.title.rendered}</h1>
-        {/* ... */}
-      </article>
-    );
-  } catch (error) {
-    // Handle 404s gracefully
-    if (error.status === 404) {
-      notFound();
-    }
-    throw error;
-  }
-}
-```
-
-## TypeScript Support
-
-```tsx
-import type { PostEntity } from '@headstartwp/core';
-
-interface PostPageProps {
-  params: Promise<{ slug: string }>;
-}
-
-export default async function PostPage({ params }: PostPageProps) {
-  const { data }: { data: { post: PostEntity } } = await queryPost({
-    routeParams: await params,
-    params: { postType: 'post' },
-  });
-  
-  // TypeScript knows the shape of data.post
-  return <h1>{data.post.title.rendered}</h1>;
-}
-``` 

@@ -155,54 +155,56 @@ In App Router components, you can check if you're in draft mode and access the p
 ```tsx title="app/[...path]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import { draftMode, cookies } from 'next/headers';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-export default async function PostPage({ params }) {
-  const { isEnabled } = draftMode();
-  
-  // Access preview data from cookie if in draft mode
-  let previewData = null;
-  if (isEnabled) {
-    const cookiesStore = await cookies();
-    const previewCookie = cookiesStore.get('headstartwp_preview');
-    if (previewCookie) {
-      try {
-        previewData = JSON.parse(previewCookie.value);
-      } catch (e) {
-        // Handle parsing error
-      }
-    }
-  }
-  
-  const { data } = await queryPost({
-    routeParams: await params,
-    params: {
-      postType: ['post', 'page'],
-      // Use preview data if available
-      ...(previewData && {
-        id: previewData.id,
-        revision: previewData.revision,
-        authToken: previewData.authToken,
-      }),
-    },
-    options: {
-      // Use different fetch strategy for preview
-      cache: isEnabled ? 'no-store' : 'force-cache',
-    },
-  });
-  
-  return (
-    <article>
-      {isEnabled && (
-        <div className="preview-banner">
-          <p>⚠️ This is a preview</p>
-          <a href="/api/preview/exit">Exit Preview</a>
-        </div>
-      )}
-      
-      <h1>{data.post.title.rendered}</h1>
-      <div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
-    </article>
-  );
+export default async function PostPage({ params }: HeadstartWPRoute) {
+	const { isEnabled } = draftMode();
+	
+	// Access preview data from cookie if in draft mode
+	let previewData = null;
+	if (isEnabled) {
+		const cookiesStore = await cookies();
+		const previewCookie = cookiesStore.get('headstartwp_preview');
+		if (previewCookie) {
+			try {
+				previewData = JSON.parse(previewCookie.value);
+			} catch (e) {
+				// Handle parsing error
+			}
+		}
+	}
+	
+	const { data } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+			// Use preview data if available
+			...(previewData && {
+				id: previewData.id,
+				revision: previewData.revision,
+				authToken: previewData.authToken,
+			}),
+		},
+		options: {
+			// Use different fetch strategy for preview
+			cache: isEnabled ? 'no-store' : 'force-cache',
+		},
+	});
+	
+	return (
+		<article>
+			{isEnabled && (
+				<div className="preview-banner">
+					<p>⚠️ This is a preview</p>
+					<a href="/api/preview/exit">Exit Preview</a>
+				</div>
+			)}
+			
+			<h1>{data.post.title.rendered}</h1>
+			<SafeHtml html={data.post.content.rendered} />
+		</article>
+	);
 }
 ```
 
@@ -215,41 +217,41 @@ import { draftMode } from 'next/headers';
 import Link from 'next/link';
 
 export async function PreviewBanner() {
-  const { isEnabled } = draftMode();
-  
-  if (!isEnabled) {
-    return null;
-  }
-  
-  return (
-    <div className="preview-banner" style={{
-      background: '#f59e0b',
-      color: 'white',
-      padding: '12px',
-      textAlign: 'center',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 9999,
-    }}>
-      <div className="container">
-        <p>
-          ⚠️ This page is showing preview content.{' '}
-          <Link 
-            href="/api/preview/exit" 
-            style={{ 
-              color: 'white', 
-              textDecoration: 'underline',
-              fontWeight: 'bold'
-            }}
-          >
-            Exit Preview
-          </Link>
-        </p>
-      </div>
-    </div>
-  );
+	const { isEnabled } = draftMode();
+	
+	if (!isEnabled) {
+		return null;
+	}
+	
+	return (
+		<div className="preview-banner" style={{
+			background: '#f59e0b',
+			color: 'white',
+			padding: '12px',
+			textAlign: 'center',
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			right: 0,
+			zIndex: 9999,
+		}}>
+			<div className="container">
+				<p>
+					⚠️ This page is showing preview content.{' '}
+					<Link 
+						href="/api/preview/exit" 
+						style={{ 
+							color: 'white', 
+							textDecoration: 'underline',
+							fontWeight: 'bold'
+						}}
+					>
+						Exit Preview
+					</Link>
+				</p>
+			</div>
+		</div>
+	);
 }
 ```
 
@@ -263,18 +265,18 @@ import { redirect } from 'next/navigation';
 import type { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const redirectPath = searchParams.get('redirect') || '/';
-  
-  // Disable draft mode
-  const { disable } = await draftMode();
-  await disable();
-  
-  // Clear the preview cookie
-  const cookiesStore = await cookies();
-  cookiesStore.delete('headstartwp_preview');
-  
-  redirect(redirectPath);
+	const { searchParams } = new URL(request.url);
+	const redirectPath = searchParams.get('redirect') || '/';
+	
+	// Disable draft mode
+	const { disable } = await draftMode();
+	await disable();
+	
+	// Clear the preview cookie
+	const cookiesStore = await cookies();
+	cookiesStore.delete('headstartwp_preview');
+	
+	redirect(redirectPath);
 }
 ```
 
@@ -287,89 +289,91 @@ import { queryPost } from '@headstartwp/next/app';
 import { draftMode, cookies } from 'next/headers';
 import type { Metadata } from 'next';
 import { PreviewBanner } from '../../../components/PreviewBanner';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-export async function generateMetadata({ params }): Promise<Metadata> {
-  const { isEnabled } = draftMode();
-  
-  // Get preview data if in draft mode
-  let queryParams: any = { postType: 'product' };
-  if (isEnabled) {
-    const cookiesStore = await cookies();
-    const previewCookie = cookiesStore.get('headstartwp_preview');
-    if (previewCookie) {
-      try {
-        const previewData = JSON.parse(previewCookie.value);
-        queryParams = {
-          ...queryParams,
-          id: previewData.id,
-          revision: previewData.revision,
-          authToken: previewData.authToken,
-        };
-      } catch (e) {
-        // Handle parsing error
-      }
-    }
-  }
-  
-  const { seo } = await queryPost({
-    routeParams: await params,
-    params: queryParams,
-    options: {
-      cache: isEnabled ? 'no-store' : 'force-cache',
-    },
-  });
-  
-  return {
-    ...seo.metadata,
-    robots: isEnabled ? 'noindex,nofollow' : seo.metadata.robots,
-  };
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { isEnabled } = draftMode();
+	
+	// Get preview data if in draft mode
+	let queryParams: any = { postType: 'product' };
+	if (isEnabled) {
+		const cookiesStore = await cookies();
+		const previewCookie = cookiesStore.get('headstartwp_preview');
+		if (previewCookie) {
+			try {
+				const previewData = JSON.parse(previewCookie.value);
+				queryParams = {
+					...queryParams,
+					id: previewData.id,
+					revision: previewData.revision,
+					authToken: previewData.authToken,
+				};
+			} catch (e) {
+				// Handle parsing error
+			}
+		}
+	}
+	
+	const { seo } = await queryPost({
+		routeParams: await params,
+		params: queryParams,
+		options: {
+			cache: isEnabled ? 'no-store' : 'force-cache',
+		},
+	});
+	
+	return {
+		...seo.metadata,
+		robots: isEnabled ? 'noindex,nofollow' : seo.metadata.robots,
+	};
 }
 
-export default async function ProductPage({ params }) {
-  const { isEnabled } = draftMode();
-  
-  // Get preview data if in draft mode
-  let queryParams: any = { postType: 'product' };
-  if (isEnabled) {
-    const cookiesStore = await cookies();
-    const previewCookie = cookiesStore.get('headstartwp_preview');
-    if (previewCookie) {
-      try {
-        const previewData = JSON.parse(previewCookie.value);
-        queryParams = {
-          ...queryParams,
-          id: previewData.id,
-          revision: previewData.revision,
-          authToken: previewData.authToken,
-        };
-      } catch (e) {
-        // Handle parsing error
-      }
-    }
-  }
-  
-  const { data } = await queryPost({
-    routeParams: await params,
-    params: queryParams,
-    options: {
-      cache: isEnabled ? 'no-store' : 'force-cache',
-    },
-  });
-  
-  return (
-    <article>
-      <PreviewBanner />
-      
-      <h1>{data.post.title.rendered}</h1>
-      <div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
-      
-      {/* Product-specific content */}
-      <div className="product-details">
-        <p>Price: {data.post.acf?.price}</p>
-        <p>SKU: {data.post.acf?.sku}</p>
-      </div>
-    </article>
-  );
+export default async function ProductPage({ params }: HeadstartWPRoute) {
+	const { isEnabled } = draftMode();
+	
+	// Get preview data if in draft mode
+	let queryParams: any = { postType: 'product' };
+	if (isEnabled) {
+		const cookiesStore = await cookies();
+		const previewCookie = cookiesStore.get('headstartwp_preview');
+		if (previewCookie) {
+			try {
+				const previewData = JSON.parse(previewCookie.value);
+				queryParams = {
+					...queryParams,
+					id: previewData.id,
+					revision: previewData.revision,
+					authToken: previewData.authToken,
+				};
+			} catch (e) {
+				// Handle parsing error
+			}
+		}
+	}
+	
+	const { data } = await queryPost({
+		routeParams: await params,
+		params: queryParams,
+		options: {
+			cache: isEnabled ? 'no-store' : 'force-cache',
+		},
+	});
+	
+	return (
+		<article>
+			<PreviewBanner />
+			
+			<h1>{data.post.title.rendered}</h1>
+			<SafeHtml html={data.post.content.rendered} />
+			
+			{/* Product-specific content */}
+			<div className="product-details">
+				<p>Price: {data.post.acf?.price}</p>
+				<p>SKU: {data.post.acf?.sku}</p>
+			</div>
+		</article>
+	);
 }
 ```
 
@@ -379,21 +383,21 @@ export default async function ProductPage({ params }) {
 import { PreviewBanner } from '../components/PreviewBanner';
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>
-        <PreviewBanner />
-        
-        <main style={{ paddingTop: '60px' }}>
-          {children}
-        </main>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body>
+				<PreviewBanner />
+				
+				<main style={{ paddingTop: '60px' }}>
+					{children}
+				</main>
+			</body>
+		</html>
+	);
 }
 ```
 
@@ -409,10 +413,10 @@ Configure this in your `headstartwp.config.js`:
 
 ```javascript title="headstartwp.config.js"
 module.exports = {
-  // other configs...
-  preview: {
-    usePostLinkForRedirect: true,
-  },
+	// other configs...
+	preview: {
+		usePostLinkForRedirect: true,
+	},
 };
 ```
 
@@ -519,17 +523,17 @@ You can access the preview data from the cookie in your components:
 import { draftMode, cookies } from 'next/headers';
 
 export default async function MyComponent() {
-  const { isEnabled } = draftMode();
-  
-  if (isEnabled) {
-    const cookiesStore = await cookies();
-    const previewCookie = cookiesStore.get('headstartwp_preview');
-    
-    if (previewCookie) {
-      const previewData = JSON.parse(previewCookie.value);
-      // previewData contains: { id, postType, revision, authToken }
-      console.log('Preview data:', previewData);
-    }
-  }
+	const { isEnabled } = draftMode();
+	
+	if (isEnabled) {
+		const cookiesStore = await cookies();
+		const previewCookie = cookiesStore.get('headstartwp_preview');
+		
+		if (previewCookie) {
+			const previewData = JSON.parse(previewCookie.value);
+			// previewData contains: { id, postType, revision, authToken }
+			console.log('Preview data:', previewData);
+		}
+	}
 }
 ```

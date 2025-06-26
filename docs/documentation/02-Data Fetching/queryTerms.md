@@ -1,6 +1,7 @@
 ---
-sidebar_position: 10
+sidebar_position: 5
 sidebar_label: queryTerms
+slug: /data-fetching/query-terms
 ---
 
 # queryTerms
@@ -15,6 +16,7 @@ The `queryTerms` function is used to fetch taxonomy terms (categories, tags, cus
 import { queryTerms } from '@headstartwp/next/app';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
 async function query() {
   return queryTerms({
@@ -40,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function CategoriesPage() {
+export default async function CategoriesPage({ params }: HeadstartWPRoute) {
   const { data } = await query();
   
   return (
@@ -75,8 +77,9 @@ export default async function CategoriesPage() {
 
 ```tsx title="app/tags/page.tsx"
 import { queryTerms } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
-export default async function TagsPage() {
+export default async function TagsPage({ params }: HeadstartWPRoute) {
   const { data } = await queryTerms({
     routeParams: {},
     params: {
@@ -168,6 +171,7 @@ Pagination information for the terms.
 
 ```tsx title="app/categories/page.tsx"
 import { queryTerms } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
 async function getCategoriesHierarchy() {
   // Get all categories

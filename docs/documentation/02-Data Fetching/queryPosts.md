@@ -1,6 +1,7 @@
 ---
-sidebar_position: 5
+sidebar_position: 2
 sidebar_label: queryPosts
+slug: /data-fetching/query-posts
 ---
 
 # queryPosts
@@ -15,6 +16,8 @@ The `queryPosts` function is used to fetch multiple posts, pages, or custom post
 import { queryPosts } from '@headstartwp/next/app';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 async function query({ params, searchParams }: { 
   params: Promise<any>, 
@@ -44,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function BlogPage({ params, searchParams }) {
+export default async function BlogPage({ params, searchParams }: HeadstartWPRoute) {
   const { data, pageInfo } = await query({ params, searchParams });
   
   return (
@@ -59,7 +62,7 @@ export default async function BlogPage({ params, searchParams }) {
                 {post.title.rendered}
               </Link>
             </h2>
-            <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+            <SafeHtml html={post.excerpt.rendered} />
           </article>
         ))}
       </div>
@@ -86,8 +89,10 @@ export default async function BlogPage({ params, searchParams }) {
 
 ```tsx title="app/category/[slug]/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-export default async function CategoryPage({ params }) {
+export default async function CategoryPage({ params }: HeadstartWPRoute) {
   const { data } = await queryPosts({
     routeParams: await params,
     params: {
@@ -104,7 +109,7 @@ export default async function CategoryPage({ params }) {
       {data.posts.map(post => (
         <article key={post.id}>
           <h2>{post.title.rendered}</h2>
-          <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+          <SafeHtml html={post.excerpt.rendered} />
         </article>
       ))}
     </main>
@@ -219,8 +224,10 @@ interface PageInfo {
 
 ```tsx title="app/search/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-export default async function SearchPage({ searchParams }) {
+export default async function SearchPage({ searchParams }: HeadstartWPRoute) {
   const resolvedSearchParams = await searchParams;
   const query = resolvedSearchParams.q;
   
@@ -247,7 +254,7 @@ export default async function SearchPage({ searchParams }) {
         data.posts.map(post => (
           <article key={post.id}>
             <h2>{post.title.rendered}</h2>
-            <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+            <SafeHtml html={post.excerpt.rendered} />
           </article>
         ))
       )}
@@ -260,8 +267,10 @@ export default async function SearchPage({ searchParams }) {
 
 ```tsx title="app/products/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-export default async function ProductsPage({ params }) {
+export default async function ProductsPage({ params }: HeadstartWPRoute) {
   const { data } = await queryPosts({
     routeParams: await params,
     params: {
@@ -287,7 +296,7 @@ export default async function ProductsPage({ params }) {
         {data.posts.map(product => (
           <div key={product.id} className="product-card">
             <h3>{product.title.rendered}</h3>
-            <div dangerouslySetInnerHTML={{ __html: product.excerpt.rendered }} />
+            <SafeHtml html={product.excerpt.rendered} />
           </div>
         ))}
       </div>
@@ -302,6 +311,8 @@ export default async function ProductsPage({ params }) {
 
 ```tsx title="app/blog/page/[page]/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 export async function generateStaticParams() {
   // Get total number of posts to calculate pages
@@ -321,7 +332,7 @@ export async function generateStaticParams() {
   return pages;
 }
 
-export default async function BlogPaginationPage({ params }) {
+export default async function BlogPaginationPage({ params }: HeadstartWPRoute) {
   const resolvedParams = await params;
   const page = parseInt(resolvedParams.page);
   
@@ -373,6 +384,7 @@ export async function POST() {
 ```tsx title="app/blog/page.tsx"
 import { Suspense } from 'react';
 import { queryPosts } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 async function PostsList() {
   const { data } = await queryPosts({
@@ -385,6 +397,7 @@ async function PostsList() {
       {data.posts.map(post => (
         <article key={post.id}>
           <h2>{post.title.rendered}</h2>
+          <SafeHtml html={post.excerpt.rendered} />
         </article>
       ))}
     </div>

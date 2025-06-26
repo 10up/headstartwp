@@ -8,23 +8,21 @@ sidebar_position: 0
 
 HeadstartWP provides seamless data-fetching for Next.js App Router using modern async/await patterns. Unlike the Pages Router which uses React hooks, the App Router leverages Server Components for efficient server-side data fetching.
 
-The data-fetching logic is powered by [strategies](/api/classes/headstartwp_core.AbstractFetchStrategy/) and provides first-class support for Next.js App Router features like:
-
-- **Server Components** - Fetch data directly on the server
-- **Streaming** - Progressive loading with Suspense boundaries  
-- **Revalidation** - Built-in ISR and on-demand revalidation
-- **Caching** - Automatic request deduplication and caching
+The data-fetching logic is powered by [strategies](/api/classes/headstartwp_core.AbstractFetchStrategy/) and abstracts the data-fetching logic.
 
 ## App Router Data Fetching
 
 The `@headstartwp/next/app` package provides async functions specifically designed for Next.js App Router:
 
-- `queryPost()` - Fetch a single post or page
-- `queryPosts()` - Fetch multiple posts with pagination
-- `queryTerms()` - Fetch categories, tags, or custom taxonomies
-- `queryAuthor()` - Fetch author information and posts
+- [`queryPost`](/learn/app-router/data-fetching/query-post) - Fetch a single post or page
+- [`queryPosts`](/learn/app-router/data-fetching/query-posts) - Fetch multiple posts with pagination
+- [`queryPostOrPosts`](/learn/app-router/data-fetching/query-post-or-posts) - Handle both single posts and archive pages
+- [`querySearch`](/learn/app-router/data-fetching/query-search) - Search posts and content
+- [`queryTerms`](/learn/app-router/data-fetching/query-terms) - Fetch categories, tags, or custom taxonomies
+- [`queryAuthorArchive`](/learn/app-router/data-fetching/query-author) - Fetch author information and posts
+- `queryAppSettings` - Fetch WordPress site settings and menus
 
-These functions automatically:
+These functions:
 - Extract URL segments from route parameters
 - Handle WordPress pretty permalinks
 - Provide TypeScript support
@@ -36,9 +34,11 @@ Here's how to fetch a page in an App Router Server Component:
 
 ```tsx title="app/about/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 import type { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
-async function query({ params }) {
+async function query({ params }: HeadstartWPRoute) {
   return queryPost({
     routeParams: await params,
     params: {
@@ -53,18 +53,18 @@ async function query({ params }) {
   });
 }
 
-export async function generateMetadata({ params }): Promise<Metadata> {
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
   const { seo } = await query({ params });
   return seo.metadata;
 }
 
-export default async function AboutPage({ params }) {
+export default async function AboutPage({ params }: HeadstartWPRoute) {
   const { data, seo } = await query({ params });
   
   return (
     <main>
       <h1>{data.post.title.rendered}</h1>
-      <div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
+      <SafeHtml html={data.post.content.rendered} />
     </main>
   );
 }
@@ -76,8 +76,10 @@ For dynamic routes like `[...path]`, HeadstartWP automatically extracts URL segm
 
 ```tsx title="app/[...path]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
-export default async function DynamicPage({ params }) {
+export default async function DynamicPage({ params }: HeadstartWPRoute) {
   // URL segments are automatically parsed from params
   const { data } = await queryPost({
     routeParams: await params,
@@ -89,7 +91,7 @@ export default async function DynamicPage({ params }) {
   return (
     <article>
       <h1>{data.post.title.rendered}</h1>
-      <div dangerouslySetInnerHTML={{ __html: data.post.content.rendered }} />
+      <SafeHtml html={data.post.content.rendered} />
     </article>
   );
 }
@@ -98,6 +100,8 @@ export default async function DynamicPage({ params }) {
 ## Client Components
 
 For Client Components that need reactive data or user interactions, you can still use the React hooks from `@headstartwp/core/react`:
+
+> **Note**: To use React hooks in App Router, you must wrap your root layout with the `DataFetchingProvider` from `@headstartwp/core/react`.
 
 ```tsx title="components/InteractivePost.tsx"
 'use client';
@@ -132,4 +136,4 @@ export function InteractivePost({ slug }: { slug: string }) {
 | Manual ISR configuration | Built-in `revalidate` options |
 | `useSWR` for client-side caching | Automatic request deduplication |
 
-> The remaining sections in this documentation will focus on the App Router async functions. For React hooks usage in Client Components, refer to the [core documentation](/api/modules/headstartwp_core_react/).
+> The remaining sections in this documentation will focus on the App Router async functions. For React hooks usage in Client Components, refer to the [React Hooks Docs](/learn/data-fetching).

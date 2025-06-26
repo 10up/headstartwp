@@ -36,7 +36,7 @@ export default function Home() {
 							If you are unsure how to do something with the framework, this is where
 							you should start.
 						</p>
-						<Link className={styles.gridLink} to="/learn/">
+						<Link className={styles.gridLink} to="/learn/app-router">
 							Give me the details
 						</Link>
 					</article>

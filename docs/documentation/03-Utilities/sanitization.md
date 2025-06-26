@@ -8,6 +8,16 @@ As you're probably aware, React won't render raw HTML by default. If you want to
 
 This page describes some of the utility functions and components provided by the framework to help with escaping & sanitization when rendering raw markup.
 
+## SafeHtml Component (Recommended)
+
+The `SafeHtml` component is the recommended way to render HTML content safely. It automatically sanitizes HTML content using `wpKsesPost` and provides a clean API:
+
+```jsx
+import { SafeHtml } from '@headstartwp/core/react';
+
+<SafeHtml html="<p>some raw html</p>" />
+```
+
 ## wpKsesPost
 
 This function sanitizes HTML content with requirements similar to [wp_kses_post](https://developer.wordpress.org/reference/functions/wp_kses_post/). If you are rendering arbitrary HTML markup you should probably run the markup through this function first.
@@ -18,6 +28,8 @@ import { wpKsesPost } from '@headstartwp/core';
 const markup = { __html: wpKsesPost('<p>some raw html</p>') };
 return <div dangerouslySetInnerHTML={markup} />;
 ```
+
+> **Note**: It's recommended to use the `SafeHtml` component instead of manually using `wpKsesPost` with `dangerouslySetInnerHTML`.
 
 ## stripTags
 
@@ -43,16 +55,6 @@ import { HtmlDecoder } from '@headstartwp/core/react';
 <h1>
     <HtmlDecoder html="Hello world! &#8211; foo bar &#8211;"/>
 </h1>
-```
-
-## SafeHtml
-
-The `SafeHtml` component provides an easy way to safely render HTML markup. It runs the markup through `wpKsesPost` just like `BlocksRenderer`.
-
-```jsx
-import { SafeHtml } from '@headstartwp/core/react';
-
-<SafeHtml html="<div><p>hello world</p> div content</div>">
 ```
 
 ## decodeHtmlSpeciaChars

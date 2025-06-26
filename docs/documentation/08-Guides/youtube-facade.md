@@ -38,50 +38,40 @@ import { queryPost } from '@headstartwp/next/app';
 import { BlocksRenderer, YoutubeLiteBlock } from '@headstartwp/core/react';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
 interface PageProps {
 	params: Promise<{ path?: string[] }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-	try {
-		const { seo } = await queryPost({
-			routeParams: await params,
-			params: {
-				postType: ['post', 'page'],
-			},
-		});
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+		},
+	});
 
-		return seo.metadata;
-	} catch {
-		return {};
-	}
+	return seo.metadata;
 }
 
-export default async function PostPage({ params }: PageProps) {
-	try {
-		const { data } = await queryPost({
-			routeParams: await params,
-			params: {
-				postType: ['post', 'page'],
-			},
-		});
+export default async function PostPage({ params }: HeadstartWPRoute) {
+	const { data } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+		},
+	});
 
-		return (
-			<article className="prose lg:prose-xl mx-auto">
-				<h1>{data.post.title.rendered}</h1>
-				
-				<BlocksRenderer html={data.post.content.rendered}>
-					<YoutubeLiteBlock />
-				</BlocksRenderer>
-			</article>
-		);
-	} catch (error: any) {
-		if (error?.status === 404) {
-			notFound();
-		}
-		throw error;
-	}
+	return (
+		<article className="prose lg:prose-xl mx-auto">
+			<h1>{data.post.title.rendered}</h1>
+			
+			<BlocksRenderer html={data.post.content.rendered}>
+				<YoutubeLiteBlock />
+			</BlocksRenderer>
+		</article>
+	);
 }
 ```
 

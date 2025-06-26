@@ -279,6 +279,3 @@ module.exports = {
 
 More for info check out the [preview docs](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).
 
-## cache
-
-See [caching](/learn/data-fetching/caching/) docs.

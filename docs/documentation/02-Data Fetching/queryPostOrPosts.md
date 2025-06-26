@@ -1,6 +1,7 @@
 ---
-sidebar_position: 7
+sidebar_position: 3
 sidebar_label: queryPostOrPosts
+slug: /data-fetching/query-post-or-posts
 ---
 
 # queryPostOrPosts
@@ -16,123 +17,69 @@ import { queryPostOrPosts } from '@headstartwp/next/app';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 interface PageProps {
 	params: Promise<{ path?: string[] }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-	try {
-		const { seo } = await queryPostOrPosts({
-			routeParams: await params,
-			params: {
-				single: {
-					postType: ['post', 'page'],
-				},
-				archive: {
-					postType: 'post',
-				},
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await queryPostOrPosts({
+		routeParams: await params,
+		params: {
+			single: {
+				postType: ['post', 'page'],
 			},
-		});
+			archive: {
+				postType: 'post',
+			},
+		},
+	});
 
-		return seo.metadata;
-	} catch {
-		return {
-			title: 'Page Not Found',
-			description: 'The requested page could not be found.',
-		};
-	}
+	return seo.metadata;
 }
 
-export default async function DynamicPage({ params }: PageProps) {
-	try {
-		const { isSingle, isArchive, data, seo } = await queryPostOrPosts({
-			routeParams: await params,
-			params: {
-				single: {
-					postType: ['post', 'page'],
-				},
-				archive: {
-					postType: 'post',
-					perPage: 10,
-				},
+export default async function DynamicPage({ params }: HeadstartWPRoute) {
+	const { isSingle, isArchive, data } = await queryPostOrPosts({
+		routeParams: await params,
+		params: {
+			single: {
+				postType: ['post', 'page'],
 			},
-			options: {
-				next: {
-					revalidate: 300,
-					tags: ['posts'],
-				},
+			archive: {
+				postType: 'post',
 			},
-		});
+		},
+	});
 
-		if (isSingle && data.post) {
-			// Render single post/page
-			return (
-				<article>
-					<h1>{data.post.title.rendered}</h1>
-					<div dangerouslySetInnerHTML={{ 
-						__html: data.post.content.rendered 
-					}} />
-				</article>
-			);
-		}
-
-		if (isArchive && data.posts) {
-			// Render archive
-			return (
-				<main>
-					<h1>
-						{data.queriedObject?.term?.name || 
-						 data.queriedObject?.author?.name || 
-						 'Blog Archive'}
-					</h1>
-					
-					{data.queriedObject?.term?.description && (
-						<p>{data.queriedObject.term.description}</p>
-					)}
-					
-					<div className="posts-grid">
-						{data.posts.map(post => (
-							<article key={post.id}>
-								<h2>
-									<Link href={post.link}>
-										{post.title.rendered}
-									</Link>
-								</h2>
-								<div dangerouslySetInnerHTML={{ 
-									__html: post.excerpt.rendered 
-								}} />
-							</article>
-						))}
-					</div>
-					
-					{/* Pagination */}
-					{data.pageInfo && (
-						<div className="pagination">
-							{data.pageInfo.hasPreviousPage && (
-								<Link href={`?page=${data.pageInfo.page - 1}`}>
-									Previous
-								</Link>
-							)}
-							{data.pageInfo.hasNextPage && (
-								<Link href={`?page=${data.pageInfo.page + 1}`}>
-									Next
-								</Link>
-							)}
-						</div>
-					)}
-				</main>
-			);
-		}
-
-		// This shouldn't happen, but handle gracefully
-		notFound();
-	} catch (error: any) {
-		if (error?.status === 404) {
-			notFound();
-		}
-		throw error;
+	if (isSingle && data.post) {
+		return (
+			<article>
+				<h1>{data.post.title.rendered}</h1>
+				<SafeHtml html={data.post.content.rendered} />
+			</article>
+		);
 	}
+
+	if (isArchive && data.posts) {
+		return (
+			<div className="posts-grid">
+				<h1>Blog Posts</h1>
+				{data.posts.map((post) => (
+					<article key={post.id}>
+						<h2>
+							<Link href={post.link}>{post.title.rendered}</Link>
+						</h2>
+						<SafeHtml html={post.excerpt.rendered} />
+					</article>
+				))}
+			</div>
+		);
+	}
+
+	// This shouldn't happen, but handle gracefully
+	notFound();
 }
 ```
 
@@ -206,8 +153,9 @@ interface QueryResult {
 
 ```tsx title="app/products/[[...path]]/page.tsx"
 import { queryPostOrPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
-export default async function ProductsPage({ params }: { params: Promise<{ path?: string[] }> }) {
+export default async function ProductsPage({ params }: HeadstartWPRoute) {
 	const { isSingle, isArchive, data } = await queryPostOrPosts({
 		routeParams: await params,
 		params: {
@@ -228,9 +176,7 @@ export default async function ProductsPage({ params }: { params: Promise<{ path?
 		return (
 			<div className="product-details">
 				<h1>{data.post.title.rendered}</h1>
-				<div dangerouslySetInnerHTML={{ 
-					__html: data.post.content.rendered 
-				}} />
+				<SafeHtml html={data.post.content.rendered} />
 				
 				{/* Product-specific content */}
 				{data.post.acf && (
@@ -256,9 +202,7 @@ export default async function ProductsPage({ params }: { params: Promise<{ path?
 									{product.title.rendered}
 								</Link>
 							</h3>
-							<div dangerouslySetInnerHTML={{ 
-								__html: product.excerpt.rendered 
-							}} />
+							<SafeHtml html={product.excerpt.rendered} />
 						</div>
 					))}
 				</div>
@@ -271,7 +215,9 @@ export default async function ProductsPage({ params }: { params: Promise<{ path?
 ### Priority and Route Matching
 
 ```tsx title="app/blog/[[...path]]/page.tsx"
-export default async function BlogPage({ params }: { params: Promise<{ path?: string[] }> }) {
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+
+export default async function BlogPage({ params }: HeadstartWPRoute) {
 	const { isSingle, isArchive, data } = await queryPostOrPosts({
 		routeParams: await params,
 		params: {
@@ -295,7 +241,9 @@ export default async function BlogPage({ params }: { params: Promise<{ path?: st
 ### With Taxonomy Filtering
 
 ```tsx title="app/category/[[...path]]/page.tsx"
-export default async function CategoryPage({ params }: { params: Promise<{ path?: string[] }> }) {
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+
+export default async function CategoryPage({ params }: HeadstartWPRoute) {
 	const { isArchive, data } = await queryPostOrPosts({
 		routeParams: await params,
 		params: {
@@ -328,9 +276,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ path?
 							<h2>
 								<Link href={post.link}>{post.title.rendered}</Link>
 							</h2>
-							<div dangerouslySetInnerHTML={{ 
-								__html: post.excerpt.rendered 
-							}} />
+							<SafeHtml html={post.excerpt.rendered} />
 						</article>
 					))}
 				</div>
@@ -372,7 +318,7 @@ try {
 ### Custom Error Handling
 
 ```tsx title="app/[...path]/page.tsx"
-export default async function DynamicPage({ params }: PageProps) {
+export default async function DynamicPage({ params }: HeadstartWPRoute) {
 	try {
 		const result = await queryPostOrPosts({
 			routeParams: await params,

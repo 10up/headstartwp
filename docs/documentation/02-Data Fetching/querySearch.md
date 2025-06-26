@@ -1,6 +1,7 @@
 ---
-sidebar_position: 8
+sidebar_position: 4
 sidebar_label: querySearch
+slug: /data-fetching/query-search
 ---
 
 # querySearch
@@ -15,6 +16,7 @@ The `querySearch` function (using `queryPosts` with search parameters) is used t
 import { queryPosts } from '@headstartwp/next/app';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
 interface SearchParams {
   q?: string;
@@ -49,7 +51,7 @@ async function query({ searchParams }: {
   });
 }
 
-export async function generateMetadata({ searchParams }): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: HeadstartWPRoute): Promise<Metadata> {
   const resolvedSearchParams = await searchParams;
   const searchQuery = resolvedSearchParams.q;
   
@@ -61,7 +63,7 @@ export async function generateMetadata({ searchParams }): Promise<Metadata> {
   };
 }
 
-export default async function SearchPage({ searchParams }) {
+export default async function SearchPage({ searchParams }: HeadstartWPRoute) {
   const resolvedSearchParams = await searchParams;
   const searchQuery = resolvedSearchParams.q;
   
@@ -127,11 +129,9 @@ export default async function SearchPage({ searchParams }) {
                   <time>{new Date(post.date).toLocaleDateString()}</time>
                 </div>
                 
-                <div 
+                <SafeHtml 
+                  html={post.excerpt.rendered}
                   className="search-excerpt"
-                  dangerouslySetInnerHTML={{ 
-                    __html: post.excerpt.rendered 
-                  }} 
                 />
               </article>
             ))}
@@ -178,12 +178,12 @@ function SearchForm({ defaultValue = '' }: { defaultValue?: string }) {
     </form>
   );
 }
-```
 
 ### Advanced Search with Filters
 
 ```tsx title="app/search/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
 interface AdvancedSearchParams {
   q?: string;
@@ -229,7 +229,7 @@ async function advancedQuery({ searchParams }: {
   });
 }
 
-export default async function AdvancedSearchPage({ searchParams }) {
+export default async function AdvancedSearchPage({ searchParams }: HeadstartWPRoute) {
   const result = await advancedQuery({ searchParams });
   const params = await searchParams;
   
@@ -297,7 +297,6 @@ function AdvancedSearchForm({ defaultValues }: { defaultValues: any }) {
     </form>
   );
 }
-```
 
 ## Live Search with Client Components
 
@@ -307,7 +306,7 @@ For interactive search features, you can combine Server Components with Client C
 import { Suspense } from 'react';
 import LiveSearch from './LiveSearch';
 
-export default function SearchPage({ searchParams }) {
+export default function SearchPage({ searchParams }: HeadstartWPRoute) {
   return (
     <main>
       <h1>Search</h1>
@@ -322,7 +321,7 @@ export default function SearchPage({ searchParams }) {
   );
 }
 
-async function ServerSearchResults({ searchParams }) {
+async function ServerSearchResults({ searchParams }: HeadstartWPRoute) {
   const params = await searchParams;
   
   if (!params.q) return null;
@@ -351,7 +350,9 @@ async function ServerSearchResults({ searchParams }) {
 ## Search with Custom Post Types
 
 ```tsx title="app/search/page.tsx"
-async function searchAllContent({ searchParams }) {
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+
+async function searchAllContent({ searchParams }: HeadstartWPRoute) {
   const params = await searchParams;
   const searchQuery = params.q;
   
@@ -392,7 +393,7 @@ async function searchAllContent({ searchParams }) {
   };
 }
 
-export default async function UnifiedSearchPage({ searchParams }) {
+export default async function UnifiedSearchPage({ searchParams }: HeadstartWPRoute) {
   const results = await searchAllContent({ searchParams });
   const params = await searchParams;
   
@@ -480,7 +481,7 @@ async function SearchResults({ searchQuery }: { searchQuery: string }) {
   );
 }
 
-export default async function SearchPage({ searchParams }) {
+export default async function SearchPage({ searchParams }: HeadstartWPRoute) {
   const params = await searchParams;
   const searchQuery = params.q;
   

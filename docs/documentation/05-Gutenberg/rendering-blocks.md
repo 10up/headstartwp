@@ -12,7 +12,16 @@ There are multiple approaches to block rendering
 
 ### Naive Approach
 
-Simply output the generated markup "as is", using dangerouslySetInnerHTML.
+Simply output the generated markup "as is", using `dangerouslySetInnerHTML` or the safer `SafeHtml` component:
+
+```jsx
+// Using dangerouslySetInnerHTML (not recommended)
+<div dangerouslySetInnerHTML={{ __html: content }} />
+
+// Using SafeHtml (recommended)
+import { SafeHtml } from '@headstartwp/core/react';
+<SafeHtml html={content} />
+```
 
 ### Blocks as JSON Approach
 
@@ -24,23 +33,23 @@ In this approach, blocks are parsed on the Backend.
 
 ### Blocks as Markup Approach
 
-Instead of simply outputting the generated markup “as is”, it runs the block markup through an HTML parser (after sanitizing) and selectively (and progressively) replaces block markup with actual React components as needed.
+Instead of simply outputting the generated markup "as is", it runs the block markup through an HTML parser (after sanitizing) and selectively (and progressively) replaces block markup with actual React components as needed.
 
-This approach is the simplest way to render blocks as not all blocks need to be actual React components (e.g paragraphs, lists, etc). You only need to create React Components for very specific blocks such as Links, Images, and “dynamic blocks” such as accordion, etc. You can still ignore certain blocks if you want better control of supported blocks (both on the WP side and the front-end side).
+This approach is the simplest way to render blocks as not all blocks need to be actual React components (e.g paragraphs, lists, etc). You only need to create React Components for very specific blocks such as Links, Images, and "dynamic blocks" such as accordion, etc. You can still ignore certain blocks if you want better control of supported blocks (both on the WP side and the front-end side).
 
 In this approach, blocks are parsed on the Frontend.
 
 
 ### Which approach should you use?
 
-The framework supports all of these approaches. However, it does not ship with a “blocks-to-rest” plugin. But nothing is stopping you from shipping your own.
+The framework supports all of these approaches. However, it does not ship with a "blocks-to-rest" plugin. But nothing is stopping you from shipping your own.
 
-Instead, it provides a React API for selectively choosing blocks to be replaced with React components and as we’ll show in this article this approach works well for most content-focused websites and can even be implemented in React Native apps to power App screens fully curated by Gutenberg.
+Instead, it provides a React API for selectively choosing blocks to be replaced with React components and as we'll show in this article this approach works well for most content-focused websites and can even be implemented in React Native apps to power App screens fully curated by Gutenberg.
 
 
 ## The BlocksRenderer component
 
-The `BlocksRenderer` component is the heart of the “HTML to React” approach. It receives arbitrary HTML markup, runs its content through wpKsesPost, and replaces markup with react component based on the child components passed to it. This approach is not tied to Gutenberg markup in any way, it can be used as a generic HTML-to-React conversion tool. Here’s a simple example of how it works
+The `BlocksRenderer` component is the heart of the "HTML to React" approach. It receives arbitrary HTML markup, runs its content through wpKsesPost, and replaces markup with react component based on the child components passed to it. This approach is not tied to Gutenberg markup in any way, it can be used as a generic HTML-to-React conversion tool. Here's a simple example of how it works
 
 ```js
 const MyLinkBlock = ({ domNode, children }) => {
@@ -63,9 +72,9 @@ export const Blocks = ({ html }) => {
 };
 ```
 
-In the example above, we’re passing the HTML content directly to BlocksRenderer and we’re specifying that any anchor tags with a class of “my-special-anchor” should be replaced with MyLinkBlock.
+In the example above, we're passing the HTML content directly to BlocksRenderer and we're specifying that any anchor tags with a class of "my-special-anchor" should be replaced with MyLinkBlock.
 
-The MyLinkBlock then gets one special prop called domNode which is the DOM Node that’s being replaced with a React component. You can use domNode to access attributes of the node such as href and rel in this case.
+The MyLinkBlock then gets one special prop called domNode which is the DOM Node that's being replaced with a React component. You can use domNode to access attributes of the node such as href and rel in this case.
 
 Alternatively, you can also specify a test function to match dom nodes, the example above could also have been written as shown below
 
@@ -79,7 +88,7 @@ Alternatively, you can also specify a test function to match dom nodes, the exam
 />
 ```
 
-There are a number of utility functions that make matching nodes and blocks specifically very easy as we’ll see now.
+There are a number of utility functions that make matching nodes and blocks specifically very easy as we'll see now.
 
 ### Matching blocks with isBlock
 

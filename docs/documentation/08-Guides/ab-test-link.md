@@ -207,6 +207,7 @@ If you need to access the navigation bucket in Server Components, you can read i
 
 ```tsx title="src/app/[...path]/page.tsx"
 import { cookies } from 'next/headers';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 
 export default async function PostPage() {
 	const cookieStore = await cookies();

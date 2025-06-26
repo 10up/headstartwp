@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 sidebar_label: queryAuthor
+slug: /data-fetching/query-author
 ---
 
 # queryAuthor
@@ -15,6 +16,8 @@ The `queryAuthor` function (or `queryPosts` with author parameters) is used to f
 import { queryPosts } from '@headstartwp/next/app';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 async function query({ params }: { params: Promise<{ slug: string }> }) {
   return queryPosts({
@@ -32,7 +35,7 @@ async function query({ params }: { params: Promise<{ slug: string }> }) {
   });
 }
 
-export async function generateMetadata({ params }): Promise<Metadata> {
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
   const { data } = await query({ params });
   const author = data.queriedObject?.author;
   
@@ -42,7 +45,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   };
 }
 
-export default async function AuthorPage({ params }) {
+export default async function AuthorPage({ params }: HeadstartWPRoute) {
   const { data, pageInfo } = await query({ params });
   const author = data.queriedObject?.author;
   
@@ -63,7 +66,9 @@ export default async function AuthorPage({ params }) {
         <div>
           <h1>Posts by {author.name}</h1>
           {author.description && (
-            <p className="author-bio">{author.description}</p>
+            <div className="author-bio">
+              <SafeHtml html={author.description} />
+            </div>
           )}
           <p>Total posts: {pageInfo.totalItems}</p>
         </div>
@@ -77,7 +82,7 @@ export default async function AuthorPage({ params }) {
                 {post.title.rendered}
               </Link>
             </h2>
-            <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+            <SafeHtml html={post.excerpt.rendered} />
             <time>{new Date(post.date).toLocaleDateString()}</time>
           </article>
         ))}
@@ -98,6 +103,8 @@ export default async function AuthorPage({ params }) {
 
 ```tsx title="app/author/[slug]/page/[page]/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 export async function generateStaticParams({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
@@ -118,7 +125,7 @@ export async function generateStaticParams({ params }: { params: Promise<{ slug:
   }));
 }
 
-export default async function AuthorPaginationPage({ params }) {
+export default async function AuthorPaginationPage({ params }: HeadstartWPRoute) {
   const resolvedParams = await params;
   const page = parseInt(resolvedParams.page);
   
@@ -142,7 +149,7 @@ export default async function AuthorPaginationPage({ params }) {
         {data.posts.map(post => (
           <article key={post.id}>
             <h2>{post.title.rendered}</h2>
-            <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+            <SafeHtml html={post.excerpt.rendered} />
           </article>
         ))}
       </div>
@@ -192,8 +199,10 @@ Pagination information for the author's posts.
 
 ```tsx title="app/author/[slug]/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-export default async function AuthorPage({ params }) {
+export default async function AuthorPage({ params }: HeadstartWPRoute) {
   // Fetch both posts and pages by this author
   const [postsResult, pagesResult] = await Promise.all([
     queryPosts({
@@ -247,6 +256,8 @@ export default async function AuthorPage({ params }) {
 ```tsx title="app/authors/page.tsx"
 import { queryUsers } from '@headstartwp/next/app';
 import Link from 'next/link';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
 export default async function AuthorsPage() {
   // Note: This assumes there's a queryUsers function
@@ -339,7 +350,7 @@ async function AuthorPosts({ authorSlug }: { authorSlug: string }) {
   );
 }
 
-export default async function AuthorPage({ params }) {
+export default async function AuthorPage({ params }: HeadstartWPRoute) {
   const resolvedParams = await params;
   
   return (
