@@ -281,4 +281,61 @@ describe('BlocksRenderer', () => {
 
 		expect(container).toMatchSnapshot();
 	});
+
+	it('forwards block props to the component in nested blocks', () => {
+		const PToDiv = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-props">{JSON.stringify(block)}</p>;
+		};
+
+		PToDiv.test = (node) => isBlockByName(node, 'core/paragraph');
+
+		render(
+			<BlocksRenderer
+				html={`<div class="wp-block-group is-layout-grid wp-container-core-group-is-layout-478b6e6b wp-block-group-is-layout-grid" data-wp-block="{&quot;layout&quot;:{&quot;type&quot;:&quot;grid&quot;},&quot;tagName&quot;:&quot;div&quot;}" data-wp-block-name="core/group"><p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste2</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">test3</p>
+</div>`}
+				forwardBlockAttributes
+			>
+				<PToDiv />
+			</BlocksRenderer>,
+		);
+
+		const nodes = screen.getAllByTestId('block-props');
+		expect(nodes).toMatchSnapshot();
+	});
+
+	it('forwards block props to the component in nested blocks when the parent block is replaced with a custom component', () => {
+		const PToDiv = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-props">{JSON.stringify(block)}</p>;
+		};
+
+		PToDiv.test = (node) => isBlockByName(node, 'core/paragraph');
+
+		const CustomGroup = ({ children }: BlockProps) => {
+			return (
+				<div data-testid="custom-group" className="custom-group-wrapper">
+					{children}
+				</div>
+			);
+		};
+
+		CustomGroup.test = (node) => isBlockByName(node, 'core/group');
+
+		render(
+			<BlocksRenderer
+				html={`<div class="wp-block-group is-layout-grid wp-container-core-group-is-layout-478b6e6b wp-block-group-is-layout-grid" data-wp-block="{&quot;layout&quot;:{&quot;type&quot;:&quot;grid&quot;},&quot;tagName&quot;:&quot;div&quot;}" data-wp-block-name="core/group"><p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste2</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">test3</p>
+</div>`}
+				forwardBlockAttributes
+			>
+				<CustomGroup />
+				<PToDiv />
+			</BlocksRenderer>,
+		);
+
+		const nodes = screen.getAllByTestId('block-props');
+		expect(nodes).toMatchSnapshot();
+	});
 });
