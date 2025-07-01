@@ -52,31 +52,9 @@ export interface YoastSEOIntegration extends Integration {}
 
 export interface PolylangIntegration extends Integration {}
 
-export interface GutenbergIntegration extends Integration {
-	/**
-	 * Whether to load the block library styles from the WordPress site.
-	 *
-	 * @default false
-	 */
-	loadBlockLibraryStyles?: boolean;
-
-	/**
-	 * Whether to load the dynamic styles.
-	 *
-	 * @default false
-	 */
-	loadDynamicStyles?: boolean;
-}
-
 export type Integrations = {
 	yoastSEO?: YoastSEOIntegration;
 	polylang?: PolylangIntegration;
-	/**
-	 * The Gutenberg integration settings.
-	 *
-	 * By default it is enabled. Use this to control its settings
-	 */
-	gutenberg?: GutenbergIntegration;
 };
 
 export type PreviewConfig = {
