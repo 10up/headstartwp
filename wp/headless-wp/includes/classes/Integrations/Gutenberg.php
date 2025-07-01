@@ -23,31 +23,18 @@ class Gutenberg {
 	public function register() {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
 		add_filter( 'render_block_core/image', [ $this, 'ensure_image_has_dimensions' ], 9999, 2 );
-		add_action( 'init', [ $this, 'add_style_field' ] );
-	}
-
-	/**
-	 * Add style field to block
-	 */
-	public function add_style_field() {
-		$post_types = get_post_types( [ 'public' => true ], $output = 'names' );
-		register_rest_field(
-			$post_types,
-			'block_styles',
-			[
-				'get_callback' => [ $this, 'get_inline_block_styles' ],
-			]
-		);
+		add_action( 'rest_api_init', [ $this, 'extend_content_for_all_post_types' ] );
 	}
 
 	/**
 	 * Get inline block styles.
 	 *
-	 * @param array            $post The post.
-	 * @param string           $field_name The field name.
+	 * @param \WP_Post         $post    The post.
 	 * @param \WP_REST_Request $request The REST request.
+	 *
+	 * @return string
 	 */
-	public function get_inline_block_styles( array $post, string $field_name, \WP_REST_Request $request ): string { // phpcs:ignore @phpstan-ignore-line
+	public function get_inline_block_styles( \WP_Post $post, \WP_REST_Request $request ): string { // phpcs:ignore @phpstan-ignore-line
 		$done   = [];
 		$params = $request->get_params();
 		if ( 'view' !== $params['context'] ) {
@@ -65,14 +52,48 @@ class Gutenberg {
 			$css = end( wp_styles()->registered['core-block-supports']->extra['after'] );
 		}
 
-		$blocks = parse_blocks( get_the_content() );
+		$blocks = parse_blocks( get_the_content( $post ) );
 
 		return $css . $this->get_blocks_styles( $blocks, $done );
 	}
 
 	/**
-	 * Parse blocks.
-	 * TODO(tobeycodes): Review code at a later date. This is experimental.
+	 * Extend content field for all public post types using REST API filters.
+	 */
+	public function extend_content_for_all_post_types() {
+		$post_types = get_post_types( [ 'public' => true ], 'names' );
+
+		foreach ( $post_types as $post_type ) {
+			add_filter( "rest_prepare_{$post_type}", [ $this, 'extend_post_content' ], 10, 3 );
+		}
+	}
+
+	/**
+	 * Extend the content field with additional data.
+	 *
+	 * @param \WP_REST_Response $data    The response object.
+	 * @param \WP_Post          $post    The post object.
+	 * @param \WP_REST_Request  $request The request object.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function extend_post_content( \WP_REST_Response $data, \WP_Post $post, \WP_REST_Request $request ) {
+		// Only extend if content field exists
+		if ( ! isset( $data->data['content'] ) ) {
+			return $data;
+		}
+
+		if ( ! isset( $data->data['content']['rendered'] ) ) {
+			return $data;
+		}
+
+		$data->data['content']['block_styles'] = $this->get_inline_block_styles( $post, $request );
+
+		return $data;
+	}
+
+	/**
+	 * Parse blocks for block styles
 	 *
 	 * @param array         $blocks The blocks.
 	 * @param array<string> $done The done styles.

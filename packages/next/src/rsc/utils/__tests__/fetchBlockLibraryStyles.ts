@@ -1,8 +1,8 @@
 import { fetchBlockLibraryStyles } from '../fetchBlockLibraryStyles';
-import { prepareQuery } from '../../rsc/data/queries/prepareQuery';
+import { prepareQuery } from '../../data/queries/prepareQuery';
 
 // Mock the prepareQuery function
-jest.mock('../../rsc/data/queries/prepareQuery');
+jest.mock('../../data/queries/prepareQuery');
 const mockPrepareQuery = prepareQuery as jest.MockedFunction<typeof prepareQuery>;
 
 // Mock the global fetch function

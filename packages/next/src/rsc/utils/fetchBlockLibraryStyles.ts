@@ -1,5 +1,5 @@
-import { HeadstartWPLayout } from '../rsc';
-import { prepareQuery } from '../rsc/data/queries/prepareQuery';
+import { HeadstartWPLayout } from '../types';
+import { prepareQuery } from '../data/queries/prepareQuery';
 
 /**
  * Fetch the block library styles from the WordPress site.

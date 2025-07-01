@@ -34,12 +34,20 @@ import { BlockRendererProps, BaseBlocksRenderer } from './BaseBlocksRenderer';
  *
  * @category React Components
  */
-export function BlocksRenderer({ children, settings: propSettings, ...props }: BlockRendererProps) {
+export function BlocksRenderer({
+	children,
+	settings: propSettings,
+	blockStyles = '',
+	...props
+}: BlockRendererProps & { blockStyles?: string }) {
 	const settings = useSettings();
 
 	return (
-		<BaseBlocksRenderer {...props} settings={propSettings ?? settings}>
-			{children}
-		</BaseBlocksRenderer>
+		<>
+			{blockStyles && <style dangerouslySetInnerHTML={{ __html: blockStyles }} />}
+			<BaseBlocksRenderer {...props} settings={propSettings ?? settings}>
+				{children}
+			</BaseBlocksRenderer>
+		</>
 	);
 }

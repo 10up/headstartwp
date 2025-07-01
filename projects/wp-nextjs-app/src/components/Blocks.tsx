@@ -42,6 +42,7 @@ const Blocks: React.FC<BlocksRendererProps> = async ({ html, settings, styles })
 				html={html}
 				settings={settings}
 				blockContext={{ themeJSON: data['theme.json'].settings }}
+				blockStyles={styles}
 			>
 				<ImageBlock />
 				<PostList test={(node) => isBlockByName(node, 'core/query')} />
