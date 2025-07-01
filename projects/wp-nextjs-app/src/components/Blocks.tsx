@@ -1,26 +1,9 @@
-import type { BlockFC, BlockProps } from '@headstartwp/core/react';
 import { BlocksRenderer } from '@headstartwp/core/react';
 import React from 'react';
 import type { HeadlessConfig } from '@headstartwp/core';
 import { isBlockByName } from '@headstartwp/core';
 import { ImageBlock, LinkBlock, queryAppSettings, TwitterBlock } from '@headstartwp/next/app';
 import { PostList } from './Blocks/PostList';
-
-const PToDiv: BlockFC<BlockProps> = ({ block }) => {
-	return <p data-testid="block-props">{JSON.stringify(block)}</p>;
-};
-
-PToDiv.test = (node) => isBlockByName(node, 'core/paragraph');
-
-const CustomGroup: BlockFC<BlockProps> = ({ children }) => {
-	return (
-		<div data-testid="custom-group" className="custom-group-wrapper">
-			{children}
-		</div>
-	);
-};
-
-CustomGroup.test = (node) => isBlockByName(node, 'core/group');
 
 type BlocksRendererProps = {
 	html: string;
@@ -35,21 +18,18 @@ const Blocks: React.FC<BlocksRendererProps> = async ({ html, settings, styles })
 	const { data } = await queryAppSettings();
 
 	return (
-		<>
-			<style dangerouslySetInnerHTML={{ __html: styles }} />
-			<BlocksRenderer
-				forwardBlockAttributes
-				html={html}
-				settings={settings}
-				blockContext={{ themeJSON: data['theme.json'].settings }}
-				blockStyles={styles}
-			>
-				<ImageBlock />
-				<PostList test={(node) => isBlockByName(node, 'core/query')} />
-				<TwitterBlock />
-				<LinkBlock />
-			</BlocksRenderer>
-		</>
+		<BlocksRenderer
+			forwardBlockAttributes
+			html={html}
+			settings={settings}
+			blockContext={{ themeJSON: data['theme.json'].settings }}
+			blockStyles={styles}
+		>
+			<ImageBlock />
+			<PostList test={(node) => isBlockByName(node, 'core/query')} />
+			<TwitterBlock />
+			<LinkBlock />
+		</BlocksRenderer>
 	);
 };
 
