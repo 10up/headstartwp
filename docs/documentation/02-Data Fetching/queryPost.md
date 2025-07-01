@@ -12,6 +12,8 @@ The `queryPost` function is used to fetch a single post, page, or custom post ty
 
 ### Basic Example
 
+The example below shows a hardcoded about page built using `queryPost`.
+
 ```tsx title="app/about/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import type { Metadata } from 'next';

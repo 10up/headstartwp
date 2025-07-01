@@ -83,12 +83,12 @@ export default async function CategoryArchivePage({ params }: HeadstartWPRoute) 
         {/* Pagination */}
         <div className="pagination">
           {data.pageInfo.hasPreviousPage && (
-            <Link href={`?page=${pageInfo.page - 1}`}>
+            <Link href={`/${data.queriedObject.term.slug}/page=${pageInfo.page - 1}`}>
               Previous
             </Link>
           )}
           {data.pageInfo.hasNextPage && (
-            <Link href={`?page=${pageInfo.page + 1}`}>
+            <Link href={`/${data.queriedObject.term.slug}/page=${pageInfo.page + 1}`}>
               Next
             </Link>
           )}
@@ -110,7 +110,7 @@ queryPosts({
 }): Promise<{
   data: { 
     posts: PostEntity[],
-    queriedObject?: TermEntity | AuthorEntity,
+    queriedObject?: QueriedObject,
     pageInfo: PageInfo
   },
   config: HeadlessConfig
