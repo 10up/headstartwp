@@ -428,4 +428,257 @@ RESULT;
 		$tag_processor->next_tag( [ 'tag_closers' => 'skip' ] );
 		$this->assertEmpty( $tag_processor->get_tag(), "{$process_name} | No more tags expected." );
 	}
+
+	/**
+	 * Test extend_post_content method returns early when content field doesn't exist
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_returns_early_when_no_content_field() {
+		$response       = new \WP_REST_Response();
+		$response->data = [ 'title' => 'Test Post' ]; // No content field
+
+		$post_id = self::factory()->post->create(
+			[
+				'post_content' => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->',
+			]
+		);
+		$post    = get_post( $post_id );
+
+		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+
+		$result = $this->parser->extend_post_content( $response, $post, $request );
+
+		$this->assertSame( $response, $result );
+		$this->assertArrayNotHasKey( 'content', $response->data );
+	}
+
+	/**
+	 * Test extend_post_content method returns early when rendered content doesn't exist
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_returns_early_when_no_rendered_content() {
+		$response       = new \WP_REST_Response();
+		$response->data = [
+			'title'   => 'Test Post',
+			'content' => [ 'raw' => 'Test content' ], // No rendered field
+		];
+
+		$post_id = self::factory()->post->create(
+			[
+				'post_content' => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->',
+			]
+		);
+		$post    = get_post( $post_id );
+
+		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+
+		$result = $this->parser->extend_post_content( $response, $post, $request );
+
+		$this->assertSame( $response, $result );
+		$this->assertArrayNotHasKey( 'block_styles', $response->data['content'] );
+	}
+
+	/**
+	 * Test extend_post_content method successfully adds block_styles field
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_adds_block_styles() {
+		$response       = new \WP_REST_Response();
+		$response->data = [
+			'title'   => 'Test Post',
+			'content' => [
+				'raw'      => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->',
+				'rendered' => '<p>Test content</p>',
+			],
+		];
+
+		$post_id = self::factory()->post->create( [ 'post_content' => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->' ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
+		$post    = get_post( $post_id );
+
+		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'id', $post_id );
+
+		$result = $this->parser->extend_post_content( $response, $post, $request );
+
+		$this->assertSame( $response, $result );
+		$this->assertArrayHasKey( 'block_styles', $response->data['content'] );
+		$this->assertIsString( $response->data['content']['block_styles'] );
+	}
+
+	/**
+	 * Test extend_post_content method preserves existing content fields
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_preserves_existing_content_fields() {
+		$response       = new \WP_REST_Response();
+		$response->data = [
+			'title'   => 'Test Post',
+			'content' => [
+				'raw'       => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->',
+				'rendered'  => '<p>Test content</p>',
+				'protected' => false,
+			],
+		];
+
+		$post_id = self::factory()->post->create( [ 'post_content' => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->' ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
+		$post    = get_post( $post_id );
+
+		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'id', $post_id );
+
+		$result = $this->parser->extend_post_content( $response, $post, $request );
+
+		$this->assertSame( $response, $result );
+
+		// Check that existing fields are preserved
+		$this->assertArrayHasKey( 'raw', $response->data['content'] );
+		$this->assertArrayHasKey( 'rendered', $response->data['content'] );
+		$this->assertArrayHasKey( 'protected', $response->data['content'] );
+
+		// Check that new field is added
+		$this->assertArrayHasKey( 'block_styles', $response->data['content'] );
+		$this->assertIsString( $response->data['content']['block_styles'] );
+	}
+
+	/**
+	 * Test extend_post_content method outputs actual block styles for grid layout
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_outputs_grid_block_styles() {
+		$grid_content = '<!-- wp:group {"layout":{"type":"grid","minimumColumnWidth":"12rem"}} -->'
+			. '<div class="wp-block-group">'
+			. '<!-- wp:paragraph --><p>Grid item 1</p><!-- /wp:paragraph -->'
+			. '<!-- wp:paragraph --><p>Grid item 2</p><!-- /wp:paragraph -->'
+			. '</div>'
+			. '<!-- /wp:group -->';
+
+		$post_id = self::factory()->post->create( [ 'post_content' => $grid_content ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
+		$post    = get_post( $post_id );
+
+		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'id', $post_id );
+
+		$response       = new \WP_REST_Response();
+		$response->data = [
+			'title'   => 'Test Post with Grid',
+			'content' => [
+				'raw'      => $post->post_content,
+				'rendered' => apply_filters( 'the_content', $post->post_content ),
+			],
+		];
+
+		$response = $this->parser->extend_post_content( $response, $post, $request );
+
+		$this->assertArrayHasKey( 'block_styles', $response->data['content'] );
+		$this->assertIsString( $response->data['content']['block_styles'] );
+		$this->assertNotEmpty( $response->data['content']['block_styles'] );
+	}
+
+	/**
+	 * Test extend_post_content method outputs block styles for columns layout
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_outputs_columns_block_styles() {
+		$columns_content = '<!-- wp:columns -->'
+			. '<div class="wp-block-columns">'
+			. '<!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph --><p>Column 1</p><!-- /wp:paragraph --></div><!-- /wp:column -->'
+			. '<!-- wp:column --><div class="wp-block-column"><!-- wp:paragraph --><p>Column 2</p><!-- /wp:paragraph --></div><!-- /wp:column -->'
+			. '</div>'
+			. '<!-- /wp:columns -->';
+
+		$post_id = self::factory()->post->create( [ 'post_content' => $columns_content ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
+		$post    = get_post( $post_id );
+
+		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'id', $post_id );
+
+		$response       = new \WP_REST_Response();
+		$response->data = [
+			'title'   => 'Test Post with Columns',
+			'content' => [
+				'raw'      => $post->post_content,
+				'rendered' => apply_filters( 'the_content', $post->post_content ),
+			],
+		];
+
+		$response = $this->parser->extend_post_content( $response, $post, $request );
+
+		$this->assertArrayHasKey( 'block_styles', $response->data['content'] );
+		$this->assertIsString( $response->data['content']['block_styles'] );
+		$this->assertNotEmpty( $response->data['content']['block_styles'] );
+	}
+
+	/**
+	 * Test extend_content_for_all_post_types method registers filters for public post types
+	 *
+	 * @return void
+	 */
+	public function test_extend_content_for_all_post_types_registers_filters() {
+		// Register a custom post type for testing
+		register_post_type(
+			'test_post_type',
+			[
+				'public'       => true,
+				'show_in_rest' => true,
+			]
+		);
+
+		$parser = new Gutenberg();
+		$parser->extend_content_for_all_post_types();
+
+		// Check that filters are registered for public post types
+		$this->assertTrue( has_filter( 'rest_prepare_post', [ $parser, 'extend_post_content' ] ) !== false );
+		$this->assertTrue( has_filter( 'rest_prepare_page', [ $parser, 'extend_post_content' ] ) !== false );
+		$this->assertTrue( has_filter( 'rest_prepare_test_post_type', [ $parser, 'extend_post_content' ] ) !== false );
+
+		// Clean up
+		unregister_post_type( 'test_post_type' );
+	}
+
+	/**
+	 * Test that get_inline_block_styles method processes blocks correctly
+	 *
+	 * @return void
+	 */
+	public function test_get_inline_block_styles_processes_blocks() {
+		$post_content = '<!-- wp:group {"layout":{"type":"grid"}} -->'
+			. '<div class="wp-block-group">'
+			. '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->'
+			. '</div>'
+			. '<!-- /wp:group -->';
+
+		$post_id = self::factory()->post->create( [ 'post_content' => $post_content ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
+		$post    = get_post( $post_id );
+
+		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'id', $post_id );
+
+		// Test the method directly
+		$result = $this->parser->get_inline_block_styles( $post, $request );
+
+		// Should return a string (even if empty in test environment)
+		$this->assertIsString( $result );
+
+		// Test with wrong context - should return empty
+		$request->set_param( 'context', 'edit' );
+		$result_wrong_context = $this->parser->get_inline_block_styles( $post, $request );
+		$this->assertSame( '', $result_wrong_context );
+
+		// Test with no id/slug - should return empty
+		$request_no_params = new \WP_REST_Request( 'GET', '/wp/v2/posts' );
+		$request_no_params->set_param( 'context', 'view' );
+		$result_no_params = $this->parser->get_inline_block_styles( $post, $request_no_params );
+		$this->assertSame( '', $result_no_params );
+	}
 }

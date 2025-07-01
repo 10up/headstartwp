@@ -52,7 +52,7 @@ class Gutenberg {
 			$css = end( wp_styles()->registered['core-block-supports']->extra['after'] );
 		}
 
-		$blocks = parse_blocks( get_the_content( $post ) );
+		$blocks = parse_blocks( $post->post_content );
 
 		return $css . $this->get_blocks_styles( $blocks, $done );
 	}
