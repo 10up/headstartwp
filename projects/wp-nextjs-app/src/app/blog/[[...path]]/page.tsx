@@ -82,7 +82,11 @@ const BlogPage = async ({ params }: HeadstartWPRoute) => {
 					<HtmlDecoder html={data.post.title.rendered ?? ''} />
 				</h1>
 
-				<Blocks html={data.post.content.rendered ?? ''} settings={config} />
+				<Blocks
+					html={data.post.content.rendered ?? ''}
+					settings={config}
+					styles={data.post.content.block_styles ?? ''}
+				/>
 
 				{data.post.terms?.category && (
 					<Suspense fallback="Loading (streaming)">
