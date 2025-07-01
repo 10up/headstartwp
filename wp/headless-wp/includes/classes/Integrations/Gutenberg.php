@@ -23,6 +23,94 @@ class Gutenberg {
 	public function register() {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
 		add_filter( 'render_block_core/image', [ $this, 'ensure_image_has_dimensions' ], 9999, 2 );
+		add_action( 'init', [ $this, 'add_style_field' ] );
+	}
+
+	/**
+	 * Add style field to block
+	 */
+	public function add_style_field() {
+		$post_types = get_post_types( [ 'public' => true ], $output = 'names' );
+		register_rest_field(
+			$post_types,
+			'block_styles',
+			[
+				'get_callback' => [ $this, 'get_inline_block_styles' ],
+			]
+		);
+	}
+
+	/**
+	 * Get inline block styles.
+	 *
+	 * @param array            $post The post.
+	 * @param string           $field_name The field name.
+	 * @param \WP_REST_Request $request The REST request.
+	 */
+	public function get_inline_block_styles( array $post, string $field_name, \WP_REST_Request $request ): string { // phpcs:ignore @phpstan-ignore-line
+		$done   = [];
+		$params = $request->get_params();
+		if ( 'view' !== $params['context'] ) {
+			return '';
+		}
+
+		if ( ! isset( $params['slug'] ) && ! isset( $params['id'] ) ) {
+			return '';
+		}
+
+		$css = '';
+
+		wp_enqueue_stored_styles();
+		if ( isset( wp_styles()->registered['core-block-supports']->extra['after'] ) ) {
+			$css = end( wp_styles()->registered['core-block-supports']->extra['after'] );
+		}
+
+		$blocks = parse_blocks( get_the_content() );
+
+		return $css . $this->get_blocks_styles( $blocks, $done );
+	}
+
+	/**
+	 * Parse blocks.
+	 * TODO(tobeycodes): Review code at a later date. This is experimental.
+	 *
+	 * @param array         $blocks The blocks.
+	 * @param array<string> $done The done styles.
+	 */
+	public function get_blocks_styles( array $blocks, array &$done ): string {
+		$css = '';
+
+		foreach ( $blocks as $block ) {
+			if ( $block['innerBlocks'] ) {
+				$css .= $this->get_blocks_styles( $block['innerBlocks'], $done );
+			}
+
+			if ( ! str_starts_with( $block['blockName'] ?? '', 'core/' ) ) {
+				continue;
+			}
+
+			$handle    = str_replace( 'core/', 'wp-block-', (string) $block['blockName'] );
+			$wp_styles = wp_styles();
+			$path      = wp_styles()->get_data( $handle, 'path' );
+
+			if ( in_array( $handle, $done, true ) ) {
+				continue;
+			}
+
+			if ( ! isset( $wp_styles->registered[ $handle ] ) ) {
+				continue;
+			}
+
+			if ( ! is_string( $path ) ) {
+				continue;
+			}
+
+			$css .= file_get_contents( $path ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
+
+			$done[] = $handle;
+		}
+
+		return $css;
 	}
 
 	/**

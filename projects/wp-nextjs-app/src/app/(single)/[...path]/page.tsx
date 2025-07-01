@@ -61,7 +61,11 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
 
-			<Blocks html={data.post.content.rendered ?? ''} settings={config} />
+			<Blocks
+				html={data.post.content.rendered ?? ''}
+				settings={config}
+				styles={data.post.block_styles}
+			/>
 
 			{seo.schema && <JSONLD schema={seo.schema} />}
 
