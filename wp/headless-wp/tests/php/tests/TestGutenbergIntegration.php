@@ -660,25 +660,103 @@ RESULT;
 		$post_id = self::factory()->post->create( [ 'post_content' => $post_content ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
 		$post    = get_post( $post_id );
 
+		// Test the method directly with just the post object
+		$result = $this->parser->get_inline_block_styles( $post );
+
+		// Should return a string (even if empty in test environment)
+		$this->assertIsString( $result );
+	}
+
+	/**
+	 * Test that extend_post_content validates request parameters before adding block_styles
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_validates_request_parameters() {
+		$response       = new \WP_REST_Response();
+		$response->data = [
+			'title'   => 'Test Post',
+			'content' => [
+				'raw'      => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->',
+				'rendered' => '<p>Test content</p>',
+			],
+		];
+
+		$post_id = self::factory()->post->create( [ 'post_content' => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->' ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
+		$post    = get_post( $post_id );
+
+		// Test with wrong context - should not add block_styles
+		$request_wrong_context = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request_wrong_context->set_param( 'context', 'edit' );
+		$request_wrong_context->set_param( 'id', $post_id );
+
+		$result_wrong_context = $this->parser->extend_post_content( $response, $post, $request_wrong_context );
+		$this->assertSame( $response, $result_wrong_context );
+		$this->assertArrayNotHasKey( 'block_styles', $response->data['content'] );
+
+		// Test with no id/slug - should not add block_styles
+		$request_no_params = new \WP_REST_Request( 'GET', '/wp/v2/posts' );
+		$request_no_params->set_param( 'context', 'view' );
+		// Note: no id or slug parameter set
+
+		$result_no_params = $this->parser->extend_post_content( $response, $post, $request_no_params );
+		$this->assertSame( $response, $result_no_params );
+		$this->assertArrayNotHasKey( 'block_styles', $response->data['content'] );
+
+		// Test with correct parameters - should add block_styles
+		$request_correct = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request_correct->set_param( 'context', 'view' );
+		$request_correct->set_param( 'id', $post_id );
+
+		$result_correct = $this->parser->extend_post_content( $response, $post, $request_correct );
+		$this->assertSame( $response, $result_correct );
+		$this->assertArrayHasKey( 'block_styles', $response->data['content'] );
+		$this->assertIsString( $response->data['content']['block_styles'] );
+
+		// Test with slug parameter instead of id - should also add block_styles
+		$request_with_slug = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request_with_slug->set_param( 'context', 'view' );
+		$request_with_slug->set_param( 'slug', get_post_field( 'post_name', $post_id ) );
+
+		$result_with_slug = $this->parser->extend_post_content( $response, $post, $request_with_slug );
+		$this->assertSame( $response, $result_with_slug );
+		$this->assertArrayHasKey( 'block_styles', $response->data['content'] );
+		$this->assertIsString( $response->data['content']['block_styles'] );
+	}
+
+	/**
+	 * Test that the tenup_headless_wp_enable_block_styles filter controls block_styles addition
+	 *
+	 * @return void
+	 */
+	public function test_extend_post_content_respects_enable_block_styles_filter() {
+		$response       = new \WP_REST_Response();
+		$response->data = [
+			'title'   => 'Test Post',
+			'content' => [
+				'raw'      => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->',
+				'rendered' => '<p>Test content</p>',
+			],
+		];
+
+		$post_id = self::factory()->post->create( [ 'post_content' => '<!-- wp:paragraph --><p>Test content</p><!-- /wp:paragraph -->' ] ); // phpcs:ignore Generic.Files.LineLength.TooLong
+		$post    = get_post( $post_id );
+
 		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
 		$request->set_param( 'context', 'view' );
 		$request->set_param( 'id', $post_id );
 
-		// Test the method directly
-		$result = $this->parser->get_inline_block_styles( $post, $request );
+		// Test with filter returning false - should not add block_styles
+		add_filter( 'tenup_headless_wp_enable_block_styles', '__return_false' );
 
-		// Should return a string (even if empty in test environment)
-		$this->assertIsString( $result );
+		$response = $this->parser->extend_post_content( $response, $post, $request );
+		$this->assertArrayNotHasKey( 'block_styles', $response->data['content'] );
 
-		// Test with wrong context - should return empty
-		$request->set_param( 'context', 'edit' );
-		$result_wrong_context = $this->parser->get_inline_block_styles( $post, $request );
-		$this->assertSame( '', $result_wrong_context );
+		remove_filter( 'tenup_headless_wp_enable_block_styles', '__return_false' );
 
-		// Test with no id/slug - should return empty
-		$request_no_params = new \WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request_no_params->set_param( 'context', 'view' );
-		$result_no_params = $this->parser->get_inline_block_styles( $post, $request_no_params );
-		$this->assertSame( '', $result_no_params );
+		// Test with filter returning true (default) - should add block_styles
+		$response = $this->parser->extend_post_content( $response, $post, $request );
+		$this->assertArrayHasKey( 'block_styles', $response->data['content'] );
+		$this->assertIsString( $response->data['content']['block_styles'] );
 	}
 }

@@ -30,21 +30,11 @@ class Gutenberg {
 	 * Get inline block styles.
 	 *
 	 * @param \WP_Post         $post    The post.
-	 * @param \WP_REST_Request $request The REST request.
 	 *
 	 * @return string
 	 */
-	public function get_inline_block_styles( \WP_Post $post, \WP_REST_Request $request ): string { // phpcs:ignore @phpstan-ignore-line
+	public function get_inline_block_styles( \WP_Post $post ): string { // phpcs:ignore @phpstan-ignore-line
 		$done   = [];
-		$params = $request->get_params();
-		if ( 'view' !== $params['context'] ) {
-			return '';
-		}
-
-		if ( ! isset( $params['slug'] ) && ! isset( $params['id'] ) ) {
-			return '';
-		}
-
 		$css = '';
 
 		wp_enqueue_stored_styles();
@@ -87,7 +77,26 @@ class Gutenberg {
 			return $data;
 		}
 
-		$data->data['content']['block_styles'] = $this->get_inline_block_styles( $post, $request );
+		$params = $request->get_params();
+
+		if ( 'view' !== $params['context'] ) {
+			return $data;
+		}
+
+		if ( ! isset( $params['slug'] ) && ! isset( $params['id'] ) ) {
+			return $data;
+		}
+
+		/**
+		 * Filter whether to enable block styles in the REST API response.
+		 *
+		 * @param bool $enable Whether to enable block styles. Default true.
+		 */
+		if ( ! apply_filters( 'tenup_headless_wp_enable_block_styles', true ) ) {
+			return $data;
+		}
+
+		$data->data['content']['block_styles'] = $this->get_inline_block_styles( $post );
 
 		return $data;
 	}
