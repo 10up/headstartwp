@@ -29,11 +29,11 @@ class Gutenberg {
 	/**
 	 * Get inline block styles.
 	 *
-	 * @param \WP_Post         $post    The post.
+	 * @param \WP_Post $post    The post.
 	 *
 	 * @return string
 	 */
-	public function get_inline_block_styles( \WP_Post $post ): string { // phpcs:ignore @phpstan-ignore-line
+	public function get_inline_block_styles( \WP_Post $post ): string {
 		$done   = [];
 		$css = '';
 
