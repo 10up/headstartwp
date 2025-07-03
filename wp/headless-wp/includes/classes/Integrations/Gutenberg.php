@@ -45,8 +45,13 @@ class Gutenberg {
 	 * @return string
 	 */
 	public function get_inline_block_styles( \WP_Post $post ): string {
-		$done = [];
-		$css  = function_exists( 'wp_get_global_stylesheet' ) ? wp_get_global_stylesheet() : '';
+		/**
+		 * Filter whether to load the global stylesheet.
+		 *
+		 * @param bool $should_load_global_stylesheet Whether to load the global stylesheet.
+		 */
+		$should_load_global_stylesheet = apply_filters( 'tenup_headless_wp_load_global_stylesheet', function_exists( 'wp_get_global_stylesheet' ) );
+		$css                           = $should_load_global_stylesheet ? wp_get_global_stylesheet() : '';
 
 		if ( function_exists( 'wp_enqueue_stored_styles' ) ) {
 			wp_enqueue_stored_styles();
@@ -56,6 +61,7 @@ class Gutenberg {
 		}
 
 		$blocks = parse_blocks( $post->post_content );
+		$done   = [];
 
 		return $css . $this->get_blocks_styles( $blocks, $done );
 	}
