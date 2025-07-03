@@ -27,27 +27,6 @@ class Gutenberg {
 	}
 
 	/**
-	 * Get inline block styles.
-	 *
-	 * @param \WP_Post $post    The post.
-	 *
-	 * @return string
-	 */
-	public function get_inline_block_styles( \WP_Post $post ): string {
-		$done   = [];
-		$css = '';
-
-		wp_enqueue_stored_styles();
-		if ( isset( wp_styles()->registered['core-block-supports']->extra['after'] ) ) {
-			$css = end( wp_styles()->registered['core-block-supports']->extra['after'] );
-		}
-
-		$blocks = parse_blocks( $post->post_content );
-
-		return $css . $this->get_blocks_styles( $blocks, $done );
-	}
-
-	/**
 	 * Extend content field for all public post types using REST API filters.
 	 */
 	public function extend_content_for_all_post_types() {
@@ -57,6 +36,29 @@ class Gutenberg {
 			add_filter( "rest_prepare_{$post_type}", [ $this, 'extend_post_content' ], 10, 3 );
 		}
 	}
+
+	/**
+	 * Get inline block styles.
+	 *
+	 * @param \WP_Post $post    The post.
+	 *
+	 * @return string
+	 */
+	public function get_inline_block_styles( \WP_Post $post ): string {
+		$done = [];
+		$css  = wp_get_global_stylesheet();
+
+		wp_enqueue_stored_styles();
+		if ( isset( wp_styles()->registered['core-block-supports']->extra['after'] ) ) {
+			$css = $css . end( wp_styles()->registered['core-block-supports']->extra['after'] );
+		}
+
+		$blocks = parse_blocks( $post->post_content );
+
+		return $css . $this->get_blocks_styles( $blocks, $done );
+	}
+
+
 
 	/**
 	 * Extend the content field with additional data.
@@ -83,16 +85,17 @@ class Gutenberg {
 			return $data;
 		}
 
-		if ( ! isset( $params['slug'] ) && ! isset( $params['id'] ) ) {
-			return $data;
-		}
+		$should_enable_block_styles = isset( $params['slug'] ) || isset( $params['id'] );
 
 		/**
 		 * Filter whether to enable block styles in the REST API response.
 		 *
-		 * @param bool $enable Whether to enable block styles. Default true.
+		 * @param bool                 $should_enable_block_styles Whether to enable block styles. Default true.
+		 * @param \WP_REST_Response    $data   The response object.
+		 * @param \WP_Post             $post   The post object.
+		 * @param \WP_REST_Request     $request The request object.
 		 */
-		if ( ! apply_filters( 'tenup_headless_wp_enable_block_styles', true ) ) {
+		if ( ! apply_filters( 'tenup_headless_wp_enable_block_styles', $should_enable_block_styles, $data, $post, $request ) ) {
 			return $data;
 		}
 
@@ -115,11 +118,33 @@ class Gutenberg {
 				$css .= $this->get_blocks_styles( $block['innerBlocks'], $done );
 			}
 
-			if ( ! str_starts_with( $block['blockName'] ?? '', 'core/' ) ) {
+			/**
+			 * Filter whether to process a block for styles.
+			 *
+			 * @param bool   $should_process Whether to process the block. Default true for core blocks.
+			 * @param array  $block         The block data.
+			 */
+			$should_process = apply_filters(
+				'tenup_headless_wp_process_block_styles',
+				str_starts_with( $block['blockName'] ?? '', 'core/' ),
+				$block
+			);
+
+			if ( ! $should_process ) {
 				continue;
 			}
 
-			$handle    = str_replace( 'core/', 'wp-block-', (string) $block['blockName'] );
+			/**
+			 * Filter the block style handle.
+			 *
+			 * @param string $handle     The block style handle.
+			 * @param array  $block      The block data.
+			 */
+			$handle    = apply_filters(
+				'tenup_headless_wp_block_style_handle',
+				str_replace( 'core/', 'wp-block-', (string) $block['blockName'] ),
+				$block
+			);
 			$wp_styles = wp_styles();
 			$path      = wp_styles()->get_data( $handle, 'path' );
 

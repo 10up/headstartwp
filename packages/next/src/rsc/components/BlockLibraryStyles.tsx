@@ -17,5 +17,11 @@ export const BlockLibraryStyles: React.FC<BlockLibraryStylesProps> = async ({ pa
 		return null;
 	}
 
-	return <style dangerouslySetInnerHTML={{ __html: css }} />;
+	return (
+		<style
+			id="wp-block-library-css"
+			type="text/css"
+			dangerouslySetInnerHTML={{ __html: css }}
+		/>
+	);
 };
