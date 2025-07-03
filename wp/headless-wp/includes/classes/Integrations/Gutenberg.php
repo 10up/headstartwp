@@ -46,9 +46,11 @@ class Gutenberg {
 	 */
 	public function get_inline_block_styles( \WP_Post $post ): string {
 		$done = [];
-		$css  = wp_get_global_stylesheet();
+		$css  = function_exists( 'wp_get_global_stylesheet' ) ? wp_get_global_stylesheet() : '';
 
-		wp_enqueue_stored_styles();
+		if ( function_exists( 'wp_enqueue_stored_styles' ) ) {
+			wp_enqueue_stored_styles();
+		}
 		if ( isset( wp_styles()->registered['core-block-supports']->extra['after'] ) ) {
 			$css = $css . end( wp_styles()->registered['core-block-supports']->extra['after'] );
 		}
@@ -90,7 +92,7 @@ class Gutenberg {
 		/**
 		 * Filter whether to enable block styles in the REST API response.
 		 *
-		 * @param bool                 $should_enable_block_styles Whether to enable block styles. Default true.
+		 * @param bool                 $should_enable_block_styles Whether to enable block styles. Default to requests filtered by slug or id.
 		 * @param \WP_REST_Response    $data   The response object.
 		 * @param \WP_Post             $post   The post object.
 		 * @param \WP_REST_Request     $request The request object.
