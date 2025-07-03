@@ -36,7 +36,6 @@ import { BlockRendererProps, BaseBlocksRenderer } from './BaseBlocksRenderer';
  */
 export function BlocksRenderer({ children, settings: propSettings, ...props }: BlockRendererProps) {
 	const settings = useSettings();
-
 	return (
 		<BaseBlocksRenderer {...props} settings={propSettings ?? settings}>
 			{children}
