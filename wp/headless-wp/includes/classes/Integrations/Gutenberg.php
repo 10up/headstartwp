@@ -60,8 +60,6 @@ class Gutenberg {
 		return $css . $this->get_blocks_styles( $blocks, $done );
 	}
 
-
-
 	/**
 	 * Extend the content field with additional data.
 	 *
