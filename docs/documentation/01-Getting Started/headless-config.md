@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # Configuring the Framework
 
-The `headstartwp.config.js` (previously, `headless.config.js`) file contains several config options for HeadstartWP. This file should export an object of type [HeadlessConfig](/api/modules/headstartwp_core/#headlessconfig).
+The `headstartwp.config.js` (previously, `headless.config.js`) file contains several config options for HeadstartWP. This file should export an object of type [HeadlessConfig](/api/@headstartwp/core/#headlessconfig).
 
 ## Usage with Next.js
 

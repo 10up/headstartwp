@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # The useTerms hook
 
-> The [useTerms](/api/modules/headstartwp_next#useterms) hook is the Next.js binding for the [useFetchTerms](/api/namespaces/headstartwp_core.react#usefetchterms).
+> The [useTerms](/api/@headstartwp/next/#useterms) hook is the Next.js binding for the [useFetchTerms](/api/@headstartwp/core/namespaces/react/#usefetchterms).
 
 The `useTerms` hook returns terms for a given WordPress taxonomy.
 

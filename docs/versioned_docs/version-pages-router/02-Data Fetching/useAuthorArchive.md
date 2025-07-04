@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # The useAuthorArchive Hook
 
-> The [useAuthorArchive](/api/modules/headstartwp_next#useauthorarchive) hook is the Next.js binding for the [useFetchAuthorArchive](/api/namespaces/headstartwp_core.react#usefetchauthorarchive).
+> The [useAuthorArchive](/api/@headstartwp/next/#useauthorarchive) hook is the Next.js binding for the [useFetchAuthorArchive](/api/@headstartwp/core/namespaces/react/#usefetchauthorarchive).
 
 The `useAuthorArchive` hook fetches a collection of WordPress posts from a registered post type filtered by an author.
 

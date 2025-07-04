@@ -8,7 +8,7 @@ sidebar_position: 0
 
 HeadstartWP provides seamless data-fetching for Next.js App Router using modern async/await patterns. Unlike the Pages Router which uses React hooks, the App Router leverages Server Components for efficient server-side data fetching.
 
-The data-fetching logic is powered by [strategies](/api/classes/headstartwp_core.AbstractFetchStrategy/) and abstracts the data-fetching logic.
+The data-fetching logic is powered by [strategies](/api/@headstartwp/core/classes/AbstractFetchStrategy/) and abstracts the data-fetching logic.
 
 ## App Router Data Fetching
 
