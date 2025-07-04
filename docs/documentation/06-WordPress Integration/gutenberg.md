@@ -136,7 +136,11 @@ add_filter( 'tenup_headless_wp_ensure_image_dimensions', function( $enable, $blo
 }, 10, 3 );
 ```
 
-## Core Block CSS Loading Filters
+## Core Blocks CSS Loading Filters
+
+:::warning
+The handling of core blocks css requires HeadstartWP plugin version 1.2.0 or higher.
+:::
 
 HeadstartWP provides several filters to control how core block CSS is loaded and processed in your headless site. These filters allow you to customize the CSS loading behavior for optimal performance and styling control.
 

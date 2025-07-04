@@ -268,7 +268,7 @@ The WordPress integration is handled by the `Gutenberg.php` class in the Headsta
 The integration works seamlessly without any additional configuration, but you can customize its behavior using the available filters.
 
 
-For more details on the available filters to customize block styles processing, see the [Core Block CSS Loading Filters](/learn/wordpress-integration/gutenberg#core-block-css-loading-filters) section.
+For more details on the available filters to customize block styles processing, see the [Core Block CSS Loading Filters](/learn/wordpress-integration/gutenberg#core-blocks-css-loading-filters) section.
 
 
 ### Performance Considerations
