@@ -1,6 +1,6 @@
 {
   "name": "@headstartwp/block-primitives",
-  "version": "0.1.0-next.1",
+  "version": "0.1.0",
   "description": "A set of Gutenberg Primitives for authoring react components that can be shared with the block editor",
   "homepage": "https://github.com/10up/headstartwp/blob/develop/packages/primitives/README.md",
   "license": "MIT",
@@ -66,7 +66,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@headstartwp/core": "^1.5.0-next.10",
+    "@headstartwp/core": "^1.5.0",
     "@types/wordpress__block-library": "^2.6.3",
     "@types/wordpress__block-editor": "^11.5.12"
   },

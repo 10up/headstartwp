@@ -150,6 +150,11 @@ export interface BlockRendererProps {
 	 * An optional context that is passed to all children components
 	 */
 	blockContext?: Record<string, unknown>;
+
+	/**
+	 * The block styles to be applied to the blocks.
+	 */
+	blockStyles?: string;
 }
 
 interface BaseBlockRendererProps extends BlockRendererProps {
@@ -189,6 +194,7 @@ export function BaseBlocksRenderer({
 	settings,
 	forwardBlockAttributes = false,
 	blockContext,
+	blockStyles,
 }: BaseBlockRendererProps) {
 	const blocks: ReactNode[] = React.Children.toArray(children);
 
@@ -293,5 +299,16 @@ export function BaseBlocksRenderer({
 		},
 	};
 
-	return <>{parse(cleanedHTML, options)}</>;
+	return (
+		<>
+			{blockStyles && (
+				<style
+					id="core-block-supports-inline-css"
+					type="text/css"
+					dangerouslySetInnerHTML={{ __html: blockStyles }}
+				/>
+			)}
+			{parse(cleanedHTML, options)}
+		</>
+	);
 }

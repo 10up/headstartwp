@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 # Configuring the Framework
 
-The `headstartwp.config.js` (previously, `headless.config.js`) file contains several config options for HeadstartWP. This file should export an object of type [HeadlessConfig](/api/modules/headstartwp_core/#headlessconfig).
+The `headstartwp.config.js` (previously, `headless.config.js`) file contains several config options for HeadstartWP. This file should export an object of type [HeadlessConfig](/api/@headstartwp/core/#headlessconfig).
 
 ## Usage with Next.js
 
@@ -45,7 +45,7 @@ module.exports = {
 
 ## Splitting client/server config
 
-You can split the config between a client and a server config. This is needed when you're setting up [cache handler](/learn/data-fetching/caching/).
+You can split the config between a client and a server config. This is needed when you're setting up [cache handler](/learn/pages-router/data-fetching/caching/).
 
 Simply create a `headstartwp.config.client.js` and a `headstartwp.config.server.js` file and HeadstartWP will pick them up and inject on the appropriate bundle.
 
@@ -96,9 +96,9 @@ usePosts({ postType:'book', perPage: 10 });
 
 The `single` option is required for several things including:
 - properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; In this case, the framework will use the `single` path to redirect the previewed post to the right path/route.
-- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/learn/data-fetching/usepost/#post-path-matching) for more info.
+- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/learn/pages-router/data-fetching/usepost/#post-path-matching) for more info.
 
-It is also possible to pass a function, when doing so the default post types (post and pages) will be passed to the function. The code snipped below will disable [post path mapping](/learn/data-fetching/usepost/#post-path-matching) to the default post types.
+It is also possible to pass a function, when doing so the default post types (post and pages) will be passed to the function. The code snipped below will disable [post path mapping](/learn/pages-router/data-fetching/usepost/#post-path-matching) to the default post types.
 
 ```js title="headstartwp.config.js"
 module.exports = {
@@ -201,10 +201,10 @@ This route would automatically handle the following URLs:
 - /books/genre/genre-name/page/2 -> paginate books filtered by genre
 
 :::caution
-The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
+The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/pages-router/data-fetching/prefetching) for instructions.
 :::
 
-It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable [archive path matching](/learn/data-fetching/useposts#archive-path-matching).
+It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable [archive path matching](/learn/pages-router/data-fetching/useposts#archive-path-matching).
 
 ```js title="headstartwp.config.js"
 module.exports = {
@@ -281,8 +281,8 @@ module.exports = {
 }
 ```
 
-More for info check out the [preview docs](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).
+More for info check out the [preview docs](/learn/pages-router/wordpress-integration/previews#the-usepostlinkforredirect-setting).
 
 ## cache
 
-See [caching](/learn/data-fetching/caching/) docs.
+See [caching](/learn/pages-router/data-fetching/caching/) docs.

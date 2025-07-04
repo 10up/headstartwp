@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # The useSearch hook
 
-> The [useSearch](/api/modules/headstartwp_next#usesearch) hook is the Next.js binding for the [useFetchSearch](/api/namespaces/headstartwp_core.react#usefetchsearch).
+> The [useSearch](/api/@headstartwp/next/#usesearch) hook is the Next.js binding for the [useFetchSearch](/api/@headstartwp/core/namespaces/react/#usefetchsearch).
 
 The `useSearch` hook searches for WordPress posts from a registered post type.
 
@@ -48,9 +48,9 @@ The route will automatically render the latest 10 posts if no search term is pro
 
 ## QueriedObject
 
-The `useSearch` hook also exposes a `queriedObject`. See [usePosts docs](/learn/data-fetching/useposts/#queried-object) for more info.
+The `useSearch` hook also exposes a `queriedObject`. See [usePosts docs](/learn/pages-router/data-fetching/useposts/#queried-object) for more info.
 
-The queried object for for this hook is an object of type [SearchEntity](/api/interfaces/headstartwp_core.SearchEntity/).
+The queried object for for this hook is an object of type [SearchEntity](/api/@headstartwp/core/interfaces/SearchEntity/).
 
 ## Known limitations
 

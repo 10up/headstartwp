@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # The usePost hook
 
-> The [usePost](/api/modules/headstartwp_next#usepost) hook is the Next.js binding for the [useFetchPost](/api/namespaces/headstartwp_core.react#usefetchpost).
+> The [usePost](/api/@headstartwp/next/#usepost) hook is the Next.js binding for the [useFetchPost](/api/@headstartwp/core/namespaces/react/#usefetchpost).
 
 The `usePost` hook fetches a single WordPress post from a registered post type. Its basic usage is very simple.
 
@@ -67,7 +67,7 @@ Example where path does not match but is redirected to the right one:
 - User visits URL `/post-name`
 - The post with the `post-name` slug contains a `http://backend.com/2022/10/30/post-name` url
 - Since the URL and the path of `post.link` do not match, a NotFound error is thrown
-- If prefetching is setup following [pre-fetching](/learn/data-fetching/prefetching) and `redirectStrategy` is set to "404" or "always" in `headstartwp.config.js`, `handleError` will then look if there's a redirect available and since WordPress redirects `/post-name` to `/2022/10/30/post-name`, the framework will also perform the redirect.
+- If prefetching is setup following [pre-fetching](/learn/pages-router/data-fetching/prefetching) and `redirectStrategy` is set to "404" or "always" in `headstartwp.config.js`, `handleError` will then look if there's a redirect available and since WordPress redirects `/post-name` to `/2022/10/30/post-name`, the framework will also perform the redirect.
 
 
 ### Fetching from multiple post types

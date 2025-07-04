@@ -3,7 +3,7 @@ import {
 	SettingsProvider,
 	ThemeSettingsProvider,
 } from '@headstartwp/core/react';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { AppEntity } from '@headstartwp/core';
 
 type HeadstartWPAppProps = {

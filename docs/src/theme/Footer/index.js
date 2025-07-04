@@ -23,7 +23,7 @@ export default function FooterWrapper(props) {
 						<p>
 							Open source, MIT licensed.
 							<br />
-							<span className="copyright">Copyright &copy; 2023</span>
+							<span className="copyright">Copyright &copy; 2025</span>
 						</p>
 					</div>
 				</div>
@@ -40,7 +40,7 @@ export default function FooterWrapper(props) {
 						/>
 					</a>
 					<p>
-						Finely crafted by 10up, ©2023.
+						Finely crafted by 10up, ©2025.
 						{/* <br />
 						<a href="https://docs.google.com/document/d/1SC7f6WQs8xN4bJyZ51cn9DFcSf6BhxprfbF9JkYYgOE/edit">
 							Privacy Policy

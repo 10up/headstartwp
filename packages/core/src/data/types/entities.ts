@@ -29,6 +29,10 @@ export interface Rendered {
 	[k: string]: unknown;
 }
 
+export interface RenderedWithBlockStyles extends Rendered {
+	block_styles?: string;
+}
+
 /**
  * Base interface for all post type entities.
  *
@@ -121,7 +125,7 @@ export interface PostEntity extends PostTypeEntity {
 	/**
 	 * The content for the object.
 	 */
-	content: Rendered;
+	content: RenderedWithBlockStyles;
 
 	/**
 	 * The excerpt for the object.
@@ -186,7 +190,7 @@ export interface RevisionEntity extends PostTypeEntity {
 	/**
 	 * The content for the object.
 	 */
-	content?: Rendered;
+	content: RenderedWithBlockStyles;
 
 	/**
 	 * The excerpt for the object.
@@ -206,7 +210,7 @@ export interface PageEntity extends PostTypeEntity {
 	/**
 	 * The content for the object.
 	 */
-	content: Rendered;
+	content: RenderedWithBlockStyles;
 
 	/**
 	 * The excerpt for the object.

@@ -23,6 +23,155 @@ class Gutenberg {
 	public function register() {
 		add_filter( 'render_block', [ $this, 'render_block' ], 10, 3 );
 		add_filter( 'render_block_core/image', [ $this, 'ensure_image_has_dimensions' ], 9999, 2 );
+		add_action( 'rest_api_init', [ $this, 'extend_content_for_all_post_types' ] );
+	}
+
+	/**
+	 * Extend content field for all public post types using REST API filters.
+	 */
+	public function extend_content_for_all_post_types() {
+		$post_types = get_post_types( [ 'public' => true ], 'names' );
+
+		foreach ( $post_types as $post_type ) {
+			add_filter( "rest_prepare_{$post_type}", [ $this, 'extend_post_content' ], 10, 3 );
+		}
+	}
+
+	/**
+	 * Get inline block styles.
+	 *
+	 * @param \WP_Post $post    The post.
+	 *
+	 * @return string
+	 */
+	public function get_inline_block_styles( \WP_Post $post ): string {
+		/**
+		 * Filter whether to load the global stylesheet.
+		 *
+		 * @param bool $should_load_global_stylesheet Whether to load the global stylesheet.
+		 */
+		$should_load_global_stylesheet = apply_filters( 'tenup_headless_wp_load_global_stylesheet', function_exists( 'wp_get_global_stylesheet' ) );
+		$css                           = $should_load_global_stylesheet ? wp_get_global_stylesheet() : '';
+
+		if ( function_exists( 'wp_enqueue_stored_styles' ) ) {
+			wp_enqueue_stored_styles();
+		}
+		if ( isset( wp_styles()->registered['core-block-supports']->extra['after'] ) ) {
+			$css = $css . end( wp_styles()->registered['core-block-supports']->extra['after'] );
+		}
+
+		$blocks = parse_blocks( $post->post_content );
+		$done   = [];
+
+		return $css . $this->get_blocks_styles( $blocks, $done );
+	}
+
+	/**
+	 * Extend the content field with additional data.
+	 *
+	 * @param \WP_REST_Response $data    The response object.
+	 * @param \WP_Post          $post    The post object.
+	 * @param \WP_REST_Request  $request The request object.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function extend_post_content( \WP_REST_Response $data, \WP_Post $post, \WP_REST_Request $request ) {
+		// Only extend if content field exists
+		if ( ! isset( $data->data['content'] ) ) {
+			return $data;
+		}
+
+		if ( ! isset( $data->data['content']['rendered'] ) ) {
+			return $data;
+		}
+
+		$params = $request->get_params();
+
+		if ( 'view' !== $params['context'] ) {
+			return $data;
+		}
+
+		$should_enable_block_styles = isset( $params['slug'] ) || isset( $params['id'] );
+
+		/**
+		 * Filter whether to enable block styles in the REST API response.
+		 *
+		 * @param bool                 $should_enable_block_styles Whether to enable block styles. Default to requests filtered by slug or id.
+		 * @param \WP_REST_Response    $data   The response object.
+		 * @param \WP_Post             $post   The post object.
+		 * @param \WP_REST_Request     $request The request object.
+		 */
+		if ( ! apply_filters( 'tenup_headless_wp_enable_block_styles', $should_enable_block_styles, $data, $post, $request ) ) {
+			return $data;
+		}
+
+		$data->data['content']['block_styles'] = $this->get_inline_block_styles( $post );
+
+		return $data;
+	}
+
+	/**
+	 * Parse blocks for block styles
+	 *
+	 * @param array         $blocks The blocks.
+	 * @param array<string> $done The done styles.
+	 */
+	public function get_blocks_styles( array $blocks, array &$done ): string {
+		$css = '';
+
+		foreach ( $blocks as $block ) {
+			if ( $block['innerBlocks'] ) {
+				$css .= $this->get_blocks_styles( $block['innerBlocks'], $done );
+			}
+
+			/**
+			 * Filter whether to process a block for styles.
+			 *
+			 * @param bool   $should_process Whether to process the block. Default true for core blocks.
+			 * @param array  $block         The block data.
+			 */
+			$should_process = apply_filters(
+				'tenup_headless_wp_process_block_styles',
+				str_starts_with( $block['blockName'] ?? '', 'core/' ),
+				$block
+			);
+
+			if ( ! $should_process ) {
+				continue;
+			}
+
+			/**
+			 * Filter the block style handle.
+			 *
+			 * @param string $handle     The block style handle.
+			 * @param array  $block      The block data.
+			 */
+			$handle    = apply_filters(
+				'tenup_headless_wp_block_style_handle',
+				str_replace( 'core/', 'wp-block-', (string) $block['blockName'] ),
+				$block
+			);
+			$wp_styles = wp_styles();
+			$path      = wp_styles()->get_data( $handle, 'path' );
+
+			if ( in_array( $handle, $done, true ) ) {
+				continue;
+			}
+
+			if ( ! isset( $wp_styles->registered[ $handle ] ) ) {
+				continue;
+			}
+
+			if ( ! is_string( $path ) ) {
+				continue;
+			}
+
+			$css .= file_get_contents( $path ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
+
+			$done[] = $handle;
+		}
+
+		return $css;
 	}
 
 	/**

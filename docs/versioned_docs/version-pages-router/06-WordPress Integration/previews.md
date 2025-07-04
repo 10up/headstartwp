@@ -42,7 +42,7 @@ Below is a summary of the preview workflow.
 
 ## Usage
 
-The Next.js project **must** expose an `api/preview` endpoint that uses the [previewHandler](/api/modules/headstartwp_next/#previewhandler).
+The Next.js project **must** expose an `api/preview` endpoint that uses the [previewHandler](/api/@headstartwp/next/#previewhandler).
 
 ```javascript
 //src/pages/api/preview.js

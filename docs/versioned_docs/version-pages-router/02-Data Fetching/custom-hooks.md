@@ -90,7 +90,7 @@ useMyAppSettings.fetcher = (sourceUrl?: string) =>
 
 ## Custom Strategies
 
-Depending on what you're doing you might need to create a completely custom Fetch Strategy. A Fetch strategy must extend [AbstractFetchStrategy](/api/classes/headstartwp_core.AbstractFetchStrategy/) and it must contain all of the logic needed to fetch the data.
+Depending on what you're doing you might need to create a completely custom Fetch Strategy. A Fetch strategy must extend [AbstractFetchStrategy](/api/@headstartwp/core/classes/AbstractFetchStrategy/) and it must contain all of the logic needed to fetch the data.
 
 If you feel like to need to create a custom strategy check out the [default Fetch Strategies](https://github.com/10up/headstartwp/tree/develop/packages/core/src/data/strategies) as well as the [hooks](https://github.com/10up/headstartwp/tree/develop/packages/core/src/react/hooks) that implements them.
 

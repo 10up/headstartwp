@@ -9,7 +9,7 @@ sidebar_position: 4
 This hook was introduced in `@headstartwp/core@1.1.0` and `@headstartwp/next@1.1.0`
 :::
 
-> The [usePostOrPosts](/api/modules/headstartwp_next#usepostorposts) hook is the Next.js binding for the [useFetchPostOrPosts](/api/namespaces/headstartwp_core.react#usefetchpostorposts).
+> The [usePostOrPosts](/api/@headstartwp/next/#usepostorposts) hook is the Next.js binding for the [useFetchPostOrPosts](/api/@headstartwp/core/namespaces/react/#usefetchpostorposts).
 
 The `usePostOrPosts` fetch either a single post or a collection of posts based on the current path. It is useful when you want to prefix the archive and the single posts with the same prefix. E.g: /blog/post-name and /blog/news
 

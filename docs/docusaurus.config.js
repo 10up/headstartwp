@@ -48,18 +48,15 @@ const config = {
 			'docusaurus-plugin-typedoc',
 			{
 				name: 'HeadstartWP',
-				out: '.',
+				out: './docs',
 				entryPoints: ['../packages/core', '../packages/next'],
 				entryPointStrategy: 'packages',
+				packageOptions: {
+					entryPoints: ['src/docs-entry-point.ts'],
+				},
 				categorizeByGroup: false,
 				excludeInternal: true,
 				readme: 'none',
-				sidebar: {
-					categoryLabel: 'API reference',
-					collapsed: false,
-					position: 0,
-					fullNames: true,
-				},
 			},
 		],
 		[
@@ -74,12 +71,13 @@ const config = {
 				sidebarCollapsed: false,
 				versions: {
 					current: {
-						label: 'App Router',
-						path: 'app-router',
+						label: 'App Router (1.5+)',
+						path: '/',
+						banner: 'none',
 					},
 					'pages-router': {
 						label: 'Pages Router',
-						// path: 'pages-router',
+						path: 'pages-router',
 					},
 				},
 			},
