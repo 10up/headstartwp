@@ -30,7 +30,11 @@ const Home = async ({ params }: HeadstartWPRoute) => {
 	return (
 		<main>
 			<div>
-				<Blocks html={data.post.content.rendered ?? ''} settings={config} />
+				<Blocks
+					html={data.post.content.rendered ?? ''}
+					settings={config}
+					styles={data.post.content.block_styles ?? ''}
+				/>
 			</div>
 
 			{seo?.schema && <JSONLD schema={seo.schema} />}

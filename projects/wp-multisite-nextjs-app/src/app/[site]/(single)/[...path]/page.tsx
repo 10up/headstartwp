@@ -15,7 +15,10 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
 
-			<BlocksRenderer html={data.post.content.rendered ?? ''} />
+			<BlocksRenderer
+				html={data.post.content.rendered ?? ''}
+				blockStyles={data.post.content.block_styles ?? ''}
+			/>
 		</article>
 	);
 };

@@ -8,9 +8,10 @@ import { PostList } from './Blocks/PostList';
 type BlocksRendererProps = {
 	html: string;
 	settings: HeadlessConfig;
+	styles: string;
 };
 
-const Blocks: React.FC<BlocksRendererProps> = async ({ html, settings }) => {
+const Blocks: React.FC<BlocksRendererProps> = async ({ html, settings, styles }) => {
 	// we need to pass settings as a prop since there's no context in server components
 	// and BlocksRenderer needs the settings for the LinkBlock
 	// the settings is automatically passed to the children components via blockContext
@@ -22,6 +23,7 @@ const Blocks: React.FC<BlocksRendererProps> = async ({ html, settings }) => {
 			html={html}
 			settings={settings}
 			blockContext={{ themeJSON: data['theme.json'].settings }}
+			blockStyles={styles}
 		>
 			<ImageBlock />
 			<PostList test={(node) => isBlockByName(node, 'core/query')} />
