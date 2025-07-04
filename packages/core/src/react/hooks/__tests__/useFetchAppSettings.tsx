@@ -7,12 +7,22 @@ import { useFetchAppSettings } from '../useFetchAppSettings';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
 import { SettingsProvider } from '../../provider';
+import { setHeadstartWPConfig } from '../../../utils';
+
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
 
 describe('useFetchAppSettings types', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig(config);
+	});
+
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider settings={config}>{children}</SettingsProvider>
 			</SWRConfig>
 		);
 	};
@@ -26,8 +36,9 @@ describe('useFetchAppSettings types', () => {
 			includeCustomSettings: boolean;
 		}
 
-		const { result } = renderHook(() =>
-			useFetchAppSettings<MyAppEntity, Params>({ includeCustomSettings: true }),
+		const { result } = renderHook(
+			() => useFetchAppSettings<MyAppEntity, Params>({ includeCustomSettings: true }),
+			{ wrapper },
 		);
 		expectTypeOf(result.current.data).toMatchTypeOf<
 			| {
@@ -41,7 +52,9 @@ describe('useFetchAppSettings types', () => {
 		const spyUseFetch = jest
 			.spyOn(useFetchModule, 'useFetch')
 			.mockReturnValueOnce(mockUseFetchErrorResponse);
-		const { result } = renderHook(() => useFetchAppSettings({ includeCustomSettings: true }));
+		const { result } = renderHook(() => useFetchAppSettings({ includeCustomSettings: true }), {
+			wrapper,
+		});
 
 		const expectedKeys = ['error', 'loading', 'data', 'isMainQuery', 'mutate'];
 		const returnedKeys = Object.keys(result.current);

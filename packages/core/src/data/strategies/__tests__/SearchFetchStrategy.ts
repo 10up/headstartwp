@@ -1,10 +1,17 @@
+import { setHeadstartWPConfig } from '../../../utils';
 import { SearchFetchStrategy } from '../SearchFetchStrategy';
+
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
 
 describe('SearchFetchStrategy', () => {
 	let fetchStrategy: SearchFetchStrategy;
 
 	beforeEach(() => {
-		fetchStrategy = new SearchFetchStrategy();
+		fetchStrategy = new SearchFetchStrategy(config.sourceUrl);
+		setHeadstartWPConfig(config);
 	});
 
 	it('parses the url properly', async () => {

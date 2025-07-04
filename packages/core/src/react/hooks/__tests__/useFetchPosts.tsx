@@ -6,7 +6,7 @@ import { SWRConfig } from 'swr';
 import { PostEntity, PostsArchiveParams } from '../../../data';
 import { SettingsProvider } from '../../provider';
 import { useFetchPosts } from '../useFetchPosts';
-import { setHeadlessConfig } from '../../../utils';
+import { setHeadlessConfig, setHeadstartWPConfig } from '../../../utils';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
 
@@ -14,15 +14,15 @@ describe('useFetchPosts', () => {
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider settings={{ sourceUrl: 'https://js1.10up.com' }}>
+					{children}
+				</SettingsProvider>
 			</SWRConfig>
 		);
 	};
 
 	beforeEach(() => {
-		setHeadlessConfig({
-			useWordPressPlugin: true,
-		});
+		setHeadstartWPConfig({ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true });
 	});
 
 	it('throws errors if accessing data before fetch', async () => {
@@ -329,7 +329,8 @@ describe('useFetchPosts', () => {
 	});
 
 	it('does not throws when matchArchivepath config option is true and path matches', async () => {
-		setHeadlessConfig({
+		setHeadstartWPConfig({
+			sourceUrl: 'https://js1.10up.com',
 			useWordPressPlugin: true,
 			customTaxonomies: (defaultTaxonomies) => {
 				return defaultTaxonomies.map((taxonomy) => ({
@@ -349,7 +350,7 @@ describe('useFetchPosts', () => {
 					},
 					{},
 					// Need this bc source url removal is not working in the tests
-					'https://js1.10up.com/category/uncategorized',
+					'/category/uncategorized',
 				),
 			{
 				wrapper,

@@ -191,7 +191,13 @@ export class SinglePostFetchStrategy<
 				}
 			}
 
-			return postPath === currentPath || postPath === `/${this.locale}${currentPath}`;
+			const postPostTypeObject = getCustomPostType('post', this.baseURL);
+			const postSinglePrefix = postPostTypeObject?.single?.replace(/\/?$/, '') ?? '';
+
+			return (
+				postPath === `${postSinglePrefix}${currentPath}` ||
+				postPath === `/${this.locale}${postSinglePrefix}${currentPath}`
+			);
 		});
 	}
 
@@ -290,6 +296,7 @@ export class SinglePostFetchStrategy<
 						headers: {
 							[this.getPreviewHeaderName(options)]: authHeader,
 						},
+						cache: 'no-store',
 					},
 					burstCache,
 				);

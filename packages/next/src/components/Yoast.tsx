@@ -1,7 +1,6 @@
 import { createElement, Fragment } from 'react';
 import {
 	HTMLReactParser as parse,
-	removeSourceUrl,
 	attributesToProps,
 	DOMNode,
 	domToReact,
@@ -11,19 +10,7 @@ import {
 } from '@headstartwp/core';
 import { useSettings } from '@headstartwp/core/react';
 import Head from 'next/head.js';
-
-export function convertUrl(url: string, hostUrl: string, sourceUrl: string) {
-	if (!url.startsWith(sourceUrl)) {
-		return url;
-	}
-
-	return `${hostUrl}${removeSourceUrl({
-		link: url,
-		publicUrl: hostUrl,
-		backendUrl: sourceUrl,
-		nonEmptyLink: false,
-	})}`;
-}
+import { convertUrl } from '../utils/convertUrl';
 
 type Props = {
 	seo: {

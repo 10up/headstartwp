@@ -8,5 +8,17 @@
   "baseBranch": "trunk",
   "updateInternalDependencies": "patch",
   "privatePackages": { "version": true, "tag": false },
-  "ignore": ["@10up/wp-nextjs", "@10up/wp-multisite-nextjs", "@10up/wp-multisite-i18n-nextjs"]
+  "ignore": [
+    "@10up/wp-nextjs",
+    "@10up/wp-nextjs-app", 
+    "@10up/wp-nextjs-epio",
+    "@10up/wp-polylang-nextjs-app",
+    "@10up/wp-multisite-nextjs-app",
+    "@10up/wp-multisite-nextjs",
+    "@10up/wp-multisite-i18n-nextjs",
+    "@headstartwp/vite-react-test",
+    "@10up/wp-nextjs-universal-blocks",
+    "@headstartwp/component-library",
+    "tenup-theme"
+  ]
 }

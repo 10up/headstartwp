@@ -1,7 +1,7 @@
-import { getSiteBySourceUrl, addQueryArgs, getWPUrl } from '../../utils';
+import { getSiteBySourceUrl, addQueryArgs } from '../../utils';
 import { endpoints } from '../utils';
 import { apiGet } from '../api';
-import { PostSearchEntity, TermSearchEntity, QueriedObject } from '../types';
+import { PostSearchEntity, TermSearchEntity, QueriedObject, YoastJSON } from '../types';
 import { searchMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
 import { FetchOptions, AbstractFetchStrategy, EndpointParams } from './AbstractFetchStrategy';
@@ -124,27 +124,32 @@ export class SearchNativeFetchStrategy<
 	 */
 	async fetcher(url: string, params: Partial<P>, options: Partial<FetchOptions> = {}) {
 		const { burstCache = false } = options;
-		let seo_json: Record<string, any> = {};
+		let seo_json: YoastJSON | null = null;
 		let seo: string = '';
 
 		// Request SEO data.
-		try {
-			const wpUrl = getWPUrl().replace(/\/$/, ''); // Ensure no double slash in url param
-			const localeParam = this.locale ? `&lang=${this.locale}` : '';
-			const pageParam = params.page ? `/page/${params.page}` : '';
+		const config = getSiteBySourceUrl(this.baseURL);
+		const { integrations } = config;
 
-			const result = await apiGet(
-				addQueryArgs(`${wpUrl}${endpoints.yoast}`, {
-					url: `${wpUrl}${pageParam}/?s=${params.search ?? ''}${localeParam}`,
-				}),
-				{},
-				burstCache,
-			);
+		if (integrations?.yoastSEO?.enable === true) {
+			try {
+				const wpUrl = this.baseURL.replace(/\/$/, ''); // Ensure no double slash in url param
+				const localeParam = this.locale ? `&lang=${this.locale}` : '';
+				const pageParam = params.page ? `/page/${params.page}` : '';
 
-			seo = result.json.html ?? null;
-			seo_json = { ...result.json.json };
-		} catch (e) {
-			// do nothing
+				const result = await apiGet(
+					addQueryArgs(`${wpUrl}${endpoints.yoast}`, {
+						url: `${wpUrl}${pageParam}/?s=${params.search ?? ''}${localeParam}`,
+					}),
+					{ headers: options.headers ?? {}, cache: options?.cache },
+					burstCache,
+				);
+
+				seo = result.json.html ?? null;
+				seo_json = { ...(result.json.json as YoastJSON) };
+			} catch (e) {
+				// do nothing
+			}
 		}
 
 		const queriedObject: QueriedObject = {
@@ -153,11 +158,12 @@ export class SearchNativeFetchStrategy<
 				type: params.type ?? 'post',
 				subtype: params.subtype ?? 'post',
 				yoast_head: seo,
-				yoast_head_json: {
-					...seo_json,
-				},
 			},
 		};
+
+		if (seo_json && queriedObject.search) {
+			queriedObject.search.yoast_head_json = seo_json;
+		}
 
 		const response = await super.fetcher(url, params, {
 			...options,

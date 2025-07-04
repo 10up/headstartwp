@@ -343,3 +343,4 @@ export function isBlockByName(node: DOMNode, name: string) {
 
 export * from './wpKsesPost';
 export * from './stripTags';
+export * from './parseBlockAttributes';

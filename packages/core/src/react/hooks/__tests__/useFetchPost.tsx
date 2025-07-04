@@ -8,12 +8,18 @@ import { SettingsProvider } from '../../provider';
 import { useFetchPost } from '../useFetchPost';
 import * as useFetchModule from '../useFetch';
 import { mockUseFetchErrorResponse } from '../mocks';
+import { setHeadstartWPConfig } from '../../../utils';
 
 describe('useFetchPost', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig({ sourceUrl: 'https://js1.10up.com', useWordPressPlugin: true });
+	});
 	const wrapper = ({ children }) => {
 		return (
 			<SWRConfig value={{ provider: () => new Map() }}>
-				<SettingsProvider settings={{ sourceUrl: '' }}>{children}</SettingsProvider>
+				<SettingsProvider settings={{ sourceUrl: 'https://js1.10up.com' }}>
+					{children}
+				</SettingsProvider>
 			</SWRConfig>
 		);
 	};
@@ -240,14 +246,7 @@ describe('useFetchPost', () => {
 	it('reads param from the url and sets isMainQuery flag', async () => {
 		const { result } = renderHook(
 			() =>
-				useFetchPost(
-					{
-						fullPath:
-							'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
-					},
-					{},
-					'/modi-qui-dignissimos-sed-assumenda-sint-iusto/',
-				),
+				useFetchPost({}, {}, '/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto/'),
 			{
 				wrapper,
 			},
@@ -320,16 +319,7 @@ describe('useFetchPost', () => {
 
 	it('matches post.link with fullPath when set', async () => {
 		const { result } = renderHook(
-			() =>
-				useFetchPost(
-					{
-						// force post path mapping against this path
-						fullPath:
-							'https://js1.10up.com/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto',
-					},
-					{},
-					'/modi-qui-dignissimos-sed-assumenda-sint-iusto',
-				),
+			() => useFetchPost({}, {}, '/2020/05/07/modi-qui-dignissimos-sed-assumenda-sint-iusto'),
 			{
 				wrapper,
 			},

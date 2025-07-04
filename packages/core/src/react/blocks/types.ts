@@ -53,7 +53,12 @@ export type Spacing = {
 		right: string;
 	};
 	supportsBlockGap: boolean;
-	blockGap: string;
+	blockGap:
+		| string
+		| {
+				top: string;
+				left: string;
+		  };
 };
 
 export interface GutenbergBlockProps {
@@ -85,10 +90,6 @@ export interface IBlockAttributes {
 		width?: string;
 		spacing: Spacing;
 	};
-}
-
-export interface IDataWPBlock {
-	[key: string]: unknown;
 }
 
 export interface BlockAttributes extends Colors {

@@ -53,6 +53,11 @@ export interface FetchResponse<T> {
 	queriedObject: QueriedObject;
 }
 
+type NextJSFetchOptions = {
+	revalidate?: false | 0 | number;
+	tags?: string[];
+};
+
 /**
  * The options supported by the default fetcher method
  */
@@ -85,6 +90,18 @@ export interface FetchOptions {
 	 * Whether to burst cache by appending a timestamp to the query
 	 */
 	burstCache?: boolean;
+
+	/**
+	 * Cache option
+	 */
+	cache?: 'no-store' | 'force-cache';
+
+	/**
+	 * Headers to sent to fetch
+	 */
+	headers?: Record<string, unknown>;
+
+	next?: NextJSFetchOptions;
 }
 
 export interface FilterDataOptions<T> {
@@ -296,8 +313,8 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 	): Promise<FetchResponse<R>> {
 		const { burstCache = false } = options;
 
-		const args = {};
-		const headers: Record<string, string> = {};
+		const args: Record<string, unknown> = {};
+		const headers: Record<string, unknown> = options.headers ?? {};
 		const authHeader = this.getAuthHeader(options);
 
 		if (authHeader) {
@@ -306,13 +323,22 @@ export abstract class AbstractFetchStrategy<E, Params extends EndpointParams, R 
 
 		const previewAuthHeader = this.getPreviewAuthHeader(options);
 
+		if (options.cache) {
+			args.cache = options.cache;
+		}
+
 		if (options.previewToken) {
 			headers[this.getPreviewHeaderName(options)] = previewAuthHeader;
+			// always set cache to no store if preview token is present
+			args.cache = 'no-store';
 		}
 
 		if (Object.keys(headers).length > 0) {
-			// @ts-expect-error
 			args.headers = headers;
+		}
+
+		if (options.next) {
+			args.next = options.next;
 		}
 
 		const result = await apiGet(`${this.baseURL}${url}`, args, burstCache);

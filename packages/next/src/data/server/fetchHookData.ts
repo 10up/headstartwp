@@ -73,7 +73,15 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
-	const { sourceUrl, integrations, cache: globalCacheConfig } = getSiteFromContext(ctx);
+	const {
+		sourceUrl,
+		integrations,
+		cache: globalCacheConfig,
+		host,
+		slug,
+	} = getSiteFromContext(ctx);
+
+	const hostOrSlug = slug ?? host;
 
 	const defaultCacheTTL = 5 * 60;
 	const cacheConfig = merge<FetchStrategyCacheConfig>([
@@ -140,6 +148,7 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
 		params: finalParams,
 		urlParams,
 		path: stringPath,
+		hostOrSlug,
 		cache: {
 			enabled: shouldCache,
 			ttl: cacheTTL,
@@ -190,6 +199,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 		urlParams,
 		path,
 		cache,
+		hostOrSlug,
 	} = prepareFetchHookData(fetchStrategy, ctx, options);
 
 	const { debug, preview } = getSiteFromContext(ctx);
@@ -309,6 +319,7 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	return {
 		...normalizedData,
 		key: cacheKey,
+		hostOrSlug,
 		isMainQuery: fetchStrategy.isMainQuery(path, params),
 		additionalCacheObjects: additionalCacheObjects || null,
 	};

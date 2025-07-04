@@ -2,11 +2,16 @@ import {
 	CacheHandler,
 	CacheHandlerContext,
 	CacheHandlerValue,
-	IncrementalCache,
 } from 'next/dist/server/lib/incremental-cache';
 import Redis from 'ioredis';
 import { CacheFs } from 'next/dist/shared/lib/utils';
 import path from 'path';
+import {
+	GetIncrementalFetchCacheContext,
+	GetIncrementalResponseCacheContext,
+	SetIncrementalFetchCacheContext,
+	SetIncrementalResponseCacheContext,
+} from 'next/dist/server/response-cache/types';
 
 export function getRedisClient(lazyConnect = false) {
 	const [vipHost, vipPort] = process.env.VIP_REDIS_PRIMARY?.split(':') || [undefined, undefined];
@@ -58,6 +63,18 @@ export function initRedisClient() {
 	globalThis._nextRedisProviderRedisClient = getRedisClient();
 }
 
+function isSetIncrementalFetchCacheContext(
+	ctx: SetIncrementalFetchCacheContext | SetIncrementalResponseCacheContext,
+): ctx is SetIncrementalFetchCacheContext {
+	return 'tags' in ctx;
+}
+
+function isGetIncrementalFetchCacheContext(
+	ctx: GetIncrementalFetchCacheContext | GetIncrementalResponseCacheContext,
+): ctx is GetIncrementalFetchCacheContext {
+	return 'revalidate' in ctx;
+}
+
 export default class RedisCache implements CacheHandler {
 	private flushToDisk?: boolean;
 
@@ -80,7 +97,10 @@ export default class RedisCache implements CacheHandler {
 
 	private lazyConnect: boolean = false;
 
+	private ctx: CacheHandlerContext;
+
 	constructor(ctx: CacheHandlerContext) {
+		this.ctx = ctx;
 		this.flushToDisk = ctx.flushToDisk;
 		this.fs = ctx.fs;
 		this.serverDistDir = ctx.serverDistDir;
@@ -88,6 +108,10 @@ export default class RedisCache implements CacheHandler {
 	}
 
 	resetRequestCache(): void {}
+
+	public _getRedisClient() {
+		return this.redisClient;
+	}
 
 	/**
 	 * Builds a Redis Client based on the environment variables
@@ -125,61 +149,107 @@ export default class RedisCache implements CacheHandler {
 			const BUILD_ID = await this.fs.readFile(
 				path.join(path.dirname(this.serverDistDir), 'BUILD_ID'),
 			);
-			return BUILD_ID;
+
+			this.BUILD_ID = BUILD_ID.toString();
+
+			return this.BUILD_ID;
 		} catch (e) {
 			return '';
 		}
 	}
 
-	public async get(
-		...args: Parameters<IncrementalCache['get']>
-	): Promise<CacheHandlerValue | null> {
-		const [key, ctx] = args;
-		if (ctx?.fetchIdx || ctx?.fetchUrl) {
-			return null;
-		}
-
-		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([
+	private async getBuildIdAndConnect() {
+		return Promise.all([
 			this.getBuildId(),
 			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
 		]);
-		const value = await this.redisClient.get(`${BUILD_ID}:${key}`);
+	}
 
-		if (this.lazyConnect) {
-			this.redisClient.disconnect();
+	private buildKey(key: string) {
+		if (typeof this.BUILD_ID === 'undefined') {
+			return key;
 		}
+
+		return `${this.BUILD_ID}:${key}`;
+	}
+
+	public async get(...args: Parameters<CacheHandler['get']>): Promise<CacheHandlerValue | null> {
+		const [key, ctx] = args;
+
+		await this.getBuildIdAndConnect();
+
+		const value = await this.redisClient.get(this.buildKey(key));
 
 		if (!value) {
+			if (this.lazyConnect) {
+				this.redisClient.disconnect();
+			}
 			return null;
 		}
 
-		return JSON.parse(value) as CacheHandlerValue;
+		const parsedValue = JSON.parse(value) as CacheHandlerValue;
+		const { lastModified } = parsedValue;
+
+		if (isGetIncrementalFetchCacheContext(ctx)) {
+			const { revalidate } = ctx;
+
+			if (typeof revalidate === 'number' && typeof lastModified === 'number') {
+				const secondsSinceLastModified = Math.floor((Date.now() - lastModified) / 1000);
+				if (secondsSinceLastModified >= revalidate) {
+					await this.redisClient.del(this.buildKey(key));
+
+					const tags = ctx.tags || [];
+					for await (const tag of tags) {
+						await this.redisClient.srem(this.buildKey(`tag:${tag}`), key);
+					}
+				}
+			}
+		}
+
+		if (this.lazyConnect) {
+			this.redisClient.disconnect();
+		}
+
+		return parsedValue;
 	}
 
-	public async set(...args: Parameters<IncrementalCache['set']>): Promise<void> {
+	public async set(...args: Parameters<CacheHandler['set']>): Promise<void> {
 		const [key, data, ctx] = args;
 
-		if (!this.flushToDisk || !data || ctx.fetchCache) return;
+		if (!this.flushToDisk || !data) return;
 
-		// get build id and connect to redis
-		const [BUILD_ID] = await Promise.all([
-			this.getBuildId(),
-			this.lazyConnect ? this.redisClient.connect() : Promise.resolve(),
-		]);
+		await this.getBuildIdAndConnect();
 
-		await this.redisClient.set(
-			`${BUILD_ID}:${key}`,
-			JSON.stringify({ lastModified: Date.now(), value: data }),
-		);
+		const value = JSON.stringify({ lastModified: Date.now(), value: data });
+		const redisKey = this.buildKey(key);
+
+		await this.redisClient.set(redisKey, value);
+
+		if (isSetIncrementalFetchCacheContext(ctx)) {
+			const tags = ctx.tags || [];
+
+			for await (const tag of tags) {
+				await this.redisClient.sadd(this.buildKey(`tag:${tag}`), key);
+			}
+		}
 
 		if (this.lazyConnect) {
 			this.redisClient.disconnect();
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	async revalidateTag(_tag: string): Promise<void> {
-		// do nothing
+	async revalidateTag(_tag: string | string[]): Promise<void> {
+		await this.getBuildIdAndConnect();
+		const tags = [_tag].flat();
+
+		for await (const tag of tags) {
+			const keys = await this.redisClient.smembers(this.buildKey(`tag:${tag}`));
+
+			for await (const key of keys) {
+				await this.redisClient.del(this.buildKey(key));
+			}
+
+			await this.redisClient.del(this.buildKey(`tag:${tag}`));
+		}
 	}
 }

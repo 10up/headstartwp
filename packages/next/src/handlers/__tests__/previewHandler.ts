@@ -4,7 +4,16 @@ import { removeSourceUrl, setHeadstartWPConfig } from '@headstartwp/core';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { previewHandler } from '../previewHandler';
 
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
+
 describe('previewHandler', () => {
+	beforeAll(() => {
+		setHeadstartWPConfig(config);
+	});
+
 	it('does not accepts POST requests', async () => {
 		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
@@ -83,6 +92,7 @@ describe('previewHandler', () => {
 
 	it('preview works for custom post types', async () => {
 		setHeadstartWPConfig({
+			...config,
 			customPostTypes: [
 				{
 					slug: 'book',
@@ -291,6 +301,7 @@ describe('previewHandler', () => {
 
 	it('use post.link when preview.usePostLinkForRedirect is true', async () => {
 		setHeadstartWPConfig({
+			...config,
 			preview: { usePostLinkForRedirect: true },
 		});
 
@@ -314,6 +325,7 @@ describe('previewHandler', () => {
 	});
 
 	setHeadstartWPConfig({
+		...config,
 		preview: { usePostLinkForRedirect: false },
 	});
 });

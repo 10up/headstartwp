@@ -24,7 +24,7 @@ module.exports = withHeadstartWPConfig(nextConfig);
 ```
 :::caution
 Since `@headstartwp/next@1.2.0` you do not need to import `headstartwp.config.js` in `next.config.js` anymore, the framework will dynamically load the config.
-:::caution
+:::
 
 Here's a sample config file
 
@@ -90,15 +90,15 @@ module.exports = {
 After adding a custom post type to the config, you will be able to fetch posts from the registered post type via the slug:
 
 ```js
-usePost({ postType: ['book'] });
-usePosts({ postType:'book', perPage: 10 });
+queryPost({ params: { postType: ['book'] } });
+queryPosts({ params: { postType:'book', perPage: 10 } });
 ```
 
 The `single` option is required for several things including:
 - properly previewing custom post types when the "single" route is at a different prefix. E.g: `/book/da-vince-code` instead of `/da-vice-code`; In this case, the framework will use the `single` path to redirect the previewed post to the right path/route.
-- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug. See [post path mapping](/learn/data-fetching/usepost/#post-path-matching) for more info.
+- Matching post path permalinks with the current URL. E.g: when fetching a single custom post type the framework will filter the returned posts to the one that matches the existing URL. Therefore, the framework needs to know the single prefix url for custom post types. This is required to properly handle parent pages that share the same child slug.
 
-It is also possible to pass a function, when doing so the default post types (post and pages) will be passed to the function. The code snipped below will disable [post path mapping](/learn/data-fetching/usepost/#post-path-matching) to the default post types.
+It is also possible to pass a function, when doing so the default post types (post and pages) will be passed to the function. The code snipped below will disable post path mapping to the default post types.
 
 ```js title="headstartwp.config.js"
 module.exports = {
@@ -107,6 +107,27 @@ module.exports = {
     customPostTypes: (defaultPostTypes) => {
 		// disable post path mapping for default post types
 		return defaultPostTypes.map((postType) => ({...postType, matchSinglePath: false}));
+	}
+}
+```
+
+Another use case is if you want your posts to sit at a different prefix (e.g: `/blog`), you can change your permalinks in WordPress (e.g: `/blog/%postname/`) and update the default `post` post type so that its `sigle` property is equal to `/blog`.
+
+```js title="headstartwp.config.js"
+module.exports = {
+    sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
+    hostUrl: process.env.HOST_URL,
+    customPostTypes: (defaultPostTypes) => {
+		return defaultPostTypes.map((postType) => {
+			if (postType === 'post') {
+				return {
+					...postType,
+					single: '/blog'
+				}
+			}
+
+			return postType;
+		};
 	}
 }
 ```
@@ -141,25 +162,21 @@ module.exports = {
 After adding a custom taxonomy to the config, you will be able to filter posts by the registered taxonomy or fetch terms from it.
 
 ```js
-usePost({ postType: ['book'], genre: 'action' });
-usePosts({ postType:'book', genre: 'action', perPage: 10 });
-useTerms({ taxonomy: 'genre' });
+queryPost({ params: { postType: ['book'], genre: 'action' } });
+queryPosts({ params: { postType:'book', genre: 'action', perPage: 10 } });
+queryTerms({ params: { taxonomy: 'genre' } });
 ```
 
 Additionally, if you have an archive route such as `/blog` or `/books` filtering for all registered taxonomies works out of the box. For instance, take the headless config above the following page route:
 
-```js title=src/pages/books/[[...path]].js
-import { usePosts } from '@headstartwp/next';
-const BooksPage = () => {
-	const { data, error, loading } = usePosts({postType: 'book'});
+```js title=src/app/books/[[...path]]/page.tsx
+import { queryPosts } from '@headstartwp/next/app';
 
-	if (error) {
-		return 'error';
-	}
-
-	if (loading) {
-		return 'Loading...';
-	}
+const BooksPage = async ({ params }) => {
+	const { data } = await queryPosts({
+		routeParams: await params,
+		params: { postType: 'book' }
+	});
 
 	return (
 		<ul>
@@ -180,10 +197,10 @@ This route would automatically handle the following URLs:
 - /books/genre/genre-name/page/2 -> paginate books filtered by genre
 
 :::caution
-The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching) for instructions.
-:::caution
+The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching-data-server) for instructions.
+:::
 
-It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable [archive path matching](/learn/data-fetching/useposts#archive-path-matching).
+It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable archive path matching.
 
 ```js title="headstartwp.config.js"
 module.exports = {
@@ -243,7 +260,7 @@ module.exports = {
 
 :::info
 This feature was added in `@headstartwp/next@1.3.3` and requires the plugin version >= 1.1.2.
-:::info
+:::
 
 This option, if enabled, will use the `post.link` property of the post being previewed to redirect to the appropriate route for previewing. This can be very useful to avoid the need for providing a custom [getRedirectPath](/learn/wordpress-integration/previews#getredirectpath) implementation by telling the preview handler to simply use the post's link as returned via the WordPress `get_permalink` function.
 
@@ -262,6 +279,3 @@ module.exports = {
 
 More for info check out the [preview docs](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).
 
-## cache
-
-See [caching](/learn/data-fetching/caching/) docs.

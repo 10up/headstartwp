@@ -1,7 +1,15 @@
-import { ConfigError, HeadlessConfig } from '@headstartwp/core';
+import { ConfigError, HeadlessConfig, getSite } from '@headstartwp/core';
 import { NextConfig } from 'next';
 import fs from 'fs';
+import path from 'path';
 import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
+
+type RemotePattern = {
+	protocol?: 'http' | 'https';
+	hostname: string;
+	port?: string;
+	pathname?: string;
+};
 
 const LINARIA_EXTENSION = '.linaria.module.css';
 
@@ -16,6 +24,7 @@ const isPackageInstalled = (packageName: string): boolean => {
 
 	return false;
 };
+
 function traverse(rules) {
 	for (const rule of rules) {
 		if (typeof rule.loader === 'string' && rule.loader.includes('css-loader')) {
@@ -46,6 +55,39 @@ function traverse(rules) {
 	}
 }
 
+function readNextPackageJson() {
+	try {
+		// Use require.resolve to get the path to the package.json
+		const nextPackageJsonPath = require.resolve('next/package.json');
+		const nextPackageJson = nextPackageJsonPath
+			? JSON.parse(fs.readFileSync(nextPackageJsonPath, 'utf8'))
+			: {};
+
+		return nextPackageJson;
+	} catch (e) {
+		return {};
+	}
+}
+
+function meetsMinimumVersion(versionString: string, compareVersion: number): boolean {
+	if (versionString === 'latest') {
+		return true;
+	}
+
+	try {
+		// Remove the prefix (^, >=) from the version string
+		const cleanedVersion = versionString.replace(/^[^\d]*/, '');
+
+		// Split the version into major, minor, and patch components
+		const [major] = cleanedVersion.split('.').map(Number);
+
+		// Compare the major version number
+		return major >= compareVersion;
+	} catch (e) {
+		return false;
+	}
+}
+
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
  *
@@ -59,10 +101,14 @@ export function withHeadstartWPConfig(
 	headlessConfig: HeadlessConfig = {},
 	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
 ): NextConfig {
-	const headlessConfigPath = `${process.cwd()}/headless.config.js`;
-	const headstartWpConfigPath = `${process.cwd()}/headstartwp.config.js`;
-	const headstartWpConfigClientPath = `${process.cwd()}/headstartwp.config.client.js`;
-	const headstartWpConfigServerPath = `${process.cwd()}/headstartwp.config.server.js`;
+	const cwd = process.cwd();
+	const isUsingAppRouter =
+		fs.existsSync(path.join(cwd, 'src', 'app')) || fs.existsSync(path.join(cwd, 'app'));
+
+	const headlessConfigPath = path.resolve(cwd, 'headless.config.js');
+	const headstartWpConfigPath = path.resolve(cwd, 'headstartwp.config.js');
+	const headstartWpConfigClientPath = path.resolve(cwd, 'headstartwp.config.client.js');
+	const headstartWpConfigServerPath = path.resolve(cwd, 'headstartwp.config.server.js');
 
 	let clientConfigPath = '';
 	let serverConfigPath = '';
@@ -83,6 +129,14 @@ export function withHeadstartWPConfig(
 			clientConfigPath = headlessConfigPath;
 			serverConfigPath = headlessConfigPath;
 		}
+	}
+
+	// Normalize paths for webpack
+	if (clientConfigPath) {
+		clientConfigPath = path.normalize(clientConfigPath).replace(/\\/g, '/');
+	}
+	if (serverConfigPath) {
+		serverConfigPath = path.normalize(serverConfigPath).replace(/\\/g, '/');
 	}
 
 	if (!clientConfigPath && !serverConfigPath) {
@@ -117,19 +171,41 @@ export function withHeadstartWPConfig(
 		}
 	});
 
-	return {
+	const nextPackageJson = readNextPackageJson();
+	const useImageRemotePatterns = meetsMinimumVersion(nextPackageJson?.version ?? '', 14);
+	const imageConfig: { domains?: string[]; remotePatterns?: RemotePattern[] } = {};
+
+	if (useImageRemotePatterns) {
+		imageConfig.remotePatterns =
+			nextConfig?.images?.remotePatterns ??
+			imageDomains.map((each) => {
+				return {
+					hostname: each,
+				};
+			});
+	} else {
+		imageConfig.domains = imageDomains;
+	}
+
+	const config: NextConfig = {
 		...nextConfig,
 		images: {
 			...nextConfig.images,
-			domains: imageDomains,
+			...imageConfig,
 		},
 		async rewrites() {
 			const rewrites =
 				typeof nextConfig.rewrites === 'function' ? await nextConfig.rewrites() : [];
 
-			sites.forEach((site) => {
+			sites.forEach((rawSite) => {
+				const site = getSite(rawSite);
 				const wpUrl = site.sourceUrl;
-				const prefix = isMultisite ? '/_sites/:site' : '';
+
+				let prefix = isMultisite ? '/_sites/:site' : '';
+				if (isUsingAppRouter) {
+					prefix = isMultisite ? '/:site' : '';
+				}
+
 				const shouldRewriteYoastSEOUrls =
 					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
@@ -147,7 +223,7 @@ export function withHeadstartWPConfig(
 						destination: `${wpUrl}/feed/?rewrite_urls=1`,
 					},
 					{
-						source: '/robots.txt',
+						source: `${prefix}/robots.txt`,
 						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
@@ -181,6 +257,7 @@ export function withHeadstartWPConfig(
 				if (Array.isArray(rewrites)) {
 					rewrites.push(...defaultRewrites);
 				} else {
+					rewrites.fallback = rewrites.fallback ?? [];
 					rewrites.fallback.push(...defaultRewrites);
 				}
 			});
@@ -226,10 +303,16 @@ export function withHeadstartWPConfig(
 									return false;
 								}
 
+								if (moduleRequest.includes('node_modules')) {
+									return false;
+								}
+
 								const matched =
 									/_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
 									/middleware.(ts|js|mjs)$/.test(moduleRequest) ||
-									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest);
+									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest) ||
+									/app\/.*layout.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
+									/app\/.*.\/route.(ts|js|mjs)$/.test(moduleRequest);
 
 								return matched;
 							},
@@ -246,20 +329,29 @@ export function withHeadstartWPConfig(
 				}),
 			);
 
-			if (isPackageInstalled('@linaria/webpack-loader')) {
+			const isLinariaInstalled =
+				isPackageInstalled('@linaria/webpack-loader') ||
+				isPackageInstalled('@wyw-in-js/webpack-loader');
+
+			// only load linaria with the pages router configuration if not using app router
+			if (isLinariaInstalled && !isUsingAppRouter) {
+				const isWYWInJS = isPackageInstalled('@wyw-in-js/webpack-loader');
+
 				traverse(config.module.rules);
 				config.module.rules.push({
 					test: /\.(tsx|ts|js|mjs|jsx)$/,
 					exclude: /node_modules/,
 					use: [
 						{
-							loader: '@linaria/webpack-loader',
+							loader: isWYWInJS
+								? '@wyw-in-js/webpack-loader'
+								: '@linaria/webpack-loader',
 							options: {
 								sourceMap: process.env.NODE_ENV !== 'production',
 								...(nextConfig.linaria || {}),
 								extension: LINARIA_EXTENSION,
 								babelOptions: {
-									presets: ['next/babel', '@linaria'],
+									presets: ['next/babel', isWYWInJS ? '@wyw-in-js' : '@linaria'],
 								},
 							},
 						},
@@ -274,6 +366,17 @@ export function withHeadstartWPConfig(
 			return config;
 		},
 	};
+
+	// if i18n is sets
+	// but we are on pages router
+	// error it out!
+	if ((headlessConfig.i18n?.locales?.length ?? 0) > 0 && !isUsingAppRouter) {
+		throw new ConfigError(
+			'The `i18n` option is not supported in the pages router. In the Pages router you must set the locales in the next config',
+		);
+	}
+
+	return config;
 }
 
 export function withHeadlessConfig(

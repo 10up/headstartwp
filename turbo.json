@@ -1,19 +1,56 @@
 {
-    "$schema": "https://turborepo.org/schema.json",    
-    "pipeline": {
-        "build": {
-            "dependsOn": ["^build"],
-            "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
-        },
-        "test": {
-            "outputs": [""],
-            "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts"]
-        },
-        "lint": {
-            "outputs": [""]
-        },
-        "dev": {
-            "cache": false
-        }
+  "$schema": "https://turborepo.org/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**"
+      ]
+    },
+    "@headstartwp/next#build": {
+      "dependsOn": ["@headstartwp/core#build"],
+      "outputs": ["dist/**"]
+    },
+    "test": {
+      "dependsOn": ["@headstartwp/next#build"],
+      "outputs": [
+        ""
+      ],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ]
+    },
+    "test:watch": {
+      "persistent": true,
+      "dependsOn": ["@headstartwp/next#build"],
+      "outputs": [
+        ""
+      ],
+      "inputs": [
+        "src/**/*.tsx",
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ]
+    },
+    "lint": {
+      "outputs": [
+        ""
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["@headstartwp/next#build", "//#wp-env", "@10up/next-redis-cache-provider#build"]
+    },
+    "//#wp-env": {
+      "cache": false
     }
+  }
 }

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link shound replace internal links with next/link 1`] = `
+<div>
+  <a
+    href="/post-name"
+  />
+</div>
+`;

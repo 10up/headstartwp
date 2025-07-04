@@ -1,10 +1,17 @@
+import { setHeadstartWPConfig } from '../../../utils';
 import { AuthorArchiveFetchStrategy } from '../AuthorArchiveFetchStrategy';
+
+const config = {
+	sourceUrl: 'https://js1.10up.com',
+	useWordPressPlugin: true,
+};
 
 describe('SearchFetchStrategy', () => {
 	let fetchStrategy: AuthorArchiveFetchStrategy;
 
 	beforeEach(() => {
-		fetchStrategy = new AuthorArchiveFetchStrategy();
+		fetchStrategy = new AuthorArchiveFetchStrategy(config.sourceUrl);
+		setHeadstartWPConfig(config);
 	});
 
 	it('parses the url properly', async () => {

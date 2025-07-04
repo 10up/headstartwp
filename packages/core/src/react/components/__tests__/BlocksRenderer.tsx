@@ -1,9 +1,10 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { DOMNode, domToReact, Element } from 'html-react-parser';
 import React, { ReactElement } from 'react';
-import { isAnchorTag } from '../../../dom';
+import { isAnchorTag, isBlockByName } from '../../../dom';
 import { SettingsProvider } from '../../provider';
-import { BlockProps, BlocksRenderer } from '../BlocksRenderer';
+import { BlocksRenderer } from '../BlocksRenderer';
+import type { BlockProps } from '../BaseBlocksRenderer';
 
 describe('BlocksRenderer', () => {
 	it('renders html properly', () => {
@@ -202,5 +203,139 @@ describe('BlocksRenderer', () => {
         </div>
       </div>
 	`);
+	});
+
+	it('works correctly with chinese content', () => {
+		const StrongToDiv = ({ domNode, children }: BlockProps) => {
+			const className =
+				domNode instanceof Element ? domNode?.attribs.class || undefined : undefined;
+			return <div className={className}>{children}</div>;
+		};
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<h3 class="wp-block-heading" data-wp-block='{"level":3,"hash":"9fb25fc5-7456-4704-bffe-aa438487253b"}' data-wp-block-name="core/heading"><strong>&aelig;&acute;&raquo;&aring;&#139;&#149;&aelig;&#156;&#159;&eacute;&#150;&#147;</strong></h3>`}
+			>
+				<StrongToDiv tagName="strong" classList={['my-class']} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('forward blockProps to the component and support attaching test function directly to component', () => {
+		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p className={block?.className}>{JSON.stringify(block)}</p>;
+		};
+
+		DivToP.test = (node) => isBlockByName(node, '10up/custom-block');
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
+				forwardBlockAttributes
+			>
+				<DivToP />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('does not forward blockProps to the component for nodes that are not wp blocks', () => {
+		const DivToP = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-no-props">{JSON.stringify(block)}</p>;
+		};
+
+		render(
+			<BlocksRenderer html={`<div class="my-class""></div>`} forwardBlockAttributes>
+				<DivToP tagName="div" classList="my-class" />
+			</BlocksRenderer>,
+		);
+
+		const node = screen.getByTestId('block-no-props');
+		expect(node.textContent).toBe('');
+	});
+
+	it('forward context to the component', () => {
+		const DivToP = ({
+			block,
+			blockContext,
+		}: BlockProps<{ blockAttribute: string }, { contextProp: string }>) => {
+			return (
+				<p className={block?.className}>
+					{JSON.stringify(block)} - {JSON.stringify(blockContext)}
+				</p>
+			);
+		};
+
+		const { container } = render(
+			<BlocksRenderer
+				html={`<div class="my-class" data-wp-block-name='10up/custom-block' data-wp-block='${JSON.stringify({ blockAttribute: 'this is a block attribute' })}'></div>`}
+				forwardBlockAttributes
+				blockContext={{ contextProp: 'this is a context prop' }}
+			>
+				<DivToP test={(node) => isBlockByName(node, '10up/custom-block')} />
+			</BlocksRenderer>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('forwards block props to the component in nested blocks', () => {
+		const PToDiv = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-props">{JSON.stringify(block)}</p>;
+		};
+
+		PToDiv.test = (node) => isBlockByName(node, 'core/paragraph');
+
+		render(
+			<BlocksRenderer
+				html={`<div class="wp-block-group is-layout-grid wp-container-core-group-is-layout-478b6e6b wp-block-group-is-layout-grid" data-wp-block="{&quot;layout&quot;:{&quot;type&quot;:&quot;grid&quot;},&quot;tagName&quot;:&quot;div&quot;}" data-wp-block-name="core/group"><p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste2</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">test3</p>
+</div>`}
+				forwardBlockAttributes
+			>
+				<PToDiv />
+			</BlocksRenderer>,
+		);
+
+		const nodes = screen.getAllByTestId('block-props');
+		expect(nodes).toMatchSnapshot();
+	});
+
+	it('forwards block props to the component in nested blocks when the parent block is replaced with a custom component', () => {
+		const PToDiv = ({ block }: BlockProps<{ blockAttribute: string }>) => {
+			return <p data-testid="block-props">{JSON.stringify(block)}</p>;
+		};
+
+		PToDiv.test = (node) => isBlockByName(node, 'core/paragraph');
+
+		const CustomGroup = ({ children }: BlockProps) => {
+			return (
+				<div data-testid="custom-group" className="custom-group-wrapper">
+					{children}
+				</div>
+			);
+		};
+
+		CustomGroup.test = (node) => isBlockByName(node, 'core/group');
+
+		render(
+			<BlocksRenderer
+				html={`<div class="wp-block-group is-layout-grid wp-container-core-group-is-layout-478b6e6b wp-block-group-is-layout-grid" data-wp-block="{&quot;layout&quot;:{&quot;type&quot;:&quot;grid&quot;},&quot;tagName&quot;:&quot;div&quot;}" data-wp-block-name="core/group"><p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">teste2</p>
+<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">test3</p>
+</div>`}
+				forwardBlockAttributes
+			>
+				<CustomGroup />
+				<PToDiv />
+			</BlocksRenderer>,
+		);
+
+		const nodes = screen.getAllByTestId('block-props');
+		expect(nodes).toMatchSnapshot();
 	});
 });

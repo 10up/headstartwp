@@ -137,7 +137,23 @@ export type FetchStrategyCacheConfig = {
 	cacheHandler?: FetchStrategyCacheHandler;
 };
 
+export type I18NConfig = {
+	locales: string[];
+	defaultLocale: string;
+
+	/**
+	 * Whether HeadstartWP should try to detect the browser preferred locale
+	 *
+	 * @default true
+	 */
+	localeDetection?: boolean;
+};
+
 export type HeadlessConfig = {
+	/**
+	 * The slug of the site, this is only used for the multisite feature and it acts as an alias for the site host
+	 */
+	slug?: string;
 	host?: string;
 	locale?: string;
 	sourceUrl?: string;
@@ -149,7 +165,7 @@ export type HeadlessConfig = {
 	redirectStrategy?: RedirectStrategy;
 	useWordPressPlugin?: boolean;
 	integrations?: Integrations;
-	sites?: HeadlessConfig[];
+	i18n?: I18NConfig;
 	preview?: PreviewConfig;
 	debug?: {
 		requests?: boolean;
@@ -157,4 +173,5 @@ export type HeadlessConfig = {
 		devMode?: boolean;
 	};
 	cache?: FetchStrategyCacheConfig;
+	sites?: Array<Omit<HeadlessConfig, 'i18n'>>;
 };

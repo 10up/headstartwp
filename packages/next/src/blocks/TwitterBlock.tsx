@@ -32,12 +32,4 @@ export function TwitterBlock({ children }: Omit<IBlock<IBlockAttributes>, 'compo
 	);
 }
 
-/**
- * @internal
- */
-// eslint-disable-next-line no-redeclare
-export namespace TwitterBlock {
-	export const defaultProps = {
-		test: (node) => isTwitterEmbed(node),
-	};
-}
+TwitterBlock.test = (node) => isTwitterEmbed(node);

@@ -1,4 +1,4 @@
-import { setHeadlessConfig } from '../../../utils';
+import { getHeadstartWPConfig, setHeadlessConfig, setHeadstartWPConfig } from '../../../utils';
 import { apiGet } from '../../api';
 import { PostParams, SinglePostFetchStrategy } from '../SinglePostFetchStrategy';
 
@@ -240,6 +240,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/1/revisions?per_page=1',
 			{
+				cache: 'no-store',
 				headers: { Authorization: 'Bearer test token' },
 			},
 			false,
@@ -248,6 +249,7 @@ describe('SinglePostFetchStrategy', () => {
 			2,
 			'/wp-json/wp/v2/posts/1',
 			{
+				cache: 'no-store',
 				headers: { Authorization: 'Bearer test token' },
 			},
 			false,
@@ -281,6 +283,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/1/revisions?per_page=1',
 			{
+				cache: 'no-store',
 				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
 			},
 			false,
@@ -290,6 +293,7 @@ describe('SinglePostFetchStrategy', () => {
 			2,
 			'/wp-json/wp/v2/posts/1',
 			{
+				cache: 'no-store',
 				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
 			},
 			false,
@@ -317,6 +321,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/10',
 			{
+				cache: 'no-store',
 				headers: { Authorization: 'Bearer test token' },
 			},
 			false,
@@ -346,6 +351,7 @@ describe('SinglePostFetchStrategy', () => {
 			1,
 			'/wp-json/wp/v2/posts/10',
 			{
+				cache: 'no-store',
 				headers: { 'X-HeadstartWP-Authorization': 'Bearer test token' },
 			},
 			false,
@@ -433,20 +439,57 @@ describe('SinglePostFetchStrategy', () => {
 		});
 	});
 
-	it('handles post path mapping', async () => {
+	it.each([
+		{
+			settings: {
+				customPostTypes: [{ slug: 'post', single: '/', endpoint: '/wp-json/wp/v2/posts' }],
+			},
+			mockedData: [
+				{ title: 'test', id: 1, link: `http://sourceurl.com/%s` },
+				{
+					title: 'test',
+					id: 2,
+					link: `http://sourceurl.com/%s`,
+				},
+			],
+		},
+		{
+			settings: {
+				customPostTypes: [
+					{
+						slug: 'post',
+						single: '/blog',
+						archive: '/blog',
+						endpoint: '/wp-json/wp/v2/posts',
+					},
+				],
+			},
+			mockedData: [
+				{ title: 'test', id: 1, link: `http://sourceurl.com/blog/%s` },
+				{
+					title: 'test',
+					id: 2,
+					link: `http://sourceurl.com/blog/%s`,
+				},
+			],
+		},
+	])('handles post path mapping with and without prefix', async ({ settings, mockedData }) => {
 		const englishPostSlug = 'test';
 		const utf8EncodedPostSlug = 'لأخبار-المالية';
+		const originalSettings = getHeadstartWPConfig();
+
+		setHeadstartWPConfig({
+			...originalSettings,
+			...settings,
+		});
 
 		const post1 = {
-			title: 'test',
-			id: 1,
-			link: `http://sourceurl.com/${englishPostSlug}`,
+			...mockedData[0],
+			link: `${mockedData[0].link.replace('%s', englishPostSlug)}`,
 		};
-
 		const post2 = {
-			title: 'test',
-			id: 2,
-			link: `http://sourceurl.com/${encodeURIComponent(utf8EncodedPostSlug)}`,
+			...mockedData[1],
+			link: `${mockedData[1].link.replace('%s', encodeURIComponent(utf8EncodedPostSlug))}`,
 		};
 
 		apiGetMock.mockResolvedValue({

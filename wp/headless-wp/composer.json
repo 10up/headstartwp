@@ -41,7 +41,7 @@
     "php-stubs/wordpress-stubs": "^6.1",
     "php-stubs/wordpress-tests-stubs": "^6.1",
     "wordpress/wordpress-develop": "dev-trunk",
-    "yoast/wordpress-seo": "^22.1"
+    "yoast/wordpress-seo": "^24.9"
   },
   "autoload": {
     "psr-4": {

@@ -1,9 +1,5 @@
 import { LOGTYPE, addQueryArgs, getHeadlessConfig, log } from '../../utils';
 
-export const getAuthHeader = () => {
-	return null;
-};
-
 /**
  * Fetch Wrapper to handle POST requests
  *

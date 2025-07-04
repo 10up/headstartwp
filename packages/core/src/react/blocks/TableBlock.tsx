@@ -1,6 +1,9 @@
+'use client';
+
 import { isBlock } from '../../dom';
+import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
 import { IBlock } from '../components';
-import { defaultElement, useBlock, useBlockAttributes } from './hooks';
+import { useBlock, useBlockAttributes } from './hooks';
 import { IBlockAttributes } from './types';
 
 export interface TableBlockProps extends IBlockAttributes {
@@ -10,7 +13,7 @@ export interface TableBlockProps extends IBlockAttributes {
 export interface ITableBlock extends IBlock<TableBlockProps> {}
 
 export function TableBlock({
-	domNode: node = defaultElement,
+	domNode: node = DEFAULT_BLOCK_ELEMENT,
 	children,
 	component: Component,
 	style,

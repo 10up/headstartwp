@@ -19,7 +19,7 @@ export const setHeadlessConfig = setHeadstartWPConfig;
  *
  * @returns The contents of headless.config.js
  */
-export function getHeadstartWPConfig() {
+export function getHeadstartWPConfig(): HeadlessConfig {
 	const {
 		customPostTypes,
 		redirectStrategy,
@@ -32,6 +32,9 @@ export function getHeadstartWPConfig() {
 		debug,
 		preview,
 		cache,
+		locale,
+		i18n,
+		slug,
 	} = __10up__HEADLESS_CONFIG;
 
 	const defaultTaxonomies: CustomTaxonomies = [
@@ -73,6 +76,8 @@ export function getHeadstartWPConfig() {
 			: [...(customPostTypes || []), ...defaultPostTypes];
 
 	const headlessConfig = {
+		slug,
+		locale,
 		sourceUrl,
 		hostUrl: hostUrl || '',
 		customPostTypes: postTypes,
@@ -83,6 +88,7 @@ export function getHeadstartWPConfig() {
 		debug,
 		preview,
 		cache,
+		i18n,
 		sites: (sites || []).map((site) => {
 			// if host is not defined but hostUrl is, infer host from hostUrl
 			if (typeof site.host === 'undefined' && typeof site.hostUrl !== 'undefined') {
@@ -115,6 +121,7 @@ export const getHeadlessConfig = getHeadstartWPConfig;
 export function getSite(site?: HeadlessConfig) {
 	const settings = getHeadstartWPConfig();
 	const headlessConfig: HeadlessConfig = {
+		slug: site?.slug,
 		sourceUrl: site?.sourceUrl || settings.sourceUrl,
 		hostUrl: site?.hostUrl,
 		host: site?.host,
@@ -154,7 +161,7 @@ export function getSiteByHost(hostOrUrl: string, locale?: string) {
 	const site =
 		settings.sites &&
 		settings.sites.find((site) => {
-			const isHost = site.host === normalizedHost;
+			const isHost = site.host === normalizedHost || site.slug === normalizedHost;
 
 			if (typeof locale !== 'undefined' && locale) {
 				return isHost && site.locale === locale;
