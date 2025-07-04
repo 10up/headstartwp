@@ -48,18 +48,15 @@ const config = {
 			'docusaurus-plugin-typedoc',
 			{
 				name: 'HeadstartWP',
-				out: '.',
+				out: './docs',
 				entryPoints: ['../packages/core', '../packages/next'],
 				entryPointStrategy: 'packages',
+				packageOptions: {
+					entryPoints: ['src/docs-entry-point.ts'],
+				},
 				categorizeByGroup: false,
 				excludeInternal: true,
 				readme: 'none',
-				sidebar: {
-					categoryLabel: 'API reference',
-					collapsed: false,
-					position: 0,
-					fullNames: true,
-				},
 			},
 		],
 		[

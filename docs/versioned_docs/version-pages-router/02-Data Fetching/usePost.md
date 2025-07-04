@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # The usePost hook
 
-> The [usePost](/api/modules/headstartwp_next#usepost) hook is the Next.js binding for the [useFetchPost](/api/namespaces/headstartwp_core.react#usefetchpost).
+> The [usePost](/api/@headstartwp/next/#usepost) hook is the Next.js binding for the [useFetchPost](/api/@headstartwp/core/namespaces/react/#usefetchpost).
 
 The `usePost` hook fetches a single WordPress post from a registered post type. Its basic usage is very simple.
 

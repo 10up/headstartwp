@@ -35,7 +35,7 @@ fetchHookData(
 );
 ```
 
-`fetchHookData` cache params support the same parameters as the [cache](/api/modules/headstartwp_core/#fetchstrategycacheconfig) property of the global config.
+`fetchHookData` cache params support the same parameters as the [cache](/api/@headstartwp/core/#fetchstrategycacheconfig) property of the global config.
 
 ```js title="Enabling caching in headstartwp.config.server.js"
 const baseConfig = require('./headstartwp.config.client');

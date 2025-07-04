@@ -44,7 +44,7 @@ Below is a summary of the preview workflow.
 
 ## Usage
 
-The Next.js App Router project **must** expose an `app/api/preview/route.ts` endpoint that uses the [previewRouteHandler](/api/modules/headstartwp_next/#previewroutehandler).
+The Next.js App Router project **must** expose an `app/api/preview/route.ts` endpoint that uses the [previewRouteHandler](/api/@headstartwp/next/#previewroutehandler).
 
 ```typescript title="app/api/preview/route.ts"
 import { previewRouteHandler } from '@headstartwp/next/app';
