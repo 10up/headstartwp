@@ -60,8 +60,6 @@ export async function GET(request: NextRequest) {
 
 That's all that is needed to enable WordPress preview.
 
-While previewing, the URL will not reflect the actual URL of the post, but instead, it will contain the post id and a `-preview` suffix (unless using `usePostLinkForRedirect`).
-
 ### `previewRouteHandler` options
 
 #### `preparePreviewData`
@@ -90,7 +88,7 @@ The custom fields would now be available in the preview cookie data.
 #### `getRedirectPath`
 
 :::tip
-A better alternative is using `preview.usePostLinkForRedirect`. With this setting, you can set up previews so that it uses the `post.link` property of the post for redirecting to the appropriate path/route. This requires that your WordPress permalink matches the Next.js route structure. Check out the docs for [preview.usePostLinkForRedirect](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).
+A better alternative is using `preview.usePostLinkForRedirect`. With this setting, you can set up previews so that it uses the `post.link` property of the post for redirecting to the appropriate path/route. This requires that your WordPress permalink matches the Next.js route structure. Check out the docs for [preview.usePostLinkForRedirect](/learn/app-router/wordpress-integration/previews#the-usepostlinkforredirect-setting).
 :::
 
 The `getRedirectPath` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts is `/%category%/%postname%/` you could create a `/app/[category]/[...path]/page.tsx` route to handle single post.
@@ -128,10 +126,6 @@ Instead of implementing `onRedirect` we recommend implementing `getRedirectPath`
 
 The `onRedirect` gives you full access to the request object and allows custom redirect handling. When using this option, you must handle the redirect yourself.
 
-:::caution
-When handling redirects yourself, make sure to always append `-preview=true` to the end of the redirected URL.
-:::
-
 ```typescript title="app/api/preview/route.ts"
 import { previewRouteHandler } from '@headstartwp/next/app';
 import type { NextRequest } from 'next/server';
@@ -141,70 +135,10 @@ export async function GET(request: NextRequest) {
 	return previewRouteHandler(request, {
 		onRedirect({ req, redirectPath, previewData, postTypeDef, post }) {
 			// Custom redirect logic
-			const customPath = `/custom/${post.type}/${post.id}-preview=true`;
+			const customPath = `/custom/${post.type}/${post.id}`;
 			redirect(customPath);
 		},
 	});
-}
-```
-
-## Using Draft Mode in App Router Components
-
-In App Router components, you can check if you're in draft mode and access the preview data:
-
-```tsx title="app/[...path]/page.tsx"
-import { queryPost } from '@headstartwp/next/app';
-import { draftMode, cookies } from 'next/headers';
-import type { HeadstartWPRoute } from '@headstartwp/next/app';
-import { SafeHtml } from '@headstartwp/core/react';
-
-export default async function PostPage({ params }: HeadstartWPRoute) {
-	const { isEnabled } = draftMode();
-	
-	// Access preview data from cookie if in draft mode
-	let previewData = null;
-	if (isEnabled) {
-		const cookiesStore = await cookies();
-		const previewCookie = cookiesStore.get('headstartwp_preview');
-		if (previewCookie) {
-			try {
-				previewData = JSON.parse(previewCookie.value);
-			} catch (e) {
-				// Handle parsing error
-			}
-		}
-	}
-	
-	const { data } = await queryPost({
-		routeParams: await params,
-		params: {
-			postType: ['post', 'page'],
-			// Use preview data if available
-			...(previewData && {
-				id: previewData.id,
-				revision: previewData.revision,
-				authToken: previewData.authToken,
-			}),
-		},
-		options: {
-			// Use different fetch strategy for preview
-			cache: isEnabled ? 'no-store' : 'force-cache',
-		},
-	});
-	
-	return (
-		<article>
-			{isEnabled && (
-				<div className="preview-banner">
-					<p>⚠️ This is a preview</p>
-					<a href="/api/preview/exit">Exit Preview</a>
-				</div>
-			)}
-			
-			<h1>{data.post.title.rendered}</h1>
-			<SafeHtml html={data.post.content.rendered} />
-		</article>
-	);
 }
 ```
 
@@ -269,141 +203,66 @@ export async function GET(request: NextRequest) {
 	const redirectPath = searchParams.get('redirect') || '/';
 	
 	// Disable draft mode
-	const { disable } = await draftMode();
-	await disable();
-	
-	// Clear the preview cookie
-	const cookiesStore = await cookies();
-	cookiesStore.delete('headstartwp_preview');
+	const draft = await draftMode();
+	draft.disable();
 	
 	redirect(redirectPath);
 }
 ```
 
-## Advanced Examples
+## Custom Post Type Previews
 
-### Custom Post Type Previews
+For preview functionality to work with custom post types, they must be properly configured in your `headstartwp.config.js` file. This ensures HeadstartWP can properly handle preview requests and redirect to the correct Next.js routes.
 
-```tsx title="app/products/[...path]/page.tsx"
-import { queryPost } from '@headstartwp/next/app';
-import { draftMode, cookies } from 'next/headers';
-import type { Metadata } from 'next';
-import { PreviewBanner } from '../../../components/PreviewBanner';
-import type { HeadstartWPRoute } from '@headstartwp/next/app';
-import { SafeHtml } from '@headstartwp/core/react';
+### Configuration Requirements
 
-export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
-	const { isEnabled } = draftMode();
-	
-	// Get preview data if in draft mode
-	let queryParams: any = { postType: 'product' };
-	if (isEnabled) {
-		const cookiesStore = await cookies();
-		const previewCookie = cookiesStore.get('headstartwp_preview');
-		if (previewCookie) {
-			try {
-				const previewData = JSON.parse(previewCookie.value);
-				queryParams = {
-					...queryParams,
-					id: previewData.id,
-					revision: previewData.revision,
-					authToken: previewData.authToken,
-				};
-			} catch (e) {
-				// Handle parsing error
-			}
-		}
-	}
-	
-	const { seo } = await queryPost({
-		routeParams: await params,
-		params: queryParams,
-		options: {
-			cache: isEnabled ? 'no-store' : 'force-cache',
+Custom post types need to be defined in the `customPostTypes` section of your config:
+
+```javascript title="headstartwp.config.js"
+module.exports = {
+	// other configs...
+	customPostTypes: [
+		{
+			slug: 'news',
+			// The 'single' property must match your Next.js route structure
+			single: '/news',
+			archive: '/news',
 		},
-	});
-	
-	return {
-		...seo.metadata,
-		robots: isEnabled ? 'noindex,nofollow' : seo.metadata.robots,
-	};
-}
-
-export default async function ProductPage({ params }: HeadstartWPRoute) {
-	const { isEnabled } = draftMode();
-	
-	// Get preview data if in draft mode
-	let queryParams: any = { postType: 'product' };
-	if (isEnabled) {
-		const cookiesStore = await cookies();
-		const previewCookie = cookiesStore.get('headstartwp_preview');
-		if (previewCookie) {
-			try {
-				const previewData = JSON.parse(previewCookie.value);
-				queryParams = {
-					...queryParams,
-					id: previewData.id,
-					revision: previewData.revision,
-					authToken: previewData.authToken,
-				};
-			} catch (e) {
-				// Handle parsing error
-			}
-		}
-	}
-	
-	const { data } = await queryPost({
-		routeParams: await params,
-		params: queryParams,
-		options: {
-			cache: isEnabled ? 'no-store' : 'force-cache',
+		{
+			slug: 'products',
+			single: '/products',
+			archive: '/products',
 		},
-	});
-	
-	return (
-		<article>
-			<PreviewBanner />
-			
-			<h1>{data.post.title.rendered}</h1>
-			<SafeHtml html={data.post.content.rendered} />
-			
-			{/* Product-specific content */}
-			<div className="product-details">
-				<p>Price: {data.post.acf?.price}</p>
-				<p>SKU: {data.post.acf?.sku}</p>
-			</div>
-		</article>
-	);
-}
+	],
+	preview: {
+		usePostLinkForRedirect: true,
+	},
+};
 ```
 
-### Layout with Preview Banner
+### Key Points
 
-```tsx title="app/layout.tsx"
-import { PreviewBanner } from '../components/PreviewBanner';
+- **`slug`**: Must match the custom post type slug registered in WordPress
+- **`single`**: Must match the route prefix in your Next.js application (e.g., if your route is `app/news/[slug]/page.tsx`, the single property should be `/news`)
+- **`archive`**: The path to the archive page for this post type
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
-	return (
-		<html lang="en">
-			<body>
-				<PreviewBanner />
-				
-				<main style={{ paddingTop: '60px' }}>
-					{children}
-				</main>
-			</body>
-		</html>
-	);
-}
+### Example Route Structure
+
+If you have a custom post type `news` configured as above, your Next.js file structure should look like:
+
 ```
+app/
+├── news/
+│   ├── page.tsx          // Archive page (/news)
+│   └── [slug]/
+│       └── page.tsx      // Single post page (/news/post-slug)
+```
+
+Without proper configuration in `headstartwp.config.js`, preview functionality will not work for custom post types, and you may encounter errors when attempting to preview posts.
 
 ## The `usePostLinkForRedirect` setting
 
-The `preview.usePostLinkForRedirect` setting tells the preview handler to use the actual post permalink to figure out where it should redirect to. With this setting, previewing a post will automatically redirect to a route in Next.js based on the permalink structure set in WordPress.
+The `preview.usePostLinkForRedirect` setting in `headstartwp.config.js`tells the preview handler to use the actual post permalink to figure out where it should redirect to. With this setting, previewing a post will automatically redirect to a route in Next.js based on the permalink structure set in WordPress.
 
 As an example, let's say you have a custom post type called `news` and its permalink structure is `/news/news-name`. If your Next.js URL structure strictly follows that pattern you would have a route at `app/news/[...path]/page.tsx`. Therefore HeadstartWP can infer the proper path to a preview request for a post of type `news`.
 
@@ -472,7 +331,7 @@ The JWT token expires after 5 min by default, after this period, open another pr
 
 **I'm unable to preview a custom post type**
 
-Make sure you defined the right `single` property when registering the custom post type. See [headless config docs](/learn/getting-started/headless-config/#customposttypes). The `single` property must match the route prefix for the custom post type.
+Make sure you defined the right `single` property when registering the custom post type. See [headless config docs](/learn/app-router/getting-started/headless-config/#customposttypes). The `single` property must match the route prefix for the custom post type.
 
 **I have a custom authentication using the Authorization header, how can I use the preview functionality?**
 
@@ -491,29 +350,6 @@ module.exports = {
 
 This will tell HeadstartWP to use an alternative header (`X-HeadstartWP-Authorization`) instead of the default `Authorization` header.
 
-**How do I handle previews in a multi-site setup?**
-
-For multi-site setups, you may need to handle different preview endpoints per site:
-
-```typescript title="app/api/preview/route.ts"
-import { previewRouteHandler } from '@headstartwp/next/app';
-import type { NextRequest } from 'next/server';
-
-export async function GET(request: NextRequest) {
-	const { searchParams } = new URL(request.url);
-	const siteId = searchParams.get('site_id');
-	
-	return previewRouteHandler(request, {
-		getRedirectPath({ req, defaultRedirectPath, post, postTypeDef, previewData }) {
-			// Add site prefix for multi-site setup
-			if (siteId && siteId !== '1') {
-				return `/site-${siteId}${defaultRedirectPath}`;
-			}
-			return defaultRedirectPath;
-		},
-	});
-}
-```
 
 **How do I access the preview data in my components?**
 

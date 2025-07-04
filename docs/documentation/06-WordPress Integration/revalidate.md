@@ -73,6 +73,7 @@ You can provide a custom callback function to perform additional actions after r
 
 ```typescript title="app/api/revalidate/route.ts"
 import { revalidateRouteHandler } from '@headstartwp/next/app';
+import { revalidateTag } from 'next/cache';
 import type { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -80,25 +81,34 @@ export async function GET(request: NextRequest) {
 		// Custom logic after revalidation
 		console.log(`Revalidated path: ${verifiedPath}`);
 		
-		// Clear additional caches
+		// Revalidate cache tags based on the path
 		if (verifiedPath.includes('/blog/')) {
-			// Also revalidate the blog index
-			await fetch('/api/custom-cache-clear', {
-				method: 'POST',
-				body: JSON.stringify({ path: '/blog' }),
-			});
+			// Revalidate blog-related tags
+			revalidateTag('blog');
+			revalidateTag('posts');
+			
+			// If it's a specific post, also revalidate category and tag caches
+			if (verifiedPath.match(/\/blog\/[\w-]+$/)) {
+				revalidateTag('post');
+				revalidateTag('categories');
+				revalidateTag('tags');
+			}
 		}
 		
-		// Send webhook notifications
-		await fetch('https://my-webhook-service.com/revalidated', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				path: verifiedPath,
-				locale,
-				timestamp: new Date().toISOString(),
-			}),
-		});
+		// Revalidate site-specific tags for multisite
+		if (isMultisiteRequest && slug) {
+			revalidateTag(`site-${slug}`);
+			revalidateTag(`navigation-${slug}`);
+		}
+		
+		// Revalidate locale-specific tags
+		if (locale) {
+			revalidateTag(`locale-${locale}`);
+		}
+		
+		// Always revalidate global tags
+		revalidateTag('global');
+		revalidateTag('menus');
 	});
 }
 ```
@@ -201,6 +211,7 @@ if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
 	const { initRedisClient } = require('@10up/next-redis-cache-provider');
 	initRedisClient();
 	nextConfig.cacheHandler = require.resolve('@10up/next-redis-cache-provider');
+	nextConfig.cacheMaxMemorySize = 0;
 }
 
 module.exports = withHeadstartWPConfig(nextConfig);
@@ -270,97 +281,3 @@ add_filter( 'tenup_headless_wp_revalidate_on_cron', '__return_true' );
 ```
 
 This can be useful when the revalidation or the CDN cache purge is slow so this can be used to speed up the post saving process.
-
-## Testing Revalidation
-
-You can test the revalidation endpoint manually:
-
-```bash
-# Test the revalidation endpoint
-curl "https://your-nextjs-app.com/api/revalidate?post_id=123&path=/blog/my-post&token=your-jwt-token"
-```
-
-Or create a test endpoint for development:
-
-```typescript title="app/api/test-revalidate/route.ts"
-import { revalidatePath } from 'next/cache';
-import type { NextRequest } from 'next/server';
-
-export async function GET(request: NextRequest) {
-	const { searchParams } = request.nextUrl;
-	const path = searchParams.get('path');
-	
-	if (!path) {
-		return new Response('Missing path parameter', { status: 400 });
-	}
-	
-	try {
-		revalidatePath(path);
-		return new Response(JSON.stringify({ 
-			message: 'Revalidated successfully', 
-			path 
-		}), {
-			status: 200,
-			headers: { 'Content-Type': 'application/json' },
-		});
-	} catch (error) {
-		return new Response('Revalidation failed', { status: 500 });
-	}
-}
-```
-
-## Best Practices
-
-### 1. Monitor Revalidation
-
-Add logging to track revalidation requests:
-
-```typescript title="app/api/revalidate/route.ts"
-import { revalidateRouteHandler } from '@headstartwp/next/app';
-import type { NextRequest } from 'next/server';
-
-export async function GET(request: NextRequest) {
-	const { searchParams } = request.nextUrl;
-	const post_id = searchParams.get('post_id');
-	const path = searchParams.get('path');
-	
-	console.log(`Revalidation request: post_id=${post_id}, path=${path}`);
-	
-	return revalidateRouteHandler(request, async ({ verifiedPath }) => {
-		console.log(`Successfully revalidated: ${verifiedPath}`);
-	});
-}
-```
-
-### 2. Handle Rate Limiting
-
-For high-traffic sites, consider implementing rate limiting:
-
-```typescript
-// You might want to implement rate limiting for revalidation requests
-// to prevent abuse or too many concurrent revalidations
-```
-
-### 3. Graceful Degradation
-
-Ensure your site works even if revalidation fails:
-
-```typescript
-export async function GET(request: NextRequest) {
-	try {
-		return await revalidateRouteHandler(request);
-	} catch (error) {
-		// Log the error but don't crash the site
-		console.error('Revalidation failed, but continuing:', error);
-		
-		// Return success to prevent WordPress from retrying immediately
-		return new Response(JSON.stringify({ 
-			message: 'Revalidation queued for later',
-			error: error.message 
-		}), {
-			status: 202, // Accepted
-			headers: { 'Content-Type': 'application/json' },
-		});
-	}
-}
-```

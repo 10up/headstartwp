@@ -81,11 +81,10 @@ export default async function BlogPage() {
 
 ## Custom Post Types
 
-When working with custom post types, you can extend the base types for better type safety:
+When working with custom post types, you can extend the base types for better type safety. HeadstartWP query functions are generic, so you can pass your custom types directly:
 
 ```tsx title="src/types/wordpress.ts"
-import type { PostEntity } from '@headstartwp/core';
-import { SafeHtml } from '@headstartwp/core/react';
+import type { PostEntity, PostsSearchParams } from '@headstartwp/core';
 
 export interface ProductPost extends PostEntity {
 	acf: {
@@ -106,59 +105,43 @@ export interface EventPost extends PostEntity {
 	};
 }
 
-export interface Post {
-	id: number;
-	title: {
-		rendered: string;
-	};
-	excerpt: {
-		rendered: string;
-	};
-	link: string;
-	date: string;
-}
+// Extend the search params to include custom fields
+export interface ProductSearchParams extends PostsSearchParams {
 
-export interface ProductPost extends PostEntity {
-	acf: {
-		price: number;
-		sku: string;
-		gallery: Array<{
-			url: string;
-			alt: string;
-		}>;
+	// Add custom taxonomy support
+	product_category?: string | string[];
+	price_range?: {
+		min: number;
+		max: number;
 	};
 }
 
-export interface EventPost extends PostEntity {
-	acf: {
-		event_date: string;
-		location: string;
-		capacity: number;
-	};
+export interface EventSearchParams extends PostsSearchParams {
+	event_date_after?: string;
+	event_date_before?: string;
+	location?: string;
 }
 ```
 
-Then use these types in your components:
+Then use these types with the generic query functions:
 
 ```tsx title="src/app/products/[...path]/page.tsx"
 import { queryPost } from '@headstartwp/next/app';
 import type { ProductPost } from '../../../types/wordpress';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { SafeHtml } from '@headstartwp/core/react';
 
-interface ProductPageProps {
-	params: Promise<{ path?: string[] }>;
-}
-
-export default async function ProductPage({ params }: ProductPageProps) {
-	const { data } = await queryPost({
+export default async function ProductPage({ params }: HeadstartWPRoute) {
+	// Use the generic function with your custom type
+	const { data } = await queryPost<ProductPost>({
 		routeParams: await params,
 		params: {
 			postType: 'product',
 		},
 	});
 
-	// Cast to your custom type
-	const product = data.post as ProductPost;
+	// TypeScript now knows data.post is ProductPost
+	const product = data.post;
 
 	return (
 		<div>
@@ -175,110 +158,55 @@ export default async function ProductPage({ params }: ProductPageProps) {
 }
 ```
 
-## generateStaticParams Typing
+For listing pages with custom search params:
 
-For static generation, properly type your `generateStaticParams` function:
-
-```tsx title="src/app/blog/[slug]/page.tsx"
-import { queryPosts, queryPost } from '@headstartwp/next/app';
+```tsx title="src/app/products/page.tsx"
+import { queryPosts } from '@headstartwp/next/app';
+import type { ProductPost, ProductSearchParams } from '../../types/wordpress';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { SafeHtml } from '@headstartwp/core/react';
 
-interface BlogPostParams {
-	slug: string;
+interface ProductsPageProps extends HeadstartWPRoute {
+	searchParams: Promise<ProductSearchParams>;
 }
 
-export async function generateStaticParams(): Promise<BlogPostParams[]> {
-	try {
-		const { data } = await queryPosts({
-			routeParams: {},
-			params: {
-				postType: 'post',
-				perPage: 50, // Generate top 50 posts
-			},
-		});
-
-		return data.posts.map((post) => ({
-			slug: post.slug,
-		}));
-	} catch {
-		return [];
-	}
-}
-
-interface BlogPostPageProps {
-	params: Promise<BlogPostParams>;
-}
-
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-	const { slug } = await params;
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+	const params = await searchParams;
 	
-	const { data } = await queryPost({
-		routeParams: { path: [slug] },
+	// Use the generic function with both custom post type and search params
+	const { data } = await queryPosts<ProductPost>({
+		routeParams: {},
 		params: {
-			postType: 'post',
-			slug,
+			postType: 'product',
+			perPage: 12,
+			...params,
+			// TypeScript validates these custom params
+			meta_query: params.price_range ? [
+				{
+					key: 'price',
+					value: params.price_range.min,
+					compare: '>=',
+				},
+				{
+					key: 'price',
+					value: params.price_range.max,
+					compare: '<=',
+				},
+			] : undefined,
 		},
 	});
 
-	return (
-		<article>
-			<h1>{data.post.title.rendered}</h1>
-			<SafeHtml html={data.post.content.rendered} />
-		</article>
-	);
-}
-```
-
-## Client Components with Hooks
-
-When you need client-side features, use the traditional hooks with proper typing:
-
-```tsx title="src/components/InteractivePostList.tsx"
-'use client';
-
-import { usePosts } from '@headstartwp/next';
-import { useState } from 'react';
-import type { PostEntity, PostsSearchParams } from '@headstartwp/core';
-import { SafeHtml } from '@headstartwp/core/react';
-
-interface InteractivePostListProps {
-	initialPosts: PostEntity[];
-	initialParams: PostsSearchParams;
-}
-
-export function InteractivePostList({ 
-	initialPosts, 
-	initialParams 
-}: InteractivePostListProps) {
-	const [searchTerm, setSearchTerm] = useState('');
-	
-	const { data, loading, error } = usePosts({
-		...initialParams,
-		search: searchTerm,
-	}, {
-		initialData: { posts: initialPosts },
-	});
-
-	if (error) {
-		return <div>Error loading posts: {error.message}</div>;
-	}
-
+	// TypeScript knows data.posts is ProductPost[]
 	return (
 		<div>
-			<input
-				type="text"
-				value={searchTerm}
-				onChange={(e) => setSearchTerm(e.target.value)}
-				placeholder="Search posts..."
-			/>
-			
-			{loading && <div>Loading...</div>}
-			
-			<div>
-				{data?.posts.map((post: PostEntity) => (
-					<article key={post.id}>
-						<h3>{post.title.rendered}</h3>
-						<SafeHtml html={post.excerpt.rendered} />
+			<h1>Products</h1>
+			<div className="products-grid">
+				{data.posts.map((product) => (
+					<article key={product.id}>
+						<h2>{product.title.rendered}</h2>
+						<p>Price: ${product.acf.price}</p>
+						<p>SKU: {product.acf.sku}</p>
+						<SafeHtml html={product.excerpt.rendered} />
 					</article>
 				))}
 			</div>
@@ -287,72 +215,69 @@ export function InteractivePostList({
 }
 ```
 
-## Query Options Typing
+## Layout Types
 
-HeadstartWP query functions accept strongly typed options:
+For layout components, HeadstartWP provides the `HeadstartWPLayout` type:
 
-```tsx title="src/app/posts/[slug]/page.tsx"
-import { queryPost } from '@headstartwp/next/app';
-import type { QueryPostOptions } from '@headstartwp/core';
-import { SafeHtml } from '@headstartwp/core/react';
+```tsx title="src/app/layout.tsx"
+import { HeadstartWPApp } from '@headstartwp/next/app';
+import type { HeadstartWPLayout } from '@headstartwp/next/app';
+import { loadHeadstartWPConfig } from '@headstartwp/next/app';
+import { Metadata } from 'next';
+import './globals.css';
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-	const { slug } = await params;
+export const metadata: Metadata = {
+	title: 'My HeadstartWP App',
+	description: 'Built with HeadstartWP and Next.js App Router',
+};
 
-	const options: QueryPostOptions = {
-		next: {
-			revalidate: 3600, // Revalidate every hour
-			tags: [`post-${slug}`],
-		},
-		cache: 'force-cache',
-	};
-
-	const { data } = await queryPost({
-		routeParams: { path: [slug] },
-		params: {
-			postType: 'post',
-			slug,
-		},
-		options,
+export default async function RootLayout({ children, params }: Readonly<HeadstartWPLayout>) {
+	const { menu, data, config } = await queryAppSettings({
+		menu: 'primary',
+		routeParams: await params,
 	});
 
 	return (
-		<article>
-			<h1>{data.post.title.rendered}</h1>
-			<SafeHtml html={data.post.content.rendered} />
-		</article>
+		<html lang="en">
+			<body>
+				<BlockLibraryStyles params={await params} />
+				<HeadstartWPApp settings={config} themeJSON={data['theme.json']}>
+					{menu ? <Menu items={menu} /> : null}
+					{children}
+					<PreviewIndicator className="form-container" />
+				</HeadstartWPApp>
+			</body>
+		</html>
 	);
 }
 ```
 
-## Error Handling with Types
+For custom layout props, extend the `HeadstartWPLayout` type:
 
-Properly type error handling scenarios:
+```tsx title="src/app/blog/layout.tsx"
+import type { HeadstartWPLayout } from '@headstartwp/next/app';
+import { queryPosts } from '@headstartwp/next/app';
+import { Sidebar } from '../../components/Sidebar';
 
-```tsx title="src/app/[...path]/page.tsx"
-import { queryPost } from '@headstartwp/next/app';
-import { notFound } from 'next/navigation';
-import type { HeadstartWPRoute } from '@headstartwp/next/app';
-import { SafeHtml } from '@headstartwp/core/react';
-
-interface HeadstartWPError extends Error {
-	status?: number;
-	data?: any;
+interface BlogLayoutProps extends HeadstartWPLayout {
+	// Add any additional props if needed
 }
 
-export default async function DynamicPage({ params }: HeadstartWPRoute) {
-	const { data } = await queryPost({
+export default async function BlogLayout({ children, params }: BlogLayoutProps) {
+	// Fetch data for the sidebar
+	const { data } = await queryPosts({
 		routeParams: await params,
 		params: {
-			postType: ['post', 'page'],
+			postType: 'post',
+			perPage: 5,
 		},
 	});
 
 	return (
-		<article>
-			<h1>{data.post.title.rendered}</h1>
-			<SafeHtml html={data.post.content.rendered} />
-		</article>
+		<div className="blog-layout">
+			<main>{children}</main>
+			<Sidebar recentPosts={data.posts} />
+		</div>
 	);
 }
 ```
@@ -419,33 +344,6 @@ export {};
 
 Make sure that `src/types/global.d.ts` is included in your `tsconfig.json`.
 
-## Utility Types for WordPress Data
-
-Create utility types for common WordPress patterns:
-
-```ts title="src/types/utils.ts"
-import type { PostEntity, TermEntity } from '@headstartwp/core';
-import { SafeHtml } from '@headstartwp/core/react';
-
-export type PostWithACF<T = Record<string, any>> = PostEntity & {
-	acf: T;
-};
-
-export type PostPreview = Pick<PostEntity, 'id' | 'title' | 'excerpt' | 'link' | 'date'>;
-
-export type CategoryWithPosts = TermEntity & {
-	posts: PostEntity[];
-};
-
-// Helper type for paginated responses
-export type PaginatedResponse<T> = {
-	items: T[];
-	totalPages: number;
-	currentPage: number;
-	hasNextPage: boolean;
-	hasPreviousPage: boolean;
-};
-```
 
 ## Running the typecheck
 

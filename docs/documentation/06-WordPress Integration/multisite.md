@@ -11,7 +11,7 @@ The `sites` option allows specifying as many sites you want to connect to your a
 
 This feature does not require that all sites belong to the same multisite, you're free to connect the Next.js app to a completely separate WordPress instance, as long as that instance implements what your Next.js app needs.
 
-Take a look at the [multisite demo project](https://github.com/10up/headstartwp/tree/develop/projects/wp-multisite-nextjs) to familiarize yourself with the set-up.
+Take a look at the [App Router multisite demo project](https://github.com/10up/headstartwp/tree/develop/projects/wp-multisite-nextjs-app) to familiarize yourself with the set-up.
 
 ## Usage
 
@@ -49,7 +49,7 @@ This means that when we visit http://site1.localhost:3001, the source URL specif
 
 #### Internationalized routing
 
-If you're using [Next.js i18n](https://nextjs.org/docs/advanced-features/i18n-routing) feature you can specify the locale in the site's config object and the locale will also be used when matching a site.
+Since Next.js App Router doesn't provide built-in i18n routing, HeadstartWP provides its own i18n implementation. You can configure internationalization in your `headstartwp.config.js` file using the `i18n` option and specify locales for individual sites.
 
 ```javascript
 /**
@@ -60,6 +60,13 @@ If you're using [Next.js i18n](https://nextjs.org/docs/advanced-features/i18n-ro
 module.exports = {
     redirectStrategy: '404',
     useWordPressPlugin: true,
+
+	// Configure i18n globally
+	i18n: {
+		locales: ['en', 'es'],
+		defaultLocale: 'en',
+		localeDetection: true, // optional, defaults to true
+	},
 
 	sites: [
 		{
@@ -78,7 +85,7 @@ module.exports = {
 
 The above config means that `http://site1.localhost:3001/en` will match the first site config and `http://site1.localhost:3001/es` will match the second site config.
 
-**Note**: You must declare those locales in Next.js config. See [Next.js documentation](https://nextjs.org/learn/advanced-features/i18n-routing) for more information.
+**Note**: Unlike Pages Router, you configure i18n in the HeadstartWP config file, not in `next.config.js`. HeadstartWP's middleware handles locale detection and routing automatically.
 
 When using locales make sure to add the locale to `Settings -> General -> Headless Multisite Locale (optional)`. This is required for previews and the revalidate handler to work properly since API routes are not localized in Next.js.
 
@@ -89,10 +96,11 @@ As an example, the first site config in the example above would need the followi
 
 ### Middleware
 
-Make sure you have the framework's middleware setup at `src/middleware.js`.
+Make sure you have the framework's middleware setup at `src/middleware.ts` (or `src/middleware.js`).
 
-```javascript
+```typescript
 import { AppMiddleware } from '@headstartwp/next/middlewares';
+import { NextRequest } from 'next/server';
 
 export const config = {
 	matcher: [
@@ -107,71 +115,74 @@ export const config = {
 	],
 };
 
-export async function middleware(...args) {
-	return AppMiddleware(...args);
+export async function middleware(req: NextRequest) {
+	return AppMiddleware(req, { appRouter: true });
 }
 ```
 
 ### Folder structure
 
-Put all of your page routes in `_sites/[site]/` folder with the exception of the following files
- - _app.js
- - _document.js
- - 404.js
- - 500.js
- - api/
+Put all of your page routes in `app/[site]/` folder with the exception of the following files:
+ - `layout.tsx` (root layout)
+ - `not-found.tsx` (root not found page)
+ - `api/` (API routes)
 
+This should give you a structure similar to:
 
- This should give you a structure similar to
-
- ```
- _sites/
-├─ [site]/
-│  ├─ [...path].js
-│  ├─ index.js
-_app.js
-_document.js
-404.js
-500.js
-api/
+```
+src/
+├─ app/
+│  ├─ layout.tsx           # Root layout
+│  ├─ not-found.tsx        # Root not found page  
+│  ├─ api/                 # API routes
+│  │  ├─ preview/
+│  │  └─ revalidate/
+│  └─ [site]/              # Dynamic site routes
+│     ├─ layout.tsx        # Site-specific layout
+│     ├─ page.tsx          # Site home page
+│     ├─ not-found.tsx     # Site not found page
+│     ├─ blog/
+│     │  └─ page.tsx       # Blog archive
+│     ├─ category/
+│     │  └─ [slug]/
+│     │     └─ page.tsx    # Category archive
+│     └─ (single)/
+│        └─ [...path]/
+│           └─ page.tsx    # Posts and pages
+└─ middleware.ts           # Middleware
 ```
 
-With this setup, the framework's middleware will rewrite all requests to `_sites/hostName`. All of the data-fetching hooks will fetch data to the appropriate WordPress instance.
+With this setup, the framework's middleware will rewrite all requests to `[site]/route`. All of the data-fetching hooks will fetch data to the appropriate WordPress instance.
 
 This allows you to power all of your sites with the same codebase. This is very useful if you're building sites that support internationalization or if the only thing that changes across sites is the content.
 
 ### Creating Routes that target a specific site
 
-It is possible to create routes specific to each site. To do this simply create a folder for that particular site eg: `src/pages/_sites/mysite.com/index.js`. Then when a user visits `mysite.com` the `index.js` route file will be used instead of the one in `[site]/index.js`.
+It is possible to create routes specific to each site. To do this simply create a folder using the site's `slug` property from your configuration. For example, if you have a site with `slug: 'site1'`, create `src/app/site1/page.tsx`. Then when a user visits that site, the `page.tsx` route file will be used instead of the one in `[site]/page.tsx`.
+
+```javascript
+// In your headstartwp.config.js
+sites: [
+    {
+        slug: 'site1',
+        sourceUrl: process.env.NEXT_PUBLIC_HEADLESS_WP_URL,
+        hostUrl: 'http://site1.localhost:3000',
+    },
+    {
+        slug: 'js1',
+        sourceUrl: 'https://js1.10up.com/',
+        hostUrl: 'http://js1.localhost:3000',
+    },
+],
+```
+
+With this configuration, you can create site-specific routes like:
+- `src/app/site1/page.tsx` - specific to the first site
+- `src/app/js1/page.tsx` - specific to the second site
 
 This provides a powerful way of powering complex multi-tenant apps that shares a codebase but render completely different pages and layouts.
 
-## Known Issues
+## Demo Project
 
-**404.js and 500.js are unable to know the current site**
-
-At the moment, there's a limitation in Next.js that doesn't allow the `404.js` and `500.js` pages to know the current site. These two files **must** be in the root of the pages directory and we can't rewrite them. Additionally, they only support `getStaticProps` which means there's no way to know which site you're on in case you need to fetch data specific for that site.
-
-If you need to fetch data in `404.js` or `500.js` there's one workaround but it relies on client-side data-fetching. In `_app.js` do the following:
-
-```javascript
-import { getSiteByHost } from '@headstartwp/core';
-
-//grab the current site
-const currentSite = useMemo(() => {
-    if (router.query?.site && !Array.isArray(router.query.site)) {
-        return getSiteByHost(router.query.site, router.locale);
-    }
-
-    // 404.js and 500.js do not have a site query param.
-    if (typeof window !== 'undefined') {
-        return getSiteByHost(window.location.host, router.locale);
-    }
-    return {};
-}, [router]);
-
-// pass it to HeadlessApp to override the current site settings defined by the framework
-// once react hydrates and window is defined, the currentSite will be set for 404 and 500 poages.
-<HeadlessApp settings={currentSite} />
-```
+Take a look at the [App Router multisite demo project](https://github.com/10up/headstartwp/tree/develop/projects/wp-multisite-nextjs-app) to see a complete implementation of multisite with App Router.
 
