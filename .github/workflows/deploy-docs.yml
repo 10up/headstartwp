@@ -16,7 +16,7 @@ jobs:
           node-version: 20
           cache: npm
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Build Packages
         run: npm run build:packages
       - name: Install docs deps
