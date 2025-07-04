@@ -74,12 +74,13 @@ const config = {
 				sidebarCollapsed: false,
 				versions: {
 					current: {
-						label: 'App Router',
-						path: 'app-router',
+						label: 'App Router (1.5+)',
+						path: '/',
+						banner: 'none',
 					},
 					'pages-router': {
 						label: 'Pages Router',
-						// path: 'pages-router',
+						path: 'pages-router',
 					},
 				},
 			},
