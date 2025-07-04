@@ -330,15 +330,6 @@ declare global {
 		dataLayer?: any[];
 	}
 }
-
-// Extend HeadstartWP types if needed
-declare module '@headstartwp/core' {
-	interface PostEntity {
-		// Add custom fields that are always present
-		featured_image_url?: string;
-	}
-}
-
 export {};
 ```
 

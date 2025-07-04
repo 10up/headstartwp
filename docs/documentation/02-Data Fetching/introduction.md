@@ -19,7 +19,7 @@ The `@headstartwp/next/app` package provides async functions specifically design
 - [`queryPostOrPosts`](/learn/app-router/data-fetching/query-post-or-posts) - Handle both single posts and archive pages
 - [`querySearch`](/learn/app-router/data-fetching/query-search) - Search posts and content
 - [`queryTerms`](/learn/app-router/data-fetching/query-terms) - Fetch categories, tags, or custom taxonomies
-- [`queryAuthorArchive`](/learn/app-router/data-fetching/query-author) - Fetch author information and posts
+- [`queryAuthorArchive`](/learn/app-router/data-fetching/query-author-archive) - Fetch author information and posts
 - `queryAppSettings` - Fetch WordPress site settings and menus
 
 These functions:

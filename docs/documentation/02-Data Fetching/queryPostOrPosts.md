@@ -20,10 +20,6 @@ import Link from 'next/link';
 import type { HeadstartWPRoute } from '@headstartwp/next/app';
 import { SafeHtml } from '@headstartwp/core/react';
 
-interface PageProps {
-	params: Promise<{ path?: string[] }>;
-}
-
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const { seo } = await queryPostOrPosts({
 		routeParams: await params,
@@ -285,72 +281,6 @@ export default async function CategoryPage({ params }: HeadstartWPRoute) {
 	}
 
 	return <div>No posts found in this category.</div>;
-}
-```
-
-## Error Handling
-
-### Built-in Error Handling
-
-The function includes built-in error handling that automatically calls `handleFetchError` when configured:
-
-```tsx
-try {
-	const result = await queryPostOrPosts({
-		routeParams: await params,
-		params: {
-			single: { postType: ['post', 'page'] },
-			archive: { postType: 'post' },
-		},
-	});
-	
-	// Handle result...
-} catch (error) {
-	// Error is automatically processed by handleFetchError
-	// Re-throw or handle as needed
-	if (error.status === 404) {
-		notFound();
-	}
-	throw error;
-}
-```
-
-### Custom Error Handling
-
-```tsx title="app/[...path]/page.tsx"
-export default async function DynamicPage({ params }: HeadstartWPRoute) {
-	try {
-		const result = await queryPostOrPosts({
-			routeParams: await params,
-			params: {
-				single: { postType: ['post', 'page'] },
-				archive: { postType: 'post' },
-			},
-		});
-
-		// Render based on result type
-		if (result.isSingle) {
-			return <SinglePostView post={result.data.post} seo={result.seo} />;
-		} else {
-			return <ArchiveView posts={result.data.posts} pageInfo={result.data.pageInfo} />;
-		}
-	} catch (error: any) {
-		// Log error for debugging
-		console.error('Query failed:', error);
-		
-		// Handle specific error types
-		if (error.status === 404) {
-			notFound();
-		}
-		
-		// For other errors, show a generic error page
-		return (
-			<div className="error-page">
-				<h1>Something went wrong</h1>
-				<p>Please try again later.</p>
-			</div>
-		);
-	}
 }
 ```
 
