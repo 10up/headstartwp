@@ -88,7 +88,7 @@ The custom fields would now be available in the preview cookie data.
 #### `getRedirectPath`
 
 :::tip
-A better alternative is using `preview.usePostLinkForRedirect`. With this setting, you can set up previews so that it uses the `post.link` property of the post for redirecting to the appropriate path/route. This requires that your WordPress permalink matches the Next.js route structure. Check out the docs for [preview.usePostLinkForRedirect](/learn/app-router/wordpress-integration/previews#the-usepostlinkforredirect-setting).
+A better alternative is using `preview.usePostLinkForRedirect`. With this setting, you can set up previews so that it uses the `post.link` property of the post for redirecting to the appropriate path/route. This requires that your WordPress permalink matches the Next.js route structure. Check out the docs for [preview.usePostLinkForRedirect](/learn/wordpress-integration/previews#the-usepostlinkforredirect-setting).
 :::
 
 The `getRedirectPath` option allows you to customize the redirected URL that should handle the preview request. This can be useful if you have implemented a non-standard URL structure. For instance, if the permalink for your posts is `/%category%/%postname%/` you could create a `/app/[category]/[...path]/page.tsx` route to handle single post.
@@ -331,7 +331,7 @@ The JWT token expires after 5 min by default, after this period, open another pr
 
 **I'm unable to preview a custom post type**
 
-Make sure you defined the right `single` property when registering the custom post type. See [headless config docs](/learn/app-router/getting-started/headless-config/#customposttypes). The `single` property must match the route prefix for the custom post type.
+Make sure you defined the right `single` property when registering the custom post type. See [headless config docs](/learn/getting-started/headless-config/#customposttypes). The `single` property must match the route prefix for the custom post type.
 
 **I have a custom authentication using the Authorization header, how can I use the preview functionality?**
 

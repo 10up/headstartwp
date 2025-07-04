@@ -14,12 +14,12 @@ The data-fetching logic is powered by [strategies](/api/classes/headstartwp_core
 
 The `@headstartwp/next/app` package provides async functions specifically designed for Next.js App Router:
 
-- [`queryPost`](/learn/app-router/data-fetching/query-post) - Fetch a single post or page
-- [`queryPosts`](/learn/app-router/data-fetching/query-posts) - Fetch multiple posts with pagination
-- [`queryPostOrPosts`](/learn/app-router/data-fetching/query-post-or-posts) - Handle both single posts and archive pages
-- [`querySearch`](/learn/app-router/data-fetching/query-search) - Search posts and content
-- [`queryTerms`](/learn/app-router/data-fetching/query-terms) - Fetch categories, tags, or custom taxonomies
-- [`queryAuthorArchive`](/learn/app-router/data-fetching/query-author-archive) - Fetch author information and posts
+- [`queryPost`](/learn/data-fetching/query-post) - Fetch a single post or page
+- [`queryPosts`](/learn/data-fetching/query-posts) - Fetch multiple posts with pagination
+- [`queryPostOrPosts`](/learn/data-fetching/query-post-or-posts) - Handle both single posts and archive pages
+- [`querySearch`](/learn/data-fetching/query-search) - Search posts and content
+- [`queryTerms`](/learn/data-fetching/query-terms) - Fetch categories, tags, or custom taxonomies
+- [`queryAuthorArchive`](/learn/data-fetching/query-author-archive) - Fetch author information and posts
 - `queryAppSettings` - Fetch WordPress site settings and menus
 
 These functions:

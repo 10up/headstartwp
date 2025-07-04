@@ -192,7 +192,7 @@ interface PageInfo {
 
 ### Custom Post Type Archive
 
-To use custom post types with `queryPosts`, you must first register them in your `headstartwp.config.js` file. See the [custom post types configuration](/learn/app-router/getting-started/headless-config#customposttypes) for detailed setup instructions.
+To use custom post types with `queryPosts`, you must first register them in your `headstartwp.config.js` file. See the [custom post types configuration](/learn/getting-started/headless-config#customposttypes) for detailed setup instructions.
 
 ```tsx title="app/products/page.tsx"
 import { queryPosts } from '@headstartwp/next/app';
