@@ -45,7 +45,7 @@ module.exports = {
 
 ## Splitting client/server config
 
-You can split the config between a client and a server config. This is needed when you're setting up [cache handler](/learn/data-fetching/caching/).
+You can split the config between a client and a server config. This is needed when you're setting up [cache handler](/learn/pages-router/data-fetching/caching/).
 
 Simply create a `headstartwp.config.client.js` and a `headstartwp.config.server.js` file and HeadstartWP will pick them up and inject on the appropriate bundle.
 
@@ -196,9 +196,6 @@ This route would automatically handle the following URLs:
 - /books/genre/genre-name -> filter books by genre
 - /books/genre/genre-name/page/2 -> paginate books filtered by genre
 
-:::caution
-The code snippet above does not implement pre-fetching, which you probably want to. Check out the [pre-fetching docs](/learn/data-fetching/prefetching-data-server) for instructions.
-:::
 
 It is also possible to specify a function for 'customTaxonomies', when doing so the default taxonomies will be passed to the function. This can be used for instance to enable archive path matching.
 
