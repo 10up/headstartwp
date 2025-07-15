@@ -40,14 +40,14 @@ This filter is not as useful as the previous one but it allows you to filter the
 /**
  * Filter's out the block's attributes after serialization
  *
- * @param string $encoded_attrs The serialized block's Attributes
+ * @param string $encoded_attrs The block attributes serialized to a JSON string
  * @param array $attrs The Block's Attributes
  * @param array $block The Block's schema
  * @param \WP_Block $block_instance The block's instance
  */
 $block_attrs_serialized = apply_filters(
     'tenup_headless_wp_render_blocks_attrs_serialized',
-    esc_attr( wp_json_encode( $block_attrs ) ),
+    wp_json_encode( $block_attrs ),
     $block_attrs,
     $block,
     $block_instance

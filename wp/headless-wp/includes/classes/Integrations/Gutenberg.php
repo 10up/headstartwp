@@ -309,7 +309,7 @@ class Gutenberg {
 	 *
 	 * @param string   $html                   The block markup
 	 * @param string   $block_name             The block name
-	 * @param string   $block_attrs_serialized The serialized block attributes
+	 * @param string   $block_attrs_serialized The block attributes serialized to a JSON string
 	 * @param array    $block                  The block schema
 	 * @param WP_Block $block_instance         The block instance
 	 *
@@ -320,8 +320,12 @@ class Gutenberg {
 			$doc = new WP_HTML_Tag_Processor( $html );
 
 			if ( ! $this->bypass_block_attributes( $block_name, $block_instance ) && $doc->next_tag() ) {
-				$doc->set_attribute( 'data-wp-block-name', $block_name );
-				$doc->set_attribute( 'data-wp-block', $block_attrs_serialized );
+				// set_attribute internally calls esc_attr, which is lossy
+				// (e.g. does not escape &lt; to &amp;lt;)
+				// so we use htmlspecialchars ($double_encode=true)
+				// and pray that esc_attr does not alter it future.
+				$doc->set_attribute( 'data-wp-block-name', htmlspecialchars( $block_name, ENT_QUOTES, 'UTF-8' ) );
+				$doc->set_attribute( 'data-wp-block', htmlspecialchars( $block_attrs_serialized, ENT_QUOTES, 'UTF-8' ) );
 
 				/**
 				 * Filter the block before rendering
@@ -347,7 +351,7 @@ class Gutenberg {
 	 *
 	 * @param string   $html                  The block markup
 	 * @param string   $block_name            The block name
-	 * @param string   $serialized_attributes Serialized attributes
+	 * @param string   $serialized_attributes The block attributes serialized to a JSON string
 	 * @param array    $block                 The block array
 	 * @param WP_Block $block_instance        The block instance
 	 *
@@ -365,14 +369,8 @@ class Gutenberg {
 		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$root_node = $document->documentElement;
 
-		$attrs        = $document->createAttribute( 'data-wp-block' );
-		$attrs->value = $serialized_attributes;
-
-		$block_name_obj        = $document->createAttribute( 'data-wp-block-name' );
-		$block_name_obj->value = $block_name;
-
-		$root_node->appendChild( $attrs );
-		$root_node->appendChild( $block_name_obj );
+		$root_node->setAttribute( 'data-wp-block-name', $block_name );
+		$root_node->setAttribute( 'data-wp-block', $serialized_attributes );
 
 		/**
 		 * Filter the block's DOMElement before rendering
@@ -476,20 +474,20 @@ class Gutenberg {
 		/**
 		 * Filter out the block attributes after serialization
 		 *
-		 * @param string   $encoded_attrs  The serialized block attributes
+		 * @param string   $encoded_attrs  The block attributes serialized to a JSON string
 		 * @param array    $attrs          The block attributes
 		 * @param array    $block          The block schema
 		 * @param WP_Block $block_instance The block instance
 		 */
 		$block_attrs_serialized = apply_filters(
 			'tenup_headless_wp_render_blocks_attrs_serialized',
-			esc_attr( wp_json_encode( $block_attrs ) ),
+			wp_json_encode( $block_attrs ),
 			$block_attrs,
 			$block,
 			$block_instance
 		);
 
-		$block_name = esc_attr( $block['blockName'] );
+		$block_name = $block['blockName'];
 
 		/**
 		 * Filter for enabling the use of the new HTML_Tag_Processor API
