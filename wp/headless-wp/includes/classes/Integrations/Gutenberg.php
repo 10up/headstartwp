@@ -12,6 +12,7 @@ use DOMElement;
 use Exception;
 use WP_Block;
 use WP_HTML_Tag_Processor;
+use HeadlessWP\Fixed_WP_HTML_Tag_Processor;
 
 /**
  * The Gutenberg integration class
@@ -317,15 +318,11 @@ class Gutenberg {
 	 */
 	public function process_block_with_html_tag_api( $html, $block_name, $block_attrs_serialized, $block, $block_instance ) {
 		try {
-			$doc = new WP_HTML_Tag_Processor( $html );
+			$doc = new Fixed_WP_HTML_Tag_Processor( $html );
 
 			if ( ! $this->bypass_block_attributes( $block_name, $block_instance ) && $doc->next_tag() ) {
-				// set_attribute internally calls esc_attr, which is lossy
-				// (e.g. does not escape &lt; to &amp;lt;)
-				// so we use htmlspecialchars ($double_encode=true)
-				// and pray that esc_attr does not alter it future.
-				$doc->set_attribute( 'data-wp-block-name', htmlspecialchars( $block_name, ENT_QUOTES, 'UTF-8' ) );
-				$doc->set_attribute( 'data-wp-block', htmlspecialchars( $block_attrs_serialized, ENT_QUOTES, 'UTF-8' ) );
+				$doc->set_attribute_fixed( 'data-wp-block-name', $block_name );
+				$doc->set_attribute_fixed( 'data-wp-block', $block_attrs_serialized );
 
 				/**
 				 * Filter the block before rendering
@@ -496,7 +493,7 @@ class Gutenberg {
 		 */
 		$use_html_tag_api = apply_filters( 'tenup_headless_wp_render_block_use_tag_processor', false );
 
-		if ( class_exists( WP_HTML_Tag_Processor::class ) && $use_html_tag_api ) {
+		if ( $use_html_tag_api ) {
 			return $this->process_block_with_html_tag_api(
 				$html,
 				$block_name,
