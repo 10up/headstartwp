@@ -184,7 +184,6 @@ export class SinglePostFetchStrategy<
 					const postTypeObject = getCustomPostType(postType, this.baseURL);
 
 					if (params.fullPath) {
-						console.log('postPath', postPath, params.fullPath);
 						return postPath === params.fullPath.replace(/\/?$/, '/');
 					}
 
