@@ -52,7 +52,6 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 		$this->yoast_seo->register();
 		self::$rest_server = rest_get_server();
 
-		
 		$this->test_data = [];
 		$this->set_test_data();
 	}
@@ -63,13 +62,13 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	protected function set_test_data() {
 		$this->test_data = [
-			'jane_author' => '6',
-			'other_author' => '7',
-			'news_category' => '8',
+			'jane_author'    => '6',
+			'other_author'   => '7',
+			'news_category'  => '8',
 			'other_category' => '9',
-			'post_1' => '29',
-			'post_2' => '30',
-			'post_3' => '31',
+			'post_1'         => '29',
+			'post_2'         => '30',
+			'post_3'         => '31',
 		];
 	}
 
@@ -81,65 +80,65 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	protected function create_manual_rest_api_data() {
 		return [
 			[
-				'id' => $this->test_data[ 'post_1' ],
-				'title' => [ 'rendered' => 'First Post by Jane' ],
-				'author' => $this->test_data[ 'jane_author' ],
-				'yoast_head' => '<title>First Post by Jane</title>',
+				'id'              => $this->test_data['post_1'],
+				'title'           => [ 'rendered' => 'First Post by Jane' ],
+				'author'          => $this->test_data['jane_author'],
+				'yoast_head'      => '<title>First Post by Jane</title>',
 				'yoast_head_json' => [ 'title' => 'First Post by Jane' ],
-				'_embedded' => [
-					'author' => [
+				'_embedded'       => [
+					'author'  => [
 						[
-							'id' => $this->test_data[ 'jane_author' ],
-							'name' => 'Jane Author',
-							'slug' => 'jane-author',
-							'yoast_head' => '<title>Jane Author</title>',
+							'id'              => $this->test_data['jane_author'],
+							'name'            => 'Jane Author',
+							'slug'            => 'jane-author',
+							'yoast_head'      => '<title>Jane Author</title>',
 							'yoast_head_json' => [ 'title' => 'Jane Author' ],
-						]
+						],
 					],
 					'wp:term' => [
 						[
 							[
-								'id' => $this->test_data[ 'news_category' ],
-								'name' => 'News Category',
-								'slug' => 'news-category',
-								'taxonomy' => 'category',
-								'yoast_head' => '<title>News Category</title>',
+								'id'              => $this->test_data['news_category'],
+								'name'            => 'News Category',
+								'slug'            => 'news-category',
+								'taxonomy'        => 'category',
+								'yoast_head'      => '<title>News Category</title>',
 								'yoast_head_json' => [ 'title' => 'News Category' ],
-							]
-						]
-					]
-				]
+							],
+						],
+					],
+				],
 			],
 			[
-				'id' => $this->test_data[ 'post_2' ],
-				'title' => [ 'rendered' => 'Second Post by Jane' ],
-				'author' => $this->test_data[ 'jane_author' ],
-				'yoast_head' => '<title>Second Post by Jane</title>',
+				'id'              => $this->test_data['post_2'],
+				'title'           => [ 'rendered' => 'Second Post by Jane' ],
+				'author'          => $this->test_data['jane_author'],
+				'yoast_head'      => '<title>Second Post by Jane</title>',
 				'yoast_head_json' => [ 'title' => 'Second Post by Jane' ],
-				'_embedded' => [
-					'author' => [
+				'_embedded'       => [
+					'author'  => [
 						[
-							'id' => $this->test_data[ 'jane_author' ],
-							'name' => 'Jane Author',
-							'slug' => 'jane-author',
-							'yoast_head' => '<title>Jane Author</title>',
+							'id'              => $this->test_data['jane_author'],
+							'name'            => 'Jane Author',
+							'slug'            => 'jane-author',
+							'yoast_head'      => '<title>Jane Author</title>',
 							'yoast_head_json' => [ 'title' => 'Jane Author' ],
-						]
+						],
 					],
 					'wp:term' => [
 						[
 							[
-								'id' => $this->test_data[ 'news_category' ],
-								'name' => 'News Category',
-								'slug' => 'news-category',
-								'taxonomy' => 'category',
-								'yoast_head' => '<title>News Category</title>',
+								'id'              => $this->test_data['news_category'],
+								'name'            => 'News Category',
+								'slug'            => 'news-category',
+								'taxonomy'        => 'category',
+								'yoast_head'      => '<title>News Category</title>',
 								'yoast_head_json' => [ 'title' => 'News Category' ],
-							]
-						]
-					]
-				]
-			]
+							],
+						],
+					],
+				],
+			],
 		];
 	}
 
@@ -148,7 +147,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 * Only the queried post should have yoast metadata
 	 */
 	public function test_single_post_query() {
-		$request = new WP_REST_Request( 'GET', '/wp/v2/posts/' . $this->test_data[ 'post_1' ] );
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts/' . $this->test_data['post_1'] );
 		$request->set_param( 'optimizeYoastPayload', true );
 		$request->set_param( '_embed', true );
 
@@ -160,10 +159,10 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 
 		// The single post should have yoast_head
 		$this->assertArrayHasKey( 'yoast_head', $optimized_post, 'Single queried post should have yoast_head' );
-		
+
 		// Embedded terms and authors should NOT have yoast_head since no specific term/author was queried
-		if ( isset( $optimized_post[ '_embedded' ] ) ) {
-			$this->assert_no_yoast_in_embedded( $optimized_post[ '_embedded' ], 'No embedded items should have yoast_head for single post query' );
+		if ( isset( $optimized_post['_embedded'] ) ) {
+			$this->assert_no_yoast_in_embedded( $optimized_post['_embedded'], 'No embedded items should have yoast_head for single post query' );
 		}
 	}
 
@@ -173,7 +172,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	public function test_posts_by_category() {
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'categories', $this->test_data[ 'news_category' ] );
+		$request->set_param( 'categories', $this->test_data['news_category'] );
 		$request->set_param( 'per_page', 10 );
 		$request->set_param( 'optimizeYoastPayload', true );
 		$request->set_param( '_embed', true );
@@ -187,13 +186,14 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 		$this->assertArrayHasKey( 'yoast_head', $optimized_data[0], 'First post should have yoast_head' );
 
 		// Subsequent posts should NOT have yoast_head
-		for ( $i = 1; $i < count( $optimized_data ); $i++ ) {
-			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[$i], "Post {$i} should not have yoast_head" );
+		$post_count = count( $optimized_data );
+		for ( $i = 1; $i < $post_count; $i++ ) {
+			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[ $i ], "Post {$i} should not have yoast_head" );
 		}
 
 		// Check embedded terms - only the queried category should have yoast_head
-		if ( isset( $optimized_data[0][ '_embedded' ][ 'wp:term' ] ) ) {
-			$this->assert_yoast_in_term( $optimized_data[0][ '_embedded' ][ 'wp:term' ], $this->test_data[ 'news_category' ], 'category' );
+		if ( isset( $optimized_data[0]['_embedded']['wp:term'] ) ) {
+			$this->assert_yoast_in_term( $optimized_data[0]['_embedded']['wp:term'], $this->test_data['news_category'], 'category' );
 		}
 	}
 
@@ -203,7 +203,7 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	public function test_posts_by_author() {
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'author', $this->test_data[ 'jane_author' ] );
+		$request->set_param( 'author', $this->test_data['jane_author'] );
 		$request->set_param( 'per_page', 10 );
 		$request->set_param( 'optimizeYoastPayload', true );
 		$request->set_param( '_embed', true );
@@ -217,14 +217,15 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 		$this->assertArrayHasKey( 'yoast_head', $optimized_data[0], 'First post should have yoast_head' );
 
 		// Subsequent posts should NOT have yoast_head
-		for ( $i = 1; $i < count( $optimized_data ); $i++ ) {
-			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[$i], "Post {$i} should not have yoast_head" );
+		$post_count = count( $optimized_data );
+		for ( $i = 1; $i < $post_count; $i++ ) {
+			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[ $i ], "Post {$i} should not have yoast_head" );
 		}
 
 		// Check embedded authors - only the queried author should have yoast_head
-		if ( isset( $optimized_data[0][ '_embedded' ][ 'author' ] ) ) {
-			$author = $optimized_data[0][ '_embedded' ][ 'author' ][0];
-			if ( $author[ 'id' ] === $this->test_data[ 'jane_author' ] ) {
+		if ( isset( $optimized_data[0]['_embedded']['author'] ) ) {
+			$author = $optimized_data[0]['_embedded']['author'][0];
+			if ( $author['id'] === $this->test_data['jane_author'] ) {
 				$this->assertArrayHasKey( 'yoast_head', $author, 'Queried author should have yoast_head' );
 			} else {
 				$this->assertArrayNotHasKey( 'yoast_head', $author, 'Non-queried author should not have yoast_head' );
@@ -238,8 +239,8 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	public function test_posts_by_category_and_author() {
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'categories', $this->test_data[ 'news_category' ] );
-		$request->set_param( 'author', $this->test_data[ 'jane_author' ] );
+		$request->set_param( 'categories', $this->test_data['news_category'] );
+		$request->set_param( 'author', $this->test_data['jane_author'] );
 		$request->set_param( 'per_page', 10 );
 		$request->set_param( 'optimizeYoastPayload', true );
 		$request->set_param( '_embed', true );
@@ -253,19 +254,20 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 		$this->assertArrayHasKey( 'yoast_head', $optimized_data[0], 'First post should have yoast_head' );
 
 		// Subsequent posts should NOT have yoast_head
-		for ( $i = 1; $i < count( $optimized_data ); $i++ ) {
-			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[$i], "Post {$i} should not have yoast_head" );
+		$post_count = count( $optimized_data );
+		for ( $i = 1; $i < $post_count; $i++ ) {
+			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[ $i ], "Post {$i} should not have yoast_head" );
 		}
 
 		// Check embedded terms - only the queried category should have yoast_head
-		if ( isset( $optimized_data[0][ '_embedded' ][ 'wp:term' ] ) ) {
-			$this->assert_yoast_in_term( $optimized_data[0][ '_embedded' ][ 'wp:term' ], $this->test_data[ 'news_category' ], 'category' );
+		if ( isset( $optimized_data[0]['_embedded']['wp:term'] ) ) {
+			$this->assert_yoast_in_term( $optimized_data[0]['_embedded']['wp:term'], $this->test_data['news_category'], 'category' );
 		}
 
 		// Check embedded authors - only the queried author should have yoast_head
-		if ( isset( $optimized_data[0][ '_embedded' ][ 'author' ] ) ) {
-			$author = $optimized_data[0][ '_embedded' ][ 'author' ][0];
-			if ( $author[ 'id' ] === $this->test_data[ 'jane_author' ] ) {
+		if ( isset( $optimized_data[0]['_embedded']['author'] ) ) {
+			$author = $optimized_data[0]['_embedded']['author'][0];
+			if ( $author['id'] === $this->test_data['jane_author'] ) {
 				$this->assertArrayHasKey( 'yoast_head', $author, 'Queried author should have yoast_head' );
 			} else {
 				$this->assertArrayNotHasKey( 'yoast_head', $author, 'Non-queried author should not have yoast_head' );
@@ -278,10 +280,10 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	 */
 	public function test_optimization_only_runs_when_parameter_is_set() {
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'categories', $this->test_data[ 'news_category' ] );
+		$request->set_param( 'categories', $this->test_data['news_category'] );
 		$request->set_param( 'per_page', 10 );
 		$request->set_param( '_embed', true );
-		
+
 		$data           = $this->create_manual_rest_api_data();
 		$optimized_data = $this->yoast_seo->optimise_yoast_payload( $data, self::$rest_server, $request, true );
 
@@ -320,8 +322,8 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 		foreach ( $terms as $term_group ) {
 			if ( is_array( $term_group ) ) {
 				foreach ( $term_group as $term ) {
-					if ( isset( $term[ 'id' ] ) && isset( $term[ 'taxonomy' ] ) ) {
-						if ( $term[ 'id' ] === $target_id && $term[ 'taxonomy' ] === $taxonomy ) {
+					if ( isset( $term['id'] ) && isset( $term['taxonomy'] ) ) {
+						if ( $term['id'] === $target_id && $term['taxonomy'] === $taxonomy ) {
 							$this->assertArrayHasKey( 'yoast_head', $term, "Queried {$taxonomy} should have yoast_head" );
 						} else {
 							$this->assertArrayNotHasKey( 'yoast_head', $term, "Non-queried {$taxonomy} should not have yoast_head" );
