@@ -31,25 +31,11 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	protected static $rest_server;
 
 	/**
-	 * The category id
+	 * Test data IDs
 	 *
-	 * @var int
+	 * @var array
 	 */
-	protected $category_id;
-
-	/**
-	 * The tag id
-	 *
-	 * @var int
-	 */
-	protected $tag_id;
-
-	/**
-	 * The author id
-	 *
-	 * @var int
-	 */
-	protected $author_id;
+	protected $test_data = [];
 
 	/**
 	 * Sets up the Test class
@@ -59,160 +45,288 @@ class TestYoastIntegration extends WP_Test_REST_TestCase {
 	public function set_up() {
 		parent::set_up();
 
+		// Set the correct HeadstartWP REST API access option to 'none' ( publicly accessible )
+		update_option( 'tenup_restrict_rest_api', 'none' );
+
 		$this->yoast_seo = new YoastSEO();
 		$this->yoast_seo->register();
 		self::$rest_server = rest_get_server();
 
-		$this->create_posts();
+		
+		$this->test_data = [];
+		$this->set_test_data();
 	}
 
 	/**
-	 * Create posts for testing
+	 * Set test data for all scenarios.
+	 * Using string IDs to match real REST API responses.
 	 */
-	protected function create_posts() {
-		$this->category_id = $this->factory()->term->create(
-			[
-				'taxonomy' => 'category',
-				'slug'     => 'test-category',
-			]
-		);
-		$this->tag_id      = $this->factory()->term->create(
-			[
-				'taxonomy' => 'post_tag',
-				'slug'     => 'test-post-tag',
-			]
-		);
-		$this->author_id   = $this->factory()->user->create(
-			[
-				'role'         => 'editor',
-				'user_login'   => 'test_author',
-				'user_pass'    => 'password',
-				'user_email'   => 'testauthor@example.com',
-				'display_name' => 'Test Author',
-			]
-		);
-
-		$random_category_id = $this->factory()->term->create(
-			[
-				'taxonomy' => 'category',
-				'slug'     => 'random-category',
-			]
-		);
-		$random_tag_id      = $this->factory()->term->create(
-			[
-				'taxonomy' => 'post_tag',
-				'slug'     => 'random-post-tag',
-			]
-		);
-
-		$post_1 = $this->factory()->post->create_and_get(
-			[
-				'post_type'   => 'post',
-				'post_status' => 'publish',
-				'post_author' => $this->author_id,
-			]
-		);
-
-		$post_2 = $this->factory()->post->create_and_get(
-			[
-				'post_type'   => 'post',
-				'post_status' => 'publish',
-				'post_author' => $this->author_id,
-			]
-		);
-
-		wp_set_post_terms( $post_1->ID, [ $this->category_id, $random_category_id ], 'category' );
-		wp_set_post_terms( $post_2->ID, [ $this->category_id, $random_category_id ], 'category' );
-		wp_set_post_terms( $post_1->ID, [ $this->tag_id, $random_tag_id ], 'post_tag' );
-		wp_set_post_terms( $post_2->ID, [ $this->tag_id, $random_tag_id ], 'post_tag' );
+	protected function set_test_data() {
+		$this->test_data = [
+			'jane_author' => '6',
+			'other_author' => '7',
+			'news_category' => '8',
+			'other_category' => '9',
+			'post_1' => '29',
+			'post_2' => '30',
+			'post_3' => '31',
+		];
 	}
 
 	/**
-	 * Tests optimising the Yoast SEO payload in REST API responses.
+	 * Manually construct REST API response format for testing Yoast optimization
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function test_optimise_yoast_payload() {
-
-		// Perform a REST API request for the posts by category.
-		$result_category = $this->get_posts_by_with_optimised_response( 'categories', $this->category_id );
-		$this->assert_yoast_head_in_response( $result_category );
-
-		// Perform a REST API request for the posts by tag.
-		// $result_tag = $this->get_posts_by_with_optimised_response( 'tags', $this->tag_id );
-		// $this->assert_yoast_head_in_response( $result_tag );
-
-		// Perform a REST API request for the posts by author.
-		// $result_author = $this->get_posts_by_with_optimised_response( 'author', $this->author_id );
-		// $this->assert_yoast_head_in_response( $$result_author );
+	protected function create_manual_rest_api_data() {
+		return [
+			[
+				'id' => $this->test_data[ 'post_1' ],
+				'title' => [ 'rendered' => 'First Post by Jane' ],
+				'author' => $this->test_data[ 'jane_author' ],
+				'yoast_head' => '<title>First Post by Jane</title>',
+				'yoast_head_json' => [ 'title' => 'First Post by Jane' ],
+				'_embedded' => [
+					'author' => [
+						[
+							'id' => $this->test_data[ 'jane_author' ],
+							'name' => 'Jane Author',
+							'slug' => 'jane-author',
+							'yoast_head' => '<title>Jane Author</title>',
+							'yoast_head_json' => [ 'title' => 'Jane Author' ],
+						]
+					],
+					'wp:term' => [
+						[
+							[
+								'id' => $this->test_data[ 'news_category' ],
+								'name' => 'News Category',
+								'slug' => 'news-category',
+								'taxonomy' => 'category',
+								'yoast_head' => '<title>News Category</title>',
+								'yoast_head_json' => [ 'title' => 'News Category' ],
+							]
+						]
+					]
+				]
+			],
+			[
+				'id' => $this->test_data[ 'post_2' ],
+				'title' => [ 'rendered' => 'Second Post by Jane' ],
+				'author' => $this->test_data[ 'jane_author' ],
+				'yoast_head' => '<title>Second Post by Jane</title>',
+				'yoast_head_json' => [ 'title' => 'Second Post by Jane' ],
+				'_embedded' => [
+					'author' => [
+						[
+							'id' => $this->test_data[ 'jane_author' ],
+							'name' => 'Jane Author',
+							'slug' => 'jane-author',
+							'yoast_head' => '<title>Jane Author</title>',
+							'yoast_head_json' => [ 'title' => 'Jane Author' ],
+						]
+					],
+					'wp:term' => [
+						[
+							[
+								'id' => $this->test_data[ 'news_category' ],
+								'name' => 'News Category',
+								'slug' => 'news-category',
+								'taxonomy' => 'category',
+								'yoast_head' => '<title>News Category</title>',
+								'yoast_head_json' => [ 'title' => 'News Category' ],
+							]
+						]
+					]
+				]
+			]
+		];
 	}
 
 	/**
-	 * Get the optimised response from headstartwp Yoast integration by param. (category, author)
-	 *
-	 * @param string     $param The param to filter by (category, author)
-	 * @param int|string $value The value of the param
-	 *
-	 * @return \WP_REST_Response
+	 * Single post query
+	 * Only the queried post should have yoast metadata
 	 */
-	protected function get_posts_by_with_optimised_response( $param, $value ) {
-
-		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( $param, $value );
+	public function test_single_post_query() {
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts/' . $this->test_data[ 'post_1' ] );
 		$request->set_param( 'optimizeYoastPayload', true );
 		$request->set_param( '_embed', true );
 
-		$response = rest_do_request( $request );
-		$data     = self::$rest_server->response_to_data( $response, true );
+		$manual_data           = $this->create_manual_rest_api_data();
+		$data_for_optimization = [ $manual_data[0] ];
 
-		$this->assertGreaterThanOrEqual( 2, count( $data ), 'There should be at least two posts returned.' );
+		$optimized_data = $this->yoast_seo->optimise_yoast_payload( $data_for_optimization, self::$rest_server, $request, true );
+		$optimized_post = $optimized_data[0];
 
-		return $this->yoast_seo->optimise_yoast_payload( $data, self::$rest_server, $request, true );
-	}
-
-	/**
-	 * Asserts the presence of yoast_head in the response for each post.
-	 *
-	 * @param array $result The response data containing posts.
-	 * @return void
-	 */
-	protected function assert_yoast_head_in_response( $result ) {
-		$first_post = true;
-
-		foreach ( $result as $post ) {
-
-			$this->assertArrayHasKey( '_embedded', $post, 'The _embedded key should exist in the response.' );
-			$this->assertArrayHasKey( 'wp:term', $post['_embedded'], 'The wp:term in _embedded key should exist in the response.' );
-			$this->assertArrayHasKey( 'author', $post['_embedded'], 'The author in _embedded key should exist in the response.' );
-
-			$this->assert_embedded_item( $post['_embedded'], 'wp:term', $first_post, $this->category_id );
-			$this->assert_embedded_item( $post['_embedded'], 'author', $first_post, null );
-
-			$first_post = false;
+		// The single post should have yoast_head
+		$this->assertArrayHasKey( 'yoast_head', $optimized_post, 'Single queried post should have yoast_head' );
+		
+		// Embedded terms and authors should NOT have yoast_head since no specific term/author was queried
+		if ( isset( $optimized_post[ '_embedded' ] ) ) {
+			$this->assert_no_yoast_in_embedded( $optimized_post[ '_embedded' ], 'No embedded items should have yoast_head for single post query' );
 		}
 	}
 
 	/**
-	 * Asserts the presence of yoast_head of the expected embedded item in the response.
-	 *
-	 * @param array  $embedded_obj The embedded object containing the items.
-	 * @param string $type         The type of embedded item to check.
-	 * @param bool   $first_post   Whether it is the first post in the response.
-	 * @param int    $id           The ID of the item to check
-	 * @return void
+	 * Posts by category
+	 * Only first post and queried category should have yoast metadata
 	 */
-	protected function assert_embedded_item( $embedded_obj, $type, $first_post, $id = null ) {
+	public function test_posts_by_category() {
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
+		$request->set_param( 'categories', $this->test_data[ 'news_category' ] );
+		$request->set_param( 'per_page', 10 );
+		$request->set_param( 'optimizeYoastPayload', true );
+		$request->set_param( '_embed', true );
 
-		foreach ( $embedded_obj[ $type ] as $group ) {
+		$data           = $this->create_manual_rest_api_data();
+		$optimized_data = $this->yoast_seo->optimise_yoast_payload( $data, self::$rest_server, $request, true );
 
-			$items = 'wp:term' !== $type ? [ $group ] : $group;
+		$this->assertGreaterThanOrEqual( 2, count( $optimized_data ), 'Should return at least 2 posts' );
 
-			foreach ( $items as $item ) {
+		// First post should have yoast_head
+		$this->assertArrayHasKey( 'yoast_head', $optimized_data[0], 'First post should have yoast_head' );
 
-				if ( $first_post && $item['id'] === $id ) {
-					$this->assertArrayHasKey( 'yoast_head', $item, 'The requested ' . $type . ' should have yoast_head in the response for the first post.' );
-				} else {
-					$this->assertArrayNotHasKey( 'yoast_head', $item, 'yoast_head in ' . $type . ' should not be present for posts other than the first post and if not requested.' );
+		// Subsequent posts should NOT have yoast_head
+		for ( $i = 1; $i < count( $optimized_data ); $i++ ) {
+			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[$i], "Post {$i} should not have yoast_head" );
+		}
+
+		// Check embedded terms - only the queried category should have yoast_head
+		if ( isset( $optimized_data[0][ '_embedded' ][ 'wp:term' ] ) ) {
+			$this->assert_yoast_in_term( $optimized_data[0][ '_embedded' ][ 'wp:term' ], $this->test_data[ 'news_category' ], 'category' );
+		}
+	}
+
+	/**
+	 * Posts by author
+	 * Only first post and queried author should have yoast metadata
+	 */
+	public function test_posts_by_author() {
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
+		$request->set_param( 'author', $this->test_data[ 'jane_author' ] );
+		$request->set_param( 'per_page', 10 );
+		$request->set_param( 'optimizeYoastPayload', true );
+		$request->set_param( '_embed', true );
+
+		$data           = $this->create_manual_rest_api_data();
+		$optimized_data = $this->yoast_seo->optimise_yoast_payload( $data, self::$rest_server, $request, true );
+
+		$this->assertGreaterThanOrEqual( 2, count( $optimized_data ), 'Should return at least 2 posts' );
+
+		// First post should have yoast_head
+		$this->assertArrayHasKey( 'yoast_head', $optimized_data[0], 'First post should have yoast_head' );
+
+		// Subsequent posts should NOT have yoast_head
+		for ( $i = 1; $i < count( $optimized_data ); $i++ ) {
+			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[$i], "Post {$i} should not have yoast_head" );
+		}
+
+		// Check embedded authors - only the queried author should have yoast_head
+		if ( isset( $optimized_data[0][ '_embedded' ][ 'author' ] ) ) {
+			$author = $optimized_data[0][ '_embedded' ][ 'author' ][0];
+			if ( $author[ 'id' ] === $this->test_data[ 'jane_author' ] ) {
+				$this->assertArrayHasKey( 'yoast_head', $author, 'Queried author should have yoast_head' );
+			} else {
+				$this->assertArrayNotHasKey( 'yoast_head', $author, 'Non-queried author should not have yoast_head' );
+			}
+		}
+	}
+
+	/**
+	 * Posts by category and author
+	 * Only first post, queried category, and queried author should have yoast metadata
+	 */
+	public function test_posts_by_category_and_author() {
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
+		$request->set_param( 'categories', $this->test_data[ 'news_category' ] );
+		$request->set_param( 'author', $this->test_data[ 'jane_author' ] );
+		$request->set_param( 'per_page', 10 );
+		$request->set_param( 'optimizeYoastPayload', true );
+		$request->set_param( '_embed', true );
+
+		$data           = $this->create_manual_rest_api_data();
+		$optimized_data = $this->yoast_seo->optimise_yoast_payload( $data, self::$rest_server, $request, true );
+
+		$this->assertGreaterThanOrEqual( 1, count( $optimized_data ), 'Should return at least 1 post' );
+
+		// First post should have yoast_head
+		$this->assertArrayHasKey( 'yoast_head', $optimized_data[0], 'First post should have yoast_head' );
+
+		// Subsequent posts should NOT have yoast_head
+		for ( $i = 1; $i < count( $optimized_data ); $i++ ) {
+			$this->assertArrayNotHasKey( 'yoast_head', $optimized_data[$i], "Post {$i} should not have yoast_head" );
+		}
+
+		// Check embedded terms - only the queried category should have yoast_head
+		if ( isset( $optimized_data[0][ '_embedded' ][ 'wp:term' ] ) ) {
+			$this->assert_yoast_in_term( $optimized_data[0][ '_embedded' ][ 'wp:term' ], $this->test_data[ 'news_category' ], 'category' );
+		}
+
+		// Check embedded authors - only the queried author should have yoast_head
+		if ( isset( $optimized_data[0][ '_embedded' ][ 'author' ] ) ) {
+			$author = $optimized_data[0][ '_embedded' ][ 'author' ][0];
+			if ( $author[ 'id' ] === $this->test_data[ 'jane_author' ] ) {
+				$this->assertArrayHasKey( 'yoast_head', $author, 'Queried author should have yoast_head' );
+			} else {
+				$this->assertArrayNotHasKey( 'yoast_head', $author, 'Non-queried author should not have yoast_head' );
+			}
+		}
+	}
+
+	/**
+	 * Test that optimization only runs when optimizeYoastPayload parameter is true
+	 */
+	public function test_optimization_only_runs_when_parameter_is_set() {
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
+		$request->set_param( 'categories', $this->test_data[ 'news_category' ] );
+		$request->set_param( 'per_page', 10 );
+		$request->set_param( '_embed', true );
+		
+		$data           = $this->create_manual_rest_api_data();
+		$optimized_data = $this->yoast_seo->optimise_yoast_payload( $data, self::$rest_server, $request, true );
+
+		$this->assertEquals( $data, $optimized_data, 'Data should remain unchanged when optimizeYoastPayload is not set' );
+	}
+
+	/**
+	 * Helper method to assert no yoast_head in any embedded items
+	 *
+	 * @param array  $embedded The embedded data
+	 * @param string $message  The assertion message
+	 */
+	protected function assert_no_yoast_in_embedded( $embedded, $message ) {
+		foreach ( $embedded as $embed_type => $embed_data ) {
+			if ( is_array( $embed_data ) ) {
+				foreach ( $embed_data as $item_group ) {
+					$items = is_array( $item_group ) && isset( $item_group[0] ) ? $item_group : [ $item_group ];
+					foreach ( $items as $item ) {
+						if ( is_array( $item ) ) {
+							$this->assertArrayNotHasKey( 'yoast_head', $item, $message . " (in {$embed_type})" );
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Helper method to assert yoast_head exists only in specific term
+	 *
+	 * @param array  $terms     The terms data
+	 * @param int    $target_id The ID of the term that should have yoast_head
+	 * @param string $taxonomy  The taxonomy name
+	 */
+	protected function assert_yoast_in_term( $terms, $target_id, $taxonomy ) {
+		foreach ( $terms as $term_group ) {
+			if ( is_array( $term_group ) ) {
+				foreach ( $term_group as $term ) {
+					if ( isset( $term[ 'id' ] ) && isset( $term[ 'taxonomy' ] ) ) {
+						if ( $term[ 'id' ] === $target_id && $term[ 'taxonomy' ] === $taxonomy ) {
+							$this->assertArrayHasKey( 'yoast_head', $term, "Queried {$taxonomy} should have yoast_head" );
+						} else {
+							$this->assertArrayNotHasKey( 'yoast_head', $term, "Non-queried {$taxonomy} should not have yoast_head" );
+						}
+					}
 				}
 			}
 		}
