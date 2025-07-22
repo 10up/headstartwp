@@ -40,6 +40,9 @@ class YoastSEO {
 		// Modify API response to optimise payload by removing the yoast_head and yoast_json_head where not needed.
 		// Embedded data is not added yet on rest_prepare_{$this->post_type}.
 		add_filter( 'rest_pre_echo_response', [ $this, 'optimise_yoast_payload' ], 10, 3 );
+		
+		// Filter 'up' link embeddable property to prevent parent pages from being embedded with yoast_head
+		add_action( 'rest_api_init', [ $this, 'filter_up_link_embeddable' ] );
 	}
 
 	/**
@@ -362,7 +365,7 @@ class YoastSEO {
 				$this->optimise_yoast_payload_for_author( $post_obj['_embedded']['author'], $request, $first_post );
 			}
 
-			if ( ! $first_post ) {
+			if ( ! $first_post && empty( $request->get_param( 'slug' ) ) ) {
 				unset( $post_obj['yoast_head'], $post_obj['yoast_head_json'] );
 			}
 
@@ -448,5 +451,54 @@ class YoastSEO {
 		}
 
 		unset( $author );
+	}
+
+	/**
+	 * Registers filters to disable embeddable property for 'up' links on hierarchical post types
+	 * 
+	 * This prevents parent pages from being embedded with their yoast_head data,
+	 * reducing payload size.
+	 */
+	public function filter_up_link_embeddable() {
+		$post_types = get_post_types( [ 'show_in_rest' => true, 'hierarchical' => true ], 'names' );
+
+		foreach ( $post_types as $post_type ) {
+			add_filter( "rest_prepare_{$post_type}", [ $this, 'disable_up_link_embeddable' ], 10, 3 );
+		}
+	}
+
+	/**
+	 * Disables embeddable property for 'up' link in REST API response
+	 *
+	 * @param \WP_REST_Response $response The response object.
+	 * @param \WP_Post          $post     Post object.
+	 * @param \WP_REST_Request  $request  Request object.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function disable_up_link_embeddable( $response, $post, $request ) {
+		// Only modify if optimizeYoastPayload parameter is present
+		if ( empty( $request->get_param( 'optimizeYoastPayload' ) ) ) {
+			return $response;
+		}
+
+		// Get the links from the response object
+		$links = $response->get_links();
+
+		// Check if 'up' link exists
+		if ( ! empty( $links['up'] ) ) {
+			// Remove existing 'up' links
+			$response->remove_link( 'up' );
+			
+			// Re-add each 'up' link with embeddable set to false
+			foreach ( $links['up'] as $up_link ) {
+				$href = $up_link['href'];
+				
+				// Try passing embeddable as a direct attribute
+				$response->add_link( 'up', $href, array( 'embeddable' => false ) );
+			}
+		}
+
+		return $response;
 	}
 }
