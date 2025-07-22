@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - trunk      
+  workflow_dispatch:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -11,6 +12,8 @@ jobs:
   packages:
     name: Release
     runs-on: ubuntu-latest
+    # Only run if on trunk branch
+    if: github.ref == 'refs/heads/trunk'
     outputs:
       hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
     steps:
@@ -41,8 +44,8 @@ jobs:
   plugin-release:
     runs-on: ubuntu-latest
     needs: [packages]
-    # only run this when there are no changesets to be published
-    if: needs.packages.outputs.hasChangesets == 'false'
+    # only run this when there are no changesets to be published AND on trunk branch
+    if: needs.packages.outputs.hasChangesets == 'false' && github.ref == 'refs/heads/trunk'
     steps:
       - name: Checkout
         uses: actions/checkout@v3

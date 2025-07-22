@@ -1,13 +1,19 @@
-import { HeadstartWPRoute, JSONLD, queryPost } from '@headstartwp/next/app';
-import { Metadata } from 'next';
+import { type HeadstartWPRoute, JSONLD, queryPost } from '@headstartwp/next/app';
+import type { Metadata } from 'next';
 import Blocks from '../components/Blocks';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			slug: 'sample-page',
 			postType: 'page',
+		},
+		options: {
+			next: {
+				revalidate: 60,
+				tags: ['home'],
+			},
 		},
 	});
 }
@@ -15,7 +21,7 @@ async function query({ params }: HeadstartWPRoute) {
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const { seo } = await query({ params });
 
-	return seo.metatada;
+	return seo.metadata;
 }
 
 const Home = async ({ params }: HeadstartWPRoute) => {
@@ -24,7 +30,11 @@ const Home = async ({ params }: HeadstartWPRoute) => {
 	return (
 		<main>
 			<div>
-				<Blocks html={data.post.content.rendered ?? ''} settings={config} />
+				<Blocks
+					html={data.post.content.rendered ?? ''}
+					settings={config}
+					styles={data.post.content.block_styles ?? ''}
+				/>
 			</div>
 
 			{seo?.schema && <JSONLD schema={seo.schema} />}

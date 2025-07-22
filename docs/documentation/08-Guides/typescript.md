@@ -4,152 +4,352 @@ sidebar_label: TypeScript
 
 # TypeScript
 
-HeadstartWP offer first-class support for TypeScript. In this guide we document how to leverage TypeScript with HeadstartWP and the Next.js pages router. We also recommend reviewing the official Next.js [docs for TypeScript](https://nextjs.org/docs/pages/building-your-application/configuring/typescript) as using default [HeadstartWP project](https://github.com/10up/headstartwp/tree/develop/projects/wp-nextjs) as a reference for building with TypeScript.
+HeadstartWP offers first-class support for TypeScript. In this guide we document how to leverage TypeScript with HeadstartWP and the Next.js App Router. We also recommend reviewing the official Next.js [docs for TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) as well as using the default [HeadstartWP App Router project](https://github.com/10up/headstartwp/tree/develop/projects/wp-nextjs-app) as a reference for building with TypeScript.
 
-## getStaticProps, getServerSideProps and page props
+## Server Components and Data Fetching
 
-The recommended way to type `getStaticProps` and `getServerSideProps` is by using the `satisfies` operator. Ensure you have `typescript` >= 4.9 before using `satisfies`.
+With App Router, data fetching happens directly in Server Components using async/await. HeadstartWP provides TypeScript-first query functions that return properly typed data.
 
-HeadstartWP exports two types that can be used for this purpose `HeadlessGetStaticProps` and `HeadlessGetServerSideProps`.
+```tsx title="src/app/[...path]/page.tsx"
+import { queryPost } from '@headstartwp/next/app';
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
 
-```ts 
-import type { HeadlessGetStaticProps } from '@headstartwp/next';
+export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
+	const { seo } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+		},
+	});
 
-export const getStaticProps = (async (context) => {
-	try {
-		const settledPromises = await resolveBatch([
-			{
-				func: fetchHookData(usePost.fetcher(), context, { params: singleParams }),
-			},
-			{ func: fetchHookData(useAppSettings.fetcher(), context) },
-		]);
+	return seo.metadata;
+}
 
-		return addHookData(settledPromises, { revalidate: 5 * 60 });
-	} catch (e) {
-		return handleError(e, context);
-	}
-}) satisfies HeadlessGetStaticProps;
+export default async function PostPage({ params }: HeadstartWPRoute) {
+	const { data } = await queryPost({
+		routeParams: await params,
+		params: {
+			postType: ['post', 'page'],
+		},
+	});
+
+	// TypeScript knows the exact shape of data.post
+	return (
+		<article>
+			<h1>{data.post.title.rendered}</h1>
+			<SafeHtml html={data.post.content.rendered} />
+		</article>
+	);
+}
 ```
 
-By using HeadstartWP types you will get the `context` object properly typed for HeadstartWP, for instance the `context.previewData` will be typed with HeadstartWP preview data type.
+## Query Functions Type Safety
 
-If you are sending additional props to your page component we recommend using `InferGetStaticPropsType` from Next.js.
+All HeadstartWP query functions are fully typed:
 
-```ts
-// `homepageSlug` will correctly be typed to `string`
-const Homepage = ({ homePageSlug }: InferGetStaticPropsType<typeof getStaticProps>) => {
-	const params = { ...indexParams, slug: homePageSlug };
+```tsx title="src/app/blog/page.tsx"
+import { queryPosts } from '@headstartwp/next/app';
+import type { PostEntity } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
+
+export default async function BlogPage() {
+	const { data } = await queryPosts({
+		routeParams: {},
+		params: {
+			postType: 'post',
+			perPage: 10,
+		},
+	});
+
+	// TypeScript knows data.posts is PostEntity[]
+	return (
+		<main>
+			<h1>Blog</h1>
+			{data.posts.map((post: PostEntity) => (
+				<article key={post.id}>
+					<h2>{post.title.rendered}</h2>
+					<SafeHtml html={post.excerpt.rendered} />
+				</article>
+			))}
+		</main>
+	);
+}
+```
+
+## Custom Post Types
+
+When working with custom post types, you can extend the base types for better type safety. HeadstartWP query functions are generic, so you can pass your custom types directly:
+
+```tsx title="src/types/wordpress.ts"
+import type { PostEntity, PostsSearchParams } from '@headstartwp/core';
+
+export interface ProductPost extends PostEntity {
+	acf: {
+		price: number;
+		sku: string;
+		gallery: Array<{
+			url: string;
+			alt: string;
+		}>;
+	};
+}
+
+export interface EventPost extends PostEntity {
+	acf: {
+		event_date: string;
+		location: string;
+		capacity: number;
+	};
+}
+
+// Extend the search params to include custom fields
+export interface ProductSearchParams extends PostsSearchParams {
+
+	// Add custom taxonomy support
+	product_category?: string | string[];
+	price_range?: {
+		min: number;
+		max: number;
+	};
+}
+
+export interface EventSearchParams extends PostsSearchParams {
+	event_date_after?: string;
+	event_date_before?: string;
+	location?: string;
+}
+```
+
+Then use these types with the generic query functions:
+
+```tsx title="src/app/products/[...path]/page.tsx"
+import { queryPost } from '@headstartwp/next/app';
+import type { ProductPost } from '../../../types/wordpress';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
+
+export default async function ProductPage({ params }: HeadstartWPRoute) {
+	// Use the generic function with your custom type
+	const { data } = await queryPost<ProductPost>({
+		routeParams: await params,
+		params: {
+			postType: 'product',
+		},
+	});
+
+	// TypeScript now knows data.post is ProductPost
+	const product = data.post;
 
 	return (
-		<>
-			<PageContent params={params} />
-		</>
+		<div>
+			<h1>{product.title.rendered}</h1>
+			<p>Price: ${product.acf.price}</p>
+			<p>SKU: {product.acf.sku}</p>
+			<div className="gallery">
+				{product.acf.gallery?.map((image, index) => (
+					<img key={index} src={image.url} alt={image.alt} />
+				))}
+			</div>
+		</div>
 	);
-};
-
-export default Homepage;
-
-
-export const getStaticProps = (async (context) => {
-	const hookData = [];
-	let slug = '';
-	try {
-		const appSettings = await fetchHookData(useAppSettings.fetcher(), context);
-
-		/**
-		 * The static front-page can be set in the WP admin. The default one will be 'front-page'
-		 */
-		slug = appSettings.data.result?.home?.slug ?? 'front-page';
-
-		hookData.push(appSettings);
-	} catch (e) {
-		if (e.name === 'EndpointError') {
-			slug = 'front-page';
-		}
-	}
-
-	try {
-		const usePost = await fetchHookData(usePost.fetcher(), context, {
-					params: {
-						...indexParams,
-						slug,
-					},
-		});
-
-		hookData.push(...fetchBatch);
-
-		return addHookData(hookData, {
-            // TypeScript can cleverly infer the `props` type here
-			props: { homePageSlug: slug },
-			revalidate: 5 * 60,
-		});
-	} catch (e) {
-		return handleError(e, context);
-	}
-}) satisfies HeadlessGetStaticProps;
+}
 ```
 
-Note that `addHookData` also accepts a generic type if you need to provider a complex type def for you own props.
+For listing pages with custom search params:
 
-```ts
-return addHookData<MyCustomPropsType>(hookData, {
-    props: { homePageSlug: slug, complexDataType },
-    revalidate: 5 * 60,
-});
+```tsx title="src/app/products/page.tsx"
+import { queryPosts } from '@headstartwp/next/app';
+import type { ProductPost, ProductSearchParams } from '../../types/wordpress';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { SafeHtml } from '@headstartwp/core/react';
+
+interface ProductsPageProps extends HeadstartWPRoute {
+	searchParams: Promise<ProductSearchParams>;
+}
+
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+	const params = await searchParams;
+	
+	// Use the generic function with both custom post type and search params
+	const { data } = await queryPosts<ProductPost>({
+		routeParams: {},
+		params: {
+			postType: 'product',
+			perPage: 12,
+			...params,
+			// TypeScript validates these custom params
+			meta_query: params.price_range ? [
+				{
+					key: 'price',
+					value: params.price_range.min,
+					compare: '>=',
+				},
+				{
+					key: 'price',
+					value: params.price_range.max,
+					compare: '<=',
+				},
+			] : undefined,
+		},
+	});
+
+	// TypeScript knows data.posts is ProductPost[]
+	return (
+		<div>
+			<h1>Products</h1>
+			<div className="products-grid">
+				{data.posts.map((product) => (
+					<article key={product.id}>
+						<h2>{product.title.rendered}</h2>
+						<p>Price: ${product.acf.price}</p>
+						<p>SKU: {product.acf.sku}</p>
+						<SafeHtml html={product.excerpt.rendered} />
+					</article>
+				))}
+			</div>
+		</div>
+	);
+}
+```
+
+## Layout Types
+
+For layout components, HeadstartWP provides the `HeadstartWPLayout` type:
+
+```tsx title="src/app/layout.tsx"
+import { HeadstartWPApp } from '@headstartwp/next/app';
+import type { HeadstartWPLayout } from '@headstartwp/next/app';
+import { loadHeadstartWPConfig } from '@headstartwp/next/app';
+import { Metadata } from 'next';
+import './globals.css';
+
+export const metadata: Metadata = {
+	title: 'My HeadstartWP App',
+	description: 'Built with HeadstartWP and Next.js App Router',
+};
+
+export default async function RootLayout({ children, params }: Readonly<HeadstartWPLayout>) {
+	const { menu, data, config } = await queryAppSettings({
+		menu: 'primary',
+		routeParams: await params,
+	});
+
+	return (
+		<html lang="en">
+			<body>
+				<BlockLibraryStyles params={await params} />
+				<HeadstartWPApp settings={config} themeJSON={data['theme.json']}>
+					{menu ? <Menu items={menu} /> : null}
+					{children}
+					<PreviewIndicator className="form-container" />
+				</HeadstartWPApp>
+			</body>
+		</html>
+	);
+}
+```
+
+For custom layout props, extend the `HeadstartWPLayout` type:
+
+```tsx title="src/app/blog/layout.tsx"
+import type { HeadstartWPLayout } from '@headstartwp/next/app';
+import { queryPosts } from '@headstartwp/next/app';
+import { Sidebar } from '../../components/Sidebar';
+
+interface BlogLayoutProps extends HeadstartWPLayout {
+	// Add any additional props if needed
+}
+
+export default async function BlogLayout({ children, params }: BlogLayoutProps) {
+	// Fetch data for the sidebar
+	const { data } = await queryPosts({
+		routeParams: await params,
+		params: {
+			postType: 'post',
+			perPage: 5,
+		},
+	});
+
+	return (
+		<div className="blog-layout">
+			<main>{children}</main>
+			<Sidebar recentPosts={data.posts} />
+		</div>
+	);
+}
 ```
 
 ## Recommended TS Config
 
-This is the recommended TS Config for working with HeadstartWP and TypeScript
+This is the recommended TS Config for working with HeadstartWP and TypeScript in App Router:
 
-```json
+```json title="tsconfig.json"
 {
-  "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "strictBindCallApply": true,
-    "strictNullChecks": true,
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+	"compilerOptions": {
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"incremental": true,
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+	"exclude": ["node_modules"]
 }
 ```
 
 ## Global Types
 
-We recommend using a `src/global.d.ts` file when you need to add/extend types to the global scope. An example would be extending the `window` global for typing third party scripts (Ads, GA etc).
+We recommend using a `src/types/global.d.ts` file when you need to add/extend types to the global scope:
 
-Make sure that `src/global.d.ts` is added to your `tsconfig.json` include array.
+```ts title="src/types/global.d.ts"
+import type { PostEntity, TermEntity } from '@headstartwp/core';
+import { SafeHtml } from '@headstartwp/core/react';
 
-```ts title="src/global.d.t"
-interface Window {
-  // add new types to the Window global
+declare global {
+	interface Window {
+		gtag?: (...args: any[]) => void;
+		dataLayer?: any[];
+	}
 }
+export {};
 ```
+
+Make sure that `src/types/global.d.ts` is included in your `tsconfig.json`.
+
 
 ## Running the typecheck
 
-By default Next.js will run `tsc` to validate your types. If type checking fails your build will fail. Therefore we recommend running `tsc --noEmit` before commiting and/or on your CI prior to merging PRs.
+By default Next.js will run `tsc` to validate your types. If type checking fails your build will fail. Therefore we recommend running `tsc --noEmit` before committing and/or on your CI prior to merging PRs.
+
+You can also add type checking scripts to your `package.json`:
+
+```json title="package.json"
+{
+	"scripts": {
+		"type-check": "tsc --noEmit",
+		"type-check:watch": "tsc --noEmit --watch",
+		"lint": "next lint && npm run type-check"
+	}
+}
+```
+
+This App Router TypeScript setup provides full type safety while maintaining the flexibility and power of HeadstartWP's data fetching capabilities.

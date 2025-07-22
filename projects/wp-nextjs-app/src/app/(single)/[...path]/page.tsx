@@ -1,12 +1,7 @@
 import { HtmlDecoder } from '@headstartwp/core/react';
-import {
-	HeadstartWPRoute,
-	JSONLD,
-	loadHeadstartWPConfig,
-	queryPost,
-	queryPosts,
-} from '@headstartwp/next/app';
-import { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { JSONLD, loadHeadstartWPConfig, queryPost, queryPosts } from '@headstartwp/next/app';
+import type { Metadata } from 'next';
 import { removeSourceUrl } from '@headstartwp/core';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
@@ -19,10 +14,10 @@ const ClientRelatedPosts = dynamic(() =>
 
 export async function generateStaticParams({ params }: HeadstartWPRoute) {
 	// loads the right config based on route params (this is needed over getHeadstartWP for sites using polylang integration or multisite)
-	const { sourceUrl = '', hostUrl = '/' } = loadHeadstartWPConfig(params);
+	const { sourceUrl = '', hostUrl = '/' } = await loadHeadstartWPConfig(params);
 
 	const { data } = await queryPosts({
-		routeParams: params,
+		routeParams: await params,
 		params: { postType: 'post' },
 	});
 
@@ -39,19 +34,22 @@ export async function generateStaticParams({ params }: HeadstartWPRoute) {
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			postType: ['post', 'page'],
+		},
+		options: {
+			cache: 'force-cache',
 		},
 	});
 }
 
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const {
-		seo: { metatada },
+		seo: { metadata },
 	} = await query({ params });
 
-	return metatada;
+	return metadata;
 }
 
 const Single = async ({ params }: HeadstartWPRoute) => {
@@ -63,7 +61,11 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
 
-			<Blocks html={data.post.content.rendered ?? ''} settings={config} />
+			<Blocks
+				html={data.post.content.rendered ?? ''}
+				settings={config}
+				styles={data.post.content.block_styles ?? ''}
+			/>
 
 			{seo.schema && <JSONLD schema={seo.schema} />}
 

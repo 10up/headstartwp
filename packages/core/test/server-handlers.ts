@@ -145,7 +145,7 @@ const handlers = [
 		const id = Number(req.params.id);
 
 		// revisions always requires Authorization
-		if (!req.headers.has('Authorization' || !req.headers.has('X-HeadstartWP-Authorization'))) {
+		if (!req.headers.has('Authorization') || !req.headers.has('X-HeadstartWP-Authorization')) {
 			return res(ctx.json({ code: 'rest_unauthorized', data: { status: 500 } }));
 		}
 

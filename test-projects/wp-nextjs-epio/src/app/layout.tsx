@@ -1,0 +1,36 @@
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Link, queryAppSettings, HeadstartWPApp } from '@headstartwp/next/app';
+import { Menu, SettingsContextProps } from '@headstartwp/core/react';
+
+const inter = Inter({ subsets: ['latin'] });
+
+const RootLayout = async ({
+	children,
+}: Readonly<{
+	children: React.ReactNode;
+}>) => {
+	const { menu, data, config } = await queryAppSettings({ menu: 'primary' });
+
+	const settings: SettingsContextProps = {
+		...config,
+		linkComponent: Link,
+	};
+
+	return (
+		<html lang="en">
+			<head>
+				<script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
+			</head>
+			<body className={inter.className}>
+				<HeadstartWPApp settings={settings} themeJSON={data['theme.json']}>
+					{menu ? <Menu items={menu} /> : null}
+					{children}
+					{/* <PreviewIndicator className="form-container" /> */}
+				</HeadstartWPApp>
+			</body>
+		</html>
+	);
+};
+
+export default RootLayout;

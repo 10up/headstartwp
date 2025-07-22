@@ -27,7 +27,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Restore next build
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: restore-build-cache
         env:
           cache-name: cache-next-build
@@ -54,7 +54,7 @@ jobs:
           path: ./projects/wp-nextjs/.next/analyze/__bundle_analysis.json
 
       - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v6
         if: success() && github.event.number
         with:
           workflow: nextjs_bundle_analysis.yml

@@ -3,7 +3,7 @@ import { HeadstartWPRoute, queryPost } from '@headstartwp/next/app';
 
 const Single = async ({ params }: HeadstartWPRoute) => {
 	const { data } = await queryPost({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			postType: ['post', 'page'],
 		},
@@ -15,7 +15,10 @@ const Single = async ({ params }: HeadstartWPRoute) => {
 				<HtmlDecoder html={data.post.title.rendered ?? ''} />
 			</h1>
 
-			<BlocksRenderer html={data.post.content.rendered ?? ''} />
+			<BlocksRenderer
+				html={data.post.content.rendered ?? ''}
+				blockStyles={data.post.content.block_styles ?? ''}
+			/>
 		</article>
 	);
 };

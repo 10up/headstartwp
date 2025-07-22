@@ -22,6 +22,46 @@ exports[`BlocksRenderer forward context to the component 1`] = `
 </div>
 `;
 
+exports[`BlocksRenderer forwards block props to the component in nested blocks 1`] = `
+[
+  <p
+    data-testid="block-props"
+  >
+    {"attributes":{"dropCap":false},"name":"core/paragraph"}
+  </p>,
+  <p
+    data-testid="block-props"
+  >
+    {"attributes":{"dropCap":false},"name":"core/paragraph"}
+  </p>,
+  <p
+    data-testid="block-props"
+  >
+    {"attributes":{"dropCap":false},"name":"core/paragraph"}
+  </p>,
+]
+`;
+
+exports[`BlocksRenderer forwards block props to the component in nested blocks when the parent block is replaced with a custom component 1`] = `
+[
+  <p
+    data-testid="block-props"
+  >
+    {"attributes":{"dropCap":false},"name":"core/paragraph"}
+  </p>,
+  <p
+    data-testid="block-props"
+  >
+    {"attributes":{"dropCap":false},"name":"core/paragraph"}
+  </p>,
+  <p
+    data-testid="block-props"
+  >
+    {"attributes":{"dropCap":false},"name":"core/paragraph"}
+  </p>,
+]
+`;
+
 exports[`BlocksRenderer works correctly with chinese content 1`] = `
 <div>
   <h3

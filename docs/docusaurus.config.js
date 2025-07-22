@@ -2,8 +2,7 @@
 // Note: type annotations allow type checking and IDEs autocompletion
 /* eslint-disable import/no-unresolved */
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -17,6 +16,15 @@ const config = {
 	organizationName: '10up', // Usually your GitHub org/user name.
 	projectName: 'headless-framework', // Usually your repo name.
 	trailingSlash: true,
+	markdown: {
+		mermaid: true,
+		format: 'detect',
+		mdx1Compat: {
+			admonitions: true,
+			comments: true,
+			headingIds: true,
+		},
+	},
 	presets: [
 		[
 			'classic',
@@ -29,7 +37,7 @@ const config = {
 					anonymizeIP: true,
 				},
 				theme: {
-					customCss: require.resolve('./src/css/custom.css'),
+					customCss: './src/css/custom.css',
 				},
 			}),
 		],
@@ -40,18 +48,15 @@ const config = {
 			'docusaurus-plugin-typedoc',
 			{
 				name: 'HeadstartWP',
-				out: '.',
+				out: './docs',
 				entryPoints: ['../packages/core', '../packages/next'],
 				entryPointStrategy: 'packages',
+				packageOptions: {
+					entryPoints: ['src/docs-entry-point.ts'],
+				},
 				categorizeByGroup: false,
 				excludeInternal: true,
 				readme: 'none',
-				sidebar: {
-					categoryLabel: 'API reference',
-					collapsed: false,
-					position: 0,
-					fullNames: true,
-				},
 			},
 		],
 		[
@@ -59,32 +64,30 @@ const config = {
 			{
 				path: 'documentation',
 				routeBasePath: '/learn',
-				sidebarPath: require.resolve('./sidebars.js'),
+				sidebarPath: './sidebars.js',
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
 				editUrl: 'https://github.com/10up/headstartwp/tree/trunk/docs',
 				sidebarCollapsed: false,
+				versions: {
+					current: {
+						label: 'App Router (1.5+)',
+						path: '/',
+						banner: 'none',
+					},
+					'pages-router': {
+						label: 'Pages Router',
+						path: 'pages-router',
+					},
+				},
 			},
 		],
-		/* [
-			'@docusaurus/plugin-content-docs',
-			{
-				id: 'training',
-				path: 'training',
-				routeBasePath: 'training',
-				sidebarPath: require.resolve('./sidebars.js'),
-				showLastUpdateTime: true,
-				showLastUpdateAuthor: true,
-				editUrl: 'https://github.com/10up/headstartwp/tree/trunk/docs',
-				sidebarCollapsed: false,
-			},
-		], */
 		[
 			'@docusaurus/plugin-content-docs',
 			{
 				id: 'docs',
 				routeBasePath: '/api',
-				sidebarPath: require.resolve('./sidebars.js'),
+				sidebarPath: './sidebars.js',
 				showLastUpdateTime: true,
 				showLastUpdateAuthor: true,
 				editUrl: 'https://github.com/10up/headstartwp/tree/trunk/docs',
@@ -92,10 +95,10 @@ const config = {
 			},
 		],
 		[
-			require.resolve('@easyops-cn/docusaurus-search-local'),
+			'@easyops-cn/docusaurus-search-local',
 			{
 				indexDocs: true,
-				docsRouteBasePath: ['api', 'learn'],
+				docsRouteBasePath: ['learn', 'api'],
 				docsDir: ['documentation', 'docs'],
 				hashed: true,
 			},
@@ -121,19 +124,17 @@ const config = {
 						position: 'right',
 						label: 'Docs',
 					},
-					/* {
-						type: 'doc',
-						docId: 'index',
-						position: 'right',
-						label: 'Tutorial',
-						docsPluginId: 'training',
-					}, */
 					{
 						type: 'doc',
 						docId: 'index',
 						position: 'right',
 						label: 'API Reference',
 						docsPluginId: 'docs',
+					},
+					{
+						type: 'docsVersionDropdown',
+						position: 'left',
+						dropdownActiveClassDisabled: true,
 					},
 				],
 			},
@@ -155,10 +156,6 @@ const config = {
 								label: 'Documentation',
 								to: '/learn',
 							},
-							/* {
-								label: 'Tutorial',
-								to: '/training',
-							}, */
 							{
 								label: 'API Reference',
 								to: '/api',
@@ -174,31 +171,14 @@ const config = {
 							},
 						],
 					},
-					/* {
-						title: 'Resources',
-						items: [
-							{
-								label: 'Block Components',
-								href: 'https://github.com/10up/block-components',
-							},
-							{
-								label: 'Block Examples (internal)',
-								href: 'https://github.com/10up/block-examples',
-							},
-							{
-								label: 'WP Scaffold',
-								href: 'https://github.com/10up/wp-scaffold',
-							},
-						],
-					}, */
 				],
 			},
 			prism: {
-				theme: lightCodeTheme,
-				darkTheme: darkCodeTheme,
+				theme: prismThemes.github,
+				darkTheme: prismThemes.dracula,
 				additionalLanguages: ['php', 'bash'],
 			},
 		}),
 };
 
-module.exports = config;
+export default config;

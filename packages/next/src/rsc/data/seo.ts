@@ -52,7 +52,7 @@ export function fromYoastToMetadata(yoast: YoastJSON, config: HeadlessConfig = {
 		},
 		twitter: {
 			creator: yoast.twitter_creator,
-			card: yoast.twitter_card,
+			card: yoast.twitter_card ?? 'summary',
 			title: yoast.twitter_title,
 			description: yoast.twitter_description,
 			images: yoast.twitter_image,
@@ -103,7 +103,7 @@ function getMetatadataForTermEntity(term: TermEntity, config: HeadlessConfig): M
 export function prepareSEOMetadata(
 	data: PostEntity | QueriedObject,
 	_config: HeadlessConfig = {},
-): { metatada: Metadata; schema?: string } {
+): { metadata: Metadata; schema?: string } {
 	const config = _config ?? getHeadstartWPConfig();
 	const { integrations } = config;
 	const isYoastIntegrationEnabled = !!integrations?.yoastSEO?.enable;
@@ -143,8 +143,12 @@ export function prepareSEOMetadata(
 		}
 	}
 
+	const _metadata = merge([yoastMetadata, metadata]);
+
 	return {
-		metatada: merge([metadata, yoastMetadata]),
+		metadata: _metadata,
+		// @ts-expect-error - previous version had a typo to keeping it for backwards compatibility, users with TS will still see an error during build
+		metatada: _metadata,
 		schema: jsonLd
 			? JSON.stringify(jsonLd).replace(new RegExp(sourceUrl, 'g'), hostUrl)
 			: undefined,

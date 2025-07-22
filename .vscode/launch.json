@@ -10,7 +10,8 @@
             "request": "launch",
             "port": 9003,
             "pathMappings": {
-                "/var/www/html/wp-content/plugins/headless-wp": "${workspaceFolder}/wp/headless-wp"
+                "/var/www/html/wp-content/plugins/headless-wp": "${workspaceFolder}/wp/headless-wp",
+                "/var/www/html/wp-content/plugins/wordpress-seo": "${workspaceFolder}/wp/headless-wp/vendor/wordpress-seo"
               }
         },
     ]

@@ -7,7 +7,10 @@ export async function generateStaticParams() {
 }
 
 const RootLayout = async ({ children, params }: Readonly<HeadstartWPLayout>) => {
-	const { menu, data, config } = await queryAppSettings({ menu: 'primary', routeParams: params });
+	const { menu, data, config } = await queryAppSettings({
+		menu: 'primary',
+		routeParams: await params,
+	});
 
 	return (
 		<ThemeSettingsProvider data={data['theme.json']}>

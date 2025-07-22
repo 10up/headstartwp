@@ -6,6 +6,7 @@
  * Those schemas are accessible making an OPTIONS call to each endpoint.
  */
 
+import { ThemeJSON } from '../../react/provider/types';
 import { YoastJSON } from './yoast';
 
 /**
@@ -26,6 +27,10 @@ export interface Rendered {
 	 */
 	rendered?: string;
 	[k: string]: unknown;
+}
+
+export interface RenderedWithBlockStyles extends Rendered {
+	block_styles?: string;
 }
 
 /**
@@ -120,7 +125,7 @@ export interface PostEntity extends PostTypeEntity {
 	/**
 	 * The content for the object.
 	 */
-	content: Rendered;
+	content: RenderedWithBlockStyles;
 
 	/**
 	 * The excerpt for the object.
@@ -185,7 +190,7 @@ export interface RevisionEntity extends PostTypeEntity {
 	/**
 	 * The content for the object.
 	 */
-	content?: Rendered;
+	content: RenderedWithBlockStyles;
 
 	/**
 	 * The excerpt for the object.
@@ -205,7 +210,7 @@ export interface PageEntity extends PostTypeEntity {
 	/**
 	 * The content for the object.
 	 */
-	content: Rendered;
+	content: RenderedWithBlockStyles;
 
 	/**
 	 * The excerpt for the object.
@@ -745,7 +750,7 @@ export interface AppEntity extends Entity {
 		posts_per_page: string;
 		privacy_policy_url: string;
 	};
-	'theme.json': Record<string, any>;
+	'theme.json': ThemeJSON;
 }
 
 export interface PageInfo {

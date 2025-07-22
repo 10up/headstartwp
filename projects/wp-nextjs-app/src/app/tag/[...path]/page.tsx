@@ -1,10 +1,11 @@
-import { HeadstartWPRoute, JSONLD, queryPosts } from '@headstartwp/next/app';
-import { Metadata } from 'next';
+import type { HeadstartWPRoute } from '@headstartwp/next/app';
+import { JSONLD, queryPosts } from '@headstartwp/next/app';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 async function query({ params }: HeadstartWPRoute) {
 	return queryPosts({
-		routeParams: params,
+		routeParams: await params,
 		params: {
 			taxonomy: 'post_tag',
 		},
@@ -13,10 +14,10 @@ async function query({ params }: HeadstartWPRoute) {
 
 export async function generateMetadata({ params }: HeadstartWPRoute): Promise<Metadata> {
 	const {
-		seo: { metatada },
+		seo: { metadata },
 	} = await query({ params });
 
-	return metatada;
+	return metadata;
 }
 
 const TagArchive = async ({ params }: HeadstartWPRoute) => {

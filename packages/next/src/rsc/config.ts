@@ -8,8 +8,9 @@ import { prepareQuery } from './data/queries/prepareQuery';
  *
  * @returns
  */
-export function loadHeadstartWPConfig(routeParams: HeadstartWPRoute['params']) {
-	const { config } = prepareQuery({ routeParams });
+export async function loadHeadstartWPConfig(routeParams: HeadstartWPRoute['params']) {
+	const params = await routeParams;
+	const { config } = prepareQuery({ routeParams: params });
 
 	return config;
 }

@@ -1,7 +1,14 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Link, PreviewIndicator, queryAppSettings, HeadstartWPApp } from '@headstartwp/next/app';
-import { Menu, SettingsContextProps } from '@headstartwp/core/react';
+import {
+	Link,
+	PreviewIndicator,
+	queryAppSettings,
+	HeadstartWPApp,
+	BlockLibraryStyles,
+} from '@headstartwp/next/app';
+import type { SettingsContextProps } from '@headstartwp/core/react';
+import { Menu } from '@headstartwp/core/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,6 +27,7 @@ const RootLayout = async ({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
+				<BlockLibraryStyles />
 				<HeadstartWPApp settings={settings} themeJSON={data['theme.json']}>
 					{menu ? <Menu items={menu} /> : null}
 					{children}

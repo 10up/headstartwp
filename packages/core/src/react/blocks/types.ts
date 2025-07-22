@@ -53,7 +53,12 @@ export type Spacing = {
 		right: string;
 	};
 	supportsBlockGap: boolean;
-	blockGap: string;
+	blockGap:
+		| string
+		| {
+				top: string;
+				left: string;
+		  };
 };
 
 export interface GutenbergBlockProps {
