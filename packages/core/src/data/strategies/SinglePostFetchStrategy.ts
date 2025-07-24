@@ -184,7 +184,11 @@ export class SinglePostFetchStrategy<
 					const postTypeObject = getCustomPostType(postType, this.baseURL);
 
 					if (params.fullPath) {
-						return postPath === params.fullPath.replace(/\/?$/, '/');
+						const normalizedFullPath = params.fullPath.replace(/\/?$/, '/');
+						return (
+							postPath === normalizedFullPath ||
+							postPath === `/${this.locale}${normalizedFullPath}`
+						);
 					}
 
 					const singlePrefix = postTypeObject?.single?.replace(/\/?$/, '') ?? '';
