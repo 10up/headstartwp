@@ -164,6 +164,8 @@ export class SinglePostFetchStrategy<
 	 * @returns
 	 */
 	getPostThatMatchesCurrentPath(result: T[], params: Partial<P>): T | undefined {
+		const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
+
 		return result.find((post) => {
 			const postPath = decodeURIComponent(
 				removeSourceUrl({
@@ -171,8 +173,6 @@ export class SinglePostFetchStrategy<
 					backendUrl: this.baseURL,
 				}),
 			)?.replace(/\/?$/, '/');
-
-			const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
 
 			if (params.postType && params.postType.length > 0) {
 				const expectedPostTypes = Array.isArray(params.postType)
@@ -182,6 +182,15 @@ export class SinglePostFetchStrategy<
 
 				if (expectedPostTypes.includes(postType)) {
 					const postTypeObject = getCustomPostType(postType, this.baseURL);
+
+					if (params.fullPath) {
+						const normalizedFullPath = params.fullPath.replace(/\/?$/, '/');
+						return (
+							postPath === normalizedFullPath ||
+							postPath === `/${this.locale}${normalizedFullPath}`
+						);
+					}
+
 					const singlePrefix = postTypeObject?.single?.replace(/\/?$/, '') ?? '';
 
 					return (
