@@ -15,6 +15,7 @@ module.exports = {
 	integrations: {
 		yoastSEO: {
 			enable: true,
+			optimizeYoastPayload: true,
 		},
 	},
 };

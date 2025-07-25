@@ -41,6 +41,7 @@ module.exports = {
 	integrations: {
 		yoastSEO: {
 			enable: true,
+			optimizeYoastPayload: true,
 		},
 		polylang: {
 			enable: process?.env?.NEXT_PUBLIC_ENABLE_POLYLANG_INTEGRATION === 'true',

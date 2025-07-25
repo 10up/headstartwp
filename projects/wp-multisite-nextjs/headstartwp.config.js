@@ -32,4 +32,10 @@ module.exports = {
 			useWordPressPlugin: true,
 		},
 	],
+	integrations: {
+		yoastSEO: {
+			enable: true,
+			optimizeYoastPayload: true,
+		},
+	},
 };

@@ -36,6 +36,13 @@ class YoastSEO {
 
 		// Introduce hereflangs presenter to Yoast list of presenters.
 		add_action( 'rest_api_init', [ $this, 'wpseo_rest_api_hreflang_presenter' ], 10, 0 );
+
+		// Modify API response to optimise payload by removing the yoast_head and yoast_json_head where not needed.
+		// Embedded data is not added yet on rest_prepare_{$this->post_type}.
+		add_filter( 'rest_pre_echo_response', [ $this, 'optimise_yoast_payload' ], 10, 3 );
+
+		// Filter 'up' link embeddable property to prevent parent pages from being embedded with yoast_head
+		add_action( 'rest_api_init', [ $this, 'filter_up_link_embeddable' ] );
 	}
 
 	/**
@@ -321,5 +328,183 @@ class YoastSEO {
 				return $presenters;
 			}
 		);
+	}
+
+	/**
+	 * Optimises the Yoast SEO payload in REST API responses.
+	 *
+	 * This method modifies the API response to reduce the payload size by removing
+	 * the 'yoast_head' and 'yoast_json_head' fields from the response when they are
+	 * not needed for the nextjs app.
+	 * See https://github.com/10up/headstartwp/issues/563
+	 *
+	 * @param array            $result The response data to be served, typically an array.
+	 * @param \WP_REST_Server  $server Server instance.
+	 * @param \WP_REST_Request $request Request used to generate the response.
+	 * @param boolean          $embed Whether the response should include embedded data.
+	 *
+	 * @return array Modified response data.
+	 */
+	public function optimise_yoast_payload( $result, $server, $request, $embed = false ) {
+
+		$embed = $embed ? $embed : filter_var( wp_unslash( $_GET['_embed'] ?? false ), FILTER_VALIDATE_BOOLEAN );
+
+		if ( ! $embed || empty( $request->get_param( 'optimizeYoastPayload' ) ) ) {
+			return $result;
+		}
+
+		$first_post = true;
+
+		foreach ( $result as &$post_obj ) {
+
+			if ( ! empty( $post_obj['_embedded']['wp:term'] ) ) {
+				$this->optimise_yoast_payload_for_taxonomy( $post_obj['_embedded']['wp:term'], $request, $first_post );
+			}
+
+			if ( ! empty( $post_obj['_embedded']['author'] ) ) {
+				$this->optimise_yoast_payload_for_author( $post_obj['_embedded']['author'], $request, $first_post );
+			}
+
+			if ( ! $first_post && empty( $request->get_param( 'slug' ) ) ) {
+				unset( $post_obj['yoast_head'], $post_obj['yoast_head_json'] );
+			}
+
+			$first_post = false;
+		}
+
+		unset( $post_obj );
+
+		return $result;
+	}
+
+	/**
+	 * Optimises the Yoast SEO payload for taxonomies.
+	 * Removes yoast head from _embed terms for any term that is not in the queried params.
+	 * Logic runs for the first post, yoast head metadata is removed completely for other posts.
+	 *
+	 * @param array            $taxonomy_groups The _embedded wp:term collections.
+	 * @param \WP_REST_Request $request         Request used to generate the response.
+	 * @param boolean          $first_post      Whether this is the first post in the response.
+	 *
+	 * @return void
+	 */
+	protected function optimise_yoast_payload_for_taxonomy( &$taxonomy_groups, $request, $first_post ) {
+
+		foreach ( $taxonomy_groups as &$taxonomy_group ) {
+
+			foreach ( $taxonomy_group as &$term_obj ) {
+
+				$param = null;
+
+				if ( $first_post ) {
+					// Get the queried terms for the taxonomy.
+					$param = 'category' === $term_obj['taxonomy'] ?
+						$request->get_param( 'category' ) ?? $request->get_param( 'categories' ) :
+						$request->get_param( $term_obj['taxonomy'] );
+				}
+
+				if ( $first_post && ! empty( $param ) ) {
+					$param = is_array( $param ) ? $param : explode( ',', $param );
+
+					// If the term slug is not in param array, unset yoast heads.
+					if ( ! in_array( $term_obj['slug'], $param, true ) && ! in_array( $term_obj['id'], $param, true ) ) {
+						unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
+					}
+				} else {
+					unset( $term_obj['yoast_head'], $term_obj['yoast_head_json'] );
+				}
+			}
+
+			unset( $term_obj );
+		}
+
+		unset( $taxonomy_group );
+	}
+
+	/**
+	 * Optimises the Yoast SEO payload for author.
+	 * Removes yoast head from _embed author for any author that is not in the queried params.
+	 * Logic runs for the first post, yoast head metadata is removed completely for other posts.
+	 *
+	 * @param array            $authors     The _embedded author collections.
+	 * @param \WP_REST_Request $request     Request used to generate the response.
+	 * @param boolean          $first_post  Whether this is the first post in the response.
+	 *
+	 * @return void
+	 */
+	protected function optimise_yoast_payload_for_author( &$authors, $request, $first_post ) {
+
+		foreach ( $authors as &$author ) {
+
+			$param = $first_post ? $request->get_param( 'author' ) : null;
+
+			if ( $first_post && ! empty( $param ) ) {
+				$param = is_array( $param ) ? $param : explode( ',', $param );
+
+				// If the term slug is not in param array, unset yoast heads.
+				if ( ! in_array( $author['slug'], $param, true ) && ! in_array( $author['id'], $param, true ) ) {
+					unset( $author['yoast_head'], $author['yoast_head_json'] );
+				}
+			} else {
+				unset( $author['yoast_head'], $author['yoast_head_json'] );
+			}
+		}
+
+		unset( $author );
+	}
+
+	/**
+	 * Registers filters to disable embeddable property for 'up' links on hierarchical post types
+	 *
+	 * This prevents parent pages from being embedded with their yoast_head data,
+	 * reducing payload size.
+	 */
+	public function filter_up_link_embeddable() {
+		$post_types = get_post_types(
+			[
+				'show_in_rest' => true,
+				'hierarchical' => true,
+			],
+			'names'
+		);
+
+		foreach ( $post_types as $post_type ) {
+			add_filter( "rest_prepare_{$post_type}", [ $this, 'disable_up_link_embeddable' ], 10, 3 );
+		}
+	}
+
+	/**
+	 * Disables embeddable property for 'up' link in REST API response
+	 *
+	 * @param \WP_REST_Response $response The response object.
+	 * @param \WP_Post          $post     Post object.
+	 * @param \WP_REST_Request  $request  Request object.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function disable_up_link_embeddable( $response, $post, $request ) {
+		// Only modify if optimizeYoastPayload parameter is present
+		if ( empty( $request->get_param( 'optimizeYoastPayload' ) ) ) {
+			return $response;
+		}
+
+		// Get the links from the response object
+		$links = $response->get_links();
+
+		// Check if 'up' link exists
+		if ( ! empty( $links['up'] ) ) {
+			// Remove existing 'up' links
+			$response->remove_link( 'up' );
+
+			// Re-add each 'up' link with embeddable set to false
+			foreach ( $links['up'] as $up_link ) {
+				$href = $up_link['href'];
+
+				// Try passing embeddable as a direct attribute
+				$response->add_link( 'up', $href, [ 'embeddable' => false ] );
+			}
+		}
+
+		return $response;
 	}
 }
