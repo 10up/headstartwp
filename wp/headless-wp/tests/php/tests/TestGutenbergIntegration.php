@@ -309,6 +309,11 @@ RESULT;
 		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 	}
 
+	/**
+	 * Tests that HTML entities in block attributes are preserved correctly with tag processor
+	 *
+	 * @return void
+	 */
 	public function test_html_entities_are_double_encoded() {
 		// Test with content containing HTML entities
 		// (and a ' to ensure that it is not serialized as a single-quote string
@@ -335,6 +340,11 @@ RESULT;
 		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
 	}
 
+	/**
+	 * Data provider for block roundtrip tests
+	 *
+	 * @return array
+	 */
 	public function block_roundtrip_data_provider() {
 		$test_cases                               = [
 			'block value containing no special characters' => [
@@ -464,9 +474,11 @@ RESULT;
 	 * Tests that block attributes can be round-tripped correctly
 	 *
 	 * @dataProvider block_roundtrip_data_provider
+	 *
 	 * @param string $expected_block_name The expected block name
 	 * @param array  $expected_attributes The expected block attributes
 	 * @param string $markup The block markup to test
+	 * @param bool   $use_tag_processor Whether to use the tag processor
 	 * @return void
 	 */
 	public function test_block_attributes_roundtrip( $expected_block_name, $expected_attributes, $markup, $use_tag_processor ) {
@@ -485,6 +497,7 @@ RESULT;
 
 		$this->assertTrue( $success, 'DOMDocument should successfully parse the enhanced block HTML' );
 
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$root_element = $doc->documentElement;
 		$this->assertNotNull( $root_element, 'Should have a root element' );
 
