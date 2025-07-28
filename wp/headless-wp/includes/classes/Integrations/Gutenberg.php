@@ -12,7 +12,6 @@ use DOMElement;
 use Exception;
 use WP_Block;
 use WP_HTML_Tag_Processor;
-use HeadlessWP\Fixed_WP_HTML_Tag_Processor;
 
 /**
  * The Gutenberg integration class
@@ -525,7 +524,7 @@ class Gutenberg {
 		 */
 		$use_html_tag_api = apply_filters( 'tenup_headless_wp_render_block_use_tag_processor', false );
 
-		if ( $use_html_tag_api ) {
+		if ( class_exists( WP_HTML_Tag_Processor::class ) && $use_html_tag_api ) {
 			return $this->process_block_with_html_tag_api(
 				$html,
 				$block_name,
