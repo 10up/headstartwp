@@ -167,10 +167,10 @@ RESULT;
 				MARKUP
 			);
 		$dom_expected          = <<<RESULT
-			<p data-wp-block='{"dropCap":false}' data-wp-block-name="core/paragraph">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			<p data-wp-block-name="core/paragraph" data-wp-block='{"dropCap":false}'>The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
 			RESULT;
 		$html_tag_api_expected = <<<RESULT
-			<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			<p data-wp-block-name="core/paragraph" data-wp-block="{&quot;dropCap&quot;:false}">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
 			RESULT;
 
 		$dom_output = $this->parser->render_block( $html, $block, $instance );
