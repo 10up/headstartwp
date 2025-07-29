@@ -5,6 +5,7 @@ import {
 	removeSourceUrl,
 	NotFoundError,
 	getSiteBySourceUrl,
+	addQueryArgs,
 } from '../../utils';
 import { PostEntity } from '../types';
 import { postMatchers } from '../utils/matchers';
@@ -90,6 +91,8 @@ export class SinglePostFetchStrategy<
 
 	shouldCheckCurrentPathAgainstPostLink: boolean = true;
 
+	optimizeYoastPayload: boolean = false;
+
 	getDefaultEndpoint(): string {
 		return endpoints.posts;
 	}
@@ -107,6 +110,8 @@ export class SinglePostFetchStrategy<
 			config.integrations?.polylang?.enable && nonUrlParams.lang ? nonUrlParams.lang : '';
 
 		this.path = nonUrlParams.fullPath ?? path;
+
+		this.optimizeYoastPayload = !!config.integrations?.yoastSEO?.optimizeYoastPayload;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { year, day, month, ...params } = parsePath(postMatchers, path);
@@ -164,6 +169,8 @@ export class SinglePostFetchStrategy<
 	 * @returns
 	 */
 	getPostThatMatchesCurrentPath(result: T[], params: Partial<P>): T | undefined {
+		const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
+
 		return result.find((post) => {
 			const postPath = decodeURIComponent(
 				removeSourceUrl({
@@ -171,8 +178,6 @@ export class SinglePostFetchStrategy<
 					backendUrl: this.baseURL,
 				}),
 			)?.replace(/\/?$/, '/');
-
-			const currentPath = decodeURIComponent(this.path).replace(/\/?$/, '/');
 
 			if (params.postType && params.postType.length > 0) {
 				const expectedPostTypes = Array.isArray(params.postType)
@@ -182,6 +187,15 @@ export class SinglePostFetchStrategy<
 
 				if (expectedPostTypes.includes(postType)) {
 					const postTypeObject = getCustomPostType(postType, this.baseURL);
+
+					if (params.fullPath) {
+						const normalizedFullPath = params.fullPath.replace(/\/?$/, '/');
+						return (
+							postPath === normalizedFullPath ||
+							postPath === `/${this.locale}${normalizedFullPath}`
+						);
+					}
+
 					const singlePrefix = postTypeObject?.single?.replace(/\/?$/, '') ?? '';
 
 					return (
@@ -280,6 +294,7 @@ export class SinglePostFetchStrategy<
 	 */
 	async fetcher(url: string, params: P, options: Partial<FetchOptions> = {}) {
 		const { burstCache = false } = options;
+		let finalUrl = url;
 
 		if (params.authToken) {
 			options.previewToken = params.authToken;
@@ -310,7 +325,13 @@ export class SinglePostFetchStrategy<
 		}
 
 		try {
-			const result = await super.fetcher(url, params, options);
+			if (this.optimizeYoastPayload) {
+				finalUrl = addQueryArgs(finalUrl, {
+					optimizeYoastPayload: true,
+				});
+			}
+
+			const result = await super.fetcher(finalUrl, params, options);
 
 			return result;
 		} catch (e) {

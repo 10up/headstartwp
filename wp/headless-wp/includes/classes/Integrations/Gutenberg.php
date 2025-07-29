@@ -305,11 +305,36 @@ class Gutenberg {
 	}
 
 	/**
+	 * Set the block attributes in the HTML
+	 *
+	 * This is a workaround to avoid the issue with the HTML_Tag_Processor API not handling JSON with HTML in attributes.
+	 *
+	 * @see https://github.com/10up/headstartwp/pull/921
+	 *
+	 * @param string $placeholder The placeholder for the block attributes
+	 * @param string $html The block markup
+	 * @param string $block_attrs_serialized The block attributes serialized to a JSON string
+	 *
+	 * @return string The processed html
+	 */
+	public function set_block_attributes_tag_api( $placeholder, $html, $block_attrs_serialized ) {
+		$search  = sprintf( '/data-wp-block="%s"/', preg_quote( $placeholder, '/' ) );
+		$replace = sprintf( 'data-wp-block="%s"', htmlspecialchars( $block_attrs_serialized ) );
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		return preg_replace(
+			$search,
+			$replace,
+			$html
+		);
+	}
+
+	/**
 	 * Process the block with the WP_HTML_Tag_Processor
 	 *
 	 * @param string   $html                   The block markup
 	 * @param string   $block_name             The block name
-	 * @param string   $block_attrs_serialized The serialized block attributes
+	 * @param string   $block_attrs_serialized The block attributes serialized to a JSON string
 	 * @param array    $block                  The block schema
 	 * @param WP_Block $block_instance         The block instance
 	 *
@@ -321,7 +346,14 @@ class Gutenberg {
 
 			if ( ! $this->bypass_block_attributes( $block_name, $block_instance ) && $doc->next_tag() ) {
 				$doc->set_attribute( 'data-wp-block-name', $block_name );
-				$doc->set_attribute( 'data-wp-block', $block_attrs_serialized );
+				$placeholder = '___HEADSTARTWP_BLOCK_ATTRS___';
+				$doc->set_attribute( 'data-wp-block', $placeholder );
+
+				$intermediate_html = $doc->get_updated_html();
+				$intermediate_html = $this->set_block_attributes_tag_api( $placeholder, $intermediate_html, $block_attrs_serialized );
+
+				$doc = new WP_HTML_Tag_Processor( $intermediate_html );
+				$doc->next_tag();
 
 				/**
 				 * Filter the block before rendering
@@ -347,7 +379,7 @@ class Gutenberg {
 	 *
 	 * @param string   $html                  The block markup
 	 * @param string   $block_name            The block name
-	 * @param string   $serialized_attributes Serialized attributes
+	 * @param string   $serialized_attributes The block attributes serialized to a JSON string
 	 * @param array    $block                 The block array
 	 * @param WP_Block $block_instance        The block instance
 	 *
@@ -365,14 +397,8 @@ class Gutenberg {
 		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		$root_node = $document->documentElement;
 
-		$attrs        = $document->createAttribute( 'data-wp-block' );
-		$attrs->value = $serialized_attributes;
-
-		$block_name_obj        = $document->createAttribute( 'data-wp-block-name' );
-		$block_name_obj->value = $block_name;
-
-		$root_node->appendChild( $attrs );
-		$root_node->appendChild( $block_name_obj );
+		$root_node->setAttribute( 'data-wp-block-name', $block_name );
+		$root_node->setAttribute( 'data-wp-block', $serialized_attributes );
 
 		/**
 		 * Filter the block's DOMElement before rendering
@@ -476,14 +502,14 @@ class Gutenberg {
 		/**
 		 * Filter out the block attributes after serialization
 		 *
-		 * @param string   $encoded_attrs  The serialized block attributes
+		 * @param string   $encoded_attrs  The block attributes serialized to a JSON string
 		 * @param array    $attrs          The block attributes
 		 * @param array    $block          The block schema
 		 * @param WP_Block $block_instance The block instance
 		 */
 		$block_attrs_serialized = apply_filters(
 			'tenup_headless_wp_render_blocks_attrs_serialized',
-			esc_attr( wp_json_encode( $block_attrs ) ),
+			wp_json_encode( $block_attrs ),
 			$block_attrs,
 			$block,
 			$block_instance

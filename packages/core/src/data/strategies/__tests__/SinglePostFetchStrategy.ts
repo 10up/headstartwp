@@ -857,4 +857,224 @@ describe('SinglePostFetchStrategy', () => {
 			false,
 		);
 	});
+
+	it('handles fullPath parameter for exact path matching with custom post types', async () => {
+		// Setup multiple book posts that could potentially match based on slug
+		const book1 = {
+			title: 'Test Book 1',
+			id: 1,
+			slug: 'test-book',
+			link: 'http://sourceurl.com/book/test-book',
+			type: 'book',
+		};
+
+		const book2 = {
+			title: 'Test Book 2',
+			id: 2,
+			slug: 'test-book',
+			link: 'http://sourceurl.com/custom-path/test-book',
+			type: 'book',
+		};
+
+		const book3 = {
+			title: 'Test Book 3',
+			id: 3,
+			slug: 'test-book',
+			link: 'http://sourceurl.com/library/test-book',
+			type: 'book',
+		};
+
+		// Configure custom post type
+		setHeadlessConfig({
+			sourceUrl: 'http://sourceurl.com',
+			customPostTypes: [
+				{
+					slug: 'book',
+					single: '/book',
+					endpoint: '/wp-json/wp/v2/book',
+				},
+			],
+		});
+
+		// Mock API to return multiple books that could match
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 3,
+			},
+			json: [book1, book2, book3],
+		});
+
+		fetchStrategy.setBaseURL('http://sourceurl.com');
+
+		const postTypeParam = { postType: 'book' };
+
+		// Test 1: Without fullPath, should match based on prefix matching (book1 matches /book/ prefix)
+		let params = {
+			...fetchStrategy.getParamsFromURL('/test-book'),
+			...postTypeParam,
+		};
+		let results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: book1, // Should match book1 with correct /book/ prefix
+		});
+
+		// Test 2: With fullPath, should match exact path regardless of prefix logic
+		params = {
+			...fetchStrategy.getParamsFromURL('/test-book'),
+			...postTypeParam,
+			fullPath: '/book/test-book',
+		};
+		results = await fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params);
+
+		expect(results).toMatchObject({
+			result: book1,
+		});
+
+		// Test 3: With fullPath that doesn't match any book should throw NotFoundError
+		params = {
+			...fetchStrategy.getParamsFromURL('/test-book'),
+			...postTypeParam,
+			fullPath: '/non-existent-path/test-book',
+		};
+
+		await expect(
+			fetchStrategy.fetcher(fetchStrategy.buildEndpointURL(params), params),
+		).rejects.toThrow('was found but did not match current path');
+	});
+
+	it('handles fullPath parameter with locale for exact path matching', async () => {
+		// Setup multiple book posts with different locales and paths
+		const englishBook = {
+			title: 'English Book',
+			id: 1,
+			slug: 'test-book',
+			link: 'http://sourceurl.com/en/book/test-book',
+			type: 'book',
+		};
+
+		const arabicBook = {
+			title: 'Arabic Book',
+			id: 2,
+			slug: 'test-book',
+			link: 'http://sourceurl.com/ar/book/test-book',
+			type: 'book',
+		};
+
+		const frenchBook = {
+			title: 'French Book',
+			id: 3,
+			slug: 'test-book',
+			link: 'http://sourceurl.com/fr/book/test-book',
+			type: 'book',
+		};
+
+		// Configure custom post type and enable polylang
+		setHeadstartWPConfig({
+			sourceUrl: 'http://sourceurl.com',
+			integrations: {
+				polylang: {
+					enable: true,
+				},
+			},
+			customPostTypes: [
+				{
+					slug: 'book',
+					single: '/book',
+					endpoint: '/wp-json/wp/v2/book',
+				},
+			],
+		});
+
+		// Mock API to return multiple books with different locales
+		apiGetMock.mockResolvedValue({
+			headers: {
+				'x-wp-totalpages': 1,
+				'x-wp-total': 3,
+			},
+			json: [englishBook, arabicBook, frenchBook],
+		});
+
+		fetchStrategy.setBaseURL('http://sourceurl.com');
+
+		const postTypeParam = { postType: 'book' };
+
+		// Test 1: With fullPath and English locale, should match English book
+		let params = {
+			...postTypeParam,
+			lang: 'en',
+			fullPath: '/book/test-book',
+		};
+		let results = await fetchStrategy.fetcher(
+			fetchStrategy.buildEndpointURL(fetchStrategy.getParamsFromURL('/test-book', params)),
+			params,
+		);
+
+		expect(results).toMatchObject({
+			result: englishBook,
+		});
+
+		// Test 2: With fullPath and Arabic locale, should match Arabic book
+		params = {
+			...postTypeParam,
+			lang: 'ar',
+			fullPath: '/book/test-book',
+		};
+		results = await fetchStrategy.fetcher(
+			fetchStrategy.buildEndpointURL(fetchStrategy.getParamsFromURL('/test-book', params)),
+			params,
+		);
+
+		expect(results).toMatchObject({
+			result: arabicBook,
+		});
+
+		// Test 3: With fullPath and French locale, should match French book
+		params = {
+			...postTypeParam,
+			lang: 'fr',
+			fullPath: '/book/test-book',
+		};
+		results = await fetchStrategy.fetcher(
+			fetchStrategy.buildEndpointURL(fetchStrategy.getParamsFromURL('/test-book', params)),
+			params,
+		);
+
+		expect(results).toMatchObject({
+			result: frenchBook,
+		});
+
+		// Test 4: With fullPath that doesn't match any locale should throw NotFoundError
+		params = {
+			...postTypeParam,
+			lang: 'en',
+			fullPath: '/non-existent-path/test-book',
+		};
+
+		await expect(
+			fetchStrategy.fetcher(
+				fetchStrategy.buildEndpointURL(
+					fetchStrategy.getParamsFromURL('/test-book', params),
+				),
+				params,
+			),
+		).rejects.toThrow('was found but did not match current path');
+
+		// Test 5: With fullPath that doesn't match the expected post type path should throw NotFoundError
+		params = {
+			...postTypeParam,
+			lang: 'en',
+			fullPath: '/wrong-prefix/test-book',
+		};
+
+		await expect(
+			fetchStrategy.fetcher(
+				fetchStrategy.buildEndpointURL(
+					fetchStrategy.getParamsFromURL('/test-book', params),
+				),
+				params,
+			),
+		).rejects.toThrow('was found but did not match current path');
+	});
 });

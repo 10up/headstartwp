@@ -22,4 +22,10 @@ module.exports = {
 			hostUrl: 'http://js1.localhost:3000',
 		},
 	],
+	integrations: {
+		yoastSEO: {
+			enable: true,
+			optimizeYoastPayload: true,
+		},
+	},
 };

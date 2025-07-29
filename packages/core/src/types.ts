@@ -48,7 +48,9 @@ export interface Integration {
 	enable: boolean;
 }
 
-export interface YoastSEOIntegration extends Integration {}
+export interface YoastSEOIntegration extends Integration {
+	optimizeYoastPayload?: boolean;
+}
 
 export interface PolylangIntegration extends Integration {}
 

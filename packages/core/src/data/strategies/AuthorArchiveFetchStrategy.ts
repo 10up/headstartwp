@@ -1,4 +1,4 @@
-import { getCustomTaxonomies } from '../../utils';
+import { getCustomTaxonomies, getSiteBySourceUrl } from '../../utils';
 import { PostEntity } from '../types';
 import { authorArchivesMatchers } from '../utils/matchers';
 import { parsePath } from '../utils/parsePath';
@@ -24,6 +24,10 @@ export class AuthorArchiveFetchStrategy<
 	): Partial<P> {
 		const matchers = [...authorArchivesMatchers];
 		const customTaxonomies = getCustomTaxonomies(this.baseURL);
+
+		const config = getSiteBySourceUrl(this.baseURL);
+
+		this.optimizeYoastPayload = !!config.integrations?.yoastSEO?.optimizeYoastPayload;
 
 		customTaxonomies?.forEach((taxonomy) => {
 			const slug = taxonomy?.rewrite ?? taxonomy.slug;

@@ -74,6 +74,8 @@ export class SearchNativeFetchStrategy<
 
 	locale: string = '';
 
+	optimizeYoastPayload: boolean = false;
+
 	getDefaultEndpoint() {
 		return endpoints.search;
 	}
@@ -93,6 +95,8 @@ export class SearchNativeFetchStrategy<
 
 		// Required for search lang url.
 		this.locale = config.integrations?.polylang?.enable && params.lang ? params.lang : '';
+
+		this.optimizeYoastPayload = !!config.integrations?.yoastSEO?.optimizeYoastPayload;
 
 		return parsePath(searchMatchers, path) as Partial<P>;
 	}
@@ -163,6 +167,10 @@ export class SearchNativeFetchStrategy<
 
 		if (seo_json && queriedObject.search) {
 			queriedObject.search.yoast_head_json = seo_json;
+		}
+
+		if (this.optimizeYoastPayload) {
+			params.optimizeYoastPayload = true;
 		}
 
 		const response = await super.fetcher(url, params, {
