@@ -1,5 +1,15 @@
 # @headstartwp/headstartwp
 
+## 1.3.0
+
+### Minor Changes
+
+- fc8a39e: Introducing optimizeYoastPayload to reduce payload size when using the yoast integration
+
+### Patch Changes
+
+- 2a70173: Fix how data-wp-block attribute is set to avoid generating incorrect/insecure markup
+
 ## 1.2.0
 
 ### Minor Changes

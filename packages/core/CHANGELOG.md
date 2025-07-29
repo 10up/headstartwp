@@ -1,5 +1,15 @@
 # @headstartwp/core
 
+## 1.6.0
+
+### Minor Changes
+
+- fc8a39e: Introducing optimizeYoastPayload to reduce payload size when using the yoast integration
+
+### Patch Changes
+
+- 27d2999: Fix: post path matching logic when params.fullPath is set
+
 ## 1.5.0
 
 ### Minor Changes

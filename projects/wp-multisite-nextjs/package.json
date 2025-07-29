@@ -14,7 +14,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@headstartwp/core": "^1.5.0",
+    "@headstartwp/core": "^1.6.0",
     "@headstartwp/next": "^1.5.0",
     "@linaria/core": "^6.2.0",
     "@linaria/react": "^6.2.1",
