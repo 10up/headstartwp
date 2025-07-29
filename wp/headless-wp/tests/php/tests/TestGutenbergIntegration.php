@@ -167,10 +167,10 @@ RESULT;
 				MARKUP
 			);
 		$dom_expected          = <<<RESULT
-			<p data-wp-block='{"dropCap":false}' data-wp-block-name="core/paragraph">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			<p data-wp-block-name="core/paragraph" data-wp-block='{"dropCap":false}'>The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
 			RESULT;
 		$html_tag_api_expected = <<<RESULT
-			<p data-wp-block="{&quot;dropCap&quot;:false}" data-wp-block-name="core/paragraph">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			<p data-wp-block-name="core/paragraph" data-wp-block="{&quot;dropCap&quot;:false}">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
 			RESULT;
 
 		$dom_output = $this->parser->render_block( $html, $block, $instance );
@@ -307,6 +307,212 @@ RESULT;
 		);
 
 		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
+	}
+
+	/**
+	 * Tests that HTML entities in block attributes are preserved correctly with tag processor
+	 *
+	 * @return void
+	 */
+	public function test_html_entities_are_double_encoded() {
+		// Test with content containing HTML entities
+		// (and a ' to ensure that it is not serialized as a single-quote string
+		// by WP_HTML_Tag_Processor)
+		$markup         = '<!-- wp:heading {"content":"&lt;script&gt;alert(&#039;xss&#039;)&lt;/script&gt;\'","level":2} -->content<!-- /wp:heading -->';
+		$block          = $this->core_render_block_from_markup( $markup );
+		$enhanced_block = $this->parser->render_block( $block['html'], $block['parsed_block'], $block['instance'] );
+
+		// Any HTML entities in JSON strings should be double-encoded
+		$this->assertStringContainsString(
+			'data-wp-block="{&quot;content&quot;:&quot;&amp;lt;script&amp;gt;alert(&amp;#039;xss&amp;#039;)&amp;lt;\/script&amp;gt;',
+			$enhanced_block
+		);
+	}
+
+	/**
+	 * Tests that HTML entities in block attributes are preserved correctly with tag processor
+	 *
+	 * @return void
+	 */
+	public function test_html_entities_are_double_encoded_using_WP_HTML_Tag_Processor() {
+		add_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
+		$this->test_html_entities_are_double_encoded();
+		remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', '__return_true' );
+	}
+
+	/**
+	 * Data provider for block roundtrip tests
+	 *
+	 * @return array
+	 */
+	public function block_roundtrip_data_provider() {
+		$test_cases                               = [
+			'block value containing no special characters' => [
+				'core/heading',
+				[
+					'x'     => 'hi',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"hi"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing named character reference &apos;' => [
+				'core/heading',
+				[
+					'x'     => '&apos;',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&apos;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing lone apostrophe \' (from ENT_HTML5)' => [
+				'core/heading',
+				[
+					'x'     => '\'',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"\'"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing lone quote " (from ENT_COMPAT)' => [
+				'core/heading',
+				[
+					'x'     => '"',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"\\""} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing named character reference &quot;' => [
+				'core/heading',
+				[
+					'x'     => '&quot;',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&quot;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing lone ampersand &'      => [
+				'core/heading',
+				[
+					'x'     => '&',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing named character reference &amp;' => [
+				'core/heading',
+				[
+					'x'     => '&amp;',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&amp;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing hexadecimal numeric character reference &#x26; (should not be converted to &amp;)' => [
+				'core/heading',
+				[
+					'x'     => '&#x26;',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&#x26;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing leading zero hexadecimal numeric character reference &#x026; (should not be converted to &amp;)' => [
+				'core/heading',
+				[
+					'x'     => '&#x026;',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&#x026;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing decimal numeric character reference &#38; (should not be converted to &amp;)' => [
+				'core/heading',
+				[
+					'x'     => '&#38;',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&#38;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing leading zero decimal numeric character reference &#038; (should not be converted to &amp;)' => [
+				'core/heading',
+				[
+					'x'     => '&#038;',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"&#038;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'html_entities'                                => [
+				'core/heading',
+				[
+					'content' => '&lt;script&gt;alert(&#039;xss&#039;)&lt;/script&gt;',
+					'level'   => 2,
+				],
+				'<!-- wp:heading {"content":"&lt;script&gt;alert(&#039;xss&#039;)&lt;/script&gt;","level":2} --> <h2>&lt;script&gt;alert(\'xss\')&lt;/script&gt;</h2><!-- /wp:heading -->',
+			],
+			'complex_attributes'                           => [
+				'core/image',
+				[
+					'id'              => 28,
+					'sizeSlug'        => 'large',
+					'linkDestination' => 'none',
+					'alt'             => '',
+				],
+				'<!-- wp:image {"id":28,"sizeSlug":"large","linkDestination":"none"} --> <figure class="wp-block-image size-large"><img src="http://example.com/image.jpg" alt="" class="wp-image-28"/></figure><!-- /wp:image -->',
+			],
+			'special_characters'                           => [
+				'core/quote',
+				[
+					'citation' => 'Author "Name" & Co.',
+					'value'    => '<p>Quote with "quotes" & ampersands</p>',
+				],
+				'<!-- wp:quote {"citation":"Author \"Name\" & Co.","value":"<p>Quote with \"quotes\" & ampersands</p>"} --> <blockquote><p>Quote with "quotes" & ampersands</p><cite>Author "Name" & Co.</cite></blockquote><!-- /wp:quote -->',
+			],
+		];
+		$test_cases_with_or_without_tag_processor = [];
+		foreach ( $test_cases as $name => $case ) {
+			$test_cases_with_or_without_tag_processor[ "$name with WP_HTML_Tag_Processor" ] = array_merge( $case, [ true ] );
+			$test_cases_with_or_without_tag_processor[ "$name with DomDocument" ]           = array_merge( $case, [ false ] );
+		}
+		return $test_cases_with_or_without_tag_processor;
+	}
+
+	/**
+	 * Tests that block attributes can be round-tripped correctly
+	 *
+	 * @dataProvider block_roundtrip_data_provider
+	 *
+	 * @param string $expected_block_name The expected block name
+	 * @param array  $expected_attributes The expected block attributes
+	 * @param string $markup The block markup to test
+	 * @param bool   $use_tag_processor Whether to use the tag processor
+	 * @return void
+	 */
+	public function test_block_attributes_roundtrip( $expected_block_name, $expected_attributes, $markup, $use_tag_processor ) {
+		$block                  = $this->core_render_block_from_markup( $markup );
+		$tag_processor_function = $use_tag_processor ? '__return_true' : '__return_false';
+		add_filter( 'tenup_headless_wp_render_block_use_tag_processor', $tag_processor_function );
+		try {
+			$enhanced_block = $this->parser->render_block( $block['html'], $block['parsed_block'], $block['instance'] );
+		} finally {
+			remove_filter( 'tenup_headless_wp_render_block_use_tag_processor', $tag_processor_function );
+		}
+
+		// Parse the enhanced block using DOMDocument to extract data-wp-block and data-wp-block-name
+		$doc     = new \DOMDocument();
+		$success = $doc->loadHTML( $enhanced_block, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+
+		$this->assertTrue( $success, 'DOMDocument should successfully parse the enhanced block HTML' );
+
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$root_element = $doc->documentElement;
+		$this->assertNotNull( $root_element, 'Should have a root element' );
+
+		$block_name_attr = $root_element->getAttribute( 'data-wp-block-name' );
+		$block_data_attr = $root_element->getAttribute( 'data-wp-block' );
+
+		$this->assertNotEmpty( $block_name_attr, 'data-wp-block-name attribute should be present' );
+		$this->assertNotEmpty( $block_data_attr, 'data-wp-block attribute should be present' );
+
+		// Parse JSON - DOMDocument should have already handled HTML entity decoding
+		$parsed_attributes = json_decode( $block_data_attr, true );
+
+		$this->assertIsArray( $parsed_attributes, 'Block data should decode to valid JSON array' );
+		$this->assertEquals( $expected_block_name, $block_name_attr, 'Block name should match expected' );
+		$this->assertEquals( $expected_attributes, $parsed_attributes, 'Block attributes should match expected (encoded: ' . $enhanced_block . ')' );
 	}
 
 	/**
