@@ -1,5 +1,13 @@
 # @headstartwp/next
 
+## 1.5.1-next.0
+
+### Patch Changes
+
+- Updated dependencies [27d2999]
+- Updated dependencies [fc8a39e]
+  - @headstartwp/core@1.6.0-next.0
+
 ## 1.5.0
 
 ### Minor Changes

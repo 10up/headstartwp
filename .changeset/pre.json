@@ -1,0 +1,28 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@headstartwp/block-primitives": "0.1.0",
+    "@headstartwp/core": "1.5.0",
+    "@headstartwp/epio-search": "1.0.0",
+    "@headstartwp/next": "1.5.0",
+    "@10up/next-redis-cache-provider": "2.0.0",
+    "@10up/wp-multisite-i18n-nextjs": "0.2.0",
+    "@10up/wp-multisite-nextjs": "0.2.0",
+    "@10up/wp-multisite-nextjs-app": "0.1.0",
+    "@10up/wp-nextjs": "0.2.0",
+    "@10up/wp-nextjs-app": "0.1.0",
+    "@10up/wp-polylang-nextjs-app": "0.1.0",
+    "@headstartwp/component-library": "0.1.0",
+    "@headstartwp/vite-react-test": "0.0.0",
+    "@10up/wp-nextjs-epio": "0.1.1-next.0",
+    "@10up/wp-nextjs-universal-blocks": "0.1.0",
+    "tenup-theme": "1.0.0",
+    "@headstartwp/headstartwp": "1.2.0"
+  },
+  "changesets": [
+    "itchy-areas-enter",
+    "ninety-lemons-care",
+    "weak-cloths-lose"
+  ]
+}
