@@ -45,7 +45,8 @@
   },
   "autoload": {
     "psr-4": {
-      "HeadlessWP\\": "includes/classes/"
+      "HeadlessWP\\": "includes/classes/",
+      "HeadlessWP\\JWT\\": "includes/classes/php-jwt/"
     }
   },
   "scripts": {
