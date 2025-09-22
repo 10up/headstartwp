@@ -1,4 +1,5 @@
 import { setHeadstartWPConfig } from '@headstartwp/core/utils';
+import { Rewrite } from 'next/dist/lib/load-custom-routes';
 import { withHeadstartWPConfig } from '../withHeadstartWPConfig';
 
 // Mock fs module
@@ -61,13 +62,13 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(8);
 
 			// Check that all rewrites have the has check
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).toHaveProperty('has');
 				expect(rewrite.has).toEqual([
 					{ type: 'header', key: 'host', value: 'example.com' },
@@ -82,13 +83,13 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(8);
 
 			// Check that all rewrites have the has check with inferred host
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).toHaveProperty('has');
 				expect(rewrite.has).toEqual([
 					{ type: 'header', key: 'host', value: 'example.com' },
@@ -102,13 +103,13 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(8);
 
 			// Check that no rewrites have the has check
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).not.toHaveProperty('has');
 			});
 		});
@@ -120,13 +121,13 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(8);
 
 			// Check that no rewrites have the has check due to invalid URL
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).not.toHaveProperty('has');
 			});
 		});
@@ -139,13 +140,13 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(8);
 
 			// Check that all rewrites use the explicitly defined host
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).toHaveProperty('has');
 				expect(rewrite.has).toEqual([
 					{ type: 'header', key: 'host', value: 'explicit.example.com' },
@@ -174,7 +175,7 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(24); // 8 rewrites per site
@@ -217,18 +218,18 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(16); // 8 rewrites per site
 
 			// All rewrites should have has checks
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).toHaveProperty('has');
 				expect(rewrite.has).toHaveLength(1);
-				expect(rewrite.has[0]).toHaveProperty('type', 'header');
-				expect(rewrite.has[0]).toHaveProperty('key', 'host');
-				expect(['example.com', 'test.com']).toContain(rewrite.has[0].value);
+				expect(rewrite.has?.[0]).toHaveProperty('type', 'header');
+				expect(rewrite.has?.[0]).toHaveProperty('key', 'host');
+				expect(['example.com', 'test.com']).toContain(rewrite.has?.[0].value);
 			});
 		});
 	});
@@ -241,12 +242,14 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 
 			// Check specific rewrite patterns
-			const cacheHealthcheckRewrite = rewrites.find((r) => r.source === '/cache-healthcheck');
+			const cacheHealthcheckRewrite = (rewrites as Rewrite[]).find(
+				(r) => r.source === '/cache-healthcheck',
+			);
 			expect(cacheHealthcheckRewrite).toBeDefined();
 			expect(cacheHealthcheckRewrite).toMatchObject({
 				source: '/cache-healthcheck',
@@ -254,7 +257,7 @@ describe('withHeadstartWPConfig - Host Check', () => {
 				has: [{ type: 'header', key: 'host', value: 'example.com' }],
 			});
 
-			const feedRewrite = rewrites.find((r) => r.source === '/feed');
+			const feedRewrite = (rewrites as Rewrite[]).find((r) => r.source === '/feed');
 			expect(feedRewrite).toBeDefined();
 			expect(feedRewrite).toMatchObject({
 				source: '/feed',
@@ -277,10 +280,10 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig(
-				{ rewrites: () => existingRewrites },
+				{ rewrites: () => Promise.resolve(existingRewrites) },
 				headlessConfig,
 			);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(9); // 1 existing + 8 default
@@ -315,13 +318,13 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(8);
 
 			// Check that host includes port
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).toHaveProperty('has');
 				expect(rewrite.has).toEqual([
 					{ type: 'header', key: 'host', value: 'example.com:3000' },
@@ -336,13 +339,13 @@ describe('withHeadstartWPConfig - Host Check', () => {
 			};
 
 			const nextConfig = withHeadstartWPConfig({}, headlessConfig);
-			const rewrites = await nextConfig.rewrites?.();
+			const rewrites = (await nextConfig.rewrites?.()) ?? [];
 
 			expect(Array.isArray(rewrites)).toBe(true);
 			expect(rewrites).toHaveLength(8);
 
 			// Check that subdomain is preserved
-			rewrites.forEach((rewrite) => {
+			(rewrites as Rewrite[]).forEach((rewrite) => {
 				expect(rewrite).toHaveProperty('has');
 				expect(rewrite.has).toEqual([
 					{ type: 'header', key: 'host', value: 'subdomain.example.com' },
