@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@headstartwp/core": "^1.6.0",
-    "@headstartwp/next": "^1.5.0",
+    "@headstartwp/next": "^1.5.1",
     "@10up/next-redis-cache-provider": "^2.0.0",
     "@linaria/core": "^6.2.0",
     "@linaria/react": "^6.2.1",
