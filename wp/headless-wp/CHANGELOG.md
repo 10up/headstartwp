@@ -1,5 +1,11 @@
 # @headstartwp/headstartwp
 
+## 1.3.1
+
+### Patch Changes
+
+- 41506fc: Make headstartwp PSR-4 compliant: add autoload.psr-4 mapping for php-jwt, remove require_once of php-jwt files
+
 ## 1.3.0
 
 ### Minor Changes
