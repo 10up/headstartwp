@@ -1,8 +1,8 @@
-import { ConfigError, HeadlessConfig, getSite } from '@headstartwp/core';
-import { NextConfig } from 'next';
+import { ConfigError, getSite, type HeadlessConfig } from '@headstartwp/core';
 import fs from 'fs';
+import type { NextConfig } from 'next';
 import path from 'path';
-import { ModifySourcePlugin, ConcatOperation } from './plugins/ModifySourcePlugin';
+import { ConcatOperation, ModifySourcePlugin } from './plugins/ModifySourcePlugin';
 
 type RemotePattern = {
 	protocol?: 'http' | 'https';
@@ -209,28 +209,50 @@ export function withHeadstartWPConfig(
 				const shouldRewriteYoastSEOUrls =
 					site.integrations?.yoastSEO?.enable === true ? 1 : 0;
 
+				// Extract site host for has check
+				let siteHost = site.host;
+
+				// If host is not defined but hostUrl is, infer host from hostUrl
+				if (typeof siteHost === 'undefined' && typeof site.hostUrl !== 'undefined') {
+					try {
+						const url = new URL(site.hostUrl);
+						siteHost = url.host;
+					} catch (e) {
+						// do nothing, keep siteHost undefined
+					}
+				}
+
+				const hasHostCheck = siteHost && {
+					has: [{ type: 'header', key: 'host', value: siteHost }],
+				};
+
 				const defaultRewrites = [
 					{
 						source: `${prefix}/cache-healthcheck`,
 						destination: '/api/cache-healthcheck',
+						...hasHostCheck,
 					},
 					{
 						source: `${prefix}/block-library.css`,
 						destination: `${wpUrl}/wp-includes/css/dist/block-library/style.min.css`,
+						...hasHostCheck,
 					},
 					{
 						source: `${prefix}/feed`,
 						destination: `${wpUrl}/feed/?rewrite_urls=1`,
+						...hasHostCheck,
 					},
 					{
 						source: `${prefix}/robots.txt`,
 						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
+						...hasHostCheck,
 					},
 					// Yoast redirects sitemap.xml to sitemap_index.xml,
 					// doing this upfront to avoid being redirected to the wp domain
 					{
 						source: `${prefix}/sitemap.xml`,
 						destination: `${wpUrl}/sitemap_index.xml?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
+						...hasHostCheck,
 					},
 					// this matches anything that has sitemap and ends with .xml.
 					// This could probably be fine tuned but this should do the trick
@@ -238,6 +260,7 @@ export function withHeadstartWPConfig(
 						// eslint-disable-next-line
 						source: `${prefix}/:sitemap(.*sitemap.*\.xml)`,
 						destination: `${wpUrl}/:sitemap?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
+						...hasHostCheck,
 					},
 					// This is to match the sitemap stylesheet,
 					// which gets added into the sitemap xml markup by Yoast.
@@ -246,12 +269,14 @@ export function withHeadstartWPConfig(
 					// between WordPress and NextJS app.
 					{
 						// eslint-disable-next-line
-						source: '/:path(.*main-sitemap\.xsl)',
+						source: "/:path(.*main-sitemap\.xsl)",
 						destination: `${wpUrl}/:path`,
+						...hasHostCheck,
 					},
 					{
 						source: `${prefix}/ads.txt`,
 						destination: `${wpUrl}/ads.txt`,
+						...hasHostCheck,
 					},
 				];
 				if (Array.isArray(rewrites)) {
@@ -382,7 +407,9 @@ export function withHeadstartWPConfig(
 export function withHeadlessConfig(
 	nextConfig: NextConfig = {},
 	headlessConfig: HeadlessConfig = {},
-	withHeadstarWPConfigOptions: { injectConfig: boolean } = { injectConfig: true },
+	withHeadstarWPConfigOptions: { injectConfig: boolean } = {
+		injectConfig: true,
+	},
 ) {
 	return withHeadstartWPConfig(nextConfig, headlessConfig, withHeadstarWPConfigOptions);
 }
