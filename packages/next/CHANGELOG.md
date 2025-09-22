@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.5.1-next.0
+
+### Patch Changes
+
+- b8fc887: Fix issue with rewrites in multisite setups
+
 ## 1.5.0
 
 ### Minor Changes
