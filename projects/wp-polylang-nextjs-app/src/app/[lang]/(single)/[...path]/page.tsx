@@ -8,13 +8,18 @@ import {
 } from '@headstartwp/next/app';
 import Blocks from '../../../../components/Blocks';
 
-export async function generateStaticParams({ params }: HeadstartWPRoute) {
+export async function generateStaticParams({
+	params,
+}: {
+	params: Awaited<HeadstartWPRoute['params']>;
+}) {
 	// loads the right config based on route params (this is needed over getHeadstartWPConfig() for sites using multisite)
+	// @ts-expect-error - params is a promise
 	const { sourceUrl = '', hostUrl = '/' } = await loadHeadstartWPConfig(params);
 
 	// do not throw if there aren't any posts
 	const { data } = await queryPosts({
-		routeParams: await params,
+		routeParams: params,
 		params: { postType: 'post' },
 		options: {
 			throwIfNotFound: false,

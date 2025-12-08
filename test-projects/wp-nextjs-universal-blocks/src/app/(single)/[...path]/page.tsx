@@ -12,12 +12,17 @@ const ClientRelatedPosts = dynamic(() =>
 	import('../../../components/RelatedPosts').then((mod) => mod.RelatedPosts),
 );
 
-export async function generateStaticParams({ params }: HeadstartWPRoute) {
+export async function generateStaticParams({
+	params,
+}: {
+	params: Awaited<HeadstartWPRoute['params']>;
+}) {
 	// loads the right config based on route params (this is needed over getHeadstartWP for sites using polylang integration or multisite)
+	// @ts-expect-error - params is a promise
 	const { sourceUrl = '', hostUrl = '/' } = await loadHeadstartWPConfig(params);
 
 	const { data } = await queryPosts({
-		routeParams: await params,
+		routeParams: params,
 		params: { postType: 'post' },
 	});
 
