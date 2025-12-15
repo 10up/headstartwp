@@ -64,6 +64,11 @@ class Links {
 					continue;
 				}
 
+				// Skip if rewrite is not an array (could be false or not set)
+				if ( ! is_array( $taxonomy->rewrite ) || empty( $taxonomy->rewrite['slug'] ) ) {
+					continue;
+				}
+
 				$rewrite_slug      = $taxonomy->rewrite['slug'];
 				$rewrite_query_var = $taxonomy->query_var;
 
