@@ -1,5 +1,11 @@
 # @headstartwp/next
 
+## 1.5.2-next.0
+
+### Patch Changes
+
+- 31c9e69: Fix bug with preview mode not being handled properly. Fixes #932
+
 ## 1.5.1
 
 ### Patch Changes
