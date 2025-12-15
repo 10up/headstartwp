@@ -5,7 +5,7 @@ import { queryPost } from '../queryPost';
 import { COOKIE_NAME } from '../../../handlers/previewRouteHandler';
 
 jest.mock('next/headers', () => ({
-	draftMode: jest.fn(() => ({ isEnabled: false })),
+	draftMode: jest.fn(() => ({ isEnabled: false, disable: jest.fn() })),
 	cookies: jest.fn(() => ({
 		get: jest.fn(),
 		has: jest.fn(),
@@ -67,7 +67,7 @@ describe('queryPosts', () => {
 		// set cookies
 
 		// @ts-expect-error
-		nextHeaders.draftMode.mockReturnValueOnce({ isEnabled: true });
+		nextHeaders.draftMode.mockReturnValueOnce({ isEnabled: true, disable: jest.fn() });
 
 		const previewDataPayload = JSON.stringify({
 			id: DRAFT_POST_ID,
@@ -93,7 +93,8 @@ describe('queryPosts', () => {
 		});
 
 		expect(nextHeaders.draftMode).toHaveBeenCalled();
-		expect(nextHeaders.draftMode).toHaveReturnedWith({ isEnabled: true });
+		const draftModeResult = nextHeaders.draftMode.mock.results.at(-1)?.value;
+		expect(draftModeResult?.isEnabled).toBe(true);
 		expect(nextHeaders.cookies).toHaveBeenCalled();
 		expect(nextHeaders.cookies().has).toHaveBeenCalledWith(COOKIE_NAME);
 		expect(nextHeaders.cookies().get).toHaveReturnedWith({

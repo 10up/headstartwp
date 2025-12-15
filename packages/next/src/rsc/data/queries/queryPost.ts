@@ -28,10 +28,10 @@ export async function queryPost<
 	const { config, handleError, ...query } = prepareQuery<P>(nextQuery, _config);
 
 	try {
-		const { isEnabled, disable } = await draftMode();
+		const draft = await draftMode();
 		const cookiesObject = await cookies();
 
-		if (isEnabled) {
+		if (draft.isEnabled) {
 			// the cookie will only exist for the previewed path
 			if (cookiesObject.has(COOKIE_NAME)) {
 				const previewData: PreviewData = JSON.parse(
@@ -50,7 +50,7 @@ export async function queryPost<
 				}
 			} else {
 				// if draft mode was enabled but no preview cookie was found, disable draft mode
-				await disable();
+				await draft.disable();
 			}
 		}
 
