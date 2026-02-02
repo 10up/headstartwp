@@ -28,6 +28,11 @@ function shouldSkipRedirect(link: string, redirect: string, sourceUrl: string) {
 		return true;
 	}
 
+	// Cross-domain redirects should never be skipped
+	if (linkURL.host !== redirectURL.host) {
+		return false;
+	}
+
 	const linkParams = linkURL.searchParams;
 	const redirectParams = redirectURL.searchParams;
 

@@ -51,4 +51,18 @@ describe('fetchRedirect', () => {
 
 		global.fetch = originalFetch;
 	});
+
+	it('handles cross-domain redirect with same pathname', async () => {
+		const result = await fetchRedirect('/recipe/my-recipe/', 'http://example.com/');
+
+		expect(result.location).toBe('https://www.external-domain.com/recipe/my-recipe/');
+		expect(result.status).toBe(302);
+	});
+
+	it('handles cross-domain redirect with different pathname', async () => {
+		const result = await fetchRedirect('/old-recipe/', 'http://example.com/');
+
+		expect(result.location).toBe('https://www.external-domain.com/new-recipe/');
+		expect(result.status).toBe(301);
+	});
 });
