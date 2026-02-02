@@ -87,7 +87,7 @@ class Gutenberg {
 
 		$params = $request->get_params();
 
-		if ( 'view' !== $params['context'] ) {
+		if ( 'view' !== ( $params['context'] ?? '' ) ) {
 			return $data;
 		}
 
