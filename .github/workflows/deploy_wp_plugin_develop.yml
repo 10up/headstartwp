@@ -2,6 +2,8 @@
 # this is disabled for now to avoid breaking projects using the older method of installation
 
 name: Release develop WP Plugin
+permissions:
+  contents: write
 
 on:
   push:
