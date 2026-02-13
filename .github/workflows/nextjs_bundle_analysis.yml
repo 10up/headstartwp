@@ -1,5 +1,11 @@
 name: '(Pages Router) Next.js Bundle Analysis'
 
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+  issues: write
+
 on:
   pull_request:
   push:

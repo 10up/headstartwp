@@ -2,6 +2,9 @@ name: Release Stable WP Plugin
 
 ### This has been merged into release-latest-version action
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
