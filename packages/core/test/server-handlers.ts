@@ -36,6 +36,16 @@ const handlers = [
 		return res(redirect('http://example.com/redirect-test-missing-slash', 301));
 	}),
 
+	// Cross-domain redirect with same pathname
+	rest.head('http://example.com/recipe/my-recipe/', (req, res) => {
+		return res(redirect('https://www.external-domain.com/recipe/my-recipe/', 302));
+	}),
+
+	// Cross-domain redirect with different pathname
+	rest.head('http://example.com/old-recipe/', (req, res) => {
+		return res(redirect('https://www.external-domain.com/new-recipe/', 301));
+	}),
+
 	rest.get<DefaultRequestBody, TestEndpointResponse>(/\/test-endpoint/, (req, res, ctx) => {
 		return res(ctx.json({ ok: true }));
 	}),
