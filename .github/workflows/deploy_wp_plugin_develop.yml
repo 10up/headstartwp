@@ -3,6 +3,9 @@
 
 name: Release develop WP Plugin
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
