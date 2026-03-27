@@ -321,7 +321,7 @@ class Gutenberg {
 		$search  = sprintf( '/data-wp-block="%s"/', preg_quote( $placeholder, '/' ) );
 		$replace = sprintf( 'data-wp-block="%s"', htmlspecialchars( $block_attrs_serialized ) );
 		// Escape backslashes and dollar signs for the replacement string
-		$replace = str_replace( array( '\\', '$' ), array( '\\\\', '\\$' ), $replace );
+		$replace = str_replace( [ '\\', '$' ], [ '\\\\', '\\$' ], $replace );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		return preg_replace(
 			$search,
