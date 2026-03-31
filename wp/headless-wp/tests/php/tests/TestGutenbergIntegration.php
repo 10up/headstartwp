@@ -173,7 +173,9 @@ RESULT;
 
 		$enhanced = $this->parser->set_block_attributes_tag_api( $placeholder, $html, $attrs_json );
 
-		$this->assertStringContainsString( 'data-wp-block-name="', $enhanced, 'Sanity check: block-name attribute should exist.' );
+		// set_block_attributes_tag_api() only replaces the `data-wp-block` placeholder value.
+		$this->assertStringNotContainsString( $placeholder, $enhanced );
+		$this->assertStringContainsString( 'data-wp-block="', $enhanced );
 		// The core assertion: `$50` should not be interpreted by preg_replace() replacement parsing.
 		$this->assertStringContainsString( '$50 million', $enhanced );
 	}
