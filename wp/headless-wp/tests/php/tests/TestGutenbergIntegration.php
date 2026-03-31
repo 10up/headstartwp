@@ -153,6 +153,32 @@ RESULT;
 	}
 
 	/**
+	 * Tests HTML_Tag_Processor attribute injection does not drop `$...` sequences
+	 * in serialized JSON string values (e.g. "$50 million").
+	 *
+	 * This specifically covers the preg_replace() replacement-string escaping logic
+	 * used by set_block_attributes_tag_api().
+	 *
+	 * @return void
+	 */
+	public function test_set_block_attributes_tag_api_preserves_dollar_signs() {
+		$placeholder = '___HEADSTARTWP_BLOCK_ATTRS___';
+		$html         = '<p data-wp-block="' . $placeholder . '"></p>';
+		$attrs_json   = wp_json_encode(
+			[
+				'content' => '$50 million',
+				'level'   => 2,
+			]
+		);
+
+		$enhanced = $this->parser->set_block_attributes_tag_api( $placeholder, $html, $attrs_json );
+
+		$this->assertStringContainsString( 'data-wp-block-name="', $enhanced, 'Sanity check: block-name attribute should exist.' );
+		// The core assertion: `$50` should not be interpreted by preg_replace() replacement parsing.
+		$this->assertStringContainsString( '$50 million', $enhanced );
+	}
+
+	/**
 	 * Test to ensure the parser handles both HTML and Multi-byte encodings properly
 	 *
 	 * @return void
@@ -434,6 +460,14 @@ RESULT;
 					'level' => 2,
 				],
 				'<!-- wp:heading {"x":"&#038;"} --> <h2></h2> <!-- /wp:heading -->',
+			],
+			'block value containing dollar sign in JSON string' => [
+				'core/heading',
+				[
+					'x'     => '$50 million',
+					'level' => 2,
+				],
+				'<!-- wp:heading {"x":"$50 million"} --> <h2></h2> <!-- /wp:heading -->',
 			],
 			'html_entities'                                => [
 				'core/heading',
