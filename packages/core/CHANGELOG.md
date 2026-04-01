@@ -1,5 +1,11 @@
 # @headstartwp/core
 
+## 1.6.1-next.0
+
+### Patch Changes
+
+- 03cf6a6: Fix: shouldSkipRedirect incorrectly skipping cross-domain redirects when pathnames match. Fixes #941
+
 ## 1.6.0
 
 ### Minor Changes

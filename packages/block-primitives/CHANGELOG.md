@@ -1,5 +1,12 @@
 # @headstartwp/block-primitives
 
+## 0.1.1-next.0
+
+### Patch Changes
+
+- Updated dependencies [03cf6a6]
+  - @headstartwp/core@1.6.1-next.0
+
 ## 0.1.0
 
 ### Minor Changes
