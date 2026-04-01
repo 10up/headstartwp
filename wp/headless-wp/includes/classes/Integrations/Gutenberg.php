@@ -320,7 +320,8 @@ class Gutenberg {
 	public function set_block_attributes_tag_api( $placeholder, $html, $block_attrs_serialized ) {
 		$search  = sprintf( '/data-wp-block="%s"/', preg_quote( $placeholder, '/' ) );
 		$replace = sprintf( 'data-wp-block="%s"', htmlspecialchars( $block_attrs_serialized ) );
-
+		// Escape backslashes and dollar signs for the replacement string
+		$replace = str_replace( [ '\\', '$' ], [ '\\\\', '\\$' ], $replace );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		return preg_replace(
 			$search,
