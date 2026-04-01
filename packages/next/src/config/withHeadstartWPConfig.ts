@@ -197,6 +197,15 @@ export function withHeadstartWPConfig(
 			const rewrites =
 				typeof nextConfig.rewrites === 'function' ? await nextConfig.rewrites() : [];
 
+			// Check if i18n is configured for pages router
+			const hasI18n =
+				!isUsingAppRouter &&
+				nextConfig.i18n !== undefined &&
+				nextConfig.i18n !== null &&
+				Array.isArray(nextConfig.i18n.locales) &&
+				nextConfig.i18n.locales.length > 0;
+			const locales = hasI18n && nextConfig.i18n ? nextConfig.i18n.locales : [];
+
 			sites.forEach((rawSite) => {
 				const site = getSite(rawSite);
 				const wpUrl = site.sourceUrl;
@@ -226,59 +235,95 @@ export function withHeadstartWPConfig(
 					has: [{ type: 'header', key: 'host', value: siteHost }],
 				};
 
-				const defaultRewrites = [
+				// Helper function to create rewrite sources with locale support
+				// Returns an array of sources to handle both localized and non-localized paths
+				const createRewriteSources = (path: string): string[] => {
+					if (hasI18n && locales.length > 0) {
+						// For pages router with i18n, create rewrites for each locale plus default
+						const sources: string[] = [];
+						// Add rewrite without locale (for default locale or when locale is stripped)
+						sources.push(`${prefix}${path}`);
+						// Add rewrites for each locale
+						locales.forEach((locale) => {
+							sources.push(`${prefix}/${locale}${path}`);
+						});
+						return sources;
+					}
+					return [`${prefix}${path}`];
+				};
+
+				// Build rewrites array - create multiple rewrites for each path when i18n is enabled
+				const defaultRewrites: Array<{
+					source: string;
+					destination: string;
+					has?: Array<{ type: string; key: string; value: string }>;
+				}> = [];
+
+				// Define rewrite paths and their destinations
+				const rewritePaths = [
+					{ path: '/cache-healthcheck', destination: '/api/cache-healthcheck' },
 					{
-						source: `${prefix}/cache-healthcheck`,
-						destination: '/api/cache-healthcheck',
-						...hasHostCheck,
-					},
-					{
-						source: `${prefix}/block-library.css`,
+						path: '/block-library.css',
 						destination: `${wpUrl}/wp-includes/css/dist/block-library/style.min.css`,
-						...hasHostCheck,
 					},
+					{ path: '/feed', destination: `${wpUrl}/feed/?rewrite_urls=1` },
 					{
-						source: `${prefix}/feed`,
-						destination: `${wpUrl}/feed/?rewrite_urls=1`,
-						...hasHostCheck,
-					},
-					{
-						source: `${prefix}/robots.txt`,
+						path: '/robots.txt',
 						destination: `${wpUrl}/robots.txt?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
-						...hasHostCheck,
 					},
-					// Yoast redirects sitemap.xml to sitemap_index.xml,
-					// doing this upfront to avoid being redirected to the wp domain
 					{
-						source: `${prefix}/sitemap.xml`,
+						path: '/sitemap.xml',
 						destination: `${wpUrl}/sitemap_index.xml?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
-						...hasHostCheck,
 					},
-					// this matches anything that has sitemap and ends with .xml.
-					// This could probably be fine tuned but this should do the trick
 					{
-						// eslint-disable-next-line
-						source: `${prefix}/:sitemap(.*sitemap.*\.xml)`,
+						path: '/:sitemap(.*sitemap.*\\.xml)',
 						destination: `${wpUrl}/:sitemap?rewrite_urls=${shouldRewriteYoastSEOUrls}`,
-						...hasHostCheck,
-					},
-					// This is to match the sitemap stylesheet,
-					// which gets added into the sitemap xml markup by Yoast.
-					// And if we don't rewrite this, users may see CSP/CORS error
-					// due to different host domains in the url,
-					// between WordPress and NextJS app.
-					{
-						// eslint-disable-next-line
-						source: "/:path(.*main-sitemap\.xsl)",
-						destination: `${wpUrl}/:path`,
-						...hasHostCheck,
 					},
 					{
-						source: `${prefix}/ads.txt`,
+						path: '/ads.txt',
 						destination: `${wpUrl}/ads.txt`,
-						...hasHostCheck,
 					},
 				];
+
+				// Create rewrites for each path (with locale variants if i18n is enabled)
+				rewritePaths.forEach(({ path, destination }) => {
+					const sources = createRewriteSources(path);
+					sources.forEach((source) => {
+						defaultRewrites.push({
+							source,
+							destination,
+							...hasHostCheck,
+						});
+					});
+				});
+
+				// Handle sitemap stylesheet separately (it doesn't use prefix)
+				const sitemapXslPath = '/:path(.*main-sitemap\\.xsl)';
+				if (hasI18n && locales.length > 0) {
+					// Add rewrite without locale
+					defaultRewrites.push({
+						// eslint-disable-next-line
+						source: sitemapXslPath,
+						destination: `${wpUrl}/:path`,
+						...hasHostCheck,
+					});
+					// Add rewrites for each locale
+					locales.forEach((locale) => {
+						defaultRewrites.push({
+							// eslint-disable-next-line
+							source: `/${locale}${sitemapXslPath}`,
+							destination: `${wpUrl}/:path`,
+							...hasHostCheck,
+						});
+					});
+				} else {
+					defaultRewrites.push({
+						// eslint-disable-next-line
+						source: sitemapXslPath,
+						destination: `${wpUrl}/:path`,
+						...hasHostCheck,
+					});
+				}
 				if (Array.isArray(rewrites)) {
 					rewrites.push(...defaultRewrites);
 				} else {
