@@ -7,7 +7,6 @@ import {
 	handleError,
 	usePosts,
 } from '@headstartwp/next';
-import PropTypes from 'prop-types';
 import { PageContent } from '../../../components/PageContent';
 import { indexParams } from '../../../params';
 
@@ -17,10 +16,6 @@ const RecentPost = ({ post }) => {
 			<h3>{post.title.rendered}</h3>
 		</div>
 	);
-};
-
-RecentPost.propTypes = {
-	post: PropTypes.shape({ title: PropTypes.shape({ rendered: PropTypes.string }) }).isRequired,
 };
 
 const Homepage = ({ homePageSlug }) => {
@@ -49,10 +44,6 @@ const Homepage = ({ homePageSlug }) => {
 				: data.posts.map((post) => <RecentPost key={post.id} post={post} />)}
 		</>
 	);
-};
-
-Homepage.propTypes = {
-	homePageSlug: PropTypes.string.isRequired,
 };
 
 export default Homepage;

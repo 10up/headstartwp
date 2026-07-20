@@ -2,7 +2,6 @@ import { BlocksRenderer, YoutubeLiteBlock, ImageBlock } from '@headstartwp/core/
 import { TwitterBlock, ImageComponent, LinkBlock } from '@headstartwp/next';
 
 import { css } from '@linaria/core';
-import PropTypes from 'prop-types';
 
 export const Blocks = ({ html }) => {
 	return (
@@ -19,10 +18,6 @@ export const Blocks = ({ html }) => {
 			</BlocksRenderer>
 		</div>
 	);
-};
-
-Blocks.propTypes = {
-	html: PropTypes.string.isRequired,
 };
 
 export default Blocks;

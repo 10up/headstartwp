@@ -1,6 +1,5 @@
 import { styled } from '@linaria/react';
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
 import { Link } from './Link';
 
 const PaginationContainer = styled.ul`
@@ -61,12 +60,4 @@ export const Pagination = ({ pageInfo }) => {
 			)}
 		</PaginationContainer>
 	);
-};
-
-Pagination.propTypes = {
-	pageInfo: PropTypes.shape({
-		page: PropTypes.number,
-		totalItems: PropTypes.number,
-		totalPages: PropTypes.number,
-	}).isRequired,
 };

@@ -21,7 +21,6 @@
     "clsx": "^1.1.1",
     "next": "^15.5.9",
     "nprogress": "^0.2.0",
-    "prop-types": "^15.7.2",
     "react": "^19",
     "react-dom": "^19"
   },
