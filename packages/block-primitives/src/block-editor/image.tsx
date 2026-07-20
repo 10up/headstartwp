@@ -1,3 +1,4 @@
+import React from 'react';
 // @ts-expect-error
 import { BlockControls, MediaReplaceFlow } from '@wordpress/block-editor';
 import { Placeholder, Spinner, ToolbarGroup } from '@wordpress/components';

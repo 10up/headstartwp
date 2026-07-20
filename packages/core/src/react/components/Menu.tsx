@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable @typescript-eslint/no-use-before-define, react/require-default-props */
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 import type { MenuItemEntity } from '../../data';
 import { removeSourceUrl } from '../../utils/removeSourceUrl';
 
@@ -14,19 +14,19 @@ export type ItemWrapperProps = PropsWithChildren<{
 	depth: number;
 	item: MenuItemEntity;
 }>;
-export type ItemWrapper = (props: ItemWrapperProps) => JSX.Element;
+export type ItemWrapper = (props: ItemWrapperProps) => ReactElement;
 
 export type MenuWrapperProps = PropsWithChildren<{
 	className: string;
 	depth: number;
 }>;
-export type MenuWrapper = (props: MenuWrapperProps) => JSX.Element;
+export type MenuWrapper = (props: MenuWrapperProps) => ReactElement;
 
 export type LinkWrapperProps = PropsWithChildren<{
 	href: string;
 	depth: number;
 }>;
-export type LinkWrapper = (props: LinkWrapperProps) => JSX.Element;
+export type LinkWrapper = (props: LinkWrapperProps) => ReactElement;
 
 export type MenuItemsProp = {
 	items: MenuItemEntity[];

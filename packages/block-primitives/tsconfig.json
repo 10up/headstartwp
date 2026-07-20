@@ -6,7 +6,20 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ES2017",
-    "declaration": true
+    "declaration": true,
+    // This package's compiled output gets bundled directly into WordPress
+    // block-editor builds (via wp/10up-theme's webpack config), where React
+    // itself is externalized to WordPress core's globally-provided copy via
+    // @wordpress/dependency-extraction-webpack-plugin. That plugin only knows
+    // to externalize the bare `react`/`react-dom` specifiers, not
+    // `react/jsx-runtime` — so the root tsconfig's "react-jsx" (automatic)
+    // transform causes this package's dist output to bundle its own local
+    // copy of React's jsx-runtime, which creates elements WordPress's
+    // globally-provided React reconciler doesn't recognize as valid (a real,
+    // silent dual-React-instance conflict, not a false alarm). The classic
+    // transform compiles JSX to plain `React.createElement` calls instead,
+    // which correctly resolve through the externalized global React consistently.
+    "jsx": "react"
   },
   "exclude": ["node_modules", "dist", "src/**/__tests__/*.ts"],
   "include": ["src"]

@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducer, createContext, useCallback, useContext, useMemo } from 'react';
+import { useReducer, createContext, useCallback, useContext, useMemo, ReactElement } from 'react';
 import { reducer, initialState } from './reducer';
 import { getESEndpoint } from '../../utils';
 import { EPContextValue, EPPost, EPProviderProps, EPState } from '../../types';
@@ -28,7 +28,7 @@ export default function ElasticPressProvider({
 	onSSR,
 	onSearch,
 	onNavigation,
-}: EPProviderProps): JSX.Element {
+}: EPProviderProps): ReactElement {
 	if (!node) {
 		throw new Error('You must specify an ElasticSearch node');
 	}

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ImagePrimitive } from './types.js';
 
 export const RawImage = ({ value, size }: ImagePrimitive) => {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { InnerBlocks as GutenbergInnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { InnerBlocksProps } from '#shared/types.js';
 

@@ -1,6 +1,6 @@
 // @ts-expect-error
 import NextImage from 'next/image';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { ImagePrimitive } from '../shared/types.js';
 import { RawImage } from '../shared/raw-image.js';
 
