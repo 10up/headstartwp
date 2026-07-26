@@ -7,9 +7,59 @@
   padding: 6rem 0;
   text-align: center;
   position: relative;
-  background-color: var(--c-10up-secondary);
+  /* No overflow:hidden here - the search dropdown must be able to
+     extend past the hero. The lattice stays contained because the
+     ::after box is inset:0 with border-radius:inherit. */
+  /* Mirrors the main site's hero: soft lavender wash with the purple
+     radial from the top right, and the lattice graphic ghosted on the
+     right (CSS background keeps it inert - no click capture, no
+     gradient-id collisions). */
+  background:
+    radial-gradient(153.4% 328.78% at 88.61% -33.98%, rgba(163, 107, 163, 0.24) 0%, rgba(163, 107, 163, 0) 53.12%),
+    #faf8fb;
   border-radius: 2rem;
   margin-inline: 1rem;
+}
+
+.heroBanner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: url("../../static/img/hero-lattice.svg") no-repeat right -8rem center;
+  background-size: auto 200%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.heroBanner > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* The oversized lattice reads great wide, but scales down busy — step the
+   crop and strength down with the viewport. */
+@media (max-width: 1200px) {
+  .heroBanner::after {
+    background-position: right -5rem center;
+    background-size: auto 160%;
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 996px) {
+  .heroBanner::after {
+    background-position: right -4rem center;
+    background-size: auto 130%;
+    opacity: 0.25;
+  }
+}
+
+@media (max-width: 600px) {
+  .heroBanner::after {
+    background-size: auto 110%;
+    opacity: 0.18;
+  }
 }
 
 .heroBanner p {
