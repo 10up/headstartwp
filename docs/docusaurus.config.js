@@ -6,11 +6,13 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-	title: 'HeadstartWP Docs - Next.js Framework for WordPress',
+	title: 'HeadstartWP Docs - Next.js Framework for Headless WordPress',
 	tagline: '',
-	url: 'https://headstartwp.10up.com',
+	url: 'https://headstartwp.fueled.com',
 	baseUrl: '/docs',
-	onBrokenLinks: 'throw',
+	// Links into the generated /api section are unavoidably broken when
+	// SKIP_TYPEDOC skips generation — downgrade so local builds still pass.
+	onBrokenLinks: process.env.SKIP_TYPEDOC ? 'warn' : 'throw',
 	onBrokenMarkdownLinks: 'warn',
 	favicon: 'img/favicon.ico',
 	organizationName: '10up', // Usually your GitHub org/user name.
@@ -32,9 +34,19 @@ const config = {
 			({
 				docs: false,
 				blog: false,
-				googleTagManager: {
-					containerId: 'GTM-TKCGKK2',
-				},
+				// Same Google tag as the main site (Site Kit on
+				// headstartwp.fueled.com) — one GA4 property covers the full
+				// site→docs journey. Replaces the legacy 10up GTM container.
+				// Production-only: in dev the gtag script never loads, so the
+				// plugin's route-change handler would throw on every navigation.
+				...(process.env.NODE_ENV === 'production'
+					? {
+							gtag: {
+								trackingID: 'GT-WRDG786',
+								anonymizeIP: true,
+							},
+					  }
+					: {}),
 				theme: {
 					customCss: './src/css/custom.css',
 				},
@@ -43,21 +55,29 @@ const config = {
 	],
 
 	plugins: [
-		[
-			'docusaurus-plugin-typedoc',
-			{
-				name: 'HeadstartWP',
-				out: './docs',
-				entryPoints: ['../packages/core', '../packages/next'],
-				entryPointStrategy: 'packages',
-				packageOptions: {
-					entryPoints: ['src/docs-entry-point.ts'],
-				},
-				categorizeByGroup: false,
-				excludeInternal: true,
-				readme: 'none',
-			},
-		],
+		// SKIP_TYPEDOC=1 skips API-reference generation for faster local
+		// theme/content work (it needs the monorepo packages installed and
+		// built). CI always runs it. Local builds still get working search,
+		// minus API-reference entries (see the search plugin config below).
+		...(process.env.SKIP_TYPEDOC
+			? []
+			: [
+					[
+						'docusaurus-plugin-typedoc',
+						{
+							name: 'HeadstartWP',
+							out: './docs',
+							entryPoints: ['../packages/core', '../packages/next'],
+							entryPointStrategy: 'packages',
+							packageOptions: {
+								entryPoints: ['src/docs-entry-point.ts'],
+							},
+							categorizeByGroup: false,
+							excludeInternal: true,
+							readme: 'none',
+						},
+					],
+			  ]),
 		[
 			'@docusaurus/plugin-content-docs',
 			{
@@ -97,8 +117,11 @@ const config = {
 			'@easyops-cn/docusaurus-search-local',
 			{
 				indexDocs: true,
-				docsRouteBasePath: ['learn', 'api'],
-				docsDir: ['documentation', 'docs'],
+				// Search must only reference contexts that emit an index: with
+				// SKIP_TYPEDOC there is no /api content, and a missing context
+				// index leaves the search loader hanging forever.
+				docsRouteBasePath: process.env.SKIP_TYPEDOC ? ['learn'] : ['learn', 'api'],
+				docsDir: process.env.SKIP_TYPEDOC ? ['documentation'] : ['documentation', 'docs'],
 				hashed: true,
 			},
 		],
@@ -121,7 +144,7 @@ const config = {
 						type: 'doc',
 						docId: 'index',
 						position: 'right',
-						label: 'Docs',
+						label: 'Developer Guide',
 					},
 					{
 						type: 'doc',
@@ -134,6 +157,12 @@ const config = {
 						type: 'docsVersionDropdown',
 						position: 'left',
 						dropdownActiveClassDisabled: true,
+					},
+					{
+						href: 'https://headstartwp.fueled.com/',
+						label: 'About HeadstartWP',
+						position: 'right',
+						className: 'navbar-site-cta',
 					},
 				],
 			},
@@ -149,24 +178,53 @@ const config = {
 				style: 'light',
 				links: [
 					{
-						title: 'Docs',
+						title: 'Docs & Community',
 						items: [
 							{
-								label: 'Documentation',
+								label: 'Developer Guide',
 								to: '/learn',
 							},
 							{
 								label: 'API Reference',
 								to: '/api',
 							},
-						],
-					},
-					{
-						title: 'Community',
-						items: [
 							{
 								label: 'GitHub Discussions',
 								href: 'https://github.com/10up/headstartwp/discussions/',
+							},
+						],
+					},
+					{
+						title: 'HeadstartWP',
+						items: [
+							{
+								label: 'Main site',
+								href: 'https://headstartwp.fueled.com/',
+							},
+							{
+								label: 'News & Updates',
+								href: 'https://headstartwp.fueled.com/news/',
+							},
+							{
+								label: 'Privacy Policy',
+								href: 'https://headstartwp.fueled.com/privacy-policy/',
+							},
+						],
+					},
+					{
+						title: 'Fueled (formerly 10up)',
+						items: [
+							{
+								label: 'WordPress',
+								href: 'https://fueled.com/wordpress/?utm_source=referral&utm_medium=Website%20Referral&utm_campaign=headstartwp.fueled.com&utm_content=docs-footer',
+							},
+							{
+								label: 'Hire us',
+								href: 'https://fueled.com/contact/?utm_source=referral&utm_medium=Website%20Referral&utm_campaign=headstartwp.fueled.com&utm_content=docs-footer-hire',
+							},
+							{
+								label: 'Careers',
+								href: 'https://fueled.com/careers/?utm_source=referral&utm_medium=Website%20Referral&utm_campaign=headstartwp.fueled.com&utm_content=docs-footer-careers',
 							},
 						],
 					},
