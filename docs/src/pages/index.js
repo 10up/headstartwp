@@ -18,7 +18,7 @@ export default function Home() {
 			<main>
 				<header className={`${styles.heroBanner} home__heroBanner`}>
 					<h1>HeadstartWP</h1>
-					<p>Next.js Framework for WordPress</p>
+					<p>Next.js Framework for Headless WordPress</p>
 					<SearchBar className={styles.searchBar} />
 				</header>
 				<section className={`${styles.grid} content-wrapper`}>
@@ -31,7 +31,7 @@ export default function Home() {
 								height={237}
 							/>
 						</Link>
-						<h2>Documentation</h2>
+						<h2>Developer Guide</h2>
 						<p>
 							If you are unsure how to do something with the framework, this is where
 							you should start.

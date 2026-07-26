@@ -162,7 +162,7 @@ As you might have noticed, the category route is not handling errors and loading
 
 ![data-error](../../../static/img/error.png)
 
-At 10up, we strongly believe that a great developer experience increases developer productivity! Therefore the framework will try to help you, the developer, as much as it can.
+At Fueled (formerly 10up), we strongly believe that a great developer experience increases developer productivity! Therefore the framework will try to help you, the developer, as much as it can.
 
 In this case, it "detects" that you’re trying to access something that's returned by the custom hook but is not yet available. As the error message suggests, you need to either handle the loading/error states or pre-fetch the data on the server. We didn't see this error on the single post route because loading/error states are being handled on that route!
 
