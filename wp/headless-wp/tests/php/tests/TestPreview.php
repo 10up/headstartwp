@@ -58,7 +58,7 @@ class TestPreview extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Tests if previwes handling can be disable
+	 * Tests if previews handling can be disabled
 	 *
 	 * @return void
 	 */

@@ -143,7 +143,7 @@ function scripts() {
 	 */
 
 	/*
-	 * Uncoment this to use the shared.js file.
+	 * Uncomment this to use the shared.js file.
 		wp_enqueue_script(
 			'shared',
 			TENUP_THEME_TEMPLATE_URL . '/dist/js/shared.js',
@@ -170,7 +170,7 @@ function admin_scripts() {
 	);
 
 	/*
-	 * Uncoment this to use the shared.js file.
+	 * Uncomment this to use the shared.js file.
 		wp_enqueue_script(
 			'shared',
 			TENUP_THEME_TEMPLATE_URL . '/dist/js/shared.js',
@@ -211,7 +211,7 @@ function admin_styles() {
 	);
 
 	/*
-	 * Uncoment this to use the shared.css file.
+	 * Uncomment this to use the shared.css file.
 		wp_enqueue_style(
 			'shared-style',
 			TENUP_THEME_TEMPLATE_URL . '/dist/css/shared.css',

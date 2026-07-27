@@ -7,7 +7,7 @@ import SearchBar from '@theme/SearchBar';
 
 import guideSketch from '@site/static/img/guides-sketch.png';
 import referenceSketch from '@site/static/img/reference-sketch.png';
-import principlesSketch from '@site/static/img/priciples-sketch.png';
+import principlesSketch from '@site/static/img/principles-sketch.png';
 
 import styles from './index.module.css';
 

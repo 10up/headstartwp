@@ -4,7 +4,7 @@ import { SettingsProvider } from '@headstartwp/core/react';
 import { Link } from '../Link';
 
 describe('Link', () => {
-	it('shound replace internal links with next/link', () => {
+	it('should replace internal links with next/link', () => {
 		const { container } = render(
 			<SettingsProvider
 				settings={{

@@ -71,7 +71,7 @@ function disable_emojis_tinymce( $plugins ) {
  *
  * @param  array  $urls          URLs to print for resource hints.
  * @param  string $relation_type The relation type the URLs are printed for.
- * @return array                 Difference betwen the two arrays.
+ * @return array                 Difference between the two arrays.
  */
 function disable_emoji_dns_prefetch( $urls, $relation_type ) {
 	if ( 'dns-prefetch' === $relation_type ) {

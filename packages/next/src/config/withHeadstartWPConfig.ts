@@ -141,7 +141,7 @@ export function withHeadstartWPConfig(
 
 	if (!clientConfigPath && !serverConfigPath) {
 		throw new ConfigError(
-			'Missing config, when spliting config between server and client you need to specify both headstartwp.config.client.js and headstartwp.server.config.js',
+			'Missing config, when splitting config between server and client you need to specify both headstartwp.config.client.js and headstartwp.server.config.js',
 		);
 	}
 

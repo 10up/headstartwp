@@ -5,7 +5,7 @@ import { getHeadstartWPConfig, setHeadstartWPConfig } from '@headstartwp/core';
 import { LinkBlock } from '../LinkBlock';
 
 describe('LinkBlock', () => {
-	it('shound replace internal links with next/link', () => {
+	it('should replace internal links with next/link', () => {
 		setHeadstartWPConfig({
 			sourceUrl: 'http://wpadmin.com',
 			hostUrl: 'http://domain.com',

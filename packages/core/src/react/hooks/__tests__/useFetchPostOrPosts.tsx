@@ -162,7 +162,7 @@ describe('useFetchPostOrPosts', () => {
 			},
 		);
 
-		// the data for useFetchPost should be avaliable immediatelly without a fetch
+		// the data for useFetchPost should be available immediately without a fetch
 		// so this test should pass without waitFor
 		expect(result2.current.data?.post.slug).toBe(
 			'distinctio-rerum-ratione-maxime-repudiandae-laboriosam-quam',
@@ -195,7 +195,7 @@ describe('useFetchPostOrPosts', () => {
 			},
 		);
 
-		// the data for useFetchPosts should be avaliable immediatelly without a fetch
+		// the data for useFetchPosts should be available immediately without a fetch
 		// so this test should pass  without waitFor
 		expect(result2.current.data?.posts?.length).toBeGreaterThan(0);
 		(result.current.data?.posts as PostEntity[]).forEach((post) => {

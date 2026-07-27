@@ -133,7 +133,7 @@ Another thing you want to consider is flushing the CDN cache **after** you reval
 
 ```php
 add_filter( 'tenup_headless_wp_revalidate', function( $post, $front_end_post_url ) {
-    // $front_end_psot_url is the URL for the post with the front-end/headless url.
+    // $front_end_post_url is the URL for the post with the front-end/headless url.
     function_to_clear_my_favorite_cdn_cache( $front_end_post_url );
 }, 10, 2 );
 ```

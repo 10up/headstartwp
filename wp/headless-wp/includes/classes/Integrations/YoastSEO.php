@@ -228,14 +228,22 @@ class YoastSEO {
 	public function replace_yoast_search_title_placeholders( $title, $query_vars ) {
 		$separator = \YoastSEO()->helpers->options->get_title_separator();
 
+		$str_replace_mapping = [
+			'%%sitename%%'     => get_bloginfo( 'name' ),
+			'%%searchphrase%%' => $query_vars['s'] ?? '',
+			'%%page%%'         => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
+			'%%sep%%'          => $separator ?? ' ',
+		];
+
+		$str_replace_mapping = apply_filters(
+			'tenup_headless_wp_search_title_variables_replacements',
+			$str_replace_mapping
+		);
+
+		// Retain the misspelled filter name for backwards compatibility.
 		$str_replace_mapping = apply_filters(
 			'tenup_headless_wp_search_title_variables_replacments',
-			[
-				'%%sitename%%'     => get_bloginfo( 'name' ),
-				'%%searchphrase%%' => $query_vars['s'] ?? '',
-				'%%page%%'         => ! empty( $query_vars['page'] ) ? sprintf( '%s %d', __( 'Page', 'headless-wp' ), $query_vars['page'] ) : '',
-				'%%sep%%'          => $separator ?? ' ',
-			]
+			$str_replace_mapping
 		);
 
 		$title = str_replace( array_keys( $str_replace_mapping ), array_values( $str_replace_mapping ), $title );

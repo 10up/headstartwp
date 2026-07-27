@@ -1,7 +1,7 @@
 import { convertUrl } from '../convertUrl';
 
 describe('convertUrl', () => {
-	it('works without trainling slash', () => {
+	it('works without trailing slash', () => {
 		expect(
 			convertUrl(
 				'https://backendurl.com/test',

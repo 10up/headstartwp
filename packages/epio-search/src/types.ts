@@ -27,7 +27,7 @@ export type EPHit =
 			_id: string;
 			_score: number;
 			_source: EPPost;
-			hightlight:
+			highlight:
 				| {
 						post_title?: string[];
 						post_content_plain?: string[];

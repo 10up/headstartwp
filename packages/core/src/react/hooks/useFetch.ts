@@ -77,7 +77,7 @@ export function useFetch<E, Params extends EndpointParams, R = E>(
 				finalParams,
 			);
 
-			// mutate additiional cache objects
+			// mutate additional cache objects
 			if (additionalCacheObjects) {
 				additionalCacheObjects.forEach(({ key, data }) => {
 					mutate(key, data);

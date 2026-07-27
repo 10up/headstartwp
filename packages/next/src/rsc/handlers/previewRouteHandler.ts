@@ -178,7 +178,7 @@ export async function previewRouteHandler(
 		/**
 		 * Builds the default redirect path
 		 *
-		 * @returns the default redirec tpath
+		 * @returns the default redirect path
 		 */
 		const getDefaultRedirectPath = () => {
 			if (preview?.usePostLinkForRedirect) {

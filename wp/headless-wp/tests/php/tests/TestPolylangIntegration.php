@@ -108,7 +108,7 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 			[
 				'post_title'   => '[PT_BR] Post',
 				'post_status'  => 'publish',
-				'post_content' => 'portugese post',
+				'post_content' => 'Portuguese post',
 				'post_type'    => 'post',
 			]
 		);
@@ -156,7 +156,7 @@ class TestPolylangIntegration extends PLLUnitTestCase {
 			[
 				'post_title'   => '[PT_BR] home Page',
 				'post_status'  => 'publish',
-				'post_content' => 'portugese page',
+				'post_content' => 'Portuguese page',
 				'post_type'    => 'page',
 			]
 		);

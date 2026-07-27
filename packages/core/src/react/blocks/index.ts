@@ -10,7 +10,7 @@ export * from './DebugBlock';
 export * from './HeadingBlock';
 export * from './QuoteBlock';
 export * from './PullQuote';
-export * from './PreformatedBlock';
+export * from './PreformattedBlock';
 export * from './VerseBlock';
 export * from './TableBlock';
 export * from './GroupBlock';

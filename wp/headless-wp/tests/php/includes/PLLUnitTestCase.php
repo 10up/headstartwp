@@ -72,7 +72,7 @@ class PLLUnitTestCase extends WP_UnitTestCase {
 		parent::tearDown();
 
 		unset( $GLOBALS['wp_settings_errors'] );
-		self::$polylang->model->clean_languages_cache(); // We must do it before database ROLLBACK otherwhise it is impossible to delete the transient
+		self::$polylang->model->clean_languages_cache(); // We must do it before database ROLLBACK otherwise it is impossible to delete the transient
 	}
 
 	/**

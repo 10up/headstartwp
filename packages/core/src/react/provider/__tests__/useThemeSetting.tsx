@@ -43,7 +43,7 @@ describe('useThemeSetting', () => {
 	});
 
 	test('it returns values from settings', () => {
-		const defaultPallete = [
+		const defaultPalette = [
 			{
 				name: 'Black',
 				slug: 'black',
@@ -56,7 +56,7 @@ describe('useThemeSetting', () => {
 			},
 		];
 
-		const blockPallete = [
+		const blockPalette = [
 			{
 				name: 'white',
 				slug: 'white',
@@ -69,7 +69,7 @@ describe('useThemeSetting', () => {
 					settings: {
 						color: {
 							palette: {
-								default: defaultPallete,
+								default: defaultPalette,
 							},
 						},
 
@@ -77,7 +77,7 @@ describe('useThemeSetting', () => {
 							'core/button': {
 								color: {
 									palette: {
-										theme: blockPallete,
+										theme: blockPalette,
 									},
 								},
 							},
@@ -95,7 +95,7 @@ describe('useThemeSetting', () => {
 			},
 		);
 
-		expect(result1.current).toMatchObject(defaultPallete);
+		expect(result1.current).toMatchObject(defaultPalette);
 
 		const { result: result2 } = renderHook(
 			() => useThemeSetting('color.palette.theme', 'core/button', []),
@@ -104,6 +104,6 @@ describe('useThemeSetting', () => {
 			},
 		);
 
-		expect(result2.current).toMatchObject(blockPallete);
+		expect(result2.current).toMatchObject(blockPalette);
 	});
 });
