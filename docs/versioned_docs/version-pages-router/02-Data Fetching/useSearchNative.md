@@ -153,11 +153,10 @@ const ArchivePage = () => {
 ## Accessing embeddable data
 By default, the Search Results endpoints only return the object of the associated search results but do not return embeddable data of the search results entities themselves. For instance, when searching for posts, even if you pass the `_embed` parameter, WordPress won't return the associated term objects, author objects etc.
 
-HeadstartWP plugin extends the core endpoint so that it returns these embedded objects to avoid the need for additional queries. Check the [PostSearchEntity](/api/@headstartwp/core/interfaces/PostSearchEntity/) and [TermSearcheEntity](/api/@headstartwp/core/interfaces/TermSearchEntity/).
+HeadstartWP plugin extends the core endpoint so that it returns these embedded objects to avoid the need for additional queries. Check the [PostSearchEntity](/api/@headstartwp/core/interfaces/PostSearchEntity/) and [TermSearchEntity](/api/@headstartwp/core/interfaces/TermSearchEntity/).
 
 ## QueriedObject
 
 The `useNativeSearch` hook also exposes a `queriedObject`.
 
 The queried object for this hook is an object of type [SearchEntity](/api/@headstartwp/core/interfaces/SearchEntity/).
-

@@ -84,13 +84,13 @@ export function getAppRouterLocale(request: NextRequest): [string, string] | und
 	return [defaultLocale, defaultLocale];
 }
 
-type AppMidlewareOptions = {
+type AppMiddlewareOptions = {
 	appRouter: boolean;
 };
 
 export async function AppMiddleware(
 	req: NextRequest,
-	options: AppMidlewareOptions = { appRouter: false },
+	options: AppMiddlewareOptions = { appRouter: false },
 ) {
 	let response = NextResponse.next();
 	const { pathname, searchParams } = req.nextUrl;

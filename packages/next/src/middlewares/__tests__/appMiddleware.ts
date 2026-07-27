@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { setHeadstartWPConfig } from '@headstartwp/core/utils';
-import { AppMiddleware, getAppRouterLocale } from '../appMidleware';
+import { AppMiddleware, getAppRouterLocale } from '../appMiddleware';
 
 describe('appMiddleware', () => {
 	it('adds headers', async () => {
@@ -669,7 +669,7 @@ describe('appMiddleware', () => {
 		expect(res.status).toBe(307);
 		expect(res.headers.get('Location')).toBe('http://test2.com/post-name');
 
-		// es is an unsuported but valid locale
+		// es is an unsupported but valid locale
 		req = new NextRequest('http://test2.com/es/post-name', {
 			method: 'GET',
 		});

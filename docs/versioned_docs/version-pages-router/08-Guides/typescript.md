@@ -152,4 +152,4 @@ interface Window {
 
 ## Running the typecheck
 
-By default Next.js will run `tsc` to validate your types. If type checking fails your build will fail. Therefore we recommend running `tsc --noEmit` before commiting and/or on your CI prior to merging PRs.
+By default Next.js will run `tsc` to validate your types. If type checking fails your build will fail. Therefore we recommend running `tsc --noEmit` before committing and/or on your CI prior to merging PRs.

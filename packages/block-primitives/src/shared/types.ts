@@ -61,7 +61,7 @@ export type ImagePrimitiveValue = {
 	 */
 	height: number;
 
-	sizes: Record<string, { url: string; width: number; height: number; orientantion: string }>;
+	sizes: Record<string, { url: string; width: number; height: number; orientation: string }>;
 };
 
 /**

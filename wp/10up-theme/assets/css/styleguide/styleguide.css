@@ -1,7 +1,7 @@
 :root {
 	--c-uikit-base: #fff;
 	--c-uikit-accent: #767676;
-	--c-uikit-hightlight: #f6f6f6;
+	--c-uikit-highlight: #f6f6f6;
 	--c-uikit-border: #ccc;
 	--c-uikit-primary: #000;
 	--c-uikit-color-label: #000;
@@ -97,7 +97,7 @@
 
 .uikit__icon {
 	align-items: center;
-	background: var(--c-uikit-hightlight);
+	background: var(--c-uikit-highlight);
 	display: flex;
 	float: left;
 	height: 62px;

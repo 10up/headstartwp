@@ -160,7 +160,7 @@ describe('prepareQuery with lang and polylang', () => {
 		});
 	});
 
-	it('throws for unsuported locales', () => {
+	it('throws for unsupported locales', () => {
 		expect(() =>
 			prepareQuery(
 				{
@@ -169,7 +169,7 @@ describe('prepareQuery with lang and polylang', () => {
 				getHeadstartWPConfig(),
 			),
 		).toThrow(
-			'Unsuported lang (br), make sure you add all desired locales to "config.i18n.locales"',
+			'Unsupported lang (br), make sure you add all desired locales to "config.i18n.locales"',
 		);
 	});
 });

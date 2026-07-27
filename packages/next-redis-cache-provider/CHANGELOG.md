@@ -26,19 +26,19 @@
 
 ### Major Changes
 
-- 6956fbb8: Suport for >= Next.js 13.5
+- 6956fbb8: Support for >= Next.js 13.5
 
 ## 1.0.0-next.0
 
 ### Major Changes
 
-- 6956fbb8: Suport for >= Next.js 13.5
+- 6956fbb8: Support for >= Next.js 13.5
 
 ## 0.2.0
 
 ### Minor Changes
 
-- 3e73ab7a: Add suport for redis sentinel
+- 3e73ab7a: Add support for redis sentinel
 
 ### Patch Changes
 
@@ -54,7 +54,7 @@
 
 ### Minor Changes
 
-- 3e73ab7a: Add suport for redis sentinel
+- 3e73ab7a: Add support for redis sentinel
 
 ## 0.1.5
 

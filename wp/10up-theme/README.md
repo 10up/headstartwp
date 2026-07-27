@@ -103,6 +103,6 @@ The theme now supports `ct.css`. Uh what?
 
 You can activate `ct.css` on any page load by including `?debug_perf=1` in the URL.
 
-Considering we do not want to load script everywhere throughout the theme, we have provided engineeers with a way to trigger the `ct.css` output by using a query param.
+Considering we do not want to load script everywhere throughout the theme, we have provided engineers with a way to trigger the `ct.css` output by using a query param.
 
 <sub>* for 10uppers, reach out to Daine for any questions / guidance / support in regards to `ct.css`</sub>

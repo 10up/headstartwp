@@ -111,7 +111,7 @@ module.exports = {
 }
 ```
 
-Another use case is if you want your posts to sit at a different prefix (e.g: `/blog`), you can change your permalinks in WordPress (e.g: `/blog/%postname/`) and update the default `post` post type so that its `sigle` property is equal to `/blog`.
+Another use case is if you want your posts to sit at a different prefix (e.g: `/blog`), you can change your permalinks in WordPress (e.g: `/blog/%postname/`) and update the default `post` post type so that its `single` property is equal to `/blog`.
 
 ```js title="headstartwp.config.js"
 module.exports = {

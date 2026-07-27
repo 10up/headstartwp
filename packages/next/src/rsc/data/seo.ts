@@ -83,13 +83,13 @@ function getMetadataForAuthorEntity(author: AuthorEntity, config: HeadlessConfig
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getMetatadataForSearchEntity(search: SearchEntity, config: HeadlessConfig): Metadata {
+function getMetadataForSearchEntity(search: SearchEntity, config: HeadlessConfig): Metadata {
 	return {
 		title: `Searching for ${search.searchedValue}`,
 	};
 }
 
-function getMetatadataForTermEntity(term: TermEntity, config: HeadlessConfig): Metadata {
+function getMetadataForTermEntity(term: TermEntity, config: HeadlessConfig): Metadata {
 	const { hostUrl = '', sourceUrl = '' } = config;
 
 	return {
@@ -103,7 +103,12 @@ function getMetatadataForTermEntity(term: TermEntity, config: HeadlessConfig): M
 export function prepareSEOMetadata(
 	data: PostEntity | QueriedObject,
 	_config: HeadlessConfig = {},
-): { metadata: Metadata; schema?: string } {
+): {
+	metadata: Metadata;
+	/** @deprecated Use `metadata` instead. */
+	metatada: Metadata;
+	schema?: string;
+} {
 	const config = _config ?? getHeadstartWPConfig();
 	const { integrations } = config;
 	const isYoastIntegrationEnabled = !!integrations?.yoastSEO?.enable;
@@ -132,14 +137,14 @@ export function prepareSEOMetadata(
 			yoastMetadata = fromYoastToMetadata(data.search.yoast_head_json, config);
 			jsonLd = data.search.yoast_head_json.schema;
 		} else {
-			metadata = getMetatadataForSearchEntity(data.search, config);
+			metadata = getMetadataForSearchEntity(data.search, config);
 		}
 	} else if (data.term) {
 		if (data.term.yoast_head_json && isYoastIntegrationEnabled) {
 			yoastMetadata = fromYoastToMetadata(data.term.yoast_head_json, config);
 			jsonLd = data.term.yoast_head_json.schema;
 		} else {
-			metadata = getMetatadataForTermEntity(data.term, config);
+			metadata = getMetadataForTermEntity(data.term, config);
 		}
 	}
 
@@ -147,7 +152,7 @@ export function prepareSEOMetadata(
 
 	return {
 		metadata: _metadata,
-		// @ts-expect-error - previous version had a typo to keeping it for backwards compatibility, users with TS will still see an error during build
+		// Retained as a deprecated alias for backwards compatibility.
 		metatada: _metadata,
 		schema: jsonLd
 			? JSON.stringify(jsonLd).replace(new RegExp(sourceUrl, 'g'), hostUrl)

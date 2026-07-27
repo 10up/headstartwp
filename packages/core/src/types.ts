@@ -33,9 +33,9 @@ export type CustomTaxonomy = {
 	/**
 	 * Whether this custom taxonomy should match the archive path
 	 *
-	 * If set to true, then when querying a taxonomy archive page such as `/[taxonmy-slug]/[term-slug]` the
+	 * If set to true, then when querying a taxonomy archive page such as `/[taxonomy-slug]/[term-slug]` the
 	 * `term.link` property should match the current path. This will avoid matching nested categories that doesn't exist for instance:
-	 * `/[taxonmy-slug]/fake-parent-term/[term-slug]` will not match if this option is set to true even though `term-slug` exists.
+	 * `/[taxonomy-slug]/fake-parent-term/[term-slug]` will not match if this option is set to true even though `term-slug` exists.
 	 *
 	 * @default false
 	 */
@@ -123,7 +123,7 @@ export type FetchStrategyCacheConfig = {
 	 * If set, this function will be executed after restoring data from cache (cache.get) and can be used
 	 * to reconstruct things that were removed in beforeSet.
 	 *
-	 * @param fetcbStrategy The fetch strategy instnace
+	 * @param fetcbStrategy The fetch strategy instance
 	 * @returns
 	 */
 	afterGet?: <E, P extends EndpointParams, R>(
