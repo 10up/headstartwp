@@ -8,17 +8,23 @@
  * packages are dev-time only (no runtime effect), it's safe to just delete the stray
  * nested copy after every install so TypeScript falls back to the correct, hoisted one.
  */
+/**
+ * @types/wordpress__block-editor (a community DefinitelyTyped package, still needed since
+ * @wordpress/block-editor doesn't ship its own native types) bundles its own old, nested
+ * @wordpress/data@9.x. Whether npm actually resolves block-primitives' own '@wordpress/data'
+ * import against that stale nested copy instead of the real, hoisted 10.x one turned out to
+ * depend on which npm version does the install (reproduced failing under Node 20/npm 10.1,
+ * passing under Node 22's bundled npm) - so this can't be relied on to just work everywhere.
+ * Deleting the stale nested copy after every install makes resolution consistent regardless.
+ */
 const fs = require('fs');
 const path = require('path');
 
-const staleTypesPath = path.join(
-	__dirname,
-	'..',
-	'packages',
-	'block-primitives',
-	'node_modules',
-	'@types',
-	'react',
-);
+const staleNestedPaths = [
+	['packages', 'block-primitives', 'node_modules', '@types', 'react'],
+	['node_modules', '@types', 'wordpress__block-editor', 'node_modules', '@wordpress', 'data'],
+];
 
-fs.rmSync(staleTypesPath, { recursive: true, force: true });
+for (const segments of staleNestedPaths) {
+	fs.rmSync(path.join(__dirname, '..', ...segments), { recursive: true, force: true });
+}
