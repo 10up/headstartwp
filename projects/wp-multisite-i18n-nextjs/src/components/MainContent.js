@@ -1,5 +1,4 @@
 import { styled } from '@linaria/react';
-import PropTypes from 'prop-types';
 
 const StyledMain = styled.main`
 	padding: 20px;
@@ -13,8 +12,4 @@ export const MainContent = ({ children }) => {
 			</section>
 		</div>
 	);
-};
-
-MainContent.propTypes = {
-	children: PropTypes.node.isRequired,
 };

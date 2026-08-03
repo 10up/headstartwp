@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { usePost } from '@headstartwp/next';
 import dynamic from 'next/dynamic';
 
@@ -28,8 +27,4 @@ export const PageContent = ({ params }) => {
 			<Blocks html={data.post.content.rendered} />
 		</>
 	);
-};
-
-PageContent.propTypes = {
-	params: PropTypes.shape({}).isRequired,
 };

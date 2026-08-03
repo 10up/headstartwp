@@ -7,28 +7,57 @@ describe('parseSeo', () => {
 		);
 		expect(result).toMatchInlineSnapshot(`
       [
-        <title>
-          Title
-        </title>,
-        <meta
-          content="Content"
-          name="Name"
-          property="Property"
-        />,
-        <link
-          href=""
-          hrefLang="Hreflang"
-          rel="Rel"
-        />,
-        <script
-          className="Class"
-          dangerouslySetInnerHTML={
-            {
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "0",
+          "props": {
+            "children": "Title",
+          },
+          "type": "title",
+        },
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "1",
+          "props": {
+            "children": null,
+            "content": "Content",
+            "name": "Name",
+            "property": "Property",
+          },
+          "type": "meta",
+        },
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "2",
+          "props": {
+            "children": null,
+            "href": "",
+            "hrefLang": "Hreflang",
+            "rel": "Rel",
+          },
+          "type": "link",
+        },
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": "3",
+          "props": {
+            "children": null,
+            "className": "Class",
+            "dangerouslySetInnerHTML": {
               "__html": "{}",
-            }
-          }
-          type="Type"
-        />,
+            },
+            "type": "Type",
+          },
+          "type": "script",
+        },
       ]
     `);
 	});

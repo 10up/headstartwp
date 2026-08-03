@@ -1,3 +1,4 @@
+import React from 'react';
 import type { RichTextPrimitive } from '#shared/types.ts';
 
 export const RichText = <T extends keyof HTMLElementTagNameMap>({

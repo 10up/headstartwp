@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 // @ts-expect-error
 import NextLink from 'next/link';
 import { removeSourceUrl } from '@headstartwp/core';

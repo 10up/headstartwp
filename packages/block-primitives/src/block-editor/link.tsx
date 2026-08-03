@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { Link as LinkBlockComponent } from '@10up/block-components';
 import { useBlockProps } from '@wordpress/block-editor';
 import { LinkPrimitiveValue, LinkProps } from '#shared/types.js';

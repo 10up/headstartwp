@@ -21,17 +21,16 @@
     "clsx": "^1.1.1",
     "next": "^15.5.9",
     "nprogress": "^0.2.0",
-    "prop-types": "^15.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
     "@wyw-in-js/babel-preset": "0.5.4",
     "@wyw-in-js/webpack-loader": "^0.5.4",
     "@10up/eslint-config": "^4.0.0",
     "@next/bundle-analyzer": "^12.1.0",
-    "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
   },
   "engineStrict": true,
   "engines": {

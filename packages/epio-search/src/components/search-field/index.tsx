@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, ReactElement } from 'react';
 import { useSearch } from '../../hooks/use-search';
 import { useDebounce } from '../../hooks/use-debounce';
 import { SearchFieldProps } from '../../types';
@@ -12,7 +12,7 @@ export default function SearchField({
 	minSearchCharacters = 3,
 	debounceMs = 200,
 	...rest
-}: SearchFieldProps): JSX.Element {
+}: SearchFieldProps): ReactElement {
 	const { refine } = useSearch();
 
 	const search = useCallback(

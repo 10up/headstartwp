@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@headstartwp/block-primitives": "0.1.0",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
     "@vanilla-extract/css": "^1.16.0",
@@ -27,8 +27,8 @@
     "@storybook/react": "^8.0.6",
     "@storybook/test": "^8.0.6",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",

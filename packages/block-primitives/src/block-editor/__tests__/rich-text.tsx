@@ -1,6 +1,24 @@
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { jest } from '@jest/globals';
+
+// @wordpress/element (pulled in transitively via @wordpress/block-editor, imported
+// below via a dynamic import so this registration runs first) still statically
+// imports several legacy root APIs from 'react-dom' that React 19 removed entirely:
+// findDOMNode, render, hydrate, and unmountComponentAtNode. Nothing this file
+// exercises actually calls them at runtime, but the static imports themselves fail
+// to resolve under Node's strict ESM loader without them. This patches them back in
+// for the test environment only, using unstable_mockModule (not jest.mock) since a
+// dynamic `await import()` is required for a runtime mock to actually intercept an
+// ES module import.
+jest.unstable_mockModule('react-dom', async () => ({
+	...(await jest.requireActual<typeof import('react-dom')>('react-dom')),
+	findDOMNode: () => null,
+	render: () => null,
+	hydrate: () => null,
+	unmountComponentAtNode: () => false,
+}));
 
 let attributes = {};
 const setAttributes = jest.fn((newAttributes: Record<string, any>) => {

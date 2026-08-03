@@ -1,3 +1,4 @@
+import React from 'react';
 import { RichText as GutenbergRichText } from '@wordpress/block-editor';
 import { RichTextPrimitive } from '#shared/types.js';
 import { useBlockPrimitiveProps } from './hooks/useBlockPrimitiveProps.js';

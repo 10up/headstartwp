@@ -65,7 +65,7 @@
 	},
 	"devDependencies": {
 		"@testing-library/dom": "^10.3.1",
-		"@testing-library/react": "^16.0.0",
+		"@testing-library/react": "^16.3.0",
 		"@types/jest": "^29.0.3",
 		"copy-webpack-plugin": "^10.2.4",
 		"expect-type": "^0.15.0",
@@ -77,8 +77,8 @@
 		"isomorphic-fetch": "^3.0.0",
 		"jest-fetch-mock": "^3.0.3",
 		"tsc-esm-fix": "^2.20.27",
-		"@types/react": "^18",
-		"@types/react-dom": "^18"
+		"@types/react": "^19",
+		"@types/react-dom": "^19"
 	},
 	"peerDependencies": {
 		"next": ">= 12.0.0",

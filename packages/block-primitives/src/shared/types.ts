@@ -1,6 +1,12 @@
+import type { ComponentPropsWithoutRef } from 'react';
 import { HeadlessConfig } from '@headstartwp/core';
 import type { RichText, InnerBlocks } from '@wordpress/block-editor';
-import type { DropdownProps } from '@wordpress/components/build-types/dropdown/types.d.ts';
+import type { Popover } from '@wordpress/components';
+
+// @wordpress/components no longer exposes its internal build-types/dropdown/types.d.ts
+// via package.json "exports", so this mirrors DropdownProps['popoverProps'] from the
+// component's own public props instead of importing the private module directly.
+type DropdownPopoverProps = Omit<ComponentPropsWithoutRef<typeof Popover>, 'children'>;
 
 export type Attributes = Record<string, any>;
 export type SetAttributes = (attributes: Attributes) => void;
@@ -24,7 +30,7 @@ export type MediaReplaceFlow = {
 	multiple?: boolean;
 	addToGallery?: boolean;
 	handleUpload?: boolean;
-	popoverProps?: DropdownProps['popoverProps'];
+	popoverProps?: DropdownPopoverProps;
 };
 
 /**

@@ -32,6 +32,7 @@
     "dev:primitives": "turbo run dev --parallel  --filter=./test-projects/wp-nextjs-universal-blocks --filter=./packages/core --filter=./packages/next --filter=./packages/block-primitives --filter=./test-projects/component-library --filter=./wp/10up-theme",
     "dev:component-library": "turbo run dev --parallel --filter=./projects/component-library --filter=./wp/10up-theme",
     "prepare": "husky install",
+    "postinstall": "node scripts/fix-nested-types.js",
     "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
     "version": "changeset version && ./scripts/version-plugin.sh",
@@ -61,8 +62,18 @@
     "turbo": "^2.0.11"
   },
   "overrides": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "typescript": "5.9.3",
+    "next": "15.5.20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "webpack": "5.105.2",
+    "webpack-dev-server": "5.2.1",
+    "@10up/block-components": {
+      "react": "19.2.7",
+      "react-dom": "19.2.7"
+    }
   },
   "nextBundleAnalysis": {
     "buildOutputDirectory": "./projects/wp-nextjs/.next",

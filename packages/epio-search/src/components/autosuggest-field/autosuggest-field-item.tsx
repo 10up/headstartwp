@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, ReactElement } from 'react';
 import { EPPost } from '../../types';
 import styles from './styles.module.css';
 import { useElasticPress } from '../provider/ep-provider';
@@ -17,7 +17,7 @@ export default function AutosuggestFieldItem({
 	focus,
 	index,
 	setFocus,
-}: AutosuggestFieldItemProps): JSX.Element {
+}: AutosuggestFieldItemProps): ReactElement {
 	const ref = useRef<HTMLLIElement>(null);
 	const { onNavigation } = useElasticPress();
 
