@@ -16,6 +16,7 @@ import { PreviewData } from '../../handlers/types';
 import { convertToPath } from '../convertToPath';
 import { getSiteFromContext } from './getSiteFromContext';
 import defaultCacheHandler from './cache';
+import { warnDeprecatedPagesRouter } from '../../utils/deprecation';
 
 const { all: merge } = deepmerge;
 
@@ -67,6 +68,10 @@ function isPreviewRequest<P>(params: P, urlParams: P): params is P & PostParams 
  * @param options See {@link FetchHookDataOptions}
  *
  * @returns The various things fetchHookData needs
+ * @deprecated Since v2. Supports the Next.js pages router, which is legacy. It still works in
+ * v2 and is scheduled for removal in v3. Use the query functions from `@headstartwp/next/app`
+ * instead. (No runtime warning: `fetchHookData` calls this internally.)
+ *
  */
 export function prepareFetchHookData<T = unknown, P extends EndpointParams = EndpointParams, R = T>(
 	fetchStrategy: AbstractFetchStrategy<T, P, R>,
@@ -186,6 +191,10 @@ export function prepareFetchHookData<T = unknown, P extends EndpointParams = End
  
  * @returns An object with a key of `data` and a value of the fetched data.
  *
+ * @deprecated Since v2. Supports the Next.js pages router, which is legacy. It still works in
+ * v2 and is scheduled for removal in v3. Use the query functions from `@headstartwp/next/app`
+ * (`queryPost`, `queryPosts`, and friends) in a server component instead.
+ *
  * @category Next.js Data Fetching Utilities
  */
 export async function fetchHookData<T = unknown, P extends EndpointParams = EndpointParams, R = T>(
@@ -193,6 +202,11 @@ export async function fetchHookData<T = unknown, P extends EndpointParams = Endp
 	ctx: GetServerSidePropsContext<any, PreviewData> | GetStaticPropsContext<any, PreviewData>,
 	options: FetchHookDataOptions<P, T> = {},
 ) {
+	warnDeprecatedPagesRouter(
+		'fetchHookData',
+		'the query functions from @headstartwp/next/app (queryPost, queryPosts, and friends)',
+	);
+
 	const {
 		cacheKey: key,
 		params,

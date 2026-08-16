@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getHeadlessConfig, getSiteByHost, VerifyTokenFetchStrategy } from '@headstartwp/core';
 import { fetchHookData } from '../data';
+import { warnDeprecatedPagesRouter } from '../utils/deprecation';
 
 /**
  * The RevalidateHandler is responsible for handling revalidate requests.
@@ -26,8 +27,16 @@ import { fetchHookData } from '../data';
  * @returns A response object.
  *
  * @category API handlers
+ * @deprecated Since v2. Supports the Next.js pages router, which is legacy. It still works in
+ * v2 and is scheduled for removal in v3. Use revalidateRouteHandler from @headstartwp/next/app in an app-router route handler instead.
+ *
  */
 export async function revalidateHandler(req: NextApiRequest, res: NextApiResponse) {
+	warnDeprecatedPagesRouter(
+		'revalidateHandler',
+		'revalidateRouteHandler from @headstartwp/next/app in an app-router route handler',
+	);
+
 	const { post_id, path, token, locale } = req.query;
 
 	if (req.method !== 'GET') {

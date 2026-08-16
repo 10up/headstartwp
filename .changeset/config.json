@@ -3,14 +3,23 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [],
+  "linked": [
+    [
+      "@headstartwp/core",
+      "@headstartwp/next",
+      "@headstartwp/epio-search"
+    ]
+  ],
   "access": "restricted",
   "baseBranch": "trunk",
   "updateInternalDependencies": "patch",
-  "privatePackages": { "version": true, "tag": false },
+  "privatePackages": {
+    "version": true,
+    "tag": false
+  },
   "ignore": [
     "@10up/wp-nextjs",
-    "@10up/wp-nextjs-app", 
+    "@10up/wp-nextjs-app",
     "@10up/wp-nextjs-epio",
     "@10up/wp-polylang-nextjs-app",
     "@10up/wp-multisite-nextjs-app",

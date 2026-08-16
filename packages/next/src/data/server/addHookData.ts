@@ -7,6 +7,7 @@ import {
 	YoastJSON,
 } from '@headstartwp/core';
 import type { GetServerSidePropsResult, GetStaticPropsResult, Redirect } from 'next';
+import { warnDeprecatedPagesRouter } from '../../utils/deprecation';
 
 export type HookState<T> = {
 	key: string;
@@ -70,11 +71,19 @@ export interface AddHookDataProps extends AddHookDataBaseProps {
  * @param nextProps Any additional props to pass to Next.js page routes.
  *
  * @category Next.js Data Fetching Utilities
+ * @deprecated Since v2. Supports the Next.js pages router, which is legacy. It still works in
+ * v2 and is scheduled for removal in v3. Use the app router — return data directly from your server component instead.
+ *
  */
 export function addHookData<P extends AddHookDataBaseProps>(
 	_hookStates: HookState<FetchResponse<Entity | Entity[]>>[],
 	nextProps: NextJSProps<P>,
 ) {
+	warnDeprecatedPagesRouter(
+		'addHookData',
+		'the app router — return data directly from your server component',
+	);
+
 	const hookStates: HookState<FetchResponse<Entity | Entity[]>>[] = [];
 	_hookStates.forEach((hookState) => {
 		if (Array.isArray(hookState.additionalCacheObjects)) {

@@ -2,6 +2,7 @@ import { LOGTYPE, fetchRedirect, log } from '@headstartwp/core';
 import { GetServerSidePropsResult, GetStaticPropsResult } from 'next';
 import { HeadlessGetServerSidePropsContext, HeadlessGetStaticPropsPropsContext } from '../types';
 import { getSiteFromContext } from './getSiteFromContext';
+import { warnDeprecatedPagesRouter } from '../../utils/deprecation';
 
 function isStringArray(el): el is string[] {
 	return Array.isArray(el);
@@ -58,12 +59,18 @@ export function getPathName(resolvedUrl: string) {
  * @param rootRoute The root route (deprecated/unnecessary). This needs to be revisited
  *
  * @category Next.js Data Fetching Utilities
+ * @deprecated Since v2. Supports the Next.js pages router, which is legacy. It still works in
+ * v2 and is scheduled for removal in v3. In the app router, throw and let an `error.tsx`
+ * boundary or `notFound()` handle it instead.
+ *
  */
 export async function handleError(
 	error: Error,
 	ctx: HeadlessGetServerSidePropsContext | HeadlessGetStaticPropsPropsContext,
 	rootRoute: string = '',
 ) {
+	warnDeprecatedPagesRouter('handleError', 'an app-router error.tsx boundary or notFound()');
+
 	const { redirectStrategy, sourceUrl, debug } = getSiteFromContext(ctx);
 
 	if (debug?.devMode) {

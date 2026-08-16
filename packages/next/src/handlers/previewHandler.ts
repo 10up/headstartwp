@@ -9,6 +9,7 @@ import {
 import { getCustomPostType, getHeadstartWPConfig } from '@headstartwp/core/utils';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PreviewData } from './types';
+import { warnDeprecatedPagesRouter } from '../utils/deprecation';
 
 /**
  * The options supported by {@link previewHandler}
@@ -121,12 +122,20 @@ function withPreviewSuffix(path: string) {
  * @returns A response object.
  *
  * @category API handlers
+ * @deprecated Since v2. Supports the Next.js pages router, which is legacy. It still works in
+ * v2 and is scheduled for removal in v3. Use previewRouteHandler from @headstartwp/next/app in an app-router route handler instead.
+ *
  */
 export async function previewHandler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 	options: PreviewHandlerOptions = {},
 ): Promise<void> {
+	warnDeprecatedPagesRouter(
+		'previewHandler',
+		'previewRouteHandler from @headstartwp/next/app in an app-router route handler',
+	);
+
 	const { post_id, post_type, is_revision, token, locale } = req.query;
 
 	if (req.method !== 'GET') {
@@ -209,7 +218,10 @@ export async function previewHandler(
 						);
 					}
 					const link = result._headless_wp_preview_link ?? result.link;
-					return removeSourceUrl({ link: link as string, backendUrl: sourceUrl ?? '' });
+					return removeSourceUrl({
+						link: link as string,
+						backendUrl: sourceUrl ?? '',
+					});
 				}
 
 				const singleRoute = postTypeDef.single || '/';

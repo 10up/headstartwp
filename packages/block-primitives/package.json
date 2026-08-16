@@ -88,7 +88,7 @@
     "@types/react-dom": "^19"
   },
   "peerDependencies": {
-    "react": ">= 17.0.2",
+    "react": "^18.0.0 || ^19.0.0",
     "next": ">= 14.0.0",
     "@wordpress/block-editor": "^16.0.0",
     "@wordpress/data": "^10.0.0",
@@ -109,5 +109,8 @@
     "@10up/block-components": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

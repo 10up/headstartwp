@@ -11,6 +11,7 @@ import { useRouter } from 'next/router.js';
 import { getSiteByHost } from '@headstartwp/core';
 import { Yoast } from './Yoast';
 import { seoKey } from '../data/hooks/useSeo';
+import { warnDeprecatedPagesRouter } from '../utils/deprecation';
 
 /**
  * The props supported by {@link HeadlessApp}.
@@ -91,6 +92,11 @@ export type HeadlessAppProps = {
  *
  * @param props Component props. See {@link HeadlessAppProps}
  *
+ * @deprecated Since v2. `HeadlessApp` wraps a pages-router `_app.tsx`, which is legacy in
+ * Next.js. It still works in v2 and is scheduled for removal in v3. For the app router, compose
+ * `SettingsProvider` and `HeadstartWPProvider` in your root `layout.tsx` instead — see
+ * `@headstartwp/next/app`.
+ *
  * @category React Components
  */
 export function HeadlessApp({
@@ -101,6 +107,11 @@ export function HeadlessApp({
 	useYoastHtml = false,
 	handleYoast = true,
 }: HeadlessAppProps) {
+	warnDeprecatedPagesRouter(
+		'HeadlessApp',
+		'the app router — compose SettingsProvider and HeadstartWPProvider in your root layout.tsx',
+	);
+
 	const {
 		fallback = {},
 		seo = {},
