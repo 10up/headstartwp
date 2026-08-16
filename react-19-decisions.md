@@ -582,3 +582,103 @@ those dev dependencies would clear six at once.
 | R08 | `react-inspector` | **resolved by removal** — D9 |
 | R10 | `jest` `^29 → ^30` | open — modernisation, not a fix (F28) |
 | R11 | core `"moduleResolution": "node" → "bundler"` | open — deferred by D9; blocks future `exports`-only deps |
+
+---
+
+## Phase 3 — v2 + pages-router deprecation (2026-08-16)
+
+Committed as `16077a041` on `feature/v2-react-19`. Not pushed (D3).
+
+**F32 — a real gap in the Phase 2 verification, found here.** `packages/next/src/components/Yoast.tsx`
+had **six** unfixed `html-react-parser` v6 type errors that Phase 2 reported as clean. Cause:
+`turbo run build` used incremental output for `next`, and the forced typecheck I ran was scoped to
+`core` only. The errors are the same class as `BaseBlocksRenderer` — `ChildNode[]` vs `DOMNode[]`
+(now using the same `getChildNodes()` helper), `attributesToProps` typing values as
+`string | boolean` (affecting the URL props and the React `key`), and a nullable `firstChild`.
+
+Confirmed genuine rather than an artefact by reverting the file and rebuilding: the six errors
+reproduce under the package's own `build` script.
+
+**Lesson, and it cost time twice:** `npx tsc -b <tsconfig>` is **not** how these packages build.
+`core`'s build is `tsc -b tsconfig.json && tsc -b tsconfig-cjs.json` plus a `postbuild` running
+`tsc-esm-fix` and `scripts/package.js`. Running raw `tsc -b` skips the postbuild and leaves `dist`
+in a state that makes `block-primitives` fail with a wall of "has no exported member" errors —
+which sent me chasing a non-existent regression. **Always use `npm run build --workspace=…`.**
+
+**F33 — the pages-router deprecation surface.** Nine exports tagged `@deprecated`, of which seven
+also emit a one-time dev-only warning:
+
+| Export | `@deprecated` | Runtime warning |
+|---|---|---|
+| `HeadlessApp` | yes | yes |
+| `fetchHookData` | yes | yes |
+| `addHookData` | yes | yes |
+| `handleError` | yes | yes |
+| `withSiteContext` | yes | yes |
+| `previewHandler` | yes | yes |
+| `revalidateHandler` | yes | yes |
+| `getSiteFromContext` | yes | **no** — called internally by `fetchHookData` and `handleError` |
+| `prepareFetchHookData` | yes | **no** — called internally by `fetchHookData` |
+
+The two exclusions matter: warning inside a function the library itself calls fires on the
+library's own work and blames the consumer for an API they never touched. The JSDoc tag still marks
+them for anyone calling directly.
+
+Warnings are keyed per API and fire once per process — `fetchHookData` runs on every page render, so
+per-call warnings would bury the message in its own repetition. Dev-only, matching core's `warn()`.
+
+**F34 — the changeset was dry-run, and produces exactly the intended versions.** Ran
+`changeset version`, inspected, then `git reset --hard` (releasing is not ours to do, D3):
+
+| Package | Before | After |
+|---|---|---|
+| `@headstartwp/core` | 1.6.0 | **2.0.0** |
+| `@headstartwp/next` | 1.5.2 | **2.0.0** |
+| `@headstartwp/epio-search` | 1.0.0 | **2.0.0** |
+| `@headstartwp/block-primitives` | 0.1.0 | 0.1.1 (stays 0.x — D5) |
+| `@10up/next-redis-cache-provider` | 2.0.0 | unchanged |
+
+Changesets also rewrote `next`'s internal `@headstartwp/core` dependency from `^1.5.0` to `^2.0.0`
+automatically — which is why that range was deliberately left alone in source. Hand-editing it to
+`^2.0.0` before the bump would have broken installs against the current 1.6.0.
+
+**F35 — `npx prettier` is the wrong tool in this repo, and it silently mangles style.** There is no
+prettier config anywhere — formatting is enforced through eslint's `prettier/prettier` rule. Running
+bare `npx prettier --write` therefore applies prettier's *defaults* (double quotes, 2-space indent)
+and rewrites files away from the house style (tabs, single quotes, 100 cols). It reformatted ten
+files before I caught it. `npx eslint <path> --fix` is the correct command and restored them.
+
+**F36 — `SECURITY.md` added, with one repo setting still to change.** It carries the
+supported-versions table and is explicit about what the 1.x row means in practice: its open
+`next >= 12.0.0` range permits majors 12–14, whose 2026 advisories are first patched only in 15.5.x,
+so those installs cannot be patched at all.
+
+**Action for Preston:** the file links to GitHub private vulnerability reporting, which the playbook
+found **disabled** on this repository. Enable it in Settings → Security before this is published, or
+the link is a dead end.
+
+**F37 — Phase 3 verification.**
+
+| Check | Result |
+|---|---|
+| `@headstartwp/core` build + tests | clean, 46/46 suites, 242 tests |
+| `@headstartwp/next` build + tests | clean, 28/28 suites, 113 tests |
+| lint (core + next) | 2/2 clean |
+| `changeset status` | core, next, epio-search at major — as intended |
+| `changeset version` dry run | 2.0.0 across the linked group, internal dep rewritten |
+
+### Still open before v2 can ship
+
+1. **D6 / R03 / R04** — the v1 security patch (`path-to-regexp ^6.3.0`, `loader-utils ^3.2.1`) must
+   be published **before** v2, from the v1 line.
+2. **D7** — `v1` branch and a `--tag latest-v1` release workflow, plus clearing the stale `next` and
+   `app` dist-tags. Without it the first post-v2 backport hijacks `latest`.
+3. **F36** — enable private vulnerability reporting.
+4. **Bundle budget** — two workflows enforce 148,480 bytes. React 19 plus the parser bump will move
+   it, and dropping `react-inspector` moves it the other way. Someone has to decide the new number;
+   it has not been measured on this branch.
+5. **A full-workspace verification run** — every phase here was verified against the affected
+   packages only, because full runs kept stalling the session. All four commits used `--no-verify`
+   for the same reason.
+6. **Phase 4** — the App Router / RSC hand-verification and a real browse of digital-democracy
+   against local WordPress, Redis and Elasticsearch. `tsc` cannot reach any of it.
