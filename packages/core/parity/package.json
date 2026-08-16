@@ -1,0 +1,12 @@
+{
+  "name": "@headstartwp/parity-audit",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Dev-only baseline for the html-react-parser parity audit. Deliberately NOT a workspace (the root globs are packages/*, projects/*, wp/*, test-projects/* — this is packages/core/parity) so the old parser version never enters the monorepo's dependency graph or the published package. Install with --legacy-peer-deps: html-react-parser@3 peers react <=18 and the repo runs React 19, which is exactly the incompatibility the audit exists to retire.",
+  "scripts": {
+    "postinstall": "echo 'parity baseline installed'"
+  },
+  "dependencies": {
+    "html-react-parser": "^3.0.4"
+  }
+}

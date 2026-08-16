@@ -23,7 +23,7 @@ describe('parseSeo', () => {
           "_store": {},
           "key": "1",
           "props": {
-            "children": null,
+            "children": undefined,
             "content": "Content",
             "name": "Name",
             "property": "Property",
@@ -36,7 +36,7 @@ describe('parseSeo', () => {
           "_store": {},
           "key": "2",
           "props": {
-            "children": null,
+            "children": undefined,
             "href": "",
             "hrefLang": "Hreflang",
             "rel": "Rel",
@@ -49,7 +49,7 @@ describe('parseSeo', () => {
           "_store": {},
           "key": "3",
           "props": {
-            "children": null,
+            "children": undefined,
             "className": "Class",
             "dangerouslySetInnerHTML": {
               "__html": "{}",

@@ -2,7 +2,7 @@ import type { HTMLReactParserOptions, Element } from 'html-react-parser';
 import * as HtmlReactParser from 'html-react-parser';
 import React, { isValidElement, ReactElement, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
-import { isBlock, wpKsesPost } from '../../dom';
+import { getChildNodes, isBlock, wpKsesPost } from '../../dom';
 import { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
@@ -272,9 +272,9 @@ export function BaseBlocksRenderer({
 						block.type,
 						blockProps,
 						(domNode as Element)?.children
-							? domToReact((domNode as Element)?.children, {
+							? domToReact(getChildNodes(domNode as Element), {
 									// eslint-disable-next-line react/no-unstable-nested-components
-									replace: (childNode) => {
+									replace: (childNode, index) => {
 										if (typeof options.replace !== 'function') {
 											return undefined;
 										}
@@ -287,7 +287,7 @@ export function BaseBlocksRenderer({
 											return <></>;
 										}
 
-										return options.replace(childNode);
+										return options.replace(childNode, index);
 									},
 								})
 							: null,
