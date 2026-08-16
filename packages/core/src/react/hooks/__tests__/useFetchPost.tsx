@@ -348,11 +348,16 @@ describe('useFetchPost', () => {
 		const oldPost = { ...result.current.data?.post } as PostEntity;
 
 		await waitFor(() => {
-			result.current.mutate({
-				result: { ...oldPost, slug: 'new-slug' },
-				pageInfo: result.current.data?.pageInfo as PageInfo,
-				queriedObject: result.current.data?.queriedObject as QueriedObject,
-			});
+			result.current.mutate(
+				{
+					result: { ...oldPost, slug: 'new-slug' },
+					pageInfo: result.current.data?.pageInfo as PageInfo,
+					queriedObject: result.current.data?.queriedObject as QueriedObject,
+				},
+				// See the matching note in useFetchAppSettings: without this the assertions
+				// below race SWR's post-mutate revalidation, which restores the mocked slug.
+				{ revalidate: false },
+			);
 		});
 
 		await waitFor(() => {

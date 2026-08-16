@@ -79,11 +79,23 @@ describe('useFetchAppSettings types', () => {
 		await waitFor(() => expect(result.current.data?.home.id).toBe(1));
 
 		await waitFor(() => {
-			result.current.mutate({
-				result: { ...result.current.data, home: { id: 2, slug: 'new-slug' } } as AppEntity,
-				pageInfo: result.current.data?.pageInfo as PageInfo,
-				queriedObject: result.current.data?.queriedObject as QueriedObject,
-			});
+			result.current.mutate(
+				{
+					result: {
+						...result.current.data,
+						home: { id: 2, slug: 'new-slug' },
+					} as AppEntity,
+					pageInfo: result.current.data?.pageInfo as PageInfo,
+					queriedObject: result.current.data?.queriedObject as QueriedObject,
+				},
+				// SWR revalidates after a mutate unless told not to, and the revalidation
+				// restores the mocked response — so the assertions below were racing it. Under
+				// msw 1 the interception was slow enough that the mutated value always won;
+				// msw 2's native-fetch path is fast enough that it does not. What this test is
+				// for is that the mutation lands in the cache, so pin that and let the
+				// revalidation behaviour be covered by the tests that actually target it.
+				{ revalidate: false },
+			);
 		});
 
 		await waitFor(() => {

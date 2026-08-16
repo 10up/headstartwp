@@ -1,3 +1,4 @@
+import { disableRequestInterception } from '@headstartwp/core/test';
 import { fetchBlockLibraryStyles } from '../fetchBlockLibraryStyles';
 import { prepareQuery } from '../../data/queries/prepareQuery';
 
@@ -10,6 +11,10 @@ global.fetch = jest.fn();
 const mockFetch = global.fetch as jest.MockedFunction<typeof global.fetch>;
 
 describe('fetchBlockLibraryStyles', () => {
+	// These tests assert on the Next.js `fetch` options (`cache`, `next.revalidate`), which msw
+	// cannot observe, so they need the raw `global.fetch` mock above rather than a handler.
+	disableRequestInterception();
+
 	const mockParams = { site: 'example.com' };
 
 	beforeEach(() => {

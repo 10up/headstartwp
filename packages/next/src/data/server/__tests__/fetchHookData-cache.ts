@@ -1,5 +1,6 @@
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { HeadlessConfig, setHeadstartWPConfig } from '@headstartwp/core';
+import { disableRequestInterception } from '@headstartwp/core/test';
 
 import { usePosts } from '../../hooks/usePosts';
 import { usePost } from '../../hooks/usePost';
@@ -10,6 +11,10 @@ import cache from '../cache';
 enableFetchMocks();
 
 describe('fetchHookData caching', () => {
+	// This suite drives `global.fetch` through jest-fetch-mock, which msw 2 would intercept
+	// ahead of. See disableRequestInterception's note.
+	disableRequestInterception();
+
 	beforeEach(() => {
 		fetchMock.resetMocks();
 	});
