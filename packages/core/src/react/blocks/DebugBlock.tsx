@@ -1,12 +1,9 @@
 'use client';
 
-import { lazy } from 'react';
 import { useBlock } from './hooks';
 import { DEFAULT_BLOCK_ELEMENT } from '../../dom/parseBlockAttributes';
+import { ObjectInspector } from '../components/ObjectInspector';
 
-const ObjectInspector = lazy(() =>
-	import('react-inspector').then(({ ObjectInspector }) => ({ default: ObjectInspector })),
-);
 export const DebugBlock = ({ children, domNode: node = DEFAULT_BLOCK_ELEMENT, ...props }) => {
 	const { attributes } = useBlock(node);
 	return (
