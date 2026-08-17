@@ -71,6 +71,11 @@ written to the same documented pattern.
 `react <= 18`, so it was the last thing preventing a clean React 19 install. The debug-only object
 viewer it powered is now a small internal component with no external dependency.
 
+**Bundle size.** React 19 adds **~15KB gzip (+17.9%)** to shared first-load JS, measured on the
+`wp-nextjs-app` example (85,850 → 101,229 bytes). This is a deliberate, accepted regression, not an
+oversight. The repository's bundle budget has been re-derived against it — see
+`projects/wp-nextjs-app/BUNDLE-BUDGET.md`.
+
 **Test-harness note for consumers.** `html-react-parser@6` pulls in `domhandler@6` and friends,
 which ship ESM-only builds. If your tests run under jest, an unmocked `require` of them throws
 *"Cannot use import statement outside a module"* — add a `transformIgnorePatterns` carve-out for

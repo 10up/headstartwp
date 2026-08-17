@@ -9,7 +9,7 @@
     "lint": "eslint ."
   },
   "nextBundleAnalysis": {
-    "budget": 148480,
+    "budget": 112000,
     "budgetPercentIncreaseRed": 20,
     "showDetails": true
   },
