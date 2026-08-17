@@ -1,3 +1,3 @@
 export * from './hooks/index';
-export * from './server/index';
+export * from './convertToPath';
 export * from './types';

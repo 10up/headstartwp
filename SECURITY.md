@@ -4,9 +4,13 @@
 
 | Version line | React | Next.js | Node | Status |
 | --- | --- | --- | --- | --- |
-| **2.x** (`@headstartwp/core`, `@headstartwp/next`, `@headstartwp/epio-search`) | `^19` | `^15.5.21 \|\| ^16.2.11` | `>=20.9.0` | Active — fixes and security patches |
-| **1.x** | `>=17.0.2` | `>=12.0.0` | `>=18` | Security fixes only, published under the `latest-v1` dist-tag |
+| **2.x** (`@headstartwp/core`, `@headstartwp/next`, `@headstartwp/epio-search`) | `^19` | `^15.5.21 \|\| ^16.2.11` | `>=20.9.0` | Active — **app router only** |
+| **1.x** | `>=17.0.2` | `>=12.0.0` | `>=18` | Supported for pages-router consumers; published under the `latest-v1` dist-tag |
 | **0.x** (`@headstartwp/block-primitives`) | `^18 \|\| ^19` | `>=14.0.0` | `>=20.9.0` | Active — tracks WordPress core's own React version |
+
+**The router split is the main thing to know.** v2 supports only the Next.js app router — the
+pages-router APIs are removed, not deprecated. Projects still on the pages router should stay on
+1.x, which remains supported for them rather than being security-only.
 
 A note on what the 1.x row means in practice. `1.x` peers `react >= 17.0.2` and `next >= 12.0.0`,
 both open-ended upward. Those ranges *permit* far more than is tested. In particular, every

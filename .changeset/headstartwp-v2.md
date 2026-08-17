@@ -38,11 +38,34 @@ Behaviour was audited rather than assumed: 120 comparisons across both the serve
 parser builds, over a fixture corpus of real Gutenberg block markup, found no rendered-markup or
 element-tree differences beyond that `children` change. See `packages/core/parity/`.
 
-**Pages router is deprecated, not removed.** `HeadlessApp`, `fetchHookData`, `prepareFetchHookData`,
-`addHookData`, `handleError`, `withSiteContext`, `getSiteFromContext`, `previewHandler` and
-`revalidateHandler` all still work in v2 and are marked `@deprecated`, with a one-time dev-mode
-console warning pointing at the app-router equivalent in `@headstartwp/next/app`. Removal is
-targeted at v3. Example projects using the pages router continue to work unchanged.
+**The pages router is not supported.** v2 is app router only. `HeadlessApp`, `fetchHookData`,
+`prepareFetchHookData`, `addHookData`, `handleError`, `withSiteContext`, `getSiteFromContext`,
+`previewHandler` and `revalidateHandler` are **removed**, not deprecated. Use the app-router
+equivalents from `@headstartwp/next/app`: `queryPost`/`queryPosts`/`queryTerms` and friends in
+server components, `HeadstartWPApp` in your root `layout.tsx`, and `previewRouteHandler` /
+`revalidateRouteHandler` in route handlers.
+
+The client hooks (`usePost`, `usePosts`, `useSearch`, `useSearchNative`, `useTerms`,
+`useAppSettings`, `useAuthorArchive`, `usePostOrPosts`) are **kept**, but now read the route from
+`useParams()` instead of `useRouter()`. Two behaviours have no app-router equivalent and are gone:
+
+- **Locale.** The pages router had built-in i18n; the app router does not. Polylang's language now
+  comes from the `lang` route segment, matching what `prepareQuery` already did server-side.
+- **Preview.** `router.isPreview` has no client counterpart — draft mode is server-only. Preview
+  fetching happens server-side in v2. A client component that needs the alternative preview auth
+  header can still set it via `options.fetchStrategyOptions`.
+
+If you are on the pages router, **stay on v1**, which continues to receive support on its own line.
+
+The three pages-router example projects (`wp-nextjs`, `wp-multisite-nextjs`,
+`wp-multisite-i18n-nextjs`) have been removed from the repository; their app-router counterparts
+(`wp-nextjs-app`, `wp-multisite-nextjs-app`, `wp-polylang-nextjs-app`) cover the same ground.
+
+**Block matching under React 19.** Every shipped block declares its matching predicate through a
+namespace-merged `defaultProps`, which React 19 no longer applies under the automatic JSX runtime.
+Left unfixed, all of them would silently stop matching — no error, just unreplaced HTML.
+`BaseBlocksRenderer` now resolves `defaultProps` explicitly, which also covers consumer blocks
+written to the same documented pattern.
 
 **`react-inspector` has been dropped** from `@headstartwp/core`'s dependencies. It peered
 `react <= 18`, so it was the last thing preventing a clean React 19 install. The debug-only object

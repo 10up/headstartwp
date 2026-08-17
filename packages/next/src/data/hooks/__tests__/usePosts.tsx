@@ -5,10 +5,10 @@ import { expectTypeOf } from 'expect-type';
 import * as React from 'react';
 import { usePosts } from '../usePosts';
 
-const useRouterMock = jest.fn();
+const useParamsMock = jest.fn();
 
-jest.mock('next/router', () => ({
-	useRouter: () => useRouterMock(),
+jest.mock('next/navigation', () => ({
+	useParams: () => useParamsMock(),
 }));
 
 const config = {
@@ -26,7 +26,7 @@ describe('usePosts', () => {
 	});
 
 	beforeAll(() => {
-		useRouterMock.mockReturnValue({ query: { path: '' } });
+		useParamsMock.mockReturnValue({ path: '' });
 	});
 
 	it('fetches posts', async () => {
@@ -42,7 +42,7 @@ describe('usePosts', () => {
 
 describe('usePosts types', () => {
 	beforeAll(() => {
-		useRouterMock.mockReturnValue({ query: { path: '' } });
+		useParamsMock.mockReturnValue({ path: '' });
 	});
 
 	beforeAll(() => {

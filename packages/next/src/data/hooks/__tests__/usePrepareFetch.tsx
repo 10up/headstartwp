@@ -4,10 +4,11 @@ import * as React from 'react';
 import { setHeadstartWPConfig } from '@headstartwp/core';
 import { usePrepareFetch } from '../usePrepareFetch';
 
-const useRouterMock = jest.fn();
+// v2 reads the route from the app router's useParams(), not the pages router's useRouter().
+const useParamsMock = jest.fn();
 
-jest.mock('next/router', () => ({
-	useRouter: () => useRouterMock(),
+jest.mock('next/navigation', () => ({
+	useParams: () => useParamsMock(),
 }));
 
 const config = {
@@ -34,7 +35,7 @@ describe('usePrepareFetch', () => {
 			);
 		};
 
-		useRouterMock.mockReturnValue({ query: { path: [] }, locale: 'en' });
+		useParamsMock.mockReturnValue({ path: [], lang: 'en' });
 		const { result } = renderHook(() => usePrepareFetch({ per_page: 2 }, {}), {
 			wrapper,
 		});
@@ -59,7 +60,7 @@ describe('usePrepareFetch', () => {
 			);
 		};
 
-		useRouterMock.mockReturnValue({ query: { path: ['parent', 'post'] }, locale: 'en' });
+		useParamsMock.mockReturnValue({ path: ['parent', 'post'], lang: 'en' });
 		const { result } = renderHook(() => usePrepareFetch({ per_page: 2 }, {}), {
 			wrapper,
 		});
@@ -69,5 +70,18 @@ describe('usePrepareFetch', () => {
 			lang: 'en',
 		});
 		expect(result.current.path).toBe('/parent/post');
+	});
+
+	it('tolerates useParams() returning null off-route', () => {
+		const wrapper = ({ children }) => (
+			<SettingsProvider settings={config}>{children}</SettingsProvider>
+		);
+
+		useParamsMock.mockReturnValue(null);
+		const { result } = renderHook(() => usePrepareFetch({ per_page: 2 }, {}), { wrapper });
+
+		expect(result.current.params).toMatchObject({ per_page: 2 });
+		// convertToPath(['']) is '/', which is what v1 produced for an empty route too.
+		expect(result.current.path).toBe('/');
 	});
 });

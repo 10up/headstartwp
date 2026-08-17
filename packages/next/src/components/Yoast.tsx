@@ -44,7 +44,7 @@ function isTextElement(domNode: DOMNode | Element['firstChild']): domNode is Tex
 
 /**
  * The Yoast component renders the Yoast SEO meta tags.
- * This component is automatically rendered by {@link HeadlessApp} so you don't have to manually render it.
+ * Rendered for you by `HeadstartWPApp` in `@headstartwp/next/app`; you do not normally render it directly.
  *
  * @param props Component props. Expects a single `seo` prop
  *
