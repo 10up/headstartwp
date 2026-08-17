@@ -4,7 +4,7 @@
 
 | Version line | React | Next.js | Node | Status |
 | --- | --- | --- | --- | --- |
-| **2.x** (`@headstartwp/core`, `@headstartwp/next`, `@headstartwp/epio-search`) | `^19` | `^15.5.21 \|\| ^16.2.11` | `>=20.9.0` | Active — **app router only** |
+| **2.x** (`@headstartwp/core`, `@headstartwp/next`, `@headstartwp/epio-search`) | `^19` | `^15.5.21 \|\| ^16.2.11` | `>=24.0.0` | Active — **app router only** |
 | **1.x** | `>=17.0.2` | `>=12.0.0` | `>=18` | Supported for pages-router consumers; published under the `latest-v1` dist-tag |
 | **0.x** (`@headstartwp/block-primitives`) | `^18 \|\| ^19` | `>=14.0.0` | `>=20.9.0` | Active — tracks WordPress core's own React version |
 

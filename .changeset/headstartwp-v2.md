@@ -19,7 +19,7 @@ WordPress does.
 **Bounded peer ranges.** `next` moves from `>= 12.0.0` to `^15.5.21 || ^16.2.11`. The open-ended
 range was a liability: 2026's high-severity Next.js advisories reach back into majors 12–14 and are
 first patched only in 15.5.x, so there was nothing upstream to backport. Both floors are the
-security-patched releases of their lines. `engines.node` is now `>=20.9.0`.
+security-patched releases of their lines. `engines.node` is now `>=24.0.0` — Node 20 reached end of life in April 2026, and 24 is Active LTS.
 
 **`html-react-parser` 3 → 6.** Required for React 19 support. Because `@headstartwp/core` re-exports
 the parser's public API (`export * from 'html-react-parser'`), this lands directly in core's own
