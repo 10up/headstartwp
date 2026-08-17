@@ -682,3 +682,104 @@ the link is a dead end.
    for the same reason.
 6. **Phase 4** — the App Router / RSC hand-verification and a real browse of digital-democracy
    against local WordPress, Redis and Elasticsearch. `tsc` cannot reach any of it.
+
+
+---
+
+## Phase 3b — v2 becomes app-router only (2026-08-16)
+
+Commits `84c220133` and `69db9fb50` on `feature/v2-react-19`. Not pushed (D3).
+
+### D10 — v2 does not support the pages router at all (supersedes D2)
+
+**Decision.** Remove the pages-router API surface from v2 outright rather than deprecating it.
+Preston, 2026-08-16, reversing D2.
+
+**Consequences.** Removed: `HeadlessApp`, `fetchHookData`, `prepareFetchHookData`, `addHookData`,
+`handleError`, `withSiteContext`, `getSiteFromContext`, `previewHandler`, `revalidateHandler`, and
+the one-time deprecation-warning helper built for D2. Kept: `handlers/types.ts` (`PreviewData` is
+shared with the app-router preview handler) and `data/convertToPath.ts` (used by rsc `prepareQuery`).
+
+**The part that was not obvious.** Dropping the pages router reached much further than the server
+helpers: **all eight client hooks** ran through `usePrepareFetch`, which read `next/router`. Rather
+than lose the client data layer, `usePrepareFetch` was ported to `useParams()` from
+`next/navigation`. The shapes line up — `router.query.path` was the `[...path]` catch-all, which
+`useParams()` returns directly, matching the `routeParams` the server-side `prepareQuery` already
+takes.
+
+Two v1 behaviours have no app-router equivalent and are simply gone:
+- **Locale** — the pages router had built-in i18n; the app router does not. Polylang's language now
+  comes from the `lang` route segment, as it already did server-side.
+- **Preview** — `router.isPreview` has no client counterpart; draft mode is server-only
+  (`draftMode()`). Preview fetching is server-side in v2.
+
+The three pages-router example projects were removed. Each already had an app-router counterpart, so
+no demonstration coverage was lost.
+
+### D11 — pages-router updates ship as a v1 minor, not part of v2
+
+**Decision.** A second PR carries whatever the pages router needs (React 19 compatibility for
+consumers who stay put) as a **minor bump on the v1 line**. Preston, 2026-08-16.
+
+**Consequence.** This makes the D7 `v1` branch a hard prerequisite rather than a nice-to-have — there
+is now known work targeting it. Sequencing: create `v1` → land the D6 security patch → land the v1
+minor → then v2.
+
+### F38 — the most serious bug found in the whole upgrade
+
+Every shipped block declares its matching predicate — and sometimes `exclude` — through a merged
+namespace `defaultProps`. **React 19 stopped applying `defaultProps` to function components under
+the automatic JSX runtime**, so `<ParagraphBlock />` reached `BaseBlocksRenderer` with `props.test`
+undefined and *all 20 blocks silently stopped matching*. No error; the renderer just emits the
+original HTML.
+
+It survived PR #951's `defaultProps` sweep because these are namespace-merged rather than assigned
+directly. Two things hid it:
+
+1. The legacy `createElement` path **still applies** `defaultProps` in React 19.2.7. A check written
+   that way passes while real JSX usage fails. My own first probe did exactly this.
+2. Every existing `BlocksRenderer` test passes an explicit `test`/`tagName` prop, so none of them
+   exercised a shipped block's own defaults.
+
+Fixed centrally via `getBlockProps()` in `BaseBlocksRenderer`, which layers `block.type.defaultProps`
+underneath the element's props — this also covers consumer blocks written to the same documented
+pattern. Regression tests added that use the blocks as the docs tell consumers to, and **confirmed to
+fail with the fix reverted** (a first version of those tests passed against the bug, because an
+unmatched paragraph renders near-identical HTML; they now discriminate via a marker `component`).
+
+### F39 — WordPress React 19 status, from Preston's sources
+
+- WordPress **7.0** (May 2026) ships React 18. WordPress **7.1** (19 Aug 2026) was to ship React 19
+  but it was **deferred**; 7.1 continues on React 18.3. There is **no confirmed landing release** —
+  so planning should not be pinned to "7.2" specifically.
+- Available behind an experimental feature flag in **Gutenberg 23.4+**.
+- **Root cause of the rollback:** plugins that bundle/inline their own `react/jsx-runtime` instead of
+  using WordPress's shared `window.ReactJSXRuntime` handle. The element object shape changed between
+  React 18 and 19, so React 19 rejects elements produced by an inlined React 18 runtime — crashing
+  pages. Yoast SEO, Elementor and Fluent Forms were among those hit.
+- Their breaking-change list: `ReactDOM.findDOMNode`, `ReactDOM.render`, **`defaultProps` on function
+  components** (exactly F38), and `inert` becoming a strict boolean.
+
+### F40 — `block-primitives` is structurally immune to the documented crash mode
+
+Audited the built output against F39's root cause. `packages/block-primitives/dist` contains
+**zero `react/jsx-runtime` references**; it emits `import React from 'react'` plus
+`React.createElement(...)`, so elements are created by whatever React the WordPress page provides.
+
+This closes F14's open question in the opposite direction from what I expected: **keep the classic
+transform** (`"jsx": "react"` in its tsconfig). It is not legacy baggage — it is the specific thing
+that prevents the failure that forced WordPress to revert.
+
+Audited the rest of the list too: no `findDOMNode`, `ReactDOM.render`, `unmountComponentAtNode` or
+`ReactDOM.hydrate` in any package source (the one match is a test mock that stubs them out), and no
+`inert` usage at all.
+
+### F41 — verification (scoped, per Preston's instruction to stop full-workspace runs)
+
+| Check | Result |
+|---|---|
+| `@headstartwp/core` tests | 46/46 suites, 246 tests |
+| `@headstartwp/next` tests | 20/20 suites, 84 tests |
+| `next` build + lint | clean |
+| `changeset status` | core, next, epio-search at major |
+| `next/router` references remaining | none outside a doc comment |
