@@ -35,7 +35,8 @@
     "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
     "version": "changeset version && ./scripts/version-plugin.sh",
-    "publish": "npm run build:packages && npx changeset publish"
+    "publish": "npm run build:packages && npx changeset publish",
+    "publish:v1": "npm run build:packages && npx changeset publish --tag latest-v1"
   },
   "workspaces": [
     "packages/*",
@@ -72,8 +73,8 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
   },
   "optionalDependencies": {
     "turbo-darwin-64": "^2.0.3",

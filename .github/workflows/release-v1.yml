@@ -1,0 +1,62 @@
+name: Release @latest-v1
+
+# Releases the maintenance line for consumers who are staying on the Next.js pages router.
+#
+# The reason this workflow exists at all: `changeset publish` tags `latest` by default, even when
+# publishing a *lower* version number. Once v2 is out, a v1 release from the default workflow would
+# silently move the `latest` dist-tag backwards, and every fresh `npm install @headstartwp/core`
+# would resolve to v1. This publishes under `latest-v1` instead, so the two lines coexist.
+#
+# Consumers pin the v1 line with:
+#   npm install @headstartwp/core@latest-v1
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  push:
+    branches:
+      - v1
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  packages:
+    name: Release
+    runs-on: ubuntu-latest
+    # Belt and braces: the trigger already restricts this, but a mis-fired workflow_dispatch on
+    # another ref must not publish from it.
+    if: github.ref == 'refs/heads/v1'
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          # changesets needs the full history to work out what to release.
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # `publish:v1` differs from `publish` only in passing `--tag latest-v1`.
+          publish: npm run publish:v1
+          version: npm run version
+          title: 'Release v1 (@latest-v1)'
+          commit: 'chore: version packages (v1)'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+# Deliberately no `plugin-release` job. The WordPress plugin is published from trunk and develop
+# only; the v1 line ships npm packages, and pushing the plugin from here would race those branches
+# for the same target repository.
