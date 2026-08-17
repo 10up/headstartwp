@@ -35,6 +35,7 @@ export type removeSourceUrlType = {
  * @param props.backendUrl The source url
  * @param props.publicUrl The public url
  * @param props.nonEmptyLinks If the removal of source url from link leads to a empty string,
+ * @param root0
  * this setting control whether a '/' should be returned or the empty string
  *
  * @returns The URL without the Source URL.

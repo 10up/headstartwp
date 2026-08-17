@@ -5,6 +5,8 @@ import { isAnchorTag, isBlockByName } from '../../../dom';
 import { SettingsProvider } from '../../provider';
 import { BlocksRenderer } from '../BlocksRenderer';
 import type { BlockProps } from '../BaseBlocksRenderer';
+import { ParagraphBlock } from '../../blocks/ParagraphBlock';
+import { HeadingBlock } from '../../blocks/HeadingBlock';
 
 describe('BlocksRenderer', () => {
 	it('renders html properly', () => {
@@ -337,5 +339,65 @@ describe('BlocksRenderer', () => {
 
 		const nodes = screen.getAllByTestId('block-props');
 		expect(nodes).toMatchSnapshot();
+	});
+
+	/**
+	 * Every other test in this file passes an explicit `test` / `tagName` prop, so none of them
+	 * exercise the shipped blocks' own matching — which is how React 19 silently disabling
+	 * `defaultProps` under the automatic JSX runtime went unnoticed. These use the blocks exactly
+	 * as the docs tell consumers to.
+	 *
+	 * The assertions turn on a marker `component`, because a block that fails to match is not an
+	 * error: the renderer just emits the original HTML, which for a paragraph looks almost
+	 * identical to a matched one. The marker is what makes matched and unmatched distinguishable.
+	 */
+	describe('blocks that declare their own matching via defaultProps', () => {
+		const Marker = ({ children }: { children?: React.ReactNode }) => (
+			<div data-testid="matched">{children}</div>
+		);
+
+		it('matches a shipped block used without an explicit test prop', () => {
+			render(
+				<BlocksRenderer html='<p data-wp-block-name="core/paragraph">hello world</p>'>
+					<ParagraphBlock component={Marker} />
+				</BlocksRenderer>,
+			);
+
+			expect(screen.queryByTestId('matched')).not.toBeNull();
+			expect(screen.getByText('hello world')).toBeTruthy();
+		});
+
+		it('matches a second shipped block used without an explicit test prop', () => {
+			render(
+				<BlocksRenderer html='<h2 data-wp-block-name="core/heading">a heading</h2>'>
+					<HeadingBlock component={Marker} />
+				</BlocksRenderer>,
+			);
+
+			expect(screen.queryByTestId('matched')).not.toBeNull();
+		});
+
+		it('does not match when the block should not apply', () => {
+			render(
+				<BlocksRenderer html='<span data-wp-block-name="core/other">not a paragraph</span>'>
+					<ParagraphBlock component={Marker} />
+				</BlocksRenderer>,
+			);
+
+			expect(screen.queryByTestId('matched')).toBeNull();
+		});
+
+		it('lets an explicit test prop win over the block default', () => {
+			const neverMatches = jest.fn(() => false);
+
+			render(
+				<BlocksRenderer html="<p>hello world</p>">
+					<ParagraphBlock component={Marker} test={neverMatches} />
+				</BlocksRenderer>,
+			);
+
+			expect(neverMatches).toHaveBeenCalled();
+			expect(screen.queryByTestId('matched')).toBeNull();
+		});
 	});
 });

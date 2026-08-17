@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable @typescript-eslint/no-use-before-define, react/require-default-props */
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, type JSX } from 'react';
 import type { MenuItemEntity } from '../../data';
 import { removeSourceUrl } from '../../utils/removeSourceUrl';
 

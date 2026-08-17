@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducer, createContext, useCallback, useContext, useMemo } from 'react';
+import { useReducer, createContext, useCallback, useContext, useMemo, type JSX } from 'react';
 import { reducer, initialState } from './reducer';
 import { getESEndpoint } from '../../utils';
 import { EPContextValue, EPPost, EPProviderProps, EPState } from '../../types';

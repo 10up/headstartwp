@@ -4,6 +4,8 @@ import {
 	attributesToProps,
 	DOMNode,
 	domToReact,
+	Element,
+	getChildNodes,
 	HTMLReactParserOptions,
 	Text,
 	isElement,
@@ -35,8 +37,9 @@ type Props = {
  *
  * @returns
  */
-function isTextElement(domNode: DOMNode): domNode is Text {
-	return domNode.type === 'text';
+function isTextElement(domNode: DOMNode | Element['firstChild']): domNode is Text {
+	// `Element['firstChild']` is nullable in domhandler 6, and the call site passes it directly.
+	return domNode?.type === 'text';
 }
 
 /**
@@ -59,17 +62,22 @@ export function Yoast({ seo, useHtml = false }: Props) {
 					const { name } = domNode;
 					const props = attributesToProps(domNode.attribs);
 
+					// html-react-parser@5 types attributesToProps as returning `string | boolean`
+					// (boolean for valueless attributes). The URL props below are always strings
+					// in Yoast head markup, but the types no longer say so.
+					const asUrl = (value: unknown) => (typeof value === 'string' ? value : '');
+
 					if (props.rel === 'canonical') {
 						props.name = 'canonical';
-						props.href = convertUrl(props.href, hostUrl, sourceUrl);
+						props.href = convertUrl(asUrl(props.href), hostUrl, sourceUrl);
 					}
 
 					if (props.rel === 'alternate') {
-						props.href = convertUrl(props.href, hostUrl, sourceUrl);
+						props.href = convertUrl(asUrl(props.href), hostUrl, sourceUrl);
 					}
 
 					if (props.property === 'og:url') {
-						props.content = convertUrl(props.content, hostUrl, sourceUrl);
+						props.content = convertUrl(asUrl(props.content), hostUrl, sourceUrl);
 					}
 
 					if (
@@ -90,14 +98,17 @@ export function Yoast({ seo, useHtml = false }: Props) {
 						);
 					}
 
+					const keyCandidate = props.name || props.property;
 					const key =
-						(props.name || props.property) ?? JSON.stringify({ name, ...props });
+						typeof keyCandidate === 'string'
+							? keyCandidate
+							: JSON.stringify({ name, ...props });
 
 					if (domNode.children.length > 0) {
 						return createElement(
 							name,
 							{ ...props, key },
-							domToReact(domNode.children, options),
+							domToReact(getChildNodes(domNode), options),
 						);
 					}
 

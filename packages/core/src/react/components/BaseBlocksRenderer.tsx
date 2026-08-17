@@ -2,7 +2,7 @@ import type { HTMLReactParserOptions, Element } from 'html-react-parser';
 import * as HtmlReactParser from 'html-react-parser';
 import React, { isValidElement, ReactElement, ReactNode } from 'react';
 import type { IWhiteList } from 'xss';
-import { isBlock, wpKsesPost } from '../../dom';
+import { getChildNodes, isBlock, wpKsesPost } from '../../dom';
 import { HeadlessConfig } from '../../types';
 import { warn } from '../../utils';
 import { IBlockAttributes } from '../blocks/types';
@@ -161,12 +161,37 @@ interface BaseBlockRendererProps extends BlockRendererProps {
 	settings?: HeadlessConfig;
 }
 
+/**
+ * Resolves a block element's effective props, falling back to its component's `defaultProps`.
+ *
+ * React 19 stopped applying `defaultProps` to function components under the automatic JSX
+ * runtime — `<ParagraphBlock />` compiles to `jsx()`, which ignores them. (The legacy
+ * `createElement` path still applies them, which is why this is easy to miss: a test written with
+ * `createElement` passes while real JSX usage does not.)
+ *
+ * Every block this package ships declares its `test` — and sometimes `exclude` — through a merged
+ * namespace `defaultProps`, so without this every one of them silently stops matching under React
+ * 19: no error, blocks just render as plain HTML. Consumer blocks written to the same documented
+ * pattern break identically, which is why this is fixed here rather than by rewriting each block.
+ *
+ * Explicit props still win over the defaults, matching React's own precedence.
+ *
+ * @param block The block element
+ *
+ * @returns The block's props with `defaultProps` applied underneath
+ */
+const getBlockProps = (block: ReactElement<BlockProps>): BlockProps => {
+	const defaults = (block.type as { defaultProps?: Partial<BlockProps> })?.defaultProps;
+
+	return defaults ? ({ ...defaults, ...block.props } as BlockProps) : block.props;
+};
+
 const shouldReplaceWithBlock = (block: ReactNode, domNode: Element, site?: HeadlessConfig) => {
 	if (!isValidElement<BlockProps>(block)) {
 		return false;
 	}
 
-	const { test: testFn, tagName, classList } = block.props;
+	const { test: testFn, tagName, classList } = getBlockProps(block);
 	const hasTestFunctionProp = typeof testFn === 'function' && block;
 
 	if (hasTestFunctionProp) {
@@ -205,7 +230,7 @@ export function BaseBlocksRenderer({
 				return true;
 			}
 
-			const { test: testFn, tagName, classList } = block.props;
+			const { test: testFn, tagName, classList } = getBlockProps(block);
 			const hasTestFunction = typeof testFn === 'function';
 
 			// if has a test function component is not invalid
@@ -248,8 +273,11 @@ export function BaseBlocksRenderer({
 				) {
 					const style = getInlineStyles(domNode as Element);
 
+					// defaultProps underneath explicit props — see getBlockProps.
+					const resolvedProps = getBlockProps(block);
+
 					const blockProps = {
-						...block.props,
+						...resolvedProps,
 						domNode,
 						style: style || undefined,
 					};
@@ -272,22 +300,22 @@ export function BaseBlocksRenderer({
 						block.type,
 						blockProps,
 						(domNode as Element)?.children
-							? domToReact((domNode as Element)?.children, {
+							? domToReact(getChildNodes(domNode as Element), {
 									// eslint-disable-next-line react/no-unstable-nested-components
-									replace: (childNode) => {
+									replace: (childNode, index) => {
 										if (typeof options.replace !== 'function') {
 											return undefined;
 										}
 
 										if (
-											typeof block.props.exclude === 'function' &&
-											block.props.exclude(childNode as Element, settings)
+											typeof resolvedProps.exclude === 'function' &&
+											resolvedProps.exclude(childNode as Element, settings)
 										) {
 											// eslint-disable-next-line react/jsx-no-useless-fragment
 											return <></>;
 										}
 
-										return options.replace(childNode);
+										return options.replace(childNode, index);
 									},
 								})
 							: null,

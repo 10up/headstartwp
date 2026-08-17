@@ -25,7 +25,35 @@ export type isAnchorTagOptions = {
 export function isElement(node: DOMNode): node is Element {
 	const isTagType = node.type === 'tag' || node.type === 'script' || node.type === 'style';
 
-	return node instanceof Element || (typeof (node as Element).name !== 'undefined' && isTagType);
+	return (
+		node instanceof Element ||
+		// `as unknown` because domhandler's DOMNode union no longer overlaps Element enough for
+		// a direct assertion. The duck-typed check is deliberate — see the note above about
+		// instanceof failing across two copies of domhandler (issue #504).
+		(typeof (node as unknown as Element).name !== 'undefined' && isTagType)
+	);
+}
+
+/**
+ * Narrows an element's children to the node types `domToReact` accepts.
+ *
+ * `html-react-parser@5` (domhandler 6) types `Element['children']` as `ChildNode[]`, which
+ * includes `CDATA`, while `domToReact` takes `DOMNode[]`, which does not. Passing children
+ * straight through therefore no longer type-checks.
+ *
+ * This filters rather than casts because the filter is actually true: `CDATA` nodes only
+ * arise when the parser runs in XML mode, and `html-dom-parser` parses HTML.
+ *
+ * Exported because any consumer writing a `replace` callback that recurses with
+ * `domToReact(element.children, …)` hits this exact mismatch — `Element` and `domToReact`
+ * are both re-exported from `@headstartwp/core`.
+ *
+ * @param element The element whose children should be narrowed
+ *
+ * @returns The children, minus any node type `domToReact` cannot render
+ */
+export function getChildNodes(element: Element): DOMNode[] {
+	return (element.children ?? []).filter((node) => node.type !== 'cdata') as DOMNode[];
 }
 
 /**

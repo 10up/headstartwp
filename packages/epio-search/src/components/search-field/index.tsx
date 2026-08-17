@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, type JSX } from 'react';
 import { useSearch } from '../../hooks/use-search';
 import { useDebounce } from '../../hooks/use-debounce';
 import { SearchFieldProps } from '../../types';
