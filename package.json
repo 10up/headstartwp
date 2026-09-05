@@ -29,8 +29,7 @@
     "dev:app:polylang": "turbo run dev --parallel --filter=./projects/wp-polylang-nextjs-app --filter=./packages/core --filter=./packages/next",
     "dev:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs --filter=./packages/core --filter=./packages/next",
     "dev:multisite:i18n": "turbo run dev --parallel --filter=./projects/wp-multisite-i18n-nextjs --filter=./packages/core --filter=./packages/next",
-    "dev:primitives": "turbo run dev --parallel  --filter=./test-projects/wp-nextjs-universal-blocks --filter=./packages/core --filter=./packages/next --filter=./packages/block-primitives --filter=./test-projects/component-library --filter=./wp/10up-theme",
-    "dev:component-library": "turbo run dev --parallel --filter=./projects/component-library --filter=./wp/10up-theme",
+    "dev:primitives": "turbo run dev --parallel  --filter=./test-projects/wp-nextjs-universal-blocks --filter=./packages/core --filter=./packages/next --filter=./packages/block-primitives --filter=./wp/10up-theme",
     "prepare": "husky install",
     "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
@@ -72,8 +71,8 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
   },
   "optionalDependencies": {
     "turbo-darwin-64": "^2.0.3",
@@ -83,5 +82,5 @@
     "turbo-windows-64": "^2.0.3",
     "turbo-windows-arm64": "^2.0.3"
   },
-  "packageManager": "npm@10.5.0"
+  "packageManager": "npm@11.19.1"
 }

@@ -7,6 +7,9 @@ Includes Global CSS Styles such as libraries css and WP block library
  take this from wp-includes/css/dist/block-library/style.css */
 @import url("css/block-library.css");
 
+/* Styles for the example components in src/components */
+@import url("css/components.css");
+
 html, body {
 	padding: 0;
 	margin: 0;

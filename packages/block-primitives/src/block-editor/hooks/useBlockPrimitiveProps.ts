@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-// @ts-expect-error
 import { useBlockEditContext } from '@wordpress/block-editor';
 import { select, dispatch } from '@wordpress/data';
 

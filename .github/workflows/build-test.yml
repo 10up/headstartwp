@@ -13,12 +13,10 @@ jobs:
       max-parallel: 1
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [18, 20, 22]
+        node-version: [22, 24]
         exclude:
           - os: windows-latest
-            node-version: 18
-          - os: windows-latest
-            node-version: 20   
+            node-version: 22
 
     steps:
       - name: Configure Git line endings

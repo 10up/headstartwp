@@ -1,16 +1,6 @@
-import { styled } from '@linaria/react';
 import { useRouter } from 'next/router';
 import { PageInfo } from '@headstartwp/core';
 import { Link } from './Link';
-
-const PaginationContainer = styled.ul`
-	list-style-type: none;
-`;
-
-const PaginationItem = styled.li`
-	display: inline;
-	margin-right: 5px;
-`;
 
 type PaginationProps = {
 	pageInfo: PageInfo;
@@ -25,9 +15,9 @@ export const Pagination = ({ pageInfo }: PaginationProps) => {
 	}
 
 	return (
-		<PaginationContainer>
+		<ul className="pagination">
 			{pageInfo.page > 1 && (
-				<PaginationItem>
+				<li className="pagination__item">
 					<Link
 						href={path.replace(
 							`/page/${pageInfo.page}`,
@@ -36,10 +26,10 @@ export const Pagination = ({ pageInfo }: PaginationProps) => {
 					>
 						Prev
 					</Link>
-				</PaginationItem>
+				</li>
 			)}
 			{Array.from(Array(pageInfo.totalPages).keys()).map((page) => (
-				<PaginationItem key={page + 1}>
+				<li className="pagination__item" key={page + 1}>
 					{pageInfo.page !== page + 1 ? (
 						<Link
 							href={path.replace(
@@ -52,17 +42,17 @@ export const Pagination = ({ pageInfo }: PaginationProps) => {
 					) : (
 						page + 1
 					)}
-				</PaginationItem>
+				</li>
 			))}
 			{pageInfo.page < pageInfo.totalPages && (
-				<PaginationItem>
+				<li className="pagination__item">
 					<Link
 						href={path.replace(`/page/${pageInfo.page}`, `/page/${pageInfo.page + 1}`)}
 					>
 						Next
 					</Link>
-				</PaginationItem>
+				</li>
 			)}
-		</PaginationContainer>
+		</ul>
 	);
 };
