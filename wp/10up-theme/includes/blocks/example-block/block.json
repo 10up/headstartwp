@@ -7,9 +7,9 @@
   "name": "tenup/hero",
   "icon": "feedback",
   "category": "formatting",
-  "attributes":{
+  "attributes": {
     "title": {
-      "type" : "string"
+      "type": "string"
     },
     "content": {
       "type": "string"
@@ -22,7 +22,7 @@
     }
   },
   "example": {
-    "attributes":{
+    "attributes": {
       "title": "Hero Block",
       "content": "This is an example block"
     }
@@ -31,5 +31,5 @@
     "html": false
   },
   "editorScript": "file:./index.js",
-  "editorStyle": "file:/index.css"
+  "style": "file:./style.css"
 }

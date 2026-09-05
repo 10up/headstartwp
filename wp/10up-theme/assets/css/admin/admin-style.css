@@ -3,3 +3,12 @@
  * https://project-website.tld
  *
  */
+
+/* These placeholder stylesheets are comment-only, so they all minify to the
+   same zero bytes and Vite collapses byte-identical CSS entries into a single
+   emitted file -- leaving the others missing from dist/ and 404ing in PHP.
+   This inert custom property keeps each entry byte-distinct. Nothing reads it;
+   delete it once this file has real styles. */
+:root {
+	--tenup-admin-style-entry: admin;
+}

@@ -1,4 +1,4 @@
-name: eslint
+name: lint
 
 permissions:
   contents: read
@@ -6,7 +6,7 @@ permissions:
 on: [pull_request]
 
 jobs:
-  eslint:
+  lint:
     runs-on: ubuntu-latest
 
     strategy:
@@ -31,5 +31,5 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm install && npm run build:packages
-      - name: Run eslint
+      - name: Run oxlint (vp lint)
         run: npm run lint
