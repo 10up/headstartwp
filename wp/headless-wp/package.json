@@ -7,7 +7,7 @@
   "license": "GPL-2.0-or-later",
   "author": "10up <info@10up.com> (https://10up.com/)",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "wp-env": "wp-env",

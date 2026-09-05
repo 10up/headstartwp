@@ -19,7 +19,6 @@ export const UniversalBlockRenderer = <Attrs extends IDataWPBlock>({
 }: UniversalBlockRendererProps<Attrs>) => {
 	const { attributes } = useBlockPrimitiveProps<Attrs>();
 
-	// @ts-expect-error experimental features is not typed
 	const { __experimentalFeatures } = select('core/block-editor').getSettings();
 
 	if (componentProps) {

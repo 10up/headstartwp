@@ -1,0 +1,33 @@
+/**
+ * Hero styles.
+ *
+ * Plain CSS on purpose: this library does not prescribe a styling approach.
+ * Consumers are free to override these classes, or ignore this stylesheet
+ * entirely and style the markup themselves.
+ */
+
+.headstartwp-hero {
+	background: blue;
+}
+
+.headstartwp-hero__title {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.headstartwp-hero__link {
+	display: block;
+	color: red;
+	text-decoration: none;
+}
+
+.headstartwp-hero__link:hover {
+	text-decoration: underline;
+}
+
+.headstartwp-hero__inner-blocks {
+	margin-top: 1rem;
+	padding: 1rem;
+	background: white;
+	border: 1px solid black;
+}

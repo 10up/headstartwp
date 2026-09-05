@@ -1,0 +1,8 @@
+/**
+ * Example block styles.
+ *
+ * The Hero component ships a plain stylesheet; the project decides whether to
+ * use it. Declaring it here via block.json's `style` means WordPress enqueues
+ * it on the front end and in the editor only when the block is present.
+ */
+@import url("@headstartwp/component-library/hero/style.css");
