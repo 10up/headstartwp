@@ -1,8 +1,5 @@
 const { withHeadstartWPConfig } = require('@headstartwp/next/config');
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-	enabled: process.env.ANALYZE === 'true',
-});
 
 /**
  * Update whatever you need within the nextConfig object.
@@ -10,9 +7,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-	eslint: {
-		ignoreDuringBuilds: true,
-	},
 	i18n: {
 		locales: ['default', 'en', 'es'],
 		defaultLocale: 'default',
@@ -20,4 +14,4 @@ const nextConfig = {
 	},
 };
 
-module.exports = withBundleAnalyzer(withHeadstartWPConfig(nextConfig));
+module.exports = withHeadstartWPConfig(nextConfig);

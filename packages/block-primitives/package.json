@@ -68,7 +68,7 @@
     "@headstartwp/core": "^1.6.1"
   },
   "devDependencies": {
-    "next": "^15.5.9",
+    "next": "^16.3.4",
     "@jest/globals": "^29.7.0",
     "@testing-library/dom": "^9.3.4",
     "@testing-library/react": "^14.3.1",
@@ -85,7 +85,7 @@
   },
   "peerDependencies": {
     "react": ">= 17.0.2",
-    "next": ">= 14.0.0",
+    "next": ">= 16.0.0",
     "@wordpress/block-editor": "^15.13.2",
     "@wordpress/data": "^10.40.1",
     "@wordpress/components": "^32.2.1",
