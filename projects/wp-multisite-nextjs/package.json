@@ -9,21 +9,20 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "build:analyze": "ANALYZE=true next build",
+    "build:analyze": "next experimental-analyze",
     "start": "next start"
   },
   "dependencies": {
     "@headstartwp/core": "^1.6.1",
     "@headstartwp/next": "^1.5.2",
     "clsx": "^1.1.1",
-    "next": "^15.5.9",
+    "next": "^16.3.4",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^12.1.0",
     "@types/react": "^18",
     "@types/react-dom": "^18"
   },

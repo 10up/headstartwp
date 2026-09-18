@@ -60,12 +60,27 @@ jobs:
           path: ./projects/wp-nextjs/.next/analyze/__bundle_analysis.json
 
       - name: Download base branch bundle stats
+        id: base-bundle
         uses: dawidd6/action-download-artifact@v6
         if: success() && github.event.number
+        continue-on-error: true
         with:
+          if_no_artifact_found: warn
           workflow: nextjs_bundle_analysis.yml
           branch: ${{ github.event.pull_request.base.ref }}
           path: ./projects/wp-nextjs/.next/analyze/base
+
+      - name: Check whether a base bundle was downloaded
+        id: base-check
+        if: success() && github.event.number
+        run: |
+          dir=./projects/wp-nextjs/.next/analyze/base
+          if [ -d "$dir" ] && [ -n "$(ls -A "$dir" 2>/dev/null)" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No bundle baseline on ${{ github.event.pull_request.base.ref }}; skipping the size comparison."
+          fi
 
       # And here's the second place - this runs after we have both the current and
       # base branch bundle stats, and will compare them to determine what changed.
@@ -81,12 +96,12 @@ jobs:
       # Either of these arguments can be changed or removed by editing the `nextBundleAnalysis`
       # entry in your package.json file.
       - name: Compare with base branch bundle
-        if: success() && github.event.number
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true'
         run: ls -laR ./projects/wp-nextjs/.next/analyze/base && npx -p nextjs-bundle-analysis compare
 
       - name: Get comment body
         id: get-comment-body
-        if: success() && github.event.number
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true'
         run: |
           body=$(cat ./projects/wp-nextjs/.next/analyze/__bundle_analysis_comment.txt)
           body="${body//'%'/'%25'}"
@@ -96,7 +111,7 @@ jobs:
 
       - name: Find Comment
         uses: peter-evans/find-comment@v1
-        if: success() && github.event.number
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true'
         id: fc
         with:
           issue-number: ${{ github.event.number }}
@@ -104,14 +119,14 @@ jobs:
 
       - name: Create Comment
         uses: peter-evans/create-or-update-comment@v1.4.4
-        if: success() && github.event.number && steps.fc.outputs.comment-id == 0
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.fc.outputs.comment-id == 0
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}
 
       - name: Update Comment
         uses: peter-evans/create-or-update-comment@v1.4.4
-        if: success() && github.event.number && steps.fc.outputs.comment-id != 0
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.fc.outputs.comment-id != 0
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}

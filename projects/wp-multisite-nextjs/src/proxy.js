@@ -1,5 +1,4 @@
 import { AppMiddleware } from '@headstartwp/next/middlewares';
-import { NextRequest } from 'next/server';
 
 export const config = {
 	matcher: [
@@ -14,6 +13,6 @@ export const config = {
 	],
 };
 
-export async function middleware(req: NextRequest) {
-	return AppMiddleware(req);
+export async function proxy(...args) {
+	return AppMiddleware(...args);
 }

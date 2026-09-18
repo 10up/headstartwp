@@ -2,13 +2,45 @@ import { ConfigError, getSite, type HeadlessConfig } from '@headstartwp/core';
 import fs from 'fs';
 import type { NextConfig } from 'next';
 import path from 'path';
-import { ConcatOperation, ModifySourcePlugin } from './plugins/ModifySourcePlugin';
 
 /**
- * @deprecated the built-in linaria/wyw-in-js integration is deprecated and will be
- * removed in the next major version. Configure the loader via `nextConfig.webpack` instead.
+ * Resolves the path to the compiled config-injection loader.
+ *
+ * Turbopack resolves loaders from disk, so it must be referenced by an absolute path to the
+ * built (js) file.
+ *
+ * @returns absolute path to the loader
  */
-type NextConfigWithLinaria = NextConfig & { linaria?: Record<string, unknown> };
+function resolveInjectConfigLoader(): string {
+	const candidates = [
+		'./loaders/injectHeadstartWPConfigLoader.js',
+		// resolves the TypeScript source when running from `src` (e.g. under jest)
+		'./loaders/injectHeadstartWPConfigLoader',
+	];
+
+	for (const candidate of candidates) {
+		try {
+			return require.resolve(candidate);
+		} catch (e) {
+			// try the next candidate
+		}
+	}
+
+	return path.join(__dirname, 'loaders', 'injectHeadstartWPConfigLoader.js');
+}
+
+/**
+ * Project relative paths that receive the headstartwp config bootstrap.
+ *
+ * These are the framework entrypoints where the config must be available before user code runs.
+ */
+const INJECT_CONFIG_PATHS = [
+	/(^|\/)_app\.(tsx|ts|jsx|js|mjs)$/,
+	/(^|\/)(proxy|middleware)\.(ts|js|mjs)$/,
+	/(^|\/)pages\/api\/.*\.(ts|js|mjs)$/,
+	/(^|\/)app\/.*layout\.(tsx|ts|jsx|js|mjs)$/,
+	/(^|\/)app\/.*\/route\.(ts|js|mjs)$/,
+];
 
 type RemotePattern = {
 	protocol?: 'http' | 'https';
@@ -16,83 +48,6 @@ type RemotePattern = {
 	port?: string;
 	pathname?: string;
 };
-
-const LINARIA_EXTENSION = '.linaria.module.css';
-
-const isPackageInstalled = (packageName: string): boolean => {
-	try {
-		if (require.resolve(packageName)) {
-			return true;
-		}
-	} catch (error) {
-		// do nothing
-	}
-
-	return false;
-};
-
-function traverse(rules) {
-	for (const rule of rules) {
-		if (typeof rule.loader === 'string' && rule.loader.includes('css-loader')) {
-			if (
-				rule.options &&
-				rule.options.modules &&
-				typeof rule.options.modules.getLocalIdent === 'function'
-			) {
-				const nextGetLocalIdent = rule.options.modules.getLocalIdent;
-				rule.options.modules.mode = 'local';
-				rule.options.modules.auto = true;
-				rule.options.modules.exportGlobals = true;
-				rule.options.modules.exportOnlyLocals = false;
-				rule.options.modules.getLocalIdent = (context, _, exportName, options) => {
-					if (context.resourcePath.includes(LINARIA_EXTENSION)) {
-						return exportName;
-					}
-					return nextGetLocalIdent(context, _, exportName, options);
-				};
-			}
-		}
-		if (typeof rule.use === 'object') {
-			traverse(Array.isArray(rule.use) ? rule.use : [rule.use]);
-		}
-		if (Array.isArray(rule.oneOf)) {
-			traverse(rule.oneOf);
-		}
-	}
-}
-
-function readNextPackageJson() {
-	try {
-		// Use require.resolve to get the path to the package.json
-		const nextPackageJsonPath = require.resolve('next/package.json');
-		const nextPackageJson = nextPackageJsonPath
-			? JSON.parse(fs.readFileSync(nextPackageJsonPath, 'utf8'))
-			: {};
-
-		return nextPackageJson;
-	} catch (e) {
-		return {};
-	}
-}
-
-function meetsMinimumVersion(versionString: string, compareVersion: number): boolean {
-	if (versionString === 'latest') {
-		return true;
-	}
-
-	try {
-		// Remove the prefix (^, >=) from the version string
-		const cleanedVersion = versionString.replace(/^[^\d]*/, '');
-
-		// Split the version into major, minor, and patch components
-		const [major] = cleanedVersion.split('.').map(Number);
-
-		// Compare the major version number
-		return major >= compareVersion;
-	} catch (e) {
-		return false;
-	}
-}
 
 /**
  * HOC used to wrap the nextjs config object with the headless config object.
@@ -137,7 +92,7 @@ export function withHeadstartWPConfig(
 		}
 	}
 
-	// Normalize paths for webpack
+	// Normalize paths for the bundler
 	if (clientConfigPath) {
 		clientConfigPath = path.normalize(clientConfigPath).replace(/\\/g, '/');
 	}
@@ -177,21 +132,13 @@ export function withHeadstartWPConfig(
 		}
 	});
 
-	const nextPackageJson = readNextPackageJson();
-	const useImageRemotePatterns = meetsMinimumVersion(nextPackageJson?.version ?? '', 14);
-	const imageConfig: { domains?: string[]; remotePatterns?: RemotePattern[] } = {};
-
-	if (useImageRemotePatterns) {
-		imageConfig.remotePatterns =
+	const imageConfig: { remotePatterns?: RemotePattern[] } = {
+		remotePatterns:
 			nextConfig?.images?.remotePatterns ??
-			imageDomains.map((each) => {
-				return {
-					hostname: each,
-				};
-			});
-	} else {
-		imageConfig.domains = imageDomains;
-	}
+			imageDomains.map((hostname) => {
+				return { hostname };
+			}),
+	};
 
 	const config: NextConfig = {
 		...nextConfig,
@@ -295,116 +242,50 @@ export function withHeadstartWPConfig(
 
 			return rewrites;
 		},
-
-		webpack: (config, options) => {
-			const importSetHeadlessClientConfig = `
-				import { setHeadstartWPConfig as __setHeadstartWPConfig } from '@headstartwp/core/utils';
-				import __headlessConfig from '${clientConfigPath}';
-				__setHeadstartWPConfig(__headlessConfig);
-			`;
-
-			const importSetHeadlessServerConfig = `
-				import { setHeadstartWPConfig as __setHeadstartWPConfig } from '@headstartwp/core/utils';
-				import __headlessConfig from '${serverConfigPath}';
-				__setHeadstartWPConfig(__headlessConfig);
-			`;
-
-			config.plugins.push(
-				new ModifySourcePlugin({
-					rules: [
-						{
-							test: (normalModule) => {
-								if (!withHeadstarWPConfigOptions.injectConfig) {
-									return false;
-								}
-
-								const userRequest = normalModule.userRequest || '';
-
-								const startIndex =
-									userRequest.lastIndexOf('!') === -1
-										? 0
-										: userRequest.lastIndexOf('!') + 1;
-
-								const moduleRequest = userRequest
-									.substring(startIndex)
-									.replace(/\\/g, '/');
-
-								// skip next/dist/pages/_app.js
-								if (/next\/dist\/pages\/_app.js/.test(moduleRequest)) {
-									return false;
-								}
-
-								if (moduleRequest.includes('node_modules')) {
-									return false;
-								}
-
-								const matched =
-									/_app.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
-									/middleware.(ts|js|mjs)$/.test(moduleRequest) ||
-									/pages\/api\/.*.(ts|js|mjs)/.test(moduleRequest) ||
-									/app\/.*layout.(tsx|ts|js|mjs|jsx)$/.test(moduleRequest) ||
-									/app\/.*.\/route.(ts|js|mjs)$/.test(moduleRequest);
-
-								return matched;
-							},
-							operations: [
-								new ConcatOperation(
-									'start',
-									options.isServer && options.nextRuntime === 'nodejs'
-										? importSetHeadlessServerConfig
-										: importSetHeadlessClientConfig,
-								),
-							],
-						},
-					],
-				}),
-			);
-
-			const isLinariaInstalled =
-				isPackageInstalled('@linaria/webpack-loader') ||
-				isPackageInstalled('@wyw-in-js/webpack-loader');
-
-			// only load linaria with the pages router configuration if not using app router
-			if (isLinariaInstalled && !isUsingAppRouter) {
-				// eslint-disable-next-line no-console
-				console.warn(
-					'[@headstartwp/next] Deprecation notice: built-in linaria/wyw-in-js support is ' +
-						'deprecated and will be removed in the next major version. HeadstartWP no longer ' +
-						'ships a styling solution — configure the loader yourself via `nextConfig.webpack` ' +
-						'if you want to keep using it.',
-				);
-
-				const isWYWInJS = isPackageInstalled('@wyw-in-js/webpack-loader');
-
-				traverse(config.module.rules);
-				config.module.rules.push({
-					test: /\.(tsx|ts|js|mjs|jsx)$/,
-					exclude: /node_modules/,
-					use: [
-						{
-							loader: isWYWInJS
-								? '@wyw-in-js/webpack-loader'
-								: '@linaria/webpack-loader',
-							options: {
-								sourceMap: process.env.NODE_ENV !== 'production',
-								...((nextConfig as NextConfigWithLinaria).linaria || {}),
-								extension: LINARIA_EXTENSION,
-								babelOptions: {
-									presets: ['next/babel', isWYWInJS ? '@wyw-in-js' : '@linaria'],
-								},
-							},
-						},
-					],
-				});
-			}
-
-			if (typeof nextConfig.webpack === 'function') {
-				return nextConfig.webpack(config, options);
-			}
-
-			return config;
-		},
 	};
+
+	if (withHeadstarWPConfigOptions.injectConfig) {
+		// HeadstartWP needs its config to be registered before any framework entrypoint runs. That
+		// is done with a Turbopack loader rule that prepends the bootstrap to those entrypoints.
+		const injectConfigLoader = resolveInjectConfigLoader();
+		const matchesInjectedPath = {
+			any: INJECT_CONFIG_PATHS.map((injectedPath) => ({ path: injectedPath })),
+		};
+
+		const injectConfigRules = [
+			{
+				condition: {
+					all: [{ not: 'foreign' }, 'browser', matchesInjectedPath],
+				},
+				loaders: [
+					{ loader: injectConfigLoader, options: { configPath: clientConfigPath } },
+				],
+			},
+			{
+				condition: {
+					all: [{ not: 'foreign' }, { not: 'browser' }, matchesInjectedPath],
+				},
+				loaders: [
+					{ loader: injectConfigLoader, options: { configPath: serverConfigPath } },
+				],
+			},
+		];
+
+		const turbopackConfig = (nextConfig.turbopack ?? {}) as Record<string, any>;
+		const turbopackRules = (turbopackConfig.rules ?? {}) as Record<string, any>;
+		const existingRule = turbopackRules['*'];
+
+		config.turbopack = {
+			...turbopackConfig,
+			rules: {
+				...turbopackRules,
+				'*': [
+					...(Array.isArray(existingRule) ? existingRule : [existingRule].filter(Boolean)),
+					...injectConfigRules,
+				],
+			},
+		} as NextConfig['turbopack'];
+	}
 
 	// if i18n is sets
 	// but we are on pages router

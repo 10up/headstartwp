@@ -15,7 +15,7 @@ export const config = {
 	],
 };
 
-export async function middleware(...args) {
+export async function proxy(...args) {
 	const [req] = args;
 
 	if (req.nextUrl.locale === 'default') {
