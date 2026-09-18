@@ -37,7 +37,7 @@ export default defineConfig({
 	// Replaces .lintstagedrc.json; run from .husky/pre-commit via `vp staged`.
 	staged: {
 		'*.{js,jsx,ts,tsx}': 'vp check --fix',
-		// phpcs lives in the theme's composer vendor dir -- the only one in this repo.
-		'*.php': './wp/10up-theme/vendor/bin/phpcs --extensions=php --warning-severity=8 -s',
+		// phpcs comes from 10up/phpcs-composer in the headless-wp plugin.
+		'*.php': './wp/headless-wp/vendor/bin/phpcs --extensions=php --warning-severity=8 -s',
 	},
 });
