@@ -19,6 +19,10 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24
     - name: npm install
       run: npm install
     - name: composer install
