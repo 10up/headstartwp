@@ -1,4 +1,4 @@
-name: unit tests
+name: lint
 
 permissions:
   contents: read
@@ -6,12 +6,12 @@ permissions:
 on: [pull_request]
 
 jobs:
-  unit-tests:
+  lint:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [22.x, 24.x]
+        node-version: [24.x]
 
     steps:
       - name: Checkout
@@ -30,6 +30,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Install dependencies
-        run: npm install
-      - name: Run unit tests
-        run: npm run test
+        run: npm install && npm run build:packages
+      - name: Run oxlint (vp lint)
+        run: npm run lint

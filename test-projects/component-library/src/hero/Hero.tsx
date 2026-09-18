@@ -8,7 +8,6 @@ import { RichText } from '@headstartwp/block-primitives/rich-text';
 import { Link } from '@headstartwp/block-primitives/link';
 import { InnerBlocks } from '@headstartwp/block-primitives/inner-blocks';
 import { FC } from 'react';
-import { containerStyle, titleStyle, linkStyle, innerBlocksStyle } from './style.css';
 
 /**
  * This is the Universal Block's attributes, i.e the attributes coming from the Gutenberg block
@@ -30,13 +29,13 @@ export interface HeroProps extends UniversalBlock<HeroAttributes> {}
 
 export const Hero: FC<HeroProps> = ({ attributes, children, settings }) => {
 	return (
-		<div className={containerStyle}>
+		<div className="headstartwp-hero">
 			<RichText
 				name="title"
 				tagName="h2"
 				placeholder="The title"
 				value={attributes.title}
-				className={titleStyle}
+				className="headstartwp-hero__title"
 			/>
 
 			<RichText
@@ -58,11 +57,11 @@ export const Hero: FC<HeroProps> = ({ attributes, children, settings }) => {
 			<Link
 				name="link"
 				value={attributes.link}
-				className={linkStyle}
+				className="headstartwp-hero__link"
 				linkSettings={{ sourceUrl: settings?.sourceUrl, hostUrl: settings?.hostUrl }}
 			/>
 
-			<InnerBlocks allowedBlocks={['core/list']} className={innerBlocksStyle}>
+			<InnerBlocks allowedBlocks={['core/list']} className="headstartwp-hero__inner-blocks">
 				{children}
 			</InnerBlocks>
 		</div>
