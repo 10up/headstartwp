@@ -195,10 +195,10 @@ RESULT;
 				MARKUP
 			);
 		$dom_expected          = <<<RESULT
-			<p data-wp-block-name="core/paragraph" data-wp-block='{"dropCap":false}'>The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			<p class="wp-block-paragraph" data-wp-block-name="core/paragraph" data-wp-block='{"dropCap":false}'>The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
 			RESULT;
 		$html_tag_api_expected = <<<RESULT
-			<p data-wp-block-name="core/paragraph" data-wp-block="{&quot;dropCap&quot;:false}">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
+			<p class="wp-block-paragraph" data-wp-block-name="core/paragraph" data-wp-block="{&quot;dropCap&quot;:false}">The temperature is 23&deg;C &#9728;&#65039; (sun emoji) and &copy; (copyright symbol). HTML entity for Degrees: &deg;.</p>
 			RESULT;
 
 		$dom_output = $this->parser->render_block( $html, $block, $instance );
@@ -486,6 +486,7 @@ RESULT;
 					'sizeSlug'        => 'large',
 					'linkDestination' => 'none',
 					'alt'             => '',
+					'isDecorative'    => false,
 				],
 				'<!-- wp:image {"id":28,"sizeSlug":"large","linkDestination":"none"} --> <figure class="wp-block-image size-large"><img src="http://example.com/image.jpg" alt="" class="wp-image-28"/></figure><!-- /wp:image -->',
 			],

@@ -1,4 +1,5 @@
 {
+  "core": "WordPress/WordPress#7.1.1",
   "plugins": [
     ".",
     "../local-plugin",
