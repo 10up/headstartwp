@@ -30,7 +30,7 @@
     "dev:multisite": "turbo run dev --parallel --filter=./projects/wp-multisite-nextjs --filter=./packages/core --filter=./packages/next",
     "dev:multisite:i18n": "turbo run dev --parallel --filter=./projects/wp-multisite-i18n-nextjs --filter=./packages/core --filter=./packages/next",
     "dev:primitives": "turbo run dev --parallel  --filter=./test-projects/wp-nextjs-universal-blocks --filter=./packages/core --filter=./packages/next --filter=./packages/block-primitives",
-    "prepare": "husky install",
+    "prepare": "husky install || true",
     "typedoc": "typedoc",
     "typedoc:watch": "typedoc --watch",
     "version": "changeset version && ./scripts/version-plugin.sh",
@@ -69,9 +69,8 @@
     "budgetPercentIncreaseRed": 20,
     "showDetails": true
   },
-  "engineStrict": true,
   "engines": {
-    "node": "^20.19.0 || ^22.18.0 || >=24.11.0",
+    "node": ">=24.11.0",
     "npm": ">=11.6.0"
   },
   "optionalDependencies": {
@@ -84,6 +83,11 @@
   },
   "packageManager": "npm@11.19.1",
   "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24.11.0",
+      "onFail": "error"
+    },
     "packageManager": {
       "name": "npm",
       "version": ">=11.6.0",

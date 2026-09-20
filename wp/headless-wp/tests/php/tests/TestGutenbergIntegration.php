@@ -163,8 +163,8 @@ RESULT;
 	 */
 	public function test_set_block_attributes_tag_api_preserves_dollar_signs() {
 		$placeholder = '___HEADSTARTWP_BLOCK_ATTRS___';
-		$html         = '<p data-wp-block="' . $placeholder . '"></p>';
-		$attrs_json   = wp_json_encode(
+		$html        = '<p data-wp-block="' . $placeholder . '"></p>';
+		$attrs_json  = wp_json_encode(
 			[
 				'content' => '$50 million',
 				'level'   => 2,

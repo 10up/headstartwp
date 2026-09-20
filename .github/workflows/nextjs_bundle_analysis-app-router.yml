@@ -20,12 +20,16 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '24.x'
+          node-version: 24
+          cache: npm
+
+      - name: Ensure npm satisfies devEngines (>=11.6.0)
+        run: npm i -g npm@11
 
       - name: Install dependencies
         run: (cd ../../ && npm ci)
@@ -54,14 +58,16 @@ jobs:
       - name: Upload bundle
         uses: actions/upload-artifact@v4
         with:
-          name: bundle
+          name: bundle-app-router
           path: ./projects/wp-nextjs-app/.next/analyze/__bundle_analysis.json
 
       - name: Download base branch bundle stats
         uses: dawidd6/action-download-artifact@v6
+        continue-on-error: true
         if: success() && github.event.number
         with:
-          workflow: nextjs_bundle_analysis.yml
+          workflow: nextjs_bundle_analysis-app-router.yml
+          name: bundle-app-router
           branch: ${{ github.event.pull_request.base.ref }}
           path: ./projects/wp-nextjs-app/.next/analyze/base
 
@@ -80,36 +86,45 @@ jobs:
       # entry in your package.json file.
       - name: Compare with base branch bundle
         if: success() && github.event.number
-        run: ls -laR .next/analyze/base && npx -p nextjs-bundle-analysis compare
+        run: |
+          if [ -d ".next/analyze/base" ]; then
+            npx -p nextjs-bundle-analysis compare
+          else
+            echo "No base-branch bundle stats found yet - skipping comparison."
+          fi
 
       - name: Get comment body
         id: get-comment-body
         if: success() && github.event.number
         run: |
-          body=$(cat .next/analyze/__bundle_analysis_comment.txt)
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
-          echo ::set-output name=body::$body
+          if [ ! -f ".next/analyze/__bundle_analysis_comment.txt" ]; then
+            echo 'skip=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          {
+            echo 'body<<BUNDLE_EOF'
+            cat ".next/analyze/__bundle_analysis_comment.txt"
+            echo 'BUNDLE_EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Find Comment
-        uses: peter-evans/find-comment@v1
-        if: success() && github.event.number
+        uses: peter-evans/find-comment@v3
+        if: success() && github.event.number && steps.get-comment-body.outputs.skip != 'true'
         id: fc
         with:
           issue-number: ${{ github.event.number }}
           body-includes: '<!-- __NEXTJS_BUNDLE -->'
 
       - name: Create Comment
-        uses: peter-evans/create-or-update-comment@v1.4.4
-        if: success() && github.event.number && steps.fc.outputs.comment-id == 0
+        uses: peter-evans/create-or-update-comment@v4
+        if: success() && github.event.number && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id == ''
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}
 
       - name: Update Comment
-        uses: peter-evans/create-or-update-comment@v1.4.4
-        if: success() && github.event.number && steps.fc.outputs.comment-id != 0
+        uses: peter-evans/create-or-update-comment@v4
+        if: success() && github.event.number && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id != ''
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}
