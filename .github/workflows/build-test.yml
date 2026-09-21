@@ -5,15 +5,21 @@ permissions:
 
 on: [pull_request]
 
+concurrency:
+  group: build-test-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-test:
+    name: build-test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
-      # This ensures only one combination runs at a time to avoid rate limiting
-      max-parallel: 1
+      # One leg failing should not cancel the other - we want both results.
+      fail-fast: false
       matrix:
+        # Node 24 only: workspace packages declare engines.node >=24.0.0
+        # and the repo runs with engineStrict, so older majors cannot install.
         os: [ubuntu-latest, windows-latest]
-        node-version: [24]
 
     steps:
       - name: Configure Git line endings
@@ -23,25 +29,24 @@ jobs:
           git config --global core.eol lf
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24
+          cache: npm
 
-      - name: Setup npm cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Ensure npm satisfies devEngines (>=11.6.0)
+        run: npm i -g npm@11
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
       - name: Build Projects (Windows)
         if: matrix.os == 'windows-latest'
         run: npm run build:wpnextjs:app && npm run build:wpnextjs
+
       - name: Build Projects
         if: matrix.os != 'windows-latest'
         run: npm run build

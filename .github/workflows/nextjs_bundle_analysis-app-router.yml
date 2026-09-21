@@ -1,10 +1,8 @@
-name: '(Pages Router) Next.js Bundle Analysis'
+name: '(App Router) Next.js Bundle Analysis'
 
 permissions:
   contents: read
-  actions: read
   pull-requests: write
-  issues: write
 
 on:
   pull_request:
@@ -16,7 +14,7 @@ on:
 defaults:
   run:
     # change this if your nextjs app does not live at the root of the repo
-    working-directory: ./
+    working-directory: ./projects/wp-nextjs-app
 
 jobs:
   analyze:
@@ -34,7 +32,7 @@ jobs:
         run: npm i -g npm@11
 
       - name: Install dependencies
-        run: npm ci
+        run: (cd ../../ && npm ci)
 
       - name: Restore next build
         uses: actions/cache@v4
@@ -44,13 +42,13 @@ jobs:
         with:
           # if you use a custom build directory, replace all instances of `.next` in this file with your build directory
           # ex: if your app builds to `dist`, replace `.next` with `dist`
-          path: ./projects/wp-nextjs/.next/cache
+          path: .next/cache
           # change this if you prefer a more strict cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Build next.js app
         # change this if your site requires a custom build command
-        run: npm run build -- --filter=@10up/wp-nextjs
+        run: (cd ../../ && npm run build -- --filter=@10up/wp-nextjs-app)
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
@@ -60,33 +58,18 @@ jobs:
       - name: Upload bundle
         uses: actions/upload-artifact@v4
         with:
-          name: bundle-pages-router
-          path: ./projects/wp-nextjs/.next/analyze/__bundle_analysis.json
+          name: bundle-app-router
+          path: ./projects/wp-nextjs-app/.next/analyze/__bundle_analysis.json
 
       - name: Download base branch bundle stats
-        id: base-bundle
         uses: dawidd6/action-download-artifact@v6
         continue-on-error: true
         if: success() && github.event.number
-        continue-on-error: true
         with:
-          if_no_artifact_found: warn
-          workflow: nextjs_bundle_analysis.yml
-          name: bundle-pages-router
+          workflow: nextjs_bundle_analysis-app-router.yml
+          name: bundle-app-router
           branch: ${{ github.event.pull_request.base.ref }}
-          path: ./projects/wp-nextjs/.next/analyze/base
-
-      - name: Check whether a base bundle was downloaded
-        id: base-check
-        if: success() && github.event.number
-        run: |
-          dir=./projects/wp-nextjs/.next/analyze/base
-          if [ -d "$dir" ] && [ -n "$(ls -A "$dir" 2>/dev/null)" ]; then
-            echo "found=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "found=false" >> "$GITHUB_OUTPUT"
-            echo "No bundle baseline on ${{ github.event.pull_request.base.ref }}; skipping the size comparison."
-          fi
+          path: ./projects/wp-nextjs-app/.next/analyze/base
 
       # And here's the second place - this runs after we have both the current and
       # base branch bundle stats, and will compare them to determine what changed.
@@ -104,7 +87,7 @@ jobs:
       - name: Compare with base branch bundle
         if: success() && github.event.number
         run: |
-          if [ -d "./projects/wp-nextjs/.next/analyze/base" ]; then
+          if [ -d ".next/analyze/base" ]; then
             npx -p nextjs-bundle-analysis compare
           else
             echo "No base-branch bundle stats found yet - skipping comparison."
@@ -112,15 +95,15 @@ jobs:
 
       - name: Get comment body
         id: get-comment-body
-        if: success() && github.event.number && steps.base-check.outputs.found == 'true'
+        if: success() && github.event.number
         run: |
-          if [ ! -f "./projects/wp-nextjs/.next/analyze/__bundle_analysis_comment.txt" ]; then
+          if [ ! -f ".next/analyze/__bundle_analysis_comment.txt" ]; then
             echo 'skip=true' >> "$GITHUB_OUTPUT"
             exit 0
           fi
           {
             echo 'body<<BUNDLE_EOF'
-            cat "./projects/wp-nextjs/.next/analyze/__bundle_analysis_comment.txt"
+            cat ".next/analyze/__bundle_analysis_comment.txt"
             echo 'BUNDLE_EOF'
           } >> "$GITHUB_OUTPUT"
 

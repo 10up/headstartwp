@@ -5,27 +5,42 @@ permissions:
 
 on: pull_request
 
+concurrency:
+  group: phpunit-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   phpunit:
-    name: phpunit
+    name: phpunit (${{ matrix.php-version }})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        php-version: ['7.4', '8.0', '8.2']
+        # 8.2 is the supported floor; 8.4 catches forward-compat breakage.
+        php-version: ["8.2", "8.4"]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Set PHP version
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-version }}
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 24
-    - name: npm install
-      run: npm install
-    - name: composer install
-      run: cd ./wp/headless-wp && composer install --ignore-platform-reqs
-    - name: Run tests
-      run: npm run test:php -w=wp/headless-wp
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Ensure npm satisfies devEngines (>=11.6.0)
+        run: npm i -g npm@11
+
+      - name: npm ci
+        run: npm ci
+
+      - name: composer install
+        run: cd ./wp/headless-wp && composer install --ignore-platform-reqs
+
+      - name: Run tests
+        run: npm run test:php -w=wp/headless-wp

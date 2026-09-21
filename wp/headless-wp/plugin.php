@@ -6,6 +6,7 @@
  * Version: 1.3.2
  * Author:      10up
  * Author URI:  https://10up.com
+ * Requires PHP: 8.2
  * Text Domain: headstartwp
  * Domain Path: /languages
  *
