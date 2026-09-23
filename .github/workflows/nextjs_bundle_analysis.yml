@@ -60,7 +60,7 @@ jobs:
       - name: Upload bundle
         uses: actions/upload-artifact@v4
         with:
-          name: bundle-pages-router
+          name: bundle
           path: ./projects/wp-nextjs/.next/analyze/__bundle_analysis.json
 
       - name: Download base branch bundle stats
@@ -68,20 +68,20 @@ jobs:
         uses: dawidd6/action-download-artifact@v6
         continue-on-error: true
         if: success() && github.event.number
-        continue-on-error: true
         with:
           if_no_artifact_found: warn
           workflow: nextjs_bundle_analysis.yml
-          name: bundle-pages-router
+          name: bundle
           branch: ${{ github.event.pull_request.base.ref }}
-          path: ./projects/wp-nextjs/.next/analyze/base
+          # `compare` reads .next/analyze/base/bundle/__bundle_analysis.json.
+          path: ./projects/wp-nextjs/.next/analyze/base/bundle
 
       - name: Check whether a base bundle was downloaded
         id: base-check
         if: success() && github.event.number
         run: |
-          dir=./projects/wp-nextjs/.next/analyze/base
-          if [ -d "$dir" ] && [ -n "$(ls -A "$dir" 2>/dev/null)" ]; then
+          file=./projects/wp-nextjs/.next/analyze/base/bundle/__bundle_analysis.json
+          if [ -f "$file" ]; then
             echo "found=true" >> "$GITHUB_OUTPUT"
           else
             echo "found=false" >> "$GITHUB_OUTPUT"
@@ -102,13 +102,8 @@ jobs:
       # Either of these arguments can be changed or removed by editing the `nextBundleAnalysis`
       # entry in your package.json file.
       - name: Compare with base branch bundle
-        if: success() && github.event.number
-        run: |
-          if [ -d "./projects/wp-nextjs/.next/analyze/base" ]; then
-            npx -p nextjs-bundle-analysis compare
-          else
-            echo "No base-branch bundle stats found yet - skipping comparison."
-          fi
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true'
+        run: npx -p nextjs-bundle-analysis compare
 
       - name: Get comment body
         id: get-comment-body
@@ -126,7 +121,7 @@ jobs:
 
       - name: Find Comment
         uses: peter-evans/find-comment@v3
-        if: success() && github.event.number && steps.get-comment-body.outputs.skip != 'true'
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.get-comment-body.outputs.skip != 'true'
         id: fc
         with:
           issue-number: ${{ github.event.number }}
@@ -134,14 +129,14 @@ jobs:
 
       - name: Create Comment
         uses: peter-evans/create-or-update-comment@v4
-        if: success() && github.event.number && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id == ''
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id == ''
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}
 
       - name: Update Comment
         uses: peter-evans/create-or-update-comment@v4
-        if: success() && github.event.number && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id != ''
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id != ''
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}
