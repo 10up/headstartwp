@@ -63,7 +63,7 @@
 		"@isaacs/ttlcache": "^1.4.1"
 	},
 	"devDependencies": {
-		"next": "^16.3.4",
+		"next": "^16.3.6",
 		"@testing-library/dom": "^10.4.1",
 		"@testing-library/react": "^16.0.0",
 		"@types/jest": "^29.5.14",

@@ -68,7 +68,7 @@
     "@headstartwp/core": "^1.6.1"
   },
   "devDependencies": {
-    "next": "^16.3.4",
+    "next": "^16.3.6",
     "@jest/globals": "^29.7.0",
     "@testing-library/dom": "^9.3.4",
     "@testing-library/react": "^14.3.1",
