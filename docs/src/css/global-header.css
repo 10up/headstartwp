@@ -9,3 +9,17 @@
 html:not(.docs-wrapper) .navbar {
 	box-shadow: none;
 }
+/* CTA back to the main site (mirrors the site header's Get Started chip). */
+.navbar-site-cta {
+  background: #1C1F37;
+  color: #fff !important;
+  border-radius: 2px;
+  padding: 8px 16px;
+  margin-left: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.navbar-site-cta:hover {
+  background: var(--ifm-color-primary);
+}

@@ -1,0 +1,148 @@
+/*
+Component styles for the example theme.
+
+These are plain, global CSS classes on purpose: HeadstartWP does not prescribe a
+styling approach. Swap this file for CSS Modules, Tailwind, or any CSS-in-JS
+library you prefer — nothing in the framework depends on it.
+*/
+
+/* Header */
+.site-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 75px;
+	background-color: #fff;
+	border-bottom: 1px solid #e0e0e0;
+	font-family: Roboto, sans-serif;
+	padding: 0 20px;
+}
+
+.site-header > div,
+.site-header > ul {
+	width: 400px;
+}
+
+/* Logo */
+.site-logo {
+	text-align: center;
+}
+
+.site-logo > span {
+	display: inline-block;
+	color: #000;
+	font-weight: 500;
+	background: #f2f2f2;
+	padding: 10px 20px;
+	margin: 0 20px;
+	font-size: 26px;
+	line-height: 30px;
+}
+
+/* Primary navigation */
+.site-nav {
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+}
+
+.site-nav li,
+.site-nav a {
+	color: #333;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.site-nav a:hover {
+	text-decoration: underline;
+}
+
+.site-nav > li {
+	list-style-type: none;
+}
+
+.site-nav > li > ul {
+	display: none;
+}
+
+/* Search */
+.search-form__input {
+	border: 1px solid #e0e0e0;
+	border-radius: 2px;
+	padding: 10px 20px;
+}
+
+.search-form__button {
+	border: none;
+	background: none;
+	position: relative;
+	top: 5px;
+	cursor: pointer;
+}
+
+/* Main content */
+.main-content {
+	padding: 20px;
+}
+
+/* Blocks */
+.blocks {
+	position: relative;
+}
+
+/* Pagination */
+.pagination {
+	list-style-type: none;
+}
+
+.pagination__item {
+	display: inline;
+	margin-right: 5px;
+}
+
+/* Footer */
+.site-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 60px;
+	width: 100%;
+	background: #333;
+	color: #fff;
+	padding: 0 20px;
+	box-sizing: border-box;
+}
+
+.site-footer a {
+	color: #fff;
+}
+
+.site-footer > ul,
+.site-footer > div {
+	width: 400px;
+}
+
+/* Footer links */
+.footer-links {
+	display: block;
+	padding: 0;
+}
+
+.footer-links li {
+	list-style-type: none;
+	float: left;
+	margin-right: 20px;
+}
+
+.footer-links a {
+	color: #f2f2f2;
+}
+
+.footer-links a:hover {
+	text-decoration: none;
+}

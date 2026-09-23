@@ -4,6 +4,12 @@ import type { NextConfig } from 'next';
 import path from 'path';
 import { ConcatOperation, ModifySourcePlugin } from './plugins/ModifySourcePlugin';
 
+/**
+ * @deprecated the built-in linaria/wyw-in-js integration is deprecated and will be
+ * removed in the next major version. Configure the loader via `nextConfig.webpack` instead.
+ */
+type NextConfigWithLinaria = NextConfig & { linaria?: Record<string, unknown> };
+
 type RemotePattern = {
 	protocol?: 'http' | 'https';
 	hostname: string;
@@ -223,7 +229,7 @@ export function withHeadstartWPConfig(
 				}
 
 				const hasHostCheck = siteHost && {
-					has: [{ type: 'header', key: 'host', value: siteHost }],
+					has: [{ type: 'header' as const, key: 'host', value: siteHost }],
 				};
 
 				const defaultRewrites = [
@@ -360,6 +366,14 @@ export function withHeadstartWPConfig(
 
 			// only load linaria with the pages router configuration if not using app router
 			if (isLinariaInstalled && !isUsingAppRouter) {
+				// eslint-disable-next-line no-console
+				console.warn(
+					'[@headstartwp/next] Deprecation notice: built-in linaria/wyw-in-js support is ' +
+						'deprecated and will be removed in the next major version. HeadstartWP no longer ' +
+						'ships a styling solution — configure the loader yourself via `nextConfig.webpack` ' +
+						'if you want to keep using it.',
+				);
+
 				const isWYWInJS = isPackageInstalled('@wyw-in-js/webpack-loader');
 
 				traverse(config.module.rules);
@@ -373,7 +387,7 @@ export function withHeadstartWPConfig(
 								: '@linaria/webpack-loader',
 							options: {
 								sourceMap: process.env.NODE_ENV !== 'production',
-								...(nextConfig.linaria || {}),
+								...((nextConfig as NextConfigWithLinaria).linaria || {}),
 								extension: LINARIA_EXTENSION,
 								babelOptions: {
 									presets: ['next/babel', isWYWInJS ? '@wyw-in-js' : '@linaria'],

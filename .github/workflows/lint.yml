@@ -1,0 +1,34 @@
+name: lint
+
+permissions:
+  contents: read
+
+on: [pull_request]
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Ensure npm satisfies devEngines (>=11.6.0)
+        run: npm i -g npm@11
+
+      - name: Install dependencies
+        run: npm ci && npm run build:packages
+
+      - name: Run oxlint (vp lint)
+        run: npm run lint
