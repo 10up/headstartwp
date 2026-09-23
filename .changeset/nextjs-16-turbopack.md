@@ -6,8 +6,12 @@
 
 Upgrade to Next.js 16 and drop webpack in favour of Turbopack.
 
-`@headstartwp/next` now requires Next.js >= 16. React 18 remains supported, so the Pages
+`@headstartwp/next` now requires Next.js >= 16 and React >= 18.2 (Next.js 16's own floor), and
+`@headstartwp/block-primitives` requires React >= 18.2. React 18 remains supported, so the Pages
 Router continues to work.
+
+The 1.x line stays available for projects that can't move yet: `@headstartwp/next@1.x` supports
+Next.js 15 and receives bug and security fixes, published under the `v1` npm dist-tag.
 
 **Breaking changes**
 
