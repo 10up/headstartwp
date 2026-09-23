@@ -22,15 +22,19 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: 24
+          cache: npm
+
+      - name: Ensure npm satisfies devEngines (>=11.6.0)
+        run: npm i -g npm@11
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: npm ci
 
       - name: Restore next build
         uses: actions/cache@v4
@@ -60,12 +64,29 @@ jobs:
           path: ./projects/wp-nextjs/.next/analyze/__bundle_analysis.json
 
       - name: Download base branch bundle stats
+        id: base-bundle
         uses: dawidd6/action-download-artifact@v6
+        continue-on-error: true
         if: success() && github.event.number
         with:
+          if_no_artifact_found: warn
           workflow: nextjs_bundle_analysis.yml
+          name: bundle
           branch: ${{ github.event.pull_request.base.ref }}
-          path: ./projects/wp-nextjs/.next/analyze/base
+          # `compare` reads .next/analyze/base/bundle/__bundle_analysis.json.
+          path: ./projects/wp-nextjs/.next/analyze/base/bundle
+
+      - name: Check whether a base bundle was downloaded
+        id: base-check
+        if: success() && github.event.number
+        run: |
+          file=./projects/wp-nextjs/.next/analyze/base/bundle/__bundle_analysis.json
+          if [ -f "$file" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No bundle baseline on ${{ github.event.pull_request.base.ref }}; skipping the size comparison."
+          fi
 
       # And here's the second place - this runs after we have both the current and
       # base branch bundle stats, and will compare them to determine what changed.
@@ -81,37 +102,41 @@ jobs:
       # Either of these arguments can be changed or removed by editing the `nextBundleAnalysis`
       # entry in your package.json file.
       - name: Compare with base branch bundle
-        if: success() && github.event.number
-        run: ls -laR ./projects/wp-nextjs/.next/analyze/base && npx -p nextjs-bundle-analysis compare
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true'
+        run: npx -p nextjs-bundle-analysis compare
 
       - name: Get comment body
         id: get-comment-body
-        if: success() && github.event.number
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true'
         run: |
-          body=$(cat ./projects/wp-nextjs/.next/analyze/__bundle_analysis_comment.txt)
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
-          echo ::set-output name=body::$body
+          if [ ! -f "./projects/wp-nextjs/.next/analyze/__bundle_analysis_comment.txt" ]; then
+            echo 'skip=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          {
+            echo 'body<<BUNDLE_EOF'
+            cat "./projects/wp-nextjs/.next/analyze/__bundle_analysis_comment.txt"
+            echo 'BUNDLE_EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Find Comment
-        uses: peter-evans/find-comment@v1
-        if: success() && github.event.number
+        uses: peter-evans/find-comment@v3
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.get-comment-body.outputs.skip != 'true'
         id: fc
         with:
           issue-number: ${{ github.event.number }}
           body-includes: '<!-- __NEXTJS_BUNDLE -->'
 
       - name: Create Comment
-        uses: peter-evans/create-or-update-comment@v1.4.4
-        if: success() && github.event.number && steps.fc.outputs.comment-id == 0
+        uses: peter-evans/create-or-update-comment@v4
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id == ''
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}
 
       - name: Update Comment
-        uses: peter-evans/create-or-update-comment@v1.4.4
-        if: success() && github.event.number && steps.fc.outputs.comment-id != 0
+        uses: peter-evans/create-or-update-comment@v4
+        if: success() && github.event.number && steps.base-check.outputs.found == 'true' && steps.get-comment-body.outputs.skip != 'true' && steps.fc.outputs.comment-id != ''
         with:
           issue-number: ${{ github.event.number }}
           body: ${{ steps.get-comment-body.outputs.body }}

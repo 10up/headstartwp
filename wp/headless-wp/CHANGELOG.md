@@ -1,5 +1,12 @@
 # @headstartwp/headstartwp
 
+## 1.3.2
+
+### Patch Changes
+
+- 03336bc: Fix Gutenberg block attribute rendering when JSON attribute values contain dollar signs (for example, `$50 million`), preventing incorrect replacement escaping.
+- 209fd26: Fix: Add null coalescing check for context parameter in extend_post_content to prevent PHP 8+ "Undefined array key" warning. Fixes #940
+
 ## 1.3.1
 
 ### Patch Changes

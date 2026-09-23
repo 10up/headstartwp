@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 24.x
 
       - name: Install Dependencies
         run: npm ci
@@ -46,7 +46,7 @@ jobs:
     needs: [packages]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Publish to the publishing repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -60,7 +60,7 @@ jobs:
           commit-message: See ORIGIN_COMMIT from $GITHUB_REF
           target-branch: next
       - name: Checkout the publishing repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 10up/headstartwp-plugin
           path: 'repo'

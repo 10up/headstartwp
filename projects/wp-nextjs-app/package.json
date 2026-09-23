@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint ."
+    "start": "next start"
   },
   "nextBundleAnalysis": {
     "budget": 148480,
@@ -14,21 +13,17 @@
     "showDetails": true
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "^15.5.9",
-    "@headstartwp/core": "^1.6.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "next": "^16.3.6",
+    "@headstartwp/core": "^1.6.1",
     "@headstartwp/next": "^1.5.2",
     "@10up/next-redis-cache-provider": "^2.0.0"
   },
   "devDependencies": {
-    "@10up/eslint-config": "^4.0.0",
     "typescript": "^5",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "15.3.0",
-    "eslint-import-resolver-typescript": "^3.6.3"
+    "@types/react-dom": "^18"
   }
 }

@@ -1,7 +1,4 @@
 const { withHeadstartWPConfig } = require('@headstartwp/next/config');
-const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
-
-const withVanillaExtract = createVanillaExtractPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,4 +18,4 @@ if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
 	nextConfig.cacheMaxMemorySize = 0;
 }
 
-module.exports = withVanillaExtract(withHeadstartWPConfig(nextConfig));
+module.exports = withHeadstartWPConfig(nextConfig);

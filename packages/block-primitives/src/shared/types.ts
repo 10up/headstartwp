@@ -1,9 +1,51 @@
 import { HeadlessConfig } from '@headstartwp/core';
-import type { RichText, InnerBlocks } from '@wordpress/block-editor';
-import type { DropdownProps } from '@wordpress/components/build-types/dropdown/types.d.ts';
+import type { Dropdown } from '@wordpress/components';
 
 export type Attributes = Record<string, any>;
 export type SetAttributes = (attributes: Attributes) => void;
+
+/**
+ * Props for Gutenberg's RichText and InnerBlocks components.
+ *
+ * `@wordpress/block-editor` ships no type declarations for its root export --
+ * its `build-types` folder only covers `components` and `utils`. The namespace
+ * types these interfaces used to extend came from
+ * `@types/wordpress__block-editor`, which targets the WP 6.x generation and is
+ * no longer installed.
+ *
+ * These list the props this library actually passes through. An index
+ * signature is deliberately NOT used: `Omit<T, K>` over a type with one
+ * collapses `keyof T` to `string`, discarding every declared property and
+ * making them all `unknown`.
+ */
+export interface GutenbergRichTextProps<T extends keyof HTMLElementTagNameMap> {
+	tagName?: T;
+	value?: string;
+	onChange?: (value: string) => void;
+	placeholder?: string;
+	className?: string;
+	identifier?: string;
+	allowedFormats?: string[];
+	withoutInteractiveFormatting?: boolean;
+	preserveWhiteSpace?: boolean;
+	disableLineBreaks?: boolean;
+	onReplace?: (blocks: unknown[]) => void;
+	onMerge?: (forward: boolean) => void;
+	onRemove?: (forward: boolean) => void;
+	onSplit?: (value: string, isOriginal?: boolean) => unknown;
+}
+
+export interface GutenbergInnerBlocksProps {
+	allowedBlocks?: string[];
+	template?: unknown[];
+	templateLock?: 'all' | 'insert' | 'contentOnly' | false;
+	templateInsertUpdatesSelection?: boolean;
+	renderAppender?: false | (() => React.ReactNode);
+	orientation?: 'horizontal' | 'vertical';
+	placeholder?: React.ReactNode;
+	defaultBlock?: Record<string, unknown>;
+	directInsert?: boolean;
+}
 
 export type MediaReplaceFlow = {
 	mediaURL: string;
@@ -24,7 +66,7 @@ export type MediaReplaceFlow = {
 	multiple?: boolean;
 	addToGallery?: boolean;
 	handleUpload?: boolean;
-	popoverProps?: DropdownProps['popoverProps'];
+	popoverProps?: React.ComponentProps<typeof Dropdown>['popoverProps'];
 };
 
 /**
@@ -106,7 +148,7 @@ export interface ImagePrimitive extends Omit<MediaReplaceFlow, 'onSelect'> {
 }
 
 export interface RichTextPrimitive<T extends keyof HTMLElementTagNameMap>
-	extends Omit<RichText.Props<T>, 'onChange' | 'value'> {
+	extends Omit<GutenbergRichTextProps<T>, 'onChange' | 'value'> {
 	/**
 	 * The name of the attribute where image data should be stored
 	 */
@@ -159,7 +201,7 @@ export interface LinkProps {
 	};
 }
 
-export interface InnerBlocksProps extends InnerBlocks.Props {
+export interface InnerBlocksProps extends GutenbergInnerBlocksProps {
 	children?: React.ReactNode;
 	className?: string;
 }

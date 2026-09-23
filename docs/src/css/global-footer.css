@@ -3,97 +3,108 @@
   border-top: 2px solid var(--ifm-color-secondary-lightest);
 }
 
-.footer-about {
-  background-color: var(--ifm-color-secondary-lightest);
-  padding: 3rem var(--ifm-spacing-horizontal);
-}
+/* --- Bottom band: mirrors the headstartwp.fueled.com site footer --- */
 
-.footer-about-inner {
-  margin: 0 auto;
-  max-width: var(--wide-width);
+.footer-fueled {
+  background-color: #323F60;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 300;
+  padding: 3.5rem var(--ifm-spacing-horizontal);
   text-align: center;
 }
 
-.cta-careers {
-  vertical-align: top;
+.footer-fueled a {
+  color: #fff;
+  text-decoration: underline;
 }
 
-.license {
-  margin-top: 20px;
+.footer-fueled a:hover {
+  color: #ddd;
 }
 
-.license p {
+.footer-fueled p {
   margin: 0;
 }
 
-.license .copyright {
-  margin-right: 4px;
+.footer-fueled .footer-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 18px;
+  margin: 6px 0 0;
+  padding: 0;
+}
+
+.footer-fueled .footer-links li {
+  opacity: 0.75;
+}
+
+.footer-fueled .footer-links li:hover {
+  opacity: 1;
+}
+
+.footer-fueled .footer-links a {
+  color: inherit;
+}
+
+.footer-fueled .logo img {
+  width: 170px;
+  height: auto;
+  display: block;
+  margin: 30px auto;
+}
+
+.footer-fueled .social ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-fueled .social svg {
+  width: 24px;
+  display: block;
+}
+
+.footer-fueled .social path {
+  fill: #fff;
+}
+
+.footer-fueled .social a:hover path {
+  fill: #ddd;
+}
+
+.footer-fueled .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
 }
 
 @media (min-width: 900px) {
-  .cta-careers {
-    display: inline-block;
-    vertical-align: top;
-    text-align: left;
-    width: 48%;
-  }
-
-  .license {
-    display: inline-block;
-    margin-left: 2%;
-    text-align: right;
-    width: 48%;
-    margin-top: 0;
-  }
-}
-
-.cta-careers .button {
-  margin-top: .5em;
-  background-color: var(--ifm-color-primary);
-  text-decoration: none;
-}
-
-.cta-careers .button:hover {
-  background-color: var(--ifm-color-primary-dark);
-}
-
-
-.footer-10up {
-  padding: 3rem var(--ifm-spacing-horizontal);
-}
-
-.footer-10up .wrap {
-  margin: 0 auto;
-  max-width: var(--wide-width);
-  text-align: center;
-}
-
-.footer-10up .social-media svg {
-  width: 25px;
-  margin-right: 15px;
-}
-
-.footer-10up .social-media path {
-  fill: var(--ifm-color-gray-600);
-}
-
-.footer-10up .social-media svg:hover path {
-  fill: var(--ifm-color-black);
-}
-
-.footer-10up p {
-  margin: 20px 0;
-}
-
-@media (min-width: 900px) {
-  .footer-10up .wrap {
-    display: flex;
-    text-align: left;
+  .footer-fueled .wrap {
+    display: grid;
+    grid-template-columns: 1fr 170px 1fr;
     align-items: center;
-    justify-content: space-between;
+    max-width: var(--wide-width);
+    margin: 0 auto;
+    text-align: left;
   }
 
-  .footer-10up p {
-    margin: 0;
+  .footer-fueled .footer-links {
+    justify-content: flex-start;
+  }
+
+  .footer-fueled .logo img {
+    margin: 0 auto;
+  }
+
+  .footer-fueled .social ul {
+    justify-content: flex-end;
   }
 }

@@ -1,16 +1,11 @@
 import { BlocksRenderer, YoutubeLiteBlock, ImageBlock } from '@headstartwp/core/react';
 import { TwitterBlock, ImageComponent, LinkBlock } from '@headstartwp/next';
 
-import { css } from '@linaria/core';
 import PropTypes from 'prop-types';
 
 export const Blocks = ({ html }) => {
 	return (
-		<div
-			className={css`
-				position: relative;
-			`}
-		>
+		<div className="blocks">
 			<BlocksRenderer html={html}>
 				<ImageBlock component={ImageComponent} />
 				<LinkBlock />

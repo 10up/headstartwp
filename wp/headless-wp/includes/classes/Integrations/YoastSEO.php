@@ -347,6 +347,7 @@ class YoastSEO {
 	 */
 	public function optimise_yoast_payload( $result, $server, $request, $embed = false ) {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only REST GET parameter, not form processing; the value is immediately cast to a boolean and only ever narrows the response payload.
 		$embed = $embed ? $embed : filter_var( wp_unslash( $_GET['_embed'] ?? false ), FILTER_VALIDATE_BOOLEAN );
 
 		if ( ! $embed || empty( $request->get_param( 'optimizeYoastPayload' ) ) ) {
