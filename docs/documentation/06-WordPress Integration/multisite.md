@@ -11,7 +11,7 @@ The `sites` option allows specifying as many sites you want to connect to your a
 
 This feature does not require that all sites belong to the same multisite, you're free to connect the Next.js app to a completely separate WordPress instance, as long as that instance implements what your Next.js app needs.
 
-Take a look at the [App Router multisite demo project](https://github.com/10up/headstartwp/tree/develop/projects/wp-multisite-nextjs-app) to familiarize yourself with the set-up.
+Take a look at the [App Router multisite PRD](https://github.com/10up/headstartwp/blob/develop/prds/app-router-multisite.md) to familiarize yourself with the set-up.
 
 ## Usage
 
@@ -182,7 +182,7 @@ With this configuration, you can create site-specific routes like:
 
 This provides a powerful way of powering complex multi-tenant apps that shares a codebase but render completely different pages and layouts.
 
-## Demo Project
+## Reference PRD
 
-Take a look at the [App Router multisite demo project](https://github.com/10up/headstartwp/tree/develop/projects/wp-multisite-nextjs-app) to see a complete implementation of multisite with App Router.
+The [App Router multisite PRD](https://github.com/10up/headstartwp/blob/develop/prds/app-router-multisite.md) describes a complete multisite implementation with the App Router. Give it (with [`00-foundation.md`](https://github.com/10up/headstartwp/blob/develop/prds/00-foundation.md)) to an LLM coding agent to stand up a multisite project.
 

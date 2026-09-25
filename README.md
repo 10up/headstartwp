@@ -5,7 +5,6 @@
 
 [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![eslint](https://github.com/10up/headstartwp/actions/workflows/eslint.yml/badge.svg)](https://github.com/10up/headstartwp/actions/workflows/eslint.yml) [![PHPCS check](https://github.com/10up/headstartwp/actions/workflows/phpcs.yml/badge.svg)](https://github.com/10up/headstartwp/actions/workflows/phpcs.yml) [![unit tests](https://github.com/10up/headstartwp/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/10up/headstartwp/actions/workflows/unit-tests.yml)
 [![Core Package MIT License](https://img.shields.io/badge/core%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/core/LICENSE.md) [![Hooks Package MIT License](https://img.shields.io/badge/hooks%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/hooks/LICENSE.md) [![Next Package MIT License](https://img.shields.io/badge/next%20package-MIT-green)](https://github.com/10up/headstartwp/blob/develop/packages/next/LICENSE.md)
-[![wp-multisite-i18n-nextjs Project GPLv2 License](https://img.shields.io/badge/wp--multisite--i18n--nextjs%20project-GPLv2-orange)](https://github.com/10up/headstartwp/blob/develop/projects/wp-multisite-i18n-nextjs/LICENSE.md) [![wp-multisite-nextjs Project GPLv2 License](https://img.shields.io/badge/wp--multisite--nextjs%20project-GPLv2-orange)](https://github.com/10up/headstartwp/blob/develop/projects/wp-multisite-nextjs/LICENSE.md) [![wp-nextjs Project GPLv2 License](https://img.shields.io/badge/wp--nextjs%20package-GPLv2-orange)](https://github.com/10up/headstartwp/blob/develop/projects/wp-nextjs/LICENSE.md)
 [![HeadstartWP Plugin GPLv2 License](https://img.shields.io/badge/Headless%20WordPress%20plugin-GPLv2-orange)](https://github.com/10up/headstartwp/blob/develop/wp/tenup-headless-wp/LICENSE.md)
 
 ## Documentation
@@ -36,7 +35,11 @@ A complete listing of all notable changes to 10up's Headless Framework are docum
 
 Visit the [CONTRIBUTING](/CONTRIBUTING.md) page for initial contribution and engineering guidance.
 
-This repository is a monorepo, under the `packages` there are all the tools that are published to npm. The `projects` directory is a collection of test projects linked to the tools in `packages` and is used for testing purposes.
+This repository is a monorepo. The `packages` directory contains every tool published to npm, and `wp` contains the HeadstartWP WordPress plugin and local development tooling.
+
+## Starting a new project
+
+HeadstartWP no longer ships starter or example projects. Instead, [`prds/`](./prds/README.md) contains product requirement documents describing each former example project (App Router starter, multisite, Polylang, ElasticPress search, universal blocks, Pages Router references, and a Vite SPA). Point your LLM coding agent at [`prds/00-foundation.md`](./prds/00-foundation.md) plus the PRD that matches what you're building, and describe what's specific to your project.
 
 ## Like what you see?
 

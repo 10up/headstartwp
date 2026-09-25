@@ -10,52 +10,65 @@ If you're new to Next.js App Router, we recommend reviewing [Next.js App Router 
 
 ## System Requirements
 
-- Node.js 18 or later
-- NPM >= 7
-- WordPress >= 5.9 (prior versions might work but haven't been tested)
-- Next.js 15+ (HeadstartWP only supports App Router with Next.js 15+)
+- Node.js 24 or later
+- npm 11 or later
+- WordPress with the [HeadstartWP plugin](/learn/getting-started/installing-wordpress-plugin) installed
+- Next.js 15 and React 18 (HeadstartWP 1.x)
 
 ## Installation
 
-The easiest way to get started with HeadstartWP and App Router is by using `create-next-app` with the official App Router starter project.
+HeadstartWP does not ship a starter project. Instead, the repository contains [PRDs](https://github.com/10up/headstartwp/blob/develop/prds/README.md)
+(product requirement documents) written for LLM coding agents such as Claude, Cursor or Copilot. Each PRD
+describes a complete project — its routes, configuration, and acceptance criteria — and the agent
+generates it for you against the package versions you're installing.
 
-```bash
-npx create-next-app --use-npm -e https://github.com/10up/headstartwp/tree/trunk/projects/wp-nextjs-app
+1. Create an empty directory for your project.
+2. Give your agent [`00-foundation.md`](https://github.com/10up/headstartwp/blob/develop/prds/00-foundation.md) and the PRD that fits what you're building.
+   Most new projects should use the [App Router starter PRD](https://github.com/10up/headstartwp/blob/develop/prds/app-router-starter.md).
+3. Describe what's specific to your project. For example:
+
+```text
+Read prds/00-foundation.md and prds/app-router-starter.md from
+https://github.com/10up/headstartwp/tree/develop/prds and stand up a new HeadstartWP project in this
+directory. My WordPress backend is https://cms.example.com. We use Tailwind. Verify each acceptance
+criterion before you finish and tell me which ones you could not verify.
 ```
 
-Then run `npm run dev` and open http://localhost:3000 in your browser.
+4. Run `npm run dev` and open http://localhost:3000.
+
+Other PRDs cover [multisite](https://github.com/10up/headstartwp/blob/develop/prds/app-router-multisite.md), [Polylang](https://github.com/10up/headstartwp/blob/develop/prds/app-router-polylang.md),
+[ElasticPress search](https://github.com/10up/headstartwp/blob/develop/prds/app-router-elasticpress-search.md),
+[universal blocks](https://github.com/10up/headstartwp/blob/develop/prds/universal-blocks.md), and legacy Pages Router setups.
+
+If you'd rather wire things up by hand, see [Setting up manually](/learn/getting-started/setting-up-manually).
 
 ### Project Structure
 
-The starter project follows Next.js App Router conventions:
+A project generated from the App Router starter PRD follows Next.js App Router conventions:
 
 ```
 src/
 ├── app/
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Home page
-│   ├── not-found.tsx       # 404 page
-│   ├── (single)/           # Route group for posts/pages
-│   │   └── [...path]/
-│   │       └── page.tsx    # Dynamic catch-all route
-│   ├── blog/
-│   │   └── page.tsx        # Blog archive
-│   ├── category/
-│   │   └── [slug]/
-│   │       └── page.tsx    # Category archive
-│   └── globals.css
+│   ├── layout.tsx              # Root layout (settings, menu, block styles)
+│   ├── page.tsx                # Home page
+│   ├── not-found.tsx           # 404 page
+│   ├── (single)/[...path]/     # Posts and pages by permalink
+│   ├── blog/[[...path]]/       # Blog archive + single posts
+│   ├── category/[...path]/     # Category archive
+│   ├── tag/[...path]/          # Tag archive
+│   ├── author/[...path]/       # Author archive
+│   ├── search/[[...path]]/     # Search results
+│   └── api/                    # preview + revalidate route handlers
 ├── components/
-│   ├── Blocks.tsx          # Gutenberg blocks renderer
-│   └── ...
-└── middleware.ts           # middleware
+│   └── Blocks.tsx              # Gutenberg blocks renderer
+└── middleware.ts
 ```
 
 ### Environment Variables
 
-By default, the starter project will point to `js1.10up.com`. Either change the 
-`NEXT_PUBLIC_HEADLESS_WP_URL` variable or create a `.env.local` file to override the default env variables.
+Set `NEXT_PUBLIC_HEADLESS_WP_URL` to your WordPress URL (in `.env`, or `.env.local` for local overrides).
 
-If you're developing locally and using HTTPS with WordPress and you don't have valid certs, you will need to add `NODE_TLS_REJECT_UNAUTHORIZED=0` as an env variable
+If you're developing locally and using HTTPS with WordPress and you don't have valid certs, you will need to add `NODE_TLS_REJECT_UNAUTHORIZED=0` as an env variable in `.env.local`:
 
 ```
 NEXT_PUBLIC_HEADLESS_WP_URL=https://wordpress.test

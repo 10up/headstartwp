@@ -36,12 +36,28 @@ The `develop` branch is the development branch which means it contains the next 
 
 ## Get the project running
 
-First and foremost, run `npm install` from the root. Then run `npm run dev` or `npm run dev:multisite`. 
+First and foremost, run `npm install` from the root.
 
-The `npm run dev` command will spin up a single WordPress instance that by default will run at http://localhost:8888 and a the starter Next.js project.
+- `npm run build` builds every package under `packages/`.
+- `npm run dev` watches and rebuilds all packages and starts the local WordPress instance (via `wp-env`)
+  at http://localhost:8888.
+- `npm run test` runs the package unit tests.
 
-The `npm run dev:multisite` command will spin up a single WordPress instance that by default will run at http://localhost:8888 and the multisite next.js project.
+### Testing changes against a real front end
 
+As of 1.8.0 this repository no longer contains example or starter Next.js projects. Their knowledge now
+lives in [`prds/`](./prds/README.md) as PRDs an LLM can use to stand up an equivalent project.
+
+To exercise a package change end to end:
+
+1. Generate a throwaway project **outside this repo** from the relevant PRD (for example
+   `prds/app-router-starter.md`), pointing it at `http://localhost:8888`.
+2. Point its HeadstartWP dependencies at your local build, e.g.
+   `npm install ../headstartwp/packages/core ../headstartwp/packages/next`.
+3. Keep `npm run dev` running here so the packages rebuild as you edit.
+
+If your change alters how projects should be wired (new config options, route handlers, conventions),
+update the affected PRDs in the same pull request.
 
 ## Troubleshooting
 
