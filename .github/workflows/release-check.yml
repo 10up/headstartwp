@@ -1,0 +1,64 @@
+name: Release check
+
+# Dry-runs the release on every PR, so a broken changeset, version script or
+# plugin version sync is caught before it reaches trunk/develop instead of in
+# the Release workflow.
+
+on:
+  pull_request:
+    branches:
+      - trunk
+      - develop
+
+concurrency:
+  group: release-check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  dry-run:
+    name: Release dry run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Changeset status
+        # Informational: lists what this PR would release. Missing changesets are
+        # flagged by the changeset bot, so this does not fail the build.
+        run: npx changeset status --verbose --since="origin/${{ github.base_ref }}" || true
+
+      - name: Version packages (dry run)
+        run: |
+          npm run version
+          echo "### Release dry run" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          git diff --stat >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Plugin version is in sync
+        run: |
+          VERSION=$(jq -r .version wp/headless-wp/package.json)
+          grep -q "^ \* Version: ${VERSION}$" wp/headless-wp/plugin.php
+          grep -q "HEADLESS_WP_PLUGIN_VERSION', '${VERSION}'" wp/headless-wp/plugin.php
+          echo "Plugin version ${VERSION} is consistent."
+
+      - name: Build and pack packages
+        run: |
+          npm run build:packages
+          for dir in packages/*/; do
+            (cd "$dir" && npm pack --dry-run > /dev/null) || exit 1
+          done

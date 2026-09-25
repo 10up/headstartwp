@@ -12,7 +12,7 @@
     "react": "^18",
     "react-dom": "^18",
     "next": "^15.5.9",
-    "@headstartwp/core": "^1.6.0",
+    "@headstartwp/core": "^1.6.1",
     "@headstartwp/next": "^1.5.2"
   },
   "devDependencies": {

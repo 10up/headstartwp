@@ -1,16 +1,16 @@
 # Framework Principles
 
-These are the guiding principles for 10up's Headless Framework.
+These are the guiding principles for HeadstartWP, Fueled's framework for headless WordPress.
 
 ## Solid Foundation
 
-We aren't trying to reinvent the wheel nor do we want to spend a massive amount of resources building a new foundation for our framework. Therefore we decided to pick an existing and solid foundation to power 10up's Headless Framework: [Next.js](https://nextjs.org/).
+We aren't trying to reinvent the wheel nor do we want to spend a massive amount of resources building a new foundation for our framework. Therefore we decided to pick an existing and solid foundation to power HeadstartWP: [Next.js](https://nextjs.org/).
 
 Next.js is by far the most used Full-Stack React Framework and we believe using Next.js will give us a solid foundation for our framework and let us focus on what matters: solving headless WordPress sites.
 
 ## Reduce the complexity of building headless sites
 
-The 10up headless framework aims at making creating headless sites as easy as creating traditional WordPress sites. We want to reduce the complexity that developers need to face when building headless WordPress sites from scratch.
+HeadstartWP aims at making creating headless sites as easy as creating traditional WordPress sites. We want to reduce the complexity that developers need to face when building headless WordPress sites from scratch.
 
 We aim to let engineers focus on the important aspects of the site instead of spending time figuring out how to "wire up" the Next.js application with WordPress.
 
@@ -20,7 +20,7 @@ We want to boost creativity and let engineers explore new ways of building and s
 
 ## Low cost of maintenance
 
-The 10up headless framework is a thin layer built on top of a solid foundation. It focuses on interacting with WordPress. At the end of the day, it's a Next.js application.
+HeadstartWP is a thin layer built on top of a solid foundation. It focuses on interacting with WordPress. At the end of the day, it's a Next.js application.
 
 This means the maintenance cost is low as the lowest-level and most complex parts are provided by Next.js which is maintained by Vercel and have been driving a lot of innovations alongside partners like Google.
 
@@ -30,7 +30,7 @@ We also aim at maintaining a simple stack.
 
 ### REST API over WPGraphQL
 
-The 10up's Headless Framework at the moment does not work with WPGraphQL.
+HeadstartWP at the moment does not work with WPGraphQL.
 
 GraphQL is great and when used on the right project adds tons of value in the long run. However, for most headless sites, there isn’t much value added by GraphQL. The additional complexity and engineering time required by adopting GraphQL/WPGraphQL isn’t worth the cost most of the time (caching, persisted queries, cache-bursting, etc).
 

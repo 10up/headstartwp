@@ -1,63 +1,98 @@
 # Release Instructions
 
+Releases are automated with [changesets](https://github.com/changesets/changesets) and a single GitHub
+Actions workflow, [`.github/workflows/release.yml`](.github/workflows/release.yml). You never bump versions,
+edit the plugin header, tag, publish to npm, or write GitHub Releases by hand.
+
 ## QA
 
 Before any major or minor release, we will run through our [QA plan](https://docs.google.com/spreadsheets/d/1Ep0FwOnjaXCcZOvrZok9AuEEt1MbPzhk9CLU9KjdG00/edit#gid=0).
 
-## Process
+## 1. Add a changeset to your PR
 
-We use [changesets](https://github.com/changesets/changesets) to manage changelogs and releases. 
+Any PR that should ship in a release needs a changeset:
 
-When creating a PR that should trigger a release you should include a changeset within your PR.
+1. Run `npx changeset add`.
+2. Select the packages to bump (space to select, enter to continue) and choose major/minor/patch. Include
+   `@headstartwp/headstartwp` when the WordPress plugin changes.
+3. Write the changelog entry. You can edit it later in `.changeset/<name>.md`.
+4. Commit the file with your PR.
 
-To include a changeset follow these steps:
+The changeset bot comments on PRs without one. The **Release check** workflow dry-runs the version step on
+every PR and shows which packages would be released in the run summary.
 
-1. Run `npx changeset add`
-2. Follow the prompts, the CLI will ask you to select which packages should have a major, minor and patch bump. Use *space* to select the packages and hit *enter* to go to the next step. To skip a prompt (e.g if you changes do not require a major bump) just hit *enter* without selecting a package.
-3. Enter a short message describing the changes. You can always change the changelog entry by editing the newly created file in `.changesets/[name].md`
-4. Add the changesets to your PR (`git add`), commit and push.
+## 2. What happens on merge
 
-A GitHub bot will check if you PR include a changeset file. If it doesn't you will be warned in the PR.
+| Branch | npm dist-tag | Plugin repo branch | Release PR title |
+| --- | --- | --- | --- |
+| `develop` | `next` (prerelease, e.g. `1.7.0-next.0`) | `next` | `Release (next)` |
+| `trunk` | `latest` | `trunk` | `Release` |
 
-*NOTE*: You should also do this for the WordPress plugin.
+On every push to `develop` or `trunk`, the Release workflow:
 
-### @next releases
+1. **Opens or updates a Release PR** when there are unreleased changesets. The PR contains the version bumps,
+   CHANGELOG entries, the synced plugin version (`plugin.php` header and `HEADLESS_WP_PLUGIN_VERSION`, via
+   `scripts/version-plugin.sh`) and a refreshed `package-lock.json`. Merge more PRs and it updates itself.
+2. **Publishes** once you merge the Release PR:
+   - npm packages via trusted publishing, with provenance attestations
+   - git tags (`@headstartwp/core@x.y.z`, …) and a GitHub Release per package with its changelog
+3. **Releases the WordPress plugin** if `wp/headless-wp/package.json`'s version isn't tagged yet in
+   [10up/headstartwp-plugin](https://github.com/10up/headstartwp-plugin): pushes the plugin to that repo,
+   tags it (Composer installs from these tags), and creates a `@headstartwp/headstartwp@x.y.z` GitHub
+   Release here.
+4. **On `trunk` only, opens a `trunk → develop` back-merge PR** after a stable release. Merge it with a
+   merge commit.
 
-Whenever a PR is merged to the `develop` branch, if it contains a changeset a new PR will be opened automatically against `develop` to bump versions and push to `npm` under the `next` tag. Merging this PR opened by `changeset` will trigger the release flow.
+### Prereleases → stable
 
-You do not need to release a new version to NPM on every PR that is merged, you can batch as many PRs as you want. For stable releases though, typically we'd only merge `develop` into `trunk` once we're ready for a new stable release.
+1. Merge feature PRs (with changesets) into `develop`. The workflow puts `develop` into prerelease mode
+   (`.changeset/pre.json`) and maintains the `Release (next)` PR.
+2. Merge `Release (next)` to publish `@next`. Test it.
+3. Open a PR from `develop` into `trunk` and merge it. The workflow exits prerelease mode ("promote from
+   @next") and opens the `Release` PR with stable versions.
+4. Merge `Release` to publish `@latest`, the plugin, and the GitHub Releases.
+5. Merge the automated back-merge PR into `develop`.
 
-Here's a summary of the process:
+Hotfixes can go straight to `trunk` with a changeset. The same flow applies from step 4.
 
-1. Merge a PR with changesets files into `develop`
-2. Wait for `changeset` to open a new PR called `Release (next)`.
-3. Optionally merge more PRs into `develop` if you want to include other changes in the same release. Doing so will update the `Release (next)` PR automatically.
-4. Merge the PR opened by `changeset` into `develop`.
-5. A new release under the `next` tag will be pushed to npm.
-6. A new Github Release with the changelog will be created automatically.
+## One-time setup (maintainers)
 
-### Stable releases
+### npm trusted publishing
 
-Whenever a PR is merged to the `trunk` branch, if it contains a changeset a new PR will be opened automatically against `trunk` to bump versions and push to `npm` under the `latest` tag. Merging this PR opened by `changeset` will trigger the release flow.
+For each published package (`@headstartwp/core`, `@headstartwp/next`, `@headstartwp/block-primitives`,
+`@headstartwp/epio-search`, `@10up/next-redis-cache-provider`), on npmjs.com open **Settings → Trusted
+publishing** and add a GitHub Actions publisher:
 
-To promote a next release to a stable release, first make sure to release the `@next` version by merging the `Release (@next)` PR opened by changeset. Then open a PR from `develop` against `trunk` and merge the `Release` PR into `trunk`.
+- Organization or user: `10up`
+- Repository: `headstartwp`
+- Workflow filename: `release.yml`
+- Environment: leave empty
 
-After a new stable version has been released, merge `trunk` back into `develop`.
+Once every package is configured and a release has published successfully, delete the `NPM_TOKEN`
+repository secret. While it exists, the workflow uses it instead of trusted publishing (provenance is still
+attached), which makes it a fallback during the switch-over.
 
-Here's a summary of the process
-1. Follow the process to create a `next` release and test that the release is good to go.
-2. Merge `develop` into `trunk`.
-2. Wait for `changeset` to open a new PR called `Release`.
-4. Merge the PR opened by `changeset` into `trunk`.
-5. A new release under the `latest` tag will be pushed to npm.
-6. Merge `trunk` back into `develop`.
-7. A new Github Release with the changelog will be created automatically.
+### Repository secrets
 
-### Plugin Releases
+- `API_GITHUB_TOKEN`: token with write access to `10up/headstartwp-plugin` (plugin push and tags).
+- `NPM_TOKEN`: optional, temporary (see above).
 
-Before merging any release PR to `trunk` make sure to manually update the `wp/headless-wp/plugin.php` file. You can commit the changes to the PR generated by changeset or by pushing to develop directly. Update the following things:
+`GITHUB_TOKEN` needs **Settings → Actions → General → Workflow permissions → Allow GitHub Actions to create
+and approve pull requests** enabled, so the workflow can open the Release and back-merge PRs.
 
-1. The `Version:     x.x.x` phpdoc line.
-2. The `HEADLESS_WP_PLUGIN_VERSION` constant.
+### Branch protection
 
-to the version of the plugin being released. This should match the version changeset is showing in the release PR. If changeset is not picking up the plugin then there's nothing to release to the plugin and you don't need to update the version.
+If `trunk` or `develop` requires status checks, PRs opened by `GITHUB_TOKEN` (the Release and back-merge
+PRs) don't trigger workflows. Re-run checks by closing and reopening the PR, or pushing an empty commit to
+its branch. The "promote from @next" step pushes directly to `trunk`, so `github-actions[bot]` must be
+allowed to bypass protection there if direct pushes are restricted.
+
+## Troubleshooting
+
+- **`E404`/`ENEEDAUTH` when publishing:** the trusted publisher on npmjs.com doesn't match (check the
+  workflow filename `release.yml` and repository), or a package is missing from the list above.
+- **`E422` provenance error:** the package's `repository.url` must point at `github.com/10up/headstartwp`.
+- **Plugin didn't release:** its version was already tagged in `10up/headstartwp-plugin`. Add a changeset
+  for `@headstartwp/headstartwp`.
+- **Re-run a release:** use **Actions → Release → Run workflow** on the branch. Every step is idempotent:
+  already-published versions and existing plugin tags are skipped.

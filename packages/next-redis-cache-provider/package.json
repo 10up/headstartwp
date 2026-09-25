@@ -3,6 +3,11 @@
 	"version": "2.0.0",
 	"description": "Redis cache provider for Next.js",
 	"homepage": "https://github.com/10up/headstartwp/blob/develop/packages/next-redis-cache-provider/README.md",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/10up/headstartwp.git",
+		"directory": "packages/next-redis-cache-provider"
+	},
 	"license": "MIT",
 	"author": "10up <info@10up.com> (https://10up.com/)",
 	"main": "dist/index.js",

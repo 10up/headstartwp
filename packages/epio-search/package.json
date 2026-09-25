@@ -3,6 +3,11 @@
 	"version": "1.0.0",
 	"license": "MIT",
 	"description": "React components for supercharging your headless WordPress website with ElasticPress.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/10up/headstartwp.git",
+		"directory": "packages/epio-search"
+	},
 	"author": "10up <info@10up.com> (https://10up.com/)",
 	"type": "module",
 	"main": "dist/index.js",
@@ -57,5 +62,8 @@
 	"peerDependencies": {
 		"react": ">= 18.0.0",
 		"react-dom": ">= 18.0.0"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }

@@ -19,7 +19,7 @@
     "next": "^15.5.9",
     "@headstartwp/component-library": "*",
     "@headstartwp/block-primitives": "0.1.0",
-    "@headstartwp/core": "^1.6.0",
+    "@headstartwp/core": "^1.6.1",
     "@headstartwp/next": "^1.5.2",
     "@10up/next-redis-cache-provider": "^2.0.0"
   },
