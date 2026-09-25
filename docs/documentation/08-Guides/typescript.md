@@ -4,7 +4,7 @@ sidebar_label: TypeScript
 
 # TypeScript
 
-HeadstartWP offers first-class support for TypeScript. In this guide we document how to leverage TypeScript with HeadstartWP and the Next.js App Router. We also recommend reviewing the official Next.js [docs for TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) as well as using the default [HeadstartWP App Router project](https://github.com/10up/headstartwp/tree/develop/projects/wp-nextjs-app) as a reference for building with TypeScript.
+HeadstartWP offers first-class support for TypeScript. In this guide we document how to leverage TypeScript with HeadstartWP and the Next.js App Router. We also recommend reviewing the official Next.js [docs for TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) as well as the [App Router starter PRD](https://github.com/10up/headstartwp/blob/develop/prds/app-router-starter.md), which describes a TypeScript-first project layout.
 
 ## Server Components and Data Fetching
 

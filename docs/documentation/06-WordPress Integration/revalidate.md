@@ -218,7 +218,7 @@ module.exports = withHeadstartWPConfig(nextConfig);
 ```
 
 :::info
-The HeadstartWP [scaffold](https://github.com/10up/headstartwp/tree/develop/projects/wp-nextjs-app) already includes the code above
+Projects generated from the [App Router starter PRD](https://github.com/10up/headstartwp/blob/develop/prds/app-router-starter.md) include the code above
 :::
 
 The code above checks for `NEXT_REDIS_URL` and `VIP_REDIS_PRIMARY` (which is specific for WordPress VIP hosting), however there are several other env variables you can use to configure your redis connection.

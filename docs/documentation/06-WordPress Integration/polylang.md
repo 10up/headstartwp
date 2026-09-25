@@ -110,14 +110,16 @@ src/app/
         └── page.tsx          # Pages and single posts
 ```
 
-### Demo Project
+### Reference PRD
 
-For a complete example of Polylang integration with HeadstartWP, check out our [demo project](https://github.com/10up/headstartwp/tree/develop/projects/wp-polylang-nextjs-app). The demo includes:
+The [App Router + Polylang PRD](https://github.com/10up/headstartwp/blob/develop/prds/app-router-polylang.md) describes a complete Polylang integration with HeadstartWP, including:
 
-- Full App Router setup with language routing
-- Language switcher component implementation
-- WordPress configuration examples
-- Proper handling of translations and locale detection
+- Full App Router setup with `[lang]` routing
+- Per-language front pages and menus
+- A language switcher requirement
+- WordPress configuration prerequisites and common pitfalls
+
+Give it (with [`00-foundation.md`](https://github.com/10up/headstartwp/blob/develop/prds/00-foundation.md)) to an LLM coding agent to stand up a multilingual project.
 
 
 ## How it Works

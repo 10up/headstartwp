@@ -166,7 +166,8 @@ class Gutenberg {
 				continue;
 			}
 
-			$css .= file_get_contents( $path ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
+			// phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown,WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- $path is a local filesystem path from wp_styles()->get_data(), guarded by is_string() above; wp_remote_get() only applies to remote URLs.
+			$css .= file_get_contents( $path );
 
 			$done[] = $handle;
 		}
