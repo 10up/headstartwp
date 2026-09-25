@@ -1,0 +1,1 @@
+vp exec commitlint --edit "$1"

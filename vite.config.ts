@@ -70,7 +70,8 @@ export default defineConfig({
 		],
 	},
 
-	// Replaces .lintstagedrc.json; run from .husky/pre-commit via `vp staged`.
+	// Replaces .lintstagedrc.json; run from .vite-hooks/pre-commit via `vp staged`.
+	// Hooks are installed by `vp config` (the root `prepare` script).
 	staged: {
 		'*.{js,jsx,ts,tsx}': 'vp check --fix',
 		// phpcs comes from 10up/phpcs-composer in the headless-wp plugin.

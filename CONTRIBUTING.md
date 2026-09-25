@@ -43,6 +43,11 @@ First and foremost, run `npm install` from the root.
   at http://localhost:8888.
 - `npm run test` runs the package unit tests.
 
+`npm install` also installs the Git hooks through Vite+ (`vp config`, run by the root `prepare` script).
+The hooks live in `.vite-hooks/`: `pre-commit` runs `vp staged` (the `staged` block in `vite.config.ts`)
+and `commit-msg` runs commitlint. To skip them for one commit use `VP_GIT_HOOKS=0 git commit ...`; to turn
+them off in your clone run `npx vp hooks disable` (and `npx vp hooks enable` to turn them back on).
+
 ### Testing changes against a real front end
 
 As of 1.8.0 this repository no longer contains example or starter Next.js projects. Their knowledge now
