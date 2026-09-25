@@ -1,0 +1,257 @@
+name: Release
+
+# One workflow owns every release, so npm trusted publishing needs exactly one
+# configuration per package (repository 10up/headstartwp, workflow release.yml).
+#
+#   develop -> prerelease (`next` dist-tag) + plugin repo `next` branch
+#   trunk   -> stable     (`latest` dist-tag) + plugin repo `trunk` branch
+#
+# On every push, changesets/action either opens/updates the "Release" PR (when
+# unreleased changesets exist) or, once that PR is merged, publishes to npm,
+# pushes git tags and creates GitHub Releases. The plugin is released after the
+# npm step whenever its version has not been tagged in 10up/headstartwp-plugin.
+
+on:
+  push:
+    branches:
+      - trunk
+      - develop
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  # Never cancel a release half-way through publishing.
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  packages:
+    name: npm packages (${{ github.ref_name }})
+    runs-on: ubuntu-latest
+    if: >-
+      github.repository == '10up/headstartwp' &&
+      (github.ref == 'refs/heads/trunk' || github.ref == 'refs/heads/develop')
+    permissions:
+      contents: write # version commits, tags, GitHub Releases
+      pull-requests: write # the Release PR
+      id-token: write # npm trusted publishing (OIDC) + provenance
+    outputs:
+      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+      published: ${{ steps.changesets.outputs.published }}
+      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          # Trusted publishing needs Node >= 22.14 and npm >= 11.5.1.
+          # Do NOT set registry-url: it writes a token-based .npmrc, and npm
+          # prefers a token over the OIDC exchange.
+          node-version: 24
+          cache: npm
+
+      - name: Use an npm that supports trusted publishing
+        run: npm install --global "npm@^11.5.1"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Enter prerelease mode (develop)
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          if [ -f .changeset/pre.json ]; then
+            echo "Already in prerelease mode"
+          else
+            npx changeset pre enter next
+          fi
+
+      - name: Promote from @next (trunk)
+        # develop is merged into trunk while still in prerelease mode. Exit it and
+        # commit, so the Release PR computes stable versions.
+        if: github.ref == 'refs/heads/trunk'
+        run: |
+          if [ ! -f .changeset/pre.json ]; then
+            echo "Not in prerelease mode, nothing to promote"
+            exit 0
+          fi
+          npx changeset pre exit
+          npm run version
+          git add -A
+          git commit -m "chore: promote from @next" --no-verify
+          git push --follow-tags
+
+      - name: Create Release PR or publish to npm
+        id: changesets
+        uses: changesets/action@v1.9.0
+        with:
+          version: npm run version
+          publish: npm run publish
+          title: ${{ github.ref == 'refs/heads/trunk' && 'Release' || 'Release (next)' }}
+          commit: 'chore: version packages'
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional fallback while trusted publishing is being set up on
+          # npmjs.com. When this secret is absent or empty, changesets/action
+          # uses OIDC. Delete the secret once trusted publishing works.
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
+
+      - name: Summary
+        if: always()
+        env:
+          HAS_CHANGESETS: ${{ steps.changesets.outputs.hasChangesets }}
+          PUBLISHED: ${{ steps.changesets.outputs.published }}
+          PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+        run: |
+          {
+            echo "### npm release (${GITHUB_REF_NAME})"
+            if [ "$PUBLISHED" = "true" ]; then
+              echo "Published:"
+              echo "$PACKAGES" | jq -r '.[] | "- `\(.name)@\(.version)`"'
+            elif [ "$HAS_CHANGESETS" = "true" ]; then
+              echo "Unreleased changesets found: the Release PR was opened or updated."
+            else
+              echo "Nothing to release."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  plugin:
+    name: WordPress plugin (${{ github.ref_name }})
+    runs-on: ubuntu-latest
+    needs: packages
+    # trunk: only once the Release PR has been merged (no pending changesets).
+    # develop: every run, since prerelease mode keeps consumed changesets on disk.
+    # The tag check below makes both idempotent.
+    if: >-
+      needs.packages.result == 'success' &&
+      (github.ref == 'refs/heads/develop' || needs.packages.outputs.hasChangesets == 'false')
+    permissions:
+      contents: write # GitHub Release for the plugin in this repo
+    env:
+      PLUGIN_REPO: 10up/headstartwp-plugin
+      TARGET_BRANCH: ${{ github.ref == 'refs/heads/trunk' && 'trunk' || 'next' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Check whether this plugin version is already released
+        id: plugin
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
+        run: |
+          VERSION=$(jq -r .version wp/headless-wp/package.json)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --tags \
+              "https://x-access-token:${API_TOKEN_GITHUB}@github.com/${PLUGIN_REPO}.git" \
+              "refs/tags/${VERSION}" > /dev/null; then
+            echo "Plugin ${VERSION} is already tagged in ${PLUGIN_REPO}; skipping."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Releasing plugin ${VERSION} to ${PLUGIN_REPO}@${TARGET_BRANCH}."
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push plugin to the publishing repository
+        if: steps.plugin.outputs.release == 'true'
+        uses: cpina/github-action-push-to-another-repository@v1.7.3
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_GITHUB_TOKEN }}
+        with:
+          source-directory: wp/headless-wp/
+          destination-github-username: '10up'
+          destination-repository-name: 'headstartwp-plugin'
+          user-email: bot@10up.com
+          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+          target-branch: ${{ env.TARGET_BRANCH }}
+
+      - name: Checkout the publishing repository
+        if: steps.plugin.outputs.release == 'true'
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ env.PLUGIN_REPO }}
+          path: plugin-repo
+          ref: ${{ env.TARGET_BRANCH }}
+          token: ${{ secrets.API_GITHUB_TOKEN }}
+
+      - name: Tag the plugin release
+        if: steps.plugin.outputs.release == 'true'
+        working-directory: plugin-repo
+        env:
+          VERSION: ${{ steps.plugin.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Composer consumers install from these tags; the release-* branch is
+          # kept for parity with the previous release process.
+          git tag "$VERSION"
+          git push origin "refs/tags/$VERSION"
+          if [ "$TARGET_BRANCH" = "trunk" ]; then
+            git push origin "HEAD:refs/heads/release-$VERSION"
+          else
+            git push origin "HEAD:refs/heads/$VERSION"
+          fi
+
+      - name: Create a GitHub Release for the plugin
+        if: steps.plugin.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.plugin.outputs.version }}
+        run: |
+          TAG="@headstartwp/headstartwp@${VERSION}"
+          # The section of the plugin CHANGELOG for this version.
+          awk -v v="## ${VERSION}" '$0==v{f=1;next} /^## /{if(f)exit} f' \
+            wp/headless-wp/CHANGELOG.md > plugin-notes.md
+          [ -s plugin-notes.md ] || echo "See wp/headless-wp/CHANGELOG.md" > plugin-notes.md
+          PRERELEASE=""
+          [ "$TARGET_BRANCH" = "next" ] && PRERELEASE="--prerelease"
+          gh release create "$TAG" --target "$GITHUB_SHA" --title "$TAG" \
+            --notes-file plugin-notes.md $PRERELEASE
+
+  back-merge:
+    name: Open trunk -> develop back-merge PR
+    runs-on: ubuntu-latest
+    needs: packages
+    if: github.ref == 'refs/heads/trunk' && needs.packages.outputs.published == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Open PR if develop is behind trunk
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGES: ${{ needs.packages.outputs.publishedPackages }}
+        run: |
+          if ! git ls-remote --exit-code --heads origin develop > /dev/null; then
+            echo "No develop branch; nothing to back-merge."
+            exit 0
+          fi
+          git fetch origin develop trunk
+          AHEAD=$(git rev-list --count origin/develop..origin/trunk)
+          if [ "$AHEAD" = "0" ]; then
+            echo "develop already contains trunk."
+            exit 0
+          fi
+          if [ -n "$(gh pr list --base develop --head trunk --state open --json number --jq '.[].number')" ]; then
+            echo "A back-merge PR is already open."
+            exit 0
+          fi
+          RELEASED=$(echo "$PACKAGES" | jq -r '.[] | "- `\(.name)@\(.version)`"')
+          gh pr create --base develop --head trunk \
+            --title "chore: merge trunk back into develop" \
+            --body "$(printf 'Automated back-merge after the stable release of:\n\n%s\n\nMerge with a **merge commit** (not squash) so develop keeps trunk'"'"'s release history.\n\n_Opened by the Release workflow. PRs opened with GITHUB_TOKEN do not trigger CI; push an empty commit or re-run checks if required._' "$RELEASED")"

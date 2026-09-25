@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "description": "A set of Gutenberg Primitives for authoring react components that can be shared with the block editor",
   "homepage": "https://github.com/10up/headstartwp/blob/develop/packages/primitives/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/10up/headstartwp.git",
+    "directory": "packages/block-primitives"
+  },
   "license": "MIT",
   "author": "10up <info@10up.com> (https://10up.com/)",
   "type": "module",
