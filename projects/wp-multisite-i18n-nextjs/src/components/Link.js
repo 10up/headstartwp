@@ -3,7 +3,7 @@ import { removeSourceUrl } from '@headstartwp/core';
 import { useSettings } from '@headstartwp/core/react';
 import NextLink from 'next/link';
 
-export const Link = ({ href, rel, children }) => {
+export const Link = ({ href, rel = '', children }) => {
 	const settings = useSettings();
 	const link = removeSourceUrl({ link: href, backendUrl: settings.sourceUrl || '' });
 
@@ -18,8 +18,4 @@ Link.propTypes = {
 	href: PropTypes.string.isRequired,
 	rel: PropTypes.string,
 	children: PropTypes.node.isRequired,
-};
-
-Link.defaultProps = {
-	rel: '',
 };

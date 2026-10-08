@@ -19,7 +19,7 @@ interface LiteYoutube {
 	params: string;
 }
 
-declare global {
+declare module 'react' {
 	namespace JSX {
 		interface IntrinsicElements {
 			['lite-youtube']: Partial<LiteYoutube>;

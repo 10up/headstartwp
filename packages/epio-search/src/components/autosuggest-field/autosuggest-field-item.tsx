@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, type JSX } from 'react';
 import { EPPost } from '../../types';
 import styles from './styles.module.css';
 import { useElasticPress } from '../provider/ep-provider';
