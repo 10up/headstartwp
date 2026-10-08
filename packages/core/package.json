@@ -72,8 +72,8 @@
 		"typescript": "^5.9.3",
 		"isomorphic-fetch": "^3.0.0",
 		"tsc-esm-fix": "^2.20.27",
-		"@types/react": "^18",
-		"@types/react-dom": "^18"
+		"@types/react": "^19.2.0",
+		"@types/react-dom": "^19.2.0"
 	},
 	"dependencies": {
 		"@justinribeiro/lite-youtube": "^1.9.0",

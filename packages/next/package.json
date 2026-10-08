@@ -77,8 +77,8 @@
 		"isomorphic-fetch": "^3.0.0",
 		"jest-fetch-mock": "^3.2.0",
 		"tsc-esm-fix": "^2.20.27",
-		"@types/react": "^18",
-		"@types/react-dom": "^18"
+		"@types/react": "^19.2.0",
+		"@types/react-dom": "^19.2.0"
 	},
 	"peerDependencies": {
 		"next": ">= 16.0.0",
