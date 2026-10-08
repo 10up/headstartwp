@@ -1,20 +1,5 @@
-import { css } from '@linaria/core';
 import { useRouter } from 'next/router';
 import { KeyboardEvent, useState } from 'react';
-
-const buttonStyles = css`
-	border: none;
-	background: none;
-	position: relative;
-	top: 5px;
-	cursor: pointer;
-`;
-
-const searchInputStyles = css`
-	border: 1px solid #e0e0e0;
-	border-radius: 2px;
-	padding: 10px 20px;
-`;
 
 export const Search = () => {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -37,11 +22,16 @@ export const Search = () => {
 				placeholder="Search"
 				value={searchTerm}
 				onChange={(e) => setSearchTerm(e.target.value)}
-				className={searchInputStyles}
+				className="search-form__input"
 				onKeyDown={onKeyDown}
 			/>
 
-			<button type="button" aria-label="search" className={buttonStyles} onClick={goToSearch}>
+			<button
+				type="button"
+				aria-label="search"
+				className="search-form__button"
+				onClick={goToSearch}
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"

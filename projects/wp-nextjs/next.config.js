@@ -1,18 +1,11 @@
 const { withHeadstartWPConfig } = require('@headstartwp/next/config');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-	enabled: process.env.ANALYZE === 'true',
-});
 
 /**
  * Update whatever you need within the nextConfig object.
  *
  * @type {import('next').NextConfig}
  */
-const nextConfig = {
-	eslint: {
-		ignoreDuringBuilds: true,
-	},
-};
+const nextConfig = {};
 // if you are not using polylang integration you can remove this code
 // if you are replace the locales with the ones you are using
 if (process.env?.NEXT_PUBLIC_ENABLE_POLYLANG_INTEGRATION === 'true') {
@@ -32,4 +25,4 @@ if (process.env.NEXT_REDIS_URL || process.env.VIP_REDIS_PRIMARY) {
 	initRedisClient();
 	nextConfig.cacheHandler = require.resolve('@10up/next-redis-cache-provider');
 }
-module.exports = withBundleAnalyzer(withHeadstartWPConfig(nextConfig));
+module.exports = withHeadstartWPConfig(nextConfig);

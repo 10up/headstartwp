@@ -41,12 +41,12 @@ export interface PostParams extends EndpointParams {
 	/**
 	 * Fetch post by id
 	 */
-	id?: Number;
+	id?: number;
 
 	/**
 	 * If set will fetch the latest post revision
 	 */
-	revision?: Boolean;
+	revision?: boolean;
 
 	/**
 	 * The authToken, required to fetch revisions or non-published posts
@@ -136,16 +136,12 @@ export class SinglePostFetchStrategy<
 
 		if (params.postType) {
 			// if postType is a array of slugs, start off with the first post type
-			const postTypeSlug = Array.isArray(params.postType)
-				? params.postType[0]
-				: params.postType;
+			const postTypeSlug = Array.isArray(params.postType) ? params.postType[0] : params.postType;
 
 			const postType = getCustomPostType(postTypeSlug, this.baseURL);
 
 			if (!postType) {
-				throw new ConfigError(
-					'Unknown post type, did you forget to add it to headless.config.js?',
-				);
+				throw new ConfigError('Unknown post type, did you forget to add it to headless.config.js?');
 			}
 			this.postType = postType.slug;
 			this.setEndpoint(postType.endpoint);
@@ -191,8 +187,7 @@ export class SinglePostFetchStrategy<
 					if (params.fullPath) {
 						const normalizedFullPath = params.fullPath.replace(/\/?$/, '/');
 						return (
-							postPath === normalizedFullPath ||
-							postPath === `/${this.locale}${normalizedFullPath}`
+							postPath === normalizedFullPath || postPath === `/${this.locale}${normalizedFullPath}`
 						);
 					}
 
@@ -259,9 +254,7 @@ export class SinglePostFetchStrategy<
 				};
 			}
 			const shouldCheckCurrentPath =
-				this.path.length > 0 &&
-				this.path !== '/' &&
-				this.shouldCheckCurrentPathAgainstPostLink;
+				this.path.length > 0 && this.path !== '/' && this.shouldCheckCurrentPathAgainstPostLink;
 
 			const post = shouldCheckCurrentPath
 				? this.getPostThatMatchesCurrentPath(result, params)

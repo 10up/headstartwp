@@ -4,7 +4,7 @@
  * ElasticPress autosuggest field
  */
 
-import { useEffect } from 'react';
+import { useEffect, type JSX } from 'react';
 import { useElasticPress } from '../provider/ep-provider';
 import { useRoveFocus } from '../../hooks/use-rove-focus';
 import SearchField from '../search-field';

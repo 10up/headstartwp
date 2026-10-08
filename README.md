@@ -10,9 +10,9 @@
 
 ## Documentation
 
-See our [Getting Started](https://headstartwp.10up.com/docs/learn/getting-started/quick-setup/) guide.
+See our [Getting Started](https://headstartwp.fueled.com/docs/learn/getting-started/quick-setup/) guide.
 
-Visit [headstartwp.10up.com/docs](https://headstartwp.10up.com/docs) for the full documentation.
+Visit [headstartwp.fueled.com/docs](https://headstartwp.fueled.com/docs) for the full documentation.
 
 ### Running docs site locally
 
@@ -40,4 +40,4 @@ This repository is a monorepo, under the `packages` there are all the tools that
 
 ## Like what you see?
 
-<a href="http://10up.com/contact/"><img src="https://10up.com/uploads/2016/10/10up-Github-Banner.png" width="850" alt="10up" /></a>
+[![Work with the 10up WordPress Practice at Fueled](https://github.com/10up/.github/blob/trunk/profile/10up-github-banner.jpg)](http://10up.com/contact/)

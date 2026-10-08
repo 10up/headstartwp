@@ -1,0 +1,51 @@
+name: Release @v1 (maintenance)
+
+# Publishes bug and security fixes for the 1.x line (Next.js 15) after 2.x
+# owns `latest`. Cut `release/1.x` from trunk once 1.x is published, then land
+# fixes there with changesets as usual.
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  push:
+    branches:
+      - release/1.x
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  packages:
+    name: Release 1.x
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release/1.x'
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Ensure npm satisfies devEngines (>=11.6.0)
+        run: npm i -g npm@11
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Create Release Pull Request or Publish to npm
+        uses: changesets/action@v1
+        with:
+          # --tag v1 keeps `latest` pointing at 2.x. Without it, the first 1.x
+          # patch published after 2.0.0 would move `latest` back to 1.x.
+          publish: npm run publish -- --tag v1
+          version: npm run version
+          commit: 'chore: version packages (1.x)'
+          title: 'chore: version packages (1.x)'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
